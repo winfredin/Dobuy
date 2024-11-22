@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<!-- fragment引入 -->
+<th:block th:insert="~{fraghead.html :: head}"></th:block>
+<!-- <head th:block th:replace="fraghead :: head"> -->
+
+
+<style>
+ .img_block { 
+ 	width: 1000px ; 
+ 	height: 2000px ; 
+ } 
+ 
+</style>
+
+</head>
+
+<body>
+	<!-- fragment引入 -->
+	<header th:block th:replace="fraghead :: header"></header>
+
+<!-- 	<div class="img_block" style="width: 1000px; height: 2000px;"> -->
+<!-- 	撐高網頁測試用 -->
+<!-- 	</div> -->
+
+	<div class="img_block">
+	撐高網頁測試用
+	</div>
+
+
+	<!-- fragment引入 -->
+	<footer th:block th:replace="fraghead :: footer"></footer>
+
+	<!-- fragment引入 -->
+	<th:block th:insert="~{fraghead.html :: js}"></th:block>
+
+</body>
+</html>
+
+
+
