@@ -7,6 +7,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.counterorder.model.CounterOrderService;
+import com.counterorder.model.CounterOrderVO;
 import com.used.model.UsedService;
 import com.used.model.UsedVO;
 import java.util.*;
@@ -21,6 +24,8 @@ public class IndexController_inSpringBoot {
 	// 目前自動裝配了EmpService --> 供第60使用
 	@Autowired
 	UsedService usedSvc;
+	@Autowired
+	CounterOrderService counterOrderSvc;
 	
     // inject(注入資料) via application.properties
     @Value("${welcome.message}")
@@ -37,7 +42,7 @@ public class IndexController_inSpringBoot {
   
     //=========== 以下第57~62行是提供給 /src/main/resources/templates/back-end/emp/select_page.html 與 listAllEmp.html 要使用的資料 ===================   
     @GetMapping("/used/select_page")
-	public String select_page(Model model) {
+	public String selectpage(Model model) {
 		return "back-end/used/select_page";
 	}
     
@@ -47,9 +52,27 @@ public class IndexController_inSpringBoot {
 	}
     
     @ModelAttribute("usedListData")  // for select_page.html 第97 109行用 // for listAllEmp.html 第117 133行用
-	protected List<UsedVO> referenceListData(Model model) {
+	protected List<UsedVO> referenceUsedListData(Model model) {
 		
     	List<UsedVO> list = usedSvc.getAll();
+		return list;
+	}
+    
+  //=========== 以下第63~75行是提供給 /src/main/resources/templates/back-end/emp/select_page.html 與 listAllEmp.html 要使用的資料 ===================   
+    @GetMapping("/counterorder/select_page")
+	public String select_page(Model model) {
+		return "back-end/counterorder/select_page";
+	}
+    
+    @GetMapping("/counterorder/listAllCounterOrder")
+	public String listAllEmp(Model model) {
+		return "back-end/counterorder/listAllCounterOrder";
+	}
+    
+    @ModelAttribute("counterOrderListData")  // for select_page.html 第97 109行用 // for listAllEmp.html 第85行用
+	protected List<CounterOrderVO> referenceListData(Model model) {
+		
+    	List<CounterOrderVO> list = counterOrderSvc.getAll();
 		return list;
 	}
 
