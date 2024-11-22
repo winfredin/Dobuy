@@ -475,6 +475,7 @@ VALUES
 CREATE TABLE UsedPic (
     usedPicNo INT NOT NULL AUTO_INCREMENT PRIMARY KEY,  -- 二手商品照片明細編號
     usedNo INT NOT NULL,                                 -- 二手商品編號
+    usedPicName VARCHAR(100),
     usedPics LONGBLOB                                  -- 二手商品照片
    --  FOREIGN KEY (usedNo) REFERENCES Used(usedNo)       -- 二手商品外來鍵
 )AUTO_INCREMENT = 1;
@@ -493,8 +494,8 @@ CREATE TABLE Used (
     usedNo INT(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,              -- 二手商品編號
     classNo INT(10) NOT NULL,                         -- 商品類別編號
     sellerNo INT(10) NOT NULL,                        -- 會員編號(賣家)
-    usedName VARCHAR(20) NOT NULL,                    -- 二手商品名稱
-    usedProDesc VARCHAR(255) NOT NULL,                -- 二手商品描述
+    usedName VARCHAR(200) NOT NULL,                    -- 二手商品名稱
+    usedProDesc VARCHAR(700) NOT NULL,                -- 二手商品描述
     usedNewness TINYINT(1),                           -- 商品新舊程度 (0:近全新, 1:7成新, 2:5成新, 3:3成新)
     usedPrice INT(6) CHECK (usedPrice > 0),           -- 二手商品單價, 必須大於0
     usedStocks INT(5) CHECK (usedStocks > 0),         -- 商品庫存數量, 必須大於0
