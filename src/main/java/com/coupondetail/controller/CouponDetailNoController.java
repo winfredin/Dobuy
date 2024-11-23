@@ -51,13 +51,13 @@ public class CouponDetailNoController {
         model.addAttribute("couponDetailListData", list); // for select_page.html 下拉選單
         if (couponDetailVO == null) {
             model.addAttribute("errorMessage", "查無資料");
-            return "back-end/coupondetail/select_page";
+            return "vendor-end/coupondetail/select_page";
         }
 
         /***************************3.查詢完成,準備轉交(Send the Success view)*****************/
         model.addAttribute("couponDetailVO", couponDetailVO);
         model.addAttribute("getOne_For_Display", "true"); // Flag for displaying specific data
-        return "back-end/coupondetail/select_page";
+        return "vendor-end/coupondetail/select_page";
     }
 
     /*
@@ -75,6 +75,6 @@ public class CouponDetailNoController {
         List<CouponDetailVO> list = couponDetailSvc.getAll();
         model.addAttribute("couponDetailListData", list); // for select_page.html 下拉選單
         String message = strBuilder.toString();
-        return new ModelAndView("back-end/coupondetail/select_page", "errorMessage", "請修正以下錯誤:<br>" + message);
+        return new ModelAndView("vendor-end/coupondetail/select_page", "errorMessage", "請修正以下錯誤:<br>" + message);
     }
 }

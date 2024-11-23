@@ -38,13 +38,13 @@ public class CouponDetailController {
     public String addCouponDetail(ModelMap model) {
         CouponDetailVO couponDetailVO = new CouponDetailVO();
         model.addAttribute("couponDetailVO", couponDetailVO);
-        return "back-end/coupondetail/addCouponDetail";
+        return "vendor-end/coupondetail/addCouponDetail";
     }
 
     //靜態用
     @GetMapping("/coupondetail/addCouponDetail")
     public String addCouponDetail(Model model) {
-        return "back-end/coupondetail/addCouponDetail";
+        return "vendor-end/coupondetail/addCouponDetail";
     }
     
 //    @GetMapping("/coupondetail/select_page")
@@ -82,7 +82,7 @@ public class CouponDetailController {
 //            }
 //        }
         if (result.hasErrors() ) {
-            return "back-end/coupondetail/addCouponDetail";
+            return "vendor-end/coupondetail/addCouponDetail";
         }
 
         /*************************** 2.開始新增資料 *****************************************/
@@ -105,7 +105,7 @@ public class CouponDetailController {
 
         /*************************** 3.查詢完成,準備轉交(Send the Success view) **************/
         model.addAttribute("couponDetailVO", couponDetailVO);
-        return "back-end/coupondetail/update_couponDetail_input";
+        return "vendor-end/coupondetail/update_couponDetail_input";
     }
 
     /*
@@ -138,7 +138,7 @@ public class CouponDetailController {
         model.addAttribute("success", "- (修改成功)");
         couponDetailVO = couponDetailSvc.getOneCouponDetail(Integer.valueOf(couponDetailVO.getCouponDetailNo()));
         model.addAttribute("couponDetailVO", couponDetailVO);
-        return "back-end/coupondetail/listOneCouponDetail";
+        return "vendor-end/coupondetail/listOneCouponDetail";
     }
 
     /*
@@ -153,7 +153,7 @@ public class CouponDetailController {
         List<CouponDetailVO> list = couponDetailSvc.getAll();
         model.addAttribute("couponDetailListData", list);
         model.addAttribute("success", "- (刪除成功)");
-        return "back-end/coupondetail/listAllCouponDetail";
+        return "vendor-end/coupondetail/listAllCouponDetail";
     }
 
     
@@ -168,7 +168,7 @@ public class CouponDetailController {
         Map<String, String[]> map = req.getParameterMap();
         List<CouponDetailVO> list = couponDetailSvc.getAll(map);
         model.addAttribute("couponDetailListData", list);
-        return "back-end/coupondetail/listAllCouponDetail";
+        return "vendor-end/coupondetail/listAllCouponDetail";
     }
 
     // 去除BindingResult中某個欄位的FieldError紀錄
