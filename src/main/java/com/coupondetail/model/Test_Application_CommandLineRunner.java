@@ -1,4 +1,4 @@
-package com.coupondetail.controller;
+package com.coupondetail.model;
 
 import java.util.List;
 import java.util.Map;
@@ -13,11 +13,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.coupondetail.model.CouponDetailVO;
-
 import com.coupondetail.controller.HibernateUtil_CompositeQuery_CouponDetail;
-
-import com.coupondetail.model.CouponDetailRepository;
 
 @SpringBootApplication
 public class Test_Application_CommandLineRunner implements CommandLineRunner {
