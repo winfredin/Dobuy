@@ -56,7 +56,7 @@ public class CouponDetailVO implements java.io.Serializable {
     @Column(name = "createdAt")
     @NotNull(message = "建立時間: 請勿空白")
     @PastOrPresent(message = "建立時間: 必須是過去或現在的時間")
-//    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     public Date getCreatedAt() {
         return this.createdAt;
     }
