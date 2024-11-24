@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- fragment引入 -->
+<head th:block th:replace="fraghead :: head"></head>
+
+<body>
+<!-- fragment引入 -->
+<header th:block th:replace="fraghead :: header"></header>
+
+<!-- fragment引入 -->
+<footer th:block th:replace="fraghead :: footer"></footer>
+
+<!-- fragment引入 -->
+<th:block th:insert="~{fraghead.html :: js}"></th:block>
+
+</body>
+</html>
+
+
+

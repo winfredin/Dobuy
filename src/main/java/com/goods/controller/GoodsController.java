@@ -42,7 +42,7 @@ public class GoodsController {
     public String addGoods(ModelMap model) {
         GoodsVO goodsVO = new GoodsVO();
         model.addAttribute("goodsVO", goodsVO);
-        return "back-end/goods/addGoods";
+        return "vendor-end/goods/addGoods";
     }
 
     /*
@@ -78,7 +78,7 @@ public class GoodsController {
         // 檢查照片1 - 確保至少上傳一張照片
         if (parts1[0].isEmpty()) {
             model.addAttribute("errorMessage", "商品主圖(必填): 請上傳至少一張照片");
-            return "back-end/goods/addGoods";  // 若沒有上傳照片1，返回錯誤
+            return "vendor-end/goods/addGoods";  // 若沒有上傳照片1，返回錯誤
         } else {
             for (MultipartFile multipartFile : parts1) {
                 byte[] photoData1 = multipartFile.getBytes();
@@ -165,7 +165,7 @@ public class GoodsController {
         }
 
         if (result.hasErrors()) {
-            return "back-end/goods/addGoods";  // 如果有錯誤，返回新增頁面
+            return "vendor-end/goods/addGoods";  // 如果有錯誤，返回新增頁面
         }
 
         /*************************** 2.開始新增資料 *****************************************/
@@ -190,7 +190,7 @@ public class GoodsController {
         
         /*************************** 3.查詢完成,準備轉交(Send the Success view) **************/
         model.addAttribute("goodsVO", goodsVO);
-        return "back-end/goods/update_goods_input"; // 查詢完成後轉交update_goods_input.html
+        return "vendor-end/goods/update_goods_input"; // 查詢完成後轉交update_goods_input.html
     }
     
 	/*
@@ -329,7 +329,7 @@ public class GoodsController {
         model.addAttribute("success", "- (修改成功)");
         goodsVO = goodsSvc.getOneGoods(goodsVO.getGoodsNo());  // 獲取更新後的商品資料
         model.addAttribute("goodsVO", goodsVO);  // 將更新後的資料傳遞到前端
-        return "back-end/goods/listOneGoods";  // 返回商品資料頁面
+        return "vendor-end/goods/listOneGoods";  // 返回商品資料頁面
     }
 
 
@@ -346,7 +346,7 @@ public class GoodsController {
         List<GoodsVO> list = goodsSvc.getAll();
         model.addAttribute("goodsListData", list);
         model.addAttribute("success", "- (刪除成功)");
-        return "back-end/goods/listAllGoods"; // 刪除完成後轉交listAllGoods.html
+        return "vendor-end/goods/listAllGoods"; // 刪除完成後轉交listAllGoods.html
     }
 
 	/*
@@ -357,7 +357,7 @@ public class GoodsController {
         Map<String, String[]> map = req.getParameterMap();
         List<GoodsVO> list = goodsSvc.getAll(map);
         model.addAttribute("goodsListData", list); // for listAllEmp.html 第85行用
-        return "back-end/goods/listAllGoods";
+        return "vendor-end/goods/listAllGoods";
     }
 
     public BindingResult removeFieldError(GoodsVO goodsVO, BindingResult result, String removedFieldname) {

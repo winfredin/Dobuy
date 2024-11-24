@@ -53,13 +53,13 @@ public class GoodsNoController {
         model.addAttribute("goodsListData", list); // for select_page.html 下拉選單
         if (goodsVO == null) {
             model.addAttribute("errorMessage", "查無資料");
-            return "back-end/goods/select_page"; // 回傳給用戶查無資料的提示頁面
+            return "vendor-end/goods/select_page"; // 回傳給用戶查無資料的提示頁面
         }
 
         /***************************3.查詢完成,準備轉交(Send the Success view)*****************/
         model.addAttribute("goodsVO", goodsVO);
         model.addAttribute("getOne_For_Display", "true"); // Flag for displaying specific data
-        return "back-end/goods/select_page";
+        return "vendor-end/goods/select_page";
     }
 
     /*
@@ -77,6 +77,6 @@ public class GoodsNoController {
         List<GoodsVO> list = goodsSvc.getAll();
         model.addAttribute("goodsListData", list); // for select_page.html 下拉選單
         String message = strBuilder.toString();
-        return new ModelAndView("back-end/goods/select_page","errorMessage", "請修正以下錯誤:<br>"+message); // 回傳錯誤訊息並讓用戶修正
+        return new ModelAndView("vendor-end/goods/select_page","errorMessage", "請修正以下錯誤:<br>"+message); // 回傳錯誤訊息並讓用戶修正
     }
 }

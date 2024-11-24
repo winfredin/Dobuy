@@ -1,0 +1,186 @@
+    <th:block th:fragment="head">
+      
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title -->
+    <title>DoBuy - Lifestyle</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="back-end-home/img/core-img/logo noback.png">
+
+    <!-- Style CSS -->
+    <link rel="stylesheet" href="back-end-home/css/style.css">
+
+	<!-- 套入fontawesome -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+	
+	</th:block>
+	
+	
+	
+	
+	
+    <th:block th:fragment="header">
+<!-- ##### Header Area Start ##### -->
+    <header class="header-area">
+
+        <!-- Top Header Area -->
+        <div class="top-header">
+            <div class="container h-100">
+                <div class="row h-100 align-items-center">
+                    <!-- Breaking News Area -->
+                    <div class="col-12 col-sm-8">
+                        <div class="breaking-news-area">
+                            <div id="breakingNewsTicker" class="ticker">
+                                <ul>
+                                    <li><a href="#">Hello Staff!</a></li>
+                                    <li><a href="#">Hello Universe!</a></li>
+                                    <li><a href="#">Hello Earth!</a></li>
+                                    <li><a href="#">Hello DoBuy!</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+         <!-- Logo Area -->
+        <div class="logo-area text-center">
+            <div class="container h-100">
+                <div class="row h-100 align-items-center">
+                    <div class="col-12">
+                        <a th:href="@{back-end-homepage}" class="original-logo"><img src="back-end-home/img/core-img/logo noback.png" alt=""></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nav Area -->
+        <div class="original-nav-area" id="stickyNav">
+            <div class="classy-nav-container breakpoint-off">
+                <div class="container">
+                    <!-- Classy Menu -->
+                    <nav class="classy-navbar justify-content-between">
+
+                        <!-- Navbar Toggler -->
+                        <div class="classy-navbar-toggler">
+                            <span class="navbarToggler"><span></span><span></span><span></span></span>
+                        </div>
+
+                        <!-- Menu -->
+                        <div class="classy-menu" id="originalNav">
+                            <!-- close btn -->
+                            <div class="classycloseIcon">
+                                <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                            </div>
+
+                            <!-- Nav Start -->
+                            <div class="classynav">
+                                <ul>
+                                    <li><a class="dropdown-font" th:href="@{back-end-homepage}">首頁</a></li>
+                                    <li><a href="#">會員管理</a>
+                                        <ul class="dropdown">
+                                            <li><a href="#">會員管理</a></li>
+                                            <li><a href="#">會員管理訂單管理</a></li>
+                                            <li><a href="#">商品審核</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">櫃位管理</a>
+                                        <ul class="dropdown">
+                                            <li><a href="#">櫃位管理專區</a></li>
+                                            <li><a href="#">櫃位商城開設審核</a></li>
+
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">商城系統</a>
+                                        <ul class="dropdown">
+                                            <li><a href="#">首頁輪播圖管理</a></li>
+                                            <li><a href="#">商品分類管理</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li><a href="#">管理員資料</a>
+                                        <ul class="dropdown">
+                                            <li><a href="#">管理員資料管理</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li><a href="#">優惠管理</a>
+                                        <ul class="dropdown">
+                                            <li><a href="#">平台優惠活動管理</a></li>
+                                            <li><a href="#">廠商優惠券管理</a></li>
+                                            <li><a href="#">優惠訊息通知</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li><a href="#">客服系統</a>
+                                        <ul class="dropdown">
+                                            <li><a href="#">FAQ專案管理</a></li>
+                                            <li><a href="#">客服訊息回覆</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+
+                                <!-- Search Form  -->
+<!--                                 <div id="search-wrapper"> -->
+<!--                                     <form action="#"> -->
+<!--                                         <input type="text" id="search" placeholder="Search something..."> -->
+<!--                                         <div id="close-icon"></div> -->
+<!--                                         <input class="d-none" type="submit" value=""> -->
+<!--                                     </form> -->
+<!--                                 </div> -->
+                            </div>
+                            <!-- Nav End -->
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+   	</th:block>
+	    
+	    
+	    
+	    
+	    
+    <th:block th:fragment="footer">	    
+        <!-- ##### Footer Area Start ##### -->
+        <footer class="footer-area text-center">
+            <div class="container">
+                <div class="row">
+
+                </div>
+            </div>
+
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            Copyright &copy;
+            <script>document.write(new Date().getFullYear());</script>
+             All rights reserved | <i class="fa-regular fa-heart fa-bounce"></i> by <a href="#" target="_blank">DOBUY</a>
+
+        </footer>
+    
+   	</th:block>
+
+	
+	
+    <th:block th:fragment="js">	    
+        <!-- jQuery (Necessary for All JavaScript Plugins) -->
+        <script src="back-end-home/js/jquery/jquery-2.2.4.min.js"></script>
+        <!-- Popper js -->
+        <script src="back-end-home/js/popper.min.js"></script>
+        <!-- Bootstrap js -->
+        <script src="back-end-home/js/bootstrap.min.js"></script>
+        <!-- Plugins js -->
+        <script src="back-end-home/js/plugins.js"></script>
+        <!-- Active js -->
+        <script src="back-end-home/js/active.js"></script>        
+   	</th:block>
+   	
+   	
+   	
+ 

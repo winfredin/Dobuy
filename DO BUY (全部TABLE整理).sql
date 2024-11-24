@@ -268,44 +268,52 @@ VALUES
 -- 定紘
 
 CREATE TABLE Goods (
-    goodsNo INT NOT NULL PRIMARY KEY AUTO_INCREMENT,                 -- 商品編號，主鍵
-    goodstNo INT NOT NULL,                            -- 商品類別編號，外來鍵
-    counterNo INT NOT NULL,                           -- 櫃位編號，外來鍵
-    goodsName VARCHAR(500) NOT NULL,                  -- 商品名稱
-    goodsContent VARCHAR(500) NOT NULL,               -- 商品內容
-    goodsPrice INT NOT NULL,                          -- 商品單價
-    goodsAmount INT NOT NULL,                         -- 商品庫存
-    goodsStatus TINYINT NOT NULL,                     -- 商品狀態 (0: 未上架, 1: 已上架)
-    goodsDate DATETIME NOT NULL,                      -- 商品上架日期
-    goodsEnddate DATETIME NOT NULL,                   -- 商品下架日期
-    goodsDescription VARCHAR(500) NOT NULL            -- 商品敘述
-    
-
+	goodsNo INT NOT NULL PRIMARY KEY AUTO_INCREMENT, -- 商品編號，自增主鍵
+    goodstNo INT NOT NULL,                           -- 商品類別編號 (外鍵)
+    counterNo INT NOT NULL,                          -- 櫃位編號 (外鍵)
+    goodsName VARCHAR(500) NOT NULL,                -- 商品名稱
+    goodsDescription VARCHAR(500) NOT NULL,         -- 商品敘述
+    goodsPrice INT NOT NULL,                        -- 商品單價
+    goodsAmount INT NOT NULL,                       -- 商品庫存
+    gpPhotos1 LONGBLOB,                     		-- 商品主圖(必填)
+	gpPhotos2 LONGBLOB,                     		-- 商品副圖1(選填)
+	gpPhotos3 LONGBLOB,                     		-- 商品副圖2(選填)
+	gpPhotos4 LONGBLOB,                     		-- 商品副圖3(選填)
+	gpPhotos5 LONGBLOB,                     		-- 商品副圖4(選填)
+    gpPhotos6 LONGBLOB,                     		-- 商品副圖5(選填)
+    gpPhotos7 LONGBLOB,                     		-- 商品副圖6(選填)
+    gpPhotos8 LONGBLOB,                     		-- 商品副圖7(選填)
+    gpPhotos9 LONGBLOB,                     		-- 商品副圖8(選填)
+    gpPhotos10 LONGBLOB,                     		-- 商品副圖9(選填)
+    goodsStatus TINYINT NOT NULL,                   -- 商品狀態 (0: 未上架, 1: 已上架)
+    goodsDate DATETIME,                  			-- 商品上架日期
+    goodsEnddate DATETIME                  			-- 商品下架日期
 );
 
 -- 插入 20 筆假資料
-INSERT INTO Goods (goodsNo, goodstNo, counterNo, goodsName, goodsContent, goodsPrice, goodsAmount, goodsStatus, goodsDate, goodsEnddate, goodsDescription) 
-VALUES 
-(1, 3, 4, '筆記型電腦', '高效能筆記型電腦，適合專業用途', 1500, 10, 1, '2024-01-01 10:00:00', '2025-01-01 10:00:00', '非常適合工作與學習'),
-(2, 3, 4, '智慧型手機', '最新款智慧型手機，搭載高解析螢幕', 800, 25, 1, '2024-02-01 11:00:00', '2025-02-01 11:00:00', '適合追劇與攝影'),
-(3, 3, 4, '耳機', '降噪耳機，提升音質體驗', 200, 50, 1, '2024-03-01 12:00:00', '2025-03-01 12:00:00', '適合旅途與辦公使用'),
-(4, 3, 4, '數位相機', '4K數位相機，拍攝高畫質影片', 1200, 5, 1, '2024-04-01 13:00:00', '2025-04-01 13:00:00', '捕捉美好時光'),
-(5, 3, 4, '平板電腦', '10吋平板，輕便攜帶', 300, 15, 1, '2024-05-01 14:00:00', '2025-05-01 14:00:00', '適合閱讀與娛樂'),
-(6, 3, 4, '智慧手錶', '防水智慧手錶，支援健康追蹤', 150, 30, 0, '2024-06-01 15:00:00', '2025-06-01 15:00:00', '隨時監測身體狀態'),
-(7, 3, 4, '藍牙音箱', '藍牙連接音箱，小巧音量大', 100, 20, 1, '2024-07-01 16:00:00', '2025-07-01 16:00:00', '戶外聚會的最佳伴侶'),
-(8, 3, 4, '顯示器', '27吋4K顯示器，清晰畫質', 500, 8, 1, '2024-08-01 17:00:00', '2025-08-01 17:00:00', '適合設計與遊戲'),
-(9, 3, 4, '機械鍵盤', 'RGB背光機械鍵盤，手感佳', 70, 60, 1, '2024-09-01 18:00:00', '2025-09-01 18:00:00', '遊戲和打字的好選擇'),
-(10, 3, 4, '無線滑鼠', '人體工學設計無線滑鼠', 50, 40, 1, '2024-10-01 19:00:00', '2025-10-01 19:00:00', '使用舒適，適合長時間使用'),
-(11, 3, 4, '智慧家庭音箱', '語音控制智慧音箱', 300, 12, 1, '2024-11-01 08:00:00', '2025-11-01 08:00:00', '智能家居的控制中樞'),
-(12, 3, 3, '電動滑板車', '折疊式電動滑板車，適合短程移動', 400, 7, 1, '2024-11-15 09:00:00', '2025-11-15 09:00:00', '城市通勤的絕佳選擇'),
-(13, 8, 3, '電子書閱讀器', '高解析度電子墨水螢幕', 200, 15, 1, '2024-12-01 10:00:00', '2025-12-01 10:00:00', '保護眼睛，適合長時間閱讀'),
-(14, 3, 4, '空氣清淨機', '高效空氣過濾系統', 250, 20, 1, '2024-12-15 11:00:00', '2025-12-15 11:00:00', '適合居家使用，淨化空氣'),
-(15, 3, 4, '咖啡機', '自動研磨咖啡機，輕鬆沖泡', 350, 10, 1, '2025-01-01 12:00:00', '2026-01-01 12:00:00', '享受新鮮的咖啡'),
-(16, 3, 4, '電視', '50吋智慧型電視，支援4K解析度', 800, 5, 1, '2025-01-15 13:00:00', '2026-01-15 13:00:00', '觀賞影劇的最佳選擇'),
-(17, 6, 2, '健身追蹤器', '運動健康追蹤器', 100, 30, 1, '2025-02-01 14:00:00', '2026-02-01 14:00:00', '記錄運動數據，保持健康'),
-(18, 3, 3, '攝影無人機', '高畫質攝影無人機', 1200, 3, 1, '2025-02-15 15:00:00', '2026-02-15 15:00:00', '適合拍攝壯麗景色'),
-(19, 9, 8, '車用吸塵器', '車內專用小型吸塵器', 80, 50, 1, '2025-03-01 16:00:00', '2026-03-01 16:00:00', '維護車內清潔'),
-(20, 2, 2, '電子磅秤', '體重電子磅秤，精確測量', 60, 40, 1, '2025-03-15 17:00:00', '2026-03-15 17:00:00', '家用健康管理');
+INSERT INTO Goods (
+    goodsNo, goodstNo, counterNo, goodsName, goodsDescription, goodsPrice, goodsAmount, gpPhotos1,gpPhotos2,gpPhotos3,gpPhotos4,gpPhotos5,gpPhotos6,gpPhotos7,gpPhotos8,gpPhotos9,gpPhotos10, goodsStatus, goodsDate, goodsEnddate
+) VALUES
+(1, 3, 4, '經典手錶', '精緻的手錶，適合各種場合佩戴，永不過時的設計', 4500, 100, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0,NULL,NULL),
+(2, 3, 4, '真皮皮包', '高品質真皮皮包，設計簡約大方，適合日常及正式場合', 2999, 50, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0,NULL,NULL),
+(3, 3, 4, '奢華香水', '淡雅香氣，讓你散發迷人魅力，適合各種場合', 1599, 200, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, NULL,NULL),
+(4, 3, 4, '高端絲巾', '手工製作的真絲圍巾，觸感柔滑，完美搭配高端服裝', 1299, 150, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0,NULL,NULL),
+(5, 3, 4, '奢華珠寶項鍊', '閃耀光芒的純銀項鍊，精緻設計，優雅迷人', 8999, 75, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0,NULL,NULL),
+(6, 3, 4, '高級皮帶', '高品質牛皮，精緻工藝，完美配搭各類服飾', 1999, 120, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, NULL,NULL),
+(7, 3, 4, '名牌太陽眼鏡', '時尚與功能兼具的太陽眼鏡，保護眼睛同時彰顯品味', 3500, 30, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, NULL,NULL),
+(8, 3, 4, '高級皮革手套', '冬季必備，保暖又時尚，選用上等皮革製作', 1800, 20, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, NULL,NULL),
+(9, 3, 4, '奢華鑽石戒指', '獨特設計，精緻的鑽石戒指，適合作為紀念日或求婚禮物', 29999, 15, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, NULL,NULL),
+(10, 3, 4, '高端手工皮鞋', '手工製作，舒適且耐穿，適合正式場合或日常穿搭', 7999, 200, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, NULL,NULL),
+(11, 3, 4, '奢華手錶', '經典的奢華手錶，搭配精緻工藝，無論正式場合或休閒時光都能展現非凡品味', 8000, 90, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, NULL,NULL),
+(12, 3, 3, '經典皮包', '高質感真皮皮包，簡約卻不失高雅，適合多種場合使用', 3200, 120, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, NULL,NULL),
+(13, 8, 3, '奢華香水禮盒', '香氛典雅，內含多款人氣香水，讓你散發不同魅力', 4800, 50, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, NULL,NULL),
+(14, 3, 4, '純絲絲巾', '精緻的真絲圍巾，柔滑的觸感，讓你在寒冬中保持時尚與溫暖', 1800, 180, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, NULL,NULL),
+(15, 3, 4, '鑽石項鍊', '閃耀的純金鑽石項鍊，帶來高貴華麗的視覺效果，適合作為珍貴的禮物', 22000, 30, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, NULL,NULL),
+(16, 3, 4, '皮革雙肩背包', '高端牛皮雙肩包，設計簡約大方，既能裝載日常物品又充滿時尚感', 4200, 80, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, NULL,NULL),
+(17, 6, 2, '高檔手工鞋', '手工製作的舒適皮鞋，適合正式場合或商務場合穿搭', 7200, 60, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, NULL,NULL),
+(18, 3, 3, '時尚太陽眼鏡', '高端品牌的太陽眼鏡，設計前衛，保護眼睛的同時展現個人品味', 3500, 150, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, NULL,NULL),
+(19, 9, 8, '奢華鑽石戒指', '獨特設計的鑽石戒指，融合了極致的工藝與奢華的品味，適合作為訂婚或結婚的象徵', 35000, 25, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, NULL,NULL),
+(20, 2, 2, '經典皮鞋', '經典設計的真皮皮鞋，舒適且耐穿，適合各種場合穿搭', 5200, 130, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, NULL,NULL);
 
 -- 商品類別
 CREATE TABLE GoodsType (

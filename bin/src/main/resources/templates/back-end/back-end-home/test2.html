@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<!-- fragment引入 -->
+<th:block th:insert="~{back-end/back-end-home/fraghead.html :: head}"></th:block>
+
+
+
+<!-- 測試用CSS -->
+<style>
+ .img_block { 
+ 	width: 800px ; 
+ 	height: 800px ; 
+ } 
+ 
+ 
+ 
+</style>
+
+</head>
+
+<body>
+	<!-- fragment引入 -->
+	<header th:block th:replace="~{back-end/back-end-home/fraghead :: header}"></header>
+
+
+<!-- 測試用區塊 -->
+	<div class="img_block" style="color: red;">
+	可自行更改內容
+	</div>
+
+
+	<!-- fragment引入 -->
+	<footer th:block th:replace="~{back-end/back-end-home/fraghead :: footer}"></footer>
+
+	<!-- fragment引入 -->
+	<th:block th:insert="~{back-end/back-end-home/fraghead.html :: js}"></th:block>
+
+</body>
+</html>
+
+
+
