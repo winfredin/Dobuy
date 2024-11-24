@@ -19,7 +19,7 @@ import java.util.*;
 @Controller("couponDetailIndexController") //ch2-p65 ch3-77 ch8-139
 //@RequestMapping("/coupondetail")
 //@RequestMapping("/")
-public class IndexController1_inSpringBoot {
+public class IndexController1_inSpringBoot_Coupondetail {
 	
     // 自動裝配CouponDetailService
     @Autowired
@@ -67,10 +67,7 @@ public class IndexController1_inSpringBoot {
     }
     
     
-    
-    
-    
-    
+   
     
     
     // 提供所有優惠券列表頁面
