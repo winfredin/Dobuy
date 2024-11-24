@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>getAll</title>
+</head>
+<body>
+	<h3>ALL List</h3>
+	<table>
+		<thead>
+			<tr>
+				<th>輪播編號</th>
+                <th>櫃位編號</th>
+                <th>創建時間</th>
+                <th>圖片</th>
+                <th>商品編號</th>
+			</tr>
+		</thead>
+		<tbody>
+			<!-- 循環 imgList 中的每個 imgVO -->
+			<th:block th:each="carouselVO : ${carouselList}">
+				<tr>
+					<td th:text="${carouselVO.id}"></td>
+					<td th:text="${carouselVO.counterNo}"></td>
+					<td th:text="${#dates.format(carouselVO.carouselTime, 'yyyy-MM-dd')}"></td>
+					<td>
+                        <!-- 顯示 Base64 圖片 -->
+                        <img th:src="${carouselVO.base64Image}" alt="圖片" width="150px" />
+                    </td>
+                    <td th:text="${carouselVO.goodsNo}"></td>
+					
+				</tr>
+			</th:block>
+		</tbody>
+	</table>
+</body>
+
+</html>

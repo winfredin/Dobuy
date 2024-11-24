@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>addCarousel</title>
+</head>
+<body>
+
+<form th:action="@{carousel/insert}" method="post" th:object="${countercarouselVO}" enctype="multipart/form-data">
+    <!-- 櫃位編號 -->
+    <label for="counterNo">櫃位編號:</label>
+    <input type="number" th:field="*{counterNo}" />
+    <br /><br>
+
+    <!-- 輪播圖片 -->
+    <label for="upFiles">輪播圖片:</label>
+    <input type="file" th:field="*{upFile}" multiple="multiple"/>
+    <br /><br>
+
+    <!-- 商品編號 -->
+    <label for="goodsNo">商品編號:</label>
+    <input type="number" th:field="*{goodsNo}" />
+    <br /><br>
+
+    <button type="submit">提交</button>
+    <br /><br>
+    
+    <h5><a href='carousel/all'>List</a> all<br><br></h5>
+	<br><br>
+	<br><br>
+    
+    <h5><a href='/demo'>HomePage</a><br><br></h5>
+</form>
+
+</body>
+</html>

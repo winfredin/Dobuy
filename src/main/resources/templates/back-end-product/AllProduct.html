@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>getAll</title>
+</head>
+<body>
+	<h3>ALL List</h3>
+	<table>
+		<thead>
+			<tr>
+				<th>ID</th>
+                <th>name</th>
+                <th>price</th>
+                <th>sold</th>
+                <th>image</th>
+                <th>star</th>
+			</tr>
+		</thead>
+		<tbody>
+			<!-- 循環 imgList 中的每個 imgVO -->
+			<th:block th:each="productVO : ${productList}">
+				<tr>
+					<td th:text="${productVO.id}"></td>
+					<td th:text="${productVO.name}"></td>
+					<td th:text="${productVO.price}"><p>元</p></td>
+					<td th:text="${productVO.sold}"><p>個</p></td>
+					<td>
+                        <!-- 顯示 Base64 圖片 -->
+                        <img th:src="'data:image/jpeg;base64,' + ${productVO.base64Image}" alt="圖片" width="150px" />
+                    </td>
+                    <td th:text="${productVO.star}"></td>
+					
+				</tr>
+			</th:block>
+		</tbody>
+	</table>
+</body>
+
+</html>
