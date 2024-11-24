@@ -1,19 +1,15 @@
-
-
-
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Coupon Detail Management - Index</title>
+<title>Discount Management - Index</title>
 
 <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.2.1/css/bootstrap.min.css}"/>
-<link rel="stylesheet" th:href="@{coupondetail/css/index.css}"/>
+<link rel="stylesheet" th:href="@{/back-end/discount/css/index.css}"/>
 
-<link rel="stylesheet" th:href="@{coupondetail/out-statics/out-css/style.css}"/>
-<script th:src="@{coupondetail/out-statics/out-js/app4.js}"></script>
+<link rel="stylesheet" th:href="@{/back-end/discount/out-statics/out-css/style.css}"/>
+<script th:src="@{/back-end/discount/out-statics/out-js/app4.js}"></script>
 </head>
 <body>
 
@@ -21,7 +17,7 @@
 	<div align="center">
 		<h2 style="font-size: 30px; width: max-content;">
 			<span class="hello-color" th:text="'Hello, ' + ${message} + ' : '"></span> 
-			Coupon Detail Management
+			Discount Management
 		</h2>
 		<h3>
 			<a class="navbar-brand" href="https://spring.io/projects/spring-boot">
@@ -32,34 +28,34 @@
 </nav>
 	
 <div class="starter-template">
-	<h1>Coupon Detail Management Dashboard</h1>
+	<h1>Discount Management Dashboard</h1>
 	<hr>
 	
 	<h3>
-		<a th:href="@{/coupondetail/select_page}" style="text-decoration:underline;color: black;">
-			Go to Coupon Detail Query Page1		
+		<a th:href="@{/discount/select_page}" style="text-decoration:underline;color: black;">
+			Go to Discount Query Page1		
 		</a>
 		
 			<br>
-		<a href='/coupondetail/select_page' style="text-decoration:underline;color: black;">
-			Go to Coupon Detail Query Page2
+		<a href='/discount/select_page' style="text-decoration:underline;color: black;">
+			Go to Discount Query Page2
 		</a>
 		
 			<br>
 		<a th:href='select_page' style="text-decoration:underline;color: black;">
-			Go to Coupon Detail Query Page3
+			Go to Discount Query Page3
 		</a>
 		
 			<br>
 		<a href='select_page' style="text-decoration:underline;color: black;">
-			Go to Coupon Detail Query Page4
+			Go to Discount Query Page4
 		</a>
 	</h3>
 	
 	
 	<h3>
-		<a th:href="@{/coupondetail/listAllCouponDetail}" style="text-decoration:underline;color: black;">
-			View All Coupon Details
+		<a th:href="@{/discount/listAllDiscount}" style="text-decoration:underline;color: black;">
+			View All Discounts
 		</a>
 	</h3>
 </div>
