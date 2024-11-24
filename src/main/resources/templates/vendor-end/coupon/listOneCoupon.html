@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>優惠券資料 - listOneCoupon.html</title>
+
+<head th:insert="~{/vendor-end/coupon/included-fragment}"></head>
+<style type="text/css">
+    span {
+		display: inline-block;
+		width: 150px;
+		text-align: left;
+		font-weight: bold;
+	}
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
+		 <div align="center"> <h2>優惠券資料 - listOneCoupon.html</h2>
+		 <h3><a class="navbar-brand" th:href="@{/coupon/select_page}"><img th:src="@{/images/back1.gif}">回查詢頁<label th:text="${success}"></label></a></h3></div>
+</nav>
+
+	<div align="center" th:fragment="listOneCoupon-div"> <!-- 此div可供其他頁面insert用 -->
+		<h3><span>查詢結果 :</span></h3>
+		<span>優惠券編號:</span><span th:text="${couponVO.couponNo}"></span><br/>
+		<span>櫃位編號:</span><span th:text="${couponVO.counterNo}"></span><br/>
+		<span>優惠券名稱:</span><span th:text="${couponVO.couponTitle}"></span><br/>
+		<span>優惠券內容:</span><span th:text="${couponVO.couponContext}"></span><br/>
+		<span>起始日期:</span><span th:text="${#dates.format(couponVO.couponStart, 'yyyy-MM-dd')}"></span><br/>
+		<span>到期日期:</span><span th:text="${#dates.format(couponVO.couponEnd, 'yyyy-MM-dd')}"></span><br/>
+		<span>優惠券狀態:</span><span th:text="${couponVO.couponStatus == 0 ? '未開放' : (couponVO.couponStatus == 1 ? '時效內' : '過期')}"></span><br/>
+		<span>領取次數:</span><span th:text="${couponVO.usageLimit}"></span><br/>
+		<span>審核狀態:</span><span th:text="${couponVO.checkStatus == 0 ? '未審核' : '已審核'}"></span><br/>
+	</div>
+
+</body>
+</html>

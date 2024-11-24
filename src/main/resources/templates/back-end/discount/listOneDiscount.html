@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>平台優惠資料 - listOneDiscount.html</title>
+
+<head th:insert="~{/back-end/discount/included-fragment}"></head>
+<style type="text/css">
+    span {
+		display: inline-block;
+		width: 150px;
+		text-align: left;
+		font-weight: bold;
+	}
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
+		 <div align="center"> <h2>平台優惠資料 - listOneDiscount.html</h2>
+		 <h3><a class="navbar-brand" th:href="@{/discount/select_page}"><img th:src="@{/images/back1.gif}">回查詢頁<label th:text="${success}"></label></a></h3></div>
+</nav>
+
+	<div align="center" th:fragment="listOneDiscount-div"> <!-- 此div可供其他頁面insert用 -->
+		<h3><span>查詢結果 :</span></h3>
+		<span>平台優惠編號:</span><span th:text="${discountVO.disNo}"></span><br/>
+		<span>優惠名稱:</span><span th:text="${discountVO.disTitle}"></span><br/>
+		<span>優惠內容:</span><span th:text="${discountVO.disContext}"></span><br/>
+		<span>折扣率:</span><span th:text="${discountVO.disRate}"></span><br/>
+		<span>優惠狀態:</span>
+		<span th:text="${discountVO.disStatus == 0 ? '尚未開放' : (discountVO.disStatus == 1 ? '使用中' : '過期')}"></span><br/>
+		<span>使用條件:</span><span th:text="${discountVO.descLimit}"></span><br/>
+		<span>建立日期:</span><span th:text="${#dates.format(discountVO.createdAt, 'yyyy-MM-dd')}"></span><br/>
+		<span>更新日期:</span><span th:text="${#dates.format(discountVO.updatedAt, 'yyyy-MM-dd')}"></span><br/>
+		<span>起始日:</span><span th:text="${#dates.format(discountVO.disStart, 'yyyy-MM-dd')}"></span><br/>
+		<span>到期日:</span><span th:text="${#dates.format(discountVO.disEnd, 'yyyy-MM-dd')}"></span><br/>
+	</div>
+
+</body>
+</html>
