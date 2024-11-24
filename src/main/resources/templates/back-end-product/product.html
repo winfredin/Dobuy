@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+<!-- Title -->
+<title>DoBuy - Lifestyle</title>
+
+<!-- Favicon -->
+<!--       <link rel="icon" href="img/core-img/favicon.ico"> -->
+
+<!-- Style CSS -->
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/css/style.css}">
+<!-- Slick CSS -->
+<link rel="stylesheet" type="text/css"
+	th:href="@{https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css}" />
+<link rel="stylesheet" type="text/css"
+	th:href="@{https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css}" />
+
+</head>
+
+<body>
+	<!-- Preloader -->
+	<div id="preloader">
+		<div class="preload-content">
+			<div id="original-load"></div>
+		</div>
+	</div>
+
+
+
+	<!-- ##### Header Area Start ##### -->
+	<header class="header-area">
+
+		<!-- Logo Area -->
+		<div class="logo-area text-center">
+			<div class="container h-100">
+				<div class="row h-100 align-items-center">
+					<!-- 左侧图片或文字 -->
+					<div class="col-4 text-right">
+						<img src="img/pic/01.png" alt="Left Image"
+							style="width: 400px; height: 100px;">
+					</div>
+					<!-- 中间的 logo -->
+					<div class="col-4 text-center">
+						<a href="#" class="original-logo"><img
+							src="img/core-img/logo-noback.png" alt="Logo"
+							style="max-width: 100px;"></a>
+					</div>
+					<!-- 右侧图片或文字 -->
+					<div class="col-4 text-left">
+						<img src="img/pic/01.png" alt="Right Image"
+							style="width: 400px; height: 100px;">
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<!-- 看板加優惠券-->
+	<div class="blog-wrapper section-padding-100 clearfix"
+		style="padding: 0;">
+		<div class="container">
+
+			<!-- 這是輪播圖 -->
+			<!-- 這是輪播圖 -->
+			<div class="autoplay">
+				<div th:each="image : ${carouselImages}">
+					<img th:src="'data:image/png;base64,' + ${image.base64Image}"
+						alt="Carousel Image">
+				</div>
+			</div>
+
+
+			<!-- 對話框 -->
+			<div style="margin-bottom: 40px;">
+				<textarea id="displayArea"
+					style="width: 100%; height: 100px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; background-color: #f8f9fa;"
+					readonly>正在加載內容...</textarea>
+			</div>
+			<h4>這邊是優惠券</h4>
+			<div class="row align-items-end">
+				<div class="col-12 col-md-6 col-lg-4">
+					<div class="single-blog-area clearfix mb-100">
+						<img src="img/my-img/coupon.png" alt="">
+						<button class="btn btn-claim" data-coupon="1">領取</button>
+					</div>
+				</div>
+				<div class="col-12 col-md-6 col-lg-4">
+					<div class="single-blog-area clearfix mb-100">
+						<img src="img/my-img/coupon.png" alt="">
+						<button class="btn btn-claim" data-coupon="1">領取</button>
+					</div>
+				</div>
+				<div class="col-12 col-md-6 col-lg-4">
+					<div class="single-blog-area clearfix mb-100">
+						<img src="img/my-img/coupon.png" alt="">
+						<button class="btn btn-claim" data-coupon="1">領取</button>
+					</div>
+				</div>
+			</div>
+			<!-- ///////////////////// -->
+			<!-- /////////////////////下拉式選單-->
+			<div class="menu-bar">
+				<div class="left-menu">
+					<a href="#" class="menu-a">篩選</a>
+					<button class="menu-button">綜合排名</button>
+					<button class="menu-button">最新</button>
+					<button class="menu-button">最熱銷</button>
+					<div class="dropdown">
+						<button class="menu-button">價格 ▼</button>
+						<div class="dropdown-content">
+							<a href="#">價格由低到高</a> <a href="#">價格由高到低</a>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="pagination">
+					<span id="pageInfo">1 / 2</span>
+					<button class="page-btn" id="prevPage">&lt;</button>
+					<button class="page-btn" id="nextPage">&gt;</button>
+				</div>
+			</div>
+			<!-- /////////////////////下拉式選單-->
+			<h4>這是一個有12行的區塊，每塊佔4行</h4>
+
+			<div class="container">
+				<div class="row">
+					<!-- 左側漢堡行列表 -->
+					<div class="col-12 col-md-2">
+						<div class="hamburger-menu">
+							<h4>分類</h4>
+							<ul>
+								<li><a href="#">所有商品</a></li>
+								<li><a href="#">所有商品</a></li>
+								<li><a href="#">所有商品</a></li>
+								<li><a href="#">所有商品</a></li>
+								<li><a href="#">所有商品</a></li>
+								<li><a href="#">所有商品</a></li>
+								<li><a href="#">所有商品</a></li>
+								<li><a href="#">特惠配件</a></li>
+								<li><a href="#">特惠配件</a></li>
+								<li><a href="#">特惠配件</a></li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="col-12 col-md-9 ">
+						<div class="row align-items-end" id="productContainer">
+							<!-- 使用 Thymeleaf 渲染商品数据 -->
+							<div th:each="product : ${products}"
+								class="col-12 col-md-4 product-item">
+								<div class="single-blog-content">
+									<div class="line"></div>
+									<div class="product-img-container">
+										<img
+											th:src="'data:image/png;base64,' + ${product.base64Image}"
+											th:alt="${product.id}">
+									</div>
+									<div class="product-detail">
+										<p>
+											<strong th:text="${product.name}"></strong>
+										</p>
+										<p>
+											價格：<span th:text="${product.price}"></span>
+										</p>
+										<p>
+											已售出：<span th:text="${product.sold}"></span>
+										</p>
+									</div>
+									<p>
+										評價：<span th:text="${product.star}"></span>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+
+
+
+					<!-- ///////////////////// -->
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ##### Footer Area Start ##### -->
+	<footer class="footer-area text-center">
+		<div class="container">
+			<div class="row"></div>
+		</div>
+
+		<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+		Copyright &copy;
+		<script>
+			document.write(new Date().getFullYear());
+		</script>
+		All rights reserved | <i class="fa fa-heart-o" aria-hidden="true"></i>
+		by <a href="https://colorlib.com" target="_blank">DOBUY</a>
+		<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+
+	</footer>
+	<!-- ##### Footer Area End ##### -->
+
+	<!-- jQuery -->
+	<script th:src="@{/js/jquery/jquery-2.2.4.min.js}"></script>
+	<!-- Popper js -->
+	<script th:src="@{/js/popper.min.js}"></script>
+	<!-- Bootstrap js -->
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+	<!-- Active js -->
+	<script th:src="@{/js/active.js}"></script>
+	<script th:src="@{/js/product.js}"></script>
+	<!-- Slick JS -->
+	<script type="text/javascript"
+		th:src="@{https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js}"></script>
+</body>
+
+</html>

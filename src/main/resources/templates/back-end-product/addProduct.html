@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>addProduct</title>
+</head>
+<body>
+	<form th:action="@{product/insert}" method="post" th:object="${productVO}" enctype="multipart/form-data">
+		<div>
+			<label>name:</label>
+			<input type="text" th:field="*{name}" /><br/>
+		</div>
+		<br><br>
+		
+		<div>
+			<label>price:</label>
+			<input type="text" th:field="*{price}" /><br/>
+		</div>
+		<br><br>
+		
+		<div>
+			<label>sold:</label>
+			<input type="text" th:field="*{sold}" /><br/>
+		</div>
+		<br><br>
+		
+    	<label for="upFiles">image:</label>
+    	<input type="file" id="upFiles" name="upFiles" th:field="*{upFiles}" multiple="multiple"/>
+    	<br><br>
+    
+    	<div>
+			<label>star:</label>
+			<input type="text" th:field="*{star}" /><br/>
+		</div>
+		<br><br>
+    	<button type="submit">Submit</button>
+    	<br><br>
+ 		<br><br>
+ 		
+	    <h5><a href='product/all'>List</a> all<br><br></h5>
+	    <br><br>
+	    <br><br>
+	    
+	    <h5><a href='/demo'>HomePage</a><br><br></h5>
+</form>
+
+
+</body>
+</html>
