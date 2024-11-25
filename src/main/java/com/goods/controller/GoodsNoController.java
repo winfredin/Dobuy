@@ -79,4 +79,29 @@ public class GoodsNoController {
         String message = strBuilder.toString();
         return new ModelAndView("vendor-end/goods/select_page","errorMessage", "請修正以下錯誤:<br>"+message); // 回傳錯誤訊息並讓用戶修正
     }
+    
+    @PostMapping("getOne_For_Display35")
+    public String getOne_For_Display35(
+        /***************************1.接收請求參數 - 輸入格式的錯誤處理*************************/
+//        @NotEmpty(message = "商品編號: 請勿空白")
+//        @Digits(integer = 5, fraction = 0, message = "商品編號: 請填數字-請勿超過{integer}位數")
+//        @Min(value = 1, message = "商品編號: 不能小於{value}")
+//        @Max(value = 99999, message = "商品編號: 不能超過{value}")
+        @RequestParam("counterNo") String counterNo, ModelMap model) {
+    	
+    	
+        /***************************2.開始查詢資料*********************************************/
+        
+        List<GoodsVO> goodsVO = goodsSvc.getOneCounter35(Integer.valueOf(counterNo));
+//        model.addAttribute("goodsListData", list); // for select_page.html 下拉選單
+//        if (goodsVO == null) {
+//            model.addAttribute("errorMessage", "查無資料");
+//            return "vendor-end/goods/select_page"; // 回傳給用戶查無資料的提示頁面
+//        }
+
+        /***************************3.查詢完成,準備轉交(Send the Success view)*****************/
+        model.addAttribute("goodsVO", goodsVO);
+//        model.addAttribute("getOne_For_Display", "true"); // Flag for displaying specific data
+        return "/vendor-end/front-end-product/product"; // 返回 Thymeleaf 模板名
+    }
 }

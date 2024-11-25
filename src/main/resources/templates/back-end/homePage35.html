@@ -14,9 +14,17 @@
 	<br><br>
 	<h5><a href='addProduct_page'>addProduct_page</a><br><br></h5>
 	
-	<button data-key="key1">物件1</button>
-	<button data-key="key2">物件2</button>
-	<button data-key="key3">物件3</button>
+	<ul>
+		<li>
+    	<form method="post" th:action="@{/goods/getOne_For_Display35}" th:object="${goodsVO}">
+	        輸入櫃位編號:
+	        <input type="text" name="counterNo" placeholder="請輸入櫃位編號" th:field="*{counterNo}"/>
+	        <input type="submit" value="送出">
+    	</form>
+   		<br>
+		</li>
+	</ul>
+	
 	
 	
 </body>
