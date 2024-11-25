@@ -28,7 +28,7 @@ public class Test_Application_CommandLineRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        // ● 新增
+//        // ● 新增
 //        GoodsVO goodsVO1 = new GoodsVO();
 //        goodsVO1.setGoodstNo(3);
 //        goodsVO1.setCounterNo(4);
@@ -36,13 +36,14 @@ public class Test_Application_CommandLineRunner implements CommandLineRunner {
 //        goodsVO1.setGoodsDescription("精緻的手錶，適合各種場合佩戴，永不過時的設計");
 //        goodsVO1.setGoodsPrice(4500);
 //        goodsVO1.setGoodsAmount(100);
-//        goodsVO1.setGoodsStatus((byte) 0);  // 商品狀態：0 - 未上架
+//        goodsVO1.setGoodsStatus((byte) 0);  // 商品狀態：0 - 下架
+//        goodsVO1.setCheckStatus((byte) 0);  // 審核狀態：0 - 審核中
 //        goodsVO1.setGoodsDate(java.sql.Timestamp.valueOf("2024-11-01 10:00:00"));
 //        goodsVO1.setGoodsEnddate(java.sql.Timestamp.valueOf("2024-11-22 10:00:00"));
 //        // 這裡可以設置圖片（gpPhotos1, gpPhotos2 等）為 null 或有效的 LONGBLOB
 //        repository.save(goodsVO1);
 
-        // ● 修改
+//        // ● 修改
 //        GoodsVO goodsVO2 = new GoodsVO();
 //        goodsVO2.setGoodsNo(21); // 設定要修改的商品編號
 //        goodsVO2.setGoodstNo(3);
@@ -52,6 +53,7 @@ public class Test_Application_CommandLineRunner implements CommandLineRunner {
 //        goodsVO2.setGoodsPrice(4600); // 修改價格
 //        goodsVO2.setGoodsAmount(90);  // 修改庫存數量
 //        goodsVO2.setGoodsStatus((byte) 1);  // 商品狀態：1 - 已上架
+//        goodsVO2.setCheckStatus((byte) 1);  // 審核狀態：1 - 通過
 //        goodsVO2.setGoodsDate(java.sql.Timestamp.valueOf("2024-11-01 10:00:00"));
 //        goodsVO2.setGoodsEnddate(java.sql.Timestamp.valueOf("2024-11-22 10:00:00"));
 //        repository.save(goodsVO2);
@@ -72,6 +74,7 @@ public class Test_Application_CommandLineRunner implements CommandLineRunner {
 //            System.out.println("商品單價: " + goodsVO3.getGoodsPrice());
 //            System.out.println("商品庫存: " + goodsVO3.getGoodsAmount());
 //            System.out.println("商品狀態: " + goodsVO3.getGoodsStatus());
+//            System.out.println("審核狀態: " + goodsVO3.getCheckStatus());
 //            System.out.println("上架日期: " + goodsVO3.getGoodsDate());
 //            System.out.println("下架日期: " + goodsVO3.getGoodsEnddate());
 //        }
@@ -87,6 +90,7 @@ public class Test_Application_CommandLineRunner implements CommandLineRunner {
 //            System.out.print(aGoods.getGoodsPrice() + ", ");
 //            System.out.print(aGoods.getGoodsAmount() + ", ");
 //            System.out.print(aGoods.getGoodsStatus() + ", ");
+//            System.out.print(aGoods.getCheckStatus() + ", ");
 //            System.out.print(aGoods.getGoodsDate() + ", ");
 //            System.out.print(aGoods.getGoodsEnddate());
 //            System.out.println();
@@ -103,6 +107,7 @@ public class Test_Application_CommandLineRunner implements CommandLineRunner {
 //            System.out.print(aGoods.getGoodsPrice() + ", ");
 //            System.out.print(aGoods.getGoodsAmount() + ", ");
 //            System.out.print(aGoods.getGoodsStatus() + ", ");
+//            System.out.print(aGoods.getCheckStatus() + ", ");
 //            System.out.print(aGoods.getGoodsDate() + ", ");
 //            System.out.print(aGoods.getGoodsEnddate());
 //            System.out.println();

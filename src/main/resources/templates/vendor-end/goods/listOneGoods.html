@@ -33,7 +33,8 @@
 		<span>商品單價:</span><span th:text="${goodsVO.goodsPrice}"></span><br/>
 		<span>商品庫存:</span><span th:text="${goodsVO.goodsAmount}"></span><br/>
 		<span>商品主圖(必填):</span><span><img th:src="@{/goods/DBGifReader} + '?goodsNo=' + ${goodsVO.goodsNo}" width="100px"></span><br/>
-		<span>商品狀態:</span><span th:text="${goodsVO.goodsStatus == 0 ? '未上架' : '已上架'}"></span><br/>
+<!-- 		<span>商品狀態:</span><span th:text="${goodsVO.goodsStatus == 0 ? '未上架' : '已上架'}"></span><br/> -->
+<!-- 		<span>審核狀態:</span><span th:text="${goodsVO.checkStatus == 0 ? '審核中' : (goodsVO.checkStatus == 1 ? '通過' : '未通過')}"></span><br/> -->
 <!-- 		<span>商品上架日期:</span><span th:text="${goodsVO.goodsDate}"></span><br/> -->
 <!-- 		<span>商品下架日期:</span><span th:text="${goodsVO.goodsEnddate}"></span><br/> -->
 	</div>

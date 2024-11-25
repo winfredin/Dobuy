@@ -56,4 +56,30 @@ public class GoodsService {
     public List<GoodsVO> getOneCounter35(Integer counterNo) {
         return repository.getOneCounter35(counterNo); // 如果不存在，返回 null
     }
+    
+    // 更新商品審核狀態
+    public void updateCheckStatus(Integer goodsNo, Byte checkStatus) {
+        // 根據商品編號找到商品
+        Optional<GoodsVO> optional = repository.findById(goodsNo);
+        
+        // 如果商品存在，更新審核狀態
+        if (optional.isPresent()) {
+            GoodsVO goodsVO = optional.get();
+            goodsVO.setCheckStatus(checkStatus); // 設定新的審核狀態
+            repository.save(goodsVO); // 儲存更新後的商品資料
+        }
+    }
+ // 更新商品狀態的方法
+    public void updateGoodsStatus(String goodsNo, Byte goodsStatus) {
+        // 根據商品編號找到商品
+        Optional<GoodsVO> optional = repository.findById(Integer.parseInt(goodsNo));
+
+        // 如果商品存在，更新商品狀態
+        if (optional.isPresent()) {
+            GoodsVO goodsVO = optional.get();
+            goodsVO.setGoodsStatus(goodsStatus); // 設定新的商品狀態
+            repository.save(goodsVO); // 儲存更新後的商品資料
+        }
+    }
+
 }

@@ -147,14 +147,24 @@
 		    <div id="blob_holder10"></div>
 		</div>
 		
-		<div>
-			<label>商品狀態:</label>
-			<select th:field="*{goodsStatus}">
-				<option value="0" th:selected="*{goodsStatus == 0}">未上架</option>
-				<option value="1" th:selected="*{goodsStatus == 1}">已上架</option>
-			</select><br/>
-			<span th:if="${#fields.hasErrors('goodsStatus')}" th:errors="*{goodsStatus}" class="error" id="goodsStatus.errors"></span>
-		</div>
+<!-- 		<div> -->
+<!-- 			<label>商品狀態:</label> -->
+<!-- 			<select th:field="*{goodsStatus}"> -->
+<!-- 				<option value="0" th:selected="*{goodsStatus == 0}">下架</option> -->
+<!-- 				<option value="1" th:selected="*{goodsStatus == 1}">上架</option> -->
+<!-- 			</select><br/> -->
+<!-- 			<span th:if="${#fields.hasErrors('goodsStatus')}" th:errors="*{goodsStatus}" class="error" id="goodsStatus.errors"></span> -->
+<!-- 		</div> -->
+		
+<!-- 		<div> -->
+<!-- 			<label>審核狀態:</label> -->
+<!-- 			<select th:field="*{checkStatus}"> -->
+<!-- 				<option value="0" th:selected="*{checkStatus == 0}">審核中</option> -->
+<!-- 				<option value="1" th:selected="*{checkStatus == 1}">通過</option> -->
+<!-- 				<option value="2" th:selected="*{checkStatus == 2}">未通過</option> -->
+<!-- 			</select><br/> -->
+<!-- 			<span th:if="${#fields.hasErrors('checkStatus')}" th:errors="*{checkStatus}" class="error" id="checkStatus.errors"></span> -->
+<!-- 		</div> -->
 		
 <!-- 		<div> -->
 <!-- 			<label>商品上架日期:</label> -->

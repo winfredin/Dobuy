@@ -75,6 +75,8 @@ public class GoodsController {
         result = removeFieldError(goodsVO, result, "gpPhotos9");
         result = removeFieldError(goodsVO, result, "gpPhotos10");
         
+        goodsVO.setCheckStatus((byte) 0);  // 這裡假設 0 表示 "待審核"
+        
         // 檢查照片1 - 確保至少上傳一張照片
         if (parts1[0].isEmpty()) {
             model.addAttribute("errorMessage", "商品主圖(必填): 請上傳至少一張照片");
@@ -222,6 +224,11 @@ public class GoodsController {
         result = removeFieldError(goodsVO, result, "gpPhotos9");
         result = removeFieldError(goodsVO, result, "gpPhotos10");
 
+        // 保留原有的商品狀態，避免修改商品的上下架狀態和審核狀態
+        GoodsVO originalGoods = goodsSvc.getOneGoods(goodsVO.getGoodsNo());
+        goodsVO.setGoodsStatus(originalGoods.getGoodsStatus());  // 保持原來的上下架狀態
+        goodsVO.setCheckStatus(originalGoods.getCheckStatus());  // 保持原來的審核狀態
+        
         // 檢查照片1 - 如果使用者沒有上傳新圖片，則保留原來的圖片
         if (parts1[0].isEmpty()) {
             // 如果沒有上傳新的圖片，保留原來的圖片
@@ -331,6 +338,9 @@ public class GoodsController {
         model.addAttribute("goodsVO", goodsVO);  // 將更新後的資料傳遞到前端
         return "vendor-end/goods/listOneGoods";  // 返回商品資料頁面
     }
+    
+
+
 
 
 	/*
@@ -370,4 +380,30 @@ public class GoodsController {
         }
         return result;
     }
+    
+    @PostMapping("/updateCheckStatus")
+    public String updateCheckStatus(@RequestParam("goodsNo") String goodsNo, 
+                                     @RequestParam("checkStatus") Byte checkStatus, 
+                                     ModelMap model) {
+        // 更新商品的審核狀態
+        goodsSvc.updateCheckStatus(Integer.valueOf(goodsNo), checkStatus);
+
+        // 重新查詢所有商品列表
+        List<GoodsVO> list = goodsSvc.getAll();
+        model.addAttribute("goodsListData", list);
+
+        // 返回審核頁面
+        model.addAttribute("success", "商品審核狀態更新成功");
+        return "vendor-end/goods/listAllCheckStatus";  // 審核狀態更新後重新顯示商品列表
+    }
+    
+    @PostMapping("/updateGoodsStatus")
+    public String updateGoodsStatus(@RequestParam("goodsNo") String goodsNo, 
+                                     @RequestParam("goodsStatus") Byte goodsStatus) {
+        // 根據 goodsNo 更新商品狀態
+    	goodsSvc.updateGoodsStatus(goodsNo, goodsStatus);
+        return "vendor-end/goods/listAllCounterGoods"; // 重新導向到商品列表頁面
+    }
+
+    
 }
