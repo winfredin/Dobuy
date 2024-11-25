@@ -1,0 +1,211 @@
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>員工資料修改 - update_emp_input.html</title>
+
+
+<style type="text/css">
+	
+	button {
+		padding: 5px;
+	}
+	form {
+		display: table;
+	}
+	form div {
+		display: table-row;
+	}
+	label, input, span, select {
+		display: table-cell;
+		margin: 5px;
+		text-align: left;		
+	}
+	input[type=text], input[type=password], select, textarea {
+		width: 200px;
+		margin: 5px;
+	}
+	form div div {
+		display: table-cell;
+	}
+	.center {
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
+		 <div align="center"> <h2>資料修改 </h2>
+		 </div>
+</nav>
+	    <div align="center">
+        <h2>櫃位資料新增</h2>
+        <form th:action="@{/counter/update}" method="post" th:object="${counterVO}" enctype="multipart/form-data">
+        	 <div>
+                <input type="hidden" th:field="*{counterNo}" />
+            </div>
+        
+            <div>
+<!-- 			    <label for="counterAccount">櫃位帳號:</label> -->
+			    <input type="hidden" th:field="*{counterAccount}" id="counterAccount" readonly />
+<!-- 			    <span th:if="${#fields.hasErrors('counterAccount')}" th:errors="*{counterAccount}" class="error"></span> -->
+<!-- 			    <span th:if="${accountError}" th:text="${accountError}" class="error"></span> -->
+			</div>
+
+            <div>
+                <label>櫃位管理者姓名:</label>
+                <input type="text" th:field="*{counterName}" />
+                <span th:if="${#fields.hasErrors('counterName')}" th:errors="*{counterName}" class="error"></span>
+            </div>
+
+            <div>
+<!--                 <label>櫃位密碼:</label> -->
+                <input type="hidden" th:field="*{counterPassword}" readonly/>
+<!--                 <span th:if="${#fields.hasErrors('counterPassword')}" th:errors="*{counterPassword}" class="error"></span> -->
+            </div>
+
+            <div>
+                <label>櫃位地址:</label>
+                <input type="text" th:field="*{counterAddress}" />
+                <span th:if="${#fields.hasErrors('counterAddress')}" th:errors="*{counterAddress}" class="error"></span>
+            </div>
+
+            <div>
+                <label>櫃位電話:</label>
+                <input type="text" th:field="*{counterPhone}" />
+                <span th:if="${#fields.hasErrors('counterPhone')}" th:errors="*{counterPhone}" class="error"></span>
+            </div>
+
+            <div>
+                <label>管理者身分證字號:</label>
+                <input type="text" th:field="*{counterUid}" />
+                <span th:if="${#fields.hasErrors('counterUid')}" th:errors="*{counterUid}" class="error"></span>
+            </div>
+
+            <div>
+                <label>櫃位電子信箱:</label>
+                <input type="email" th:field="*{counterEmail}" />
+                <span th:if="${#fields.hasErrors('counterEmail')}" th:errors="*{counterEmail}" class="error"></span>
+            </div>
+
+            <div>
+<!--                 <label>櫃位統一編號:</label> -->
+                <input type="hidden" th:field="*{counterUbn}" readonly/>
+<!--                 <span th:if="${#fields.hasErrors('counterUbn')}" th:errors="*{counterUbn}" class="error"></span> -->
+<!--                 <span th:if="${ubnError}" th:text="${ubnError}" class="error"></span> -->
+            </div>
+
+            <div>
+                <label>櫃位名稱:</label>
+                <input type="text" th:field="*{counterCName}" />
+                <span th:if="${#fields.hasErrors('counterCName')}" th:errors="*{counterCName}" class="error"></span>
+            </div>
+
+			<div>
+		    <label>櫃位類別:</label>
+		    <select th:field="*{counterTypeVO.counterTypeNo}">
+		        <option th:each="counterTypeVO : ${counterTypeListData}" 
+		                th:value="${counterTypeVO.counterTypeNo}" 
+		                th:text="${counterTypeVO.counterTName}" />
+		    </select>
+		    <span th:if="${#fields.hasErrors('counterTypeVO.counterTypeNo')}" 
+		          th:errors="*{counterTypeVO.counterTypeNo}" 
+		          class="error" 
+		          id="counterTypeVO.counterTypeNo.errors"></span>
+			</div>
+
+            <div>
+                <label>櫃位資訊介紹:</label>
+                <textarea th:field="*{counterInform}"></textarea>
+                <span th:if="${#fields.hasErrors('counterInform')}" th:errors="*{counterInform}" class="error"></span>
+            </div>
+
+			<div>
+			    <label>櫃位圖片:</label>
+			    <input type="file" th:field="*{counterPic}" id="counterPic" accept="image/png, image/jpeg, image/gif" onchange="previewImage(this)" />
+			</div>
+			<!-- 圖片預覽區域 -->
+				<img id="preview_image" th:src="@{/counter/DBGifReader} + '?counterNo=' + ${counterVO.counterNo}" width="100px">
+			<div id="blob_holder" style="margin-top: 10px;">
+			</div>
+
+
+			<div>
+			    <label for="counterStatus">櫃位狀態:</label>
+			    <select th:field="*{counterStatus}" id="counterStatus">
+			        <option value="0">停用</option>
+			        <option value="1" selected>審核中</option>
+			        <option value="2">可營運</option>
+			    </select>
+			    <span th:if="${#fields.hasErrors('counterStatus')}" th:errors="*{counterStatus}" class="error"></span>
+			</div>
+
+
+            <div>
+                <button type="submit">送出修改</button>
+            </div>
+        </form>
+    </div>
+
+
+<!-- JavaScript part -->
+<script type="text/javascript">
+//清除提示信息
+function hideContent(d) {
+    document.getElementById(d).style.display = "none";
+}
+
+// const originalImageHTML = `<img id="preview_image" th:src="@{/counter/DBGifReader} + '?counterNo=' + ${counterVO.counterNo}" width="100px">`;
+
+//照片上傳 - 預覽功能
+function previewImage(input) {
+ const file = input.files[0];
+ const acceptedTypes = ["image/png", "image/jpeg", "image/gif"];
+ const blobHolder = document.getElementById("blob_holder");
+ const previewImage = document.getElementById("preview_image");
+
+ // 清空 blob_holder 和移除现有的 <img>
+ blobHolder.innerHTML = "";
+ if (previewImage) {
+     previewImage.remove();
+ }
+
+ // 如果用户未选择文件，恢复原始的 <img>
+//  if (!file) {
+//      blobHolder.innerHTML = originalImageHTML;
+//      return;
+//  }
+
+ // 檢查檔案是否有效
+ if (acceptedTypes.includes(file.type)) {
+     const reader = new FileReader();
+     reader.onload = function (event) {
+         const image = new Image();
+         image.src = event.target.result;
+         image.style.width = "100px";
+         image.style.height = "100px";
+         image.style.border = "2px solid #ccc";
+         image.alt = "圖片預覽";
+         blobHolder.appendChild(image);
+     };
+     reader.readAsDataURL(file);
+ } else {
+     blobHolder.innerHTML = `<div style="color: red;">無效的檔案格式！請上傳 PNG、JPEG 或 GIF 格式的圖片。</div>`;
+ }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,213 @@
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>員工資料新增 - addEmp.html</title>
+
+
+<style type="text/css">
+	
+	button {
+		padding: 5px;
+	}
+	form {
+		display: table;
+	}
+	form div {
+		display: table-row;
+	}
+	label, input, span, select {
+		display: table-cell;
+		margin: 5px;
+		text-align: left;		
+	}
+	input[type=text], input[type=password], select, textarea {
+		width: 200px;
+		margin: 5px;
+	}
+	form div div {
+		display: table-cell;
+	}
+	.center {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .error {
+    color: red;
+    font-size: 12px;
+	}
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
+		 <div align="center"> <h2>櫃位新增</h2>
+<!-- 		 <h3><a class="navbar-brand" th:href="@{/emp/select_page}"><img th:src="@{/images/back1.gif}">回查詢頁</a></h3> -->
+		 </div>
+</nav>
+
+	    <div align="center">
+        <h2>櫃位資料新增</h2>
+        <form th:action="@{/counter/insert}" method="post" th:object="${counterVO}" enctype="multipart/form-data">
+            <div>
+			    <label for="counterAccount">櫃位帳號:</label>
+			    <input type="text" th:field="*{counterAccount}" id="counterAccount" />
+			    <!-- 表單驗證錯誤 -->
+			    <span th:if="${#fields.hasErrors('counterAccount')}" th:errors="*{counterAccount}" class="error"></span>
+			    <!-- 自定義帳號錯誤 -->
+			    <span th:if="${accountError}" th:text="${accountError}" class="error"></span>
+			</div>
+
+            <div>
+                <label>櫃位管理者姓名:</label>
+                <input type="text" th:field="*{counterName}" />
+                <span th:if="${#fields.hasErrors('counterName')}" th:errors="*{counterName}" class="error"></span>
+            </div>
+
+            <div>
+                <label>櫃位密碼:</label>
+                <input type="password" th:field="*{counterPassword}" />
+                <span th:if="${#fields.hasErrors('counterPassword')}" th:errors="*{counterPassword}" class="error"></span>
+            </div>
+            <div>
+			    <label>確認密碼:</label>
+			    <input type="password" id="confirmPassword" />
+			    <span id="passwordError" class="error"></span>
+			</div>
+
+            <div>
+                <label>櫃位地址:</label>
+                <input type="text" th:field="*{counterAddress}" />
+                <span th:if="${#fields.hasErrors('counterAddress')}" th:errors="*{counterAddress}" class="error"></span>
+            </div>
+
+            <div>
+                <label>櫃位電話:</label>
+                <input type="text" th:field="*{counterPhone}" />
+                <span th:if="${#fields.hasErrors('counterPhone')}" th:errors="*{counterPhone}" class="error"></span>
+            </div>
+
+            <div>
+                <label>管理者身分證字號:</label>
+                <input type="text" th:field="*{counterUid}" />
+                <span th:if="${#fields.hasErrors('counterUid')}" th:errors="*{counterUid}" class="error"></span>
+            </div>
+
+            <div>
+                <label>櫃位電子信箱:</label>
+                <input type="email" th:field="*{counterEmail}" />
+                <span th:if="${#fields.hasErrors('counterEmail')}" th:errors="*{counterEmail}" class="error"></span>
+            </div>
+
+            <div>
+                <label>櫃位統一編號:</label>
+                <input type="text" th:field="*{counterUbn}" />
+                <span th:if="${#fields.hasErrors('counterUbn')}" th:errors="*{counterUbn}" class="error"></span>
+                <span th:if="${ubnError}" th:text="${ubnError}" class="error"></span>
+            </div>
+
+            <div>
+                <label>櫃位名稱:</label>
+                <input type="text" th:field="*{counterCName}" />
+                <span th:if="${#fields.hasErrors('counterCName')}" th:errors="*{counterCName}" class="error"></span>
+            </div>
+
+			<div>
+		    <label>櫃位類別:</label>
+		    <select th:field="*{counterTypeVO.counterTypeNo}">
+		        <option th:each="counterTypeVO : ${counterTypeListData}" 
+		                th:value="${counterTypeVO.counterTypeNo}" 
+		                th:text="${counterTypeVO.counterTName}" />
+		    </select>
+		    <span th:if="${#fields.hasErrors('counterTypeVO.counterTypeNo')}" 
+		          th:errors="*{counterTypeVO.counterTypeNo}" 
+		          class="error" 
+		          id="counterTypeVO.counterTypeNo.errors"></span>
+			</div>
+
+
+            <div>
+                <label>櫃位資訊介紹:</label>
+                <textarea th:field="*{counterInform}"></textarea>
+                <span th:if="${#fields.hasErrors('counterInform')}" th:errors="*{counterInform}" class="error"></span>
+            </div>
+
+			<div>
+			    <label>櫃位圖片:</label>
+			    <input type="file" th:field="*{counterPic}" id="counterPic" accept="image/png, image/jpeg, image/gif" onchange="previewImage(this)" />
+			</div>
+			<!-- 圖片預覽區域 -->
+			<div id="blob_holder" style="margin-top: 10px;">
+			    <p>圖片預覽將顯示於此</p>
+			</div>
+
+
+            <div>
+                <button type="submit">送出新增</button>
+            </div>
+        </form>
+    </div>
+
+
+<!-- JavaScript part -->
+<script type="text/javascript">
+//清除提示信息
+function hideContent(d) {
+     document.getElementById(d).style.display = "none";
+}
+
+document.querySelector("form").addEventListener("submit", function (e) {
+    const password = document.getElementById("counterPassword").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+    const passwordError = document.getElementById("passwordError");
+
+    // 清空錯誤訊息
+    passwordError.textContent = "";
+
+    // 驗證密碼是否一致
+    if (password !== confirmPassword) {
+        e.preventDefault(); // 阻止表單提交
+        passwordError.textContent = "密碼與確認密碼不一致！";
+    }
+});
+
+//照片上傳 - 預覽功能
+function previewImage(input) {
+    const file = input.files[0];
+    const acceptedTypes = ["image/png", "image/jpeg", "image/gif"];
+    const blobHolder = document.getElementById("blob_holder");
+
+    // 清空之前的預覽內容
+    blobHolder.innerHTML = "";
+
+    // 檢查檔案是否有效
+    if (file && acceptedTypes.includes(file.type)) {
+        const reader = new FileReader();
+        reader.onload = function (event) {
+            const image = new Image();
+            image.src = event.target.result;
+            image.style.width = "100px";
+            image.style.height = "75px";
+            image.style.border = "2px solid #ccc";
+            image.alt = "圖片預覽";
+            blobHolder.appendChild(image);
+        };
+        reader.readAsDataURL(file);
+    } else {
+        blobHolder.innerHTML = `<div style="color: red;">無效的檔案格式！請上傳 PNG、JPEG 或 GIF 格式的圖片。</div>`;
+    }
+}
+</script>
+
+</body>
+</html>
