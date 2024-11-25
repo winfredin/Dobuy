@@ -40,7 +40,8 @@ public class GoodsVO implements java.io.Serializable {
     private byte[] gpPhotos8; // 商品副圖7(選填)
     private byte[] gpPhotos9; // 商品副圖8(選填)
     private byte[] gpPhotos10; // 商品副圖9(選填)
-    private Byte goodsStatus; // 商品狀態
+    private Byte goodsStatus; // 商品狀態 (0：下架  1：上架)
+    private Byte checkStatus; // 審核狀態 (0：審核中 1：通過 2：未通過)
     private Timestamp goodsDate; // 商品上架日期
     private Timestamp goodsEnddate; // 商品下架日期
 
@@ -124,7 +125,7 @@ public class GoodsVO implements java.io.Serializable {
     }
     @Lob
     @Column(name = "gpPhotos1")
-    @NotNull(message = "商品主圖(必填): 請勿空白")
+//    @NotNull(message = "商品主圖(必填): 請勿空白")
     public byte[] getGpPhotos1() {
         return this.gpPhotos1;
     }
@@ -216,13 +217,22 @@ public class GoodsVO implements java.io.Serializable {
 
     @Column(name = "goodsStatus")
     public Byte getGoodsStatus() {
-        return this.goodsStatus;
+    	return this.goodsStatus;
     }
-
+    
     public void setGoodsStatus(Byte goodsStatus) {
-        this.goodsStatus = goodsStatus;
+    	this.goodsStatus = goodsStatus;
     }
 
+    @Column(name = "checkStatus")
+    public Byte getCheckStatus() {
+    	return this.checkStatus;
+    }
+    
+    public void setCheckStatus(Byte checkStatus) {
+    	this.checkStatus = checkStatus;
+    }
+    
     @Column(name = "goodsDate")
 //    @NotNull(message = "商品上架日期: 請勿空白")
 //    @PastOrPresent(message="日期必須是在今日(含)之前")

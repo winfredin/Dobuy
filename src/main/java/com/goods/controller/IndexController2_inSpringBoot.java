@@ -61,6 +61,16 @@ public class IndexController2_inSpringBoot {
 	public String listAllGoods(Model model) {
 		return "vendor-end/goods/listAllGoods";
 	}
+	
+	@GetMapping("/goods/listAllCheckStatus")
+	public String listAllCheckStatus(Model model) {
+		return "vendor-end/goods/listAllCheckStatus";
+	}
+	
+	@GetMapping("/goods/listAllCounterGoods")
+	public String listAllCounterGoods(Model model) {
+		return "vendor-end/goods/listAllCounterGoods";
+	}
 
 	@ModelAttribute("goodsListData") // for select_page.html 第97 109行用 // for listAllEmp.html 第85行用
 	protected List<GoodsVO> referenceListData(Model model) {

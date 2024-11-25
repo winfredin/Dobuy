@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>所有商品資料 - listAllGoods.html</title>
+
+  <head th:insert="~{/vendor-end/goods/included-fragment}"></head>
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>                                    <!-- ●●js  for jquery -->
+  <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>              <!-- ●●js  for jquery datatables 用 -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css" /> <!-- ●●css for jquery datatables 用 -->
+
+  <!-- ●● jquery datatables 設定 -->
+  <script>
+    $(document).ready(function() {
+      $('#example').DataTable({
+        "lengthMenu": [3, 5, 10, 20, 50, 100],
+        "searching": true,  //搜尋功能, 預設是開啟
+        "paging": true,     //分頁功能, 預設是開啟
+        "ordering": true,   //排序功能, 預設是開啟
+        "language": {
+            "processing": "處理中...",
+            "loadingRecords": "載入中...",
+            "lengthMenu": "顯示 _MENU_ 筆結果",
+            "zeroRecords": "沒有符合的結果",
+            "info": "顯示第 _START_ 至 _END_ 筆結果，共<font color=red> _TOTAL_ </font>筆",
+            "infoEmpty": "顯示第 0 至 0 筆結果，共 0 筆",
+            "infoFiltered": "(從 _MAX_ 筆結果中過濾)",
+            "search": "搜尋:",
+            "paginate": {
+                "first": "第一頁",
+                "previous": "上一頁",
+                "next": "下一頁",
+                "last": "最後一頁"
+            },
+            "aria": {
+                "sortAscending":  ": 升冪排列",
+                "sortDescending": ": 降冪排列"
+            }
+        }
+      });
+    });
+  </script>
+
+  <style type="text/css">
+    body {
+      margin: 1rem 12rem 2rem 12rem;
+    }
+      .toggle-status-btn {
+    font-size: 14px;    /* 調整字型大小 */
+    padding: 5px 10px;  /* 調整按鈕內部邊距，控制按鈕的大小 */
+    border-radius: 5px; /* 邊框圓角，視覺上讓按鈕看起來更美觀 */
+    background-color: #5bc5ff;; /* 按鈕背景色 */
+    color: white;       /* 按鈕文字顏色 */
+    border: none;       /* 去掉邊框 */
+    cursor: pointer;    /* 滑鼠樣式變為手型 */
+    transition: background-color 0.3s ease; /* 增加過渡效果，讓按鈕顏色變化更流暢 */
+  }
+
+  .toggle-status-btn:hover {
+    background-color: #4141ff;  /* 當滑鼠懸停時改變背景色 */
+  }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
+    <div align="center">
+      <h2>櫃位商品管理 - listAllCounterGoods.html</h2>
+      <h3><a class="navbar-brand" th:href="@{/goods/select_page}"> 
+        <img th:src="@{/images/back1.gif}">回查詢頁
+        <label th:text="${success}"></label></a></h3>
+    </div>
+  </nav>
+
+  <table id="example" class="display" style="width: 100%">
+    <thead>
+      <tr style="background-color:#CCCCFF">
+        <th>計數</th>
+        <th>商品編號</th>
+        <th>商品類別編號</th>
+        <th>櫃位編號</th>
+        <th>商品名稱</th>
+        <th>商品敘述</th>
+        <th>商品單價</th>
+        <th>商品庫存</th>
+        <th>商品狀態</th>
+        <th>審核狀態</th>
+        <th>商品照片</th>
+        <th>修改</th>
+        <th>上下架</th>
+      </tr>
+    </thead>
+    <tbody>
+      <th:block th:each="goodsVO : ${goodsListData}">
+        <tr>
+          <td th:text="${goodsVOStat.count}"></td>
+          <td th:text="${goodsVO.goodsNo}"></td>
+          <td th:text="${goodsVO.goodstNo}"></td>
+          <td th:text="${goodsVO.counterNo}"></td>
+          <td th:text="${goodsVO.goodsName}"></td>
+          <td th:text="${goodsVO.goodsDescription}"></td>
+          <td th:text="${goodsVO.goodsPrice}"></td>
+          <td th:text="${goodsVO.goodsAmount}"></td>
+          <td th:text="${goodsVO.goodsStatus == 0 ? '下架' : '上架'}"></td>
+          <td th:text="${goodsVO.checkStatus == 0 ? '審核中' : (goodsVO.checkStatus == 1 ? '通過' : '未通過')}"></td>
+          <td>
+            <img th:src="@{/goods/DBGifReader} + '?goodsNo=' + ${goodsVO.goodsNo}" width="100px">
+          </td>
+          <td>
+            <form method="post" th:action="@{/goods/getOne_For_Update}" style="margin-bottom: 0px;">
+              <input type="submit" value="修改">
+              <input type="hidden" name="goodsNo" th:value="${goodsVO.goodsNo}">
+            </form>
+          </td>
+			<td>
+			  <!-- 僅在審核通過 (checkStatus == 1) 時顯示上下架按鈕 -->
+			  <th:block th:if="${goodsVO.checkStatus == 1}">
+			    <button class="toggle-status-btn" 
+			            th:data-goods-no="${goodsVO.goodsNo}" 
+			            th:data-status="${goodsVO.goodsStatus}">
+			      <span th:text="${goodsVO.goodsStatus == 0 ? '商品上架' : '商品下架'}"></span>
+			    </button>
+			  </th:block>
+			</td>
+        </tr>
+      </th:block>
+    </tbody>
+  </table>
+
+  <script>
+  $(".toggle-status-btn").click(function(event) {
+	  // 防止頁面跳轉
+	  event.preventDefault();
+
+	  var button = $(this);
+	  var goodsNo = parseInt(button.data("goods-no"));  // 轉換為數字
+	  var currentStatus = button.data("status");
+	  var newStatus = currentStatus === 0 ? 1 : 0;
+
+	  // 發送 AJAX 請求更新商品狀態
+	  $.ajax({
+	    url: "/goods/updateGoodsStatus",  // 伺服器端的 URL
+	    method: "POST",
+	    data: {
+	      goodsNo: goodsNo,  // 確保這是數字型態
+	      goodsStatus: newStatus
+	    },
+	    success: function(response) {
+	      // 根據返回的結果更新按鈕文本
+	      button.data("status", newStatus);
+	      button.find("span").text(newStatus === 0 ? "商品上架" : "商品下架");
+
+	      // 同步更新商品狀態的顯示文字
+	      var statusCell = button.closest('tr').find('td:nth-child(9)'); // 第9欄是商品狀態
+	      statusCell.text(newStatus === 0 ? '下架' : '上架');
+	      
+	      alert("商品狀態已更新！");
+	    },
+	    error: function(xhr, status, error) {
+	      alert("發生錯誤，請稍後再試！");
+	    }
+	  });
+	});
+
+
+  </script>
+
+</body>
+</html>

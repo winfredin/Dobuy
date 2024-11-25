@@ -70,6 +70,8 @@
 	<div class="a">
 	  <ul>
 		<li><h5><a href='listAllGoods'>List</a> all Goods. <br><br></h5></li>
+		<li><h5><a href='listAllCheckStatus'>List</a> all 商品審核. <br><br></h5></li>
+		<li><h5><a href='listAllCounterGoods'>List</a> all 櫃位商品管理. <br><br></h5></li>
 
 		<li>
 			<form method="post" th:action="@{getOne_For_Display}">
@@ -118,8 +120,15 @@
 
 		        商品狀態: 
 		        <select name="goodsStatus">
-		            <option value="0">未上架</option>
-		            <option value="1">已上架</option>
+		            <option value="0">下架</option>
+		            <option value="1">上架</option>
+		        </select><br>
+		        
+		        審核狀態: 
+		        <select name="checkStatus">
+		            <option value="0">審核中</option>
+		            <option value="1">通過</option>
+		            <option value="2">未通過</option>
 		        </select><br>
 
 <!-- 		        商品上架日期: -->

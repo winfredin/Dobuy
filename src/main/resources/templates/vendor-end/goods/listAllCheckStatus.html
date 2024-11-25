@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>所有商品資料 - listAllGoods.html</title>
+<title>商品審核 - listAllCheckStatus.html</title>
 
 <head th:insert="~{/vendor-end/goods/included-fragment}"></head>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>                                    <!-- ●●js  for jquery datatables 用 -->
@@ -51,7 +51,7 @@ body {
 
 <nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
 	<div align="center">
-		<h2>所有商品資料 - listAllGoods.html</h2>
+		<h2>商品審核 - listAllCheckStatus.html</h2>
 		<h3><a class="navbar-brand" th:href="@{/goods/select_page}">
 			<img th:src="@{/images/back1.gif}">回查詢頁
 			<label th:text="${success}"></label></a></h3>
@@ -74,13 +74,13 @@ body {
 <!-- 		<th>上架日期</th> -->
 <!-- 		<th>下架日期</th> -->
 		<th>商品照片</th>
-		<th>修改</th>
-		<th>刪除</th>
+		<th>審核</th>
 	</tr>
   </thead>
   <tbody>
+	<!-- 加入條件過濾，只顯示 checkStatus == 0 (審核中) 的商品 -->
 	<th:block th:each="goodsVO : ${goodsListData}">
-		<tr>
+		<tr th:if="${goodsVO.checkStatus == 0}"> <!-- 只顯示 checkStatus 為 0 的商品 -->
 			<td th:text="${goodsVOStat.count}"></td>
 			<td th:text="${goodsVO.goodsNo}"></td>
 			<td th:text="${goodsVO.goodstNo}"></td>
@@ -97,15 +97,16 @@ body {
 				<img th:src="@{/goods/DBGifReader} + '?goodsNo=' + ${goodsVO.goodsNo}" width="100px">
 			</td>
 			<td>
-				<form method="post" th:action="@{/goods/getOne_For_Update}" style="margin-bottom: 0px;">
-					<input type="submit" value="修改">
-					<input type="hidden" name="goodsNo" th:value="${goodsVO.goodsNo}">
+				<!-- 審核狀態表單 -->
+				<form method="post" th:action="@{/goods/updateCheckStatus}" style="margin-bottom: 0px;">
+				    <input type="submit" value="通過">
+				    <input type="hidden" name="goodsNo" th:value="${goodsVO.goodsNo}">
+				    <input type="hidden" name="checkStatus" value="1"> <!-- 1 表示通過 -->
 				</form>
-			</td>
-			<td>
-				<form method="post" th:action="@{/goods/delete}" style="margin-bottom: 0px;">
-					<input type="submit" value="刪除">
-					<input type="hidden" name="goodsNo" th:value="${goodsVO.goodsNo}">
+				<form method="post" th:action="@{/goods/updateCheckStatus}" style="margin-bottom: 0px;">
+				    <input type="submit" value="未通過">
+				    <input type="hidden" name="goodsNo" th:value="${goodsVO.goodsNo}">
+				    <input type="hidden" name="checkStatus" value="2"> <!-- 2 表示未通過 -->
 				</form>
 			</td>
 		</tr>
