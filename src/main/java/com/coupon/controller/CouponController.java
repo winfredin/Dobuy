@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -120,4 +121,23 @@ public class CouponController {
         model.addAttribute("couponListData", list);
         return "vendor-end/coupon/listAllCoupon";
     }
+    
+    @PostMapping("/approve")
+    public String approveCoupon(@RequestParam("couponNo") int couponNo, RedirectAttributes redirectAttributes) {
+        boolean isApproved = couponSvc.approveCoupon(couponNo);
+        if (isApproved) {
+            redirectAttributes.addFlashAttribute("message", "審核成功！");
+        } else {
+            redirectAttributes.addFlashAttribute("message", "審核失敗！");
+        }
+        return "redirect:/back-end/coupon/couponcheck"; // 審核完成後重定向到優惠券列表頁
+    }
+    
+    
+    
+    
+    
+    
+    
+    
 }
