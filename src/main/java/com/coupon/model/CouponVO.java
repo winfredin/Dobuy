@@ -69,7 +69,7 @@ public class CouponVO implements java.io.Serializable {
     @Column(name = "couponStart")
     @NotNull(message = "優惠券起始日: 請勿空白")
     @PastOrPresent(message = "優惠券起始日: 必須是過去或現在的時間")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     public Date getCouponStart() {
         return this.couponStart;
     }
@@ -81,7 +81,7 @@ public class CouponVO implements java.io.Serializable {
     @Column(name = "couponEnd")
     @NotNull(message = "優惠券到期日: 請勿空白")
     @Future(message = "優惠券到期日: 必須是未來的時間")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     public Date getCouponEnd() {
         return this.couponEnd;
     }

@@ -53,4 +53,13 @@ public class CouponService {
     public List<CouponVO> getAll(Map<String, String[]> map) {
         return HibernateUtil_CompositeQuery_Coupon.getAllC(map, sessionFactory.openSession());
     }
+    
+    @Transactional
+    public boolean approveCoupon(int couponNo) {
+        int updatedRows = repository.updateCheckStatusByCouponNo(1, couponNo); // 1 表示已審核
+        return updatedRows > 0; // 返回是否更新成功
+    }
+    
+    
+    
 }
