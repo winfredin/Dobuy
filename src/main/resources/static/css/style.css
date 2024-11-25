@@ -1454,3 +1454,95 @@ img {
 
 
 /* ===============輪播圖樣式============= */
+
+/* ===============Header area============= */
+.header-area{
+	position: sticky; /* 固定在頂部 */
+	top: 0;
+	background-color: rgb(240, 207, 165); /* 背景色統一 */
+	z-index: 50; /* 確保頂部層級 */
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 添加輕微陰影 */
+}
+/* ===============Header area============= */
+
+/* ===============Header 搜尋============= */
+.custom-container {
+    height: 80px; /* 固定高度 */
+    border-bottom: none; /* 移除子元素的底部分隔線 */
+    display: flex;
+    align-items: center;
+    z-index: 10; /* 層級處於父容器之下 */
+    box-shadow: none; /* 移除額外的陰影 */
+}
+
+.left-text {
+    font-size: 16px; /* 文字大小 */
+    margin-right: auto; /* 將左側文字推到最左邊 */
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* 控制搜尋框和按鈕之間的間距 */
+    margin-left: auto; /* 將搜尋框推到最右邊 */
+    width: 40%; /* 搜尋框占容器的寬度（可根據需求調整） */
+}
+
+.search-bar input {
+    flex: 1; /* 搜尋框占據剩餘空間 */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+}
+
+.search-bar button {
+    padding: 8px 15px;
+    border: none;
+    background-color: #007bff; /* 按鈕顏色 */
+    color: white;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+}
+
+.search-bar button:hover {
+    background-color: #0056b3; /* 懸停時的按鈕顏色 */
+}
+
+/* ===============Header 搜尋============= */
+
+/* ===============Header 登入============= */
+.top-container {
+    height: 30px; /* 固定高度 */
+    border-bottom: none; /* 移除底部分隔線 */
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* 左右內容分佈 */
+    padding: 0 15px; /* 控制左右內邊距 */
+    box-shadow: none; /* 移除陰影，統一交給父容器控制 */
+}
+
+.top-container .left-text {
+    display: flex; /* 使用 Flexbox 讓項目水平排列 */
+    gap: 20px; /* 控制項目之間的間距 */
+}
+
+.top-container .right-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* 控制按鈕間距 */
+}
+
+/* 登入/註冊連結樣式 */
+.top-container .login-link {
+    text-decoration: none; /* 移除下劃線 */
+    color: inherit; /* 繼承父元素的文字顏色 */
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.top-container .login-link:hover {
+    color: #007bff; /* 懸停時改變文字顏色 */
+}
+
+/* ===============Header 登入============= */

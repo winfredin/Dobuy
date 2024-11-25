@@ -39,30 +39,71 @@
 	<!-- ##### Header Area Start ##### -->
 	<header class="header-area">
 
-		<!-- Logo Area -->
-		<div class="logo-area text-center">
-			<div class="container h-100">
-				<div class="row h-100 align-items-center">
-					<!-- 左侧图片或文字 -->
-					<div class="col-4 text-right">
-						<img src="img/pic/01.png" alt="Left Image"
-							style="width: 400px; height: 100px;">
-					</div>
-					<!-- 中间的 logo -->
-					<div class="col-4 text-center">
-						<a href="#" class="original-logo"><img
-							src="img/core-img/logo-noback.png" alt="Logo"
-							style="max-width: 100px;"></a>
-					</div>
-					<!-- 右侧图片或文字 -->
-					<div class="col-4 text-left">
-						<img src="img/pic/01.png" alt="Right Image"
-							style="width: 400px; height: 100px;">
-					</div>
+		<!-- 登入container -->
+		<div class="top-container">
+			<div
+				class="container h-30 d-flex justify-content-between align-items-center">
+				<!-- 左邊的文字 -->
+				<div class="left-text">
+					<a href="#" class="nav-link">首頁</a> <a href="#" class="nav-link">聯絡我們</a>
+				</div>
+
+				<!-- 右邊按鈕 -->
+				<div class="right-actions">
+					<a href="#" class="login-link">註冊</a> <span class="divider">|</span>
+					<a href="#" class="login-link">登入</a>
 				</div>
 			</div>
 		</div>
+
+		<!-- 搜尋container -->
+		<div class="custom-container">
+			<div
+				class="container h-80 d-flex justify-content-between align-items-center">
+				<!-- 左邊的文字 -->
+				<div class="left-text">
+					<p class="m-0">DO BUY</p>
+				</div>
+				<!-- 搜尋框 -->
+				<div class="search-bar">
+					<input type="text" class="form-control" placeholder="搜尋您感興趣的內容">
+					<button class="btn btn-primary">
+						<i class="fas fa-search"></i>
+						<!-- 搜尋圖標 -->
+					</button>
+					<a href="#" class="cart-icon"> 
+					<i class="fas fa-shopping-cart"></i>
+						<!-- 購物車圖標 -->
+					</a>
+				</div>
+			</div>
+		</div>
+
 	</header>
+
+	<!-- Logo Area -->
+	<div class="logo-area text-center">
+		<div class="container h-100">
+			<div class="row h-100 align-items-center">
+				<!-- 左侧图片或文字 -->
+				<div class="col-4 text-right">
+					<img src="img/pic/01.png" alt="Left Image"
+						style="width: 400px; height: 100px;">
+				</div>
+				<!-- 中间的 logo -->
+				<div class="col-4 text-center">
+					<a href="#" class="original-logo"><img
+						src="img/core-img/logo-noback.png" alt="Logo"
+						style="max-width: 100px;"></a>
+				</div>
+				<!-- 右侧图片或文字 -->
+				<div class="col-4 text-left">
+					<img src="img/pic/01.png" alt="Right Image"
+						style="width: 400px; height: 100px;">
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- 看板加優惠券-->
 	<div class="blog-wrapper section-padding-100 clearfix"
@@ -161,9 +202,9 @@
 								<div class="single-blog-content">
 									<div class="line"></div>
 									<div class="product-img-container">
-<!-- 										<img -->
-<!-- 											th:src="'data:image/png;base64,' + ${product.base64Image}" -->
-<!-- 											th:alt="${goodsVO.goodsNo}"> -->
+										<!-- 										<img -->
+										<!-- 											th:src="'data:image/png;base64,' + ${product.base64Image}" -->
+										<!-- 											th:alt="${goodsVO.goodsNo}"> -->
 									</div>
 									<div class="product-detail">
 										<p>
@@ -176,9 +217,9 @@
 											庫存：<span th:text="${goodsVO.goodsAmount}"></span>
 										</p>
 									</div>
-<!-- 									<p> -->
-<!-- 										評價：<span th:text="${goodsVO.star}"></span> -->
-<!-- 									</p> -->
+									<!-- 									<p> -->
+									<!-- 										評價：<span th:text="${goodsVO.star}"></span> -->
+									<!-- 									</p> -->
 								</div>
 							</div>
 						</div>
