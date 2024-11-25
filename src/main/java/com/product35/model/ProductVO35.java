@@ -1,4 +1,4 @@
-package com.product.model;
+package com.product35.model;
 
 import java.util.Base64;
 
@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Table(name = "product")
-public class ProductVO {
+public class ProductVO35 {
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // 自動生成主鍵

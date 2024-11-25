@@ -156,7 +156,7 @@
 					<div class="col-12 col-md-9 ">
 						<div class="row align-items-end" id="productContainer">
 							<!-- 使用 Thymeleaf 渲染商品数据 -->
-							<div th:each="product : ${products}"
+							<div th:each="goodsVO : ${goodsVO}"
 								class="col-12 col-md-4 product-item">
 								<div class="single-blog-content">
 									<div class="line"></div>
@@ -167,18 +167,18 @@
 									</div>
 									<div class="product-detail">
 										<p>
-											<strong th:text="${product.name}"></strong>
+											<strong th:text="${goodsVO.goodsName}"></strong>
 										</p>
 										<p>
-											價格：<span th:text="${product.price}"></span>
+											價格：<span th:text="${goodsVO.goodsPrice}"></span>
 										</p>
 										<p>
-											已售出：<span th:text="${product.sold}"></span>
+											庫存：<span th:text="${goodsVO.goodsAmount}"></span>
 										</p>
 									</div>
-									<p>
-										評價：<span th:text="${product.star}"></span>
-									</p>
+<!-- 									<p> -->
+<!-- 										評價：<span th:text="${goodsVO.star}"></span> -->
+<!-- 									</p> -->
 								</div>
 							</div>
 						</div>

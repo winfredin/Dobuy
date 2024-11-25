@@ -1,4 +1,4 @@
-package com.product.controller;
+package com.product35.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,21 +16,21 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.countercarousel.model.CountercarouselService;
 import com.countercarousel.model.CountercarouselVO;
-import com.product.model.ProductRepository;
-import com.product.model.ProductVO;
+import com.product35.model.ProductRepository35;
+import com.product35.model.ProductVO35;
 
 @Controller
 @RequestMapping("/product")
-public class ProductController {
+public class ProductController35 {
 	@Autowired
-	ProductRepository productRepository;
+	ProductRepository35 productRepository;
 	
 	@Autowired
 	CountercarouselService carouselSvc;
 
 	// 處理表單提交
 	@PostMapping("insert")
-	public String insert(@ModelAttribute ProductVO productVO) {
+	public String insert(@ModelAttribute ProductVO35 productVO) {
 		try {
 			MultipartFile file = productVO.getUpFiles();
 			productVO.setImg(file.getBytes()); // 將字節數據存儲到持久化字段
@@ -41,18 +41,18 @@ public class ProductController {
 			e.printStackTrace();
 			return "error";
 		}
-		return "/back-end-product/addSuccess"; // 保存後跳轉到 getAll 頁面
+		return "/vendor-end/front-end-product/addSuccess"; // 保存後跳轉到 getAll 頁面
 	}
 
 	// 顯示圖片列表
 	@GetMapping("all")
 	public String getAllImages(ModelMap model) {
-		List<ProductVO> productList = productRepository.findAll();
-		for (ProductVO i : productList) {
+		List<ProductVO35> productList = productRepository.findAll();
+		for (ProductVO35 i : productList) {
 			i.convertToBase64();
 		}
 		model.addAttribute("productList", productList);
-		return "/back-end-product/AllProduct"; // 返回模板 getAll.html
+		return "/vendor-end/front-end-product/AllProduct"; // 返回模板 getAll.html
 	}
 
 //	// 提供所有商品資料的 API
@@ -68,8 +68,8 @@ public class ProductController {
 
 	@GetMapping("/product")
 	public String getProducts(Model model) {
-	    List<ProductVO> productList = productRepository.findAll();
-	    for (ProductVO product : productList) {
+	    List<ProductVO35> productList = productRepository.findAll();
+	    for (ProductVO35 product : productList) {
 //	    	product.setImg(Base64.getEncoder().encodeToString(product.getImg()))   ; // 转换图片数据
 	    	product.convertToBase64(); // 转换图片数据
 	    }
@@ -79,7 +79,7 @@ public class ProductController {
 	    }
 	    model.addAttribute("products", productList); // 一次性传递所有商品数据
 	    model.addAttribute("carouselImages", carouselImages); // 一次性传递所有商品数据	    
-	    return "/back-end-product/product"; // 返回 Thymeleaf 模板名
+	    return "/vendor-end/front-end-product/product"; // 返回 Thymeleaf 模板名
 	}
 
 
