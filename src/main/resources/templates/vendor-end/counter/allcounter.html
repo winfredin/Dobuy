@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>櫃位管理</title>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>                                    <!-- ●●js  for jquery datatables 用 -->
+<script	src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>              <!-- ●●js  for jquery datatables 用 -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css" /> <!-- ●●css for jquery datatables 用 -->
+
+<!-- ●● jquery datatables 設定 -->
+<script>
+	$(document).ready(function() {
+		$('#example').DataTable({
+			"lengthMenu": [ 10, 20, 50, 100],
+			"searching": true,  //搜尋功能, 預設是開啟
+		    "paging": true,     //分頁功能, 預設是開啟
+		    "ordering": true,   //排序功能, 預設是開啟
+		    "language": {
+		        "processing": "處理中...",
+		        "loadingRecords": "載入中...",
+		        "lengthMenu": "顯示 _MENU_ 筆結果",
+		        "zeroRecords": "沒有符合的結果",
+		        "info": "顯示第 _START_ 至 _END_ 筆結果，共<font color=red> _TOTAL_ </font>筆",
+		        "infoEmpty": "顯示第 0 至 0 筆結果，共 0 筆",
+		        "infoFiltered": "(從 _MAX_ 筆結果中過濾)",
+		        "infoPostFix": "",
+		        "search": "搜尋:",
+		        "paginate": {
+		            "first": "第一頁",
+		            "previous": "上一頁",
+		            "next": "下一頁",
+		            "last": "最後一頁"
+		        },
+		        "aria": {
+		            "sortAscending":  ": 升冪排列",
+		            "sortDescending": ": 降冪排列"
+		        }
+		    }
+		});
+	});
+</script>
+
+</head>
+<body>
+
+
+
+<table id="example" class="display" style="width: 100%">
+  <thead>
+    <tr style="background-color:#CCCCFF">
+
+      <th>櫃位編號</th>
+      <th>櫃位名稱</th>
+      <th>櫃位管理者姓名</th>
+      <th>櫃位帳號</th>
+      <th>櫃位密碼</th>
+      <th>櫃位地址</th>
+      <th>櫃位電話</th>
+      <th>管理者身分證字號</th>
+      <th>櫃位電子信箱</th>
+      <th>統一編號</th>
+      <th>櫃位類別</th>
+      <th>櫃位資訊介紹</th>
+      <th>櫃位商標圖片</th>
+      <th>櫃位狀態</th>
+      <th>修改</th>
+    </tr>
+  </thead>
+  
+  <tbody>
+    <!-- 假設你使用的是 Thymeleaf，並且 CounterVO 以 counterListData 存在 -->
+    <th:block th:each="counterVO : ${counterListData}">
+      <tr>
+
+        <td th:text="${counterVO.counterNo}"></td> <!-- 櫃位統一編號 -->
+        <td th:text="${counterVO.counterCName}"></td> <!-- 櫃位名稱 -->
+        <td th:text="${counterVO.counterName}"></td> <!-- 櫃位管理者姓名 -->
+        <td th:text="${counterVO.counterAccount}"></td> <!-- 櫃位帳號 -->
+        <td th:text="${counterVO.counterPassword}"></td> <!-- 櫃位密碼 -->
+        <td th:text="${counterVO.counterAddress}"></td> <!-- 櫃位地址 -->
+        <td th:text="${counterVO.counterPhone}"></td> <!-- 櫃位電話 -->
+        <td th:text="${counterVO.counterUid}"></td> <!-- 管理者身分證字號 -->
+        <td th:text="${counterVO.counterEmail}"></td> <!-- 櫃位電子信箱 -->
+        <td th:text="${counterVO.counterUbn}"></td> <!-- 櫃位統一編號 -->
+        <td th:text="${counterVO.counterTypeVO.counterTName}"></td> <!-- 櫃位類別編號 -->
+        <td th:text="${counterVO.counterInform}"></td> <!-- 櫃位資訊介紹 -->
+        <td>
+          <img th:src="@{/counter/DBGifReader} + '?counterNo=' + ${counterVO.counterNo}" width="100px">
+        </td>
+        <td>
+		  <span th:if="${counterVO.counterStatus == 0}">停權</span>
+		  <span th:if="${counterVO.counterStatus == 1}">審核中</span>
+		  <span th:if="${counterVO.counterStatus == 2}">正常</span>
+		</td><!-- 櫃位狀態 -->
+        <td>
+          <form method="post" th:action="@{/counter/getOne_For_Update}" style="margin-bottom: 0px;">
+            <input type="submit" value="修改">
+            <input type="hidden" name="counterNo" th:value="${counterVO.counterNo}">
+          </form>
+        </td>
+      </tr>
+    </th:block>
+  </tbody>
+</table>
+
+</body>
+</html>
