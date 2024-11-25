@@ -285,35 +285,36 @@ CREATE TABLE Goods (
     gpPhotos8 LONGBLOB,                     		-- 商品副圖7(選填)
     gpPhotos9 LONGBLOB,                     		-- 商品副圖8(選填)
     gpPhotos10 LONGBLOB,                     		-- 商品副圖9(選填)
-    goodsStatus TINYINT NOT NULL,                   -- 商品狀態 (0: 未上架, 1: 已上架)
+    goodsStatus TINYINT ,                   		-- 商品狀態 (0：下架、 1：上架)
+    checkStatus TINYINT ,                   		-- 審核狀態 (0：審核中、 1：通過、 2：未通過)
     goodsDate DATETIME,                  			-- 商品上架日期
     goodsEnddate DATETIME                  			-- 商品下架日期
 );
 
 -- 插入 20 筆假資料
 INSERT INTO Goods (
-    goodsNo, goodstNo, counterNo, goodsName, goodsDescription, goodsPrice, goodsAmount, gpPhotos1,gpPhotos2,gpPhotos3,gpPhotos4,gpPhotos5,gpPhotos6,gpPhotos7,gpPhotos8,gpPhotos9,gpPhotos10, goodsStatus, goodsDate, goodsEnddate
+    goodsNo, goodstNo, counterNo, goodsName, goodsDescription, goodsPrice, goodsAmount, gpPhotos1,gpPhotos2,gpPhotos3,gpPhotos4,gpPhotos5,gpPhotos6,gpPhotos7,gpPhotos8,gpPhotos9,gpPhotos10, goodsStatus, checkStatus, goodsDate, goodsEnddate
 ) VALUES
-(1, 3, 4, '經典手錶', '精緻的手錶，適合各種場合佩戴，永不過時的設計', 4500, 100, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0,NULL,NULL),
-(2, 3, 4, '真皮皮包', '高品質真皮皮包，設計簡約大方，適合日常及正式場合', 2999, 50, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0,NULL,NULL),
-(3, 3, 4, '奢華香水', '淡雅香氣，讓你散發迷人魅力，適合各種場合', 1599, 200, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, NULL,NULL),
-(4, 3, 4, '高端絲巾', '手工製作的真絲圍巾，觸感柔滑，完美搭配高端服裝', 1299, 150, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0,NULL,NULL),
-(5, 3, 4, '奢華珠寶項鍊', '閃耀光芒的純銀項鍊，精緻設計，優雅迷人', 8999, 75, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0,NULL,NULL),
-(6, 3, 4, '高級皮帶', '高品質牛皮，精緻工藝，完美配搭各類服飾', 1999, 120, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, NULL,NULL),
-(7, 3, 4, '名牌太陽眼鏡', '時尚與功能兼具的太陽眼鏡，保護眼睛同時彰顯品味', 3500, 30, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, NULL,NULL),
-(8, 3, 4, '高級皮革手套', '冬季必備，保暖又時尚，選用上等皮革製作', 1800, 20, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, NULL,NULL),
-(9, 3, 4, '奢華鑽石戒指', '獨特設計，精緻的鑽石戒指，適合作為紀念日或求婚禮物', 29999, 15, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, NULL,NULL),
-(10, 3, 4, '高端手工皮鞋', '手工製作，舒適且耐穿，適合正式場合或日常穿搭', 7999, 200, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, NULL,NULL),
-(11, 3, 4, '奢華手錶', '經典的奢華手錶，搭配精緻工藝，無論正式場合或休閒時光都能展現非凡品味', 8000, 90, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, NULL,NULL),
-(12, 3, 3, '經典皮包', '高質感真皮皮包，簡約卻不失高雅，適合多種場合使用', 3200, 120, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, NULL,NULL),
-(13, 8, 3, '奢華香水禮盒', '香氛典雅，內含多款人氣香水，讓你散發不同魅力', 4800, 50, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, NULL,NULL),
-(14, 3, 4, '純絲絲巾', '精緻的真絲圍巾，柔滑的觸感，讓你在寒冬中保持時尚與溫暖', 1800, 180, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, NULL,NULL),
-(15, 3, 4, '鑽石項鍊', '閃耀的純金鑽石項鍊，帶來高貴華麗的視覺效果，適合作為珍貴的禮物', 22000, 30, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, NULL,NULL),
-(16, 3, 4, '皮革雙肩背包', '高端牛皮雙肩包，設計簡約大方，既能裝載日常物品又充滿時尚感', 4200, 80, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, NULL,NULL),
-(17, 6, 2, '高檔手工鞋', '手工製作的舒適皮鞋，適合正式場合或商務場合穿搭', 7200, 60, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, NULL,NULL),
-(18, 3, 3, '時尚太陽眼鏡', '高端品牌的太陽眼鏡，設計前衛，保護眼睛的同時展現個人品味', 3500, 150, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, NULL,NULL),
-(19, 9, 8, '奢華鑽石戒指', '獨特設計的鑽石戒指，融合了極致的工藝與奢華的品味，適合作為訂婚或結婚的象徵', 35000, 25, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, NULL,NULL),
-(20, 2, 2, '經典皮鞋', '經典設計的真皮皮鞋，舒適且耐穿，適合各種場合穿搭', 5200, 130, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, NULL,NULL);
+(1, 3, 4, '經典手錶', '精緻的手錶，適合各種場合佩戴，永不過時的設計', 4500, 100, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(2, 3, 4, '真皮皮包', '高品質真皮皮包，設計簡約大方，適合日常及正式場合', 2999, 50, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(3, 3, 4, '奢華香水', '淡雅香氣，讓你散發迷人魅力，適合各種場合', 1599, 200, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(4, 3, 4, '高端絲巾', '手工製作的真絲圍巾，觸感柔滑，完美搭配高端服裝', 1299, 150, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(5, 3, 4, '奢華珠寶項鍊', '閃耀光芒的純銀項鍊，精緻設計，優雅迷人', 8999, 75, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(6, 3, 4, '高級皮帶', '高品質牛皮，精緻工藝，完美配搭各類服飾', 1999, 120, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(7, 3, 4, '名牌太陽眼鏡', '時尚與功能兼具的太陽眼鏡，保護眼睛同時彰顯品味', 3500, 30, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(8, 3, 4, '高級皮革手套', '冬季必備，保暖又時尚，選用上等皮革製作', 1800, 20, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(9, 3, 4, '奢華鑽石戒指', '獨特設計，精緻的鑽石戒指，適合作為紀念日或求婚禮物', 29999, 15, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0, NULL,NULL),
+(10, 3, 4, '高端手工皮鞋', '手工製作，舒適且耐穿，適合正式場合或日常穿搭', 7999, 200, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(11, 3, 4, '奢華手錶', '經典的奢華手錶，搭配精緻工藝，無論正式場合或休閒時光都能展現非凡品味', 8000, 90, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(12, 3, 3, '經典皮包', '高質感真皮皮包，簡約卻不失高雅，適合多種場合使用', 3200, 120, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(13, 8, 3, '奢華香水禮盒', '香氛典雅，內含多款人氣香水，讓你散發不同魅力', 4800, 50, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(14, 3, 4, '純絲絲巾', '精緻的真絲圍巾，柔滑的觸感，讓你在寒冬中保持時尚與溫暖', 1800, 180, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(15, 3, 4, '鑽石項鍊', '閃耀的純金鑽石項鍊，帶來高貴華麗的視覺效果，適合作為珍貴的禮物', 22000, 30, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(16, 3, 4, '皮革雙肩背包', '高端牛皮雙肩包，設計簡約大方，既能裝載日常物品又充滿時尚感', 4200, 80, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(17, 6, 2, '高檔手工鞋', '手工製作的舒適皮鞋，適合正式場合或商務場合穿搭', 7200, 60, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(18, 3, 3, '時尚太陽眼鏡', '高端品牌的太陽眼鏡，設計前衛，保護眼睛的同時展現個人品味', 3500, 150, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(19, 9, 8, '奢華鑽石戒指', '獨特設計的鑽石戒指，融合了極致的工藝與奢華的品味，適合作為訂婚或結婚的象徵', 35000, 25, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(20, 2, 2, '經典皮鞋', '經典設計的真皮皮鞋，舒適且耐穿，適合各種場合穿搭', 5200, 130, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL);
 
 -- 商品類別
 CREATE TABLE GoodsType (
