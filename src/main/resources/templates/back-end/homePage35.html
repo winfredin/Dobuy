@@ -16,9 +16,9 @@
 	
 	<ul>
 		<li>
-    	<form method="post" th:action="@{/goods/getOne_For_Display35}" th:object="${goodsVO}">
+    	<form method="get" th:action="@{/goods/getOne_For_Display35}">
 	        輸入櫃位編號:
-	        <input type="text" name="counterNo" placeholder="請輸入櫃位編號" th:field="*{counterNo}"/>
+	        <input type="text" name="counterNo" placeholder="請輸入櫃位編號"/>
 	        <input type="submit" value="送出">
     	</form>
    		<br>
