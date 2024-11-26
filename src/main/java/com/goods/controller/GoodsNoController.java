@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -103,5 +104,12 @@ public class GoodsNoController {
         model.addAttribute("goodsVO", goodsVO);
 //        model.addAttribute("getOne_For_Display", "true"); // Flag for displaying specific data
         return "/vendor-end/front-end-product/product"; // 返回 Thymeleaf 模板名
+    }
+    
+    @PostMapping("getAll35") //  11/26
+    public String getAll35(ModelMap model) {
+    	List<GoodsVO> goodsVO = goodsSvc.getAll();
+    	model.addAttribute("goodsVO", goodsVO);
+    	return "/vendor-end/front-end-product/product";
     }
 }

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登入成功</title>
+    <script>
+        // 当页面加载时触发
+        window.onload = function() {
+            // 显示 alert 提示
+            alert("登入成功！");
+            // 找到表单
+            const form = document.getElementById("redirectForm");
+            
+            // 提交表单
+            form.submit();
+        };
+    </script>
+</head>
+<body>
+	 <form id="redirectForm" method="post" th:action="@{/goods/getAll35}" th:object="${goodsVO}">
+        <!-- 表单内容 -->
+        <input type="hidden" name="hiddenField" value="someValue" />
+    </form>
+</body>
+</html>
