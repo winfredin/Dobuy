@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>優惠券明細資料 - listOneCouponDetail.html</title>
+
+<head th:insert="~{/vendor-end/coupondetail/included-fragment}"></head>
+<style type="text/css">
+    span {
+        display: inline-block;
+        width: 150px;
+        text-align: left;
+        font-weight: bold;
+    }
+</style>
+</head>
+<body>
+
+<table>
+    <thead>
+        <tr>
+            <th>優惠券編號</th>
+            <th>商品編號</th>
+            <th>建立時間</th>
+            <th>更新時間</th>
+            <th>優惠條件</th>
+            <th>折扣率</th>
+        </tr>
+    </thead>
+    <tbody>
+        <th:block th:each="detail : ${couponDetails}">
+            <tr>
+                <td th:text="${detail.couponNo}"></td>
+                <td th:text="${detail.goodsNo}"></td>
+                <td th:text="${#dates.format(detail.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td th:text="${#dates.format(detail.updatedAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td th:text="${detail.counterContext}"></td>
+                <td th:text="${detail.disRate}"></td>
+            </tr>
+        </th:block>
+    </tbody>
+</table>
+
+</body>
+</html>

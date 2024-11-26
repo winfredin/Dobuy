@@ -54,6 +54,7 @@ public class CouponService {
         return HibernateUtil_CompositeQuery_Coupon.getAllC(map, sessionFactory.openSession());
     }
     
+    //審核優惠券
     @Transactional
     public boolean approveCoupon(int couponNo) {
         int updatedRows = repository.updateCheckStatusByCouponNo(1, couponNo); // 1 表示已審核

@@ -1,6 +1,7 @@
 package com.coupon.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -58,7 +61,8 @@ public class CouponController {
         List<CouponVO> list = couponSvc.getAll();
         model.addAttribute("couponListData", list);
         model.addAttribute("success", "- (新增成功)");
-        return "redirect:/coupon/listAllCoupon";
+//        return "redirect:/coupon/listAllCoupon";
+        return "vendor-end/coupon/listAllCoupon";
     }
 
     /*
@@ -130,13 +134,29 @@ public class CouponController {
         } else {
             redirectAttributes.addFlashAttribute("message", "審核失敗！");
         }
-        return "redirect:/back-end/coupon/couponcheck"; // 審核完成後重定向到優惠券列表頁
+        return "redirect:/couponcheck"; // 審核完成後重定向到優惠券列表頁
     }
     
+//    靜態資源無法載入
+//    @PostMapping("/approve")
+//    public String approveCoupon(@RequestParam("couponNo") int couponNo, Model model) {
+//        boolean isApproved = couponSvc.approveCoupon(couponNo);
+//        if (isApproved) {
+//            model.addAttribute("message", "審核成功！");
+//        } else {
+//            model.addAttribute("message", "審核失敗！");
+//        }
+//        // 直接返回對應的頁面名稱
+//        return "back-end/coupon/couponcheck"; // 假設這是優惠券審核結果頁面
+//    }
     
-    
-    
-    
+//成功訊息顯示在URL
+//    @PostMapping("/approve")
+//    public void approveCoupon(@RequestParam("couponNo") int couponNo, HttpServletResponse response) throws IOException {
+//        boolean isApproved = couponSvc.approveCoupon(couponNo);
+//        String message = isApproved ? "審核成功！" : "審核失敗！";
+//        response.sendRedirect("/couponcheck?message=" + URLEncoder.encode(message, "UTF-8"));
+//    }
     
     
     
