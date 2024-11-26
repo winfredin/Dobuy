@@ -1,106 +1,144 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- fragment引入 -->
+<th:block th:replace="~{/back-end/back-end-home/fraghead :: head}"></th:block>
+
+
+
 <title>所有優惠券資料 - listAllCoupon.html</title>
 
-<head th:insert="~{/vendor-end/coupon/included-fragment}"></head>
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>                                    <!-- ●●js  for jquery datatables 用 -->
-<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>              <!-- ●●js  for jquery datatables 用 -->
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css" /> <!-- ●●css for jquery datatables 用 -->
 
-<!-- ●● jquery datatables 設定 -->
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+<script
+	src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css" />
+
+
+
 <script>
-	$(document).ready(function() {
-		$('#example').DataTable({
-			"lengthMenu": [5, 10, 20, 50, 100],
-			"searching": true,  //搜尋功能, 預設是開啟
-		    "paging": true,     //分頁功能, 預設是開啟
-		    "ordering": true,   //排序功能, 預設是開啟
-		    "language": {
-		        "processing": "處理中...",
-		        "loadingRecords": "載入中...",
-		        "lengthMenu": "顯示 _MENU_ 筆結果",
-		        "zeroRecords": "沒有符合的結果",
-		        "info": "顯示第 _START_ 至 _END_ 筆結果，共<font color=red> _TOTAL_ </font>筆",
-		        "infoEmpty": "顯示第 0 至 0 筆結果，共 0 筆",
-		        "infoFiltered": "(從 _MAX_ 筆結果中過濾)",
-		        "infoPostFix": "",
-		        "search": "搜尋:",
-		        "paginate": {
-		            "first": "第一頁",
-		            "previous": "上一頁",
-		            "next": "下一頁",
-		            "last": "最後一頁"
-		        },
-		        "aria": {
-		            "sortAscending":  ": 升冪排列",
-		            "sortDescending": ": 降冪排列"
-		        }
-		    }
+	var dataTablesJQ = $.noConflict(true); // 使用獨立的 jQuery 實例
+	dataTablesJQ(document).ready(function() {
+		dataTablesJQ('#example').DataTable({
+			"lengthMenu" : [ 5, 10, 20, 50, 100 ],
+			"searching" : true,
+			"paging" : true,
+			"ordering" : true,
+			"language" : {
+				"processing" : "處理中...",
+				"loadingRecords" : "載入中...",
+				"lengthMenu" : "顯示 _MENU_ 筆結果",
+				"zeroRecords" : "沒有符合的結果",
+				"info" : "顯示第 _START_ 至 _END_ 筆結果，共 _TOTAL_ 筆",
+				"infoEmpty" : "顯示第 0 至 0 筆結果，共 0 筆",
+				"infoFiltered" : "(從 _MAX_ 筆結果中過濾)",
+				"search" : "搜尋:",
+				"paginate" : {
+					"first" : "第一頁",
+					"previous" : "上一頁",
+					"next" : "下一頁",
+					"last" : "最後一頁"
+				},
+				"aria" : {
+					"sortAscending" : ": 升冪排列",
+					"sortDescending" : ": 降冪排列"
+				}
+			}
 		});
 	});
 </script>
+
+
+
 <style type="text/css">
-body {
-	margin: 1rem 12rem 2rem 12rem;
+.container49 {
+	padding: 1rem 12rem 2rem 12rem;
 }
 </style>
+
 </head>
 <body>
+	<!-- fragment引入 -->
+	<header th:block
+		th:replace="~{back-end/back-end-home/fraghead :: header}"></header>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
-		 <div align="center"> <h2>所有優惠券資料 - listAllCoupon.html</h2>
-		 <h3><a class="navbar-brand" th:href="@{/coupon/select_page}"><img th:src="@{/images/back1.gif}">回查詢頁<label th:text="${success}"></label></a></h3></div>
-</nav>
+	<div class="container49">
 
-<table id="example" class="display" style="width: 100%">
-  <thead>
-	<tr style="background-color:#CCCCFF">
-		<th>計數</th>
-		<th>優惠券編號</th>
-		<th>櫃位編號</th>
-		<th>優惠券名稱</th>
-		<th>優惠券內容</th>
-		<th>起始日期</th>
-		<th>到期日期</th>
-		<th>狀態</th>
-		<th>領取次數</th>
-		<th>審核狀態</th>
-		<th>修改</th>
-		<th>刪除</th>
-	</tr>
-  </thead>
-	
-  <tbody>
-		<th:block th:each="couponVO : ${couponListData}">
-			<tr>
-				<td th:text="${couponVOStat.count}"></td>
-				<td th:text="${couponVO.couponNo}"></td>
-				<td th:text="${couponVO.counterNo}"></td>
-				<td th:text="${couponVO.couponTitle}"></td>
-				<td th:text="${couponVO.couponContext}"></td>
-				<td th:text="${#dates.format(couponVO.couponStart, 'yyyy-MM-dd')}"></td>
-				<td th:text="${#dates.format(couponVO.couponEnd, 'yyyy-MM-dd')}"></td>
-				<td th:text="${couponVO.couponStatus == 0 ? '未開放' : (couponVO.couponStatus == 1 ? '時效內' : '過期')}"></td>
-				<td th:text="${couponVO.usageLimit}"></td>
-				<td th:text="${couponVO.checkStatus == 0 ? '未審核' : '已審核'}"></td>
-				<td>
-				  <form method="post" th:action="@{/coupon/getOne_For_Update}" style="margin-bottom: 0px;">
-				     <input type="submit" value="修改">
-				     <input type="hidden" name="couponNo" th:value="${couponVO.couponNo}"></form>			
-				</td>
-				<td>
-				  <form method="post" th:action="@{/coupon/delete}" style="margin-bottom: 0px;">
-				     <input type="submit" value="刪除">
-				     <input type="hidden" name="couponNo" th:value="${couponVO.couponNo}"></form>
-				
-				</td>
-			</tr>
-		</th:block>
-  </tbody>
-</table>
+		<table id="example" class="display" style="width: 100%">
+			<thead>
+				<tr style="background-color: #CCCCFF">
+					<th>計數</th>
+					<th>優惠券編號</th>
+					<th>櫃位編號</th>
+					<th>優惠券名稱</th>
+					<th>優惠券內容</th>
+					<th>起始日期</th>
+					<th>到期日期</th>
+					<th>狀態</th>
+					<th>領取次數</th>
+					<th>審核狀態</th>
+					<th>明細詳情</th>
+					<th>修改</th>
+					<th>刪除</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<th:block th:each="couponVO : ${couponListData}">
+					<tr>
+						<td th:text="${couponVOStat.count}"></td>
+						<td th:text="${couponVO.couponNo}"></td>
+						<td th:text="${couponVO.counterNo}"></td>
+						<td th:text="${couponVO.couponTitle}"></td>
+						<td th:text="${couponVO.couponContext}"></td>
+						<td th:text="${#dates.format(couponVO.couponStart, 'yyyy-MM-dd')}"></td>
+						<td th:text="${#dates.format(couponVO.couponEnd, 'yyyy-MM-dd')}"></td>
+						<td	th:text="${couponVO.couponStatus == 0 ? '未開放' : (couponVO.couponStatus == 1 ? '時效內' : '過期')}"></td>
+						<td th:text="${couponVO.usageLimit}"></td>
+						<td th:text="${couponVO.checkStatus == 0 ? '未審核' : '已審核'}"></td>
+
+						<td>
+							<form method="get" th:action="@{/coupondetail/listByCouponNo}">
+								<input type="hidden" name="couponNo" th:value="${couponVO.couponNo}">
+								<button type="submit">明細</button>
+							</form>
+						</td>
+
+						<td>
+							<form method="post" th:action="@{/coupon/getOne_For_Update}"
+								style="margin-bottom: 0px;">
+								<input type="submit" value="修改"> <input type="hidden"
+									name="couponNo" th:value="${couponVO.couponNo}">
+							</form>
+						</td>
+						<td>
+							<form method="post" th:action="@{/coupon/delete}"
+								style="margin-bottom: 0px;">
+								<input type="submit" value="刪除"> <input type="hidden"
+									name="couponNo" th:value="${couponVO.couponNo}">
+							</form>
+
+						</td>
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+	</div>
+
+	<script>
+		console.log('DataTables 使用的 jQuery 版本:', dataTablesJQ.fn.jquery); // 應為 3.5.1
+	</script>
+
+	<!-- fragment引入 -->
+	<footer th:block
+		th:replace="~{back-end/back-end-home/fraghead :: footer}"></footer>
+
+
+	<th:block th:replace="~{back-end/back-end-home/fraghead :: js}"></th:block>
+
+
 
 </body>
 </html>

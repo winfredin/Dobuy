@@ -17,4 +17,8 @@ public interface CouponDetailRepository extends JpaRepository<CouponDetailVO, In
     // 自定义条件查询
     @Query(value = "FROM CouponDetailVO WHERE couponNo = ?1 AND goodsNo = ?2 AND disRate = ?3 ORDER BY couponDetailNo")
     List<CouponDetailVO> findByOthers(int couponNo, int goodsNo, double disRate);
+
+    // **新增方法：根據優惠券編號查詢優惠券明細**
+    List<CouponDetailVO> findByCouponNo(Integer couponNo);
+
 }

@@ -47,4 +47,9 @@ public class CouponDetailService {
     public List<CouponDetailVO> getAll(Map<String, String[]> map) {
         return HibernateUtil_CompositeQuery_CouponDetail.getAllC(map, sessionFactory.openSession());
     }
+    
+    // **新增方法：根據優惠券編號查詢優惠券明細**
+    public List<CouponDetailVO> getByCouponNo(Integer couponNo) {
+        return repository.findByCouponNo(couponNo); // 調用 Repository 層的查詢方法
+    }
 }
