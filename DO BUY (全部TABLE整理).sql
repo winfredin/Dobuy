@@ -318,23 +318,23 @@ INSERT INTO Goods (
 
 -- 商品類別
 CREATE TABLE GoodsType (
-    goodstNo INT NOT NULL PRIMARY KEY,          -- 商品類別編號，主鍵
-    goodstName VARCHAR(255) NOT NULL            -- 類別名稱
+    goodstNo INT NOT NULL PRIMARY KEY AUTO_INCREMENT,  	-- 商品類別編號，主鍵
+    goodstName VARCHAR(255) NOT NULL            		-- 類別名稱
 );
 
 -- 插入假資料
 INSERT INTO GoodsType (goodstNo, goodstName) 
 VALUES 
-	(1, '珠寶'),
-    (2, '健康與美容'), 
-    (3, '電子產品'),
-    (4 , '家具'),
-    (5, '服飾'),
-    (6, '運動器材'), 
-    (7, '玩具'), 
-    (8, '書籍') ,
-    (9, '雜貨'),
-    (10, '食品');
+(1, '女士包包'),
+(2, '女士服裝'), 
+(3, '女士鞋'),
+(4, '女士配件'),
+(5, '男士包包'),
+(6, '男士服裝'), 
+(7, '男士鞋'),
+(8, '男士配件'),
+(9, '美妝保養'),
+(10, '家居與科技');
    
 
 -- 商品照片
