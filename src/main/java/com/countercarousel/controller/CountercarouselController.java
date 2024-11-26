@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,7 +24,13 @@ public class CountercarouselController {
 
 	@Autowired
 	CountercarouselRepository countercarouselRepository;
-
+	
+	@GetMapping("/add")
+	public String showRegisterPage(Model model) {
+		model.addAttribute("countercarouselVO", new CountercarouselVO());
+		return "vendor-end/front-end-carousel/addCarousel";
+	}
+	
 	@PostMapping("insert")
 	public String insert(@ModelAttribute CountercarouselVO countercarouselVO) {
 		try {
@@ -36,7 +43,7 @@ public class CountercarouselController {
 			e.printStackTrace();
 			return "error";
 		}
-		return "/back-end-product/addSuccess";
+		return "vendor-end/front-end-carousel/addSuccess";
 	}
 
 	// 顯示圖片列表

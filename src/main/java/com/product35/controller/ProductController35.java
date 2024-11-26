@@ -73,7 +73,7 @@ public class ProductController35 {
 //	    	product.setImg(Base64.getEncoder().encodeToString(product.getImg()))   ; // 转换图片数据
 	    	product.convertToBase64(); // 转换图片数据
 	    }
-	    List<CountercarouselVO> carouselImages = carouselSvc.getPic();
+	    List<CountercarouselVO> carouselImages = carouselSvc.getPic(1);
 	    for(CountercarouselVO img : carouselImages) {
 	    	img.convertToBase64();
 	    }

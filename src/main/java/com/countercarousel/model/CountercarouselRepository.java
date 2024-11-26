@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CountercarouselRepository extends JpaRepository<CountercarouselVO, Integer>{
-	@Query(value = "SELECT * FROM countercarousel ORDER BY carouselTime desc LIMIT 3", nativeQuery = true)
-	List<CountercarouselVO> findNewest3();
+	@Query(value = "SELECT * FROM countercarousel where counterNo = ?1 ORDER BY carouselTime desc LIMIT 3", nativeQuery = true)
+	List<CountercarouselVO> findNewest3(Integer counterNo);
 
 }

@@ -11,9 +11,9 @@ public class CountercarouselService {
 	CountercarouselRepository countercarouselRepository;
 	
 	
-	public List<CountercarouselVO> getPic(){
+	public List<CountercarouselVO> getPic(Integer counterNo){
 		
-		return countercarouselRepository.findNewest3();
+		return countercarouselRepository.findNewest3(counterNo);
 		
 	}
 }

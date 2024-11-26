@@ -694,11 +694,11 @@ CREATE TABLE ManagerAuth (
 CREATE TABLE CounterCarousel (
     counterCarouselNo INT NOT NULL AUTO_INCREMENT PRIMARY KEY,  -- 輪播資訊編號
     counterNo INT NOT NULL,                                     -- 櫃位編號 FK
-    carouselTime DateTime NOT NUll,                             -- 輪播時間
-    carouselPic LongBlob NUll,                                  -- 輪播圖片
+    carouselTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,  -- 上傳時間，默認為新增時的當前時間
+    carouselPic LONGBLOB NULL,                                  -- 輪播圖片
     goodsNo INT NOT NULL                                        -- 商品編號 FK
-   --  FOREIGN KEY (counterNo) REFERENCES Counter(counterNo)      -- 櫃位輪播資訊外來鍵
-   --  FOREIGN KEY (goodsNo) REFERENCES Goods(goodsNo)      -- 櫃位輪播資訊外來鍵
+    -- FOREIGN KEY (counterNo) REFERENCES Counter(counterNo)      -- 櫃位輪播資訊外來鍵
+    -- FOREIGN KEY (goodsNo) REFERENCES Goods(goodsNo)           -- 商品外來鍵
 );
 
 CREATE TABLE CounterChat (

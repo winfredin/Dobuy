@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.countercarousel.model.CountercarouselService;
+import com.countercarousel.model.CountercarouselVO;
 import com.goods.model.GoodsService;
 import com.goods.model.GoodsVO;
 
@@ -33,6 +35,9 @@ public class GoodsNoController {
 
     @Autowired
     GoodsService goodsSvc;
+    
+    @Autowired
+	CountercarouselService carouselSvc;
 
     /*
      * This method will be called on select_page.html form submission, handling POST request
@@ -85,6 +90,11 @@ public class GoodsNoController {
     public String getOne_For_Display35(
         @RequestParam("counterNo") String counterNo, ModelMap model) {
         List<GoodsVO> goodsVO = goodsSvc.getOneCounter35(Integer.valueOf(counterNo));
+        List<CountercarouselVO> carouselImages = carouselSvc.getPic(Integer.valueOf(counterNo));// 抓輪播圖圖片(依櫃位編號)
+        for(CountercarouselVO img:carouselImages) {
+        	img.convertToBase64();
+        }
+        model.addAttribute("carouselImages", carouselImages);
         model.addAttribute("goodsVO", goodsVO);
         return "/vendor-end/front-end-product/product"; // 返回 Thymeleaf 模板名
     }
