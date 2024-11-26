@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Register</title>
+	<style>
+    .error {
+        color: red;
+/*         background-color: black; */
+        padding: 5px; /* 可选，用于增加一些间距 */
+        border-radius: 3px; /* 可选，增加圆角效果 */
+    }
+	</style>
+	
+
+</head>
+<body>
+	<h3>會員註冊</h3>
+	
+	<div th:if="${errorMsgs}">
+    <!-- 遍历错误信息并显示 -->
+    	<ul>
+       		<li th:each="errorMsg : ${errorMsgs}" th:text="${errorMsg}" class="error"></li>
+    	</ul>
+	</div>
+	 
+	<form th:action="@{/mem/insert}" method="post" th:object="${memberVO}">
+    <label for="memAccount">會員帳號:</label>
+    <input type="text" id="memAccount" th:field="*{memAccount}" />
+    <span  th:if="${#fields.hasErrors('memAccount')}" th:errors="*{memAccount}" class="error" ></span>
+	<br><br>
+	
+    <label for="memPassword">會員密碼:</label>
+    <input type="password" id="memPassword" th:field="*{memPassword}" />
+	<span  th:if="${#fields.hasErrors('memPassword')}" th:errors="*{memPassword}" class="error" ></span>
+	<br><br>
+	
+	<label for="confirmPassword">確認密碼:</label>
+	<input type="password" id="confirmPassword" name="confirmPassword" />
+	<span  th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}" class="error" ></span>
+	<span th:if="${#fields.hasErrors('passwordConfirmed')}" th:errors="*{passwordConfirmed}" class="error"></span>
+	<br><br>
+	
+    <label for="memName">姓名:</label>
+    <input type="text" id="memName" th:field="*{memName}" />
+    <span  th:if="${#fields.hasErrors('memName')}" th:errors="*{memName}" class="error" ></span>
+	<br><br>
+	
+    <label for="memAddress">地址:</label>
+    <input type="text" id="memAddress" th:field="*{memAddress}" />
+	<br><br>
+	
+    <label for="memPhone">電話:</label>
+    <input type="text" id="memPhone" th:field="*{memPhone}" />
+	<br><br>
+	
+    <label for="memUID">身分證字號:</label>
+    <input type="text" id="memUID" th:field="*{memUID}" />
+	<br><br>
+	
+    <label for="memEmail">會員信箱:</label>
+    <input type="email" id="memEmail" th:field="*{memEmail}" />
+	<br><br>
+	
+    <label>性別:</label>
+    <input type="radio" id="male" name="memSex" th:field="*{memSex}" value="1" checked="checked" />
+    <label for="male">男</label>
+    <input type="radio" id="female" name="memSex" th:field="*{memSex}" value="0" />
+    <label for="female">女</label>
+	<br><br>
+	
+    <label for="memBirth">會員生日:</label>
+    <input type="date" id="memBirth" th:field="*{memBirth}" />
+	<br><br>
+
+    <label for="memPasswordHint">密碼提示問題:</label>
+    <input type="text" id="memPasswordHint" th:field="*{memPasswordHint}" />
+	<br><br>
+	
+    <label for="memPasswordHintAnswer">密碼提示答案:</label>
+    <input type="text" id="memPasswordHintAnswer" th:field="*{memPasswordHintAnswer}" />
+	<br><br>
+
+    <button type="submit">提交</button>
+</form>
+
+</body>
+</html>

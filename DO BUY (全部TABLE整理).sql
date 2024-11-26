@@ -619,8 +619,8 @@ CREATE TABLE Member (
     memSex TINYINT,                                        -- 會員性別 (0: 未知, 1: 男, 2: 女)
     memBirth DATETIME,                                     -- 會員生日
     memStatus TINYINT DEFAULT 1,                           -- 會員狀態 (0: 停用, 1: 啟用)
-    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,          -- 建立時間
-    updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- 更新時間
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,          -- 建立時間
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- 更新時間
     memPasswordHint VARCHAR(100),                          -- 密碼提示問題
     memPasswordHintAnswer VARCHAR(100),                    -- 密碼提示答案
     memPasswordChangedAt DATETIME,                         -- 密碼修改時間

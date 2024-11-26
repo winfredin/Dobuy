@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>會員登入</title>
+    <style>
+    .error {
+        color: red;
+    }
+	</style>
+    
+</head>
+<body>
+    <h1>會員登入</h1>
+    
+    <div th:if="${errorMsgs}">
+    <!-- 遍历错误信息并显示 -->
+    	<ul>
+       		<li th:each="errorMsg : ${errorMsgs}" th:text="${errorMsg}" class="error"></li>
+    	</ul>
+	</div>
+
+
+    <!-- 使用 Thymeleaf 的路径动态生成 -->
+    <form th:action="@{/mem/loginCheck}" method="post" th:object="${memberVO}">
+        <label for="memAccount">會員帳號:</label>
+        <input type="text" id="memAccount" th:field="*{memAccount}" />
+        <span  th:if="${#fields.hasErrors('memAccount')}" th:errors="*{memAccount}" class="error" ></span>
+        <br><br>
+
+        <label for="memPassword">會員密碼:</label>
+        <input type="password" id="memPassword" th:field="*{memPassword}" />
+        <span  th:if="${#fields.hasErrors('memPassword')}" th:errors="*{memPassword}" class="error" ></span>
+        <br><br>
+
+        <button type="submit">登入</button>
+        
+
+        <!-- 註冊鏈接 -->
+        <a th:href="@{/front-end/member/register}">註冊</a>
+        <br><br>
+
+        <!-- 忘記密碼鏈接 -->
+        <a th:href="@{/front-end/member/reserch}">忘記密碼</a>
+    </form>
+</body>
+</html>
