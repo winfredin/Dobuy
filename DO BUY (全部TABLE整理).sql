@@ -295,26 +295,26 @@ CREATE TABLE Goods (
 INSERT INTO Goods (
     goodsNo, goodstNo, counterNo, goodsName, goodsDescription, goodsPrice, goodsAmount, gpPhotos1,gpPhotos2,gpPhotos3,gpPhotos4,gpPhotos5,gpPhotos6,gpPhotos7,gpPhotos8,gpPhotos9,gpPhotos10, goodsStatus, checkStatus, goodsDate, goodsEnddate
 ) VALUES
-(1, 3, 4, '路易威登 LOUIS VUITTON Double Zip Pochette Reverse 帆布 多夾層手拿 斜背包 M69203 防塵袋/背帶', '這款Double Zip Pochette完美融合經典Monogram和時尚Monogram Giant Reverse帆布，設計巧妙，擁有可拆式和可調節長度的皮革肩帶，可根據需求靈活變換多種攜帶方式。手袋兩側配有拉鏈口袋，方便隨身物品的分類收納，其中一個口袋還設有三個卡片夾層，中間隔層則方便存放票據等物品。', 32800, 100, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
-(2, 3, 4, '路易威登 LOUIS VUITTON Cabas Rivington 托特包 N41108 棋盤格托特', '這款 Cabas Rivington 採用經典 Damier 帆布製成，是日常時尚的完美詮釋。內部空間寬敞，可容納 A4 文件，搭配柔美的皮革手柄與亮眼的金色黃銅金屬件，為這款多功能購物袋增添迷人魅力。', 31800, 50, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
-(3, 3, 4, 'KIMHEKIM｜NEO-MALEVICH V領撞色腰帶洋裝', 'KIMHĒKIM 2022年 OBSESSION Nº4 ‘Hair Chronicles’秋冬系列商品。經典商品NEO-MALEVICH再進化，款式經典的撞色領口及排釦設計搭配中長版剪裁，本季在腰間加入撞色的腰帶拼接凸顯腰部線條，增添穿搭設計感。', 24400, 200, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
-(4, 3, 4, 'KIMHEKIM｜VENUS 高腰開衩落地喇叭褲', 'KIMHĒKIM 2022年 OBSESSION Nº4 ‘Hair Chronicles’秋冬系列商品。此褲款採用透氣且保暖的羊毛面料，並有著高腰喇叭褲版型，散發復古氛圍。', 17800, 150, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
-(5, 3, 4, 'KIMHEKIM｜MONROE 蝴蝶結芭蕾平底鞋', '此鞋款靈感來自瑪麗蓮夢露優雅而別緻的美感， 精緻的高級訂製手工蝴蝶結緞帶是鞋子的特別之處。 夢露芭蕾平底鞋款式浪漫而獨特，非常適合約會時著用。', 19040, 75, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
-(6, 3, 4, 'KIMHEKIM｜LACE-UP 真皮繫帶厚底短靴', 'KIMHĒKIM 2024年秋冬 OBSESSION N°11 ‘Puzzle’系列商品。此款短靴採用100%牛皮製成，皮革表面光滑且富有光澤。鞋頭設計為圓形，前側配有細長繫帶，增加經典時尚感。', 26800, 120, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
-(7, 3, 4, '路易威登 LOUIS VUITTON Epi 手鍊紅繩 ', '商品如圖實品拍攝🎬 尺碼17cm 紅繩戴起來更加顯色 附：原廠盒、說明書 近全新（戴過兩次而已）', 9800, 30, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
-(8, 3, 4, '路易威登 LOUIS VUITTON 金頭 老花+黑 雙面用皮帶', 'LV M0353 Circle 金頭 老花+黑 雙面用皮帶(3.5公分寬) 70cm 188 尺寸 (公分) 70 cm(寬3.5公分)', 18800, 20, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
-(9, 3, 4, 'Valentino Garavani 范倫鐵諾-白色VLTN印花漸層彩虹英文字腰包/胸背包', '品牌編號:YB0719ULP 英國精品網站Farfetch網購 商品尺寸:厚度:4cm、高度:13cm、寬度23cm 面料:牛剖層革小牛皮+金屬 MADE IN ITALY', 15000, 15, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0, NULL,NULL),
-(10, 3, 4,'Valentino VLTN 塗鴉小牛皮 Candystud 包 白色', '這款 Candystud 包以 VLTN 塗鴉設計展現個性，搭配柔軟小牛皮材質和絎縫效果，風格鮮明。可調節肩帶和手柄設計，滿足多種場合需求，內置拉鍊口袋讓收納更有條理。', 53500, 200, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
-(11, 3, 4,'Valentino 運動衫', '採用拉絨棉質平紋針織布料，連帽配有抽繩、拉鍊、袋鼠口袋、羅紋邊緣，胸前飾有橡膠字母標誌。舒適貼合。模特兒身高 187 厘米，所穿尺寸為 L。', 22949, 90, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
-(12, 3, 3,'Valentino 圓領運動衫', '採用拉絨棉質平紋針織布料製成，飾有同色系凸起標誌字樣印花。羅紋邊緣，常規版型。模特兒身高 187 厘米，所穿尺寸為 L。', 19575, 120, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
-(13, 8, 3,'Valentino Garavani 木鞋', '採用光滑和半光皮革製成，側面飾有釕飾面的 VLogo 標誌性細節。絎縫錶帶搭配古董金屬扣環。光滑皮革襯裡，解剖學絨面革鞋墊，鞋跟上飾有徽標嵌件，橡膠鞋底。', 22949, 50, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
-(14, 3, 4,'Valentino Open For A Change 運動鞋', '* 顏色 : White, White * 質料 : 生物基材質、再生橡膠 * 尺寸/碼 : 41H * 設計師代碼 : YS0830PUD-0BO * Series : OPEN FOR A CHANGE SNEAKER', 16336, 180, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
-(15, 3, 4,'ARMANI手錶,編號AR00043', '編號AR00043,44mm綠金圓形精鋼錶殼,墨綠色中三針顯示, 運動, 水鬼錶面,金銀相間精鋼錶帶款', 17000, 30, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
-(16, 3, 4,'ARMANI手錶,編號AR00013', '編號AR00013,42mm墨綠色錶殼,深黑色錶帶款', 13100, 80, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
-(17, 6, 2, '雅詩蘭黛 Micro Essence 微分子肌底原生露', '雅詩蘭黛微分子肌底原生露，擁有全新保濕因子，打造最強柔嫩肌膚！使用獨創微酵科技，低溫封存99%活性益生菌，秒速吸收直達肌底，並添加光果甘草精萃與2D強效玻尿酸，退紅抗敏，由內而外鎖水保濕。', 8400, 60, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
-(18, 3, 3, '雅詩蘭黛 Revitalizing Supreme+ Moisturizer 年輕無敵膠原霜', '內含新三大配方激升10倍膠原力*，無敵緊緻Q彈*經科學實驗測試，奇蹟辣木、白芙蓉8大精萃與膠原協同激活科技三種配方相互作用下，相較於未使用之對照組，經96小時後幫助肌膚膠原協同作用達10倍', 4980, 150, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
-(19, 9, 8, 'Diptyque 聖日爾曼大道34號蠟燭', '這支Sanctuary Road 34號蠟燭，香氣濃郁，非常適合放在室內和室外空間。', 358, 25, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
-(20, 2, 2, 'Diptyque 青藤玫瑰多用香氛 200ml', '綠蔭玫瑰多用香氛是一款令人迷醉的香氛，帶來了土耳其玫瑰、常春藤、橙皮調、加蓬、天竺葵、麝香、木材和雪松等芬芳。', 99, 130, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL);
+(1, 1, 1, '路易威登 LOUIS VUITTON Double Zip Pochette Reverse 帆布 多夾層手拿 斜背包 M69203 防塵袋/背帶', '這款Double Zip Pochette完美融合經典Monogram和時尚Monogram Giant Reverse帆布，設計巧妙，擁有可拆式和可調節長度的皮革肩帶，可根據需求靈活變換多種攜帶方式。手袋兩側配有拉鏈口袋，方便隨身物品的分類收納，其中一個口袋還設有三個卡片夾層，中間隔層則方便存放票據等物品。', 32800, 100, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(2, 1, 1, '路易威登 LOUIS VUITTON Cabas Rivington 托特包 N41108 棋盤格托特', '這款 Cabas Rivington 採用經典 Damier 帆布製成，是日常時尚的完美詮釋。內部空間寬敞，可容納 A4 文件，搭配柔美的皮革手柄與亮眼的金色黃銅金屬件，為這款多功能購物袋增添迷人魅力。', 31800, 50, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(3, 2, 2, 'KIMHEKIM｜NEO-MALEVICH V領撞色腰帶洋裝', 'KIMHĒKIM 2022年 OBSESSION Nº4 ‘Hair Chronicles’秋冬系列商品。經典商品NEO-MALEVICH再進化，款式經典的撞色領口及排釦設計搭配中長版剪裁，本季在腰間加入撞色的腰帶拼接凸顯腰部線條，增添穿搭設計感。', 24400, 200, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(4, 2, 2, 'KIMHEKIM｜VENUS 高腰開衩落地喇叭褲', 'KIMHĒKIM 2022年 OBSESSION Nº4 ‘Hair Chronicles’秋冬系列商品。此褲款採用透氣且保暖的羊毛面料，並有著高腰喇叭褲版型，散發復古氛圍。', 17800, 150, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(5, 3, 2, 'KIMHEKIM｜MONROE 蝴蝶結芭蕾平底鞋', '此鞋款靈感來自瑪麗蓮夢露優雅而別緻的美感， 精緻的高級訂製手工蝴蝶結緞帶是鞋子的特別之處。 夢露芭蕾平底鞋款式浪漫而獨特，非常適合約會時著用。', 19040, 75, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(6, 3, 2, 'KIMHEKIM｜LACE-UP 真皮繫帶厚底短靴', 'KIMHĒKIM 2024年秋冬 OBSESSION N°11 ‘Puzzle’系列商品。此款短靴採用100%牛皮製成，皮革表面光滑且富有光澤。鞋頭設計為圓形，前側配有細長繫帶，增加經典時尚感。', 26800, 120, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(7, 4, 1, '路易威登 LOUIS VUITTON Epi 手鍊紅繩 ', '商品如圖實品拍攝🎬 尺碼17cm 紅繩戴起來更加顯色 附：原廠盒、說明書 近全新（戴過兩次而已）', 9800, 30, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(8, 4, 1, '路易威登 LOUIS VUITTON 金頭 老花+黑 雙面用皮帶', 'LV M0353 Circle 金頭 老花+黑 雙面用皮帶(3.5公分寬) 70cm 188 尺寸 (公分) 70 cm(寬3.5公分)', 18800, 20, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(9, 5, 3, 'Valentino Garavani 范倫鐵諾-白色VLTN印花漸層彩虹英文字腰包/胸背包', '品牌編號:YB0719ULP 英國精品網站Farfetch網購 商品尺寸:厚度:4cm、高度:13cm、寬度23cm 面料:牛剖層革小牛皮+金屬 MADE IN ITALY', 15000, 15, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0, NULL,NULL),
+(10, 5, 3,'Valentino VLTN 塗鴉小牛皮 Candystud 包 白色', '這款 Candystud 包以 VLTN 塗鴉設計展現個性，搭配柔軟小牛皮材質和絎縫效果，風格鮮明。可調節肩帶和手柄設計，滿足多種場合需求，內置拉鍊口袋讓收納更有條理。', 53500, 200, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(11, 6, 3,'Valentino 運動衫', '採用拉絨棉質平紋針織布料，連帽配有抽繩、拉鍊、袋鼠口袋、羅紋邊緣，胸前飾有橡膠字母標誌。舒適貼合。模特兒身高 187 厘米，所穿尺寸為 L。', 22949, 90, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(12, 6, 3,'Valentino 圓領運動衫', '採用拉絨棉質平紋針織布料製成，飾有同色系凸起標誌字樣印花。羅紋邊緣，常規版型。模特兒身高 187 厘米，所穿尺寸為 L。', 19575, 120, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(13, 7, 3,'Valentino Garavani 木鞋', '採用光滑和半光皮革製成，側面飾有釕飾面的 VLogo 標誌性細節。絎縫錶帶搭配古董金屬扣環。光滑皮革襯裡，解剖學絨面革鞋墊，鞋跟上飾有徽標嵌件，橡膠鞋底。', 22949, 50, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(14, 7, 3,'Valentino Open For A Change 運動鞋', '* 顏色 : White, White * 質料 : 生物基材質、再生橡膠 * 尺寸/碼 : 41H * 設計師代碼 : YS0830PUD-0BO * Series : OPEN FOR A CHANGE SNEAKER', 16336, 180, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(15, 8, 4,'ARMANI手錶,編號AR00043', '編號AR00043,44mm綠金圓形精鋼錶殼,墨綠色中三針顯示, 運動, 水鬼錶面,金銀相間精鋼錶帶款', 17000, 30, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(16, 8, 4,'ARMANI手錶,編號AR00013', '編號AR00013,42mm墨綠色錶殼,深黑色錶帶款', 13100, 80, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(17, 9, 5, '雅詩蘭黛 Micro Essence 微分子肌底原生露', '雅詩蘭黛微分子肌底原生露，擁有全新保濕因子，打造最強柔嫩肌膚！使用獨創微酵科技，低溫封存99%活性益生菌，秒速吸收直達肌底，並添加光果甘草精萃與2D強效玻尿酸，退紅抗敏，由內而外鎖水保濕。', 8400, 60, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(18, 9, 5, '雅詩蘭黛 Revitalizing Supreme+ Moisturizer 年輕無敵膠原霜', '內含新三大配方激升10倍膠原力*，無敵緊緻Q彈*經科學實驗測試，奇蹟辣木、白芙蓉8大精萃與膠原協同激活科技三種配方相互作用下，相較於未使用之對照組，經96小時後幫助肌膚膠原協同作用達10倍', 4980, 150, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(19, 10, 6, 'Diptyque 聖日爾曼大道34號蠟燭', '這支Sanctuary Road 34號蠟燭，香氣濃郁，非常適合放在室內和室外空間。', 358, 25, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(20, 10, 6, 'Diptyque 青藤玫瑰多用香氛 200ml', '綠蔭玫瑰多用香氛是一款令人迷醉的香氛，帶來了土耳其玫瑰、常春藤、橙皮調、加蓬、天竺葵、麝香、木材和雪松等芬芳。', 99, 130, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL);
 
 -- 商品類別
 CREATE TABLE GoodsType (
