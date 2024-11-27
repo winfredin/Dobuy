@@ -26,8 +26,8 @@
 	<div align="center" th:fragment="listOneGoods-div"> <!-- 此div被select_page.html insert用 -->
 		<h3><span>查詢結果 :</span></h3>
 		<span>商品編號:</span><span th:text="${goodsVO.goodsNo}"></span><br/>
-		<span>商品類別編號:</span><span th:text="${goodsVO.goodstNo}"></span><br/>
-		<span>櫃位編號:</span><span th:text="${goodsVO.counterNo}"></span><br/>
+		<span>商品類別名稱:</span><span th:text="${goodsVO.goodsTypeVO.goodstName}"></span><br/>
+		<span>櫃位名稱:</span><span th:text="${goodsVO.CounterVO.counterCName}"></span><br/>
 		<span>商品名稱:</span><span th:text="${goodsVO.goodsName}"></span><br/>
 		<span>商品敘述:</span><span th:text="${goodsVO.goodsDescription}"></span><br/>
 		<span>商品單價:</span><span th:text="${goodsVO.goodsPrice}"></span><br/>
