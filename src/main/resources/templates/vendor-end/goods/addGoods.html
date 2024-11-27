@@ -47,18 +47,22 @@
     <h3><b>所有欄位皆為必填欄位</b></h3>
     <form th:action="@{insert}" method="post" th:object="${goodsVO}" enctype="multipart/form-data">
 
-         <div>
-            <label>商品類別:</label>
-			<input type="number" th:field="*{goodstNo}" onclick="hideContent('goodstNo.errors');" /><br/>
-            <span th:if="${#fields.hasErrors('goodstNo')}" th:errors="*{goodstNo}" class="error" id="goodstNo.errors"></span>
-        </div>
-
 		<div>
-		    <label>櫃位編號:</label>
-   			<input type="number" th:field="*{counterNo}" onclick="hideContent('counterNo.errors');" /><br/>
-            <span th:if="${#fields.hasErrors('counterNo')}" th:errors="*{counterNo}" class="error" id="counterNo.errors"></span>
+			<label>商品類別名稱:</label>
+			<select th:field="*{goodsTypeVO.goodstNo}">
+				<option th:each="goodsTypeVO : ${goodsTypeListData}" th:value="${goodsTypeVO.goodstNo}" th:text="${goodsTypeVO.goodstName}" />
+			</select>
+			<span th:if="${#fields.hasErrors('goodsTypeVO.goodstNo')}" th:errors="*{goodsTypeVO.goodstNo}" class="error" id="goodsTypeVO.goodstNo.errors"></span>
 		</div>
 		
+		<div>
+			<label>櫃位名稱:</label>
+			<select th:field="*{counterVO.counterNo}">
+				<option th:each="counterVO : ${counterListData1}" th:value="${counterVO.counterNo}" th:text="${counterVO.counterCName}" />
+			</select>
+			<span th:if="${#fields.hasErrors('counterVO.counterNo')}" th:errors="*{counterVO.counterNo}" class="error" id="counterVO.counterNo.errors"></span>
+		</div>
+
         <div>
             <label>商品名稱:</label>
             <input type="text" th:field="*{goodsName}" onclick="hideContent('goodsName.errors');" /><br/>

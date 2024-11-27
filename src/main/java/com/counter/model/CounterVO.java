@@ -38,6 +38,7 @@ import javax.validation.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.counter.model.CounterVO.LoginGroup;
 import com.counterType.model.CounterTypeVO;
 
 
@@ -46,6 +47,8 @@ import com.counterType.model.CounterTypeVO;
 @Table(name = "COUNTER") // 對應資料表名稱
 public class CounterVO implements Serializable {
     private static final long serialVersionUID = 1L;
+    
+    public interface LoginGroup {}
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,7 +56,7 @@ public class CounterVO implements Serializable {
     private Integer counterNo; // 主鍵自增編號
 
     @Column(name = "COUNTERACCOUNT", nullable = false, unique = true)
-    @NotEmpty(message = "櫃位帳號: 請勿空白")
+    @NotEmpty(message = "櫃位帳號: 請勿空白" , groups = {LoginGroup.class})
     @Size(max = 20, message = "櫃位帳號: 長度不能超過20個字元")
     @Pattern(regexp = "^[a-zA-Z0-9]*$", message = "櫃位帳號: 只能包含英文和數字")
     private String counterAccount;
@@ -64,7 +67,7 @@ public class CounterVO implements Serializable {
     private String counterName;
 
     @Column(name = "COUNTERPASSWORD", nullable = false)
-    @NotEmpty(message = "櫃位密碼: 請勿空白")
+    @NotEmpty(message = "櫃位密碼: 請勿空白" , groups = {LoginGroup.class})
     @Size(max = 20, message = "櫃位密碼: 長度不能超過20個字元")
     @Pattern(regexp = "^[a-zA-Z0-9]*$", message = "櫃位密碼: 只能包含英文和數字")
     private String counterPassword;

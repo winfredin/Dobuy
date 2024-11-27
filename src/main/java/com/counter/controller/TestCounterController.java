@@ -1,4 +1,4 @@
-package com.counter.model;
+package com.counter.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
