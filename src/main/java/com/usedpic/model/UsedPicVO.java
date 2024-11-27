@@ -31,12 +31,12 @@ public class UsedPicVO implements Serializable  {
     @JoinColumn(name = "usedNo", referencedColumnName = "usedNo", nullable = false) // 外鍵關聯到 Used 表
     private UsedVO usedVO;
 
-//    @Lob // 表示二進位大資料
+    @Lob // 表示二進位大資料
     @Column(name = "usedPics", nullable = true,columnDefinition = "longblob") // 二手商品照片欄位
     private byte[] usedPics;
     
-    @Column(name = "usedPicName", nullable = true, length = 45) //二手商品照片檔名
-    @Pattern(regexp = "^[\\u4e00-\\u9fa5\\u3105-\\u312D\\u02B0-\\u02FFa-zA-Z0-9_\\-~`!，。、；;@#$%^&*()\\[\\]{};:'\",.<>/?|+=]{1,45}$", message = "圖片名稱: 只能是中、英文字母、數字和特殊符號 , 且長度必需在1到45之間")
+    @Column(name = "usedPicName", nullable = true, length = 30) //二手商品照片檔名
+    @Pattern(regexp = "^[\\u4e00-\\u9fffA-Za-z0-9\\s\\p{P}\\p{S}\\u3100-\\u312F\\u31A0-\\u31BF\\u3040-\\u309F\\u30A0-\\u30FF]{1,30}$", message = "圖片名稱: 只能是中、英、日文字母、數字和特殊符號 , 且長度最多30個字")
     private String usedPicName;
 
 

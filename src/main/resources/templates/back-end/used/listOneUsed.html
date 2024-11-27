@@ -59,22 +59,24 @@
 		
 			<tr>
 				
-				<td th:text="${usedVO.usedNo}"></td>
-				<td th:text="${usedVO.sellerNo}"></td>
-				<td th:text="${usedVO.usedName}"></td>
-				<td th:text="${usedVO.classNo}"></td>
-				<td th:text="${usedVO.usedPrice}"></td>
-				<td th:text="${usedVO.usedStocks}"></td>
-				<td th:if="${usedVO.usedPics == null or usedVO.usedPics.isEmpty()}">未上傳照片</td>
+				<td th:text="*{usedNo}"></td>
+				<td th:text="*{sellerNo}"></td>
+				<td th:text="*{usedName}"></td>
+				<td th:text="*{classNo}"></td>
+				<td th:text="*{usedPrice}"></td>
+				<td th:text="*{usedStocks}"></td>
+				
+<!-- 				<td th:if="${usedVO.usedPics == null or usedVO.usedPics.isEmpty()}">未上傳照片</td> -->
 
 				<td th:each="usedPicVO : ${usedVO.usedPics}">
 	            		<img th:src="@{/usedpic/DBGifReader} + '?usedPicNo=' + ${usedPicVO.usedPicNo}" width="100px" />
 	            		<span th:text="${usedPicVO.usedPicName}"></span>
 	      		</td>
-				<td th:text="${usedVO.usedProDesc}"></td>
+	      		
+				<td th:text="*{usedProDesc}"></td>
 				<td th:text="${#dates.format(usedVO.usedLaunchedTime, 'yyyy-MM-dd')}"></td>
 				<td th:text="${#dates.format(usedVO.soldTime, 'yyyy-MM-dd')}"></td>
-				<td th:text="${usedVO.usedState}"></td>
+				<td th:text="*{usedState}"></td>
 				
 				
 			<td>

@@ -37,27 +37,25 @@ public class UsedVO implements Serializable {
     @Column(name = "classNo", nullable = false) // 商品類別編號
     @NotNull(message="商品類別編號: 請勿空白")
     @Min(value = 1, message = "商品類別編號: 必須為數字")
-    @Max(value = 9999999999L, message = "商品類別編號: 長度不得超過 10 位數")
     private Integer classNo;
 
     @Column(name = "sellerNo", nullable = false) // 賣家會員編號
     @NotNull(message="賣家編號: 請勿空白")
     @Min(value = 1, message = "賣家編號: 必須為數字")
-    @Max(value = 9999999999L, message = "賣家編號: 長度不得超過 10 位數")
     private Integer sellerNo;
 
-    @Column(name = "usedName", nullable = false, length = 20) // 商品名稱
+    @Column(name = "usedName", nullable = false, length = 60) // 商品名稱
     @NotEmpty(message="商品名稱: 請勿空白")
-    @Pattern(regexp = "^[\\u4e00-\\u9fa5\\u3105-\\u312D\\u02B0-\\u02FFa-zA-Z0-9_\\-~`!，。、；;@#$%^&*()\\[\\]{};:'\",.<>/?|+=]{1,30}$", message = "商品名稱: 只能是中、英文字母、數字和特殊符號 , 且長度必需在1到20之間")
+    @Pattern(regexp = "^[\\u4e00-\\u9fffA-Za-z0-9\\s\\p{P}\\p{S}\\u3100-\\u312F\\u31A0-\\u31BF\\u3040-\\u309F\\u30A0-\\u30FF]{1,60}$", message = "商品名稱: 只能是中、英、日文字母、數字和特殊符號 , 且最大長度為60個字")
     private String usedName;
 
-    @Column(name = "usedProDesc", nullable = false, length = 255) // 商品描述
+    @Column(name = "usedProDesc", nullable = false, length = 200) // 商品描述
     @NotEmpty(message="商品描述: 請勿空白")
-    @Pattern(regexp = "^[\\u4e00-\\u9fa5\\u3105-\\u312D\\u02B0-\\u02FFa-zA-Z0-9_\\-~`!，。、；;@#$%^&*()\\[\\]{};:'\",.<>/?|+=]{1,200}$", message = "商品描述:只能是中、英文字母、數字和特殊符號 , 且 長度必需在1到250到之間")
+    @Pattern(regexp = "^[\\u4e00-\\u9fffA-Za-z0-9\\s\\p{P}\\p{S}\\u3100-\\u312F\\u31A0-\\u31BF\\u3040-\\u309F\\u30A0-\\u30FF]{1,200}$"
+    		, message = "商品描述:只能是中、英、日文字母、數字和特殊符號 , 且最大長度為200個字")
     private String usedProDesc;
 
     @Column(name = "usedNewness", nullable = false) // 商品新舊程度
-    @NotNull(message="商品新舊程度: 請勿空白")
     private Integer usedNewness;
 
     @Column(name = "usedPrice", nullable = false) // 商品單價

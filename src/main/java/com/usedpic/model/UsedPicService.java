@@ -1,5 +1,6 @@
 package com.usedpic.model;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,9 @@ public class UsedPicService {
 	public UsedPicVO findUsedPic(Integer usedPicNo) {
 		Optional<UsedPicVO> optional =repository.findById(usedPicNo);
 		return optional.orElse(null);
-		
+	}
+	public List<UsedPicVO> findAllPicsByUsedNo(Integer usedNo){
+		 
+		return repository.findAllPicsByUsedNo(usedNo);
 	}
 }

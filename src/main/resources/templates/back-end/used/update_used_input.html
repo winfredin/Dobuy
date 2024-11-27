@@ -12,7 +12,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>員工資料修改 - update_emp_input.html</title>
+<title>員工資料修改 - update_used_input.html</title>
 
 <head th:insert="~{/back-end/used/included-fragment}"></head>
 <style type="text/css">
@@ -27,35 +27,38 @@
 		 <h3><a class="navbar-brand" th:href="@{/used/select_page}"><img th:src="@{/images/back1.gif}">回查詢頁</a></h3></div>
 </nav>
 
-<div class="errorblock" th:utext="${errorMessage}">${errorMessage}</div><br>
+
 	
 		<form th:action="@{update}" method="post" th:object="${usedVO}" enctype="multipart/form-data">
 			
 		    <!-- UsedVO 基本屬性 -->
+		    <label>商品編號：<span th:text="*{usedNo}"></span></label>
 		    <input type="hidden" th:field="*{usedNo}" />
 		    <input type="hidden" th:field="*{sellerNo}" />
+		    
 		    <label for="classNo">商品類別：</label>
-		    <input type="text" th:field="*{classNo}" />
+		    <input type="text" id="classNo" th:field="*{classNo}"  maxlength="10" required/>
 		    <span  th:if="${#fields.hasErrors('classNo')}" th:errors="*{classNo}" class="error" id="classNo.errors"></span>
+		    <br>
 		
 		    <label for="usedName">商品名稱：</label>
-		    <input type="text" id="usedName" th:field="*{usedName}" required />
+		    <input type="text" id="usedName" th:field="*{usedName}"  maxlength="60" required />
 		    <span  th:if="${#fields.hasErrors('usedName')}" th:errors="*{usedName}" class="error" id="usedName.errors"></span>
-		    <br />
+		    <br>
 		
 		    <label for="usedProDesc">商品描述：</label>
-		    <textarea id="usedProDesc" th:field="*{usedProDesc}" required></textarea>
+		    <textarea id="usedProDesc" th:field="*{usedProDesc}" maxlength="200" required></textarea>
 		    <span  th:if="${#fields.hasErrors('usedProDesc')}" th:errors="*{usedProDesc}" class="error" id="usedProDesc.errors"></span>
-		    <br />
+		    <br>
 		
 		    <label for="usedNewness">商品新舊程度：</label>
-		    <select id="usedNewness" th:field="*{usedNewness}">
-		        <option value="0">幾乎全新</option>
-		        <option value="1">9成新</option>
-		        <option value="2">7成新</option>
-		        <option value="3">5成新</option>
-		        <option value="4">3成新</option>
-		    </select>
+			<select id="usedNewness" th:field="*{usedNewness}">
+			    <option value="0" th:selected="${usedNewness == 0}">全新未拆封</option>
+			    <option value="1" th:selected="${usedNewness == 1}">9成新</option>
+			    <option value="2" th:selected="${usedNewness == 2}">7成新</option>
+			    <option value="3" th:selected="${usedNewness == 3}">5成新</option>
+			    <option value="4" th:selected="${usedNewness == 4}">3成新</option>
+			</select>
 		    <br />
 		
 		    <label for="usedPrice">價格：</label>
@@ -69,89 +72,116 @@
 		    <br />
 		
 		    <label for="usedState">商品狀態：</label>
-		    <select id="usedState" th:field="*{usedState}">
-		        <option value="0">未上架</option>
-		        <option value="1">上架</option>
+			<select id="usedState" th:field="*{usedState}">
+			    <option value="0" th:selected="${usedState == 0}">未上架</option>
+			    <option value="1" th:selected="${usedState == 1}">上架</option>
 <!-- 		        <option value="2">預設刪除</option> -->
 		    </select>
 		    <br />
+		    
+		    <!-- 照片區 -->
+		    <table>
+		        <thead>
+		            <tr>
+		                <th>照片</th>
+		                <th>照片名稱</th>
+		                
+		            </tr>
+		        </thead>
+		        <tbody id="photoTable">
+		            <tr th:each="usedPicVO : ${usedVO.usedPics}" class="photoRow">
+		                <td>
+		                    <img th:src="@{'/usedpic/DBGifReader' + '?usedPicNo=' + ${usedPicVO.usedPicNo}}" width="100px" />
+		                </td>
+		                <td>
+		                    <span th:text="${usedPicVO.usedPicName}"></span>
+		                </td>
+		                <td>
+		                    <button type="button" class="deletePhoto" name="usedPicNo" th:value="${usedPicVO.usedPicNo}">刪除</button>
+		                </td>
+		                
+		            </tr>
+
+		        </tbody>
+		    </table>
+
+		    
 		
 		    <!-- 多張圖片 (UsedPicVO 列表) -->
-		    <div id="pictures">
-		        <label>上傳商品圖片：</label>
-		        <div th:each="pic, picStat : *{usedPics}">
-		            <input type="hidden" th:field="*{usedPics[__${picStat.index}__].usedPicNo}" />
-		            <label>圖片名稱：</label>
-		            <input type="text" th:field="*{usedPics[__${picStat.index}__].usedPicName}"  readonly/>
-		            <img th:src="@{/usedpic/DBGifReader(usedPicNo=${pic.usedPicNo})}" width="100px">
-		            
-		            <label>上傳圖片：</label>
-		            <br />
-		        </div>
-		        <span  th:if="${#fields.hasErrors('usedPics')}" th:errors="*{usedPics}" class="error" id="usedPics.errors"></span>
-		            <input type="file" th:field="*{usedPics}" multiple/>
-<!-- 		        新增圖片按鈕 -->
-		        <button type="button" onclick="addPictureField()">新增圖片</button>
-		    </div>
+		    <div id="usedPicsContainer">
+			    <div class="usedPics">
+			      <label for="upfiles">新增二手商品照片上傳:</label>
+			      <br>
+            	  <input type="file" name="upfiles" accept="images/*" />
+			      
+			    </div>
+			 </div>
+		
+		  		<button type="button" id="addPicture">Add Another Picture</button>
 		
 		    <br />
 		    <button type="submit">提交</button>
 		</form>
 			
 	
-	
+	<div class="errorblock" th:utext="${errorMessage}">${errorMessage}</div><br>
 
 
 <!-- JavaScript part -->
 <script type="text/javascript">
-//清除提示信息
-function hideContent(d) {
-     document.getElementById(d).style.display = "none";
-}
+document.addEventListener("DOMContentLoaded", () => {
+    const maxPhotos = 5; // 照片總數限制
+    const addPictureBtn = document.getElementById("addPicture");
+    const photoTable = document.getElementById("photoTable");
+    const usedPicsContainer = document.getElementById("usedPicsContainer");
 
-//照片上傳-預覽用
-var filereader_support = typeof FileReader != 'undefined';
-if (!filereader_support) {
-	alert("No FileReader support");
-}
-acceptedTypes = {
-		'image/png' : true,
-		'image/jpeg' : true,
-		'image/gif' : true
-};
-function previewImage() {
-	var upfile1 = document.getElementById("upFiles");
-	upfile1.addEventListener("change", function(event) {
-		var files = event.target.files || event.dataTransfer.files;
-		for (var i = 0; i < files.length; i++) {
-			previewfile(files[i])
-		}
-	}, false);
-}
-function previewfile(file) {
-	if (filereader_support === true && acceptedTypes[file.type] === true) {
-		var reader = new FileReader();
-		reader.onload = function(event) {
-			var image = new Image();
-			image.src = event.target.result;
-			image.width = 100;
-			image.height = 75;
-			image.border = 2;
-			if (blob_holder.hasChildNodes()) {
-				blob_holder.removeChild(blob_holder.childNodes[0]);
-			}
-			blob_holder.appendChild(image);
-		};
-		reader.readAsDataURL(file);
-		document.getElementById('submit').disabled = false;
-	} else {
-		blob_holder.innerHTML = "<div  style='text-align: left;'>" + "● filename: " + file.name
-				+ "<br>" + "● ContentTyp: " + file.type
-				+ "<br>" + "● size: " + file.size + "bytes"
-				+ "<br>" + "● 上傳ContentType限制: <b> <font color=red>image/png、image/jpeg、image/gif </font></b></div>";
-		document.getElementById('submit').disabled = true;
-	}
-}
+    function updateAddButtonState() {
+        const totalPhotos = photoTable.querySelectorAll(".photoRow").length + 
+                            usedPicsContainer.querySelectorAll(".usedPics").length;
+
+        if (totalPhotos >= maxPhotos) {
+            addPictureBtn.disabled = true; // 禁用新增按鈕
+        } else {
+            addPictureBtn.disabled = false; // 啟用新增按鈕
+        }
+    }
+
+    // 初始檢查按鈕狀態
+    updateAddButtonState();
+
+    // 新增圖片上傳區塊
+    addPictureBtn.addEventListener("click", () => {
+        const currentUploads = usedPicsContainer.querySelectorAll(".usedPics").length;
+        const totalPhotos = photoTable.querySelectorAll(".photoRow").length + currentUploads;
+
+        if (totalPhotos < maxPhotos) {
+            const newDiv = document.createElement("div");
+            newDiv.classList.add("usedPics");
+            newDiv.innerHTML = `
+                <input type="file" name="upfiles" accept="images/*" />
+                <button type="button" class="deleteUpload">刪除</button>
+            `;
+            usedPicsContainer.appendChild(newDiv);
+
+            // 為刪除按鈕綁定事件
+            newDiv.querySelector(".deleteUpload").addEventListener("click", () => {
+                newDiv.remove();
+                updateAddButtonState();
+            });
+
+            updateAddButtonState();
+        }
+    });
+
+    // 刪除已存在的照片
+    photoTable.addEventListener("click", (e) => {
+        if (e.target.classList.contains("deletePhoto")) {
+            const row = e.target.closest("tr");
+            if (row) row.remove();
+            updateAddButtonState();
+        }
+    });
+});
 </script>
 
 </body>

@@ -1,10 +1,14 @@
 package com.used.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.usedpic.model.UsedPicRepository;
+import com.usedpic.model.UsedPicVO;
 
 
 
@@ -14,13 +18,32 @@ public class UsedService {
 	@Autowired
 	UsedRepository repository;
 	
+	@Autowired
+	UsedPicRepository usedPicRepository;
+	
 	//增
-	public Integer addUsed(UsedVO usedVO) {
+	
+	public UsedVO addUsed(UsedVO usedVO) {
 		
-		UsedVO savedUsed = repository.save(usedVO);
-		
-		return savedUsed.getUsedNo();
+		return repository.save(usedVO);
 	}
+	
+	
+	public UsedVO saveUsedWithPics(UsedVO usedVO, List<UsedPicVO> usedPicsList) {
+		UsedVO savedUsed =repository.save(usedVO);
+		List<UsedPicVO> usedPicWithUsedNo = new ArrayList<>();
+		for(UsedPicVO usedPicVO:usedPicsList) {
+			usedPicVO.setUsedVO(savedUsed);
+			usedPicWithUsedNo.add(usedPicVO);
+		}
+		List<UsedPicVO> savedUsedPic=usedPicRepository.saveAll(usedPicWithUsedNo);
+	    
+		 savedUsed.setUsedPics(savedUsedPic);
+		 
+		 return savedUsed;
+	}
+	
+	
 	
 	//改
 	public Integer updateUsed(UsedVO usedVO) {

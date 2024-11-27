@@ -106,7 +106,7 @@
 		<li><form method="post" th:action="@{/used/getOneUsed}">
 				選擇員工姓名:
 				<select name="usedNo">
-				     <option th:each="usedVO : ${usedListData}" th:value="${usedVO.usedNo}" th:text="${usedVO.usedName}" />
+				     <option th:each="usedVO : ${usedListData}" th:value="${usedVO.usedNo}" th:text="${usedVO.usedNo}" />
 			    </select>
 				<input type="submit" value="送出">
 			</form><br>
