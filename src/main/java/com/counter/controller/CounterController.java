@@ -95,6 +95,12 @@ public class CounterController {
         model.addAttribute("success", "櫃位資料新增成功！");
         return "redirect:/counter/allcounter";
     }
+    
+	@GetMapping("/login")
+	public String showLoginPage(Model model) {
+		model.addAttribute("loginForm", new CounterVO());
+		return "vendor-end/counter/CounterLogin"; // 指向 Thymeleaf 模板路径
+	}
 
     /*
      * This method will be called on listAllCounter.html form submission, handling POST request
@@ -109,6 +115,8 @@ public class CounterController {
         model.addAttribute("counterVO", counterVO);
         return "vendor-end/counter/update_counter_input"; // 查詢完成後轉交update_counter_input.html
     }
+    
+    
 
     /*
      * This method will be called on update_counter_input.html form submission, handling POST request It also validates the user input
