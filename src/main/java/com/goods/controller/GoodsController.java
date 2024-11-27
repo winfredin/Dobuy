@@ -1,12 +1,8 @@
 package com.goods.controller;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,21 +15,34 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.counter.model.CounterService;
+import com.counter.model.CounterVO;
 import com.goods.model.GoodsService;
 import com.goods.model.GoodsVO;
+import com.goodstype.model.GoodsTypeService;
+import com.goodstype.model.GoodsTypeVO;
 
 @Controller
+@Validated
 @RequestMapping("/goods")
 public class GoodsController {
 
     @Autowired
     GoodsService goodsSvc;
+    
+	@Autowired
+	GoodsTypeService goodstypeSvc;
+	
+	@Autowired
+	CounterService counterSvc;
 
     /*
      * This method will serve as addCouponDetail.html handler.
@@ -44,7 +53,18 @@ public class GoodsController {
         model.addAttribute("goodsVO", goodsVO);
         return "vendor-end/goods/addGoods";
     }
-
+	@ModelAttribute("goodsTypeListData")
+	protected List<GoodsTypeVO> referenceListData() {
+		// DeptService deptSvc = new DeptService();
+		List<GoodsTypeVO> list = goodstypeSvc.getAll();
+		return list;
+	}
+	@ModelAttribute("counterListData1")
+	protected List<CounterVO> referenceListData1() {
+		// DeptService deptSvc = new DeptService();
+		List<CounterVO> list = counterSvc.getAll();
+		return list;
+	}
     /*
      * This method will be called on addCouponDetail.html form submission, handling POST request
      * It also validates the user input
