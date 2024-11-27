@@ -53,4 +53,7 @@ public class CounterService {
     public boolean isCounterAccountExists(String counterAccount) {
         return repository.existsByCounterAccount(counterAccount);
     }
+    public CounterVO authenticate(String counterAccount, String counterPassword) {
+        return repository.findByCounterAccountAndCounterPassword(counterAccount, counterPassword);
+    }
 }
