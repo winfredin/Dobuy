@@ -61,6 +61,9 @@ public class CouponService {
         return updatedRows > 0; // 返回是否更新成功
     }
     
-    
+    //根據櫃位編號查詢優惠券
+    public List<CouponVO> getCounterCoupon35(int counterNo){ //  11/27
+    	return repository.findByCounterAndStatusAndCheckStatus(counterNo, 1, 1);
+    }
     
 }

@@ -25,8 +25,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.countercarousel.model.CountercarouselService;
 import com.countercarousel.model.CountercarouselVO;
+import com.coupon.model.CouponService;
+import com.coupon.model.CouponVO;
 import com.goods.model.GoodsService;
 import com.goods.model.GoodsVO;
+import com.goodstype.model.GoodsTypeService;
+import com.goodstype.model.GoodsTypeVO;
 
 @Controller
 @Validated
@@ -38,6 +42,12 @@ public class GoodsNoController {
     
     @Autowired
 	CountercarouselService carouselSvc;
+    
+    @Autowired
+    CouponService couponSvc;
+    
+    @Autowired
+    GoodsTypeService goodsTypeSvc;
 
     /*
      * This method will be called on select_page.html form submission, handling POST request
@@ -91,11 +101,16 @@ public class GoodsNoController {
         @RequestParam("counterNo") String counterNo, ModelMap model) {
         List<GoodsVO> goodsVO = goodsSvc.getOneCounter35(Integer.valueOf(counterNo));
         List<CountercarouselVO> carouselImages = carouselSvc.getPic(Integer.valueOf(counterNo));// 抓輪播圖圖片(依櫃位編號)
+        List<CouponVO> coupons = couponSvc.getCounterCoupon35(Integer.valueOf(counterNo));// 抓coupon(依櫃位編號)
+        List<GoodsTypeVO> goodsType = goodsTypeSvc.getAll();// 抓商品種類(全部)
         for(CountercarouselVO img:carouselImages) {
         	img.convertToBase64();
         }
         model.addAttribute("carouselImages", carouselImages);
         model.addAttribute("goodsVO", goodsVO);
+        model.addAttribute("coupons", coupons);
+        model.addAttribute("goodsType", goodsType);
+        
         return "/vendor-end/front-end-product/product"; // 返回 Thymeleaf 模板名
     }
     

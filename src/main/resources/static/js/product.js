@@ -87,30 +87,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 /* ===============中間商品============= */
 
-/* ===============中間文字框取值============= */
-
-//document.addEventListener("DOMContentLoaded", () => {
-//	// 加載 API 並顯示內容
-//	fetch("後端 API URL") // 替換為你的後端 API
-//		.then(response => {
-//			if (!response.ok) {
-//				throw new Error("Network response was not ok");
-//			}
-//			return response.json();
-//		})
-//		.then(data => {
-//			// 在顯示區域中填入數據
-//			document.getElementById("displayArea").value = data.body; // 將 API 返回的內容顯示
-//		})
-//		.catch(error => {
-//			console.error("Error fetching message:", error);
-//			document.getElementById("displayArea").value = "加載失敗，請稍後重試。";
-//		});
-//});
-
-/* ===============中間文字框取值============= */
-
-
 /* ===============輪播圖============= */
 
 document.addEventListener("DOMContentLoaded", function () {

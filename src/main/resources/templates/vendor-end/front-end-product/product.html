@@ -45,16 +45,16 @@
 				class="container h-30 d-flex justify-content-between align-items-center">
 				<!-- 左邊的文字 -->
 				<div class="left-text">
-					<a th:href="@{/}" class="nav-link">首頁</a> <a href="#" class="nav-link">聯絡我們</a>
+					<a th:href="@{/}" class="nav-link">首頁</a> <a href="#"
+						class="nav-link">聯絡我們</a>
 				</div>
 
 				<!-- 右邊按鈕 -->
 				<div class="right-actions">
-			   		<a th:href="@{/mem/register}" class="login-link">註冊</a> 
-			    	<span class="divider">|</span>
-			    	<a th:href="@{/mem/login}" class="login-link">登入</a>
-			    	<span class="divider">|</span>
-			    	<a th:href="@{/mem/logout}" class="login-link">登出</a>
+					<a th:href="@{/mem/register}" class="login-link">註冊</a> <span
+						class="divider">|</span> <a th:href="@{/mem/login}"
+						class="login-link">登入</a> <span class="divider">|</span> <a
+						th:href="@{/mem/logout}" class="login-link">登出</a>
 				</div>
 			</div>
 		</div>
@@ -74,8 +74,7 @@
 						<i class="fas fa-search"></i>
 						<!-- 搜尋圖標 -->
 					</button>
-					<a href="#" class="cart-icon"> 
-					<i class="fas fa-shopping-cart"></i>
+					<a href="#" class="cart-icon"> <i class="fas fa-shopping-cart"></i>
 						<!-- 購物車圖標 -->
 					</a>
 				</div>
@@ -122,33 +121,23 @@
 			</div>
 
 
-			<!-- 對話框 -->
-			<div style="margin-bottom: 40px;">
-				<textarea id="displayArea"
-					style="width: 100%; height: 100px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; background-color: #f8f9fa;"
-					readonly>正在加載內容...</textarea>
-			</div>
-			<h4>這邊是優惠券</h4>
+			<!-- 優惠券 -->
 			<div class="row align-items-end">
-				<div class="col-12 col-md-6 col-lg-4">
-					<div class="single-blog-area clearfix mb-100">
-						<img src="img/my-img/coupon.png" alt="">
-						<button class="btn btn-claim" data-coupon="1">領取</button>
-					</div>
-				</div>
-				<div class="col-12 col-md-6 col-lg-4">
-					<div class="single-blog-area clearfix mb-100">
-						<img src="img/my-img/coupon.png" alt="">
-						<button class="btn btn-claim" data-coupon="1">領取</button>
-					</div>
-				</div>
-				<div class="col-12 col-md-6 col-lg-4">
-					<div class="single-blog-area clearfix mb-100">
-						<img src="img/my-img/coupon.png" alt="">
-						<button class="btn btn-claim" data-coupon="1">領取</button>
+				<!-- 使用 Thymeleaf 循環渲染文字和按鈕 -->
+				<div th:each="coupons : ${coupons}" class="col-12 col-md-6 col-lg-4">
+					<div class="custom-single-blog-area-coupons clearfix mb-100">
+						<!-- 動態生成標題 -->
+						<p th:text="${coupons.couponTitle}"
+							style="font-size: 18px; font-weight: bold;"></p>
+						<!-- 動態生成內容 -->
+						<p th:text="${coupons.couponContext}" style="font-size: 16px;"></p>
+						<!-- 領取按鈕 -->
+						<button class="btn btn-claim" th:text="'領取'"></button>
 					</div>
 				</div>
 			</div>
+
+
 			<!-- ///////////////////// -->
 			<!-- /////////////////////下拉式選單-->
 			<div class="menu-bar">
@@ -173,8 +162,6 @@
 				</div>
 			</div>
 			<!-- /////////////////////下拉式選單-->
-			<h4>這是一個有12行的區塊，每塊佔4行</h4>
-
 			<div class="container">
 				<div class="row">
 					<!-- 左側漢堡行列表 -->
@@ -182,16 +169,8 @@
 						<div class="hamburger-menu">
 							<h4>分類</h4>
 							<ul>
-								<li><a href="#">所有商品</a></li>
-								<li><a href="#">所有商品</a></li>
-								<li><a href="#">所有商品</a></li>
-								<li><a href="#">所有商品</a></li>
-								<li><a href="#">所有商品</a></li>
-								<li><a href="#">所有商品</a></li>
-								<li><a href="#">所有商品</a></li>
-								<li><a href="#">特惠配件</a></li>
-								<li><a href="#">特惠配件</a></li>
-								<li><a href="#">特惠配件</a></li>
+								<li th:each="goodsType : ${goodsType}"><a
+									href="#" th:text="${goodsType.goodstName}"></a></li>
 							</ul>
 						</div>
 					</div>

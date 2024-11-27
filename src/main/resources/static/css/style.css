@@ -524,12 +524,6 @@ img {
 }
 
 
-/* Blog Content Area CSS */
-.single-blog-area {
-  position: relative;
-  z-index: 1;
-}
-
 .single-blog-area .single-blog-thumbnail {
   position: relative;
   z-index: 1;
@@ -1260,6 +1254,7 @@ img {
   align-items: center;
   gap: 10px;
   background-color: rgba(244, 244, 244, 0.5);
+  margin-bottom: 50px;
   /* 半透明背景 */
   padding: 10px;
 }
@@ -1354,21 +1349,6 @@ img {
 
 /*=====================中間下拉式選單=========================*/
 
-/*=====================優惠券按鈕========================*/
-.btn-claim {
-  display: block;
-  margin: 10px auto 0;
-  /* 按鈕置於圖片下方，且居中 */
-  padding: 8px 16px;
-  background-color: #f00;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-/*=====================優惠券按鈕========================*/
 
 /* ===============中間商品左邊側欄樣式============= */
 .hamburger-menu {
@@ -1422,127 +1402,225 @@ img {
 }
 
 .container .product-img-container img {
-    width: 100%; /* 图片宽度占满父容器 */
-    height: 150px; /* 高度自动调整 */
-    object-fit: cover;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  /* 图片宽度占满父容器 */
+  height: 150px;
+  /* 高度自动调整 */
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.container .product-detail p{
-	font-size: 18px; /* 放大文字 */
-    line-height: 1.6; /* 增加行高，提升可读性 */
-    color: #333; /* 可选：设置文字颜色 */
+.container .product-detail p {
+  font-size: 18px;
+  /* 放大文字 */
+  line-height: 1.6;
+  /* 增加行高，提升可读性 */
+  color: #333;
+  /* 可选：设置文字颜色 */
 }
 
 .product-detail p:first-child {
-    font-weight: bold; /* 第一行加粗 */
-    font-size: 20px; /* 可选：进一步放大名字 */
-    color: #000; /* 可选：设置不同颜色 */
+  font-weight: bold;
+  /* 第一行加粗 */
+  font-size: 20px;
+  /* 可选：进一步放大名字 */
+  color: #000;
+  /* 可选：设置不同颜色 */
 }
+
 /* ===============中間商品區塊樣式============= */
 
 /* ===============輪播圖樣式============= */
 
 .container .autoplay img {
-    width: 100%; /* 寬度填滿父容器 */
-    height: 400px; /* 高度固定 */
-    border-radius: 20px; /* 可選，圖片圓角 */
-    object-fit: fill; /* 允許圖片變形以填滿容器 */
+  width: 100%;
+  /* 寬度填滿父容器 */
+  height: 400px;
+  /* 高度固定 */
+  border-radius: 20px;
+  /* 可選，圖片圓角 */
+  object-fit: fill;
+  /* 允許圖片變形以填滿容器 */
 }
 
 
 /* ===============輪播圖樣式============= */
 
 /* ===============Header area============= */
-.header-area{
-	position: sticky; /* 固定在頂部 */
-	top: 0;
-	background-color: rgb(240, 207, 165); /* 背景色統一 */
-	z-index: 50; /* 確保頂部層級 */
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 添加輕微陰影 */
+.header-area {
+  position: sticky;
+  /* 固定在頂部 */
+  top: 0;
+  background-color: rgb(240, 207, 165);
+  /* 背景色統一 */
+  z-index: 50;
+  /* 確保頂部層級 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  /* 添加輕微陰影 */
 }
+
 /* ===============Header area============= */
 
 /* ===============Header 搜尋============= */
 .custom-container {
-    height: 50px; /* 固定高度 */
-    border-bottom: none; /* 移除子元素的底部分隔線 */
-    display: flex;
-    align-items: center;
-    z-index: 10; /* 層級處於父容器之下 */
-    box-shadow: none; /* 移除額外的陰影 */
+  height: 50px;
+  /* 固定高度 */
+  border-bottom: none;
+  /* 移除子元素的底部分隔線 */
+  display: flex;
+  align-items: center;
+  z-index: 10;
+  /* 層級處於父容器之下 */
+  box-shadow: none;
+  /* 移除額外的陰影 */
 }
 
 .left-text {
-    font-size: 16px; /* 文字大小 */
-    margin-right: auto; /* 將左側文字推到最左邊 */
+  font-size: 16px;
+  /* 文字大小 */
+  margin-right: auto;
+  /* 將左側文字推到最左邊 */
 }
 
 .search-bar {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* 控制搜尋框和按鈕之間的間距 */
-    margin-left: auto; /* 將搜尋框推到最右邊 */
-    width: 40%; /* 搜尋框占容器的寬度（可根據需求調整） */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* 控制搜尋框和按鈕之間的間距 */
+  margin-left: auto;
+  /* 將搜尋框推到最右邊 */
+  width: 40%;
+  /* 搜尋框占容器的寬度（可根據需求調整） */
 }
 
 .search-bar input {
-    flex: 1; /* 搜尋框占據剩餘空間 */
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px 0 0 5px;
-    outline: none;
+  flex: 1;
+  /* 搜尋框占據剩餘空間 */
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px 0 0 5px;
+  outline: none;
 }
 
 .search-bar button {
-    padding: 8px 15px;
-    border: none;
-    background-color: #007bff; /* 按鈕顏色 */
-    color: white;
-    border-radius: 0 5px 5px 0;
-    cursor: pointer;
+  padding: 8px 15px;
+  border: none;
+  background-color: #007bff;
+  /* 按鈕顏色 */
+  color: white;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
 }
 
 .search-bar button:hover {
-    background-color: #0056b3; /* 懸停時的按鈕顏色 */
+  background-color: #0056b3;
+  /* 懸停時的按鈕顏色 */
 }
 
 /* ===============Header 搜尋============= */
 
 /* ===============Header 登入============= */
 .top-container {
-    height: 30px; /* 固定高度 */
-    border-bottom: none; /* 移除底部分隔線 */
-    display: flex;
-    align-items: center;
-    justify-content: space-between; /* 左右內容分佈 */
-    padding: 0 15px; /* 控制左右內邊距 */
-    box-shadow: none; /* 移除陰影，統一交給父容器控制 */
+  height: 30px;
+  /* 固定高度 */
+  border-bottom: none;
+  /* 移除底部分隔線 */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* 左右內容分佈 */
+  padding: 0 15px;
+  /* 控制左右內邊距 */
+  box-shadow: none;
+  /* 移除陰影，統一交給父容器控制 */
 }
 
 .top-container .left-text {
-    display: flex; /* 使用 Flexbox 讓項目水平排列 */
-    gap: 20px; /* 控制項目之間的間距 */
+  display: flex;
+  /* 使用 Flexbox 讓項目水平排列 */
+  gap: 20px;
+  /* 控制項目之間的間距 */
 }
 
 .top-container .right-actions {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* 控制按鈕間距 */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* 控制按鈕間距 */
 }
 
 /* 登入/註冊連結樣式 */
 .top-container .login-link {
-    text-decoration: none; /* 移除下劃線 */
-    color: inherit; /* 繼承父元素的文字顏色 */
-    font-size: 14px;
-    transition: color 0.3s ease;
+  text-decoration: none;
+  /* 移除下劃線 */
+  color: inherit;
+  /* 繼承父元素的文字顏色 */
+  font-size: 14px;
+  transition: color 0.3s ease;
 }
 
 .top-container .login-link:hover {
-    color: #007bff; /* 懸停時改變文字顏色 */
+  color: #007bff;
+  /* 懸停時改變文字顏色 */
 }
 
 /* ===============Header 登入============= */
+
+/* ===============Coupon優惠券============= */
+/* 區塊樣式 */
+.custom-single-blog-area-coupons {
+  position: relative;
+  z-index: 1;
+  border: 1px solid !important;
+  /* 添加邊框 */
+  padding: 15px;
+  /* 內邊距 */
+  border-radius: 5px;
+  /* 圓角 */
+  background-color: rgb(244, 209, 163);
+  /* 背景顏色 */
+  margin-bottom: 30px;
+  /* 區塊之間的距離 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  /* 陰影效果 */
+  text-align: center;
+  /* 文字居中 */
+  display: flex;
+  /* 使用 Flexbox */
+  flex-direction: column;
+  /* 垂直排列 */
+  justify-content: center;
+  /* 垂直居中 */
+  align-items: center;
+  /* 水平居中 */
+}
+
+/* 段落樣式 */
+.single-blog-area p {
+  margin: 10px 0;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  color: #333;
+  line-height: 1.5;
+}
+
+/* 按鈕樣式 */
+.btn.btn-claim {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.btn.btn-claim:hover {
+  background-color: #0056b3;
+}
+
+/* ===============Coupon優惠券============= */
