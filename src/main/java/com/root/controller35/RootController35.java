@@ -12,11 +12,11 @@ import com.product35.model.ProductVO35;
 @Controller
 public class RootController35 {
 
-//	@GetMapping("/")
-//	public String redirectToHomepage(ModelMap model) {
-//		model.addAttribute("goodsVO", new GoodsVO());
-//		return "/back-end/homePage35";
-//	}
+	@GetMapping("/")
+	public String redirectToHomepage(ModelMap model) {
+		model.addAttribute("goodsVO", new GoodsVO());
+		return "/back-end/homePage35";
+	}
 
 	@GetMapping("addCarousel_page")
 	public String redirecToAddCarousel(ModelMap model) {
@@ -27,7 +27,7 @@ public class RootController35 {
 	@GetMapping("addProduct_page")
 	public String redirectToAddProduct(ModelMap model) {
 		model.addAttribute("productVO", new ProductVO35()); // 创建一个空的 ProductVO 对象
-		return "vendor/front-end-product/addProduct";
+		return "vendor-end/front-end-product/addProduct";
 	}
 
 }
