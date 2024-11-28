@@ -88,23 +88,38 @@
 
 
 			<div id="detailsContainer">
-				<div class="detail">
+				<div class="detail" th:each="detail, stat : *{couponDetails}">
+					<input type="hidden"
+						th:field="*{couponDetails[__${stat.index}__].couponDetailNo}" />
+
 					<label>商品編號:</label> <input type="number"
-						name="couponDetails[0].goodsNo" required /><br /> <label>優惠條件:</label>
-					<input type="text" name="couponDetails[0].counterContext" required /><br />
-					<label>折扣率:</label> <input type="number"
-						name="couponDetails[0].disRate" step="0.01" min="0.01" max="1.00"
-						required /><br />
+						th:field="*{couponDetails[__${stat.index}__].goodsNo}" required />
+
+					<label>優惠條件:</label> <input type="text"
+						th:field="*{couponDetails[__${stat.index}__].counterContext}"
+						required /> <label>折扣率:</label> <input type="number"
+						th:field="*{couponDetails[__${stat.index}__].disRate}" step="0.01"
+						min="0.01" max="1.00" required />
 				</div>
 			</div>
+
 			<button type="button" onclick="addDetail()">新增明細</button>
-			<button type="submit">送出新增</button>
 
 
 			<div>
 				<div>
 					<button type="submit" id="submit">送出新增</button>
 				</div>
+			</div>
+
+			<!-- 在表單頂部添加錯誤訊息顯示 -->
+			<div th:if="${error}" class="alert alert-danger" role="alert">
+				<span th:text="${error}"></span>
+			</div>
+
+			<!-- 在表單頂部添加成功訊息顯示 -->
+			<div th:if="${success}" class="alert alert-success" role="alert">
+				<span th:text="${success}"></span>
 			</div>
 		</form>
 	</div>

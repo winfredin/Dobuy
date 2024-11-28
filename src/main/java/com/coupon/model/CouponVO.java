@@ -68,6 +68,21 @@ public class CouponVO implements Serializable {
     @OneToMany(mappedBy = "coupon", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CouponDetailVO> couponDetails = new ArrayList<>();
 
+    // 一個更安全的方法來添加明細
+    // 修改 addCouponDetail 方法，確保正確設置關聯
+    public void addCouponDetail(CouponDetailVO detail) {
+        if (couponDetails == null) {
+            couponDetails = new ArrayList<>();
+        }
+        couponDetails.add(detail);
+        detail.setCoupon(this);  // 重要：設置雙向關聯
+    }
+    
+    public void removeCouponDetail(CouponDetailVO detail) {
+        couponDetails.remove(detail);
+        detail.setCoupon(null);
+    }
+    
     // Constructor
     public CouponVO() {
     }

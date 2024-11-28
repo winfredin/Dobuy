@@ -17,30 +17,29 @@
 </head>
 <body>
 
-<table>
-    <thead>
-        <tr>
-            <th>優惠券編號</th>
-            <th>商品編號</th>
-            <th>建立時間</th>
-            <th>更新時間</th>
-            <th>優惠條件</th>
-            <th>折扣率</th>
-        </tr>
-    </thead>
-    <tbody>
-        <th:block th:each="detail : ${couponDetails}">
+    <table>
+        <thead>
             <tr>
-                <td th:text="${detail.couponNo}"></td>
+                <th>優惠券編號</th>
+                <th>商品編號</th>
+                <th>建立時間</th>
+                <th>更新時間</th>
+                <th>優惠條件</th>
+                <th>折扣率</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="detail : ${couponDetails}">
+                <!-- 修正這裡：使用 detail.coupon.couponNo 來存取優惠券編號 -->
+                <td th:text="${detail.coupon != null ? detail.coupon.couponNo : ''}"></td>
                 <td th:text="${detail.goodsNo}"></td>
                 <td th:text="${#dates.format(detail.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
                 <td th:text="${#dates.format(detail.updatedAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
                 <td th:text="${detail.counterContext}"></td>
                 <td th:text="${detail.disRate}"></td>
             </tr>
-        </th:block>
-    </tbody>
-</table>
+        </tbody>
+    </table>
 
 </body>
 </html>
