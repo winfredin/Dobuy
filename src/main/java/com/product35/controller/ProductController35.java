@@ -75,7 +75,7 @@ public class ProductController35 {
 	    }
 	    List<CountercarouselVO> carouselImages = carouselSvc.getPic(1);
 	    for(CountercarouselVO img : carouselImages) {
-	    	img.convertToBase64();
+//	    	img.convertToBase64();
 	    }
 	    model.addAttribute("products", productList); // 一次性传递所有商品数据
 	    model.addAttribute("carouselImages", carouselImages); // 一次性传递所有商品数据	    

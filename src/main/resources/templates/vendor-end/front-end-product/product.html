@@ -191,14 +191,13 @@
 					<div class="col-12 col-md-9 ">
 						<div class="row align-items-end" id="productContainer">
 							<!-- 使用 Thymeleaf 渲染商品数据 -->
-							<div th:each="goodsVO : ${goodsVO}"
+							<div th:each="goodsVO : ${goodsLightVO}"
 								class="col-12 col-md-4 product-item">
 								<div class="single-blog-content">
 									<div class="line"></div>
 									<div class="product-img-container">
-										<!-- 										<img -->
-										<!-- 											th:src="'data:image/png;base64,' + ${product.base64Image}" -->
-										<!-- 											th:alt="${goodsVO.goodsNo}"> -->
+										<img th:src="'data:image/png;base64,' + ${goodsVO.base64Image}"
+										 th:alt="${goodsVO.goodsNo}">
 									</div>
 									<div class="product-detail">
 										<p>
@@ -211,9 +210,9 @@
 											庫存：<span th:text="${goodsVO.goodsAmount}"></span>
 										</p>
 									</div>
-									<!-- 									<p> -->
-									<!-- 										評價：<span th:text="${goodsVO.star}"></span> -->
-									<!-- 									</p> -->
+									<!-- <p> -->
+									<!-- 評價：<span th:text="${goodsVO.star}"></span> -->
+									<!-- </p> -->
 								</div>
 							</div>
 						</div>

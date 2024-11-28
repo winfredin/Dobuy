@@ -26,7 +26,12 @@ public interface GoodsRepository extends JpaRepository<GoodsVO, Integer> {
     
     
     //=============以下昱夆新增===============//
-    @Query(value = "SELECT * FROM goods where counterNo = ?1  ORDER BY goodsDate desc", nativeQuery = true)
-	List<GoodsVO> getOneCounter35(Integer counterNo);
+    
+    @Query(value = "SELECT * FROM goods WHERE counterNo = ?1 ORDER BY goodsDate DESC", nativeQuery = true)
+    List<GoodsVO> getOneCounter35(Integer counterNo);
+
+    
+    
+  //=============以上昱夆新增===============//
 
 }

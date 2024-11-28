@@ -1,5 +1,6 @@
 package com.goods.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -27,6 +28,7 @@ import com.countercarousel.model.CountercarouselService;
 import com.countercarousel.model.CountercarouselVO;
 import com.coupon.model.CouponService;
 import com.coupon.model.CouponVO;
+import com.goods.model.GoodsLightVO;
 import com.goods.model.GoodsService;
 import com.goods.model.GoodsVO;
 import com.goodstype.model.GoodsTypeService;
@@ -102,15 +104,23 @@ public class GoodsNoController {
     @GetMapping("getOne_For_Display35") // 用get 因為session要抓呼叫前的路徑
     public String getOne_For_Display35(
         @RequestParam("counterNo") String counterNo, ModelMap model) {
-        List<GoodsVO> goodsVO = goodsSvc.getOneCounter35(Integer.valueOf(counterNo));
+        List<GoodsVO> goodsVO = goodsSvc.getOneCounter35(Integer.valueOf(counterNo));// 用櫃位編號抓商品資訊，只抓需要的，去repository看
+        List<GoodsLightVO> goodsLightVO = new ArrayList<GoodsLightVO>();   // 建一個輕量級的VO，把抓到的資料轉成前端要的格式(base64)
+        for(GoodsVO goods:goodsVO) {
+        	goodsLightVO.add(new GoodsLightVO(goods));
+        }
+        
+        //其他
         List<CountercarouselVO> carouselImages = carouselSvc.getPic(Integer.valueOf(counterNo));// 抓輪播圖圖片(依櫃位編號)
         List<CouponVO> coupons = couponSvc.getCounterCoupon35(Integer.valueOf(counterNo));// 抓coupon(依櫃位編號)
         List<GoodsTypeVO> goodsType = goodsTypeSvc.getAll();// 抓商品種類(全部)
         for(CountercarouselVO img:carouselImages) {
         	img.convertToBase64();
         }
+        
+     // 添加模型数据
+        model.addAttribute("goodsLightVO", goodsLightVO);
         model.addAttribute("carouselImages", carouselImages);
-        model.addAttribute("goodsVO", goodsVO);
         model.addAttribute("coupons", coupons);
         model.addAttribute("goodsType", goodsType);
         

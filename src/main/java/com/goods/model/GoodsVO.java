@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -47,7 +48,10 @@ public class GoodsVO implements java.io.Serializable {
     private Byte checkStatus; // 審核狀態 (0：審核中 1：通過 2：未通過)
     private Timestamp goodsDate; // 商品上架日期
     private Timestamp goodsEnddate; // 商品下架日期
-
+    
+    
+   
+    
     public GoodsVO() {
     }
 
@@ -259,6 +263,7 @@ public class GoodsVO implements java.io.Serializable {
     }
     
     //==================以下昱夆新增=====================//
+
     public String convertToBase64(byte[] bytes) {
         return Base64.getEncoder().encodeToString(bytes);
     }
