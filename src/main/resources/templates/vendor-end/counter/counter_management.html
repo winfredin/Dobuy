@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-TW" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>當前櫃位資料管理</title>
+<!-- 其他必要的元數據和樣式文件 -->
+<link rel="stylesheet" href="/counter/style.css">
+
+
+<style>
+    body {
+      margin: 2rem 2rem 2rem 2rem;
+    }
+.info-label {
+	font-weight: bold;
+}
+
+table {
+    width: 100%; /* 讓表格佔滿整個容器 */
+    border-collapse: collapse; /* 合併表格邊框 */
+    max-width: 100%; /* 限制表格的最大寬度 */
+    max-height: 400px; /* 限制表格的最大高度，可以根據需要調整 */
+    overflow: auto; /* 超出部分自動出現滾動條 */
+    margin-bottom: 20px; /* 表格下方留一些空間 */
+}
+
+/* 標籤列 */
+tr:first-child {
+    position: sticky; /* 標籤列固定在表格頂部 */
+    top: 0; /* 固定在頂部 */
+    background-color: #f2f2f2; /* 標籤列背景色 */
+    font-weight: bold; /* 標籤文字加粗 */
+    z-index: 2; /* 使標籤列顯示在滾動條上方 */
+}
+
+/* 單元格的邊框 */
+td {
+    border: 1px solid #ddd; /* 單元格邊框 */
+    padding: 8px; /* 內部間距 */
+}
+
+/* 標籤列的單元格 */
+tr:first-child td {
+    text-align: center; /* 標籤文字居中 */
+    vertical-align: middle; /* 垂直居中 */
+}
+
+/* 數據列的單元格 */
+tr:nth-child(2) td {
+    vertical-align: top; /* 數據文字頂部對齊 */
+    white-space: nowrap; /* 防止文字換行 */
+}
+
+/* 修改按鈕樣式 */
+input[type="submit"] {
+    background-color: #4CAF50; /* 綠色背景 */
+    color: white; /* 白色文字 */
+    padding: 6px 12px; /* 內部間距 */
+    border: none; /* 移除邊框 */
+    cursor: pointer; /* 光標變成手形 */
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049; /* 懸停時的背景色 */
+}
+
+/* 圖片樣式 */
+img {
+    display: block; /* 讓圖片以塊元素顯示，方便居中 */
+    margin: 0 auto; /* 圖片水平居中 */
+}
+
+/* 表格容器 */
+.table-container {
+    max-width: 100%; /* 限制容器的最大寬度 */
+    max-height: 400px; /* 限制容器的最大高度 */
+    overflow: auto; /* 超出部分自動出現滾動條 */
+}
+</style>
+</head>
+<body>
+
+<div th:insert=="vendor-end/counter/Counterincldue :: header"></div>
+
+	<h1>當前櫃位資料管理</h1>
+	<div th:if="${counter != null}"  class="table-container">
+		<h2>櫃位信息</h2>
+		<table>
+			<tr>
+				<td><span class="info-label">櫃位編號:</span></td>
+				<td><span class="info-label">櫃位名稱:</span></td>
+				<td><span class="info-label">櫃位管理者:</span></td>
+				<td><span class="info-label">身分證:</span></td>
+				<td><span class="info-label">櫃位電話:</span></td>
+				<td><span class="info-label">信箱:</span></td>
+				<td><span class="info-label">統一編號:</span></td>
+				<td><span class="info-label">櫃位資訊:</span></td>
+				<td><span class="info-label">櫃位類別:</span></td>
+				<td><span class="info-label">商標:</span></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><span th:text="${counter.counterNo}"></span></td>
+				<td><span th:text="${counter.counterCName}"></span></td>
+				<td><span th:text="${counter.counterName}"></span></td>
+				<td><span th:text="${counter.counterUid}"></span></td>
+				<td><span th:text="${counter.counterPhone}"></span></td>
+				<td><span th:text="${counter.counterEmail}"></span></td>
+				<td><span th:text="${counter.counterUbn}"></span></td>
+				<td><span th:text="${counter.counterInform}"></span></td>
+				<td><span th:text="${counter.counterTypeVO.counterTName}"></span></td>
+				<td><img
+					th:src="@{/counter/DBGifReader} + '?counterNo=' + ${counter.counterNo}"
+					alt="Counter Image" width="200px"></td>
+				<td>
+					<form method="post"
+						th:action="@{/counter/vendor-end/getOne_For_Counter_Update}"
+						style="display: inline-block;">
+						<input type="submit" value="修改"> <input type="hidden"
+							name="counterNo" th:value="${counter.counterNo}">
+					</form>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div th:if="${counter == null}">
+		<p>
+			您尚未登入，請先<a th:href="@{/counter/login}">登入</a>。
+		</p>
+	</div>
+	
+	 <div id="messageHolder" th:if="${message}" th:text="${message}" style="display:none;"></div>
+
+<script type="text/javascript">
+
+//提示修改成功
+
+document.addEventListener("DOMContentLoaded", function() {
+    setTimeout(function() {
+        var message = document.getElementById("messageHolder").textContent;
+        if (message) {
+            alert(message);
+        }
+    }, 100); // 延遲100毫秒
+});
+</script>
+</body>
+</html>

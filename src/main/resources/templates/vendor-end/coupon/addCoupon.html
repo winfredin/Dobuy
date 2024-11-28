@@ -1,122 +1,151 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- fragment引入 -->
+<th:block th:replace="~{/back-end/back-end-home/fraghead :: head}"></th:block>
+
 <title>優惠券新增 - addCoupon.html</title>
 
-<head th:insert="~{/vendor-end/coupon/included-fragment}"></head>
 <style type="text/css">
-	button {
-		padding: 5px;
-	}
-	form {
-		display: table;
-	}
-	form div {
-		display: table-row;
-	}
-	label, input, span, select {
-		display: table-cell;
-		margin: 5px;
-		text-align: left;		
-	}
-	input[type=text], input[type=password], select, textarea {
-		width: 200px;
-		margin: 5px;
-	}
-	form div div {
-		display: table-cell;
-	}
-	.center {
-        margin-left: auto;
-        margin-right: auto;
-    }
+.container49 {
+	padding: 1rem 12rem 2rem 12rem;
+}
 </style>
+
 </head>
+
 <body>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
-		 <div align="center"> <h2>優惠券新增 - addCoupon.html</h2>
-		 <h3><a class="navbar-brand" th:href="@{/coupon/select_page}"><img th:src="@{/images/back1.gif}">回查詢頁</a></h3></div>
-</nav>
+
 
 	<div align="center">
-		<h3><b>所有欄位皆為必填欄位</b></h3>
+		<h3>
+			<b>XXX櫃位優惠券新增</b>
+		</h3>
 		<form th:action="@{insert}" method="post" th:object="${couponVO}">
-			
+
 			<div>
-			<label>櫃位編號:</label>
-			<input type="text" th:field="*{counterNo}" onclick="hideContent('counterNo.errors');" /><br/>
-			<span th:if="${#fields.hasErrors('counterNo')}" th:errors="*{counterNo}" class="error" id="counterNo.errors"></span>
-			</div>
-			
-			<div>
-			<label>優惠券名稱:</label>
-			<input type="text" th:field="*{couponTitle}" onclick="hideContent('couponTitle.errors');" /><br/>
-			<span th:if="${#fields.hasErrors('couponTitle')}" th:errors="*{couponTitle}" class="error" id="couponTitle.errors"></span>
+				<label>櫃位編號:</label> <input type="text" th:field="*{counterNo}"
+					onclick="hideContent('{counterNo.errors');" /><br /> <span
+					th:if="${#fields.hasErrors('{counterNo}')}"
+					th:errors="*{counterNo}" class="error" id="*counterNo.errors"></span>
 			</div>
 
 			<div>
-			<label>優惠券內容:</label>
-			<input type="text" th:field="*{couponContext}" onclick="hideContent('couponContext.errors');" /><br/>
-			<span th:if="${#fields.hasErrors('couponContext')}" th:errors="*{couponContext}" class="error" id="couponContext.errors"></span>
+				<label>優惠券名稱:</label> <input type="text" th:field="*{couponTitle}"
+					onclick="hideContent('couponTitle.errors');" /><br /> <span
+					th:if="${#fields.hasErrors('couponTitle')}"
+					th:errors="*{couponTitle}" class="error" id="couponTitle.errors"></span>
 			</div>
-			
+
 			<div>
-			<label>優惠券起始日:</label>
-			<input type="datetime-local" th:field="*{couponStart}" onclick="hideContent('couponStart.errors');" /><br/>
-			<span th:if="${#fields.hasErrors('couponStart')}" th:errors="*{couponStart}" class="error" id="couponStart.errors"></span>
+				<label>優惠券內容:</label> <input type="text" th:field="*{couponContext}"
+					onclick="hideContent('couponContext.errors');" /><br /> <span
+					th:if="${#fields.hasErrors('couponContext')}"
+					th:errors="*{couponContext}" class="error"
+					id="couponContext.errors"></span>
 			</div>
-			
+
 			<div>
-			<label>優惠券到期日:</label>
-			<input type="datetime-local" th:field="*{couponEnd}" onclick="hideContent('couponEnd.errors');" /><br/>
-			<span th:if="${#fields.hasErrors('couponEnd')}" th:errors="*{couponEnd}" class="error" id="couponEnd.errors"></span>
+				<label>優惠券起始日:</label> <input type="date" th:field="*{couponStart}"
+					onclick="hideContent('couponStart.errors');" /><br /> <span
+					th:if="${#fields.hasErrors('couponStart')}"
+					th:errors="*{couponStart}" class="error" id="couponStart.errors"></span>
 			</div>
-			
+
 			<div>
-			<label>優惠券狀態:</label>
-			<select th:field="*{couponStatus}" onclick="hideContent('couponStatus.errors');">
-			    <option value="0">未開放</option>
-			    <option value="1">時效內</option>
-			    <option value="2">過期</option>
-			</select><br/>
-			<span th:if="${#fields.hasErrors('couponStatus')}" th:errors="*{couponStatus}" class="error" id="couponStatus.errors"></span>
+				<label>優惠券到期日:</label> <input type="date" th:field="*{couponEnd}"
+					onclick="hideContent('couponEnd.errors');" /><br /> <span
+					th:if="${#fields.hasErrors('couponEnd')}" th:errors="*{couponEnd}"
+					class="error" id="couponEnd.errors"></span>
 			</div>
-			
+
 			<div>
-		    <label>領取次數限制:</label>
-		    <input type="number" th:field="*{usageLimit}" onclick="hideContent('usageLimit.errors');" /><br/>
-		    <span th:if="${#fields.hasErrors('usageLimit')}" th:errors="*{usageLimit}" class="error" id="usageLimit.errors"></span>
+				<label>優惠券狀態:</label> <select th:field="*{couponStatus}"
+					onclick="hideContent('couponStatus.errors');">
+					<option value="0">未開放</option>
+					<option value="1">時效內</option>
+					<option value="2">過期</option>
+				</select><br /> <span th:if="${#fields.hasErrors('couponStatus')}"
+					th:errors="*{couponStatus}" class="error" id="couponStatus.errors"></span>
 			</div>
-			
+
 			<div>
-			<label>審核狀態:</label>
-			<select th:field="*{checkStatus}" onclick="hideContent('checkStatus.errors');">
-			    <option value="0">未審核</option>
-			    <option value="1">已審核</option>
-			</select><br/>
-			<span th:if="${#fields.hasErrors('checkStatus')}" th:errors="*{checkStatus}" class="error" id="checkStatus.errors"></span>
+				<label>領取次數限制:</label> <input type="number" th:field="*{usageLimit}"
+					onclick="hideContent('usageLimit.errors');" /><br /> <span
+					th:if="${#fields.hasErrors('usageLimit')}"
+					th:errors="*{usageLimit}" class="error" id="usageLimit.errors"></span>
 			</div>
-			
+
 			<div>
-				<div></div>
-				<div><button type="submit" id="submit"> 送出新增 </button></div>
-				<div></div>
-			</div>		
+				<label>審核狀態:</label> <select th:field="*{checkStatus}"
+					onclick="hideContent('checkStatus.errors');">
+					<option value="0">未審核</option>
+					<option value="1">已審核</option>
+				</select><br /> <span th:if="${#fields.hasErrors('checkStatus')}"
+					th:errors="*{checkStatus}" class="error" id="checkStatus.errors"></span>
+			</div>
+
+
+			<div id="detailsContainer">
+				<div class="detail">
+					<label>商品編號:</label> <input type="number"
+						name="couponDetails[0].goodsNo" required /><br /> <label>優惠條件:</label>
+					<input type="text" name="couponDetails[0].counterContext" required /><br />
+					<label>折扣率:</label> <input type="number"
+						name="couponDetails[0].disRate" step="0.01" min="0.01" max="1.00"
+						required /><br />
+				</div>
+			</div>
+			<button type="button" onclick="addDetail()">新增明細</button>
+			<button type="submit">送出新增</button>
+
+
+			<div>
+				<div>
+					<button type="submit" id="submit">送出新增</button>
+				</div>
+			</div>
 		</form>
 	</div>
 
-<script type="text/javascript">
-//清除提示信息
+	<!-- fragment引入 -->
+	<footer th:block
+		th:replace="~{back-end/back-end-home/fraghead :: footer}"></footer>
 
-function hideContent(d) {
-     document.getElementById(d).style.display = "none";
-}
+	<!-- fragment引入 -->
+	<th:block th:replace="~{back-end/back-end-home/fraghead :: js}"></th:block>
 
 
-</script>
+
+	<script>
+	    function addDetail() {
+	        const container = document.getElementById('detailsContainer');
+	        const index = container.children.length;
+	        const detailHtml = `
+	            <div class="detail">
+	                <label>商品編號:</label>
+	                <input type="number" name="couponDetails[${index}].goodsNo" required /><br/>
+	
+	                <label>優惠條件:</label>
+	                <input type="text" name="couponDetails[${index}].counterContext" required /><br/>
+	
+	                <label>折扣率:</label>
+	                <input type="number" name="couponDetails[${index}].disRate" step="0.01" min="0.01" max="1.00" required /><br/>
+	            </div>
+	        `;
+	        container.insertAdjacentHTML('beforeend', detailHtml);
+	    }
+	</script>
+
+
+	<script type="text/javascript">
+		//清除提示信息
+
+		function hideContent(d) {
+			document.getElementById(d).style.display = "none";
+		}
+	</script>
 
 </body>
 </html>
