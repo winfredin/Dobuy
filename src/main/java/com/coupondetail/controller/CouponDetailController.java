@@ -184,10 +184,10 @@ public class CouponDetailController {
     }
     
     // 查詢特定優惠券的明細
-    @GetMapping("/listByCouponNo")
-    public String listByCouponNo(@RequestParam("couponNo") Integer couponNo, Model model) {
-        model.addAttribute("couponDetails", couponDetailSvc.getByCouponNo(couponNo));
-        return "vendor-end/coupondetail/listCouponDetail"; // 指向顯示明細的頁面
-    }
+//    @GetMapping("/listByCouponNo")
+//    public String listByCouponNo(@RequestParam("couponNo") Integer couponNo, Model model) {
+//        model.addAttribute("couponDetails", couponDetailSvc.getByCouponNo(couponNo));
+//        return "vendor-end/coupondetail/listCouponDetail"; // 指向顯示明細的頁面
+//    }
 
 }

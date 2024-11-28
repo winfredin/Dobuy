@@ -4,8 +4,6 @@
 <!-- fragment引入 -->
 <th:block th:replace="~{/back-end/back-end-home/fraghead :: head}"></th:block>
 
-
-
 <title>所有優惠券資料 - listAllCoupon.html</title>
 
 
@@ -127,9 +125,13 @@
 		</table>
 	</div>
 
-	<script>
-		console.log('DataTables 使用的 jQuery 版本:', dataTablesJQ.fn.jquery); // 應為 3.5.1
-	</script>
+	  <ul>
+		  <li><h5><a th:href="@{/coupon/addCoupon}">Add1</a> a new Coupon.</h5></li>
+		  
+	  </ul>
+
+
+
 
 	<!-- fragment引入 -->
 	<footer th:block
