@@ -96,7 +96,10 @@ public class GoodsNoController {
         return new ModelAndView("vendor-end/goods/select_page","errorMessage", "請修正以下錯誤:<br>"+message); // 回傳錯誤訊息並讓用戶修正
     }
     
-    @GetMapping("getOne_For_Display35")
+    
+    
+    //=================以下昱夆新增==================//
+    @GetMapping("getOne_For_Display35") // 用get 因為session要抓呼叫前的路徑
     public String getOne_For_Display35(
         @RequestParam("counterNo") String counterNo, ModelMap model) {
         List<GoodsVO> goodsVO = goodsSvc.getOneCounter35(Integer.valueOf(counterNo));
@@ -120,4 +123,17 @@ public class GoodsNoController {
     	model.addAttribute("goodsVO", goodsVO);
     	return "/vendor-end/front-end-product/product";
     }
+    
+    @GetMapping("getOneGoods") //  11/28  測試點商品後帶到商品詳情頁面
+    public String getOneGoods(@RequestParam("goodsNo") String goodsNo, ModelMap model) {
+    	GoodsVO goods = goodsSvc.getOneGoods(Integer.valueOf(goodsNo));  //查詢到回傳的是一個物件
+    	List<String> goodsImg = goodsSvc.getOneGoodsImg(goods);// 將查到的物件中的圖片轉成base64，在渲染到前端
+    	model.addAttribute("goods", goods);
+    	model.addAttribute("goodsImg", goodsImg);
+    	return "front-end/shop-detail/shop-detail";
+    }
+    
+    
+    
+    //=================以上昱夆新增==================//
 }
