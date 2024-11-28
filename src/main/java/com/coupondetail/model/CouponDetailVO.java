@@ -20,8 +20,8 @@ public class CouponDetailVO implements Serializable {
     @Column(name = "couponDetailNo")
     private Integer couponDetailNo;
 
-    @ManyToOne
-    @JoinColumn(name = "couponNo", referencedColumnName = "couponNo", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "couponNo", nullable = false)  // 確保非空
     private CouponVO coupon; // 优惠券编号 (外键)
 
     @Column(name = "goodsNo", nullable = false)
@@ -55,6 +55,20 @@ public class CouponDetailVO implements Serializable {
     public CouponDetailVO() {
     }
 
+    // 自动设置时间戳
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = new Date();
+        this.updatedAt = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = new Date();
+    }
+
+    
+    
     // Getters and Setters
     public Integer getCouponDetailNo() {
         return couponDetailNo;

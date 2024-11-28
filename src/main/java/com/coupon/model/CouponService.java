@@ -1,5 +1,7 @@
 package com.coupon.model;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -12,15 +14,67 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.coupon.controller.HibernateUtil_CompositeQuery_Coupon;
+import com.coupondetail.model.CouponDetailRepository;
+import com.coupondetail.model.CouponDetailVO;
 
 @Service("couponService")
 public class CouponService {
 
     @Autowired
     CouponRepository repository;
+
+    @Autowired
+    CouponDetailRepository couponDetailRepository;
     
     @Autowired
     private SessionFactory sessionFactory;
+    
+    @Transactional(rollbackOn = Exception.class)  // 使用 rollbackOn
+    public CouponVO addCouponWithDetails(CouponVO couponVO) {
+        try {
+            // 1. 設置基本數據
+            if (couponVO.getCouponStart() == null) {
+                couponVO.setCouponStart(new Date());
+            }
+            
+            // 2. 備份明細列表並清空原有關聯
+            List<CouponDetailVO> details = new ArrayList<>(couponVO.getCouponDetails());
+            couponVO.getCouponDetails().clear();
+            
+            // 3. 先保存優惠券主體
+            CouponVO savedCoupon = repository.save(couponVO);
+            
+            // 4. 為每個明細設置關聯並添加到優惠券
+            for (CouponDetailVO detail : details) {
+                detail.setCoupon(savedCoupon);
+                detail.setCreatedAt(new Date());
+                detail.setUpdatedAt(new Date());
+                savedCoupon.getCouponDetails().add(detail);
+            }
+            
+            // 5. 再次保存以更新關聯
+            return repository.save(savedCoupon);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("保存優惠券和明細失敗：" + e.getMessage());
+        }
+    }
+    
+    
+    
+    @Transactional
+    public void addCouponDetail(Integer couponNo, CouponDetailVO couponDetailVO) {
+        // 查找优惠券是否存在
+        CouponVO coupon = repository.findById(couponNo).orElseThrow(() -> new RuntimeException("Coupon not found"));
+
+        // 关联优惠券
+        couponDetailVO.setCoupon(coupon);
+
+        // 保存优惠券明细
+        couponDetailRepository.save(couponDetailVO);
+    }
+    
 
     // 新增优惠券
     public void addCoupon(CouponVO couponVO) {
@@ -65,5 +119,7 @@ public class CouponService {
     public List<CouponVO> getCounterCoupon35(int counterNo){ //  11/27
     	return repository.findByCounterAndStatusAndCheckStatus(counterNo, 1, 1);
     }
+    
+    
     
 }
