@@ -3,6 +3,8 @@ package com.goods.controller;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.counter.model.CounterVO;
 import com.goods.model.GoodsService;
 import com.goods.model.GoodsVO;
 
@@ -68,7 +71,11 @@ public class IndexController2_inSpringBoot {
 	}
 	
 	@GetMapping("/goods/listAllCounterGoods")
-	public String listAllCounterGoods(Model model) {
+	public String listAllCounterGoods(HttpSession session ,Model model) {
+    	CounterVO counter = (CounterVO) session.getAttribute("counter"); // 在這裡從 Session 中獲取櫃位信息 
+        if (counter != null) {
+            model.addAttribute("counter", counter);
+        }
 		return "vendor-end/goods/listAllCounterGoods";
 	}
 
