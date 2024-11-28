@@ -29,5 +29,11 @@ public class RootController35 {
 		model.addAttribute("productVO", new ProductVO35()); // 创建一个空的 ProductVO 对象
 		return "vendor-end/front-end-product/addProduct";
 	}
+	
+	@GetMapping("shop-detail")
+	public String redirectToShopDetail(ModelMap model) {
+		model.addAttribute("goodsVO", new GoodsVO()); // 创建一个空的 goods 对象
+		return "front-end/shop-detail/shop-detail";
+	}
 
 }

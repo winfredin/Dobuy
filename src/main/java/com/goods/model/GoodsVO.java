@@ -1,6 +1,7 @@
 package com.goods.model;
 
 import java.sql.Timestamp;
+import java.util.Base64;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -257,4 +258,9 @@ public class GoodsVO implements java.io.Serializable {
         this.goodsEnddate = goodsEnddate;
     }
     
+    //==================以下昱夆新增=====================//
+    public String convertToBase64(byte[] bytes) {
+        return Base64.getEncoder().encodeToString(bytes);
+    }
+    //==================以上昱夆新增=====================//
 }

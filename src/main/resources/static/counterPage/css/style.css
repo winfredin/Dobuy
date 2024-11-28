@@ -38,7 +38,7 @@
 }
 
 body {
-  background: url(../img/core-img/sand.jpg) no-repeat center center fixed;
+  background: url(/demo/counterPage/img/core-img/sand.jpg) no-repeat center center fixed;
   background-size: cover;
   color: #333;
   font-family: Arial, sans-serif;
@@ -61,7 +61,6 @@ h6 {
 
 p {
   color: #2f1a1a;
-  font-size: 14px;
   line-height: 1.4;
   font-family: "helveticaneuemedium";
 }
@@ -1389,6 +1388,12 @@ img {
   color: #007bff;
 }
 
+.goods-item {
+    text-align: left; /* 左對齊 */
+    padding-left: 20px; /* 向右移動 10px */
+    list-style: none; /* 可選：移除預設的項目符號 */
+}
+
 /* ===============中間商品左邊側欄樣式============= */
 
 /* ===============中間商品區塊樣式============= */
@@ -1477,10 +1482,10 @@ img {
   /* 移除額外的陰影 */
 }
 
-.left-text {
-  font-size: 16px;
+.custom-container .left-text {
+  font-size: 30px;
   /* 文字大小 */
-  margin-right: auto;
+  margin-left: 30px;
   /* 將左側文字推到最左邊 */
 }
 
@@ -1491,7 +1496,7 @@ img {
   /* 控制搜尋框和按鈕之間的間距 */
   margin-left: auto;
   /* 將搜尋框推到最右邊 */
-  width: 40%;
+  width: 60%;
   /* 搜尋框占容器的寬度（可根據需求調整） */
 }
 
@@ -1566,6 +1571,12 @@ img {
   /* 懸停時改變文字顏色 */
 }
 
+.user-name {
+    margin-right: 80px; /* 調整右邊的距離 */
+    font-weight: bold; /* 讓文字加粗 */
+    color: #333; /* 可選：改變文字顏色 */
+}
+
 /* ===============Header 登入============= */
 
 /* ===============Coupon優惠券============= */
@@ -1624,3 +1635,5 @@ img {
 }
 
 /* ===============Coupon優惠券============= */
+
+
