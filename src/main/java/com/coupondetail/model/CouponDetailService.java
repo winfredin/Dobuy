@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,16 +41,24 @@ public class CouponDetailService {
         return optional.orElse(null);
     }
     // 查询所有优惠券明细
-    public List<CouponDetailVO> getAll() {
-        return repository.findAll();
-    }
+//    public List<CouponDetailVO> getAll() {
+//        return repository.findAll();
+//    }
+    
     // 根据条件查询优惠券明细
     public List<CouponDetailVO> getAll(Map<String, String[]> map) {
         return HibernateUtil_CompositeQuery_CouponDetail.getAllC(map, sessionFactory.openSession());
     }
     
     // **新增方法：根據優惠券編號查詢優惠券明細**
-    public List<CouponDetailVO> getByCouponNo(Integer couponNo) {
-        return repository.findByCouponNo(couponNo); // 調用 Repository 層的查詢方法
+//    public List<CouponDetailVO> getByCouponNo(Integer couponNo) {
+//        return repository.findByCoupon_CouponNo(couponNo); // 調用 Repository 層的查詢方法
+//    }
+    
+    
+    public List<CouponDetailVO> getAll() {
+        Session session = sessionFactory.openSession();
+        Query query = session.createQuery("FROM CouponDetailVO");
+        return query.list();
     }
 }

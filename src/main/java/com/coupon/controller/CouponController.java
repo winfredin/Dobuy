@@ -23,6 +23,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import com.coupon.model.CouponVO;
+import com.coupondetail.model.CouponDetailService;
+import com.coupondetail.model.CouponDetailVO;
 import com.coupon.model.CouponService;
 
 @Controller
@@ -32,6 +34,8 @@ public class CouponController {
     @Autowired
     CouponService couponSvc;
 
+    @Autowired
+    CouponDetailService coupondetailSvc;
     /*
      * This method will serve as addCoupon.html handler.
      */
@@ -42,29 +46,55 @@ public class CouponController {
         return "vendor-end/coupon/addCoupon";
     }
 
-    /*
-     * This method will be called on addCoupon.html form submission, handling POST request
-     * It also validates the user input
-     */
-    @PostMapping("insert")
-    public String insert(@Valid CouponVO couponVO, BindingResult result, ModelMap model) {
 
-        /*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
-        if (result.hasErrors()) {
-            return "vendor-end/coupon/addCoupon";
-        }
+//    @PostMapping("insert")
+//    public String insert(@Valid CouponVO couponVO, BindingResult result, ModelMap model) {
+//
+//        /*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
+//        if (result.hasErrors()) {
+//            return "vendor-end/coupon/addCoupon";
+//        }
+//
+//        /*************************** 2.開始新增資料 *****************************************/
+//        couponSvc.addCoupon(couponVO);
+//
+//        /*************************** 3.新增完成,準備轉交(Send the Success view) **************/
+//        List<CouponVO> list = couponSvc.getAll();
+//        model.addAttribute("couponListData", list);
+//        model.addAttribute("success", "- (新增成功)");
+////        return "redirect:/coupon/listAllCoupon";
+//        return "vendor-end/coupon/listAllCoupon";
+//    }
 
-        /*************************** 2.開始新增資料 *****************************************/
+    @PostMapping("/insert")
+    public String insertCouponWithDetails(
+            @ModelAttribute("couponVO") CouponVO couponVO, 
+            RedirectAttributes redirectAttributes) {
+        // 新增 Coupon
         couponSvc.addCoupon(couponVO);
 
-        /*************************** 3.新增完成,準備轉交(Send the Success view) **************/
-        List<CouponVO> list = couponSvc.getAll();
-        model.addAttribute("couponListData", list);
-        model.addAttribute("success", "- (新增成功)");
-//        return "redirect:/coupon/listAllCoupon";
-        return "vendor-end/coupon/listAllCoupon";
+        // 新增 CouponDetail，綁定到 CouponVO
+        for (CouponDetailVO detail : couponVO.getCouponDetails()) {
+            detail.setCoupon(couponVO); // 設置關聯的 CouponVO
+            coupondetailSvc.addCouponDetail(detail); // 保存 CouponDetail
+        }
+
+        redirectAttributes.addFlashAttribute("message", "新增成功！");
+        return "redirect:/coupon/list";
     }
 
+    
+    @PostMapping("/addCoupon")
+    public String addCoupon(
+        @RequestParam("couponDetail") List<CouponDetailVO> couponDetail,
+        @ModelAttribute("couponVO") CouponVO couponVO
+    ) {
+        // 業務邏輯
+        return "redirect:/success";
+    }
+    
+    
+    
     /*
      * This method will be called on listAllCoupons.html form submission, handling POST request
      */
@@ -157,6 +187,8 @@ public class CouponController {
 //        String message = isApproved ? "審核成功！" : "審核失敗！";
 //        response.sendRedirect("/couponcheck?message=" + URLEncoder.encode(message, "UTF-8"));
 //    }
+    
+    
     
     
     
