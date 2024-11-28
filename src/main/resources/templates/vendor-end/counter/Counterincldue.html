@@ -1,36 +1,4 @@
-<!DOCTYPE html>
-<html lang="zh-TW" xmlns:th="http://www.thymeleaf.org">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="description" content="">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-
-    <!-- Title -->
-    <title>櫃位首頁</title>
-
-    <!-- Favicon -->
-    <link rel="icon" href="/counter/img/core-img/favicon.ico">
-
-    <!-- Style CSS -->
-    <link rel="stylesheet" href="/counter/style.css">
-
-</head>
-
-<body>
-    <!-- Preloader -->
-    <div id="preloader">
-        <div class="preload-content">
-            <div id="original-load"></div>
-        </div>
-    </div>
-
-
-
-    <!-- ##### Header Area Start ##### -->
-    <header class="header-area">
+<header class="header-area" id="header">
 
         <!-- Top Header Area -->
         <div class="top-header">
@@ -58,7 +26,7 @@
             <div class="container h-100">
                 <div class="row h-100 align-items-center">
                     <div class="col-12">
-                        <a href="Counterindex" class="original-logo"><img src="/counter/img/core-img/logo noback.png" alt=""></a>
+                        <a th:href="@{/counter/Counterindex}" class="original-logo"><img src="/counter/img/core-img/logo noback.png" alt=""></a>
                     </div>
                 </div>
             </div>
@@ -86,7 +54,7 @@
                             <!-- Nav Start -->
                             <div class="classynav">
                                 <ul>
-                                    <li><a  class="dropdown-font" href="Counterindex">首頁</a></li>
+                                    <li><a  class="dropdown-font" th:href="@{/counter/Counterindex}">首頁</a></li>
                                     <li><a href="#">商城系統</a>
                                         <ul  class="dropdown">
                                             <li><a href="#">櫃位訂單管理</a></li>
@@ -128,15 +96,15 @@
                 </div>
             </div>
         </div>
-    </header>
+     
     <div th:if="${counter != null}" class="user-profile" style="display: flex; align-items: center; position: absolute; top: 15px; right: 15px;">
        <img th:src="@{/counter/DBGifReader} + '?counterNo=' + ${counter.counterNo}" alt="Counter Avatar" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
        <span th:text="${counter.counterCName}" style="font-size: 16px; color: #333;">櫃位名稱</span>
-       	<span th:if="${counter.counterStatus == 0}" style="font-size: 16px; color: #333;">(停權)</span>
+        <span th:if="${counter.counterStatus == 0}" style="font-size: 16px; color: #333;">(停權)</span>
 		<span th:if="${counter.counterStatus == 1}" style="font-size: 16px; color: #333;">(審核中)</span>
 		<span th:if="${counter.counterStatus == 2}" style="font-size: 16px; color: #333;">(運營)</span>
     </div>
-    
+   
 
     <footer style="position: fixed; bottom: 0; width: 100%; text-align: center; background-color: #f8f9fa; padding: 10px;">
         Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">DOBUY</a>
@@ -145,11 +113,11 @@
 
     </footer>
     <!-- ##### Footer Area End ##### -->
-
-    <!-- jQuery (Necessary for All JavaScript Plugins) -->
+    
+    	     <!-- jQuery (Necessary for All JavaScript Plugins) -->
     <script src="/counter/js/jquery/jquery-2.2.4.min.js"></script>
     <!-- Popper js -->
-    <script src="/counter/js/popper.min.js"></script>
+    <script src="static/counter/js/popper.min.js"></script>
     <!-- Bootstrap js -->
     <script src="/counter/js/bootstrap.min.js"></script>
     <!-- Plugins js -->
@@ -157,6 +125,5 @@
     <!-- Active js -->
     <script src="/counter/js/active.js"></script>
 
-</body>
 
-</html>
+</header>

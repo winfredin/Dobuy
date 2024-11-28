@@ -2,34 +2,44 @@ CREATE DATABASE IF NOT EXISTS dobuytest;
 USE dobuytest;
 
 CREATE TABLE counter (
-    counterNo INT NOT NULL AUTO_INCREMENT, -- 主鍵自增編號
-    counterAccount VARCHAR(20) NOT NULL,   -- 櫃位帳號
+    counterNo INT NOT NULL AUTO_INCREMENT , -- 主鍵自增編號
+    counterAccount VARCHAR(20) NOT NULL UNIQUE,   -- 櫃位帳號
     counterName VARCHAR(45) NOT NULL,      -- 櫃位管理者姓名
     counterPassword VARCHAR(20) NOT NULL,  -- 櫃位密碼
     counterAddress VARCHAR(255) NOT NULL,  -- 櫃位地址
     counterPhone VARCHAR(10) NOT NULL,     -- 櫃位電話
     counterUid VARCHAR(10) NOT NULL,       -- 管理者身分證字號
     counterEmail VARCHAR(100) NOT NULL,    -- 櫃位電子信箱
-    counterUbn VARCHAR(255) NOT NULL,      -- 櫃位統一編號
+    counterUbn VARCHAR(255) NOT NULL UNIQUE,      -- 櫃位統一編號
     counterCName VARCHAR(255) NOT NULL,    -- 櫃位名稱
     counterTypeNo INT NOT NULL,            -- 櫃位類別編號（外來鍵）
     counterInform VARCHAR(255),            -- 櫃位資訊介紹
     counterPic LONGBLOB,                   -- 櫃位商標圖片
-    counterStatus TINYINT NOT NULL DEFAULT 1 CHECK (counterStatus IN (0, 1, 2)),        -- 櫃位狀態 (0: 正常, 1: 暫時停權, 2: 永久停權)
+    counterStatus TINYINT NOT NULL DEFAULT 1 CHECK (counterStatus IN (0, 1, 2 )),        -- 櫃位狀態 (0: 正常, 1: 暫時停權, 2: 永久停權)
     
     PRIMARY KEY (counterNo)                -- 設定主鍵
 )
 AUTO_INCREMENT = 1;
 
-INSERT INTO counter (counterAccount, counterName, counterPassword, counterAddress, counterPhone, counterUid, counterEmail, counterUbn, counterCName, counterTypeNo, counterInform, counterStatus) VALUES
-('account1', 'John Doe', '12345', '台北', '0912345678', 'A123456789', 'john@example.com', '12345678', '老子有錢', 1, '有錢就來花', 0),
-('account2', 'Jane Smith', '12345', '新北', '0987654321', 'B987654321', 'jane@example.com', '87654321', '美美醫美', 2, 'This counter offers great products.', 0),
-('account3', '3C手機店', '12345', '台北市中山區', '0987654321', 'B234567890', '3cshop@example.com', '87654321', '3C手機專賣', 3, '品質保證，售後服務', 0),
-('account4', 'Alice Chen', '12345', '桃園', '0931234567', 'C123456789', 'alice@example.com', '13579246', '山陵家電', 3, 'Your go-to place for electronics.', 0),
-('account5', 'Bob Wang', '12345', '新竹', '0923456789', 'D987654321', 'bob@example.com', '24681357', '優你庫', 4, 'Fashion and style at its best!', 0),
-('account6', 'Carol Lin', '12345', '桃園', '0919876543', 'E123456789', 'carol@example.com', '12349876', '乃吉', 5, 'Fitness and sports gear available.', 0),
-('account7', 'Ninten Do', '12345', '中壢', '0919875678', 'Q123456789', 'niten@example.com', '12349876', '任你玩', 6, '絕對不是那個N牌', 0),
-('account8', 'Famil Lily', '12345', '中壢', '0905426543', 'J123456789', 'family@example.com', '13459876', '家家樂', 7, '清潔品、食品、等家用品的櫃位',0);
+INSERT INTO counter 
+(counterAccount, counterName, counterPassword, counterAddress, counterPhone, counterUid, counterEmail, counterUbn, counterCName, counterTypeNo, counterInform, counterStatus) 
+VALUES
+-- 女士精品
+('user1', '張淑芬', '12345', '台北市大安區仁愛路123號', '0912345678', 'A123456789', 'ladybag01@example.com', '12345678', '女士精品館', 1, '高品質女士包包與配件櫃位', 1),
+-- 時尚女裝
+('user2', '林美惠', '12345', '新北市板橋區中山路456號', '0923456789', 'B123456789', 'fashion02@example.com', '23456789', '時尚女裝館', 2, '流行女裝與女鞋專櫃', 1),
+-- 男士潮流
+('user3', '王建宏', '12345', '台中市西屯區文心路789號', '0934567890', 'C123456789', 'menstyle01@example.com', '34567890', '男士潮流館', 3, '潮流男包與配件櫃位', 1),
+-- 型男穿搭
+('user4', '陳志明', '12345', '台南市中西區民族路321號', '0945678901', 'D123456789', 'mensfashion02@example.com', '45678901', '型男穿搭館', 4, '專注男裝與男鞋的櫃位', 1),
+-- 美妝與保養
+('user5', '劉慧君', '12345', '高雄市三民區博愛路654號', '0956789012', 'E123456789', 'beautycare01@example.com', '56789012', '美妝保養館', 5, '化妝品與保養品專賣', 1),
+-- 家居科技
+('user6', '黃志成', '12345', '桃園市中壢區新生路987號', '0967890123', 'F123456789', 'homeitech01@example.com', '67890123', '家居科技館', 6, '智能家居與科技商品櫃位', 1),
+-- 女士精品
+('user7', '李佳蓉', '12345', '台中市北屯區中清路159號', '0978901234', 'G123456789', 'ladybag02@example.com', '78901234', '女士精品館二館', 1, '高端女士包包專區', 1),
+-- 時尚女裝
+('user8', '蔡佩玲', '12345', '新竹市東區東門街753號', '0989012345', 'H123456789', 'fashion03@example.com', '89012345', '時尚女裝二館', 2, '時尚女裝與鞋品新系列', 1);
 
 
 CREATE TABLE faq (
@@ -62,13 +72,13 @@ CREATE TABLE counterType (
 )
 AUTO_INCREMENT = 1;
 INSERT INTO counterType (counterTName) VALUES 
-('精品'),
-('藥妝'),
-('家電'),
-('服飾'),
-('運動'),
-('娛樂'),
-('超市');
+('精品'),   
+('時尚女裝'),
+('男士潮流'),
+('型男穿搭'),
+('美妝與保養'),
+('家居科技');
+
 
 
 -- 柏諭
