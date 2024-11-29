@@ -24,5 +24,6 @@ public interface CouponRepository extends JpaRepository<CouponVO, Integer> {
     @Query("UPDATE CouponVO c SET c.checkStatus = :checkStatus WHERE c.couponNo = :couponNo")
     int updateCheckStatusByCouponNo(@Param("checkStatus") int checkStatus, @Param("couponNo") int couponNo);
 
-    
+	CouponVO save(CouponVO couponVO);
+
 }

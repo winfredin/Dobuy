@@ -29,6 +29,8 @@ public class CouponDetailService {
     @Autowired
     private SessionFactory sessionFactory;
     
+    
+//    同時新增優惠券與明細
     @Transactional(rollbackOn = Exception.class)  // 明確指定回滾條件
     public CouponVO addCouponWithDetails(CouponVO couponVO) {
         try {
@@ -43,7 +45,7 @@ public class CouponDetailService {
             }
             
             // 一次性保存優惠券和所有明細
-            return repository.save(couponVO);
+            return couponRepository.save(couponVO);
             
         } catch (Exception e) {
             throw new RuntimeException("保存優惠券和明細失敗: " + e.getMessage());
@@ -76,7 +78,7 @@ public class CouponDetailService {
 //        return repository.findAll();
 //    }
     
-    // 根据条件查询优惠券明细
+    // 根据條件列出優惠券明细
     public List<CouponDetailVO> getAll(Map<String, String[]> map) {
         return HibernateUtil_CompositeQuery_CouponDetail.getAllC(map, sessionFactory.openSession());
     }
