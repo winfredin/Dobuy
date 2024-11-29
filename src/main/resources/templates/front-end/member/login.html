@@ -4,45 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>會員登入</title>
-    <style>
-    .error {
-        color: red;
-    }
-	</style>
-    
+    <link rel="stylesheet" th:href="@{/member/css/login.css}">
 </head>
 <body>
-    <h1>會員登入</h1>
-    
-    <div th:if="${errorMsgs}">
-    <!-- 遍历错误信息并显示 -->
-    	<ul>
-       		<li th:each="errorMsg : ${errorMsgs}" th:text="${errorMsg}" class="error"></li>
-    	</ul>
-	</div>
+    <!-- Logo -->
+    <img src="/demo/counterPage/img/core-img/logo-noback.png" alt="Logo" class="logo">
 
+    <!-- 容器 -->
+    <div class="container">
+        <!-- 標題 -->
+        <h3 class="title">會員登入</h3>
 
-    <!-- 使用 Thymeleaf 的路径动态生成 -->
-    <form th:action="@{/mem/loginCheck}" method="post" th:object="${memberVO}">
-        <label for="memAccount">會員帳號:</label>
-        <input type="text" id="memAccount" th:field="*{memAccount}" />
-        <span  th:if="${#fields.hasErrors('memAccount')}" th:errors="*{memAccount}" class="error" ></span>
-        <br><br>
+        <!-- 錯誤訊息區域 -->
+        <div th:if="${errorMsgs}" class="error-container">
+            <!-- 遍歷錯誤信息並顯示 -->
+            <div th:each="errorMsg : ${errorMsgs}" class="error">
+                <span th:text="${errorMsg}"></span>
+            </div>
+        </div>
 
-        <label for="memPassword">會員密碼:</label>
-        <input type="password" id="memPassword" th:field="*{memPassword}" />
-        <span  th:if="${#fields.hasErrors('memPassword')}" th:errors="*{memPassword}" class="error" ></span>
-        <br><br>
+        <!-- 表單 -->
+        <form th:action="@{/mem/loginCheck}" method="post" th:object="${memberVO}" class="register-form">
+            <label for="memAccount" class="form-label">會員帳號:</label>
+            <input type="text" id="memAccount" th:field="*{memAccount}" class="form-input" />
+            <span th:if="${#fields.hasErrors('memAccount')}" th:errors="*{memAccount}" class="error"></span>
+            <br>
 
-        <button type="submit">登入</button>
-        
+            <label for="memPassword" class="form-label">會員密碼:</label>
+            <input type="password" id="memPassword" th:field="*{memPassword}" class="form-input" />
+            <span th:if="${#fields.hasErrors('memPassword')}" th:errors="*{memPassword}" class="error"></span>
+            <br>
 
-        <!-- 註冊鏈接 -->
-        <a th:href="@{/mem/register}">註冊</a>
-        <br><br>
+            <button type="submit" class="form-button">登入</button>
+        </form>
 
-        <!-- 忘記密碼鏈接 -->
-        <a th:href="@{/front-end/member/reserch}">忘記密碼</a>
-    </form>
+        <!-- 註冊和忘記密碼鏈接 -->
+        <div style="margin-top: 20px; text-align: center;">
+            <a th:href="@{/mem/register}" style="margin-right: 15px;">註冊</a>
+            <a th:href="@{/front-end/member/reserch}">忘記密碼</a>
+        </div>
+    </div>
 </body>
 </html>
