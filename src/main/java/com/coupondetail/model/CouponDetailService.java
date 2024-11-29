@@ -1,5 +1,6 @@
 package com.coupondetail.model;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -12,6 +13,8 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.coupon.model.CouponRepository;
+import com.coupon.model.CouponVO;
 import com.coupondetail.controller.HibernateUtil_CompositeQuery_CouponDetail;
 
 @Service("couponDetailService")
@@ -21,7 +24,35 @@ public class CouponDetailService {
     CouponDetailRepository repository;
     
     @Autowired
+    CouponRepository couponRepository;
+    
+    @Autowired
     private SessionFactory sessionFactory;
+    
+    @Transactional(rollbackOn = Exception.class)  // 明確指定回滾條件
+    public CouponVO addCouponWithDetails(CouponVO couponVO) {
+        try {
+            // 設置明細的關聯
+            if (couponVO.getCouponDetails() != null) {
+                for (CouponDetailVO detail : couponVO.getCouponDetails()) {
+                    detail.setCoupon(couponVO);
+                    // 設置創建和更新時間
+                    detail.setCreatedAt(new Date());
+                    detail.setUpdatedAt(new Date());
+                }
+            }
+            
+            // 一次性保存優惠券和所有明細
+            return repository.save(couponVO);
+            
+        } catch (Exception e) {
+            throw new RuntimeException("保存優惠券和明細失敗: " + e.getMessage());
+        }
+    }
+    
+    
+    
+    
     // 新增优惠券明细
     public void addCouponDetail(CouponDetailVO couponDetailVO) {
         repository.save(couponDetailVO);
@@ -50,15 +81,25 @@ public class CouponDetailService {
         return HibernateUtil_CompositeQuery_CouponDetail.getAllC(map, sessionFactory.openSession());
     }
     
-    // **新增方法：根據優惠券編號查詢優惠券明細**
-//    public List<CouponDetailVO> getByCouponNo(Integer couponNo) {
-//        return repository.findByCoupon_CouponNo(couponNo); // 調用 Repository 層的查詢方法
-//    }
-    
+    // 根據優惠券編號查詢明細
+    public List<CouponDetailVO> getByCouponNo(Integer couponNo) {
+        try {
+            List<CouponDetailVO> details = repository.findByCoupon_CouponNo(couponNo);
+            // 記錄查詢結果
+            System.out.println("查詢到 " + details.size() + " 筆明細記錄");
+            return details;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("查詢優惠券明細失敗: " + e.getMessage());
+        }
+    }
     
     public List<CouponDetailVO> getAll() {
         Session session = sessionFactory.openSession();
         Query query = session.createQuery("FROM CouponDetailVO");
         return query.list();
     }
+    
+
+    
 }

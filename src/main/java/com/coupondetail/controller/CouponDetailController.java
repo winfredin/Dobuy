@@ -21,15 +21,35 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import com.coupondetail.model.CouponDetailVO;
+import com.coupon.model.CouponService;
+import com.coupon.model.CouponVO;
 import com.coupondetail.model.CouponDetailService;
 
 @Controller
 @RequestMapping("/coupondetail")
 public class CouponDetailController {
 
+	
+    @Autowired
+    CouponService couponSvc;
+    
     @Autowired
     CouponDetailService couponDetailSvc;
 
+    
+    @PostMapping("/addCoupon")
+    public String addCoupon(@ModelAttribute CouponVO coupon, Model model) {
+        try {
+        	couponSvc.addCouponWithDetails(coupon);
+            model.addAttribute("successMessage", "Coupon added successfully!");
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "Failed to add coupon: " + e.getMessage());
+        }
+        return "couponForm";
+    }
+    
+    
+    
     /*
      * This method will serve as addCouponDetail.html handler.
      */
@@ -118,15 +138,6 @@ public class CouponDetailController {
         /*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
         result = removeFieldError(couponDetailVO, result, "upFiles");
 
-//        if (parts[0].isEmpty()) { // 使用者未選擇要上傳的新文件時
-//            byte[] upFiles = couponDetailSvc.getOneCouponDetail(couponDetailVO.getCouponDetailNo()).getUpFiles();
-//            couponDetailVO.setUpFiles(upFiles);
-//        } else {
-//            for (MultipartFile multipartFile : parts) {
-//                byte[] upFiles = multipartFile.getBytes();
-//                couponDetailVO.setUpFiles(upFiles);
-//            }
-//        }
         if (result.hasErrors()) {
 //            return "back-end/coupondetail/update_couponDetail_input";
         }
@@ -184,10 +195,19 @@ public class CouponDetailController {
     }
     
     // 查詢特定優惠券的明細
-//    @GetMapping("/listByCouponNo")
-//    public String listByCouponNo(@RequestParam("couponNo") Integer couponNo, Model model) {
-//        model.addAttribute("couponDetails", couponDetailSvc.getByCouponNo(couponNo));
-//        return "vendor-end/coupondetail/listCouponDetail"; // 指向顯示明細的頁面
-//    }
+    @GetMapping("/listByCouponNo")
+    public String listByCouponNo(@RequestParam("couponNo") Integer couponNo, Model model) {
+        try {
+            System.out.println("接收到查詢請求，優惠券編號: " + couponNo);
+            List<CouponDetailVO> details = couponDetailSvc.getByCouponNo(couponNo);
+            model.addAttribute("couponDetails", details);
+            System.out.println("查詢成功，找到 " + details.size() + " 筆明細");
+            return "vendor-end/coupondetail/listCouponDetail";
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("error", "查詢明細失敗：" + e.getMessage());
+            return "error"; // 添加一個錯誤頁面處理異常情況
+        }
+    }
 
 }

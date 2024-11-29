@@ -2,18 +2,21 @@ package com.coupon.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.transaction.annotation.Transactional; 
 import javax.validation.Valid;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -45,6 +48,17 @@ public class CouponController {
         model.addAttribute("couponVO", couponVO);
         return "vendor-end/coupon/addCoupon";
     }
+    
+    @PostMapping("/addCouponDetail")
+    public ResponseEntity<String> addCouponDetail(@RequestParam Integer couponNo,
+                                                  @RequestBody CouponDetailVO couponDetailVO) {
+        try {
+        	couponSvc.addCouponDetail(couponNo, couponDetailVO);
+            return ResponseEntity.ok("Coupon detail added successfully.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
 
 //    @PostMapping("insert")
@@ -68,21 +82,40 @@ public class CouponController {
 
     @PostMapping("/insert")
     public String insertCouponWithDetails(
-            @ModelAttribute("couponVO") CouponVO couponVO, 
+            @ModelAttribute("couponVO") CouponVO couponVO,
             RedirectAttributes redirectAttributes) {
-        // 新增 Coupon
-        couponSvc.addCoupon(couponVO);
-
-        // 新增 CouponDetail，綁定到 CouponVO
-        for (CouponDetailVO detail : couponVO.getCouponDetails()) {
-            detail.setCoupon(couponVO); // 設置關聯的 CouponVO
-            coupondetailSvc.addCouponDetail(detail); // 保存 CouponDetail
+        try {
+            // 輸出調試信息
+            System.out.println("接收到的數據：");
+            System.out.println("優惠券標題: " + couponVO.getCouponTitle());
+            System.out.println("明細數量: " + 
+                (couponVO.getCouponDetails() != null ? 
+                 couponVO.getCouponDetails().size() : 0));
+            
+            // 添加驗證
+            if (couponVO.getCouponDetails() == null || 
+                couponVO.getCouponDetails().isEmpty()) {
+                throw new IllegalArgumentException("至少需要一個優惠券明細");
+            }
+            
+            // 調用服務保存數據
+            CouponVO savedCoupon = couponSvc.addCouponWithDetails(couponVO);
+            
+            // 設置成功消息
+            redirectAttributes.addFlashAttribute("success", 
+                String.format("優惠券 %s 新增成功！", savedCoupon.getCouponTitle()));
+            return "redirect:/coupon/listAllCoupon";
+            
+        } catch (Exception e) {
+            // 設置錯誤消息
+            redirectAttributes.addFlashAttribute("error", "新增失敗：" + e.getMessage());
+            // 保留輸入的數據
+            redirectAttributes.addFlashAttribute("couponVO", couponVO);
+            return "redirect:/coupon/addCoupon";
         }
-
-        redirectAttributes.addFlashAttribute("message", "新增成功！");
-        return "redirect:/coupon/list";
     }
 
+    
     
     @PostMapping("/addCoupon")
     public String addCoupon(
@@ -156,6 +189,8 @@ public class CouponController {
         return "vendor-end/coupon/listAllCoupon";
     }
     
+    
+//    審核優惠券
     @PostMapping("/approve")
     public String approveCoupon(@RequestParam("couponNo") int couponNo, RedirectAttributes redirectAttributes) {
         boolean isApproved = couponSvc.approveCoupon(couponNo);
@@ -165,8 +200,7 @@ public class CouponController {
             redirectAttributes.addFlashAttribute("message", "審核失敗！");
         }
         return "redirect:/couponcheck"; // 審核完成後重定向到優惠券列表頁
-    }
-    
+    }    
 //    靜態資源無法載入
 //    @PostMapping("/approve")
 //    public String approveCoupon(@RequestParam("couponNo") int couponNo, Model model) {
@@ -180,13 +214,7 @@ public class CouponController {
 //        return "back-end/coupon/couponcheck"; // 假設這是優惠券審核結果頁面
 //    }
     
-//成功訊息顯示在URL
-//    @PostMapping("/approve")
-//    public void approveCoupon(@RequestParam("couponNo") int couponNo, HttpServletResponse response) throws IOException {
-//        boolean isApproved = couponSvc.approveCoupon(couponNo);
-//        String message = isApproved ? "審核成功！" : "審核失敗！";
-//        response.sendRedirect("/couponcheck?message=" + URLEncoder.encode(message, "UTF-8"));
-//    }
+
     
     
     

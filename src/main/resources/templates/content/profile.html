@@ -1,0 +1,107 @@
+<style>
+    .profile-container {
+    width: 60%;
+    margin: 20px auto;
+    font-family: Arial, sans-serif;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.profile-form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.profile-info {
+    margin-bottom: 10px;
+}
+
+input[type="text"] {
+    padding: 8px;
+    width: 100%;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.profile-gender input {
+    margin-right: 5px;
+}
+
+.profile-birthday select {
+    padding: 8px;
+    margin-right: 5px;
+}
+
+.save-btn {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #ff4500;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+</style>
+
+
+
+
+
+
+<div class="profile-container">
+    <h2>我的檔案</h2>
+    <p>管理你的檔案以保護你的帳戶</p>
+
+    <form class="profile-form">
+        <label>使用者帳號</label>
+        <div class="profile-info"></div>
+
+        <label>姓名</label>
+        <input type="text" name="name" placeholder="輸入你的名字">
+
+        <label>Email</label>
+        <div class="profile-info">
+            <a href="#">變更</a>
+        </div>
+
+        <label>手機號碼</label>
+        <div class="profile-info">
+             <a href="#">變更</a>
+        </div>
+
+        <label>性別</label>
+        <div class="profile-gender">
+            <input type="radio" name="gender" value="male"> 男性
+            <input type="radio" name="gender" value="female"> 女性
+            <input type="radio" name="gender" value="other"> 其他
+        </div>
+
+        <label>生日</label>
+        <div class="profile-birthday">
+            <select name="day">
+                <option>日期</option>
+                <!-- 添加日期選項 -->
+            </select>
+            <select name="month">
+                <option>月份</option>
+                <!-- 添加月份選項 -->
+            </select>
+            <select name="year">
+                <option>年份</option>
+                <!-- 添加年份選項 -->
+            </select>
+        </div>
+
+        <button type="submit" class="save-btn">儲存</button>
+    </form>
+</div>

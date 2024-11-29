@@ -5,7 +5,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Document</title>
-
+<link rel="stylesheet" th:href="@{/slick-1.8.1/slick/slick.css}" />
+<link rel="stylesheet" th:href="@{/slick-1.8.1/slick/slick-theme.css}" />
 <!-- Thymeleaf 引用 CSS 文件 -->
 <link rel="stylesheet" th:href="@{/shop-detail/css/test1.css}">
 <link rel="stylesheet" th:href="@{/shop-detail/css/shop_detail.css}">
@@ -20,8 +21,7 @@
 		<div class="header">
 			<!-- Logo -->
 			<div class="logo">
-				<img src="/demo/shop-detail/images/logo-noback.png" alt="logo"
-					class="logo">
+				<img src="/shop-detail/images/logo-noback.png" alt="logo" class="logo">
 			</div>
 
 			<!-- 搜尋欄 -->
@@ -29,7 +29,7 @@
 				<div class="search">
 					<input type="text" placeholder="Search..." class="search" action="">
 					<button class="search_button" name="search"></button>
-					<img src="/demo/shop-detail/images/magnifying-glass-dollar-solid.svg"
+					<img src="/shop-detail/images/magnifying-glass-dollar-solid.svg"
 						alt="Search">
 				</div>
 
@@ -47,18 +47,18 @@
 			<!-- 圖示區域 -->
 			<div class="icon_area">
 				<div class="icons">
-					<a class="icons" href="#"><img src="/demo/shop-detail/images/會員中心.png"
+					<a class="icons" href="#"><img src="/shop-detail/images/會員中心.png"
 						alt="User"></a> 
 					<a class="icons" href="login.html"><img
-						src="/demo/shop-detail/images/log-in.png" alt="Login"></a> 
+						src="/shop-detail/images/log-in.png" alt="Login"></a> 
 					<a class="icons"
-						href="#"><img src="/demo/shop-detail/images/聊天室(FAQ 客服).png" alt="Chat"></a>
-					<a class="icons" href="#"><img src="/demo/shop-detail/images/購物車.png"
+						href="#"><img src="/shop-detail/images/聊天室(FAQ 客服).png" alt="Chat"></a>
+					<a class="icons" href="#"><img src="/shop-detail/images/購物車.png"
 						alt="Cart"></a>
 				</div>
 				<div class="coupon_area">
 					<a class="coupon" href="#"><img
-						src="/demo/shop-detail/images/優惠卷領取頁面圖示.png" alt="coupon"></a>
+						src="/shop-detail/images/優惠卷領取頁面圖示.png" alt="coupon"></a>
 				</div>
 			</div>
 		</div>
@@ -102,22 +102,27 @@
 						<td class="Coupon_Title_0">賣場優惠券</td>
 						<td class="Coupon_Title_1" text=""></td>
 					</tr>
-					<tr class="Goods_Description">
-						<td class="Goods_Description_0">商品敘述</td>
-						<td class="Goods_Description_1"><pre
-								th:text="${goods.goodsDescription}"></pre></td>
-					</tr>
 					<tr class="Goods_Amount">
 						<td class="Goods_Amount_0">商品庫存</td>
 						<td class="Goods_Amount_1" th:text="${goods.goodsAmount}"></td>
 					</tr>
+					<tr class="Goods_Description">
+						<td class="Goods_Description_0">商品敘述</td>
+						<td class="Goods_Description_1" th:text="${goods.goodsDescription}"></td>
+					</tr>
+					<tr>
+					<form class="buy_form" action="/add-to-cart" method="POST">
+					    <td class="label_item">數量</td>
+					    <td><input class="buy_count" value="1" min="1" type="number" name="quantity"></td>
+					</form>
+		            </tr>
 					<tr>
 						<td></td>
 						<td>
-							<button class="shopping_button" type="submit">
-								<img alt="icon-add-to-cart" class="_kL9Hf"
-									th:src="@{https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/productdetailspage/b96050554b3be4feea08.svg}">
-								放入購物車
+							<button class="shopping_button" type="button" onclick="addToCart()">
+							    <img alt="icon-add-to-cart" class="_kL9Hf" 
+							    	th:src="@{https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/productdetailspage/b96050554b3be4feea08.svg}">
+							    放入購物車
 							</button>
 						</td>
 					</tr>

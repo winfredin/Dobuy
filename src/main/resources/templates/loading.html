@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style th:inline="css">
+        body,html{margin:0;padding:0;height:100%;}
+        body{
+       
+          background-size:cover;
+          font-family: 'Cabin Condensed', sans-serif;
+          display:flex;
+          flex-direction:column;
+          justify-content:center;
+          align-items:center;
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+        }
+        svg{font-weight:bold;max-width:600px;height:auto;}
+        .pageloading {
+          position: fixed;
+          width: 100%;
+          height: 100%;
+          /* background-color: #0c4475; */
+          left: 0;
+          top:0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          transition: 0.5s 0.5s;
+          
+        }
+        .pageloading.complete {
+          opacity: 0;
+          display: none;
+        }
+        .pageloading.complete .monster {
+          transform: scale(0.01) rotate(360deg);
+        }
+        .loading {
+          width:500px;
+          height: 8px;
+          background-color: snow;
+          margin-top: 50px;
+          border-radius: 4px;
+          overflow: hidden;
+        }
+        .loading .bar {
+          width: 0%;
+          height: 100%;
+          background-color: #eaf03e;
+        }
+
+        #img{
+        top:0;
+        left: 0;
+        position: absolute;
+        display: none;
+        z-index:100 ;
+        }
+        div.change{
+          animation: aa  1s ease-in forwards;
+        }
+        @keyframes aa {
+         from{
+          transform: translateY(100%);
+          opacity: 0;
+         }
+          to{
+            transform: translateY(0);
+            opacity: .5;
+          }
+        }
+        #itext{
+          position: absolute;
+        display: none;
+        z-index:100 ;
+        }
+    </style>
+</head>
+<body th:style="|background-image: url('@{/images/background.jpg}'); background-size: cover;|">
+  
+  <!-- Thymeleaf: Link to homepage dynamically -->
+  <a th:href="@{/manager/select_page}" id="img"><img th:src="@{/images/logo noback.png}" style="width: 100px;" title="回首頁"></a>
+  
+  <!-- Dynamic Text Section -->
+  <div id="itext">
+    <h2>「DO BUY」，其名取自「杜拜」諧音，象徵豪華與高品質的購物體驗。</h2><br>
+    <h2>以「購物與轉售」為核心特色，讓消費者在購買商品時，不僅能享受優質的商品與服務，</h2><br>
+    <h2>還能在日後不需要時輕鬆將商品轉售，實現商品二次價值。</h2><br>
+    <h2>嚴選能提供生活質感商品的供應商，並提供精緻且經久耐用的商品選擇，</h2><br>
+    <h2>確保消費者不僅能享受購物的愉悅，在商品轉售中也能獲得極佳的價值回報。</h2>
+  </div>
+
+  <!-- Loading Page -->
+  <div class="pageloading">
+    <svg viewbox="0 0 100 20">
+        <defs>
+          <linearGradient id="gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="5%" stop-color="#917417"/>
+            <stop offset="95%" stop-color="#e6be40"/>
+          </linearGradient>
+          <pattern id="wave" x="0" y="0" width="120" height="20" patternUnits="userSpaceOnUse">
+            <path id="wavePath" d="M-40 9 Q-30 7 -20 9 T0 9 T20 9 T40 9 T60 9 T80 9 T100 9 T120 9 V20 H-40z" mask="url(#mask)" fill="url(#gradient)"> 
+              <animateTransform
+                  attributeName="transform"
+                  begin="0s"
+                  dur="1.5s"
+                  type="translate"
+                  from="0,0"
+                  to="40,0"
+                  repeatCount="indefinite" />
+            </path>
+          </pattern>
+        </defs>
+        <text text-anchor="middle" x="50" y="15" font-size="17" fill="url(#wave)"  fill-opacity="0.6">LOADING</text>
+        <text text-anchor="middle" x="50" y="15" font-size="17" fill="url(#gradient)" fill-opacity="0.1">LOADING</text>
+      </svg>
+      
+    <div class="loading">
+        <div class="bar"></div>
+    </div>
+  </div>
+  
+  <!-- Image for page transition -->
+  <div id="chac">
+    <img th:src="@{/images/ruben-bagues-vPQfc4niDh0-unsplash.jpg}" id="slide-element" style="opacity: 0;">
+  </div>
+
+  <!-- Script for handling the loading bar and page animations -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script>
+      var percent = 0;
+      var timer = setInterval(function(){
+        $('.bar').css('width',percent+'%')
+        percent += 1;
+        // Write >100% so that the bar reaches 100% before stopping
+        if(percent > 100){
+          $('.pageloading').addClass('complete');   
+
+          // After loading, hide the loading page and clear the timer
+          clearInterval(timer);
+          setTimeout(changeText, 3000); // Change text after 3 seconds
+        }
+      },30);
+
+      setInterval(function(){
+        if($('.pageloading').hasClass('complete')){
+          $("#slide-element").css("opacity","1");
+          $("#chac").addClass("change");
+        }
+      },30);
+    
+      setTimeout(function(){
+        $("#img").fadeIn(3000);
+        $("#itext").fadeIn(4500);
+      },4000);
+  </script>
+
+</body>
+</html>

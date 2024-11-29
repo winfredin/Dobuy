@@ -10,10 +10,10 @@
 } */
 body {
     width: 100%; /* 使用100%讓body全螢幕 */
-    height: 0; /* 設定高度為整個螢幕高度 */
-    background-image: url("/demo/shop-detail/images/ruben-bagues-vPQfc4niDh0-unsplash.jpg");
+    height: 1; /* 設定高度為整個螢幕高度 */
+    background: url('/shop-detail/images/ruben-bagues-vPQfc4niDh0-unsplash.jpg');
     background-size: cover; /* 背景圖片會完全覆蓋，並保持比例 */
-    background-repeat: no-repeat; 
+/*     background-repeat: no-repeat;  */
     background-position: center center; /* 讓圖片置中 */
     min-height: 100vh; /* 保證最小高度為瀏覽器視窗的高度 */
     flex-direction: column;

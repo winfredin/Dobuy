@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>IBM Manager: Home</title>
+    <style>
+        body {
+            
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        table#table-1 {
+            width: 300px;
+/*             border: 3px solid red; */
+            margin-top: 5px;
+            margin-bottom: 10px;
+            height: 100px;
+            text-align: center;
+            overflow: hidden;
+        }
+        table#table-1 h4 {
+/*             color: red; */
+            display: block;
+            margin-bottom: 1px;
+        }
+        h4 {
+/*             color: blue; */
+            display: inline;
+        }
+        #me a {
+            margin-bottom: 100px;
+        }
+        #cat {
+            border-radius: 100%;
+/*             border: 3px solid red; */
+        }
+    </style>
+</head>
+<body  th:style="|background-image: url('@{/images/background.jpg}'); background-size: cover;|">
+
+<table id="table-1">
+    <tr>
+        <td><img th:src="@{/images/cat2.gif}" width="250" height="250" border="0" id="cat"></td>
+    </tr>
+</table>
+
+<form th:action="@{/logout}" method="get">
+    
+    <button type="submit">登出</button>
+</form>
+
+<p>This is the Home page for IBM Manager: Home</p>
+
+
+    <h3>歡迎,使用者: <span th:text="${session.managerAccount}"></span></h3>
+ <h3>您的權限：
+    <span th:each="autha : ${session.auth}"><span th:text=" ${autha.authNo.authTitle}" style="font-weight:normal;font-size:16px">
+      </span>   
+    </span>
+
+
+
+
+    <span th:if="${#lists.isEmpty(session.auth)}" style="font-weight:normal;font-size:16px" >您尚無權限資料。</span>
+</h3>
+
+<!-- 錯誤表列 -->
+	<div class="errorblock" th:utext="${errorMessage}">${errorMessage}</div><br>
+<ul>
+    <li><h5><a href='listAllManager'>List</a> all Managers.  <br><br></li>
+   <li><h5><a href='listAllAuth'>List</a> all Auths.  <br><br></li>
+
+    <li>
+        <form method="post" th:action="@{/auth/getAuth_For_Display}">
+            <b>輸入權限編號 (如1):</b>
+            <input type="text" name="authNo" th:value="${param.authNo}">
+            <input type="submit" value="送出">
+        </form>
+    </li>
+
+    <!-- 使用 Thymeleaf 寫法來呼叫服務 --> 
+    <form method="post" th:action="@{/auth/getAuth_For_Display}">
+        <b>選擇權限編號:</b>
+        <select name="authNo">
+				     <option th:each="authVO : ${authListData}" th:value="${authVO.authNo}" th:text="${authVO.authNo}" />
+			    </select>
+				<input type="submit" value="送出">
+    </form>
+
+    <li>
+        <form method="post" th:action="@{getOne_For_Display}">
+            <b>輸入管理員編號 (如1):</b>
+            <input type="text" name="managerNo" th:value="${param.managerNo}">
+            <input type="submit" value="送出">
+        </form>
+    </li>
+
+    <form method="post" th:action="@{getOne_For_Display}">
+        <b>選擇管理員編號:</b>
+        <select name="managerNo">
+				     <option th:each="managerVO : ${managerListData}" th:value="${managerVO.managerNo}" th:text="${managerVO.managerNo}" />
+			    </select>
+				<input type="submit" value="送出">
+    </form>
+</li>
+    <li>
+       <form method="post" th:action="@{getOne_For_Display}">
+        <b>選擇管理員姓名:</b>
+        <select name="managerNo">
+				     <option th:each="managerVO : ${managerListData}" th:value="${managerVO.managerNo}" th:text="${managerVO.managerName}" />
+			    </select>
+				<input type="submit" value="送出">
+    </form>
+    </li>
+</ul>
+
+<h3 id="me">管理員管理</h3>
+
+<ul>
+    <li><a th:href="@{addManager}">Add</a> a new Manager.</li>
+</ul>
+
+</body>
+</html>
