@@ -61,24 +61,6 @@ public class CouponController {
     }
 
 
-//    @PostMapping("insert")
-//    public String insert(@Valid CouponVO couponVO, BindingResult result, ModelMap model) {
-//
-//        /*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
-//        if (result.hasErrors()) {
-//            return "vendor-end/coupon/addCoupon";
-//        }
-//
-//        /*************************** 2.開始新增資料 *****************************************/
-//        couponSvc.addCoupon(couponVO);
-//
-//        /*************************** 3.新增完成,準備轉交(Send the Success view) **************/
-//        List<CouponVO> list = couponSvc.getAll();
-//        model.addAttribute("couponListData", list);
-//        model.addAttribute("success", "- (新增成功)");
-////        return "redirect:/coupon/listAllCoupon";
-//        return "vendor-end/coupon/listAllCoupon";
-//    }
 
     @PostMapping("/insert")
     public String insertCouponWithDetails(
@@ -132,13 +114,32 @@ public class CouponController {
      * This method will be called on listAllCoupons.html form submission, handling POST request
      */
     @PostMapping("getOne_For_Update")
-    public String getOne_For_Update(@RequestParam("couponNo") String couponNo, ModelMap model) {
-        /*************************** 2.開始查詢資料 *****************************************/
-        CouponVO couponVO = couponSvc.getOneCoupon(Integer.valueOf(couponNo));
-
-        /*************************** 3.查詢完成,準備轉交(Send the Success view) **************/
-        model.addAttribute("couponVO", couponVO);
-        return "vendor-end/coupon/update_coupon_input";
+    public String getOne_For_Update(@RequestParam("couponNo") String couponNo, Model model) {
+        try {
+            // 獲取優惠券數據
+            CouponVO couponVO = couponSvc.getOneCouponWithDetails(Integer.valueOf(couponNo));
+            
+            if (couponVO == null) {
+                model.addAttribute("error", "找不到指定的優惠券");
+                return "redirect:/coupon/listAllCoupon";
+            }
+            
+            // 確保明細列表不為 null
+            if (couponVO.getCouponDetails() == null) {
+                couponVO.setCouponDetails(new ArrayList<>());
+            }
+            
+            // 將數據添加到模型
+            model.addAttribute("couponVO", couponVO);
+            System.out.println("載入優惠券數據：" + couponVO.getCouponTitle());
+            System.out.println("明細數量：" + couponVO.getCouponDetails().size());
+            
+            return "vendor-end/coupon/update_coupon_input";
+            
+        } catch (Exception e) {
+            model.addAttribute("error", "載入數據時發生錯誤：" + e.getMessage());
+            return "redirect:/coupon/listAllCoupon";
+        }
     }
 
     /*
@@ -146,23 +147,45 @@ public class CouponController {
      * It also validates the user input
      */
     @PostMapping("update")
-    public String update(@Valid CouponVO couponVO, BindingResult result, ModelMap model) {
-
-        /*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
+    public String update(@Valid CouponVO couponVO, 
+                         BindingResult result, 
+                         Model model) {
+        System.out.println("Received update request for coupon: " + couponVO.getCouponNo());
+        
         if (result.hasErrors()) {
+            System.out.println("Validation errors found:");
+            for (FieldError error : result.getFieldErrors()) {
+                System.out.println(error.getField() + ": " + error.getDefaultMessage());
+            }
             return "vendor-end/coupon/update_coupon_input";
         }
 
-        /*************************** 2.開始修改資料 *****************************************/
-        couponSvc.updateCoupon(couponVO);
-
-        /*************************** 3.修改完成,準備轉交(Send the Success view) **************/
-        model.addAttribute("success", "- (修改成功)");
-        couponVO = couponSvc.getOneCoupon(Integer.valueOf(couponVO.getCouponNo()));
-        model.addAttribute("couponVO", couponVO);
-        return "vendor-end/coupon/listOneCoupon";
+        try {
+            // 更新優惠券和明細
+            CouponVO updatedCoupon = couponSvc.updateCouponWithDetails(couponVO);
+            model.addAttribute("success", "修改成功！");
+            model.addAttribute("couponVO", updatedCoupon);
+            // 直接返回顯示更新後結果的頁面，而不是重定向，確保能顯示更新後的數據
+            return "vendor-end/coupon/listOneCoupon";
+        } catch (Exception e) {
+            System.out.println("Error updating coupon: " + e.getMessage());
+            e.printStackTrace();
+            model.addAttribute("error", "修改失敗：" + e.getMessage());
+            model.addAttribute("couponVO", couponVO);
+            return "vendor-end/coupon/update_coupon_input";
+        }
     }
 
+    // 添加這個方法處理 GET 請求
+    @GetMapping("update")
+    public String handleUpdateGet(@RequestParam(required = false) Integer couponNo, Model model) {
+        // 如果有 couponNo，重定向到修改頁面
+        if (couponNo != null) {
+            return "redirect:/coupon/getOne_For_Update?couponNo=" + couponNo;
+        }
+        // 否則重定向到列表頁面
+        return "redirect:/coupon/listAllCoupon";
+    }
     /*
      * This method will be called on listAllCoupons.html form submission, handling POST request
      */
@@ -215,7 +238,7 @@ public class CouponController {
 //    }
     
 
-    
+
     
     
     

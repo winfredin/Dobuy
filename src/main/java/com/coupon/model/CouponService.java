@@ -29,7 +29,10 @@ public class CouponService {
     @Autowired
     private SessionFactory sessionFactory;
     
-    @Transactional(rollbackOn = Exception.class)  // 使用 rollbackOn
+    
+    
+//    同時新增優惠券與明細
+    @Transactional(rollbackOn = Exception.class)  
     public CouponVO addCouponWithDetails(CouponVO couponVO) {
         try {
             // 1. 設置基本數據
@@ -60,6 +63,79 @@ public class CouponService {
             throw new RuntimeException("保存優惠券和明細失敗：" + e.getMessage());
         }
     }
+    
+    // 獲取優惠券及其明細的完整數據
+    public CouponVO getOneCouponWithDetails(Integer couponNo) {
+        try {
+            // 從資料庫獲取優惠券
+            Optional<CouponVO> couponOpt = repository.findById(couponNo);
+            
+            if (!couponOpt.isPresent()) {
+                throw new RuntimeException("找不到優惠券編號：" + couponNo);
+            }
+            
+            CouponVO coupon = couponOpt.get();
+            
+            // 確保明細列表已初始化
+            if (coupon.getCouponDetails() == null) {
+                coupon.setCouponDetails(new ArrayList<>());
+            }
+            
+            return coupon;
+            
+        } catch (Exception e) {
+            throw new RuntimeException("獲取優惠券數據時發生錯誤：" + e.getMessage());
+        }
+    }
+    
+    
+//  同時修改優惠券與明細
+    @Transactional(rollbackOn = Exception.class)
+    public CouponVO updateCouponWithDetails(CouponVO couponVO) {
+        try {
+            // 打印接收到的數據
+            System.out.println("Updating coupon: " + couponVO.getCouponNo());
+            System.out.println("Details count: " + 
+                (couponVO.getCouponDetails() != null ? couponVO.getCouponDetails().size() : 0));
+            
+            // 獲取原有數據
+            CouponVO existingCoupon = getOneCouponWithDetails(couponVO.getCouponNo());
+            
+            // 更新基本資料
+            existingCoupon.setCouponTitle(couponVO.getCouponTitle());
+            existingCoupon.setCouponContext(couponVO.getCouponContext());
+            existingCoupon.setCouponStart(couponVO.getCouponStart());
+            existingCoupon.setCouponEnd(couponVO.getCouponEnd());
+            existingCoupon.setCouponStatus(couponVO.getCouponStatus());
+            existingCoupon.setUsageLimit(couponVO.getUsageLimit());
+            existingCoupon.setCheckStatus(couponVO.getCheckStatus());
+            existingCoupon.setCounterNo(couponVO.getCounterNo());
+            
+            // 處理明細
+            if (couponVO.getCouponDetails() != null && !couponVO.getCouponDetails().isEmpty()) {
+                // 先清除現有明細
+                existingCoupon.getCouponDetails().clear();
+                
+                // 添加新的明細
+                for (CouponDetailVO detail : couponVO.getCouponDetails()) {
+                    detail.setCoupon(existingCoupon);  // 設置關聯
+                    detail.setUpdatedAt(new Date());
+                    if (detail.getCreatedAt() == null) {
+                        detail.setCreatedAt(new Date());
+                    }
+                    existingCoupon.getCouponDetails().add(detail);
+                }
+            }
+            
+            // 保存並返回更新後的數據
+            return repository.save(existingCoupon);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("更新優惠券失敗：" + e.getMessage());
+        }
+    }
+    
     
     
     
