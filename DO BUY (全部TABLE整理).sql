@@ -699,7 +699,9 @@ CREATE TABLE ManagerAuth (
     managerNo INT NOT NULL  ,   -- 管理員編號 FK
     authNo INT NOT NULL  ,    -- 權限編號 FK
     PRIMARY KEY (managerNo, authNo)   -- 複合主鍵
+  
 );
+
 
 CREATE TABLE CounterCarousel (
     counterCarouselNo INT NOT NULL AUTO_INCREMENT PRIMARY KEY,  -- 輪播資訊編號

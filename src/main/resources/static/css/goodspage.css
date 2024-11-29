@@ -1,0 +1,231 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+/* body{
+    width: 50%;
+    height: auto;
+    background-image: url("/images/ruben-bagues-vPQfc4niDh0-unsplash.jpg");
+} */
+body {
+    width: 100%; /* 使用100%讓body全螢幕 */
+    height: 0; /* 設定高度為整個螢幕高度 */
+    background-image: url("/images/ruben-bagues-vPQfc4niDh0-unsplash.jpg");
+    background-size: cover; /* 背景圖片會完全覆蓋，並保持比例 */
+    background-repeat: no-repeat; 
+    background-position: center center; /* 讓圖片置中 */
+    min-height: 100vh; /* 保證最小高度為瀏覽器視窗的高度 */
+    flex-direction: column;
+}
+/*=========================================HEADER======================================*/
+header div{
+    /* box-sizing:inline-block; */
+    position: relative;
+    display: flex;
+    height: 20%;
+    /* border: 1px solid black; */
+
+}
+div.logo{
+    width: 11%;
+}
+div img[alt="logo"] {
+    position: relative;
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+div.header_bar{
+    display: block;
+    position: relative; /* 使 .head 可以相對於這個容器定位 */
+    width: 73%;
+}
+div.header_bar div[class="search"]{
+    display: flex;
+    width: 95%;
+    /* box-sizing: border-box; 包括邊框和內邊距在內，避免超出 */
+    /* box-sizing: inline-block; */
+}
+div.search{
+    margin-top: 3.5%;
+    margin-bottom: 3%;
+    margin-left: 1%;
+    /* margin-right: auto; */
+    
+    height: 25%;
+    border-radius: 10px;
+    
+}
+input.search{
+    margin-left: 10%;
+    width: 100%;
+    height: 40px;
+    border-radius: 30px; /* 設定邊框圓角 */
+    border: 1px solid rgba(149, 93, 56, 0.366);
+    background-color:rgba(237, 237, 230, 0.339);
+    font-size: 20px;
+    padding-left:20px;
+    box-sizing: border-box;
+}
+div.search button{
+    display: none;
+    width: 25px;
+    height: 25px;
+    /* border: 1px solid rgb(253, 0, 0); */
+    /* background-color:rgba(255, 255, 255, 0); */
+    
+}
+div.search img{
+    /* border: 1px solid black; */
+    width: 30px;
+    background-color:rgba(255, 255, 255, 0);
+    
+}
+
+.head {
+    /* 在這裡添加樣式 */
+    display: flex;               /* 將內部連結水平排列 */
+    justify-content: space-around; /* 讓連結等距分佈 */
+    align-items: center;         /* 垂直置中 */
+    padding: 1% 0%;             /* 調整內邊距 */
+    width: 100%;
+    height: 50px;               /* 設定一個高度以確保邊框顯示 */
+    margin-bottom: auto;
+    bottom: 0%;          /* 貼齊父容器的下邊框 */
+    /* border: 1px solid rgba(190, 142, 118, 0.497); */
+    border-radius: 10px;
+    background-color:rgba(229, 199, 177, 0.432);
+}
+.head a {
+    text-align: center;           /* 將連結文字置中 */
+    text-decoration: none;        /* 移除連結底線 */
+    color: rgb(0, 0, 0);          /* 設定文字顏色 */
+    font-size: 16px;              /* 設定字體大小 */
+    font-weight: bold;            /* 設定字體粗細 (bold 為粗體) */
+    font-family:Arial, Helvetica, sans-serif /* 設定字體類型 */
+}
+.head a:hover {
+    text-align: center;           /* 將連結文字置中 */
+    text-decoration: none;        /* 移除連結底線 */
+    color:brown;                 /* 設定文字顏色 */
+  
+}
+
+div.icon_area{
+    display: block;
+     /* 調整圖標之間的間距 */
+    margin-left: 0%; /*將 icons 區塊推到右側*/
+    margin-right: 0%;
+    align-items: center;
+}
+div.icons a.icons{
+    display: flex; /* 調整圖標之間的間距 */
+    margin-left: 0%; /*將 icons 區塊推到右側*/
+    margin-right: 0%;
+    align-items: center;
+}
+
+div a[class="coupon"]{
+    /* border: 1px solid purple; */
+   display: flex;           /* 使用 flex 排版 */
+   width: 100px;
+   height: 100px;
+   margin-top: 10%;
+   margin-left: 20%;
+   
+}
+div.slider{
+    width: 95%;
+    height: auto;
+    flex-shrink: 0;
+    border-radius: 2px;
+    margin-left: 30px;
+}
+div.slider img{
+    width: 100%;
+    /* border: 1px solid black; */
+    height: auto;
+}
+
+div.goods_body{
+    /* border: 1px solid black; */
+    width: 95%;
+    height: 80%;
+    display: flex;
+    margin-left: 2%;
+    margin-right: 3%;
+    box-sizing: border-box;
+}
+
+div.goods_body div.goods_list{ 
+    height: 100%;
+    width: 10%;
+    /* border: 1px solid rgba(247, 170, 103, 0.558); */
+    border-radius: 15px;
+    background-color: rgba(229, 199, 177, 0.432);
+    opacity: 0.8;
+}
+
+div.goods_body div.goods_list ul{ 
+    margin-left: 15%;
+    /* border: 1px solid rgb(0, 0, 0); */
+    border-radius: 15px;
+    font-size: 20px;
+}
+
+div.goods_body div.bestsell_goods{
+    width: 100%;
+    height: auto;
+    margin-left: 1%;
+    /* border: 1px solid black; */
+    border-radius: 15px;
+    display: flex;
+    box-sizing: border-box;
+    background-color: rgba(229, 199, 177, 0.432);
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 每行 5 個區塊 */    
+    gap: 3px;                     /* 可調整外邊距 */
+}
+
+div.goods{
+    position: relative; /* 讓子元素的絕對定位基於這個父元素 */
+    width: 100%;
+    height: 100%;
+    /* border: 1px solid black; */
+    border-radius: 15px;
+    box-sizing: border-box;
+    background-color: rgba(229, 199, 177, 0.432);
+    overflow: hidden;
+    object-fit: cover;
+}
+
+img[alt="goods"]{
+width:100%;
+height: 100%;
+
+}
+
+img[alt="star"]{
+    position: absolute; 
+    top: 5px; /* 與右上角有一點間距 */
+    right: 5px;
+    width: 10%; /* 調整圖示大小，可以根據需求修改 */
+    height: auto;
+}
+
+
+footer {
+    position: auto;
+    bottom: 0;
+    width: 100%;
+    height: 5%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #fff;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.3);
+}

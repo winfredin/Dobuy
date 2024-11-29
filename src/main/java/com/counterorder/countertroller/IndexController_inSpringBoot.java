@@ -40,12 +40,12 @@ public class IndexController_inSpringBoot {
 //    }
     
     // http://......../hello?name=peter1
-    @GetMapping("/hello")
-    public String indexWithParam(
-            @RequestParam(name = "name", required = false, defaultValue = "") String name, Model model) {
-        model.addAttribute("message", name);
-        return "index"; //view
-    }
+//    @GetMapping("/hello")
+//    public String indexWithParam(
+//            @RequestParam(name = "name", required = false, defaultValue = "") String name, Model model) {
+//        model.addAttribute("message", name);
+//        return "index"; //view
+//    }
     
   
     //=========== 以下第63~75行是提供給 /src/main/resources/templates/back-end/emp/select_page.html 與 listAllEmp.html 要使用的資料 ===================   
