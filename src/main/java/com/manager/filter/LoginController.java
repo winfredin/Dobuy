@@ -14,7 +14,7 @@ import com.manager.model.ManagerVO;
 import com.managerauth.model.ManagerAuthService;
 import com.managerauth.model.ManagerAuthVO;
 
-
+@Controller
 public class LoginController {
 
     @Autowired
@@ -25,7 +25,7 @@ public class LoginController {
     // 顯示登入頁面
     @GetMapping("/login/Login")
     public String showLoginPage() {
-        return "/login/Login";  // 顯示登入頁面，請確認 Login.html 存在於 resources/templates/login/
+        return "back-end/login/Login";  // 顯示登入頁面，請確認 Login.html 存在於 resources/templates/login/
     }
 
     // 處理登入邏輯
@@ -46,12 +46,12 @@ public class LoginController {
         } else {
             // 登入失敗，顯示錯誤訊息
             model.addAttribute("error", "帳號或密碼錯誤");
-            return "/login/Login";  // 重新導向到登入頁面
+            return "back-end/login/Login";  // 重新導向到登入頁面
         }
     }
 
     // 登出功能
-    @GetMapping("/logout")
+    @GetMapping("logout")
     public String logout(HttpSession session) {
         session.invalidate();  // 使 Session 無效
         return "redirect:/login/Login";  // 登出後，重新導向到登入頁面

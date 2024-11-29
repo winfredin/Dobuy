@@ -12,7 +12,7 @@
     <div th:if="${not #lists.isEmpty(errorMsgs)}">
         <font style="color:red">請修正以下錯誤:</font>
         <ul>
-            <li th:each="message : ${errorMsgs}" style="color:red" th:text="${message}"></li>
+            <span  th:if="${#fields.hasErrors('managerAccount')}" th:errors="*{managerAccount}" class="error" id="managerAccount.errors"></span>
         </ul>
     </div>
 
