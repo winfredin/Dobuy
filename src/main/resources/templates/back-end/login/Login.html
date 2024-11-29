@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body th:style="|background-image: url('@{/images/background.jpg}'); background-size: cover;|">
+    <!-- 錯誤表列 -->
+    <div th:if="${not #lists.isEmpty(errorMsgs)}">
+        <font style="color:red">請修正以下錯誤:</font>
+        <ul>
+            <span  th:if="${#fields.hasErrors('managerAccount')}" th:errors="*{managerAccount}" class="error" id="managerAccount.errors"></span>
+        </ul>
+    </div>
+
+    <form method="post" th:action="@{/login/Login}" name="form1">
+        <div class="form-group">
+            <label for="Account">管理員帳號:</label>
+            <input id="Account" type="text" placeholder="請輸入帳號..." name="managerAccount" 
+                   th:value="${managerVO != null ? managerVO.managerAccount : ''}" style="padding:15px" size="45" />
+
+            <label for="password">管理員密碼:</label>
+            <input id="password" type="password" placeholder="請輸入密碼..." name="managerPassword" 
+                   th:value="${managerVO != null ? managerVO.managerPassword : ''}" style="padding:15px" size="45" />
+
+            <button class="button" title="Reveal Password" aria-pressed="false">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <mask id="eye-open">
+                            <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12V20H12H1V12Z" fill="#D9D9D9" stroke="black" stroke-width="1.5" stroke-linejoin="round" />
+                        </mask>
+                        <mask id="eye-closed">
+                            <path d="M1 12C1 12 5 20 12 20C19 20 23 12 23 12V20H12H1V12Z" fill="#D9D9D9" />
+                        </mask>
+                    </defs>
+                    <path class="lid lid--upper" d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    <path class="lid lid--lower" d="M1 12C1 12 5 20 12 20C19 20 23 12 23 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    <g mask="url(#eye-open)">
+                        <g class="eye">
+                            <circle cy="12" cx="12" r="4" fill="currentColor" />
+                            <circle cy="11" cx="13" r="1" fill="black" />
+                        </g>
+                    </g>
+                </svg>
+                <span class="sr-only">Reveal</span>
+            </button>
+
+            <br>
+            <input type="hidden" name="action" value="login">
+            <input type="submit" id="button" value="Login">
+        </div>
+    </form>
+    
+    <br>
+    <script th:src="@{/js/jquery3.7.1.js}"></script>
+    <script src="https://assets.codepen.io/16327/MorphSVGPlugin3.min.js"></script>
+    <script src="https://assets.codepen.io/16327/ScrambleTextPlugin3.min.js"></script>
+    <script type="module" th:src="@{/js/script.js}"></script>
+</body>
+</html>
