@@ -109,3 +109,18 @@ mainImg.onmousemove = function(e){
 
   bigImg.style.left = -xx +'px';
 }
+// ================================== 購物車實現 ==================================
+function addToCart() {
+    // 獲取數量輸入框的數值
+    const quantity = document.querySelector('.buy_count').value;
+    
+    // 檢查數量是否大於0
+    if (quantity > 0) {
+        // 模擬加入購物車的邏輯
+        alert("已加入購物車，數量：" + quantity);
+        // 你可以在這裡進行實際的加入購物車操作，例如發送到伺服器
+    } else {
+        alert("請輸入有效的數量");
+    }
+}
+

@@ -28,7 +28,7 @@ section.sec1 div.flex_container{
   height: 480px;
   border: 1px solid #eee;
   margin-bottom: 20px;
-  background-color: skyblue;
+/*   background-color: skyblue; */
 }
 /* 左邊下方圖片區域 */
 .spec-list{
@@ -54,7 +54,7 @@ section.sec1 div.flex_container{
   width: 15px;
   height: 82px;
   left:0;
-  background: url(./../shop_detail_img/smallimgArealeft.gif) no-repeat;
+  background: url('/shop-detail/images/smallimgArealeft.gif') no-repeat;
   background-position:3px 35px;
   background-color: rgb(232, 231, 231);
 }
@@ -63,7 +63,7 @@ section.sec1 div.flex_container{
   width: 15px;
   height: 82px;
   right:0;
-  background: url(./../shop_detail_img/smallimgArearight.gif) no-repeat;
+  background: url('/shop-detail/images/smallimgArearight.gif') no-repeat;
   background-position:4.5px 35px;
   background-color: rgb(232, 231, 231);
 }
@@ -111,7 +111,9 @@ section.sec1 div.flex_container div.items.-left div.main-img{
 }
 /* 左邊圖片大小設定  */
 section.sec1 div.flex_container div.items.-left div.main-img > img{
-  width: 100%;
+  width: 100%;    /* 寬度設定為容器的100% */
+  height: 100%;   /* 高度設定為容器的100% */
+  object-fit: contain; /* 保持圖片比例，並調整大小以完全顯示在容器內 */
 } 
 /* 放大鏡設定 */
 .zoom-pup{
@@ -133,7 +135,7 @@ section.sec1 div.flex_container div.items.-left div.main-img > img{
   left: 480px;
   width: 540px;
   height: 540px;
-  background-color: red;
+/*   background-color: red; */
   overflow: hidden;
 }
 /* 放大鏡大圖大小設定 */
@@ -145,6 +147,10 @@ section.sec1 div.flex_container div.items.-left div.main-img > img{
 }
 
 /* ================================== 右邊內容區域 ================================== */
+.title1{
+  width:680px;
+  height:118px;
+}
 section.sec1 div.flex_container div.items.-right{
   margin: 0;
   border: 0;
@@ -166,6 +172,8 @@ section.sec1 div.flex_container div.items.-right{
 }
 /* 商品價格 */
 .Goods_Price {
+  width:680px;
+  height:32px;
   display: flex;
   justify-content: flex-start; /* 靠左對齊 */
   align-items: center;         /* 垂直居中對齊 */
@@ -183,6 +191,8 @@ section.sec1 div.flex_container div.items.-right{
 }
 /* 賣場優惠券 */
 .Coupon_Title{
+  width:680px;
+  height:32px;
   display: flex;
   justify-content: flex-start; /* 靠左對齊 */
   align-items: center;
@@ -196,8 +206,29 @@ section.sec1 div.flex_container div.items.-right{
 .Coupon_Title_1 {
   font-size: 20px;
 }
+
+
+/* 賣場優惠券 */
+.Goods_Amount{
+  width:680px;
+  height:32px;
+  display: flex;
+  justify-content: flex-start; /* 靠左對齊 */
+  align-items: center;
+  margin: 10px 0;
+}
+/* 描述列表 - 賣場優惠券 */
+.Goods_Amount_0 {
+  padding-right: 30px; /* 右邊加一點間距 */
+}
+/* 描述列表 - 賣場優惠券的優惠券顯示 */
+.Goods_Amount_0 {
+  font-size: 20px;
+}
 /* 商品敘述 */
 .Goods_Description{
+  width:680px;
+  height:205px;
   display: flex;
   justify-content: flex-start; /* 靠左對齊 */
   align-items: flex-start;     /* 確保文字與標題對齊 */
@@ -216,7 +247,7 @@ section.sec1 div.flex_container div.items.-right{
   overflow: hidden; /* 隱藏超出範圍的內容 */
   text-overflow: ellipsis; /* 當內容過長時，使用省略號顯示 */
   word-wrap: break-word; /* 強制單字換行以避免內容超出 */
-  white-space: pre-line; /* 保留換行符號，但不會有強制換行 */
+  white-space: normal; /* 保留換行符號，但不會有強制換行 */
   max-height: 300px; /* 設定最大高度 */
   overflow-y: auto; /* 超出高度顯示垂直滾動條 */
 }
