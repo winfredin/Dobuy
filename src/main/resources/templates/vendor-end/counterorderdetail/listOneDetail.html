@@ -1,0 +1,56 @@
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>員工資料 - listOneCounterOrder.html</title>
+
+<head th:insert="~{/vendor-end/counterorder/included-fragment}"></head>
+<style type="text/css">
+	
+    span {
+		display: inline-block;
+		width: 150px;
+		text-align: left;
+		font-weight: bold;
+	}
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
+		 <div align="center"> <h2>單筆訂單資料 - listOneCounterOrder.html</h2>
+		 <h3><a class="navbar-brand" th:href="@{select_page}"><img th:src="@{/images/back1.gif}">回查詢頁<label th:text="${success}"></label></a></h3></div>
+</nav>
+
+	<div align="center" th:fragment="listOneCounterOrder-div"> <!-- 此div被select_page.html第158行insert用 -->
+		<h3><span>查詢結果 :</span></h3>
+		<span>訂單編號:</span><span th:text="${counterOrderVO.counterOrderNo}"></span><br/>
+		<span>櫃位編號:</span><span th:text="${counterOrderVO.CounterNo}"></span><br/>
+		<span>會員編號:</span><span th:text="${counterOrderVO.memNo}"></span><br/>
+		<span>原價格:</span><span th:text="${counterOrderVO.orderTotalBefore}"></span><br/>
+		<span>折價後價格:</span><span th:text="${counterOrderVO.orderTotalAfter}"></span><br/>
+		<span>收件人姓名:</span><span th:text="${counterOrderVO.receiverName}"></span><br/>
+		<span>收件人地址:</span><span th:text="${counterOrderVO.receiverAdr}"></span><br/>
+		<span>收件人電話:</span><span th:text="${counterOrderVO.receiverPhone}"></span><br/>
+		<span>滿意度:</span><span th:text="${counterOrderVO.sellerSatisfaction}"></span><br/>
+		<span>評論內容:</span><span th:text="${counterOrderVO.sellerCommentContent}"></span><br/>
+		<span>評論日期:</span><span th:text="${counterOrderVO.sellerCommentDate}"></span><br/>
+		<span>下單日期:</span><span th:text="${counterOrderVO.ordertime}"></span><br/>
+		<span>優惠券編號:</span><span th:text="${counterOrderVO.disno}"></span><br/>
+		<span>訂單狀態:</span><span th:text="${counterOrderVO.orderStatus}"></span><br/>
+		
+	</div>
+
+
+</body>
+</html>
