@@ -149,7 +149,7 @@
 				<td th:if="${usedVO.usedPics == null or usedVO.usedPics.isEmpty()}">未上傳照片</td>
 
 				<td th:each="usedPicVO : ${usedVO.usedPics}">
-	            		<img th:src="@{/usedpic/DBGifReader} + '?usedPicNo=' + ${usedPicVO.usedPicNo}" width="100px" />
+	            		<img th:src="@{/usedpic/UsedDBGifReader} + '?usedPicNo=' + ${usedPicVO.usedPicNo}" width="100px" />
 	            		<span th:text="${usedPicVO.usedPicName}"></span>
 	      		</td>
 				<td th:text="${usedVO.usedProDesc}"></td>
