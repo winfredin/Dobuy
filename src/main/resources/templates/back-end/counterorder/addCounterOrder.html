@@ -14,7 +14,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>員工資料新增 - addCounterOrder.html</title>
 
-<head th:insert="~{/back-end/counterorder/included-fragment}"></head>
+<head th:insert="~{back-end/counterorder/included-fragment}"></head>
 <style type="text/css">
 	
 	button {
@@ -48,7 +48,7 @@
 
 <nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
 		 <div align="center"> <h2>員工資料新增 - addEmp.html</h2>
-		 <h3><a class="navbar-brand" th:href="@{/counterorder/select_page}"><img th:src="@{/images/back1.gif}">回查詢頁</a></h3></div>
+		 <h3><a class="navbar-brand" th:href="@{select_page}"><img th:src="@{/images/back1.gif}">回查詢頁</a></h3></div>
 </nav>
 
 	<div align="center">
@@ -56,58 +56,97 @@
 		<form th:action="@{insert}" method="post" th:object="${counterOrderVO}" enctype="multipart/form-data">
 			
 			
-			
-			
-			
+
 			
 			<div>
-			<label>員工姓名:</label>
-			<input type="text" th:field="*{ename}" onclick="hideContent('ename.errors');" /><br/>
-			<span  th:if="${#fields.hasErrors('ename')}" th:errors="*{ename}" class="error" id="ename.errors"></span>
+			<label>櫃位編號:</label>
+			<input type="text" th:field="*{counterNo}" onclick="hideContent('counterNo.errors');" /><br/>
+			<span  th:if="${#fields.hasErrors('counterNo')}" th:errors="*{counterNo}" class="error" id="counterNo.errors"></span>
 			</div>
 			
 			<div>
-			<label>職位:</label>
-			<input type="text" th:field="*{job}" onclick="hideContent('job.errors');" /><br/>
-			<span  th:if="${#fields.hasErrors('job')}" th:errors="*{job}" class="error" id="job.errors"></span>
+			<label>會員編號:</label>
+			<input type="text" th:field="*{memNo}" onclick="hideContent('memNo.errors');" /><br/>
+			<span  th:if="${#fields.hasErrors('memNo')}" th:errors="*{memNo}" class="error" id="memNo.errors"></span>
 			</div>
 			
 			<div>
-			<label>雇用日期:</label>
-			<input type="date" th:field="*{hiredate}" onclick="hideContent('hiredate.errors');" /><br/>
-			<span  th:if="${#fields.hasErrors('hiredate')}" th:errors="*{hiredate}" class="error" id="hiredate.errors"></span>
+			<label>原價格:</label>
+			<input type="text" th:field="*{orderTotalBefore}" onclick="hideContent('orderTotalBefore.errors');" /><br/>
+			<span  th:if="${#fields.hasErrors('orderTotalBefore')}" th:errors="*{orderTotalBefore}" class="error" id="orderTotalBefore.errors"></span>
 			</div>
 
 			<div>
-			<label>薪水:</label>
-			<input type="text" th:field="*{sal}" onclick="hideContent('sal.errors');" /><br/>
-			<span  th:if="${#fields.hasErrors('sal')}" th:errors="*{sal}" class="error" id="sal.errors"></span>
+			<label>折價後價格:</label>
+			<input type="text" th:field="*{orderTotalAfter}" onclick="hideContent('orderTotalAfter.errors');" /><br/>
+			<span  th:if="${#fields.hasErrors('orderTotalAfter')}" th:errors="*{orderTotalAfter}" class="error" id="orderTotalAfter.errors"></span>
 			</div>
 			
 			<div>
-			<label>獎金:</label>
-			<input type="text" th:field="*{comm}" onclick="hideContent('comm.errors');" /><br/>
-			<span  th:if="${#fields.hasErrors('comm')}" th:errors="*{comm}" class="error" id="comm.errors"></span>
+			<label>收件人姓名:</label>
+			<input type="text" th:field="*{receiverName}" onclick="hideContent('receiverName.errors');" /><br/>
+			<span  th:if="${#fields.hasErrors('receiverName')}" th:errors="*{receiverName}" class="error" id="receiverName.errors"></span>
 			</div>
 			
 			<div>
-			<label>部門:</label>
-			<select th:field="*{deptVO.deptno}">
-				<option th:each="deptVO : ${deptListData}" th:value="${deptVO.deptno}" th:text="${deptVO.dname}" />
-			</select>
-			<span th:if="${#fields.hasErrors('deptVO.deptno')}" th:errors="*{deptVO.deptno}" class="error" id="deptVO.deptno.errors"></span>
+			<label>收件人地址:</label>
+			<input type="text" th:field="*{receiverAdr}" onclick="hideContent('receiverAdr.errors');" /><br/>
+			<span  th:if="${#fields.hasErrors('receiverAdr')}" th:errors="*{receiverAdr}" class="error" id="receiverAdr.errors"></span>
 			</div>
+			
+			<div>
+			<label>收件人電話:</label>
+			<input type="text" th:field="*{receiverPhone}" onclick="hideContent('receiverPhone.errors');" /><br/>
+			<span  th:if="${#fields.hasErrors('receiverPhone')}" th:errors="*{receiverPhone}" class="error" id="receiverPhone.errors"></span>
+			</div>
+			
+			<div>
+			<label>滿意度:</label>
+			<input type="text" th:field="*{sellerSatisfaction}" onclick="hideContent('sellerSatisfaction.errors');" /><br/>
+			<span  th:if="${#fields.hasErrors('sellerSatisfaction')}" th:errors="*{sellerSatisfaction}" class="error" id="sellerSatisfaction.errors"></span>
+			</div>
+			
+			<div>
+			<label>評論內容:</label>
+			<input type="text" th:field="*{sellerCommentContent}" onclick="hideContent('sellerCommentContent.errors');" /><br/>
+			<span  th:if="${#fields.hasErrors('sellerCommentContent')}" th:errors="*{sellerCommentContent}" class="error" id="sellerCommentContent.errors"></span>
+			</div>
+			
+			<div>
+			<label>評論日期:</label>
+			<input type="date" th:field="*{sellerCommentDate}" onclick="hideContent('sellerCommentDate.errors');" /><br/>
+			<span  th:if="${#fields.hasErrors('sellerCommentDate')}" th:errors="*{sellerCommentDate}" class="error" id="sellerCommentDate.errors"></span>
+			</div>
+			
+			<div>
+			<label>下單日期:</label>
+			<input type="date" th:field="*{ordertime}" onclick="hideContent('ordertime.errors');" /><br/>
+			<span  th:if="${#fields.hasErrors('ordertime')}" th:errors="*{ordertime}" class="error" id="ordertime.errors"></span>
+			</div>
+			
+			<div>
+			<label>優惠券編號:</label>
+			<input type="text" th:field="*{disno}" onclick="hideContent('disno.errors');" /><br/>
+			<span  th:if="${#fields.hasErrors('disno')}" th:errors="*{disno}" class="error" id="disno.errors"></span>
+			</div>
+				
+				<div>
+			<label>訂單狀態:</label>
+			<input type="text" th:value="1" readonly /><br/>
+			<span  th:if="${#fields.hasErrors('orderStatus')}" th:errors="*{orderStatus}" class="error" id="orderStatus.errors"></span>
+			</div>
+		
 				
 			
 			
-			<div>
-			<label>照片:</label>
-			<input type="file" th:field="*{upFiles}" onclick="previewImage()" multiple="multiple" onchange="hideContent('upFiles.errors');" />
-<!-- 			<span  th:if="${#fields.hasErrors('upFiles')}" th:errors="*{upFiles}" class="error" id="upFiles.errors"></span> -->
-			<span class="error" th:utext="${errorMessage}" id="upFiles.errors">${errorMessage}</span>
-<!-- 			<h2 id="errorMessage">${errorMessage}</h2>  -->
-			<div id="blob_holder"></div>
-			</div>
+<!-- 			<div> -->
+<!-- 			<label>照片:</label> -->
+<!-- 			<input type="file" th:field="*{upFiles}" onclick="previewImage()" multiple="multiple" onchange="hideContent('upFiles.errors');" /> -->
+<!-- <!-- 			<span  th:if="${#fields.hasErrors('upFiles')}" th:errors="*{upFiles}" class="error" id="upFiles.errors"></span> --> -->
+<!-- 			<span class="error" th:utext="${errorMessage}" id="upFiles.errors">${errorMessage}</span> -->
+<!-- <!-- 			<h2 id="errorMessage">${errorMessage}</h2>  --> -->
+<!-- 			<div id="blob_holder"></div> -->
+<!-- 			</div> -->
 			
 			<div>
 				<div></div>
@@ -136,39 +175,39 @@ function hideContent(d) {
 // 		'image/jpeg' : true,
 // 		'image/gif' : true
 // };
-function previewImage() {
-	var upfile1 = document.getElementById("upFiles");
-	upfile1.addEventListener("change", function(event) {
-		var files = event.target.files || event.dataTransfer.files;
-		for (var i = 0; i < files.length; i++) {
-			previewfile(files[i])
-		}
-	}, false);
-}
-function previewfile(file) {
-	if (filereader_support === true && acceptedTypes[file.type] === true) {
-		var reader = new FileReader();
-		reader.onload = function(event) {
-			var image = new Image();
-			image.src = event.target.result;
-			image.width = 100;
-			image.height = 75;
-			image.border = 2;
-			if (blob_holder.hasChildNodes()) {
-				blob_holder.removeChild(blob_holder.childNodes[0]);
-			}
-			blob_holder.appendChild(image);
-		};
-		reader.readAsDataURL(file);
-		document.getElementById('submit').disabled = false;
-	} else {
-		blob_holder.innerHTML = "<div  style='text-align: left;'>" + "● filename: " + file.name
-				+ "<br>" + "● ContentTyp: " + file.type
-				+ "<br>" + "● size: " + file.size + "bytes"
-				+ "<br>" + "● 上傳ContentType限制: <b> <font color=red>image/png、image/jpeg、image/gif </font></b></div>";
-		document.getElementById('submit').disabled = true;
-	}
-}
+// function previewImage() {
+// 	var upfile1 = document.getElementById("upFiles");
+// 	upfile1.addEventListener("change", function(event) {
+// 		var files = event.target.files || event.dataTransfer.files;
+// 		for (var i = 0; i < files.length; i++) {
+// 			previewfile(files[i])
+// 		}
+// 	}, false);
+// }
+// function previewfile(file) {
+// 	if (filereader_support === true && acceptedTypes[file.type] === true) {
+// 		var reader = new FileReader();
+// 		reader.onload = function(event) {
+// 			var image = new Image();
+// 			image.src = event.target.result;
+// 			image.width = 100;
+// 			image.height = 75;
+// 			image.border = 2;
+// 			if (blob_holder.hasChildNodes()) {
+// 				blob_holder.removeChild(blob_holder.childNodes[0]);
+// 			}
+// 			blob_holder.appendChild(image);
+// 		};
+// 		reader.readAsDataURL(file);
+// 		document.getElementById('submit').disabled = false;
+// 	} else {
+// 		blob_holder.innerHTML = "<div  style='text-align: left;'>" + "● filename: " + file.name
+// 				+ "<br>" + "● ContentTyp: " + file.type
+// 				+ "<br>" + "● size: " + file.size + "bytes"
+// 				+ "<br>" + "● 上傳ContentType限制: <b> <font color=red>image/png、image/jpeg、image/gif </font></b></div>";
+// 		document.getElementById('submit').disabled = true;
+// 	}
+//  }
 </script>
 
 </body>

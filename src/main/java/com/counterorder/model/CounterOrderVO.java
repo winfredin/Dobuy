@@ -24,7 +24,7 @@ public class CounterOrderVO implements java.io.Serializable{
 	private String receiverAdr;
 	private String receiverPhone;
 	private Integer sellerSatisfaction;
-	private String sellerCommentContext;
+	private String sellerCommentContent;
 	private Date sellerCommentDate;
 	private Date ordertime;
 	private Integer disno;
@@ -136,14 +136,14 @@ public class CounterOrderVO implements java.io.Serializable{
 		this.sellerSatisfaction = sellerSatisfaction;
 	}
 
-	@Column(name = "sellerCommentContext")
-	public String getSellerCommentContext() {
-		return sellerCommentContext;
+	@Column(name = "sellerCommentContent")
+	public String getSellerCommentContent() {
+		return sellerCommentContent;
 	}
 
 
-	public void setSellerCommentContext(String sellerCommentContext) {
-		this.sellerCommentContext = sellerCommentContext;
+	public void setSellerCommentContent(String sellerCommentContent) {
+		this.sellerCommentContent = sellerCommentContent;
 	}
 	
 	@Column(name = "sellerCommentDate")
