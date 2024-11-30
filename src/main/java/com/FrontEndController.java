@@ -9,13 +9,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.goods.model.GoodsService;
 import com.goods.model.GoodsVO;
+import com.goodstype.model.GoodsTypeService;
+import com.goodstype.model.GoodsTypeVO;
 
 @Controller
 public class FrontEndController {
 	
 	@Autowired
 	GoodsService goodsSvc;
-	
+	@Autowired
+	GoodsTypeService goodstSvc;
 	 @GetMapping("member")
 	    public String getMemberPage() {
 	        return "front-end/normalpage/member"; // 對應 templates/content/profile.html
@@ -27,7 +30,9 @@ public class FrontEndController {
 	 @GetMapping("goodspage")
 	    public String getgoodspagePage(Model model) {
 		 List<GoodsVO> list = goodsSvc.getAll();
+		 List<GoodsTypeVO> glist = goodstSvc.getAll();
 		 model.addAttribute("list",list);
+		 model.addAttribute("glist",glist);
 	        return "front-end/normalpage/goodspage"; // 對應 templates/content/profile.html
 	    }
 	    

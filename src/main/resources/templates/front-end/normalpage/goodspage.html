@@ -81,34 +81,32 @@
 
   
     
-    <div class="goods_body">
+    <div class="goods_body"  >
 
-        <div class="goods_list">
+        <div class="goods_list" >
+        
             <p><b>品牌分類</b></p>
-            <ul>
-                <li>11111111</li>
-                <li>22222222</li>
-                <li>33333333</li>
-                <li>44444444</li>
-                <li>55555555</li>
-                <li>66666666</li>
-                <li>77777777</li>
-                <li>88888888</li>
-                <li>77777777</li>
-                <li>77777777</li>
+            <ul >
+            
+                <li th:each="gg : ${glist}">
+                <a th:href="@{/}" th:text="${gg.goodstName}" th:value="${gg.goodstNo}"></a>
+     			
+                </li>
+               
             </ul>
             
         </div>
 
      <div class="bestsell_goods" id="goodsContainer">
-  
-      <div class="goods" th:each="gd : ${list}">
+  <div class="goods" th:each="goodsVO : ${list}">
+      
          <div class="image-container">
             <img src="/images/Star 6.png" alt="star">
-            <img th:src="@{/goods/DBGifReader} + '?goodsNo=' + ${gd.goodsNo}" alt="goods-image">
+            <img th:src="@{/goods/DBGifReader} + '?goodsNo=' + ${goodsVO.goodsNo}" alt="goods-image">
          </div>
          <div class="goods-name">
-            <label th:text="${gd.goodsName}"></label>
+            <label th:text="${goodsVO.goodsName}"></label>
+            
          </div>
       </div>
    
