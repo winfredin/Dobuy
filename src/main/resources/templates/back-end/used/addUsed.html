@@ -108,12 +108,12 @@
 		    
 			 <div id="usedPicsContainer">
 			    <div class="upfiles">
-			      <label for="upfiles">二手商品照片:</label>
-			      <input type="file" name="upfiles" accept="images/*"  />
+			      <label for="upfiles">二手商品照片:(最多五張)</label>
+			      <input type="file" id ="upfiles" name="upfiles" accept="images/*"  />
 			    </div>
 			 </div>
 		
-		  		<button type="button" id="addPicture">Add Another Picture</button>
+		  		<button type="button" id="addPicture">增加照片欄位</button>
 		        
 		    
 		
@@ -126,27 +126,89 @@
 <div class="errorblock" th:text="${errorMessage}">${errorMessage}</div><br>
 <!-- JavaScript part -->
 <script type="text/javascript">
-	document.getElementById("addPicture").addEventListener("click", () => {
-    const container = document.getElementById("usedPicsContainer");
-    const maxInputs = 5; // 設置最多可添加的 input 數量
+document.addEventListener("DOMContentLoaded", () => {
+	  const maxInputs = 5; // 設置最多可添加的 input 數量
+	  const addPictureBtn = document.getElementById("addPicture");
 
-    // 檢查當前已有的輸入字段數量
-    if (container.children.length >= maxInputs) {
-        alert(`最多只能添加 ${maxInputs} 張照片`);
-        return; // 阻止添加更多輸入字段
-    }
+	  // 檢查目前的 input 數量，控制按鈕顯示
+	  const checkAddButtonVisibility = () => {
+	    const currentInputs = document.querySelectorAll('input[name="upfiles"]').length;
+	    if (currentInputs >= maxInputs) {
+	      addPictureBtn.style.display = "none";
+	    } else {
+	      addPictureBtn.style.display = "block";
+	    }
+	  };
 
-    const index = container.children.length; // 獲取當前元素數量作為索引
-    const newPicture = document.createElement("div");
-    newPicture.classList.add("usedPics");
+	  // 初始化檢查按鈕狀態
+	  checkAddButtonVisibility();
 
-    // 動態生成新的輸入字段
-    newPicture.innerHTML = `
-        
-        <input type="file" id="upfiles" name="upfiles"  />
-    `;
-    container.appendChild(newPicture);
-});
+	  addPictureBtn.addEventListener("click", () => {
+	    const currentInputs = document.querySelectorAll('input[name="upfiles"]').length;
+
+	    if (currentInputs >= maxInputs) {
+	      alert(`最多只能添加 ${maxInputs} 張照片`);
+	      return; // 阻止添加更多輸入字段
+	    }
+
+	    const newPicture = document.createElement("div");
+	    newPicture.classList.add("usedPics");
+
+	    // 動態生成新的輸入字段
+	    newPicture.innerHTML = `
+	        <input type="file" name="upfiles" />
+	    `;
+	    document.getElementById("usedPicsContainer").appendChild(newPicture);
+
+	    // 更新按鈕顯示狀態
+	    checkAddButtonVisibility();
+	  });
+
+	  // 檔案上限控制
+	  const MAX_FILE_SIZE = 5 * 1024 * 1024; // 最大檔案大小 5MB
+	  const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif']; // 允許的檔案類型
+	  const MAX_FILENAME_LENGTH = 30; // 檔名最大長度
+	  const FILENAME_REGEX = /^[\u4e00-\u9fffA-Za-z0-9\s\p{P}\p{S}\u3100-\u312F\u31A0-\u31BF\u3040-\u309F\u30A0-\u30FF]{1,30}$/u;
+
+	  // 動態監聽所有 input[name="upfiles"]
+	  document.addEventListener("change", (event) => {
+	    if (event.target && event.target.name === "upfiles") {
+	      const files = event.target.files;
+	      const errorMessages = [];
+
+	      Array.from(files).forEach((file) => {
+	        const fileName = file.name;
+	        const fileSize = file.size;
+	        const fileType = file.type;
+
+	        // 檢查檔案大小
+	        if (fileSize > MAX_FILE_SIZE) {
+	          errorMessages.push(`${fileName} 超過檔案大小限制 (${(fileSize / 1024 / 1024).toFixed(2)} MB)。`);
+	        }
+
+	        // 檢查檔案類型
+	        if (!ALLOWED_TYPES.includes(fileType)) {
+	          errorMessages.push(`${fileName} 類型不被允許 (${fileType})。`);
+	        }
+
+	        // 檢查檔名長度
+	        if (fileName.length > MAX_FILENAME_LENGTH) {
+	          errorMessages.push(`${fileName} 檔名過長 (最大 ${MAX_FILENAME_LENGTH} 個字元)。`);
+	        }
+
+	        // 檢查檔名格式
+	        if (!FILENAME_REGEX.test(fileName)) {
+	          errorMessages.push(`${fileName} 檔名含有非法字元 (僅允許中、英、日文、數字和特殊符號 , 且長度最多30個字)。`);
+	        }
+	      });
+
+	      if (errorMessages.length > 0) {
+	        alert(errorMessages.join("\n"));
+	        event.target.value = ""; // 清空檔案選擇
+	      }
+	    }
+	  });
+	});
 
 
 </script>

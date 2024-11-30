@@ -112,7 +112,7 @@
 			    <div class="usedPics">
 			      <label for="upfiles">新增二手商品照片上傳:</label>
 			      <br>
-            	  <input type="file" name="upfiles" accept="images/*" />
+            	  <input type="file" name="upfiles" id="upfiles" accept="images/*" />
 			      
 			    </div>
 			 </div>
@@ -129,19 +129,28 @@
 
 <!-- JavaScript part -->
 <script type="text/javascript">
+
 document.addEventListener("DOMContentLoaded", () => {
     const maxPhotos = 5; // 照片總數限制
     const addPictureBtn = document.getElementById("addPicture");
+    const upfilesInput = document.getElementById("upfiles");
     const photoTable = document.getElementById("photoTable");
     const usedPicsContainer = document.getElementById("usedPicsContainer");
 
     function updateAddButtonState() {
         const totalPhotos = photoTable.querySelectorAll(".photoRow").length + 
                             usedPicsContainer.querySelectorAll(".usedPics").length;
-
+        const totalUsedPhotos = photoTable.querySelectorAll(".photoRow").length
+        
         if (totalPhotos >= maxPhotos) {
-            addPictureBtn.disabled = true; // 禁用新增按鈕
-        } else {
+//             addPictureBtn.disabled = true; // 禁用新增按鈕
+            addPictureBtn.style.display = "none";
+        }
+        if(totalUsedPhotos >= maxPhotos){
+        	addPictureBtn.style.display = "none";
+        	upfilesInput.style.display = "none";
+        }
+        else {
             addPictureBtn.disabled = false; // 啟用新增按鈕
         }
     }
@@ -158,30 +167,101 @@ document.addEventListener("DOMContentLoaded", () => {
             const newDiv = document.createElement("div");
             newDiv.classList.add("usedPics");
             newDiv.innerHTML = `
-                <input type="file" name="upfiles" accept="images/*" />
-                <button type="button" class="deleteUpload">刪除</button>
+                <input type="file" name="upfiles" id="upfiles" accept="images/*" />
+               
             `;
             usedPicsContainer.appendChild(newDiv);
 
-            // 為刪除按鈕綁定事件
-            newDiv.querySelector(".deleteUpload").addEventListener("click", () => {
-                newDiv.remove();
-                updateAddButtonState();
-            });
+           
+            
 
             updateAddButtonState();
         }
     });
 
-    // 刪除已存在的照片
+    // 刪除已存在的照片，並發送後端請求
     photoTable.addEventListener("click", (e) => {
         if (e.target.classList.contains("deletePhoto")) {
-            const row = e.target.closest("tr");
-            if (row) row.remove();
-            updateAddButtonState();
+            const usedPicNo = e.target.getAttribute("value"); // 獲取按鈕綁定的照片 ID
+            if (usedPicNo) {
+                fetch(`/usedpic/deleteOneUsedPic`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: `usedPicNo=${usedPicNo}`, // 傳遞的請求參數
+                })
+                    .then((response) => response.text().then((message) => ({ message, ok: response.ok })))
+                    .then(({ message, ok }) => {
+                        if (ok) {
+                            alert("刪除成功！"); // 成功刪除時顯示訊息
+                            // 從表格中移除該行
+                            const row = e.target.closest("tr");
+                            if (row) row.remove();
+                            updateAddButtonState();
+                            location.reload();
+                        } else {
+                            alert(message); // 顯示後端返回的錯誤訊息
+                            updateAddButtonState()
+                            location.reload();
+                        }
+                    })
+                    .catch((error) => {
+                        alert("刪除失敗，請稍後再試！");
+                        console.error("Error:", error);
+                        updateAddButtonState()
+                        location.reload();
+                    });
+            }
         }
     });
+    
+ // 檔案上限控制
+	  const MAX_FILE_SIZE = 5 * 1024 * 1024; // 最大檔案大小 5MB
+	  const ALLOWED_TYPES = ['image/jpeg', 'image/png','image/gif']; // 允許的檔案類型
+	  const MAX_FILENAME_LENGTH = 30; // 檔名最大長度
+	  const FILENAME_REGEX = /^[\u4e00-\u9fffA-Za-z0-9\s\p{P}\p{S}\u3100-\u312F\u31A0-\u31BF\u3040-\u309F\u30A0-\u30FF]{1,30}$/u;
+
+	  // 動態監聽所有 input[name="upfiles"]
+	  document.addEventListener("change", (event) => {
+	    if (event.target && event.target.name === "upfiles") {
+	      const files = event.target.files;
+	      const errorMessages = [];
+
+	      Array.from(files).forEach((file) => {
+	        const fileName = file.name;
+	        const fileSize = file.size;
+	        const fileType = file.type;
+
+	        // 檢查檔案大小
+	        if (fileSize > MAX_FILE_SIZE) {
+	          errorMessages.push(`${fileName} 超過檔案大小限制 (${(fileSize / 1024 / 1024).toFixed(2)} MB)。`);
+	        }
+
+	        // 檢查檔案類型
+	        if (!ALLOWED_TYPES.includes(fileType)) {
+	          errorMessages.push(`${fileName} 類型不被允許 (${fileType})。`);
+	        }
+
+	        // 檢查檔名長度
+	        if (fileName.length > MAX_FILENAME_LENGTH) {
+	          errorMessages.push(`${fileName} 檔名過長 (最大 ${MAX_FILENAME_LENGTH} 個字元)。`);
+	        }
+
+	        // 檢查檔名格式
+	        if (!FILENAME_REGEX.test(fileName)) {
+	          errorMessages.push(`${fileName} 檔名含有非法字元 (僅允許中、英、日文、數字和特殊符號 , 且長度最多30個字)。`);
+	        }
+	      });
+
+	      if (errorMessages.length > 0) {
+	        alert(errorMessages.join("\n"));
+	        event.target.value = ""; // 清空檔案選擇
+	      }
+	    }
+	  });
 });
+
 </script>
 
 </body>

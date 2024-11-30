@@ -11,9 +11,9 @@ class PhotoWrite {
         Connection con = null;
         PreparedStatement pstmt = null;
         InputStream fin = null;
-        String url = "jdbc:mysql://localhost:3306/dobuy?serverTimezone=Asia/Taipei";
+        String url = "jdbc:mysql://localhost:3306/dobuytest?serverTimezone=Asia/Taipei";
         String userid = "root";
-        String passwd = "123456789";
+        String passwd = "Xcds36970*";
         String photos = "src/main/resources/static/Gp_Photos"; // 測試用圖片資料夾
         String update = "UPDATE Goods SET gpPhotos? = ? WHERE goodsNo = ?"; // 動態設置欄位
 

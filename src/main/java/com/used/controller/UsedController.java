@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -47,17 +48,20 @@ public class UsedController {
 	@Autowired
 	UsedPicService usedPicSvc;
 	
+	@Autowired
+	EntityManager EntityManager;
 	
 	/*
 	 * This method will serve as addUsed.html handler.
 	 */
-	@GetMapping("addUsed")
+	@GetMapping("/addUsed")
 	public String addUsed(ModelMap model) {
 		UsedVO usedVO = new UsedVO();
 		model.addAttribute("usedVO", usedVO);
 		return "back-end/used/addUsed";
 	}
-	@PostMapping("getOneUsed")
+	
+	@PostMapping("/getOneUsed")
 	public String getOneUsed( @RequestParam("usedNo") String usedNo, Model model) {
 		 
 		UsedVO usedVO = usedSvc.getOneUsed(Integer.valueOf(usedNo));
@@ -68,7 +72,7 @@ public class UsedController {
 	/*
 	 * This method will be called on addUsed.html form submission, handling POST request It also validates the user input
 	 */
-	@PostMapping("insert")
+	@PostMapping("/insert")
 	public String insert(
 	        @Valid UsedVO usedVO,
 	        BindingResult result,
@@ -111,13 +115,15 @@ public class UsedController {
 	/*
 	 * This method will be called on update_Used_input.html form submission, handling POST request It also validates the user input
 	 */
-	@PostMapping("update")
+	@PostMapping("/update")
 	public String update(@Valid UsedVO usedVO, BindingResult result, ModelMap model,
 			@RequestParam("upfiles") MultipartFile[] parts) throws IOException {
 
 		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
 		if (result.hasErrors()) {
 //			System.out.println(result.getFieldError());
+				List<UsedPicVO> usedPics= usedPicSvc.findAllPicsByUsedNo(usedVO.getUsedNo());
+				usedVO.setUsedPics(usedPics);
 				return "back-end/used/update_used_input";
 			}
 		List<MultipartFile> validPictures=filterEmptyFiles(parts);
@@ -149,21 +155,24 @@ public class UsedController {
 		
 		
 		/*************************** 2.開始修改資料 *****************************************/
-		// UsedService UsedSvc = new UsedService();
-		
+	
 		Integer usedNo=usedSvc.updateUsed(usedVO);
-
+		
+		
+		EntityManager.clear();
+		
+		UsedVO newUsedVO= usedSvc.getOneUsed(usedNo);
+//		System.out.println(newUsedVO.getUsedPics().size());//debug用 緩存問題(以解決)
 		/*************************** 3.修改完成,準備轉交(Send the Success view) **************/
 		model.addAttribute("success", "- (修改成功)");
-		usedVO = usedSvc.getOneUsed(usedNo);
-		model.addAttribute("usedVO", usedVO);
+		model.addAttribute("usedVO", newUsedVO);
 		return "back-end/used/listOneUsed"; // 修改成功後轉交listOneUsed.html
 	}
 
 	/*
 	 * This method will be called on listAllUsed.html form submission, handling POST request
 	 */
-	@PostMapping("delete")
+	@PostMapping("/delete")
 	public String delete(@RequestParam("usedNo") String usedNo, ModelMap model) {
 		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
 		/*************************** 2.開始刪除資料 *****************************************/

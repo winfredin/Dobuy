@@ -70,7 +70,7 @@
 
 <nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
 		 <div align="center"> <h2>二手商品資料管理 - select_page.html</h2>
-		 <h3><a class="navbar-brand" th:href="@{/}"><img th:src="@{/images/back1.gif}">回index.html</a></h3></div>
+		 <h3><a class="navbar-brand" th:href="@{/used}"><img th:src="@{/images/back1.gif}">回index.html</a></h3></div>
 </nav>
 
 	<h4><span>二手商品資料查詢:</span></h4>
@@ -104,7 +104,7 @@
 		
 		
 		<li><form method="post" th:action="@{/used/getOneUsed}">
-				選擇員工姓名:
+				選擇二手商品編號:
 				<select name="usedNo">
 				     <option th:each="usedVO : ${usedListData}" th:value="${usedVO.usedNo}" th:text="${usedVO.usedNo}" />
 			    </select>
