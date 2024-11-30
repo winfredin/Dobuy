@@ -1,0 +1,99 @@
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>二手商品資料 - listOneUsed.html</title>
+
+<head th:insert="~{/back-end/used/included-fragment}"></head>
+<style type="text/css">
+	
+    span {
+		display: inline-block;
+		width: 150px;
+		text-align: left;
+		font-weight: bold;
+	}
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
+		 <div align="center"> <h2>二手商品資料 - listOneUsed.html</h2>
+		 <h3><a class="navbar-brand" th:href="@{/used/select_page}"><img th:src="@{/images/back1.gif}">回查詢頁<label th:text="${success}"></label></a></h3></div>
+</nav>
+
+	<div align="center" th:fragment="listOneUsed-div"> <!-- 此div被select_page.html第128行insert用 -->
+		<h3><span>查詢結果 :</span></h3>
+		
+		</div>
+	
+	<table class="center">
+		<th:block th:object="${usedVO}">
+		
+			 <tr>
+	            <th style="padding: 10px;">二手商品編號</th>
+	            <th style="padding: 20px;">賣家編號</th>
+	            <th style="padding: 20px;">二手商品名稱</th>
+	            <th style="padding: 20px;">商品類別編號</th>
+	            <th style="padding: 20px;">價格</th>
+	            <th style="padding: 20px;">庫存量</th>
+	            <th style="padding: 20px;">照片</th>
+	            <th style="padding: 50px;">二手商品描述</th>
+	            <th style="padding: 20px;">上架時間</th>
+	            <th style="padding: 20px;">下架時間</th>
+	            <th style="padding: 20px;">商品狀態</th>
+	            <th style="padding: 10px;">修改</th>
+	            <th style="padding: 10px;">刪除</th>
+	        </tr>
+		
+		
+			<tr>
+				
+				<td th:text="*{usedNo}"></td>
+				<td th:text="*{sellerNo}"></td>
+				<td th:text="*{usedName}"></td>
+				<td th:text="*{classNo}"></td>
+				<td th:text="*{usedPrice}"></td>
+				<td th:text="*{usedStocks}"></td>
+				
+<!-- 				<td th:if="${usedVO.usedPics == null or usedVO.usedPics.isEmpty()}">未上傳照片</td> -->
+
+				<td th:each="usedPicVO : ${usedVO.usedPics}">
+	            		<img th:src="@{/usedpic/UsedDBGifReader} + '?usedPicNo=' + ${usedPicVO.usedPicNo}" width="100px" />
+	            		<span th:text="${usedPicVO.usedPicName}"></span>
+	      		</td>
+	      		
+				<td th:text="*{usedProDesc}"></td>
+				<td th:text="${#dates.format(usedVO.usedLaunchedTime, 'yyyy-MM-dd')}"></td>
+				<td th:text="${#dates.format(usedVO.soldTime, 'yyyy-MM-dd')}"></td>
+				<td th:text="*{usedState}"></td>
+				
+				
+			<td>
+			  <form method="post" th:action="@{/used/getOne_For_Update}" style="margin-bottom: 0px;">
+			     <input type="submit" value="修改">
+			     <input type="hidden" name="usedNo" th:value="${usedVO.usedNo}"></form>
+			</td>
+			<td>
+			  <form method="post" th:action="@{/used/delete}" style="margin-bottom: 0px;">
+			     <input type="submit" value="刪除">
+			     <input type="hidden" name="usedNo" th:value="${usedVO.usedNo}"></form>
+			</td>
+			</tr>
+		</th:block>
+	</table>
+	
+
+
+</body>
+</html>

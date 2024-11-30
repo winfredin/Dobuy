@@ -90,6 +90,11 @@
 			<artifactId>hibernate-proxool</artifactId>
 			<!-- <version>5.6.9.Final</version> -->
 		</dependency>
+		<!--		HikariCP   連線池  -->
+		<dependency>
+		    <groupId>com.zaxxer</groupId>
+		    <artifactId>HikariCP</artifactId>
+		</dependency>
 
 
 		<!--

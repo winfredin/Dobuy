@@ -1,0 +1,217 @@
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>員工資料新增 - addUsed.html</title>
+
+<head th:insert="~{/back-end/used/included-fragment}"></head>
+<style type="text/css">
+	
+	button {
+		padding: 5px;
+	}
+	form {
+		display: table;
+	}
+	form div {
+		display: table-row;
+	}
+	label, input, span, select {
+		display: table-cell;
+		margin: 5px;
+		text-align: left;		
+	}
+	input[type=text], input[type=password], select, textarea {
+		width: 200px;
+		margin: 5px;
+	}
+	form div div {
+		display: table-cell;
+	}
+	.center {
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
+		 <div align="center"> <h2>員工資料新增 - addUsed.html</h2>
+		 <h3><a class="navbar-brand" th:href="@{/used/select_page}"><img th:src="@{/images/back1.gif}">回查詢頁</a></h3></div>
+</nav>
+
+
+
+	<div align="center">
+		<h3><b>所有欄位皆為必填欄位</b></h3>
+		<form th:action="@{insert}" method="post" th:object="${usedVO}" enctype="multipart/form-data">
+			
+			
+		    <!-- UsedVO 基本屬性 -->
+		    <label for="sellerNo">賣家編號：</label>
+		    <input type="text" id="sellerNo" th:field="*{sellerNo}" />
+		    <span  th:if="${#fields.hasErrors('sellerNo')}" th:errors="*{sellerNo}" class="error" id="sellerNo.errors"></span>
+		    
+		    <label for="classNo">商品類別：</label>
+		    <input type="text" id="classNo" th:field="*{classNo}"  maxlength="10" required/>
+		    <span  th:if="${#fields.hasErrors('classNo')}" th:errors="*{classNo}" class="error" id="classNo.errors"></span>
+			
+		    <label for="usedName">商品名稱：</label>
+		    <input type="text" id="usedName" th:field="*{usedName}"  maxlength="60" required />
+		    <span  th:if="${#fields.hasErrors('usedName')}" th:errors="*{usedName}" class="error" id="usedName.errors"></span>
+		  
+		
+		    <label for="usedProDesc">商品描述：</label>
+		    <textarea id="usedProDesc" th:field="*{usedProDesc}" maxlength="200" ></textarea>
+		    <span  th:if="${#fields.hasErrors('usedProDesc')}" th:errors="*{usedProDesc}" class="error" id="usedProDesc.errors"></span>
+		  
+		
+		    <label for="usedNewness">商品新舊程度：</label>
+		    <select id="usedNewness" th:field="*{usedNewness}">
+		        <option value="0">全新未拆封</option>
+		        <option value="1">9成新</option>
+		        <option value="2">7成新</option>
+		        <option value="3">5成新</option>
+		        <option value="4">3成新</option>
+		    </select>
+		    
+		
+		    <label for="usedPrice">價格：</label>
+		    <input type="number" id="usedPrice" th:field="*{usedPrice}" min="1" required />
+		    <span  th:if="${#fields.hasErrors('usedPrice')}" th:errors="*{usedPrice}" class="error" id="usedPrice.errors"></span>
+		    
+		
+		    <label for="usedStocks">庫存數量：</label>
+		    <input type="number" id="usedStocks" th:field="*{usedStocks}" min="0" required />
+		    <span  th:if="${#fields.hasErrors('usedStocks')}" th:errors="*{usedStocks}" class="error" id="usedStocks.errors"></span>
+		    <br>
+		
+		    <label for="usedState">商品狀態：</label>
+		    <select id="usedState" th:field="*{usedState}">
+		        <option value="0">未上架</option>
+		        <option value="1">上架</option>
+<!-- 		        <option value="2">預設刪除</option> -->
+		    </select>
+		    
+		    <!-- 多張圖片 (UsedPicVO 列表) -->
+		    
+			 <div id="usedPicsContainer">
+			    <div class="upfiles">
+			      <label for="upfiles">二手商品照片:(最多五張)</label>
+			      <input type="file" id ="upfiles" name="upfiles" accept="images/*"  />
+			    </div>
+			 </div>
+		
+		  		<button type="button" id="addPicture">增加照片欄位</button>
+		        
+		    
+		
+		    
+		    <button type="submit">提交</button>
+		</form>
+	
+	</div>
+
+<div class="errorblock" th:text="${errorMessage}">${errorMessage}</div><br>
+<!-- JavaScript part -->
+<script type="text/javascript">
+document.addEventListener("DOMContentLoaded", () => {
+	  const maxInputs = 5; // 設置最多可添加的 input 數量
+	  const addPictureBtn = document.getElementById("addPicture");
+
+	  // 檢查目前的 input 數量，控制按鈕顯示
+	  const checkAddButtonVisibility = () => {
+	    const currentInputs = document.querySelectorAll('input[name="upfiles"]').length;
+	    if (currentInputs >= maxInputs) {
+	      addPictureBtn.style.display = "none";
+	    } else {
+	      addPictureBtn.style.display = "block";
+	    }
+	  };
+
+	  // 初始化檢查按鈕狀態
+	  checkAddButtonVisibility();
+
+	  addPictureBtn.addEventListener("click", () => {
+	    const currentInputs = document.querySelectorAll('input[name="upfiles"]').length;
+
+	    if (currentInputs >= maxInputs) {
+	      alert(`最多只能添加 ${maxInputs} 張照片`);
+	      return; // 阻止添加更多輸入字段
+	    }
+
+	    const newPicture = document.createElement("div");
+	    newPicture.classList.add("usedPics");
+
+	    // 動態生成新的輸入字段
+	    newPicture.innerHTML = `
+	        <input type="file" name="upfiles" />
+	    `;
+	    document.getElementById("usedPicsContainer").appendChild(newPicture);
+
+	    // 更新按鈕顯示狀態
+	    checkAddButtonVisibility();
+	  });
+
+	  // 檔案上限控制
+	  const MAX_FILE_SIZE = 5 * 1024 * 1024; // 最大檔案大小 5MB
+	  const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif']; // 允許的檔案類型
+	  const MAX_FILENAME_LENGTH = 30; // 檔名最大長度
+	  const FILENAME_REGEX = /^[\u4e00-\u9fffA-Za-z0-9\s\p{P}\p{S}\u3100-\u312F\u31A0-\u31BF\u3040-\u309F\u30A0-\u30FF]{1,30}$/u;
+
+	  // 動態監聽所有 input[name="upfiles"]
+	  document.addEventListener("change", (event) => {
+	    if (event.target && event.target.name === "upfiles") {
+	      const files = event.target.files;
+	      const errorMessages = [];
+
+	      Array.from(files).forEach((file) => {
+	        const fileName = file.name;
+	        const fileSize = file.size;
+	        const fileType = file.type;
+
+	        // 檢查檔案大小
+	        if (fileSize > MAX_FILE_SIZE) {
+	          errorMessages.push(`${fileName} 超過檔案大小限制 (${(fileSize / 1024 / 1024).toFixed(2)} MB)。`);
+	        }
+
+	        // 檢查檔案類型
+	        if (!ALLOWED_TYPES.includes(fileType)) {
+	          errorMessages.push(`${fileName} 類型不被允許 (${fileType})。`);
+	        }
+
+	        // 檢查檔名長度
+	        if (fileName.length > MAX_FILENAME_LENGTH) {
+	          errorMessages.push(`${fileName} 檔名過長 (最大 ${MAX_FILENAME_LENGTH} 個字元)。`);
+	        }
+
+	        // 檢查檔名格式
+	        if (!FILENAME_REGEX.test(fileName)) {
+	          errorMessages.push(`${fileName} 檔名含有非法字元 (僅允許中、英、日文、數字和特殊符號 , 且長度最多30個字)。`);
+	        }
+	      });
+
+	      if (errorMessages.length > 0) {
+	        alert(errorMessages.join("\n"));
+	        event.target.value = ""; // 清空檔案選擇
+	      }
+	    }
+	  });
+	});
+
+
+</script>
+
+</body>
+</html>
