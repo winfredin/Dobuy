@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>FAQ</title>
+
+
+<link rel="stylesheet" th:href="@{/counterPage/css/counterFaq.css}">
+</head>
+    
+<body>
+
+<img src="/demo/counterPage/img/core-img/logo-noback.png" alt="Logo" class="logo">
+<div class="container">
+    <ul class="list">
+    
+    
+      <li th:each="faqVO, faqVOStat : ${faqVO}">
+        <a class="link_title" href="#">
+          <button type="button" class="switch_btn">
+            <span class="-plus">+</span><span class="-minus">-</span>
+          </button>
+          <span th:text="${faqVO.ques}"></span>
+        </a>
+        <div class="inner_block">
+          <span th:text="${faqVO.ans}"></span>
+        </div>
+      </li>
+      
+      
+    </ul>
+  </div>
+  
+  <script th:src="@{/counterPage/js/jquery/jquery-3.7.1.min.js}"></script>
+  
+  <script>
+
+    $("a.link_title").on("click", function (e) {
+      e.preventDefault;
+      $(this).closest("li").toggleClass("-on");
+      $(this).closest("li").find("div.inner_block").slideToggle(1000);
+    });
+
+  </script>
+  
+</body>
+</html>

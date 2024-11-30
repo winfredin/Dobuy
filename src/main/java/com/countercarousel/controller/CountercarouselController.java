@@ -58,15 +58,4 @@ public class CountercarouselController {
 		return "/back-end-carousel/ALLCarousel";
 	}
 
-//	@GetMapping("/api/pic")
-//	@ResponseBody
-//	public List<String> getProducts() {
-//		List<CountercarouselVO> carouselList = countercarouselRepository.findNewest3();
-//		List<String> picList = new ArrayList<String>();
-//		for (CountercarouselVO j : carouselList) {
-//			j.convertToBase64();
-//			picList.add(j.getBase64Image());
-//		}
-//		return picList;
-//	}
 }

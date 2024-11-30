@@ -49,15 +49,17 @@
 				class="container h-30 d-flex justify-content-between align-items-center">
 				<!-- 左邊的文字 -->
 				<div class="left-text">
-					<a th:href="@{/}" class="nav-link">首頁</a> <a href="#"
-						class="nav-link">聯絡我們</a>
+					<a th:href="@{/}" class="nav-link">首頁</a> 
+					<a href="#" class="nav-link">聯絡我們</a>
+					<a th:href="@{/counter/getFaq(counterNo=${counterVO.counterNo})}" class="nav-link">FAQ常見問題</a>
+					<a href="#" class="nav-link">我的優惠券</a>
 				</div>
 
 				<!-- 右邊按鈕 -->
 				<div class="right-actions">
 					<!-- 未登入時顯示註冊和登入 -->
-					<span th:if="${session.memAccount == null}"> <a
-						th:href="@{/mem/register}" class="login-link">註冊</a> <span
+					<span th:if="${session.memAccount == null}"> 
+					<a th:href="@{/mem/register}" class="login-link">註冊</a> <span
 						class="divider">|</span> <a th:href="@{/mem/login}"
 						class="login-link">登入</a>
 					</span>
@@ -104,9 +106,10 @@
 		<div class="container h-100">
 			<div class="row h-100 align-items-center">
 				<!-- 左侧图片或文字 -->
-				<div class="col-4 text-right">
-					<img src="img/pic/01.png" alt="Left Image"
-						style="width: 400px; height: 100px;">
+				<div class="col-4 text-left">
+				    <div class="text-box">
+				        <span th:text="${counterVO.counterCName}"></span>
+				    </div>
 				</div>
 				<!-- 中间的 logo -->
 				<div class="col-4 text-center">
@@ -114,9 +117,10 @@
 						alt="Logo" style="max-width: 150px;">
 				</div>
 				<!-- 右侧图片或文字 -->
-				<div class="col-4 text-left">
-					<img src="img/pic/01.png" alt="Right Image"
-						style="width: 400px; height: 100px;">
+				<div class="col-4 text-right">
+				    <div class="text-box">
+				        <span th:text="${counterVO.counterInform}"></span>
+				    </div>
 				</div>
 			</div>
 		</div>
@@ -196,7 +200,7 @@
 							<div th:each="goodsVO : ${goodsLightVO}"
 								class="col-12 col-md-4 product-item">
 								<!-- 單個商品的表單 -->
-								<form th:action="@{/goods/getOneGoods}" method="get">
+								<form th:action="@{/counter/getOneGoods}" method="get">
 									<!-- 隱藏字段，傳遞商品編號 -->
 									<input type="hidden" name="goodsNo"
 										th:value="${goodsVO.goodsNo}">

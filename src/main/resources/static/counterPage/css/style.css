@@ -1636,4 +1636,28 @@ img {
 
 /* ===============Coupon優惠券============= */
 
+/* ===============商家資訊============= */
+/* 特定样式：左侧文字区域 */
+.logo-area .container .row .col-4.text-left .text-box {
+	font-size: 26px;
+    display: flex;
+    justify-content: center; /* 左对齐 */
+    align-items: center;
+    background: rgba(0, 0, 0, 0.1); /* 半透明背景 */
+    padding: 10px;
+    width: 100%; /* 撑满父元素宽度 */
+    color: rgb(166, 100, 2);
+}
+
+/* 特定样式：右侧文字区域 */
+.logo-area .container .row .col-4.text-right .text-box {
+    display: flex;
+    justify-content: center; /* 右对齐 */
+    align-items: center;
+    background: rgba(0, 0, 0, 0.1); /* 半透明背景 */
+    padding: 10px;
+    width: 100%; /* 撑满父元素宽度 */
+    color: #333; /* 文字颜色 */
+}
+/* ===============商家資訊============= */
 
