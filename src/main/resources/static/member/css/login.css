@@ -1,0 +1,107 @@
+/* 背景樣式 */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: url(/demo/counterPage/img/core-img/sand.jpg) no-repeat center center fixed;
+    background-size: cover;
+}
+
+/* Logo樣式 */
+.logo {
+    display: block;
+    margin: 30px auto;
+    width: 200px; /* 調整大小 */
+    height: auto;
+}
+
+/* 容器樣式 */
+.container {
+    width: 50%;
+    margin: 50px auto;
+    padding: 20px 40px;
+    background: rgba(255, 255, 255, 0.9); /* 半透明背景 */
+    border-radius: 15px; /* 圓角 */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* 陰影效果 */
+    text-align: center; /* 文字居中 */
+}
+
+/* 標題樣式 */
+.title {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+/* 錯誤訊息區域 */
+.error-container {
+    margin-bottom: 20px;
+}
+
+/* 表單標籤樣式 */
+.form-label {
+    display: block;
+    text-align: left;
+    margin: 10px 0 5px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-label-inline {
+    display: inline;
+    margin-left: 5px;
+    font-size: 16px;
+    color: #333;
+}
+
+/* 輸入框樣式 */
+.form-input,
+.form-radio {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.form-radio {
+    width: auto;
+    margin-right: 10px;
+}
+
+/* 按鈕樣式 */
+.form-button {
+    width: 200px;
+    padding: 10px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.form-button:hover {
+    background-color: #0056b3;
+}
+
+/* 錯誤訊息樣式 */
+.error {
+    color: red;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+/* 註冊和忘記密碼鏈接 */
+a {
+    text-decoration: none;
+    color: #007BFF;
+}
+
+a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}

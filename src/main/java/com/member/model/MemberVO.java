@@ -231,10 +231,9 @@ public class MemberVO {
         this.confirmPassword = confirmPassword;
     }
     
-    @AssertTrue(message = "密碼和確認密碼必須一致") // 有@Valid處理對象時 自動調用
     public boolean isPasswordConfirmed() {
         if (memPassword == null || confirmPassword == null) {
-            return true; // 跳過空值校驗，交給@NotEmpty處理
+            return false; // 跳過空值校驗，交給@NotEmpty處理
         }
         return memPassword.equals(confirmPassword);
     }

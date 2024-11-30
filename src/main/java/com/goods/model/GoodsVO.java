@@ -1,22 +1,26 @@
 package com.goods.model;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.util.Base64;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.counter.model.CounterVO;
+import com.goodstype.model.GoodsTypeVO;
 
 @Entity
 @Table(name = "Goods")
@@ -24,8 +28,8 @@ public class GoodsVO implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
 
     private Integer goodsNo; // 商品編號
-    private Integer goodstNo; // 商品類別 (關聯至商品類別表)
-    private Integer counterNo; // 櫃位編號 (關聯至櫃位表)
+    private GoodsTypeVO goodsTypeVO; // 商品類別 (關聯至商品類別表)
+    private CounterVO counterVO; // 櫃位編號 (關聯至櫃位表)
     private String goodsName; // 商品名稱
     private String goodsDescription; // 商品敘述
     private Integer goodsPrice; // 商品單價
@@ -44,7 +48,10 @@ public class GoodsVO implements java.io.Serializable {
     private Byte checkStatus; // 審核狀態 (0：審核中 1：通過 2：未通過)
     private Timestamp goodsDate; // 商品上架日期
     private Timestamp goodsEnddate; // 商品下架日期
-
+    
+    
+   
+    
     public GoodsVO() {
     }
 
@@ -59,26 +66,24 @@ public class GoodsVO implements java.io.Serializable {
         this.goodsNo = goodsNo;
     }
     
-
-    @Column(name = "goodstNo")
-    @NotNull(message = "商品類別: 請勿空白")
-    public Integer getGoodstNo() {
-        return this.goodstNo;
+	@ManyToOne
+	@JoinColumn(name = "goodstNo")   // 指定用來join table的column
+    public GoodsTypeVO getGoodsTypeVO() {
+        return this.goodsTypeVO;
     }
 
-    public void setGoodstNo(Integer goodstNo) {
-        this.goodstNo = goodstNo;
+    public void setGoodsTypeVO(GoodsTypeVO goodsTypeVO) {
+        this.goodsTypeVO = goodsTypeVO;
     }
 
-    
-    @Column(name = "counterNo")
-    @NotNull(message = "櫃位編號: 請勿空白")
-    public Integer getCounterNo() {
-        return this.counterNo;
+	@ManyToOne
+	@JoinColumn(name = "counterNo")   // 指定用來join table的column
+    public CounterVO getCounterVO() {
+        return this.counterVO;
     }
 
-    public void setCounterNo(Integer counterNo) {
-        this.counterNo = counterNo;
+    public void setCounterVO(CounterVO counterVO) {
+        this.counterVO = counterVO;
     }
 
     @Column(name = "goodsName")
@@ -257,4 +262,10 @@ public class GoodsVO implements java.io.Serializable {
         this.goodsEnddate = goodsEnddate;
     }
     
+    //==================以下昱夆新增=====================//
+
+    public String convertToBase64(byte[] bytes) {
+        return Base64.getEncoder().encodeToString(bytes);
+    }
+    //==================以上昱夆新增=====================//
 }

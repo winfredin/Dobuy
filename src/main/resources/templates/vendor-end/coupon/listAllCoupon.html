@@ -4,8 +4,6 @@
 <!-- fragment引入 -->
 <th:block th:replace="~{/back-end/back-end-home/fraghead :: head}"></th:block>
 
-
-
 <title>所有優惠券資料 - listAllCoupon.html</title>
 
 
@@ -22,7 +20,7 @@
 	var dataTablesJQ = $.noConflict(true); // 使用獨立的 jQuery 實例
 	dataTablesJQ(document).ready(function() {
 		dataTablesJQ('#example').DataTable({
-			"lengthMenu" : [ 5, 10, 20, 50, 100 ],
+			"lengthMenu" : [20, 50, 100 ],
 			"searching" : true,
 			"paging" : true,
 			"ordering" : true,
@@ -109,8 +107,8 @@
 						<td>
 							<form method="post" th:action="@{/coupon/getOne_For_Update}"
 								style="margin-bottom: 0px;">
-								<input type="submit" value="修改"> <input type="hidden"
-									name="couponNo" th:value="${couponVO.couponNo}">
+								<input type="submit" value="修改"> 
+								<input type="hidden" name="couponNo" th:value="${couponVO.couponNo}">
 							</form>
 						</td>
 						<td>
@@ -127,9 +125,13 @@
 		</table>
 	</div>
 
-	<script>
-		console.log('DataTables 使用的 jQuery 版本:', dataTablesJQ.fn.jquery); // 應為 3.5.1
-	</script>
+	  <ul>
+		  <li><h5><a th:href="@{/coupon/addCoupon}">Add1</a> a new Coupon.</h5></li>
+		  
+	  </ul>
+
+
+
 
 	<!-- fragment引入 -->
 	<footer th:block

@@ -45,11 +45,8 @@ public class CounterOrdernoController {
 	@PostMapping("getOne_For_Display")
 	public String getOne_For_Display(
 		/***************************1.接收請求參數 - 輸入格式的錯誤處理*************************/
-		@NotEmpty(message="員工編號: 請勿空白")
-		@Digits(integer = 4, fraction = 0, message = "員工編號: 請填數字-請勿超過{integer}位數")
-		@Min(value = 7001, message = "員工編號: 不能小於{value}")
-		@Max(value = 7777, message = "員工編號: 不能超過{value}")
-		@RequestParam("empno") String counterOrderNo,
+		
+		@RequestParam("counterOrderNo") String counterOrderNo,
 		ModelMap model) {
 		
 		/***************************2.開始查詢資料*********************************************/
@@ -57,13 +54,13 @@ public class CounterOrdernoController {
 		CounterOrderVO counterOrderVO = counterOrderSvc.getOneCounterOrder(Integer.valueOf(counterOrderNo));
 		
 		List<CounterOrderVO> list = counterOrderSvc.getAll();
-		model.addAttribute("empListData", list);     // for select_page.html 第97 109行用
+		model.addAttribute("counterOrderListData", list);     // for select_page.html 第97 109行用
 		
 		
 		
 		if (counterOrderVO == null) {
 			model.addAttribute("errorMessage", "查無資料");
-			return "back-end/emp/select_page";
+			return "vendor-end/counterorder/select_page";
 		}
 		
 		/***************************3.查詢完成,準備轉交(Send the Success view)*****************/
@@ -71,7 +68,7 @@ public class CounterOrdernoController {
 		model.addAttribute("getOne_For_Display", "true"); // 旗標getOne_For_Display見select_page.html的第156行 -->
 		
 //		return "back-end/emp/listOneEmp";  // 查詢完成後轉交listOneEmp.html
-		return "back-end/counterorder/select_page"; // 查詢完成後轉交select_page.html由其第158行insert listOneEmp.html內的th:fragment="listOneEmp-div
+		return "vendor-end/counterorder/select_page"; // 查詢完成後轉交select_page.html由其第158行insert listOneEmp.html內的th:fragment="listOneEmp-div
 	}
 
 	
@@ -89,7 +86,7 @@ public class CounterOrdernoController {
 		List<CounterOrderVO> list = counterOrderSvc.getAll();
 		model.addAttribute("CounterOrderListData", list);     // for select_page.html 第97 109行用
 		String message = strBuilder.toString();
-	    return new ModelAndView("back-end/counterorder/select_page", "errorMessage", "請修正以下錯誤:<br>"+message);
+	    return new ModelAndView("vendor-end/counterorder/select_page", "errorMessage", "請修正以下錯誤:<br>"+message);
 	}
 	
 }

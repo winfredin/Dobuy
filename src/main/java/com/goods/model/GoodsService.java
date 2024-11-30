@@ -1,10 +1,10 @@
 package com.goods.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,10 +52,6 @@ public class GoodsService {
         return HibernateUtil_CompositeQuery_Goods.getAllC(map, sessionFactory.openSession());
     }
     
-//  據櫃位編號取得全部商品
-    public List<GoodsVO> getOneCounter35(Integer counterNo) {
-        return repository.getOneCounter35(counterNo); // 如果不存在，返回 null
-    }
     
     // 更新商品審核狀態
     public void updateCheckStatus(Integer goodsNo, Byte checkStatus) {
@@ -82,4 +78,58 @@ public class GoodsService {
         }
     }
 
+    //==================以下昱夆新增=====================//
+    //  據櫃位編號取得全部商品
+    public List<GoodsVO> getOneCounter35(Integer counterNo) {
+        return repository.getOneCounter35(counterNo); // 如果不存在，返回 null
+    }
+    
+    
+    public List<String> getOneGoodsImg(GoodsVO goodsVO) {
+    	List<String> photoList = new ArrayList<String>();
+    	 if (goodsVO != null) {
+    	        // 提取所有的 byte[] 字段並轉換為 Base64
+    	        if (goodsVO.getGpPhotos1() != null) {
+    	            photoList.add(goodsVO.convertToBase64(goodsVO.getGpPhotos1()));
+    	        }
+    	        if (goodsVO.getGpPhotos2() != null) {
+    	            photoList.add(goodsVO.convertToBase64(goodsVO.getGpPhotos2()));
+    	        }
+    	        if (goodsVO.getGpPhotos3() != null) {
+    	            photoList.add(goodsVO.convertToBase64(goodsVO.getGpPhotos3()));
+    	        }
+    	        if (goodsVO.getGpPhotos4() != null) {
+    	            photoList.add(goodsVO.convertToBase64(goodsVO.getGpPhotos4()));
+    	        }
+    	        if (goodsVO.getGpPhotos5() != null) {
+    	            photoList.add(goodsVO.convertToBase64(goodsVO.getGpPhotos5()));
+    	        }
+    	        if (goodsVO.getGpPhotos6() != null) {
+    	            photoList.add(goodsVO.convertToBase64(goodsVO.getGpPhotos6()));
+    	        }
+    	        if (goodsVO.getGpPhotos7() != null) {
+    	            photoList.add(goodsVO.convertToBase64(goodsVO.getGpPhotos7()));
+    	        }
+    	        if (goodsVO.getGpPhotos8() != null) {
+    	            photoList.add(goodsVO.convertToBase64(goodsVO.getGpPhotos8()));
+    	        }
+    	        if (goodsVO.getGpPhotos9() != null) {
+    	            photoList.add(goodsVO.convertToBase64(goodsVO.getGpPhotos9()));
+    	        }
+    	        if (goodsVO.getGpPhotos10() != null) {
+    	            photoList.add(goodsVO.convertToBase64(goodsVO.getGpPhotos10()));
+    	        }
+    	    }
+    	 return photoList;
+
+    }
+    
+    //==================以上昱夆新增=====================//
+    
+    
+    
+    
+    
+    
+    
 }

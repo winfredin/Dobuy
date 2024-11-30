@@ -1,0 +1,44 @@
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>權限資料 - listOneAuth.html</title>
+
+<head ></head>
+<style type="text/css">
+	
+    span {
+		display: inline-block;
+		width: 150px;
+		text-align: left;
+		font-weight: bold;
+	}
+</style>
+</head>
+<body>
+
+
+		 <div align="center"> <h2>權限資料 - listOneAuth.html</h2>
+		 <h3><a th:href="@{/manager/listAllAuth}">回查詢頁<label th:text="${success}"></a></label><img th:src="@{/images/back1.gif}"><a th:href="@{/manager/select_page}">回首頁</a></h3>
+ 		
+
+	<div align="center" > <!-- 此div被select_page.html第158行insert用 -->
+		<h3><span>查詢結果 :</span></h3>
+		<span>權限編號:</span><span th:text="${authVO.authNo}"></span><br/>
+		<span>權限名稱:</span><span th:text="${authVO.authTitle}"></span><br/>
+		<span>權限內容:</span><span th:text="${authVO.authContext}"></span><br/>
+	</div>
+
+
+</body>
+</html>

@@ -24,5 +24,8 @@ public interface CounterRepository extends JpaRepository<CounterVO, Integer> {
     
     CounterVO findByCounterUbn(String counterUbn);
     
+    //登入方法
+    CounterVO findByCounterAccountAndCounterPassword(String counterAccount, String counterPassword);
+    
 
 }

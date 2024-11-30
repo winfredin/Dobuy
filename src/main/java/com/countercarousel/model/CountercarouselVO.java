@@ -1,6 +1,5 @@
 package com.countercarousel.model;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Base64;
 
@@ -12,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.web.multipart.MultipartFile;
 
 @Entity

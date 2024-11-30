@@ -4,7 +4,10 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.coupon.model.CouponVO;
 
 public interface CouponDetailRepository extends JpaRepository<CouponDetailVO, Integer> {
 
@@ -18,7 +21,17 @@ public interface CouponDetailRepository extends JpaRepository<CouponDetailVO, In
     @Query(value = "FROM CouponDetailVO WHERE couponNo = ?1 AND goodsNo = ?2 AND disRate = ?3 ORDER BY couponDetailNo")
     List<CouponDetailVO> findByOthers(int couponNo, int goodsNo, double disRate);
 
-    // **新增方法：根據優惠券編號查詢優惠券明細**
-    List<CouponDetailVO> findByCouponNo(Integer couponNo);
+
+
+//	CouponVO save(CouponVO couponVO);
+
+    // 根據優惠券編號查詢明細
+    @Query("SELECT cd FROM CouponDetailVO cd WHERE cd.coupon.couponNo = :couponNo")
+    List<CouponDetailVO> findByCoupon_CouponNo(@Param("couponNo") Integer couponNo);
+    
+    @Modifying
+    @Query("DELETE FROM CouponDetailVO cd WHERE cd.couponDetailNo = :couponDetailNo")
+    void deleteByCouponDetailNo(@Param("couponDetailNo") Integer couponDetailNo);
+
 
 }

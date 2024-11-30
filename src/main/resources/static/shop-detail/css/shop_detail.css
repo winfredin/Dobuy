@@ -1,0 +1,291 @@
+section.sec1{
+  /* border: 1px solid red; */
+  min-width:1263.33px; /* 版面最小寬度設定 */
+  padding: 100px 0;
+}
+section.sec1 div.flex_container{
+  /* border: 1px solid black; */
+  display: flex;
+  width:1200px; /* 商品頁寬度設定 */
+  margin: 0 auto;
+}
+/* section.sec1 div.flex_container div.items{
+  border: 1px solid blue;
+} */
+/* ================================== 左邊內容區域 ================================== */
+.items.-left{
+  width: 480px;
+  height: 600px;
+  flex-shrink: 0;
+  background-color: #ffffff; /* 設置背景顏色為白色 */
+  padding-bottom: 15px;
+  float: left;
+}
+/* 左邊主要圖片區域 */
+.main-img{
+  position: relative;
+  width: 480px;
+  height: 480px;
+  border: 1px solid #eee;
+  margin-bottom: 20px;
+/*   background-color: skyblue; */
+}
+/* 左邊下方圖片區域 */
+.spec-list{
+  position: relative;
+  width: 480px;
+  height: 82px;
+  margin-bottom: 18px;
+  /* background-color: purple; */
+}
+/* 左邊下方圖片區域-左、右測按鈕設定 */
+.prev, .next{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%); /* 垂直居中 */
+  width: 22px;
+  cursor: pointer;
+  height: 32px;
+  background-color: red;
+  z-index: 10; /* 確保箭頭顯示在圖片的上層 */
+}
+/* 左邊下方圖片區域-左側按鈕 */
+.prev{
+  width: 15px;
+  height: 82px;
+  left:0;
+  background: url('/shop-detail/images/smallimgArealeft.gif') no-repeat;
+  background-position:3px 35px;
+  background-color: rgb(232, 231, 231);
+}
+/* 左邊下方圖片區域-右側按鈕 */
+.next{
+  width: 15px;
+  height: 82px;
+  right:0;
+  background: url('/shop-detail/images/smallimgArearight.gif') no-repeat;
+  background-position:4.5px 35px;
+  background-color: rgb(232, 231, 231);
+}
+/* 左邊下方圖片區域-圖片區 */
+.spec-items{
+  position: relative;
+  width: 478.519px;
+  height: 82px;
+  margin: 0 auto;
+  /* background-color: antiquewhite; */
+  overflow: hidden;
+  display: flex; /* 使用flex布局來控制圖片排列 */
+  justify-content: flex-start; /* 讓圖片區域排列 */
+  justify-content: space-between; /* 確保箭頭在左右兩側 */
+}
+.spec-items ul{
+  position: relative;
+  display: flex;
+  margin: 0;
+  padding: 0 9px;
+  list-style: none;
+  width: 478.519px;
+  height: 82px;
+  transition: all 0.5s; /* 延遲轉換圖片效果 */
+}
+/* 調整每個圖片的寬度 */
+.spec-items ul li{
+  width: 82px;
+  height: 82px;
+  margin: 0 5px;
+  display: inline-block; /* 讓圖片以行內塊元素顯示 */
+}
+/* 左邊下方圖片區域-圖片區 圖片大小設定 */
+.spec-items ul li img{
+  width: 82px;
+  height: 82px;
+  border: 2px solid #fff;
+}
+/* 左邊下方圖片區域-圖片區 圖片選取邊框設定 */
+.spec-items ul .img-hover img{
+ border: 2px solid #e53e41; 
+}
+section.sec1 div.flex_container div.items.-left div.main-img{
+ border: 1px solid lightgray;
+}
+/* 左邊圖片大小設定  */
+section.sec1 div.flex_container div.items.-left div.main-img > img{
+  width: 100%;    /* 寬度設定為容器的100% */
+  height: 100%;   /* 高度設定為容器的100% */
+  object-fit: contain; /* 保持圖片比例，並調整大小以完全顯示在容器內 */
+} 
+/* 放大鏡設定 */
+.zoom-pup{
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 236px;
+  height: 236px;
+  background-color: rgb(250, 251, 216);
+  opacity: 0.5;
+}
+/* 放大鏡大圖 */
+.zoom-div{
+  position: relative;
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 480px;
+  width: 540px;
+  height: 540px;
+/*   background-color: red; */
+  overflow: hidden;
+}
+/* 放大鏡大圖大小設定 */
+.zoom-div img{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1200px;
+}
+
+/* ================================== 右邊內容區域 ================================== */
+.title1{
+  width:680px;
+  height:118px;
+}
+section.sec1 div.flex_container div.items.-right{
+  margin: 0;
+  border: 0;
+  flex-grow: 1;
+  font-size: 20px; /* 調整文案文字大小 */
+  padding: 20px 20px 15px 20px;
+  background-color: #ffffff; /* 設置背景顏色為白色 */
+  height: 600px;               /* 確保容器占據全部可用高度 */
+  box-sizing: border-box;      /* 確保包含邊框和內邊距 */
+}
+/* ========== 描述列表 ========== */
+.desc_list{
+  display: flex;
+  flex-direction: column;    /* 讓每個 <li> 內的元素垂直排列 */
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  width: 100%;               /* 確保描述列表寬度充滿父元素 */
+}
+/* 商品價格 */
+.Goods_Price {
+  width:680px;
+  height:32px;
+  display: flex;
+  justify-content: flex-start; /* 靠左對齊 */
+  align-items: center;         /* 垂直居中對齊 */
+  margin:10px 0 ;
+}
+/* 描述列表 - 商品價格 */
+.Goods_Price_0 {
+  padding-right: 30px;             /* 右邊加一點間距 */
+}
+/* 描述列表 - 商品價格的價格顯示 */
+.Goods_Price_1 {
+  font-weight: bold;
+  font-size: 28px;
+  color: #d0011b;
+}
+/* 賣場優惠券 */
+.Coupon_Title{
+  width:680px;
+  height:32px;
+  display: flex;
+  justify-content: flex-start; /* 靠左對齊 */
+  align-items: center;
+  margin: 10px 0;
+}
+/* 描述列表 - 賣場優惠券 */
+.Coupon_Title_0 {
+  padding-right: 10px; /* 右邊加一點間距 */
+}
+/* 描述列表 - 賣場優惠券的優惠券顯示 */
+.Coupon_Title_1 {
+  font-size: 20px;
+}
+
+
+/* 賣場優惠券 */
+.Goods_Amount{
+  width:680px;
+  height:32px;
+  display: flex;
+  justify-content: flex-start; /* 靠左對齊 */
+  align-items: center;
+  margin: 10px 0;
+}
+/* 描述列表 - 賣場優惠券 */
+.Goods_Amount_0 {
+  padding-right: 30px; /* 右邊加一點間距 */
+}
+/* 描述列表 - 賣場優惠券的優惠券顯示 */
+.Goods_Amount_0 {
+  font-size: 20px;
+}
+/* 商品敘述 */
+.Goods_Description{
+  width:680px;
+  height:205px;
+  display: flex;
+  justify-content: flex-start; /* 靠左對齊 */
+  align-items: flex-start;     /* 確保文字與標題對齊 */
+  margin: 10px 0;
+}
+/* 描述列表 - 商品敘述 */
+.Goods_Description_0{
+  width: 110px;
+}
+/* 描述列表 - 商品敘述的敘述內容 */
+.Goods_Description_1{
+  font-size: 20px;
+  width: 570px; /* 讓商品敘述區塊的寬度佔據父元素寬度 */
+  max-width: 100%; /* 確保內容不會超出父元素寬度 */
+  height: auto; /* 設置高度為自動，以適應內容 */
+  overflow: hidden; /* 隱藏超出範圍的內容 */
+  text-overflow: ellipsis; /* 當內容過長時，使用省略號顯示 */
+  word-wrap: break-word; /* 強制單字換行以避免內容超出 */
+  white-space: normal; /* 保留換行符號，但不會有強制換行 */
+  max-height: 300px; /* 設定最大高度 */
+  overflow-y: auto; /* 超出高度顯示垂直滾動條 */
+}
+/* 描述列表 - 數量 */
+.label_item{
+  display: inline-block;
+  vertical-align: middle;
+  padding-right: 61px; /* 右邊加一點間距 */
+  margin: 10px 0;
+}
+.buy_count{
+  padding: 2px 0 3px;
+  vertical-align: middle;
+}
+
+/* 放入購物車文字 */
+.shopping_button {
+  padding: 0px 20px;
+  cursor: pointer;
+  font-size: 14px;
+  width: 166px;     /* 可以根據需要調整按鈕寬度 */
+  height: 46.667px; /* 可以根據需要調整按鈕高度 */
+  display: flex;
+  align-items: center;      /* 垂直居中 */
+  justify-content: center;  /* 水平居中 */
+  text-align: center;       /* 文字水平對齊 */ 
+  border: 1px solid #ee4d2d;  /* 設定放入購物車按鈕邊框顏色 */
+  color: rgb(208, 1, 27);      /* 設定放入購物車文字顏色 */
+  background-color: rgba(255, 87, 34, .1); /* 設定放入購物車按鈕顏色 */
+}
+
+/* 游標懸停時的變色效果 */
+.shopping_button:hover {
+  background-color: rgba(255, 216, 205, 0.3); /* 改變按鈕背景顏色 */
+}
+
+/* 放入購物車按鈕內的圖片 */
+._kL9Hf {
+  width: 20px;
+  margin-right: 10px; /* 圖片與文字之間的間距 */
+}

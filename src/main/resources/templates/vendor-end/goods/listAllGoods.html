@@ -63,8 +63,8 @@ body {
 	<tr style="background-color:#CCCCFF">
 		<th>計數</th>
 		<th>商品編號</th>
-		<th>商品類別編號</th>
-		<th>櫃位編號</th>
+		<th>商品類別名稱</th>
+		<th>櫃位名稱</th>
 		<th>商品名稱</th>
 		<th>商品敘述</th>
 		<th>商品單價</th>
@@ -83,8 +83,8 @@ body {
 		<tr>
 			<td th:text="${goodsVOStat.count}"></td>
 			<td th:text="${goodsVO.goodsNo}"></td>
-			<td th:text="${goodsVO.goodstNo}"></td>
-			<td th:text="${goodsVO.counterNo}"></td>
+			<td th:text="${goodsVO.goodsTypeVO.goodstName}"></td>
+			<td th:text="${goodsVO.CounterVO.counterCName}"></td>
 			<td th:text="${goodsVO.goodsName}"></td>
 			<td th:text="${goodsVO.goodsDescription}"></td>
 			<td th:text="${goodsVO.goodsPrice}"></td>

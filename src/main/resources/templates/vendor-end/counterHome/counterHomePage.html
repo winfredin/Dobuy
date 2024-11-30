@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+<!-- Title -->
+<title>DoBuy - Lifestyle</title>
+
+<!-- Favicon -->
+<!--       <link rel="icon" href="img/core-img/favicon.ico"> -->
+
+<!-- Style CSS -->
+<link rel="stylesheet" th:href="@{/counterPage/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/counterPage/css/style.css}">
+<!-- Slick CSS -->
+<link rel="stylesheet" type="text/css"
+	th:href="@{https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css}" />
+<link rel="stylesheet" type="text/css"
+	th:href="@{https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css}" />
+<link
+	th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css}"
+	rel="stylesheet">
+
+
+</head>
+
+<body>
+	<!-- Preloader -->
+	<div id="preloader">
+		<div class="preload-content">
+			<div id="original-load"></div>
+		</div>
+	</div>
+
+
+
+	<!-- ##### Header Area Start ##### -->
+	<header class="header-area">
+
+		<!-- 登入container -->
+		<div class="top-container">
+			<div
+				class="container h-30 d-flex justify-content-between align-items-center">
+				<!-- 左邊的文字 -->
+				<div class="left-text">
+					<a th:href="@{/}" class="nav-link">首頁</a> 
+					<a href="#" class="nav-link">聯絡我們</a>
+					<a th:href="@{/counter/getFaq(counterNo=${counterVO.counterNo})}" class="nav-link">FAQ常見問題</a>
+					<a href="#" class="nav-link">我的優惠券</a>
+				</div>
+
+				<!-- 右邊按鈕 -->
+				<div class="right-actions">
+					<!-- 未登入時顯示註冊和登入 -->
+					<span th:if="${session.memAccount == null}"> 
+					<a th:href="@{/mem/register}" class="login-link">註冊</a> <span
+						class="divider">|</span> <a th:href="@{/mem/login}"
+						class="login-link">登入</a>
+					</span>
+
+					<!-- 已登入時顯示用戶名稱和登出 -->
+					<span th:if="${session.memAccount != null}"> <span
+						class="user-name"
+						th:text="'Welcome&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ ${session.memAccount}"></span>
+						<a th:href="@{/mem/logout}" class="login-link">登出</a>
+					</span>
+				</div>
+			</div>
+		</div>
+
+		<!-- 搜尋container -->
+		<div class="custom-container">
+			<div
+				class="container h-50 d-flex justify-content-between align-items-center">
+				<!-- 左邊的文字 -->
+				<div class="left-text">
+					<p class="m-0">DO BUY</p>
+				</div>
+				<!-- 搜尋框 -->
+				<div class="search-bar">
+					<input type="text" class="form-control" placeholder="搜尋您感興趣的內容">
+					<button class="btn btn-primary">
+						<i class="fas fa-search"></i>
+						<!-- 搜尋圖標 -->
+					</button>
+					<!-- 購物車圖標 -->
+					<a href="#" class="cart"> <img
+						src="/demo/counterPage/img/pic/shopping-cart01.png" alt="cart"
+						style="width: 40px; height: 40px;">
+					</a>
+				</div>
+			</div>
+		</div>
+
+	</header>
+
+	<!-- Logo Area -->
+	<div class="logo-area text-center"
+		style="margin-bottom: 50px; margin-top: 50px;">
+		<div class="container h-100">
+			<div class="row h-100 align-items-center">
+				<!-- 左侧图片或文字 -->
+				<div class="col-4 text-left">
+				    <div class="text-box">
+				        <span th:text="${counterVO.counterCName}"></span>
+				    </div>
+				</div>
+				<!-- 中间的 logo -->
+				<div class="col-4 text-center">
+					<img src="/demo/counterPage/img/core-img/logo-noback.png"
+						alt="Logo" style="max-width: 150px;">
+				</div>
+				<!-- 右侧图片或文字 -->
+				<div class="col-4 text-right">
+				    <div class="text-box">
+				        <span th:text="${counterVO.counterInform}"></span>
+				    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 看板加優惠券-->
+	<div class="blog-wrapper section-padding-100 clearfix"
+		style="padding: 0;">
+		<div class="container">
+
+			<!-- 這是輪播圖 -->
+			<div class="autoplay">
+				<div th:each="image : ${carouselImages}">
+					<img th:src="'data:image/png;base64,' + ${image.base64Image}"
+						alt="Carousel Image">
+				</div>
+			</div>
+
+
+			<!-- 優惠券 -->
+			<div class="row align-items-end">
+				<!-- 使用 Thymeleaf 循環渲染文字和按鈕 -->
+				<div th:each="coupons : ${coupons}" class="col-12 col-md-6 col-lg-4">
+					<div class="custom-single-blog-area-coupons clearfix mb-100">
+						<!-- 動態生成標題 -->
+						<p th:text="${coupons.couponTitle}"
+							style="font-size: 18px; font-weight: bold;"></p>
+						<!-- 動態生成內容 -->
+						<p th:text="${coupons.couponContext}" style="font-size: 16px;"></p>
+						<!-- 領取按鈕 -->
+						<button class="btn btn-claim" th:text="'領取'"></button>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- ///////////////////// -->
+			<!-- /////////////////////下拉式選單-->
+			<div class="menu-bar">
+				<div class="left-menu">
+					<a href="#" class="menu-a">篩選</a>
+					<button class="menu-button">綜合排名</button>
+					<button class="menu-button">最新</button>
+					<button class="menu-button">最熱銷</button>
+					<div class="dropdown">
+						<button class="menu-button">價格 ▼</button>
+						<div class="dropdown-content">
+							<a href="#">價格由低到高</a> <a href="#">價格由高到低</a>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="pagination">
+					<span id="pageInfo">1 / 2</span>
+					<button class="page-btn" id="prevPage">&lt;</button>
+					<button class="page-btn" id="nextPage">&gt;</button>
+				</div>
+			</div>
+			<!-- /////////////////////下拉式選單-->
+			<div class="container">
+				<div class="row">
+					<!-- 左側漢堡行列表 -->
+					<div class="col-12 col-md-2">
+						<div class="hamburger-menu">
+							<h4>分類</h4>
+							<ul>
+								<li th:each="goodsType : ${goodsType}" class="goods-item"><a
+									href="#" th:text="${goodsType.goodstName}"></a></li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="col-12 col-md-9">
+						<div class="row align-items-end" id="productContainer">
+							<!-- 使用 Thymeleaf 渲染商品数据 -->
+							<div th:each="goodsVO : ${goodsLightVO}"
+								class="col-12 col-md-4 product-item">
+								<!-- 單個商品的表單 -->
+								<form th:action="@{/counter/getOneGoods}" method="get">
+									<!-- 隱藏字段，傳遞商品編號 -->
+									<input type="hidden" name="goodsNo"
+										th:value="${goodsVO.goodsNo}">
+									<!-- 商品區塊作為按鈕 -->
+									<button type="submit"
+										style="width: 100%; background: none; border: none; padding: 0; text-align: left;">
+										<div class="single-blog-content" style="cursor: pointer;">
+											<div class="line"></div>
+											<div class="product-img-container">
+												<img
+													th:src="'data:image/png;base64,' + ${goodsVO.base64Image}"
+													th:alt="${goodsVO.goodsNo}">
+											</div>
+											<div class="product-detail">
+												<p>
+													<strong th:text="${goodsVO.goodsName}"></strong>
+												</p>
+												<p>
+													價格：<span th:text="${goodsVO.goodsPrice}"></span>
+												</p>
+												<p>
+													庫存：<span th:text="${goodsVO.goodsAmount}"></span>
+												</p>
+											</div>
+										</div>
+									</button>
+								</form>
+							</div>
+						</div>
+					</div>
+
+					<!-- ///////////////////// -->
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ##### Footer Area Start ##### -->
+	<footer class="footer-area text-center">
+		<div class="container">
+			<div class="row"></div>
+		</div>
+
+		<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+		Copyright &copy;
+		<script>
+			document.write(new Date().getFullYear());
+		</script>
+		All rights reserved | <i class="fa fa-heart-o" aria-hidden="true"></i>
+		by <a href="https://colorlib.com" target="_blank">DOBUY</a>
+		<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+
+	</footer>
+	<!-- ##### Footer Area End ##### -->
+
+	<!-- jQuery -->
+	<script th:src="@{/counterPage/js/jquery/jquery-2.2.4.min.js}"></script>
+	<!-- Popper js -->
+	<script th:src="@{/counterPage/js/popper.min.js}"></script>
+	<!-- Bootstrap js -->
+	<script th:src="@{/counterPage/js/bootstrap.min.js}"></script>
+	<!-- Active js -->
+	<script th:src="@{/counterPage/js/active.js}"></script>
+	<script th:src="@{/counterPage/js/product.js}"></script>
+	<!-- Slick JS -->
+	<script type="text/javascript"
+		th:src="@{https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js}"></script>
+</body>
+
+</html>

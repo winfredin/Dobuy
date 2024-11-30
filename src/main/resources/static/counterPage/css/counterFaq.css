@@ -1,0 +1,98 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: url(/demo/counterPage/img/core-img/sand.jpg) no-repeat center center fixed;
+    background-size: cover;
+}
+
+/* Logo樣式 */
+.logo {
+    display: block;
+    margin: 30px auto;
+    width: 200px; /* 調整大小 */
+    height: auto;
+}
+
+.container {
+	width: 50%;
+	margin: 50px auto;
+	padding: 20px 40px;
+	background: rgb(212, 200, 200, 0.9);
+	/* 半透明背景 */
+	border-radius: 15px;
+	/* 圓角 */
+	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+	/* 陰影效果 */
+	text-align: center;
+	/* 文字居中 */
+}
+
+ul.list {
+	margin: 24px 0 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+ul.list>li {
+	margin-bottom: 30px;
+}
+
+ul.list>li:last-child {
+	margin-bottom: 0;
+}
+
+ul.list>li>a.link_title {
+	display: block;
+	width: 100%;
+	color: white;
+	background-color: #dd2836;
+	box-shadow: 2px 2px 8px 0 rgba(56, 55, 53, 0.33);
+	border-radius: 26px;
+	padding: 8px 40px;
+	text-decoration: none;
+	font-size: 24px;
+	font-weight: normal;
+}
+
+ul.list>li>a.link_title::after {
+	content: "";
+	display: block;
+	clear: both;
+}
+
+ul.list>li>a.link_title button.switch_btn {
+	float: right;
+	display: inline-block;
+	background: none;
+	border: 0;
+	outline: none;
+	color: white;
+	font-size: 24px;
+}
+
+ul.list>li>a.link_title button.switch_btn span.-minus {
+	display: none;
+}
+
+ul.list>li>div.inner_block {
+	font-size: 18px;
+	color: #4a4a4a;
+	margin-top: 8px;
+	padding: 0 40px;
+	line-height: 1.6;
+	display: none;
+}
+
+ul.list>li.-on>a.link_title button.switch_btn span.-plus {
+	display: none;
+}
+
+ul.list>li.-on>a.link_title button.switch_btn span.-minus {
+	display: inline-block
+}
+

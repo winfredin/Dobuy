@@ -36,8 +36,9 @@ public class MemberCRUDController {
 	}
 
 	@PostMapping("/insert")
-	public String insert(@Validated(RegisterGroup.class) @ModelAttribute MemberVO memberVO, BindingResult result, Model model) {
-		
+	public String insert(@Validated(RegisterGroup.class) @ModelAttribute MemberVO memberVO, BindingResult result,
+			Model model) {
+		List<String> errorMsgs = new LinkedList<String>();
 
 		if (result.hasErrors()) {
 			model.addAttribute("memberVO", memberVO);
@@ -45,10 +46,21 @@ public class MemberCRUDController {
 		}
 
 		if (memberSvc.isAccountExists(memberVO.getMemAccount())) {
-			List<String> errorMsgs = new LinkedList<String>();
+
 			errorMsgs.add("帳號已存在");
-			System.out.println("錯誤");
 			memberVO.setMemAccount(null);
+			
+			if (!memberVO.isPasswordConfirmed()) {
+				errorMsgs.add("密碼不一致");
+			}
+			
+			model.addAttribute("errorMsgs", errorMsgs);
+			model.addAttribute("memberVO", memberVO);
+			return "front-end/member/register";
+		}
+
+		if (!memberVO.isPasswordConfirmed()) {
+			errorMsgs.add("密碼不一致");
 			model.addAttribute("errorMsgs", errorMsgs);
 			model.addAttribute("memberVO", memberVO);
 			return "front-end/member/register";

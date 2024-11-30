@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>所有權限資料 - listAllAuth</title>
+
+    <style>
+        body {
+            background: url(@{/back-end/images/background.jpg});
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        table#table-1 {
+            background-color: #CCCCFF;
+            border: 2px solid black;
+            text-align: center;
+        }
+
+        table#table-1 h4 {
+            color: red;
+            display: block;
+            margin-bottom: 1px;
+        }
+
+        h4 {
+            color: blue;
+            display: inline;
+        }
+
+        input {
+            border-radius: 10px;
+        }
+
+        input:hover {
+            cursor: pointer;
+            box-shadow: 2px 2px 1px black;
+        }
+
+        input:active {
+            box-shadow: 3px 3px 4px black inset, inset -3px -3px 3px black;
+        }
+
+        table {
+            width: 800px;
+            background-color: white;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        table, th, td {
+            border: 1px solid #CCCCFF;
+        }
+
+        th, td {
+            padding: 5px;
+            text-align: center;
+        }
+    </style>
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>                                    
+<script	src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>    
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css" />
+</head>
+<script>
+	$(document).ready(function() {
+		$('#example').DataTable({
+			"lengthMenu": [3 ,5, 10, 20, 50, 100],
+			"pageLength": 5,
+			"searching": true,  //搜尋功能, 預設是開啟
+		    "paging": true,     //分頁功能, 預設是開啟
+		    "ordering": true,   //排序功能, 預設是開啟
+		    "language": {
+		        "processing": "處理中...",
+		        "loadingRecords": "載入中...",
+		        "lengthMenu": "顯示 _MENU_ 筆結果",
+		        "zeroRecords": "沒有符合的結果",
+		        "info": "顯示第 _START_ 至 _END_ 筆結果，共<font color=red> _TOTAL_ </font>筆",
+		        "infoEmpty": "顯示第 0 至 0 筆結果，共 0 筆",
+		        "infoFiltered": "(從 _MAX_ 筆結果中過濾)",
+		        "infoPostFix": "",
+		        "search": "搜尋:",
+		        "paginate": {
+		            "first": "第一頁",
+		            "previous": "上一頁",
+		            "next": "下一頁",
+		            "last": "最後一頁"
+		        },
+		        "aria": {
+		            "sortAscending":  ": 升冪排列",
+		            "sortDescending": ": 降冪排列"
+		        }
+		    }
+		});
+	});
+</script>
+<body bgcolor="white">
+
+<h4>此頁練習採用 EL 的寫法取值:</h4>
+
+<table id="table-1">
+    <tr>
+        <td>
+            <h3>所有權限資料 - listAllAuth</h3>
+            <h4><a th:href="@{/manager/select_page}"><img th:src="@{/images/cat1.gif}" width="150" height="100" border="0">回首頁</a></h4>
+        </td>
+    </tr>
+</table>
+
+<table id="example">
+<thead>
+    <tr>
+        <th>權限編號</th>
+        <th>權限名稱</th>
+        <th>權限內容</th>
+        <th>修改</th>
+        <th>刪除</th>
+    </tr>
+</thead>
+
+
+    <th:block th:each="authVO : ${authListData}">
+        <tr>
+            <td th:text="${authVO.authNo}"></td>
+            <td th:text="${authVO.authTitle}"></td>
+            <td th:text="${authVO.authContext}"></td>
+        <td>
+            <form method="post" th:action="@{/auth/getAuth_For_Update}" style="margin-bottom: 0px;">
+			     <input type="submit" value="修改">
+			     <input type="hidden" name="authNo" th:value="${authVO.authNo}"></form>
+        </td>
+
+        <td>
+           <form method="post" th:action="@{/auth/delete}" style="margin-bottom: 0px;">
+			     <input type="submit" value="刪除">
+			     <input type="hidden" name="authNo" th:value="${authVO.authNo}"></form>
+        </td>
+        </tr>
+    </th:block>
+</table>
+
+<div>
+    <li><a th:href="@{/auth/addAuth}">Add</a> a new Auth.</li>
+
+
+</div>
+
+</body>
+</html>

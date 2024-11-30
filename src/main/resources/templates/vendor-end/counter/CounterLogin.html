@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-TW" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>櫃位登入</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .login-container {
+            max-width: 350px;
+            margin: 100px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .login-form .form-control {
+            margin-bottom: 15px;
+        }
+        .login-form button {
+            width: 100%;
+        }
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="login-container">
+            <h2 class="text-center mb-4">櫃位登入</h2>
+            <form th:action="@{/counter/loginERO}" method="post" th:object="${loginForm}" class="login-form">
+                <div class="form-group">
+                    <label for="counterAccount">帳號:</label>
+                    <input type="text" class="form-control" id="counterAccount" th:field="*{counterAccount}" />
+                    <span th:if="${#fields.hasErrors('counterAccount')}" th:errors="*{counterAccount}" class="error"></span>
+                </div>
+                <div class="form-group">
+                    <label for="counterPassword">密碼:</label>
+                    <input type="password" class="form-control" id="counterPassword" th:field="*{counterPassword}" />
+                    <span th:if="${#fields.hasErrors('counterPassword')}" th:errors="*{counterPassword}" class="error"></span>
+                </div>
+                <div th:if="${errorMsgs != null}" th:text="${errorMsgs}" class="error mb-3"></div>
+                <button type="submit" class="btn btn-primary">登入</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

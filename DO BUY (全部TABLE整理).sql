@@ -2,34 +2,44 @@ CREATE DATABASE IF NOT EXISTS dobuytest;
 USE dobuytest;
 
 CREATE TABLE counter (
-    counterNo INT NOT NULL AUTO_INCREMENT, -- 主鍵自增編號
-    counterAccount VARCHAR(20) NOT NULL,   -- 櫃位帳號
+    counterNo INT NOT NULL AUTO_INCREMENT , -- 主鍵自增編號
+    counterAccount VARCHAR(20) NOT NULL UNIQUE,   -- 櫃位帳號
     counterName VARCHAR(45) NOT NULL,      -- 櫃位管理者姓名
     counterPassword VARCHAR(20) NOT NULL,  -- 櫃位密碼
     counterAddress VARCHAR(255) NOT NULL,  -- 櫃位地址
     counterPhone VARCHAR(10) NOT NULL,     -- 櫃位電話
     counterUid VARCHAR(10) NOT NULL,       -- 管理者身分證字號
     counterEmail VARCHAR(100) NOT NULL,    -- 櫃位電子信箱
-    counterUbn VARCHAR(255) NOT NULL,      -- 櫃位統一編號
+    counterUbn VARCHAR(255) NOT NULL UNIQUE,      -- 櫃位統一編號
     counterCName VARCHAR(255) NOT NULL,    -- 櫃位名稱
     counterTypeNo INT NOT NULL,            -- 櫃位類別編號（外來鍵）
     counterInform VARCHAR(255),            -- 櫃位資訊介紹
     counterPic LONGBLOB,                   -- 櫃位商標圖片
-    counterStatus TINYINT NOT NULL DEFAULT 1 CHECK (counterStatus IN (0, 1, 2)),        -- 櫃位狀態 (0: 正常, 1: 暫時停權, 2: 永久停權)
+    counterStatus TINYINT NOT NULL DEFAULT 1 CHECK (counterStatus IN (0, 1, 2 )),        -- 櫃位狀態 (0: 停權, 1: 暫時停權, 2: 正常 )
     
     PRIMARY KEY (counterNo)                -- 設定主鍵
 )
 AUTO_INCREMENT = 1;
 
-INSERT INTO counter (counterAccount, counterName, counterPassword, counterAddress, counterPhone, counterUid, counterEmail, counterUbn, counterCName, counterTypeNo, counterInform, counterStatus) VALUES
-('account1', 'John Doe', '12345', '台北', '0912345678', 'A123456789', 'john@example.com', '12345678', '老子有錢', 1, '有錢就來花', 0),
-('account2', 'Jane Smith', '12345', '新北', '0987654321', 'B987654321', 'jane@example.com', '87654321', '美美醫美', 2, 'This counter offers great products.', 0),
-('account3', '3C手機店', '12345', '台北市中山區', '0987654321', 'B234567890', '3cshop@example.com', '87654321', '3C手機專賣', 3, '品質保證，售後服務', 0),
-('account4', 'Alice Chen', '12345', '桃園', '0931234567', 'C123456789', 'alice@example.com', '13579246', '山陵家電', 3, 'Your go-to place for electronics.', 0),
-('account5', 'Bob Wang', '12345', '新竹', '0923456789', 'D987654321', 'bob@example.com', '24681357', '優你庫', 4, 'Fashion and style at its best!', 0),
-('account6', 'Carol Lin', '12345', '桃園', '0919876543', 'E123456789', 'carol@example.com', '12349876', '乃吉', 5, 'Fitness and sports gear available.', 0),
-('account7', 'Ninten Do', '12345', '中壢', '0919875678', 'Q123456789', 'niten@example.com', '12349876', '任你玩', 6, '絕對不是那個N牌', 0),
-('account8', 'Famil Lily', '12345', '中壢', '0905426543', 'J123456789', 'family@example.com', '13459876', '家家樂', 7, '清潔品、食品、等家用品的櫃位',0);
+INSERT INTO counter 
+(counterAccount, counterName, counterPassword, counterAddress, counterPhone, counterUid, counterEmail, counterUbn, counterCName, counterTypeNo, counterInform, counterStatus) 
+VALUES
+-- 女士精品
+('user1', '張淑芬', '12345', '台北市大安區仁愛路123號', '0912345678', 'A123456789', 'ladybag01@example.com', '12345678', '女士精品館', 1, '高品質女士包包與配件櫃位', 2),
+-- 時尚女裝
+('user2', '林美惠', '12345', '新北市板橋區中山路456號', '0923456789', 'B123456789', 'fashion02@example.com', '23456789', '時尚女裝館', 2, '流行女裝與女鞋專櫃', 2),
+-- 男士潮流
+('user3', '王建宏', '12345', '台中市西屯區文心路789號', '0934567890', 'C123456789', 'menstyle01@example.com', '34567890', '男士潮流館', 3, '潮流男包與配件櫃位', 2),
+-- 型男穿搭
+('user4', '陳志明', '12345', '台南市中西區民族路321號', '0945678901', 'D123456789', 'mensfashion02@example.com', '45678901', '型男穿搭館', 4, '專注男裝與男鞋的櫃位', 2),
+-- 美妝與保養
+('user5', '劉慧君', '12345', '高雄市三民區博愛路654號', '0956789012', 'E123456789', 'beautycare01@example.com', '56789012', '美妝保養館', 5, '化妝品與保養品專賣', 2),
+-- 家居科技
+('user6', '黃志成', '12345', '桃園市中壢區新生路987號', '0967890123', 'F123456789', 'homeitech01@example.com', '67890123', '家居科技館', 6, '智能家居與科技商品櫃位', 2),
+-- 女士精品
+('user7', '李佳蓉', '12345', '台中市北屯區中清路159號', '0978901234', 'G123456789', 'ladybag02@example.com', '78901234', '女士精品館二館', 1, '高端女士包包專區', 2),
+-- 時尚女裝
+('user8', '蔡佩玲', '12345', '新竹市東區東門街753號', '0989012345', 'H123456789', 'fashion03@example.com', '89012345', '時尚女裝二館', 2, '時尚女裝與鞋品新系列', 2);
 
 
 CREATE TABLE faq (
@@ -62,13 +72,13 @@ CREATE TABLE counterType (
 )
 AUTO_INCREMENT = 1;
 INSERT INTO counterType (counterTName) VALUES 
-('精品'),
-('藥妝'),
-('家電'),
-('服飾'),
-('運動'),
-('娛樂'),
-('超市');
+('精品'),   
+('時尚女裝'),
+('男士潮流'),
+('型男穿搭'),
+('美妝與保養'),
+('家居科技');
+
 
 
 -- 柏諭
@@ -295,26 +305,26 @@ CREATE TABLE Goods (
 INSERT INTO Goods (
     goodsNo, goodstNo, counterNo, goodsName, goodsDescription, goodsPrice, goodsAmount, gpPhotos1,gpPhotos2,gpPhotos3,gpPhotos4,gpPhotos5,gpPhotos6,gpPhotos7,gpPhotos8,gpPhotos9,gpPhotos10, goodsStatus, checkStatus, goodsDate, goodsEnddate
 ) VALUES
-(1, 3, 4, '經典手錶', '精緻的手錶，適合各種場合佩戴，永不過時的設計', 4500, 100, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
-(2, 3, 4, '真皮皮包', '高品質真皮皮包，設計簡約大方，適合日常及正式場合', 2999, 50, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
-(3, 3, 4, '奢華香水', '淡雅香氣，讓你散發迷人魅力，適合各種場合', 1599, 200, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
-(4, 3, 4, '高端絲巾', '手工製作的真絲圍巾，觸感柔滑，完美搭配高端服裝', 1299, 150, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
-(5, 3, 4, '奢華珠寶項鍊', '閃耀光芒的純銀項鍊，精緻設計，優雅迷人', 8999, 75, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
-(6, 3, 4, '高級皮帶', '高品質牛皮，精緻工藝，完美配搭各類服飾', 1999, 120, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
-(7, 3, 4, '名牌太陽眼鏡', '時尚與功能兼具的太陽眼鏡，保護眼睛同時彰顯品味', 3500, 30, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
-(8, 3, 4, '高級皮革手套', '冬季必備，保暖又時尚，選用上等皮革製作', 1800, 20, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
-(9, 3, 4, '奢華鑽石戒指', '獨特設計，精緻的鑽石戒指，適合作為紀念日或求婚禮物', 29999, 15, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0, NULL,NULL),
-(10, 3, 4, '高端手工皮鞋', '手工製作，舒適且耐穿，適合正式場合或日常穿搭', 7999, 200, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
-(11, 3, 4, '奢華手錶', '經典的奢華手錶，搭配精緻工藝，無論正式場合或休閒時光都能展現非凡品味', 8000, 90, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
-(12, 3, 3, '經典皮包', '高質感真皮皮包，簡約卻不失高雅，適合多種場合使用', 3200, 120, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
-(13, 8, 3, '奢華香水禮盒', '香氛典雅，內含多款人氣香水，讓你散發不同魅力', 4800, 50, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
-(14, 3, 4, '純絲絲巾', '精緻的真絲圍巾，柔滑的觸感，讓你在寒冬中保持時尚與溫暖', 1800, 180, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
-(15, 3, 4, '鑽石項鍊', '閃耀的純金鑽石項鍊，帶來高貴華麗的視覺效果，適合作為珍貴的禮物', 22000, 30, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
-(16, 3, 4, '皮革雙肩背包', '高端牛皮雙肩包，設計簡約大方，既能裝載日常物品又充滿時尚感', 4200, 80, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
-(17, 6, 2, '高檔手工鞋', '手工製作的舒適皮鞋，適合正式場合或商務場合穿搭', 7200, 60, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
-(18, 3, 3, '時尚太陽眼鏡', '高端品牌的太陽眼鏡，設計前衛，保護眼睛的同時展現個人品味', 3500, 150, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
-(19, 9, 8, '奢華鑽石戒指', '獨特設計的鑽石戒指，融合了極致的工藝與奢華的品味，適合作為訂婚或結婚的象徵', 35000, 25, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
-(20, 2, 2, '經典皮鞋', '經典設計的真皮皮鞋，舒適且耐穿，適合各種場合穿搭', 5200, 130, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL);
+(1, 1, 1, '路易威登 LOUIS VUITTON Double Zip Pochette Reverse 帆布 多夾層手拿 斜背包 M69203 防塵袋/背帶', '這款Double Zip Pochette完美融合經典Monogram和時尚Monogram Giant Reverse帆布，設計巧妙，擁有可拆式和可調節長度的皮革肩帶，可根據需求靈活變換多種攜帶方式。手袋兩側配有拉鏈口袋，方便隨身物品的分類收納，其中一個口袋還設有三個卡片夾層，中間隔層則方便存放票據等物品。', 32800, 100, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(2, 1, 1, '路易威登 LOUIS VUITTON Cabas Rivington 托特包 N41108 棋盤格托特', '這款 Cabas Rivington 採用經典 Damier 帆布製成，是日常時尚的完美詮釋。內部空間寬敞，可容納 A4 文件，搭配柔美的皮革手柄與亮眼的金色黃銅金屬件，為這款多功能購物袋增添迷人魅力。', 31800, 50, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(3, 2, 2, 'KIMHEKIM｜NEO-MALEVICH V領撞色腰帶洋裝', 'KIMHĒKIM 2022年 OBSESSION Nº4 ‘Hair Chronicles’秋冬系列商品。經典商品NEO-MALEVICH再進化，款式經典的撞色領口及排釦設計搭配中長版剪裁，本季在腰間加入撞色的腰帶拼接凸顯腰部線條，增添穿搭設計感。', 24400, 200, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(4, 2, 2, 'KIMHEKIM｜VENUS 高腰開衩落地喇叭褲', 'KIMHĒKIM 2022年 OBSESSION Nº4 ‘Hair Chronicles’秋冬系列商品。此褲款採用透氣且保暖的羊毛面料，並有著高腰喇叭褲版型，散發復古氛圍。', 17800, 150, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(5, 3, 2, 'KIMHEKIM｜MONROE 蝴蝶結芭蕾平底鞋', '此鞋款靈感來自瑪麗蓮夢露優雅而別緻的美感， 精緻的高級訂製手工蝴蝶結緞帶是鞋子的特別之處。 夢露芭蕾平底鞋款式浪漫而獨特，非常適合約會時著用。', 19040, 75, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(6, 3, 2, 'KIMHEKIM｜LACE-UP 真皮繫帶厚底短靴', 'KIMHĒKIM 2024年秋冬 OBSESSION N°11 ‘Puzzle’系列商品。此款短靴採用100%牛皮製成，皮革表面光滑且富有光澤。鞋頭設計為圓形，前側配有細長繫帶，增加經典時尚感。', 26800, 120, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(7, 4, 1, '路易威登 LOUIS VUITTON Epi 手鍊紅繩 ', '商品如圖實品拍攝🎬 尺碼17cm 紅繩戴起來更加顯色 附：原廠盒、說明書 近全新（戴過兩次而已）', 9800, 30, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(8, 4, 1, '路易威登 LOUIS VUITTON 金頭 老花+黑 雙面用皮帶', 'LV M0353 Circle 金頭 老花+黑 雙面用皮帶(3.5公分寬) 70cm 188 尺寸 (公分) 70 cm(寬3.5公分)', 18800, 20, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(9, 5, 3, 'Valentino Garavani 范倫鐵諾-白色VLTN印花漸層彩虹英文字腰包/胸背包', '品牌編號:YB0719ULP 英國精品網站Farfetch網購 商品尺寸:厚度:4cm、高度:13cm、寬度23cm 面料:牛剖層革小牛皮+金屬 MADE IN ITALY', 15000, 15, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0, NULL,NULL),
+(10, 5, 3,'Valentino VLTN 塗鴉小牛皮 Candystud 包 白色', '這款 Candystud 包以 VLTN 塗鴉設計展現個性，搭配柔軟小牛皮材質和絎縫效果，風格鮮明。可調節肩帶和手柄設計，滿足多種場合需求，內置拉鍊口袋讓收納更有條理。', 53500, 200, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(11, 6, 3,'Valentino 運動衫', '採用拉絨棉質平紋針織布料，連帽配有抽繩、拉鍊、袋鼠口袋、羅紋邊緣，胸前飾有橡膠字母標誌。舒適貼合。模特兒身高 187 厘米，所穿尺寸為 L。', 22949, 90, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(12, 6, 3,'Valentino 圓領運動衫', '採用拉絨棉質平紋針織布料製成，飾有同色系凸起標誌字樣印花。羅紋邊緣，常規版型。模特兒身高 187 厘米，所穿尺寸為 L。', 19575, 120, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(13, 7, 3,'Valentino Garavani 木鞋', '採用光滑和半光皮革製成，側面飾有釕飾面的 VLogo 標誌性細節。絎縫錶帶搭配古董金屬扣環。光滑皮革襯裡，解剖學絨面革鞋墊，鞋跟上飾有徽標嵌件，橡膠鞋底。', 22949, 50, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(14, 7, 3,'Valentino Open For A Change 運動鞋', '* 顏色 : White, White * 質料 : 生物基材質、再生橡膠 * 尺寸/碼 : 41H * 設計師代碼 : YS0830PUD-0BO * Series : OPEN FOR A CHANGE SNEAKER', 16336, 180, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(15, 8, 4,'ARMANI手錶,編號AR00043', '編號AR00043,44mm綠金圓形精鋼錶殼,墨綠色中三針顯示, 運動, 水鬼錶面,金銀相間精鋼錶帶款', 17000, 30, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(16, 8, 4,'ARMANI手錶,編號AR00013', '編號AR00013,42mm墨綠色錶殼,深黑色錶帶款', 13100, 80, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(17, 9, 5, '雅詩蘭黛 Micro Essence 微分子肌底原生露', '雅詩蘭黛微分子肌底原生露，擁有全新保濕因子，打造最強柔嫩肌膚！使用獨創微酵科技，低溫封存99%活性益生菌，秒速吸收直達肌底，並添加光果甘草精萃與2D強效玻尿酸，退紅抗敏，由內而外鎖水保濕。', 8400, 60, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(18, 9, 5, '雅詩蘭黛 Revitalizing Supreme+ Moisturizer 年輕無敵膠原霜', '內含新三大配方激升10倍膠原力*，無敵緊緻Q彈*經科學實驗測試，奇蹟辣木、白芙蓉8大精萃與膠原協同激活科技三種配方相互作用下，相較於未使用之對照組，經96小時後幫助肌膚膠原協同作用達10倍', 4980, 150, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(19, 10, 6, 'Diptyque 聖日爾曼大道34號蠟燭', '這支Sanctuary Road 34號蠟燭，香氣濃郁，非常適合放在室內和室外空間。', 358, 25, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL),
+(20, 10, 6, 'Diptyque 青藤玫瑰多用香氛 200ml', '綠蔭玫瑰多用香氛是一款令人迷醉的香氛，帶來了土耳其玫瑰、常春藤、橙皮調、加蓬、天竺葵、麝香、木材和雪松等芬芳。', 99, 130, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0, 0,NULL,NULL);
 
 -- 商品類別
 CREATE TABLE GoodsType (
@@ -690,7 +700,9 @@ CREATE TABLE ManagerAuth (
     managerNo INT NOT NULL  ,   -- 管理員編號 FK
     authNo INT NOT NULL  ,    -- 權限編號 FK
     PRIMARY KEY (managerNo, authNo)   -- 複合主鍵
+  
 );
+
 
 CREATE TABLE CounterCarousel (
     counterCarouselNo INT NOT NULL AUTO_INCREMENT PRIMARY KEY,  -- 輪播資訊編號

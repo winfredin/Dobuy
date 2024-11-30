@@ -3,6 +3,7 @@ package com.counter.controller;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
@@ -14,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -95,6 +97,12 @@ public class CounterController {
         model.addAttribute("success", "櫃位資料新增成功！");
         return "redirect:/counter/allcounter";
     }
+    
+	@GetMapping("/login")
+	public String showLoginPage(Model model) {
+		model.addAttribute("loginForm", new CounterVO());
+		return "vendor-end/counter/CounterLogin"; // 指向 Thymeleaf 模板路径
+	}
 
     /*
      * This method will be called on listAllCounter.html form submission, handling POST request
@@ -109,6 +117,8 @@ public class CounterController {
         model.addAttribute("counterVO", counterVO);
         return "vendor-end/counter/update_counter_input"; // 查詢完成後轉交update_counter_input.html
     }
+    
+    
 
     /*
      * This method will be called on update_counter_input.html form submission, handling POST request It also validates the user input
@@ -189,7 +199,80 @@ public class CounterController {
         return "redirect:/counter/allcounter";
     }
     
+    
+    //櫃位資料管理
+    @GetMapping("/vendor-end/manage")
+    public String showCurrentCounterInfo(HttpSession session, Model model) {
+        CounterVO counter = (CounterVO) session.getAttribute("counter");
+        if (counter != null) {
+        	 model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
+            return "vendor-end/counter/counter_management";
+        } else {
+            // 處理未登入的情況
+            return "redirect:/counter/login";
+        }
+    }
+    
+    @PostMapping("vendor-end/getOne_For_Counter_Update")
+    public String getOne_For_Counter_Update(@RequestParam("counterNo") Integer counterNo, ModelMap model) {
+        /*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
+        /*************************** 2.開始查詢資料 *****************************************/
+        CounterVO counterVO = counterSvc.getOneCounter(counterNo);
 
+        /*************************** 3.查詢完成,準備轉交(Send the Success view) **************/
+        model.addAttribute("counterVO", counterVO);
+        return "vendor-end/counter/update_counter_input2"; // 查詢完成後轉交update_counter_input.html
+    }
+    
+    @PostMapping("vendor-end/update")
+    public String CounterUpdate(
+            @Valid CounterVO counterVO, 
+            BindingResult result,
+            RedirectAttributes redirectAttributes,
+            ModelMap model, 
+            @RequestParam(value = "counterPic", required = false) MultipartFile[] parts) throws IOException {
+
+        // 移除圖片相關字段的錯誤
+        result = removeFieldError(counterVO, result, "counterPic");
+
+        // 圖片處理：允許圖片為空值
+        if (parts != null && parts.length > 0 && !parts[0].isEmpty()) {
+            try {
+                counterVO.setCounterPic(parts[0].getBytes());
+            } catch (IOException e) {
+                model.addAttribute("error", "圖片處理時發生錯誤，請重試！");
+                return "vendor-end/counter/update_counter_input2";
+            }
+        } else {
+            // 保留原始圖片
+            CounterVO existingCounter = counterSvc.getOneCounter(counterVO.getCounterNo());
+            counterVO.setCounterPic(existingCounter.getCounterPic());
+        }
+        // 如果驗證有錯誤，返回輸入頁面
+        if (result.hasErrors()) {
+            return "vendor-end/counter/update_counter_input2";
+        }
+
+        try {
+            // 嘗試更新資料
+            counterSvc.updateCounter(counterVO);
+        } catch (IllegalArgumentException ex) {
+            // 捕獲自訂錯誤並返回錯誤訊息
+            model.addAttribute("error", ex.getMessage());
+            return "vendor-end/counter/update_counter_input2";
+        }
+
+        // 返回成功頁面
+        if (!result.hasErrors()) {
+        	redirectAttributes.addFlashAttribute("message", "櫃位資料修改成功！");
+        }
+       	 counterVO = counterSvc.getOneCounter(counterVO.getCounterNo());
+       	 return "redirect:/counter/vendor-end/manage";
+       
+//        model.addAttribute("success", "櫃位資料修改成功！");
+//        counterVO = counterSvc.getOneCounter(counterVO.getCounterNo());
+//        return "redirect:/counter/vendor-end/manage";
+    }
     
     
     
