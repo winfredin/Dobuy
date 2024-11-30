@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -389,7 +390,17 @@ public class GoodsController {
         model.addAttribute("goodsListData", list); // for listAllEmp.html 第85行用
         return "vendor-end/goods/listAllGoods";
     }
-
+    
+    //任國測試櫃位管理商品
+    @PostMapping("listCounterGoods_ByCompositeQuery")
+    public String listCounterGoods(HttpSession session ,HttpServletRequest req, Model model) {
+//        Map<String, String[]> map = req.getParameterMap();
+        CounterVO counter = (CounterVO) session.getAttribute("counter");
+        List<GoodsVO> list = goodsSvc.getOneCounter35(counter.getCounterNo());
+        model.addAttribute("CountergoodsListData", list); // for listAllEmp.html 第85行用
+        return "vendor-end/goods/listAllCounterGoods";
+    }
+    
     public BindingResult removeFieldError(GoodsVO goodsVO, BindingResult result, String removedFieldname) {
         List<FieldError> errorsListToKeep = result.getFieldErrors().stream()
                 .filter(fieldname -> !fieldname.getField().equals(removedFieldname))
@@ -424,6 +435,7 @@ public class GoodsController {
     	goodsSvc.updateGoodsStatus(goodsNo, goodsStatus);
         return "vendor-end/goods/listAllCounterGoods"; // 重新導向到商品列表頁面
     }
+
 
     
 }
