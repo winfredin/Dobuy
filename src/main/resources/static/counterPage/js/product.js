@@ -40,15 +40,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const nextPageButton = document.getElementById("nextPage");
     const prevPageButton = document.getElementById("prevPage");
     const pageInfo = document.getElementById("pageInfo");
+    const searchButton = document.getElementById("searchButton");
+    const searchInput = document.getElementById("searchInput");
 
-    const products = Array.from(document.querySelectorAll(".product-item")); // 获取所有商品元素
     const itemsPerPage = 3; // 每页显示的商品数量
     let currentPage = 0;
+    let products = Array.from(document.querySelectorAll(".product-item")); // 初始化商品列表
 
     // 渲染当前页商品
     function renderProducts() {
         products.forEach((product, index) => {
-            // 根据索引决定是否显示商品
             product.style.display =
                 index >= currentPage * itemsPerPage &&
                 index < (currentPage + 1) * itemsPerPage
@@ -80,10 +81,32 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    // 搜索功能
+    searchButton.addEventListener("click", () => {
+        const searchValue = searchInput.value.trim().toLowerCase();
+
+        // 过滤符合搜索条件的商品
+        products = Array.from(document.querySelectorAll(".product-item")).filter((product) =>
+            product.textContent.toLowerCase().includes(searchValue)
+        );
+
+        // 重置当前页为第一页
+        currentPage = 0;
+
+        // 重新渲染商品和分页
+        renderProducts();
+    });
+	
+	searchInput.addEventListener("keydown", (event) => {
+	        if (event.key === "Enter") {
+	            event.preventDefault(); // 阻止默认行为（如表单提交）
+	            searchProducts(); // 触发搜索功能
+	        }
+	    });
+
     // 初始化渲染
     renderProducts();
 });
-
 
 /* ===============中間商品============= */
 
@@ -105,3 +128,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 /* ===============輪播圖============= */
+
+/* ===============商品搜尋============= */
+
+document.getElementById('searchButton').addEventListener('click', function () {
+    // 获取搜索框中的值
+    const searchValue = document.getElementById('searchInput').value.trim().toLowerCase();
+
+    // 获取所有商品的元素
+    const items = document.querySelectorAll('.product-item');
+
+    // 遍历所有商品，显示或隐藏基于搜索结果的商品
+    items.forEach(item => {
+        const itemName = item.getAttribute('data-name').toLowerCase();
+        if (itemName.includes(searchValue)) {
+            item.style.display = 'block'; // 显示匹配的商品
+        } else {
+            item.style.display = 'none'; // 隐藏不匹配的商品
+        }
+    });
+});
+
+/* ===============商品搜尋============= */

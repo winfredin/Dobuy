@@ -84,8 +84,8 @@
 				</div>
 				<!-- 搜尋框 -->
 				<div class="search-bar">
-					<input type="text" class="form-control" placeholder="搜尋您感興趣的內容">
-					<button class="btn btn-primary">
+					<input type="text"  id="searchInput" class="form-control" placeholder="搜尋您感興趣的內容">
+					<button class="btn btn-primary" id="searchButton">
 						<i class="fas fa-search"></i>
 						<!-- 搜尋圖標 -->
 					</button>
@@ -198,32 +198,23 @@
 						<div class="row align-items-end" id="productContainer">
 							<!-- 使用 Thymeleaf 渲染商品数据 -->
 							<div th:each="goodsVO : ${goodsLightVO}"
-								class="col-12 col-md-4 product-item">
+								class="col-12 col-md-4 product-item"
+								th:attr="data-name=${goodsVO.goodsName}">
 								<!-- 單個商品的表單 -->
 								<form th:action="@{/counter/getOneGoods}" method="get">
 									<!-- 隱藏字段，傳遞商品編號 -->
-									<input type="hidden" name="goodsNo"
-										th:value="${goodsVO.goodsNo}">
+									<input type="hidden" name="goodsNo" th:value="${goodsVO.goodsNo}">
 									<!-- 商品區塊作為按鈕 -->
-									<button type="submit"
-										style="width: 100%; background: none; border: none; padding: 0; text-align: left;">
+									<button type="submit" style="width: 100%; background: none; border: none; padding: 0; text-align: left;">
 										<div class="single-blog-content" style="cursor: pointer;">
 											<div class="line"></div>
 											<div class="product-img-container">
-												<img
-													th:src="'data:image/png;base64,' + ${goodsVO.base64Image}"
-													th:alt="${goodsVO.goodsNo}">
+												<img th:src="'data:image/png;base64,' + ${goodsVO.base64Image}" th:alt="${goodsVO.goodsNo}">
 											</div>
 											<div class="product-detail">
-												<p>
-													<strong th:text="${goodsVO.goodsName}"></strong>
-												</p>
-												<p>
-													價格：<span th:text="${goodsVO.goodsPrice}"></span>
-												</p>
-												<p>
-													庫存：<span th:text="${goodsVO.goodsAmount}"></span>
-												</p>
+												<p><strong th:text="${goodsVO.goodsName}"></strong></p>
+												<p>價格：<span th:text="${goodsVO.goodsPrice}"></span></p>
+												<p>庫存：<span th:text="${goodsVO.goodsAmount}"></span></p>
 											</div>
 										</div>
 									</button>
