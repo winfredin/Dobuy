@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="/css/slick.css" />
-    <link rel="stylesheet" href="/css/slick-theme.css" />
+    <link rel="stylesheet" href="/slick-1.8.1/slick/slick.css" />
+    <link rel="stylesheet" href="/slick-1.8.1/slick/slick-theme.css" />
 
     <link rel="stylesheet" href="/css/goodspage.css">
       
@@ -100,21 +100,49 @@
             
         </div>
 
-     <div class="bestsell_goods" id="goodsContainer">
-  
-      <div class="goods" th:each="gd : ${list}">
-         <div class="image-container">
-            <img src="/images/Star 6.png" alt="star">
-            <img th:src="@{/goods/DBGifReader} + '?goodsNo=' + ${gd.goodsNo}" alt="goods-image">
-         </div>
-         <div class="goods-name">
-            <label th:text="${gd.goodsName}"></label>
-         </div>
-      </div>
-   
-</div>
-
-         
+        <div class="bestsell_goods" >
+           
+            <div class="goods" id="1">
+                <img src="/images/Star 6.png" alt="star">
+                <img src="/images/Designer.jpeg" alt="goods">
+            </div>
+            <div class="goods" id="2">
+                <img src="/images/Star 6.png" alt="star">
+                <img src="/images/Designer.jpeg" alt="goods">
+            </div>
+            <div class="goods" id="3">
+                <img src="/images/Star 6.png" alt="star">
+                <img src="/images/Designer.jpeg" alt="goods">
+            </div>
+            <div class="goods" id="4">
+                <img src="/images/Star 6.png" alt="star">
+                <img src="/images/Designer.jpeg" alt="goods">
+            </div>
+            <div class="goods" id="5">
+                <img src="/images/Star 6.png" alt="star">
+                <img src="/images/Designer.jpeg" alt="goods">
+            </div>
+            <div class="goods" id="6">
+                <img src="/images/Star 6.png" alt="star">
+                <img src="/images/Designer.jpeg" alt="goods">
+            </div>
+            <div class="goods" id="7">
+                <img src="/images/Star 6.png" alt="star">
+                <img src="/images/Designer.jpeg" alt="goods">
+            </div>
+            <div class="goods" id="8">
+                <img src="/images/Star 6.png" alt="star">
+                <img src="/images/Designer.jpeg" alt="goods">
+            </div>
+            <div class="goods" id="9">
+                <img src="/images/Star 6.png" alt="star">
+                <img src="/images/Designer.jpeg" alt="goods">
+            </div>
+            <div class="goods" id="10">
+                <img src="/images/Star 6.png" alt="star">
+                <img src="/images/Designer.jpeg" alt="goods">
+            </div>
+        </div>
     </div>
 
     <footer>
@@ -125,13 +153,25 @@
 
 
 
-    <script type="text/javascript" src="/js/jquery3.7.1.js"></script>
-    <script src="/js/slick.js"></script>
+    <script type="text/javascript" src="./jquery/jquery3.7.1.js"></script>
+    <script src="./slick-1.8.1/slick/slick.js"></script>
 
 
 
     <script>
+        $('.slider').slick({
+            centerMode:true,
+           
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            infinite:true,
+            autoplay:true,
+            autoplaySpeed: 5000,  
+            dots: false,
+            arrows: false,
+        });
 
+      
     </script>
 
 
