@@ -188,8 +188,17 @@
 						<div class="hamburger-menu">
 							<h4>分類</h4>
 							<ul>
-								<li th:each="goodsType : ${goodsType}" class="goods-item"><a
-									href="#" th:text="${goodsType.goodstName}"></a></li>
+							 <!-- "全部" 的分类标签 -->
+					            <li class="goods-item">
+					                <a href="#" data-category="all" class="highlighted">全部</a>
+					            </li>
+					            
+					            <!-- 动态渲染分类标签 -->
+								<li th:each="goodsType : ${goodsType}" class="goods-item">
+					                <a href="#" 
+					                   th:attr="data-category=${goodsType.goodstNo}" 
+					                   th:text="${goodsType.goodstName}"></a>
+					            </li>
 							</ul>
 						</div>
 					</div>
@@ -199,7 +208,8 @@
 							<!-- 使用 Thymeleaf 渲染商品数据 -->
 							<div th:each="goodsVO : ${goodsLightVO}"
 								class="col-12 col-md-4 product-item"
-								th:attr="data-name=${goodsVO.goodsName}">
+								th:attr="data-name=${goodsVO.goodsName}"  
+								th:attrappend="data-category=${goodsVO.goodsTypeVO.goodstNo}">
 								<!-- 單個商品的表單 -->
 								<form th:action="@{/counter/getOneGoods}" method="get">
 									<!-- 隱藏字段，傳遞商品編號 -->

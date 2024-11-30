@@ -2,13 +2,15 @@ package com.goods.model;
 
 import java.util.Base64;
 
+import com.goodstype.model.GoodsTypeVO;
+
 public class GoodsLightVO {
 	private Integer goodsNo;
 	private String goodsName;
 	private Integer goodsPrice;
 	private Integer goodsAmount;
 	private String base64Image;
-	
+	private GoodsTypeVO goodsTypeVO;
 	
 	  public GoodsLightVO(GoodsVO goodsVO) {
 	        if (goodsVO != null) {
@@ -19,6 +21,7 @@ public class GoodsLightVO {
 	            if (goodsVO.getGpPhotos1() != null) {
 	                this.base64Image = Base64.getEncoder().encodeToString(goodsVO.getGpPhotos1());
 	            }
+	            this.setGoodsTypeVO(goodsVO.getGoodsTypeVO());
 	        }
 	    }
 	
@@ -51,5 +54,13 @@ public class GoodsLightVO {
 	}
 	public void setBase64Image(String base64Image) {
 		this.base64Image = base64Image;
+	}
+
+	public GoodsTypeVO getGoodsTypeVO() {
+		return goodsTypeVO;
+	}
+
+	public void setGoodsTypeVO(GoodsTypeVO goodsTypeVO) {
+		this.goodsTypeVO = goodsTypeVO;
 	}
 }
