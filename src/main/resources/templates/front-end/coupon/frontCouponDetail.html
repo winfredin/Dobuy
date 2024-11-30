@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>優惠券詳情</title>
+    <style>
+        .detail-card {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            border-radius: 8px;
+        }
+        
+        .detail-section {
+            margin: 15px 0;
+        }
+        
+        .button-group {
+            margin-top: 20px;
+        }
+        
+        .button-group a, .button-group button {
+            padding: 8px 15px;
+            margin: 0 10px;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="detail-card">
+        <h2 th:text="${coupon.couponTitle}">優惠券標題</h2>
+        
+        <div class="detail-section">
+            <h3>優惠券內容：</h3>
+            <p th:text="${coupon.couponContext}"></p>
+        </div>
+        
+        <div class="detail-section">
+            <h3>使用期限：</h3>
+            <p>
+                <span th:text="${#dates.format(coupon.couponStart, 'yyyy-MM-dd')}"></span> 至 
+                <span th:text="${#dates.format(coupon.couponEnd, 'yyyy-MM-dd')}"></span>
+            </p>
+        </div>
+        
+        <div class="detail-section">
+            <h3>優惠商品明細：</h3>
+            <div th:each="detail : ${coupon.couponDetails}">
+                <p>商品編號：<span th:text="${detail.goodsNo}"></span></p>
+                <p>優惠條件：<span th:text="${detail.counterContext}"></span></p>
+                <p>折扣率：<span th:text="${detail.disRate}"></span></p>
+                <hr/>
+            </div>
+        </div>
+        
+        <div class="button-group">
+            <form th:action="@{/front-end/coupon/claim}" method="post" style="display:inline;">
+                <input type="hidden" name="couponNo" th:value="${coupon.couponNo}" />
+                <button type="submit">領取優惠券</button>
+            </form>
+            <a th:href="@{/front-end/coupon/list}">返回列表</a>
+        </div>
+    </div>
+</body>
+</html>

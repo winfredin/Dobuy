@@ -23,7 +23,10 @@ public interface CouponRepository extends JpaRepository<CouponVO, Integer> {
     @Modifying
     @Query("UPDATE CouponVO c SET c.checkStatus = :checkStatus WHERE c.couponNo = :couponNo")
     int updateCheckStatusByCouponNo(@Param("checkStatus") int checkStatus, @Param("couponNo") int couponNo);
-
+    
+    @Query("SELECT c FROM CouponVO c WHERE c.checkStatus = ?1 AND c.couponStatus = ?2")
+    List<CouponVO> findByCheckStatusAndCouponStatus(Integer checkStatus, Integer couponStatus);
+    
 	CouponVO save(CouponVO couponVO);
 
 }

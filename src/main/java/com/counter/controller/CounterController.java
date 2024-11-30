@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -158,7 +159,7 @@ public class CounterController {
      */
     @PostMapping("update")
     public String update(
-            @Valid CounterVO counterVO, 
+    		@Validated  CounterVO counterVO, 
             BindingResult result, 
             ModelMap model, 
             @RequestParam(value = "counterPic", required = false) MultipartFile[] parts) throws IOException {
@@ -198,6 +199,7 @@ public class CounterController {
         counterVO = counterSvc.getOneCounter(counterVO.getCounterNo());
         return "redirect:/counter/allcounter";
     }
+    
     
     
     //櫃位資料管理

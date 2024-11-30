@@ -1,0 +1,107 @@
+package com.coupon.controller;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.coupon.model.CouponService;
+import com.coupon.model.CouponVO;
+import com.member.model.MemberService;
+import com.member.model.MemberVO;
+import com.memcoupon.model.MemCouponService;
+import com.memcoupon.model.MemCouponVO;
+import org.springframework.ui.Model;  // 正確的 Model 導入
+
+
+@Controller
+@RequestMapping("/front-end/coupon")
+public class FrontCouponController {
+    
+    @Autowired
+    private CouponService couponService;
+    
+    @Autowired
+    private MemCouponService memCouponService;
+    
+    @Autowired
+    private MemberService memberService;
+
+    @GetMapping("/list")
+    public String listAvailableCoupons(Model model) {
+        List<CouponVO> coupons = couponService.getAllApprovedCoupons();
+        model.addAttribute("coupons", coupons);
+        return "front-end/coupon/frontListAllCoupon";
+    }
+
+    @GetMapping("/detail/{couponNo}")
+    public String viewCouponDetail(@PathVariable Integer couponNo, Model model) {
+        try {
+            CouponVO coupon = couponService.getOneCouponWithDetails(couponNo);
+            if (coupon == null) {
+                return "redirect:/front-end/coupon/list";
+            }
+            model.addAttribute("coupon", coupon);
+            return "front-end/coupon/frontCouponDetail";  // 要確保這個路徑對應到正確的模板文件
+        } catch (Exception e) {
+            return "redirect:/front-end/coupon/list";
+        }
+    }
+
+
+    @PostMapping("/claim")
+    public String claimCoupon(@RequestParam Integer couponNo,
+                             HttpSession session,
+                             HttpServletRequest request,
+                             RedirectAttributes redirectAttributes) {
+        // 檢查是否登入
+        String memAccount = (String) session.getAttribute("memAccount");
+        if (memAccount == null) {
+            // 保存原始請求的URL
+            session.setAttribute("originalRequest", 
+                request.getRequestURI() + "?couponNo=" + couponNo);
+            return "redirect:/mem/login";  // 使用現有的登入頁面路徑
+        }
+
+        try {
+            // 使用會員帳號獲取會員編號
+            MemberVO member = memberService.findByMemAccount(memAccount);
+            if (member == null) {
+                redirectAttributes.addFlashAttribute("error", "會員資料不存在");
+                return "redirect:/mem/login";
+            }
+
+            memCouponService.claimCoupon(member.getMemNo(), couponNo);
+            redirectAttributes.addFlashAttribute("message", "領取成功！");
+            return "redirect:/front-end/coupon/member/list";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            return "redirect:/front-end/coupon/list";
+        }
+    }
+    
+    // 添加會員優惠券列表頁面
+    @GetMapping("/member/list")
+    public String listMemberCoupons(HttpSession session, Model model) {
+        Integer memberNo = (Integer) session.getAttribute("memberNo");
+        if (memberNo == null) {
+            return "redirect:/login";  // 或其他登入頁面路徑
+        }
+        
+        List<MemCouponVO> memberCoupons = memCouponService.getAllByMemNo(memberNo);
+        model.addAttribute("memberCoupons", memberCoupons);
+        return "front-end/coupon/memListAllCoupon";
+    }
+}

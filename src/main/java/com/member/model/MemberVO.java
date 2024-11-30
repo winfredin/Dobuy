@@ -1,12 +1,15 @@
 package com.member.model;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -16,6 +19,10 @@ import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.List;
+import java.util.ArrayList;
+import com.memcoupon.model.MemCouponVO;
 
 @Entity
 @Table(name = "Member")
@@ -92,6 +99,10 @@ public class MemberVO {
     @Column(name = "memEmailChecked")
     private Byte memEmailChecked;
 
+//    winfred
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL) //1130
+    private List<MemCouponVO> memCoupons = new ArrayList<>();
+    
     // Getters and Setters
 
     public Integer getMemNo() {
@@ -236,6 +247,15 @@ public class MemberVO {
             return false; // 跳過空值校驗，交給@NotEmpty處理
         }
         return memPassword.equals(confirmPassword);
+    }
+    
+    // winfred
+    public List<MemCouponVO> getMemCoupons() { //1130
+        return memCoupons;
+    }
+    // winfred
+    public void setMemCoupons(List<MemCouponVO> memCoupons) { //1130
+        this.memCoupons = memCoupons;
     }
 
 }

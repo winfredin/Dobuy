@@ -72,9 +72,13 @@ public class IndexController2_inSpringBoot {
 	
 	@GetMapping("/goods/listAllCounterGoods")
 	public String listAllCounterGoods(HttpSession session ,Model model) {
+		//Counter登錄
     	CounterVO counter = (CounterVO) session.getAttribute("counter"); // 在這裡從 Session 中獲取櫃位信息 
         if (counter != null) {
             model.addAttribute("counter", counter);
+        }else {
+        	// 處理未登入的情況
+            return "redirect:/counter/login";
         }
 		return "vendor-end/goods/listAllCounterGoods";
 	}
@@ -82,6 +86,14 @@ public class IndexController2_inSpringBoot {
 	@ModelAttribute("goodsListData") // for select_page.html 第97 109行用 // for listAllEmp.html 第85行用
 	protected List<GoodsVO> referenceListData(Model model) {
 		List<GoodsVO> list = goodsSvc.getAll();
+		return list;
+	}
+	
+	//任國測試櫃位管理商品
+	@ModelAttribute("CountergoodsListData") // // for listAllCountergoodsEmp.html 
+	protected List<GoodsVO> CounterreferenceListData(HttpSession session ,Model model) {
+		CounterVO counter = (CounterVO) session.getAttribute("counter");
+		List<GoodsVO> list = goodsSvc.getOneCounter35(counter.getCounterNo());
 		return list;
 	}
 

@@ -25,5 +25,16 @@ public class MemberService {
 	public boolean validateLogin(String memAccount, String memPassword) {
 		return memberRepository.findByMemAccountAndMemPassword (memAccount, memPassword).isPresent();
 	}
+	
+	
+    // winfred
+    public Optional<MemberVO> findById(Integer memNo) { //1130
+        return memberRepository.findById(memNo);
+    }
+    // winfred
+	public MemberVO findByMemAccount(String memAccount) { //1130
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
