@@ -90,7 +90,7 @@
                                     <li><a href="#">商城系統</a>
                                         <ul  class="dropdown">
                                             <li><a href="#">櫃位訂單管理</a></li>
-                                            <li><a th:href="@{/goods/listAllCounterGoods}">商品管理</a></li>
+                                            <li><a id="goodsManagement" th:href="@{/goods/listAllCounterGoods}">商品管理</a></li>
                                         </ul>
                                     </li>
                                     <li><a href="#">櫃位前台設置</a>
@@ -156,7 +156,23 @@
     <script src="/counter/js/plugins.js"></script>
     <!-- Active js -->
     <script src="/counter/js/active.js"></script>
-
+    
+ <div id="counterStatusHolder" th:text="${counter.counterStatus}" style="display:none;"></div>
 </body>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    var goodsManagementLink = document.getElementById("goodsManagement");
+    if (goodsManagementLink) {
+        goodsManagementLink.addEventListener("click", function(event) {
+            var counterStatusHolder = document.getElementById("counterStatusHolder");
+            var counterStatus = parseInt(counterStatusHolder.textContent); // 將文本轉為整數
+            if (counterStatus === 1) {
+                event.preventDefault(); // 阻止默認行為（跳頁）
+                alert("對不起，您的帳號目前處於審核中，無法進行商品管理。");
+            }
+        });
+    }
+});
+</script>
 
 </html>

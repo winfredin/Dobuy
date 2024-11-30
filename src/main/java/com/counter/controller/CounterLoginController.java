@@ -43,6 +43,12 @@ public class CounterLoginController {
         if (authenticatedCounter == null) {
             errorMsgs.add("帳號或密碼錯誤");
         }
+        
+        if (authenticatedCounter.getCounterStatus() == 0) {
+            errorMsgs.add("帳號以停權 請洽客服聯繫");
+            model.addAttribute("errorMsgs", errorMsgs);
+            return "vendor-end/counter/CounterLogin";
+        }
 
         if (!errorMsgs.isEmpty()) {
             model.addAttribute("errorMsgs", errorMsgs);
