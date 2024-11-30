@@ -6,10 +6,13 @@
 </head>
 <body>
 	<br><br>
+	
+	
+	<br><br>
 	<h5><a th:href="@{/product/product}">product_page</a><br><br></h5>
 	
 	<br><br>
-	<h5><a href='addCarousel_page'>addCarousel_page </a><br><br></h5>
+	<h5><a href='home'>前台主頁</a><br><br></h5>
 	
 	<br><br>
 	<h5><a th:href="@{/addCarousel_page}">addCarousel_page </a><br><br></h5>
@@ -25,7 +28,7 @@
    	<br>
 
 	
-	<form method="get" th:action="@{/goods/getOneGoods}">
+	<form method="post" th:action="@{/goods/getOne_For_Display}">
 	        輸入商品編號:
 	    <input type="text" name="goodsNo" placeholder="輸入商品編號"/>
 	    <input type="submit" value="送出">
@@ -41,8 +44,10 @@
 	
 	<br><br>
 	<h5><a th:href="@{/mem/login}">login</a><br><br></h5>
-
-	
+<br><br>
+	<h5><a th:href="@{/login/Login}">後台login</a><br><br></h5>
+<br><br>
+	<h5><a th:href="@{/counterorder/select_page}">櫃位訂單</a><br><br></h5>
 	
 	
 </body>
