@@ -43,7 +43,7 @@ public class ConterOrderController {
 	public String addEmp(ModelMap model) {
 		CounterOrderVO counterOrderVO = new CounterOrderVO();
 		model.addAttribute("counterOrderVO", counterOrderVO);
-		return "back-end/counterorder/addCounterOrder";
+		return "vendor-end/counterorder/addCounterOrder";
 	}
 
 	/*
@@ -54,7 +54,7 @@ public class ConterOrderController {
 			) throws IOException {
 
 		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
-		
+		counterOrderVO.setOrderStatus(1);
 		/*************************** 2.開始新增資料 *****************************************/
 		// EmpService empSvc = new EmpService();
 		counterOrderSvc.addCounterOrder(counterOrderVO);
@@ -77,7 +77,7 @@ public class ConterOrderController {
 
 		/*************************** 3.查詢完成,準備轉交(Send the Success view) **************/
 		model.addAttribute("counterOrderVO",counterOrderVO);
-		return "back-end/counterorder/update_counterorder_input"; // 查詢完成後轉交update_emp_input.html
+		return "vendor-end/counterorder/update_counterorder_input"; // 查詢完成後轉交update_emp_input.html
 	}
 
 	/*
@@ -98,7 +98,7 @@ public class ConterOrderController {
 		model.addAttribute("success", "- (修改成功)");
 		counterOrderVO = counterOrderSvc.getOneCounterOrder(Integer.valueOf(counterOrderVO.getCounterOrderNo()));
 		model.addAttribute("counterOrderVO", counterOrderVO);
-		return "back-end/counterorder/listOneCounterOrder"; // 修改成功後轉交listOneEmp.html
+		return "vendor-end/counterorder/listOneCounterOrder"; // 修改成功後轉交listOneEmp.html
 	}
 
 	/*
@@ -114,7 +114,7 @@ public class ConterOrderController {
 		List<CounterOrderVO> list = counterOrderSvc.getAll();
 		model.addAttribute("counterOrderListData", list);
 		model.addAttribute("success", "- (刪除成功)");
-		return "back-end/counterorder/listAllCounterOrder"; // 刪除完成後轉交listAllEmp.html
+		return "vendor-end/counterorder/listAllCounterOrder"; // 刪除完成後轉交listAllEmp.html
 	}
 
 	/*

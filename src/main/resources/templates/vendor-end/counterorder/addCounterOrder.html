@@ -12,9 +12,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>員工資料修改 - update_CounterOrder_input.html</title>
+<title>員工資料新增 - addCounterOrder.html</title>
 
-<head th:insert="~{/back-end/counterorder/included-fragment}"></head>
+<head th:insert="~{vendor-end/counterorder/included-fragment}"></head>
 <style type="text/css">
 	
 	button {
@@ -47,18 +47,16 @@
 <body>
 
 <nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
-		 <div align="center"> <h2>員工資料修改 - update_emp_input.html</h2>
+		 <div align="center"> <h2>員工資料新增 - addEmp.html</h2>
 		 <h3><a class="navbar-brand" th:href="@{select_page}"><img th:src="@{/images/back1.gif}">回查詢頁</a></h3></div>
 </nav>
 
 	<div align="center">
 		<h3><b>所有欄位皆為必填欄位</b></h3>
-		<form th:action="@{update}" method="post" th:object="${counterOrderVO}" enctype="multipart/form-data">
-			<div>
-			<label>員工編號:</label>
-			<input type="text" th:field="*{counterOrderNo}" style="border:0px ; font-weight: bold;" readonly /><br/>
+		<form th:action="@{insert}" method="post" th:object="${counterOrderVO}" enctype="multipart/form-data">
+			
+			
 
-			</div>
 			
 			<div>
 			<label>櫃位編號:</label>
@@ -134,15 +132,25 @@
 				
 				<div>
 			<label>訂單狀態:</label>
-			<input type="text" th:field="*{orderStatus}" onclick="hideContent('orderStatus.errors');" /><br/>
+			<input type="text" th:value="1" readonly /><br/>
 			<span  th:if="${#fields.hasErrors('orderStatus')}" th:errors="*{orderStatus}" class="error" id="orderStatus.errors"></span>
 			</div>
+		
+				
 			
 			
+<!-- 			<div> -->
+<!-- 			<label>照片:</label> -->
+<!-- 			<input type="file" th:field="*{upFiles}" onclick="previewImage()" multiple="multiple" onchange="hideContent('upFiles.errors');" /> -->
+<!-- <!-- 			<span  th:if="${#fields.hasErrors('upFiles')}" th:errors="*{upFiles}" class="error" id="upFiles.errors"></span> --> -->
+<!-- 			<span class="error" th:utext="${errorMessage}" id="upFiles.errors">${errorMessage}</span> -->
+<!-- <!-- 			<h2 id="errorMessage">${errorMessage}</h2>  --> -->
+<!-- 			<div id="blob_holder"></div> -->
+<!-- 			</div> -->
 			
 			<div>
 				<div></div>
-				<div><button type="submit" id="submit"> 送出修改 </button></div>
+				<div><button type="submit" id="submit"> 送出新增 </button></div>
 				<div></div>
 			</div>		
 		</form>
@@ -199,7 +207,7 @@ function hideContent(d) {
 // 				+ "<br>" + "● 上傳ContentType限制: <b> <font color=red>image/png、image/jpeg、image/gif </font></b></div>";
 // 		document.getElementById('submit').disabled = true;
 // 	}
-// }
+//  }
 </script>
 
 </body>
