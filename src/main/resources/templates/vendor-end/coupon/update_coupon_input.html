@@ -2,123 +2,308 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>優惠券修改 - update_coupon_input.html</title>
-
 <head th:insert="~{/vendor-end/coupon/included-fragment}"></head>
 <style type="text/css">
-	button {
-		padding: 5px;
-	}
-	form {
-		display: table;
-	}
-	form div {
-		display: table-row;
-	}
-	label, input, span, select {
-		display: table-cell;
-		margin: 5px;
-		text-align: left;		
-	}
-	input[type=text], input[type=password], select, textarea {
-		width: 200px;
-		margin: 5px;
-	}
-	form div div {
-		display: table-cell;
-	}
-	.center {
-        margin-left: auto;
-        margin-right: auto;
-    }
+button {
+	padding: 5px;
+}
+
+form {
+	display: table;
+}
+
+form div {
+	display: table-row;
+}
+
+label, input, span, select {
+	display: table-cell;
+	margin: 5px;
+	text-align: left;
+}
+
+input[type=text], input[type=password], select, textarea {
+	width: 200px;
+	margin: 5px;
+}
+
+form div div {
+	display: table-cell;
+}
+
+.center {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* 明細區塊樣式 */
+#detailsContainer {
+	margin-top: 20px;
+	border-top: 2px solid #ddd;
+	padding-top: 20px;
+}
+
+.detail-row {
+	margin: 10px 0;
+	padding: 10px;
+	border: 1px solid #eee;
+	border-radius: 4px;
+}
+
+.button-group {
+	margin-top: 20px;
+	padding: 10px;
+	border-top: 2px solid #ddd;
+}
+
+.button-group button {
+	margin: 0 10px;
+	padding: 8px 15px;
+	background-color: #4CAF50;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.error {
+	color: red;
+	font-size: 0.9em;
+}
 </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
-		 <div align="center"> <h2>優惠券修改 - update_coupon_input.html</h2>
-		 <h3><a class="navbar-brand" th:href="@{/coupon/select_page}"><img th:src="@{/images/back1.gif}">回查詢頁</a></h3></div>
-</nav>
+	<nav
+		class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
+		<div align="center">
+			<h2>優惠券修改 - update_coupon_input.html</h2>
+			<h3>
+				<a class="navbar-brand" th:href="@{/coupon/select_page}"><img
+					th:src="@{/images/back1.gif}">回查詢頁</a>
+			</h3>
+		</div>
+	</nav>
 
 	<div align="center">
-		<h3><b>所有欄位皆為必填欄位</b></h3>
+		<h3>
+			<b>所有欄位皆為必填欄位</b>
+		</h3>
 		<form th:action="@{update}" method="post" th:object="${couponVO}">
 			<div>
-			<label>優惠券編號:</label>
-			<input type="text" th:field="*{couponNo}" style="border:0px ; font-weight: bold;" readonly /><br/>
-			</div>
-			
-			<div>
-			<label>櫃位編號:</label>
-			<input type="text" th:field="*{counterNo}" onclick="hideContent('counterNo.errors');" /><br/>
-			<span th:if="${#fields.hasErrors('counterNo')}" th:errors="*{counterNo}" class="error" id="counterNo.errors"></span>
-			</div>
-			
-			<div>
-			<label>優惠券名稱:</label>
-			<input type="text" th:field="*{couponTitle}" onclick="hideContent('couponTitle.errors');" /><br/>
-			<span th:if="${#fields.hasErrors('couponTitle')}" th:errors="*{couponTitle}" class="error" id="couponTitle.errors"></span>
-			</div>
-			
-			<div>
-			<label>優惠券內容:</label>
-			<input type="text" th:field="*{couponContext}" onclick="hideContent('couponContext.errors');" /><br/>
-			<span th:if="${#fields.hasErrors('couponContext')}" th:errors="*{couponContext}" class="error" id="couponContext.errors"></span>
+				<label>優惠券編號:</label> <input type="text" th:field="*{couponNo}"
+					style="border: 0px; font-weight: bold;" readonly /><br />
 			</div>
 
 			<div>
-			<label>起始日期:</label>
-			<input type="date" th:field="*{couponStart}" onclick="hideContent('couponStart.errors');" /><br/>
-			<span th:if="${#fields.hasErrors('couponStart')}" th:errors="*{couponStart}" class="error" id="couponStart.errors"></span>
-			</div>
-			
-			<div>
-			<label>到期日期:</label>
-			<input type="date" th:field="*{couponEnd}" onclick="hideContent('couponEnd.errors');" /><br/>
-			<span th:if="${#fields.hasErrors('couponEnd')}" th:errors="*{couponEnd}" class="error" id="couponEnd.errors"></span>
-			</div>
-			
-			<div>
-		    <label>優惠券狀態:</label>
-		    <select th:field="*{couponStatus}">
-		        <option value="0">未開放</option>
-		        <option value="1">時效內</option>
-		        <option value="2">過期</option>
-		    </select>
-		    <span th:if="${#fields.hasErrors('couponStatus')}" th:errors="*{couponStatus}" class="error"></span>
+				<label>櫃位編號:</label> <input type="text" th:field="*{counterNo}"
+					onclick="hideContent('counterNo.errors');" /><br /> <span
+					th:if="${#fields.hasErrors('counterNo')}" th:errors="*{counterNo}"
+					class="error" id="counterNo.errors"></span>
 			</div>
 
 			<div>
-		    <label>領取次數:</label>
-		    <input type="text" th:field="*{usageLimit}" onclick="hideContent('usageLimit.errors');" /><br/>
-		    <span th:if="${#fields.hasErrors('usageLimit')}" th:errors="*{usageLimit}" class="error" id="usageLimit.errors"></span>
+				<label>優惠券名稱:</label> <input type="text" th:field="*{couponTitle}"
+					onclick="hideContent('couponTitle.errors');" /><br /> <span
+					th:if="${#fields.hasErrors('couponTitle')}"
+					th:errors="*{couponTitle}" class="error" id="couponTitle.errors"></span>
 			</div>
 
 			<div>
-		    <label>審核狀態:</label>
-		    <select th:field="*{checkStatus}">
-		        <option value="0">未審核</option>
-		        <option value="1">已審核</option>
-		    </select>
-		    <span th:if="${#fields.hasErrors('checkStatus')}" th:errors="*{checkStatus}" class="error"></span>
+				<label>優惠券內容:</label> <input type="text" th:field="*{couponContext}"
+					onclick="hideContent('couponContext.errors');" /><br /> <span
+					th:if="${#fields.hasErrors('couponContext')}"
+					th:errors="*{couponContext}" class="error"
+					id="couponContext.errors"></span>
 			</div>
 
 			<div>
-				<div></div>
-				<div><button type="submit" id="submit"> 送出修改 </button></div>
-				<div></div>
-			</div>		
+				<label>起始日期:</label> <input type="date" th:field="*{couponStart}"
+					onclick="hideContent('couponStart.errors');" /><br /> <span
+					th:if="${#fields.hasErrors('couponStart')}"
+					th:errors="*{couponStart}" class="error" id="couponStart.errors"></span>
+			</div>
+
+			<div>
+				<label>到期日期:</label> <input type="date" th:field="*{couponEnd}"
+					onclick="hideContent('couponEnd.errors');" /><br /> <span
+					th:if="${#fields.hasErrors('couponEnd')}" th:errors="*{couponEnd}"
+					class="error" id="couponEnd.errors"></span>
+			</div>
+
+			<div>
+				<label>優惠券狀態:</label> <select th:field="*{couponStatus}">
+					<option value="0">未開放</option>
+					<option value="1">時效內</option>
+					<option value="2">過期</option>
+				</select> <span th:if="${#fields.hasErrors('couponStatus')}"
+					th:errors="*{couponStatus}" class="error"></span>
+			</div>
+
+			<div>
+				<label>領取次數:</label> <input type="text" th:field="*{usageLimit}"
+					onclick="hideContent('usageLimit.errors');" /><br /> <span
+					th:if="${#fields.hasErrors('usageLimit')}"
+					th:errors="*{usageLimit}" class="error" id="usageLimit.errors"></span>
+			</div>
+
+			<div>
+				<label>審核狀態:</label> <select th:field="*{checkStatus}">
+					<option value="0">未審核</option>
+					<option value="1">已審核</option>
+				</select> <span th:if="${#fields.hasErrors('checkStatus')}"
+					th:errors="*{checkStatus}" class="error"></span>
+			</div>
+
+			<!-- 重要：保留優惠券編號 -->
+			<input type="hidden" th:field="*{couponNo}" />
+			<input type="hidden" th:field="*{counterNo}" />
+
+
+<!-- 優惠商品明細部分 -->
+<div id="detailsContainer">
+    <h4>優惠商品明細</h4>
+    <!-- 使用 th:if 確保 couponDetails 不為空 -->
+    <div th:if="*{couponDetails != null}">
+        <div th:each="detail, stat : *{couponDetails}" class="detail-row">
+            <!-- 隱藏欄位 -->
+            <input type="hidden" th:field="*{couponDetails[__${stat.index}__].couponDetailNo}" />
+            <input type="hidden" th:field="*{couponDetails[__${stat.index}__].createdAt}" />
+            <input type="hidden" th:field="*{couponDetails[__${stat.index}__].updatedAt}" />
+            
+            <!-- 明細資料欄位 -->
+            <div>
+                <label>商品編號:</label>
+                <input type="number" th:field="*{couponDetails[__${stat.index}__].goodsNo}" required />
+            </div>
+
+            <div>
+                <label>優惠條件:</label>
+                <input type="text" th:field="*{couponDetails[__${stat.index}__].counterContext}" required />
+            </div>
+
+            <div>
+                <label>折扣率:</label>
+                <input type="number" th:field="*{couponDetails[__${stat.index}__].disRate}" 
+                       step="0.01" min="0.01" max="1.00" required />
+            </div>
+
+            <button type="button" class="remove-detail-btn" onclick="removeDetail(this)">刪除此明細</button>
+        </div>
+    </div>
+</div>
+
+<!-- 按鈕區域 -->
+<div class="button-group" style="margin-top: 20px;">
+    <button type="button" onclick="addDetail()">新增明細</button>
+    <button type="submit">送出修改</button>
+</div>
 		</form>
 	</div>
 
-<!-- JavaScript part -->
-<script type="text/javascript">
-//清除提示信息
-function hideContent(d) {
-     document.getElementById(d).style.display = "none";
-}
-</script>
+	<div th:if="${error}" class="error-message">
+		<p th:text="${error}"></p>
+	</div>
 
+	<!-- JavaScript part -->
+
+	<script type="text/javascript">
+	document.addEventListener('DOMContentLoaded', function () {
+	    // 清除提示信息的代碼應該放在這裡，確保 DOM 已經加載完畢
+	    const elements = document.querySelectorAll('input[type="text"], input[type="password"], select, textarea');
+	    elements.forEach(function(element) {
+	        element.onfocus = function () {
+	            hideContent(element.id + '.errors');
+	        };
+	    });
+	});
+// 清除提示信息
+function hideContent(d) {
+    const errorElement = document.getElementById(d);
+    if (errorElement) {
+        errorElement.style.display = "none";
+    }
+}
+// 刪除明細
+function removeDetail(button) {
+    // 獲取要刪除的行
+    const detailRow = button.closest('.detail-row');
+    if (detailRow) {
+        // 檢查是否是最後一個明細
+        const container = document.getElementById('detailsContainer');
+        const detailRows = container.getElementsByClassName('detail-row');
+        if (detailRows.length > 1) {
+            detailRow.remove();
+            // 重新排序索引
+            updateDetailIndices();
+        } else {
+            alert('至少需要保留一個明細項目！');
+        }
+    }
+}
+
+// 新增明細
+function addDetail() {
+    const container = document.getElementById('detailsContainer');
+    const detailRows = container.getElementsByClassName('detail-row');
+    const newIndex = detailRows.length;
+    
+    const newDetail = document.createElement('div');
+    newDetail.className = 'detail-row';
+    
+    newDetail.innerHTML = `
+        <input type="hidden" name="couponDetails[${newIndex}].couponDetailNo" />
+        <div>
+            <label>商品編號:</label>
+            <input type="number" name="couponDetails[${newIndex}].goodsNo" required />
+        </div>
+        
+        <div>
+            <label>優惠條件:</label>
+            <input type="text" name="couponDetails[${newIndex}].counterContext" required />
+        </div>
+        
+        <div>
+            <label>折扣率:</label>
+            <input type="number" name="couponDetails[${newIndex}].disRate" 
+                   step="0.01" min="0.01" max="1.00" required />
+        </div>
+        
+        <button type="button" class="remove-detail-btn" onclick="removeDetail(this)">刪除此明細</button>
+    `;
+    
+    container.appendChild(newDetail);
+}
+
+// 更新明細索引
+function updateDetailIndices() {
+    const container = document.getElementById('detailsContainer');
+    const detailRows = container.getElementsByClassName('detail-row');
+    
+    Array.from(detailRows).forEach((row, index) => {
+        row.querySelectorAll('input').forEach(input => {
+            const name = input.getAttribute('name');
+            if (name) {
+                const newName = name.replace(/\[\d+\]/, `[${index}]`);
+                input.setAttribute('name', newName);
+            }
+        });
+    });
+}
+
+// 表單提交前的驗證
+document.querySelector('form').addEventListener('submit', function(e) {
+    const detailRows = document.getElementsByClassName('detail-row');
+    if (detailRows.length === 0) {
+        e.preventDefault();
+        alert('請至少添加一個明細項目！');
+        return false;
+    }
+    return true;
+});
+	</script>
 </body>
 </html>
