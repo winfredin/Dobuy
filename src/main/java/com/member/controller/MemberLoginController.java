@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,5 +61,13 @@ public class MemberLoginController {
 	    // 如果沒有原始請求，跳轉到默認頁面
 		return "front-end/member/loginSuccess"; // 重定向到成功页面
 	}
+	
+	
+//	winfred
+//    @GetMapping("/login") //1130
+//    public String showLoginPage(Model model) {
+//        model.addAttribute("memberVO", new MemberVO());
+//        return "front-end/member/login";
+//    }
 	
 }

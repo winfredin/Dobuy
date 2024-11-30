@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>優惠券列表</title>
+<style>
+.coupon-card {
+	border: 1px solid #ddd;
+	padding: 15px;
+	margin: 10px;
+	border-radius: 8px;
+}
+</style>
+</head>
+<body>
+	<div class="container">
+		<h2>可領取的優惠券</h2>
+
+		<div th:if="${message}" class="alert" th:text="${message}"></div>
+
+		<div th:each="coupon : ${coupons}" class="coupon-card">
+			<h3 th:text="${coupon.couponTitle}"></h3>
+			<p th:text="${coupon.couponContext}"></p>
+			<p>
+				有效期間： <span
+					th:text="${#dates.format(coupon.couponStart, 'yyyy-MM-dd')}"></span>
+				至 <span th:text="${#dates.format(coupon.couponEnd, 'yyyy-MM-dd')}"></span>
+			</p>
+
+			<form th:action="@{/front-end/coupon/claim}" method="post"
+				style="display: inline;">
+				<input type="hidden" name="couponNo" th:value="${coupon.couponNo}" />
+				<button type="submit" class="btn btn-primary">領取優惠券</button>
+			</form>
+
+			<a th:href="@{'/front-end/coupon/detail/' + ${coupon.couponNo}}"
+				class="details-btn">查看詳情</a>
+		</div>
+
+		<!-- 添加連結到會員優惠券列表 -->
+		<div style="margin-top: 20px;">
+			<a th:href="@{/front-end/coupon/member/list}" class="btn">查看我的優惠券</a>
+		</div>
+	</div>
+</body>
+</html>

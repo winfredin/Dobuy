@@ -1,5 +1,7 @@
 package com.memcoupon.model;
 
+
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -11,51 +13,102 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.coupon.model.CouponService;
+import com.coupon.model.CouponVO;
+import com.member.model.MemberService;
+import com.member.model.MemberVO;
 import com.memcoupon.controller.HibernateUtil_CompositeQuery_MemCoupon;
 
 @Service("memCouponService")
 public class MemCouponService {
 
     @Autowired
-    MemCouponRepository repository;
-
+    private MemCouponRepository memCouponRepository;
+    
     @Autowired
-    private SessionFactory sessionFactory;
+    private CouponService couponService;
+    
+    @Autowired
+    private MemberService memberService; // 添加會員服務
+    
+    private SessionFactory sessionFactory;  // 添加 SessionFactory
 
+    
+    @Transactional
+    public MemCouponVO claimCoupon(Integer memberNo, Integer couponNo) {
+        // 檢查該會員是否已領取過此優惠券
+        long count = memCouponRepository.countByCouponAndMember(couponNo, memberNo);
+        if (count > 0) {
+            throw new RuntimeException("您已領取過此優惠券");
+        }
+
+        // 獲取優惠券資訊
+        CouponVO coupon = couponService.getOneCoupon(couponNo);
+        if (coupon == null || coupon.getCheckStatus() != 1) {
+            throw new RuntimeException("優惠券不存在或尚未審核通過");
+        }
+
+        // 檢查優惠券是否在有效期內
+        Date now = new Date();
+        if (now.before(coupon.getCouponStart()) || now.after(coupon.getCouponEnd())) {
+            throw new RuntimeException("優惠券不在有效期內");
+        }
+
+        // 獲取會員資訊 - 修改為使用 findById
+        Optional<MemberVO> memberOpt = memberService.findById(memberNo);
+        if (!memberOpt.isPresent()) {
+            throw new RuntimeException("會員資料不存在");
+        }
+        MemberVO member = memberOpt.get();
+
+        // 建立會員優惠券
+        MemCouponVO memCoupon = new MemCouponVO();
+        memCoupon.setCoupon(coupon);
+        memCoupon.setMember(member);
+
+        return memCouponRepository.save(memCoupon);
+    }
+    
+    
     // 新增會員優惠券
     public void addMemCoupon(MemCouponVO memCouponVO) {
-        repository.save(memCouponVO);
+    	memCouponRepository.save(memCouponVO);
     }
 
     // 更新會員優惠券
     public void updateMemCoupon(MemCouponVO memCouponVO) {
-        repository.save(memCouponVO);
+    	memCouponRepository.save(memCouponVO);
     }
 
     // 刪除會員優惠券
     public void deleteMemCoupon(Integer memCouponNo) {
-        if (repository.existsById(memCouponNo))
-            repository.deleteByMemCouponNo(memCouponNo);
+        if (memCouponRepository.existsById(memCouponNo))
+        	memCouponRepository.deleteByMemCouponNo(memCouponNo);
     }
 
     // 查詢單個會員優惠券
     public MemCouponVO getOneMemCoupon(Integer memCouponNo) {
-        Optional<MemCouponVO> optional = repository.findById(memCouponNo);
+        Optional<MemCouponVO> optional = memCouponRepository.findById(memCouponNo);
         return optional.orElse(null);
     }
 
     // 查詢所有會員優惠券
     public List<MemCouponVO> getAll() {
-        return repository.findAll();
+        return memCouponRepository.findAll();
     }
 
     // 查詢特定會員的所有優惠券
     public List<MemCouponVO> getAllByMemNo(Integer memNo) {
-        return repository.findByMemNo(memNo);
+        return memCouponRepository.findByMemNo(memNo);
     }
 
-    // 根據條件查詢會員優惠券
+    // 修改為使用 JPA 的方式查詢
     public List<MemCouponVO> getAll(Map<String, String[]> map) {
-        return HibernateUtil_CompositeQuery_MemCoupon.getAllC(map, sessionFactory.openSession());
+        // 這裡可以根據需求改寫查詢邏輯
+        return memCouponRepository.findAll();
     }
+
+    
+    
+    
 }

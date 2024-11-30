@@ -1,48 +1,76 @@
 package com.memcoupon.model;
 
-import javax.persistence.*;
-import javax.validation.constraints.*;
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import com.coupon.model.CouponVO;
+import com.member.model.MemberVO;
 
 @Entity
-@Table(name = "memCoupon") // 對應資料庫中的表名
-public class MemCouponVO implements java.io.Serializable {
+@Table(name = "memCoupon")
+public class MemCouponVO implements Serializable {
+    
     private static final long serialVersionUID = 1L;
 
-    private Integer memCouponNo; // 會員優惠券編號 (主鍵)
-    private Integer memNo;       // 會員編號 (外鍵)
-    private Integer couponNo;    // 優惠券編號 (外鍵)
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "memCouponNo")
+    private Integer memCouponNo;
+    
+    @ManyToOne
+    @JoinColumn(name = "memNo", referencedColumnName = "memNo", nullable = false)
+    private MemberVO member;
+    
+    @ManyToOne
+    @JoinColumn(name = "couponNo", referencedColumnName = "couponNo", nullable = false)
+    private CouponVO coupon;
+    
+    @Column(name = "status")
+    private Integer status;  // 添加狀態欄位，0:未使用, 1:已使用
+    
     public MemCouponVO() {
     }
-
-    @Id
-    @Column(name = "memCouponNo")
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // 自增主鍵
+    
+    // Getters and Setters
     public Integer getMemCouponNo() {
         return this.memCouponNo;
     }
-
+    
     public void setMemCouponNo(Integer memCouponNo) {
         this.memCouponNo = memCouponNo;
     }
-
-    @Column(name = "memNo")
-    @NotNull(message = "會員編號: 請勿空白")
-    public Integer getMemNo() {
-        return this.memNo;
+    
+    public MemberVO getMember() {
+        return this.member;
     }
-
-    public void setMemNo(Integer memNo) {
-        this.memNo = memNo;
+    
+    public void setMember(MemberVO member) {
+        this.member = member;
     }
-
-    @Column(name = "couponNo")
-    @NotNull(message = "優惠券編號: 請勿空白")
-    public Integer getCouponNo() {
-        return this.couponNo;
+    
+    public CouponVO getCoupon() {
+        return this.coupon;
     }
-
-    public void setCouponNo(Integer couponNo) {
-        this.couponNo = couponNo;
+    
+    public void setCoupon(CouponVO coupon) {
+        this.coupon = coupon;
     }
+    
+    public Integer getStatus() {
+        return status;
+    }
+    
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+    
+    
 }

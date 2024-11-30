@@ -10,6 +10,7 @@ import javax.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.coupondetail.model.CouponDetailVO;
+import com.memcoupon.model.MemCouponVO;
 
 @Entity
 @Table(name = "coupon")
@@ -68,6 +69,9 @@ public class CouponVO implements Serializable {
     @OneToMany(mappedBy = "coupon", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CouponDetailVO> couponDetails = new ArrayList<>();
 
+    @OneToMany(mappedBy = "coupon", cascade = CascadeType.ALL)
+    private List<MemCouponVO> memCoupons = new ArrayList<>();
+    
     // 一個更安全的方法來添加明細
     // 修改 addCouponDetail 方法，確保正確設置關聯
     public void addCouponDetail(CouponDetailVO detail) {
