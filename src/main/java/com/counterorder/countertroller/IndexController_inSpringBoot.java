@@ -51,12 +51,12 @@ public class IndexController_inSpringBoot {
     //=========== 以下第63~75行是提供給 /src/main/resources/templates/back-end/emp/select_page.html 與 listAllEmp.html 要使用的資料 ===================   
     @GetMapping("/counterorder/select_page")
 	public String select_page(Model model) {
-		return "back-end/counterorder/select_page";
+		return "vendor-end/counterorder/select_page";
 	}
     
     @GetMapping("/counterorder/listAllCounterOrder")
 	public String listAllEmp(Model model) {
-		return "back-end/counterorder/listAllCounterOrder";
+		return "vendor-end/counterorder/listAllCounterOrder";
 	}
     
     @ModelAttribute("counterOrderListData")  // for select_page.html 第97 109行用 // for listAllEmp.html 第85行用
