@@ -40,7 +40,33 @@ public class ShoppingCartListController {
         model.addAttribute("shoppingCartListVO", shoppingCartListVO);
         return "front-end/shoppingcartlist/addShoppingCartList";
     }
+    // 購物車處理
+    @PostMapping("/add-to-cart")
+    public String addToCart(
+            @RequestParam("goodsName") String goodsName,
+            @RequestParam("goodsPrice") int goodsPrice,
+            @RequestParam("goodsNo") int goodsNo,
+            @RequestParam("quantity") int quantity,
+            Model model) {
 
+        // 計算總價
+        int orderTotalPrice = goodsPrice * quantity;
+
+        // 創建 ShoppingCartListVO 物件
+        ShoppingCartListVO shoppingCartListVO = new ShoppingCartListVO();
+        shoppingCartListVO.setGoodsNo(goodsNo);
+        shoppingCartListVO.setGoodsName(goodsName);
+        shoppingCartListVO.setGoodsPrice(goodsPrice);
+        shoppingCartListVO.setGoodsNum(quantity);
+        shoppingCartListVO.setOrderTotalprice(orderTotalPrice);
+
+        // 儲存資料到資料庫
+        shoppingCartListSvc.addShoppingCartList(shoppingCartListVO);
+
+        // 重定向回購物車頁面或顯示成功訊息
+        return "redirect:/shoppingcartlist/listAllShoppingCartList";
+    }
+    
     /*
      * This method will be called on addShoppingCart.html form submission, handling POST request It also validates the user input
      */

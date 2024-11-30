@@ -38,7 +38,7 @@ public class ShoppingCartListVO implements java.io.Serializable {
     }
 
     // 會員編號 (memNo)
-    @Column(name = "memNo", nullable = false)
+    @Column(name = "memNo")
 //    @NotNull(message = "會員編號: 請勿空白")
     public Integer getMemNo() {
         return this.memNo;
