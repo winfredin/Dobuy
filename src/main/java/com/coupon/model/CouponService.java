@@ -29,7 +29,9 @@ public class CouponService {
     @Autowired
     private SessionFactory sessionFactory;
     
-    
+    public List<CouponVO> getAllApprovedCoupons() {
+        return repository.findByCheckStatusAndCouponStatus(1, 1);  // 1: 已審核, 1: 時效內
+    }
     
 //    同時新增優惠券與明細
     @Transactional(rollbackOn = Exception.class)  
