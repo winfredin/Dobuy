@@ -253,7 +253,13 @@ img[alt="star"] {
     width: 10%;
     height: auto;
 }
-
+p{
+	padding:10%;
+}
+p:hover{
+	cursor:pointer;
+	color:blue;
+}
 
 footer {
     position: auto;

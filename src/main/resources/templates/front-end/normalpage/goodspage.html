@@ -41,7 +41,7 @@
 
                     <div class="head"> 
                         <a href="home">Home</a>
-                        <a href="goodspage.html">一般商城</a>
+                        <a href="goodspage">一般商城</a>
                         <a href="#services">二手商城</a>
                         <a href="#contact">品牌</a>
                         <a href="#class">商品分類</a>
@@ -85,7 +85,7 @@
             <ul >
             
       <li th:each="gg : ${glist}">
-    <p  th:attr="data-goodstNo=${gg.goodstNo}" onclick="filterGoods(this)" th:text="${gg.goodstName}"></p>
+    <p  th:attr="data-counterNo=${gg.counterNo}" onclick="filterGoods(this)" th:text="${gg.counterCName}"></p>
     
 	</li>
 
@@ -127,11 +127,16 @@
 
     <script>
     function filterGoods(element) {
-        const goodstNo = element.getAttribute('data-goodstNo');  // 獲取 `data-goodstNo` 屬性
-        console.log('Selected goodstNo:', goodstNo);  // 輸出選中的類別編號，檢查是否正確
+        const counterNo = element.getAttribute('data-counterNo');  
+        console.log('Selected counterNo:', counterNo);  // 輸出選中的類別編號
 
-        // 發送 AJAX 請求，並將 `goodstNo` 作為參數
-        fetch(`/goods/filter?goodstNo=${goodstNo}`)
+        if (!counterNo) {
+            console.error('counterNo is missing or invalid');
+            return;  // 防止繼續執行
+        }
+
+        // 發送 AJAX 請求，並將 `counterNo` 作為參數
+        fetch(`/goods/filter?counterNo=${counterNo}`)
             .then(response => response.json())
             .then(data => {
                 const goodsContainer = document.getElementById('goodsContainer');
