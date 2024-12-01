@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>我的優惠券</title>
+    <title>我的優惠券列表</title>
     <style>
         .coupon-card {
             border: 1px solid #ddd;
@@ -20,9 +20,11 @@
     <div class="container">
         <h2>我的優惠券</h2>
         
-        <div th:if="${message}" class="alert" th:text="${message}"></div>
+        <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
         
-        <div th:each="memCoupon : ${memberCoupons}" 
+        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+        
+        <div th:each="memCoupon : ${memCoupons}" 
              th:class="${'coupon-card' + (memCoupon.status == 1 ? ' used' : '')}">
             <h3 th:text="${memCoupon.coupon.couponTitle}"></h3>
             <p th:text="${memCoupon.coupon.couponContext}"></p>
@@ -33,7 +35,7 @@
             <p>狀態：<span th:text="${memCoupon.status == 0 ? '未使用' : '已使用'}"></span></p>
         </div>
 
-        <div style="margin-top: 20px;">
+        <div class="button-group">
             <a th:href="@{/front-end/coupon/list}" class="btn">返回優惠券列表</a>
         </div>
     </div>
