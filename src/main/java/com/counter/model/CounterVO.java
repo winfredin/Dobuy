@@ -47,7 +47,7 @@ import com.counterType.model.CounterTypeVO;
 @Table(name = "COUNTER") // 對應資料表名稱
 public class CounterVO implements Serializable {
     private static final long serialVersionUID = 1L;
-    
+    public interface UpdateGroup {}
     public interface LoginGroup {}
 
     @Id
