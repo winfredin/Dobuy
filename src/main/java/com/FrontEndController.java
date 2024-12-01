@@ -53,6 +53,7 @@ public class FrontEndController {
 		 System.out.println("接收到的 counterNo: " + counterNo);
 		    List<GoodsVO> alist = goodsSvc.getAll();
 		    int counterNoInt ;
+		    
 		    try {
 		    	counterNoInt = Integer.parseInt(counterNo); // 將 String 轉換為 int
 		    } catch (NumberFormatException e) {
