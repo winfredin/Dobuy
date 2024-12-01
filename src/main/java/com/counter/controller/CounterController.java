@@ -26,6 +26,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 import com.counter.model.CounterService;
 import com.counter.model.CounterVO;
+import com.counter.model.CounterVO.RegisterGroup;
+import com.counter.model.CounterVO.UpdateGroup;
 import com.counterType.model.CounterTypeService;
 import com.counterType.model.CounterTypeVO;
 
@@ -61,7 +63,7 @@ public class CounterController {
 
     @PostMapping("insert")
     public String insert(
-            @Valid CounterVO counterVO, 
+    		@Validated(RegisterGroup.class)  @ModelAttribute CounterVO counterVO, 
             BindingResult result, 
             ModelMap model, 
             @RequestParam(value = "counterPic", required = false) MultipartFile[] parts) throws IOException {
@@ -95,8 +97,8 @@ public class CounterController {
         counterSvc.addCounter(counterVO);
 
         // 返回成功頁面
-        model.addAttribute("success", "櫃位資料新增成功！");
-        return "redirect:/counter/allcounter";
+//        model.addAttribute("success", "櫃位資料新增成功！");
+        return "vendor-end/counter/counterRegisterSuccess";
     }
     
 	@GetMapping("/login")
@@ -159,8 +161,9 @@ public class CounterController {
      */
     @PostMapping("update")
     public String update(
-    		@Validated  CounterVO counterVO, 
+    		@Validated(UpdateGroup.class)  CounterVO counterVO, 
             BindingResult result, 
+            RedirectAttributes redirectAttributes,
             ModelMap model, 
             @RequestParam(value = "counterPic", required = false) MultipartFile[] parts) throws IOException {
 
@@ -193,9 +196,12 @@ public class CounterController {
             model.addAttribute("error", ex.getMessage());
             return "vendor-end/counter/update_counter_input";
         }
+        if (!result.hasErrors()) {
+        	redirectAttributes.addFlashAttribute("message", "櫃位狀態已修改成功！");
+        }
 
         // 返回成功頁面
-        model.addAttribute("success", "櫃位資料修改成功！");
+        
         counterVO = counterSvc.getOneCounter(counterVO.getCounterNo());
         return "redirect:/counter/allcounter";
     }
@@ -223,12 +229,12 @@ public class CounterController {
 
         /*************************** 3.查詢完成,準備轉交(Send the Success view) **************/
         model.addAttribute("counterVO", counterVO);
-        return "vendor-end/counter/update_counter_input2"; // 查詢完成後轉交update_counter_input.html
+        return "vendor-end/counter/updateForCounter"; // 查詢完成後轉交update_counter_input.html
     }
     
     @PostMapping("vendor-end/update")
     public String CounterUpdate(
-            @Valid CounterVO counterVO, 
+    		@Validated(UpdateGroup.class) CounterVO counterVO, 
             BindingResult result,
             RedirectAttributes redirectAttributes,
             ModelMap model, 
@@ -243,7 +249,7 @@ public class CounterController {
                 counterVO.setCounterPic(parts[0].getBytes());
             } catch (IOException e) {
                 model.addAttribute("error", "圖片處理時發生錯誤，請重試！");
-                return "vendor-end/counter/update_counter_input2";
+                return "vendor-end/counter/updateForCounter";
             }
         } else {
             // 保留原始圖片
@@ -252,7 +258,7 @@ public class CounterController {
         }
         // 如果驗證有錯誤，返回輸入頁面
         if (result.hasErrors()) {
-            return "vendor-end/counter/update_counter_input2";
+            return "vendor-end/counter/updateForCounter";
         }
 
         try {
@@ -261,7 +267,7 @@ public class CounterController {
         } catch (IllegalArgumentException ex) {
             // 捕獲自訂錯誤並返回錯誤訊息
             model.addAttribute("error", ex.getMessage());
-            return "vendor-end/counter/update_counter_input2";
+            return "vendor-end/counter/updateForCounter";
         }
 
         // 返回成功頁面
