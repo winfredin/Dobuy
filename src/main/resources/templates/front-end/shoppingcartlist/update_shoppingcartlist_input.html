@@ -63,6 +63,12 @@
 			</div>
 			
 			<div>
+			    <label>商品主圖(必填):</label>
+			    <input type="file" th:field="*{gpPhotos1}" multiple="multiple" onchange="previewImage(event, 'blob_holder1')" /><br/>
+			    <div id="blob_holder1"></div>
+			</div>
+			
+			<div>
 			<label>商品名稱:</label>
 			<input type="text" th:field="*{goodsName}" onclick="hideContent('goodsName.errors');" /><br/>
 			<span  th:if="${#fields.hasErrors('goodsName')}" th:errors="*{goodsName}" class="error" id="goodsName.errors"></span>
@@ -97,9 +103,34 @@
 
 <!-- JavaScript part -->
 <script type="text/javascript">
-//清除提示信息
-function hideContent(d) {
-     document.getElementById(d).style.display = "none";
+function previewImage(event, blobHolderId) {
+    var files = event.target.files;
+    var blobHolder = document.getElementById(blobHolderId);  // 使用傳入的 blobHolderId 參數
+
+    // 清空現有預覽
+    blobHolder.innerHTML = '';
+
+    for (var i = 0; i < files.length; i++) {
+        var file = files[i];
+
+        if (file && file.type.startsWith('image/')) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                var img = document.createElement("img");
+                img.src = e.target.result;
+                img.width = 100;
+                img.height = 75;
+                img.style.margin = '5px';
+
+                blobHolder.appendChild(img);  // 在對應的 blobHolder 中顯示預覽
+            };
+
+            reader.readAsDataURL(file);
+        } else {
+            blobHolder.innerHTML = "<span style='color: red;'>请选择图片文件（jpg, jpeg, png, gif）</span>";
+        }
+    }
 }
 </script>
 

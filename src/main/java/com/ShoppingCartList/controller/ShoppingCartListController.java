@@ -1,5 +1,6 @@
 package com.ShoppingCartList.controller;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ShoppingCartList.model.ShoppingCartListService;
 import com.ShoppingCartList.model.ShoppingCartListVO;
@@ -43,7 +45,8 @@ public class ShoppingCartListController {
     // 購物車處理
     @PostMapping("/add-to-cart")
     public String addToCart(
-            @RequestParam("goodsName") String goodsName,
+    		@RequestParam("gpPhotos1") byte[] gpPhotos1,
+    		@RequestParam("goodsName") String goodsName,
             @RequestParam("goodsPrice") int goodsPrice,
             @RequestParam("goodsNo") int goodsNo,
             @RequestParam("quantity") int quantity,
@@ -54,6 +57,7 @@ public class ShoppingCartListController {
 
         // 創建 ShoppingCartListVO 物件
         ShoppingCartListVO shoppingCartListVO = new ShoppingCartListVO();
+        shoppingCartListVO.setGpPhotos1(gpPhotos1);
         shoppingCartListVO.setGoodsNo(goodsNo);
         shoppingCartListVO.setGoodsName(goodsName);
         shoppingCartListVO.setGoodsPrice(goodsPrice);
@@ -71,8 +75,23 @@ public class ShoppingCartListController {
      * This method will be called on addShoppingCart.html form submission, handling POST request It also validates the user input
      */
     @PostMapping("insert")
-    public String insert(@Valid ShoppingCartListVO shoppingCartListVO, BindingResult result, ModelMap model) {
+    public String insert(@Valid ShoppingCartListVO shoppingCartListVO, BindingResult result, ModelMap model,
+            @RequestParam("gpPhotos1") MultipartFile[] parts1) throws IOException {
         /*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
+        // 去除BindingResult中gpPhotos欄位的FieldError紀錄
+        result = removeFieldError(shoppingCartListVO, result, "gpPhotos1");
+        
+        // 檢查照片1 - 確保至少上傳一張照片
+        if (parts1[0].isEmpty()) {
+            model.addAttribute("errorMessage", "商品主圖(必填): 請上傳至少一張照片");
+            return "front-end/shoppingcartlist/addShoppingCartList";  // 若沒有上傳照片1，返回錯誤
+        } else {
+            for (MultipartFile multipartFile : parts1) {
+                byte[] photoData1 = multipartFile.getBytes();
+                shoppingCartListVO.setGpPhotos1(photoData1);  // 儲存圖片路徑
+            }
+        }
+        
         if (result.hasErrors()) {
             return "front-end/shoppingcartlist/addShoppingCartList";
         }
@@ -105,10 +124,28 @@ public class ShoppingCartListController {
      * This method will be called on updateShoppingCart.html form submission, handling POST request It also validates the user input
      */
     @PostMapping("update")
-    public String update(@Valid ShoppingCartListVO shoppingCartListVO, BindingResult result, ModelMap model) {
+    public String update(@Valid ShoppingCartListVO shoppingCartListVO, BindingResult result, ModelMap model,
+			             @RequestParam("gpPhotos1") MultipartFile[] parts1) throws IOException {
 
         /*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
+        // 去除BindingResult中gpPhotos欄位的FieldError紀錄
+        result = removeFieldError(shoppingCartListVO, result, "gpPhotos1");
+        
+        // 檢查照片1 - 如果使用者沒有上傳新圖片，則保留原來的圖片
+        if (parts1[0].isEmpty()) {
+            // 如果沒有上傳新的圖片，保留原來的圖片
+            byte[] originalPhoto1 = shoppingCartListSvc.getOneShoppingCartList(shoppingCartListVO.getGoodsNo()).getGpPhotos1();
+            shoppingCartListVO.setGpPhotos1(originalPhoto1);  // 保留原來的圖片
+        } else {
+            // 如果上傳了新圖片，儲存並更新圖片
+            for (MultipartFile multipartFile : parts1) {
+                byte[] photoData1 = multipartFile.getBytes();
+                shoppingCartListVO.setGpPhotos1(photoData1);  // 儲存新的圖片路徑
+            }
+        }
+        
         if (result.hasErrors()) {
+            model.addAttribute("shoppingCartListVO", shoppingCartListVO);
             return "front-end/shoppingcartlist/update_shoppingcartlist_input";
         }
         

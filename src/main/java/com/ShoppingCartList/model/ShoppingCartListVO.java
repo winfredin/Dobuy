@@ -17,6 +17,7 @@ public class ShoppingCartListVO implements java.io.Serializable {
     private Integer shoppingcartListNo;
     private Integer memNo;
     private Integer goodsNo;
+    private byte[] gpPhotos1; 
     private String goodsName;
     private Integer goodsPrice;
     private Integer goodsNum;
@@ -59,6 +60,17 @@ public class ShoppingCartListVO implements java.io.Serializable {
         this.goodsNo = goodsNo;
     }
 
+    @Lob
+    @Column(name = "gpPhotos1")
+//    @NotNull(message = "商品主圖(必填): 請勿空白")
+    public byte[] getGpPhotos1() {
+        return this.gpPhotos1;
+    }
+
+    public void setGpPhotos1(byte[] gpPhotos1) {
+        this.gpPhotos1 = gpPhotos1;
+    }
+    
     // 商品名稱 (goodsName)
     @Column(name = "goodsName", nullable = false, length = 100)
     @NotNull(message = "商品名稱: 請勿空白")

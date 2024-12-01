@@ -45,7 +45,8 @@
 
 <div align="center">
     <h3><b>所有欄位皆為必填欄位</b></h3>
-    <form th:action="@{insert}" method="post" th:object="${shoppingCartListVO}">
+    <form th:action="@{insert}" method="post" th:object="${shoppingCartListVO}" enctype="multipart/form-data">
+    
         
         <!-- 會員編號 -->
         <div>
@@ -61,6 +62,13 @@
             <span th:if="${#fields.hasErrors('goodsNo')}" th:errors="*{goodsNo}" class="error" id="goodsNo.errors"></span>
         </div>
         
+        <div>
+		    <label>商品主圖(必填):</label>
+		    <input type="file" id="gpPhotos1" th:field="*{gpPhotos1}" onclick="previewImage('gpPhotos1')" onchange="hideContent('gpPhotos1.errors');"  />
+		    <span class="error" th:utext="${errorMessage}" id="gpPhotos1.errors">${errorMessage}</span>
+		    <div id="blobHolder1"></div> <!-- 顯示照片1的預覽 -->
+		</div>
+		
         <!-- 商品名稱 -->
         <div>
             <label>商品名稱:</label>
@@ -101,10 +109,68 @@
 
 <!-- JavaScript part -->
 <script type="text/javascript">
-    // 清除提示信息
-    function hideContent(d) {
-        document.getElementById(d).style.display = "none";
+//清除提示信息
+function hideContent(d) {
+     document.getElementById(d).style.display = "none";
+}
+
+//照片上傳-預覽用
+var filereader_support = typeof FileReader != 'undefined';
+if (!filereader_support) {
+    alert("No FileReader support");
+}
+
+acceptedTypes = {
+    'image/png': true,
+    'image/jpeg': true,
+    'image/gif': true
+};
+
+//修改 previewImage 函式，接受 inputId 參數來處理不同的上傳欄位
+function previewImage(inputId) {
+    var upfile = document.getElementById(inputId);  // 獲取對應的 input 元素
+    var index = inputId.replace(/\D/g, '');  // 使用正則表達式獲取數字部分
+    var blobHolder = document.getElementById('blobHolder' + index);  // 根據數字部分動態選擇 blobHolder
+
+    // 只有在 file input 改變時才執行
+    upfile.addEventListener("change", function(event) {
+        var files = event.target.files || event.dataTransfer.files;
+        for (var i = 0; i < files.length; i++) {
+            previewfile(files[i], blobHolder);  // 傳遞 file 和對應的預覽區域
+        }
+    }, false);
+}
+
+// 修改 previewfile 函式，將預覽顯示的邏輯移到這裡
+function previewfile(file, blobHolder) {
+    // 檢查檔案類型是否符合要求
+    if (filereader_support === true && acceptedTypes[file.type] === true) {
+        var reader = new FileReader();
+        reader.onload = function(event) {
+            var image = new Image();
+            image.src = event.target.result;
+            image.width = 100;
+            image.height = 75;
+            image.border = 2;
+            // 如果預覽區域已經有舊圖片，先清除
+            if (blobHolder.hasChildNodes()) {
+                blobHolder.removeChild(blobHolder.childNodes[0]);  // 移除舊的圖片預覽
+            }
+            blobHolder.appendChild(image);  // 顯示新的圖片預覽
+        };
+        reader.readAsDataURL(file);  // 讀取圖片
+        document.getElementById('submit').disabled = false;  // 啟用提交按鈕
+    } else {
+        // 若文件格式不符，顯示錯誤訊息
+        blobHolder.innerHTML = "<div style='text-align: left;'>" + "● filename: " + file.name
+                + "<br>" + "● ContentType: " + file.type
+                + "<br>" + "● size: " + file.size + "bytes"
+                + "<br>" + "● 上傳ContentType限制: <b><font color=red>image/png、image/jpeg、image/gif</font></b></div>";
+        document.getElementById('submit').disabled = true;  // 禁用提交按鈕
     }
+}
+
+
 </script>
 
 </body>

@@ -116,6 +116,7 @@
 						    <td class="label_item">數量</td>
 						    <td><input class="buy_count" value="1" min="1" type="number" name="quantity"></td>
 						    <!-- 隱藏欄位傳送商品資料 -->
+							<input type="hidden" name="gpPhotos1" th:value="'data:image/png;base64,' + ${goodsImg[0]}" />
 						    <input type="hidden" name="goodsName" th:value="${goods.goodsName}" />
 						    <input type="hidden" name="goodsPrice" th:value="${goods.goodsPrice}" />
 						    <input type="hidden" name="goodsNo" th:value="${goods.goodsNo}" />
