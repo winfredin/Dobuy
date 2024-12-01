@@ -2,9 +2,10 @@ package com.manager.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.auth.model.AuthService;
 import com.auth.model.AuthVO;
@@ -109,8 +110,6 @@ public class ManagerController {
             @RequestParam("managerNo") String managerNo, 
             ModelMap model) {
 		List<ManagerAuthVO> existingAuths = managerAuthSvc.getOne(Integer.valueOf(managerNo));
-
-	    
 	    for (ManagerAuthVO existingAuth : existingAuths) {
 	    	  Integer existingAuthNo = existingAuth.getAuthNo().getAuthNo();
 	        if (!authNo.contains(existingAuthNo)) {
@@ -132,32 +131,32 @@ public class ManagerController {
 		return "redirect:/manager/listAllManager";
 }
 
-	@PostMapping("getOneAuth")
-	public String getOneAuth(@RequestParam("managerNo") String managerNo, ModelMap model) {
-		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
-		/*************************** 2.開始查詢資料 *****************************************/
-		// EmpService empSvc = new EmpService();
-		List<AuthVO> authList = authSvc.getAll();
-		
-		List<ManagerAuthVO> list =  managerAuthSvc.getOne(Integer.valueOf(managerNo));	 
-		List<Integer> authNoList= new ArrayList();
-		for(AuthVO AuthVO:authList) {
-			AuthVO.getAuthNo();
-		}
-		
-		for(ManagerAuthVO managerAuthVO:list) {
-			AuthVO VO = managerAuthVO.getAuthNo();
-			Integer authNo=VO.getAuthNo();
-			authNoList.add(authNo);
-			
-		}
-		
-		/*************************** 3.查詢完成,準備轉交(Send the Success view) **************/
-		model.addAttribute("authList",authList);
-		model.addAttribute("List", authNoList);
-		model.addAttribute("managerNo",managerNo);
-		return "back-end/manager/updateAuth"; 
-	
-}
+	@GetMapping("getOneAuth")
+	public @ResponseBody Map<String, Object> getOneAuth(@RequestParam("managerNo") String managerNo, ModelMap model) {
+	    Integer managerNoInt = Integer.valueOf(managerNo);
+
+	    /*************************** 2.查詢資料 *****************************************/
+	    // 查詢所有權限列表
+	    List<AuthVO> authList = authSvc.getAll();
+
+	    // 查詢指定管理者的已分配權限
+	    List<ManagerAuthVO> list = managerAuthSvc.getOne(managerNoInt);
+
+	    // 建立已分配權限的編號列表
+	    List<Integer> assignedAuths = new ArrayList<>();
+	    for (ManagerAuthVO managerAuthVO : list) {
+	        assignedAuths.add(managerAuthVO.getAuthNo().getAuthNo());
+	    }
+
+	    /*************************** 3.查詢完成，準備返回結果 ********************************/
+	    Map<String, Object> response = new HashMap<>();
+	    response.put("managerNo", managerNoInt);  // 返回的管理者編號
+	    response.put("auths", authList);          // 所有權限列表
+	    response.put("assignedAuths", assignedAuths); // 該管理者擁有的權限編號
+	    return response;
+	}
+
+
+
 }
 

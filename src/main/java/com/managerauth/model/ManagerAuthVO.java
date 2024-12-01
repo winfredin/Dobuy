@@ -1,16 +1,17 @@
 	package com.managerauth.model;
 	
 	import java.io.Serializable;
-	
-	import javax.persistence.Entity;
-	import javax.persistence.Id;
-	import javax.persistence.IdClass;
-	import javax.persistence.JoinColumn;
-	import javax.persistence.ManyToOne;
-	import javax.persistence.Table;
-	
-	import com.auth.model.AuthVO;
-	import com.manager.model.ManagerVO;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import com.auth.model.AuthVO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.manager.model.ManagerVO;
 	
 	@Entity
 	@Table(name="managerauth")
@@ -18,11 +19,12 @@
 	public class ManagerAuthVO implements Serializable {
 	
 	    private static final long serialVersionUID = 1L;
+	    @JsonIgnore
 	    @Id
 	    @ManyToOne
 	    @JoinColumn(name="managerNo",nullable = false)
 	    private ManagerVO managerNo;
-	   
+	    @JsonIgnore
 	    @Id
 	    @ManyToOne
 	    @JoinColumn(name="authNo",nullable = false)
