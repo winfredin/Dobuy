@@ -605,7 +605,7 @@ CREATE TABLE ShoppingCartList (
 INSERT INTO shoppingcartList (
 memNo, goodsNo, gpPhotos1, goodsName, goodsPrice, goodsNum, orderTotalprice
 ) VALUES
-( 1, 2, NULL,'路易威登 LOUIS VUITTON Epi 手鍊紅繩', 9800, 1, 9800);
+( 1, 7, NULL,'路易威登 LOUIS VUITTON Epi 手鍊紅繩', 9800, 1, 9800);
 
 
 
