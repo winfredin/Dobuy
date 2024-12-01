@@ -31,6 +31,8 @@ import com.counterType.model.CounterTypeVO;
 import com.member.model.MemberVO.RegisterGroup;
 
 
+//test
+
 @Controller
 @RequestMapping("/counter")
 public class CounterController {
