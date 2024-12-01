@@ -55,25 +55,22 @@ public class FrontEndController {
 		    int counterNoInt ;
 		    
 		    try {
-		    	counterNoInt = Integer.parseInt(counterNo); // 將 String 轉換為 int
+		    	counterNoInt = Integer.parseInt(counterNo); 
 		    } catch (NumberFormatException e) {
-		        System.out.println("轉換 counterNo 失敗: " + counterNo);
-		        // 根據需求處理錯誤，這裡可以返回空列表或拋出異常
+    
 		        return new ArrayList<>();
 		    }   
 		    List<GoodsVO> filteredcounter = new ArrayList<>();
 		    for (GoodsVO goods : alist) {
-		        // 確保 goods.getGoodsTypeVO() 和 getGoodstNo() 不是 null
+		        
 		        if (goods.getCounterVO() != null && goods.getCounterVO().getCounterNo() != null) {
-		            // 直接比較 int 類型的數值
+		           
 		            if (goods.getCounterVO().getCounterNo() == counterNoInt) {
 		            	filteredcounter.add(goods);
 		            }
 		        }
 		    }
-		    
-		    System.out.println("過濾後的商品資料: " + filteredcounter);
-		    return filteredcounter; // 返回過濾後的結果
+		    return filteredcounter; 
 		}
 	 
 	    @GetMapping("content/profile")
