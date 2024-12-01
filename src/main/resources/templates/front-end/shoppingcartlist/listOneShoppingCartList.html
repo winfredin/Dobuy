@@ -29,6 +29,7 @@
 	<span>購物車編號:</span><span th:text="${shoppingCartListVO.shoppingcartListNo}"></span><br/>
 	<span>會員編號:</span><span th:text="${shoppingCartListVO.memNo}"></span><br/>
 	<span>商品編號:</span><span th:text="${shoppingCartListVO.goodsNo}"></span><br/>
+	<span>商品主圖(必填):</span><span><img th:src="@{/shoppingCartList/DBGifReader} + '?shoppingcartListNo=' + ${shoppingCartListVO.shoppingcartListNo}" width="100px"></span><br/>
 	<span>商品名稱:</span><span th:text="${shoppingCartListVO.goodsName}"></span><br/>
 	<span>商品單價:</span><span th:text="${shoppingCartListVO.goodsPrice}"></span><br/>
 	<span>商品數量:</span><span th:text="${shoppingCartListVO.goodsNum}"></span><br/>

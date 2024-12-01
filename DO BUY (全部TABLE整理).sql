@@ -592,27 +592,21 @@ INSERT INTO followers (followersNo, counterNo) VALUES
 
 -- 建立 ShoppingCartList 表格
 CREATE TABLE ShoppingCartList (
-    shoppingcartListNo INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY, -- 自增主鍵 PK
-    memNo INT(10) NOT NULL,                          -- 會員編號 FK
-    goodsNo INT(10) NOT NULL,                        -- 商品編號 FK
-    goodsNum INT(5) NOT NULL CHECK (goodsNum > 0),   -- 商品數量 > 0
-    goodsPrice INT(5) NOT NULL CHECK (goodsPrice > 0), -- 商品單價 > 0
-    goodsName VARCHAR(20) NOT NULL,                  -- 商品名稱
-    orderTotalprice INT(6) NOT NULL CHECK (orderTotalprice > 0) -- 訂單總金額 > 0
+    shoppingcartListNo INT NOT NULL PRIMARY KEY AUTO_INCREMENT, -- 自增主鍵 PK
+    memNo INT(10) ,                          -- 會員編號 FK
+    goodsNo INT(10) ,                        -- 商品編號 FK
+    gpPhotos1 LONGBLOB,                      -- 商品主圖(必填)
+    goodsName VARCHAR(100),                  -- 商品名稱
+    goodsPrice INT(5)  CHECK (goodsPrice > 0), -- 商品單價 > 0
+    goodsNum INT(5)  CHECK (goodsNum > 0),   -- 商品數量 > 0
+    orderTotalprice INT(6)  CHECK (orderTotalprice > 0) -- 訂單總金額 > 0
 );
 
 -- 插入 ShoppingCartList 表格的假資料
-INSERT INTO shoppingcartList (memNo, goodsNo, goodsNum, goodsPrice, goodsName, orderTotalprice) VALUES
-(1, 1, 2, 500, 'Product A', 1000),
-(2, 2, 1, 800, 'Product B', 800),
-(3, 3, 3, 300, 'Product C', 900),
-(4, 4, 2, 150, 'Product D', 300),
-(5, 5, 4, 200, 'Product E', 800),
-(6, 6, 2, 400, 'Product F', 800),
-(7, 7, 1, 1200, 'Product G', 1200),
-(8, 8, 5, 100, 'Product H', 500),
-(9, 9, 2, 750, 'Product I', 1500),
-(10, 10, 1, 2000, 'Product J', 2000);
+INSERT INTO shoppingcartList (
+memNo, goodsNo, gpPhotos1, goodsName, goodsPrice, goodsNum, orderTotalprice
+) VALUES
+( 1, 7, NULL,'路易威登 LOUIS VUITTON Epi 手鍊紅繩', 9800, 1, 9800);
 
 
 
