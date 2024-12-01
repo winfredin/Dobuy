@@ -45,7 +45,7 @@
 
   <style type="text/css">
     body {
-      margin: 1rem 2rem 2rem 2rem;
+      margin: 1rem 0rem 2rem 0rem;
     }
       .toggle-status-btn {
     font-size: 14px;    /* 調整字型大小 */
@@ -61,16 +61,24 @@
   .toggle-status-btn:hover {
     background-color: #4141ff;  /* 當滑鼠懸停時改變背景色 */
   }
+  
+  .table-container {
+     max-width: 100%; /* 限制容器的最大寬度 */
+    max-height: 400px; /* 限制容器的最大高度 */
+    overflow: auto; /* 超出部分自動出現滾動條 */
+    margin: 0 auto; /* 水平居中 */
+    padding: 0 20px; /* 添加左右內部間距 */
+}
   </style>
 </head>
 
 <body>
 <div th:insert=="vendor-end/counter/Counterincldue :: header"></div>
     
-    <div >
+
       <h2>櫃位商品管理 - listAllCounterGoods.html</h2>
-     
-    </div>
+     <div  class="table-container">
+   
  
 
   <table id="example" class="display" style="width: 100%">
@@ -127,6 +135,7 @@
       </th:block>
     </tbody>
   </table>
+  </div>
 
   <script>
   $(".toggle-status-btn").click(function(event) {

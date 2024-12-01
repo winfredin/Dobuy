@@ -102,7 +102,7 @@
                                     <li><a href="#">櫃位專區</a>
                                         <ul  class="dropdown">
                                             <li><a th:href="@{/counter/vendor-end/manage}">櫃位資料管理</a></li>
-                                            <li><a href="#">常見問題設定</a></li>
+                                            <li><a th:href="@{/counter/test}">常見問題設定</a></li>
                                             <li><a href="#">營收查詢</a></li>
                                             <li><a href="#">追蹤管理</a></li>
                                             <li><a href="#">優惠券設定</a></li>
@@ -177,7 +177,7 @@ document.addEventListener("DOMContentLoaded", function() {
             var counterStatus = parseInt(counterStatusHolder.textContent); // 將文本轉為整數
             if (counterStatus === 1) {
                 event.preventDefault(); // 阻止默認行為（跳頁）
-                alert("對不起，您的帳號目前處於審核中，無法進行商品管理。");
+                alert("對不起，您的帳號目前處於審核中，無法進行此操作。");
             }
         });
     }
