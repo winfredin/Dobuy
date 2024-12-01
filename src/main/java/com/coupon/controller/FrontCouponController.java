@@ -88,7 +88,7 @@ public class FrontCouponController {
             return "redirect:/front-end/coupon/member/list";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
-            return "redirect:/front-end/coupon/list";
+            return "redirect:/mem/listMemCoupons";  
         }
     }
     

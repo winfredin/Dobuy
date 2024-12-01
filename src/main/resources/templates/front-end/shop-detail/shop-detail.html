@@ -111,21 +111,26 @@
 						<td class="Goods_Description_1" th:text="${goods.goodsDescription}"></td>
 					</tr>
 					<tr>
-					<form class="buy_form" action="/add-to-cart" method="POST">
-					    <td class="label_item">數量</td>
-					    <td><input class="buy_count" value="1" min="1" type="number" name="quantity"></td>
-					</form>
-		            </tr>
-					<tr>
-						<td></td>
-						<td>
-							<button class="shopping_button" type="button" onclick="addToCart()">
-							    <img alt="icon-add-to-cart" class="_kL9Hf" 
-							    	th:src="@{https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/productdetailspage/b96050554b3be4feea08.svg}">
-							    放入購物車
-							</button>
-						</td>
-					</tr>
+						<!-- 表單部分 -->
+						<form class="buy_form" action="/shoppingcartlist/add-to-cart" method="POST">
+						    <td class="label_item">數量</td>
+						    <td><input class="buy_count" value="1" min="1" type="number" name="quantity"></td>
+						    <!-- 隱藏欄位傳送商品資料 -->
+							<input type="hidden" name="gpPhotos1" th:value="'data:image/png;base64,' + ${goodsImg[0]}" />
+						    <input type="hidden" name="goodsName" th:value="${goods.goodsName}" />
+						    <input type="hidden" name="goodsPrice" th:value="${goods.goodsPrice}" />
+						    <input type="hidden" name="goodsNo" th:value="${goods.goodsNo}" />
+						    <!-- 提交按鈕 -->
+						    <tr>
+							    <td></td>
+							    <td>
+							        <button class="shopping_button" type="submit">
+							            <img alt="icon-add-to-cart" class="_kL9Hf" th:src="@{https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/productdetailspage/b96050554b3be4feea08.svg}">
+							            放入購物車
+							        </button>
+							    </td>
+							</tr>
+						</form>
 				</table>
 			</div>
 		</div>

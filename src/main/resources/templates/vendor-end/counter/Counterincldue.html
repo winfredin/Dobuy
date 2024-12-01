@@ -97,14 +97,16 @@
             </div>
         </div>
      
-    <div th:if="${counter != null}" class="user-profile" style="display: flex; align-items: center; position: absolute; top: 15px; right: 15px;">
-       <img th:src="@{/counter/DBGifReader} + '?counterNo=' + ${counter.counterNo}" alt="Counter Avatar" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
-       <span th:text="${counter.counterCName}" style="font-size: 16px; color: #333;">櫃位名稱</span>
-        <span th:if="${counter.counterStatus == 0}" style="font-size: 16px; color: #333;">(停權)</span>
-		<span th:if="${counter.counterStatus == 1}" style="font-size: 16px; color: #333;">(審核中)</span>
-		<span th:if="${counter.counterStatus == 2}" style="font-size: 16px; color: #333;">(運營)</span>
-    </div>
-   
+<div th:if="${counter != null}" class="user-profile" style="display: flex; align-items: center; position: absolute; top: 15px; right: 15px;">
+   <img th:src="@{/counter/DBGifReader} + '?counterNo=' + ${counter.counterNo}" alt="Counter Avatar" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
+   <span th:text="${counter.counterCName}" style="font-size: 16px; color: #333;">櫃位名稱</span>
+   <span th:if="${counter.counterStatus == 0}" style="font-size: 16px; color: #333;">(停權)</span>
+   <span th:if="${counter.counterStatus == 1}" style="font-size: 16px; color: #333;">(審核中)</span>
+   <span th:if="${counter.counterStatus == 2}" style="font-size: 16px; color: #333;">(運營)</span>
+  <button type="button" onclick="logout()" style="font-size: 14px; padding: 5px 10px; background-color: #f0ad4e; border: none; color: white; cursor: pointer; z-index: 1000; position: relative;">登出</button>
+   <form id="logoutForm" th:action="@{/counter/logout}" method="post" style="display: none;"></form>
+</div>
+    
 
     <footer style="position: fixed; bottom: 0; width: 100%; text-align: center; background-color: #f8f9fa; padding: 10px;">
         Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">DOBUY</a>
@@ -113,8 +115,8 @@
 
     </footer>
     <!-- ##### Footer Area End ##### -->
-    
-    	     <!-- jQuery (Necessary for All JavaScript Plugins) -->
+
+    <!-- jQuery (Necessary for All JavaScript Plugins) -->
     <script src="/counter/js/jquery/jquery-2.2.4.min.js"></script>
     <!-- Popper js -->
     <script src="/counter/js/popper.min.js"></script>
@@ -124,6 +126,29 @@
     <script src="/counter/js/plugins.js"></script>
     <!-- Active js -->
     <script src="/counter/js/active.js"></script>
+    
+ <div id="counterStatusHolder" th:text="${counter.counterStatus}" style="display:none;"></div>
+
+<script>
+登出
+function logout() {
+    document.getElementById("logoutForm").submit();
+}
 
 
+
+document.addEventListener("DOMContentLoaded", function() {
+    var goodsManagementLink = document.getElementById("goodsManagement");
+    if (goodsManagementLink) {
+        goodsManagementLink.addEventListener("click", function(event) {
+            var counterStatusHolder = document.getElementById("counterStatusHolder");
+            var counterStatus = parseInt(counterStatusHolder.textContent); // 將文本轉為整數
+            if (counterStatus === 1) {
+                event.preventDefault(); // 阻止默認行為（跳頁）
+                alert("對不起，您的帳號目前處於審核中，無法進行此操作。");
+            }
+        });
+    }
+});
+</script>
 </header>

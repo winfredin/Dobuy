@@ -9,7 +9,7 @@
 
 <style>
     body {
-      margin: 2rem 2rem 2rem 2rem;
+      margin: 1rem 0rem 2rem 0rem;
     }
 .info-label {
 	font-weight: bold;
@@ -72,9 +72,11 @@ img {
 
 /* 表格容器 */
 .table-container {
-    max-width: 100%; /* 限制容器的最大寬度 */
+     max-width: 100%; /* 限制容器的最大寬度 */
     max-height: 400px; /* 限制容器的最大高度 */
     overflow: auto; /* 超出部分自動出現滾動條 */
+    margin: 0 auto; /* 水平居中 */
+    padding: 0px 20px; /* 添加左右內部間距 */
 }
 </style>
 </head>
@@ -82,10 +84,9 @@ img {
 
 <div th:insert=="vendor-end/counter/Counterincldue :: header"></div>
 
-	<h1>當前櫃位資料管理</h1>
+	<h1>當前櫃位資料</h1>
 	<div th:if="${counter != null}"  class="table-container">
-		<h2>櫃位信息</h2>
-		<table>
+		<table >
 			<tr>
 				<td><span class="info-label">櫃位編號:</span></td>
 				<td><span class="info-label">櫃位名稱:</span></td>

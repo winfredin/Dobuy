@@ -102,7 +102,7 @@
                                     <li><a href="#">櫃位專區</a>
                                         <ul  class="dropdown">
                                             <li><a th:href="@{/counter/vendor-end/manage}">櫃位資料管理</a></li>
-                                            <li><a href="#">常見問題設定</a></li>
+                                            <li><a th:href="@{/counter/test}">常見問題設定</a></li>
                                             <li><a href="#">營收查詢</a></li>
                                             <li><a href="#">追蹤管理</a></li>
                                             <li><a href="#">優惠券設定</a></li>
@@ -129,13 +129,15 @@
             </div>
         </div>
     </header>
-    <div th:if="${counter != null}" class="user-profile" style="display: flex; align-items: center; position: absolute; top: 15px; right: 15px;">
-       <img th:src="@{/counter/DBGifReader} + '?counterNo=' + ${counter.counterNo}" alt="Counter Avatar" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
-       <span th:text="${counter.counterCName}" style="font-size: 16px; color: #333;">櫃位名稱</span>
-       	<span th:if="${counter.counterStatus == 0}" style="font-size: 16px; color: #333;">(停權)</span>
-		<span th:if="${counter.counterStatus == 1}" style="font-size: 16px; color: #333;">(審核中)</span>
-		<span th:if="${counter.counterStatus == 2}" style="font-size: 16px; color: #333;">(運營)</span>
-    </div>
+<div th:if="${counter != null}" class="user-profile" style="display: flex; align-items: center; position: absolute; top: 15px; right: 15px;">
+   <img th:src="@{/counter/DBGifReader} + '?counterNo=' + ${counter.counterNo}" alt="Counter Avatar" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
+   <span th:text="${counter.counterCName}" style="font-size: 16px; color: #333;">櫃位名稱</span>
+   <span th:if="${counter.counterStatus == 0}" style="font-size: 16px; color: #333;">(停權)</span>
+   <span th:if="${counter.counterStatus == 1}" style="font-size: 16px; color: #333;">(審核中)</span>
+   <span th:if="${counter.counterStatus == 2}" style="font-size: 16px; color: #333;">(運營)</span>
+  <button type="button" onclick="logout()" style="font-size: 14px; padding: 5px 10px; background-color: #f0ad4e; border: none; color: white; cursor: pointer; z-index: 1000; position: relative;">登出</button>
+   <form id="logoutForm" th:action="@{/counter/logout}" method="post" style="display: none;"></form>
+</div>
     
 
     <footer style="position: fixed; bottom: 0; width: 100%; text-align: center; background-color: #f8f9fa; padding: 10px;">
@@ -158,8 +160,15 @@
     <script src="/counter/js/active.js"></script>
     
  <div id="counterStatusHolder" th:text="${counter.counterStatus}" style="display:none;"></div>
-</body>
+
 <script>
+登出
+function logout() {
+    document.getElementById("logoutForm").submit();
+}
+
+
+
 document.addEventListener("DOMContentLoaded", function() {
     var goodsManagementLink = document.getElementById("goodsManagement");
     if (goodsManagementLink) {
@@ -168,11 +177,11 @@ document.addEventListener("DOMContentLoaded", function() {
             var counterStatus = parseInt(counterStatusHolder.textContent); // 將文本轉為整數
             if (counterStatus === 1) {
                 event.preventDefault(); // 阻止默認行為（跳頁）
-                alert("對不起，您的帳號目前處於審核中，無法進行商品管理。");
+                alert("對不起，您的帳號目前處於審核中，無法進行此操作。");
             }
         });
     }
 });
 </script>
-
+</body>
 </html>

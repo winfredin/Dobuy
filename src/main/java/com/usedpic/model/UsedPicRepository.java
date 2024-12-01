@@ -18,6 +18,8 @@ public interface UsedPicRepository extends JpaRepository<UsedPicVO, Integer>{
 	@Modifying
 	@Query(value = "delete from usedpic where usedNo =?1", nativeQuery = true)
 	void deleteByUsedNo(Integer usedNo);
+	
+	
 	//回傳檢驗是否為list.size()==0
 	@Query(value = "select * from usedpic where usedNo =?1", nativeQuery = true)
 	List<UsedPicVO> findAllPicsByUsedNo(Integer usedNo);

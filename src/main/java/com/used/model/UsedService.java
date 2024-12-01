@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,13 +24,12 @@ public class UsedService {
 	UsedPicRepository usedPicRepository;
 	
 	//增
-	
+	@Transactional
 	public UsedVO addUsed(UsedVO usedVO) {
 		
 		return repository.save(usedVO);
 	}
-	
-	
+	@Transactional
 	public UsedVO saveUsedWithPics(UsedVO usedVO, List<UsedPicVO> usedPicsList) {
 		UsedVO savedUsed =repository.save(usedVO);
 		List<UsedPicVO> usedPicWithUsedNo = new ArrayList<>();
@@ -46,6 +47,7 @@ public class UsedService {
 	
 	
 	//改
+	@Transactional
 	public Integer updateUsed(UsedVO usedVO) {
 		
 		UsedVO savedUsed =repository.save(usedVO);
@@ -54,6 +56,7 @@ public class UsedService {
 	}
 	
 	//刪 會員將商品從使用者介面刪除 
+	@Transactional
 	public void deleteUsed(Integer usedNo) {
 		
 		repository.deleteByUsedNo(usedNo);

@@ -14,7 +14,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>員工資料修改 - update_used_input.html</title>
 
-<head th:insert="~{/back-end/used/included-fragment}"></head>
+<head th:insert="~{/front-end/used/included-fragment}"></head>
 <style type="text/css">
 	
 
@@ -91,7 +91,7 @@
 		        <tbody id="photoTable">
 		            <tr th:each="usedPicVO : ${usedVO.usedPics}" class="photoRow">
 		                <td>
-		                    <img th:src="@{'/usedpic/DBGifReader' + '?usedPicNo=' + ${usedPicVO.usedPicNo}}" width="100px" />
+		                    <img th:src="@{'/usedpic/UsedDBGifReader' + '?usedPicNo=' + ${usedPicVO.usedPicNo}}" width="100px" />
 		                </td>
 		                <td>
 		                    <span th:text="${usedPicVO.usedPicName}"></span>

@@ -12,7 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -20,6 +19,7 @@ import javax.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.counter.model.CounterVO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.goodstype.model.GoodsTypeVO;
 
 @Entity
@@ -75,7 +75,7 @@ public class GoodsVO implements java.io.Serializable {
     public void setGoodsTypeVO(GoodsTypeVO goodsTypeVO) {
         this.goodsTypeVO = goodsTypeVO;
     }
-
+    @JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "counterNo")   // 指定用來join table的column
     public CounterVO getCounterVO() {

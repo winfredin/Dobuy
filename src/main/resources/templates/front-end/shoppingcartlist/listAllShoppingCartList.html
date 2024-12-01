@@ -66,6 +66,7 @@ body {
       <th>購物車編號</th>
       <th>會員編號</th>
       <th>商品編號</th>
+      <th>商品照片</th>
       <th>商品名稱</th>
       <th>商品單價</th>
       <th>商品數量</th>
@@ -82,6 +83,9 @@ body {
         <td th:text="${shoppingCartListVO.shoppingcartListNo}"></td>
         <td th:text="${shoppingCartListVO.memNo}"></td>
         <td th:text="${shoppingCartListVO.goodsNo}"></td>
+		<td>
+			<img th:src="@{/shoppingcartlist/DBGifReader} + '?shoppingcartListNo=' + ${shoppingCartListVO.shoppingcartListNo}" width="100px">
+		</td>
         <td th:text="${shoppingCartListVO.goodsName}"></td>
         <td th:text="${shoppingCartListVO.goodsPrice}"></td>
         <td th:text="${shoppingCartListVO.goodsNum}"></td>
