@@ -1,4 +1,4 @@
-package com.root.controller35;
+package com.counterHome;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
