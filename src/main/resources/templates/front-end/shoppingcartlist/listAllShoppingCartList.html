@@ -3,109 +3,240 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>所有購物車資料 - listAllShoppingCartList.html</title>
+<title>購物車清單</title>
+<link rel="stylesheet" th:href="@{/slick-1.8.1/slick/slick.css}" />
+<link rel="stylesheet" th:href="@{/slick-1.8.1/slick/slick-theme.css}" />
+
+<!-- 禁用 favicon 自動加載 -->
+<link rel="icon" href="data:,">
 
 <head th:insert="~{/front-end/shoppingcartlist/included-fragment}"></head>
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script> <!-- ●●js for jquery datatables -->
-<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script> <!-- ●●js for jquery datatables -->
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css" /> <!-- ●●css for jquery datatables -->
-
-<!-- ●● jquery datatables 設定 -->
-<script>
-	$(document).ready(function() {
-		$('#example').DataTable({
-			"lengthMenu": [3, 5, 10, 20, 50, 100],
-			"searching": true,  // 搜尋功能，預設開啟
-		    "paging": true,     // 分頁功能，預設開啟
-		    "ordering": true,   // 排序功能，預設開啟
-		    "language": {
-		        "processing": "處理中...",
-		        "loadingRecords": "載入中...",
-		        "lengthMenu": "顯示 _MENU_ 筆結果",
-		        "zeroRecords": "沒有符合的結果",
-		        "info": "顯示第 _START_ 至 _END_ 筆結果，共<font color=red> _TOTAL_ </font>筆",
-		        "infoEmpty": "顯示第 0 至 0 筆結果，共 0 筆",
-		        "infoFiltered": "(從 _MAX_ 筆結果中過濾)",
-		        "search": "搜尋:",
-		        "paginate": {
-		            "first": "第一頁",
-		            "previous": "上一頁",
-		            "next": "下一頁",
-		            "last": "最後一頁"
-		        },
-		        "aria": {
-		            "sortAscending": ": 升冪排列",
-		            "sortDescending": ": 降冪排列"
-		        }
-		    }
-		});
-	});
-</script>
 
 <style type="text/css">
+
+/* 表格外圍容器設置 */
+table.dataTable {
+    margin: 100px auto; /* 設定表格外邊距並使其水平居中 */
+    width: 80%; /* 設定表格寬度為 80% */
+}
+
+/* 整體頁面樣式 */
 body {
-	margin: 1rem 12rem 2rem 12rem;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* 防止出現水平滾動條 */
+}
+
+/* 購物車樣式 */
+.shoppingcart {
+    padding: 50px 50px 100px 50px;
+}
+
+/* 表格樣式設置 */
+#example {
+    width: 100%; /* 讓表格寬度自動適應 */
+    table-layout: fixed; /* 自動調整表格列的寬度，根據內容的大小 */
+    background-color: #f2f2f2; /* 淺灰色背景 */
+    border-collapse: collapse; /* 去除表格間隙 */
+    border: 1px solid #ccc; /* 添加灰色細邊框 */
+}
+
+/* 表格標頭樣式 */
+#example th {
+    text-align: center; /* 文字置中 */
+    padding: 10px; /* 增加單元格內邊距 */
+    background-color: white; /* 設置背景顏色 */
+    border: 1px solid #ccc; /* 為表頭添加灰色細邊框 */
+}
+
+/* 表格數據單元格樣式 */
+#example td {
+    text-align: center; /* 文字置中 */
+    padding: 10px; /* 增加單元格內邊距 */
+    vertical-align: middle; /* 使內容垂直置中 */
+    background-color: rgb(240, 240, 240); /* 設置單元格背景為白色 */
+    border: 1px solid #ccc; /* 為表格單元格添加灰色細邊框 */
+}
+
+#example th:nth-child(2),
+#example td:nth-child(2) {
+    width: 350px; /* 設定商品名稱欄位寬度 */
+}
+
+/* 設定商品名稱欄位文字向左對齊 */
+#example td:nth-child(2) {
+    text-align: left; 		/* 讓商品名稱文字向左對齊 */
+    padding: 10px; 			/* 保持原有的內邊距 */
+    vertical-align: middle; /* 垂直置中 */
+}
+/* 數量輸入欄 */
+input[type="number"] {
+    width: 80px;  				/* 調整寬度 */
+    height: 35px; 				/* 調整高度 */
+    font-size: 16px;  			/* 調整字體大小 */
+    text-align: center;  		/* 讓數字置中 */
+    padding: 5px;  				/* 調整內邊距 */
+    border: 1px solid #ccc;  	/* 边框設定 */
+    border-radius: 5px;  		/* 邊框圓角 */
+    background-color: #fff; 	 /* 背景顏色 */
+}
+/* 總金額顯示區樣式 */
+.total-container {
+    position: relative;	/* 取消固定定位，讓其依照表格的位置顯示 */
+    margin-top: 20px; 	/* 設定與表格的距離 */
+    padding: 20px;
+    background-color: #fff;
+	border: 1px solid #ccc; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* 總金額和按鈕分開，並保持對齊 */
+    font-size: 18px;
+}
+
+/* 總金額文字樣式 */
+.total-container .total-text {
+    font-weight: bold;
+    margin-right: 10px; /* 設定總金額與按鈕間的間距 */
+}
+
+/* 結帳按鈕樣式 */
+.total-container .btn-checkout {
+    background-color: #FF7F00; /* 橘色 */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+/* 結帳按鈕懸停效果 */
+.total-container .btn-checkout:hover {
+    background-color: #ff6600;
 }
 </style>
+
+
 </head>
 <body>
+    <header>
+        <div class="header">
+            <!-- Logo -->
+            <div class="logo">
+                <img src="/shop-detail/images/logo-noback.png" alt="logo" class="logo">
+            </div>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
-	<div align="center">
-		<h2>所有購物車資料 - listAllShoppingCartList.html</h2>
-		<h3><a class="navbar-brand" th:href="@{/shoppingcartlist/select_page}">
-			<img th:src="@{/images/back1.gif}">回查詢頁
-			<label th:text="${success}"></label></a></h3>
-	</div>
-</nav>
+            <!-- 搜尋欄 -->
+            <div class="header_bar">
+                <div class="search">
+                    <input type="text" placeholder="Search..." class="search" action="">
+                    <button class="search_button" name="search"></button>
+                    <img src="/shop-detail/images/magnifying-glass-dollar-solid.svg" alt="Search">
+                </div>
 
-<table id="example" class="display" style="width: 100%">
-  <thead>
-    <tr style="background-color:#CCCCFF">
-      <th>計數</th>
-      <th>購物車編號</th>
-      <th>會員編號</th>
-      <th>商品編號</th>
-      <th>商品照片</th>
-      <th>商品名稱</th>
-      <th>商品單價</th>
-      <th>商品數量</th>
-      <th>訂單總金額</th>
-      <th>修改</th>
-      <th>刪除</th>
-    </tr>
-  </thead>
+                <!-- 導覽列 -->
+                <div class="nav_bar">
+                    <div class="head">
+                        <a href="#home">Home</a> <a href="#about">一般商城</a> <a href="#services">二手商城</a> <a href="#contact">品牌</a> <a href="#class">商品分類</a> <a href="#hot">熱銷商品</a> <a href="#coupongoods">優惠商品</a> <a href="#couponget">優惠券領取</a>
+                    </div>
+                </div>
+            </div>
 
-  <tbody>
-    <th:block th:each="shoppingCartListVO : ${shoppingCartListListData}">
-      <tr>
-        <td th:text="${shoppingCartListVOStat.count}"></td>
-        <td th:text="${shoppingCartListVO.shoppingcartListNo}"></td>
-        <td th:text="${shoppingCartListVO.memNo}"></td>
-        <td th:text="${shoppingCartListVO.goodsNo}"></td>
-		<td>
-			<img th:src="@{/shoppingcartlist/DBGifReader} + '?shoppingcartListNo=' + ${shoppingCartListVO.shoppingcartListNo}" width="100px">
-		</td>
-        <td th:text="${shoppingCartListVO.goodsName}"></td>
-        <td th:text="${shoppingCartListVO.goodsPrice}"></td>
-        <td th:text="${shoppingCartListVO.goodsNum}"></td>
-        <td th:text="${shoppingCartListVO.orderTotalprice}"></td>
-        <td>
-          <form method="post" th:action="@{/shoppingcartlist/getOne_For_Update}" style="margin-bottom: 0px;">
-            <input type="submit" value="修改">
-            <input type="hidden" name="shoppingcartListNo" th:value="${shoppingCartListVO.shoppingcartListNo}">
-          </form>
-        </td>
-        <td>
-          <form method="post" th:action="@{/shoppingcartlist/delete}" style="margin-bottom: 0px;">
-            <input type="submit" value="刪除">
-            <input type="hidden" name="shoppingcartListNo" th:value="${shoppingCartListVO.shoppingcartListNo}">
-          </form>
-        </td>
-      </tr>
-    </th:block>
-  </tbody>
-</table>
+            <!-- 圖示區域 -->
+            <div class="icon_area">
+                <div class="icons">
+                    <a class="icons" href="#"><img src="/shop-detail/images/會員中心.png" alt="User"></a> 
+                    <a class="icons" href="login.html"><img src="/shop-detail/images/log-in.png" alt="Login"></a> 
+                    <a class="icons" href="#"><img src="/shop-detail/images/聊天室(FAQ 客服).png" alt="Chat"></a>
+                    <a class="icons" href="#"><img src="/shop-detail/images/購物車.png" alt="Cart"></a>
+                </div>
+                <div class="coupon_area">
+                    <a class="coupon" href="#"><img src="/shop-detail/images/優惠卷領取頁面圖示.png" alt="coupon"></a>
+                </div>
+            </div>
+        </div>
+    </header>
 
+    <!-- 購物車表格 -->
+    <section class="shoppingcart">
+    	<h2>購物車清單</h2>
+	    <div class="cartlist">
+		    <table id="example" class="display" style="width:100%">
+		        <thead>
+		            <tr style="background-color:#CCCCFF">
+		                <th>圖片</th>
+		                <th>商品名稱</th>
+		                <th>價格</th>
+		                <th>數量</th>
+		                <th>小計</th>
+<!-- 		                <th>修改</th> -->
+		                <th>刪除</th>
+		            </tr>
+		        </thead>
+		
+		        <tbody>
+		            <th:block th:each="shoppingCartListVO : ${shoppingCartListListData}">
+		                <tr>
+		                    <td>
+		                        <img th:src="@{/shoppingcartlist/DBGifReader} + '?shoppingcartListNo=' + ${shoppingCartListVO.shoppingcartListNo}" width="100px">
+		                    </td>
+		                    <td th:text="${shoppingCartListVO.goodsName}"></td>
+		                    <td th:text="${shoppingCartListVO.goodsPrice}"></td>
+                           	<td>
+	                            <form method="post" th:action="@{/shoppingcartlist/updateQuantity}">
+	                                <input type="number" name="goodsNum" th:value="${shoppingCartListVO.goodsNum}" min="1" required>
+	                                <input type="hidden" name="shoppingcartListNo" th:value="${shoppingCartListVO.shoppingcartListNo}">
+	                            </form>
+	                        </td>
+		                    <td th:text="${shoppingCartListVO.orderTotalprice}"></td>
+<!-- 		                    <td> -->
+<!-- 		                        <form method="post" th:action="@{/shoppingcartlist/getOne_For_Update}" style="margin-bottom: 0px;"> -->
+<!-- 		                            <input type="submit" value="修改"> -->
+<!-- 		                            <input type="hidden" name="shoppingcartListNo" th:value="${shoppingCartListVO.shoppingcartListNo}"> -->
+<!-- 		                        </form> -->
+<!-- 		                    </td> -->
+		                    <td>
+		                        <form method="post" th:action="@{/shoppingcartlist/delete}" style="margin-bottom: 0px;">
+		                            <input type="submit" value="刪除">
+		                            <input type="hidden" name="shoppingcartListNo" th:value="${shoppingCartListVO.shoppingcartListNo}">
+		                        </form>
+		                    </td>
+		                </tr>
+		            </th:block>
+		        </tbody>
+		    </table>
+	    </div>
+	   	    <!-- 總金額顯示區 -->
+		    <div class="total-container">
+		        <div class="total-text">
+		            總金額：<span id="totalAmount">0</span> 元
+		        </div>
+		        <button class="btn-checkout" onclick="goToCheckout()">去買單</button>
+		    </div>
+	</section>
+	
+    <footer>
+        <div>© 2024 DO BUY. All Rights Reserved.</div>
+    </footer>
+    
+    <script>
+        // 假設每個小計是存在該欄位的
+        const totals = document.querySelectorAll("td:nth-child(5)");
+        let totalAmount = 0;
+
+        totals.forEach(function(total) {
+            totalAmount += parseFloat(total.innerText.replace('元', '').trim());
+        });
+
+        // 顯示總金額為整數，去掉小數點
+        document.getElementById('totalAmount').innerText = Math.round(totalAmount);
+
+        function goToCheckout() {
+            alert("導向結帳頁面");
+            // 可以跳轉到結帳頁面
+            // window.location.href = '/checkout';
+        }
+    </script>
+    
 </body>
 </html>

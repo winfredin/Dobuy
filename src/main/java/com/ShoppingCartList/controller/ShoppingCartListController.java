@@ -51,7 +51,10 @@ public class ShoppingCartListController {
             @RequestParam("goodsNo") int goodsNo,
             @RequestParam("quantity") int quantity,
             Model model) {
-
+    	
+        // 將二進制數據轉換為 Base64 字符串
+        String base64Image = Base64.getEncoder().encodeToString(gpPhotos1);
+        
         // 計算總價
         int orderTotalPrice = goodsPrice * quantity;
 
@@ -67,9 +70,38 @@ public class ShoppingCartListController {
         // 儲存資料到資料庫
         shoppingCartListSvc.addShoppingCartList(shoppingCartListVO);
 
+        // 傳遞 Base64 編碼後的圖片到 Thymeleaf 頁面
+        model.addAttribute("base64Image", base64Image);
+        
         // 重定向回購物車頁面或顯示成功訊息
         return "redirect:/shoppingcartlist/listAllShoppingCartList";
     }
+ // 更新購物車商品數量
+    @PostMapping("updateQuantity")
+    public String updateQuantity(@RequestParam("shoppingcartListNo") Integer shoppingcartListNo,
+                                  @RequestParam("goodsNum") Integer goodsNum, Model model) {
+        // 根據 shoppingcartListNo 找到對應的購物車商品
+        ShoppingCartListVO shoppingCartListVO = shoppingCartListSvc.getOneShoppingCartList(shoppingcartListNo);
+        
+        // 更新商品數量
+        shoppingCartListVO.setGoodsNum(goodsNum);
+
+        // 計算新的總價
+        int newTotalPrice = shoppingCartListVO.getGoodsPrice() * goodsNum;
+        shoppingCartListVO.setOrderTotalprice(newTotalPrice);
+
+        // 儲存更新後的資料
+        shoppingCartListSvc.updateShoppingCartList(shoppingCartListVO);
+        
+        // 更新後重新取得所有購物車資料
+        List<ShoppingCartListVO> list = shoppingCartListSvc.getAll();
+        model.addAttribute("shoppingCartListListData", list);
+        model.addAttribute("success", "- (數量更新成功)");
+
+        // 返回購物車頁面
+        return "front-end/shoppingcartlist/listAllShoppingCartList";
+    }
+
     
     /*
      * This method will be called on addShoppingCart.html form submission, handling POST request It also validates the user input
