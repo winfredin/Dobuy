@@ -95,7 +95,7 @@
                                         <ul class="dropdown">
                                             <li><a href="#">會員管理</a></li>
                                             <li><a href="#">會員管理訂單管理</a></li>
-                                            <li><a href="#">商品審核</a></li>
+                                            <li><a href="/goods/listAllCheckStatus">商品審核</a></li>
                                         </ul>
                                     </li>
                                     <li><a href="#">櫃位管理</a>
@@ -108,7 +108,7 @@
                                     <li><a href="#">商城系統</a>
                                         <ul class="dropdown">
                                             <li><a href="#">首頁輪播圖管理</a></li>
-                                            <li><a href="#">商品分類管理</a></li>
+                                            <li><a href="http://localhost:8080/goodstype/listAllGoodsType">商品分類管理</a></li>
                                         </ul>
                                     </li>
 
@@ -385,6 +385,40 @@
                 }, 1000); // 與動畫時長相同
             });
         </script>
+        
+		<script>
+		    function submitApproval(goodsNo) {
+		        if (!goodsNo) {
+		            window.location.href = '/goods/listAllCheckStatus';
+		            return;
+		        }
+		
+		        const checkStatus = 1;
+		        fetch('/goods/updateCheckStatus2', {
+		            method: 'POST',
+		            headers: {
+		                'Content-Type': 'application/x-www-form-urlencoded',
+		            },
+		            body: 'goodsNo=' + goodsNo + '&checkStatus=' + checkStatus
+		        })
+		        .then(response => {
+		            if (!response.ok) {
+		                throw new Error('Network response was not ok');
+		            }
+		            return response.text();
+		        })
+		        .then(result => {
+		            alert(result);
+		            // 可能需要重新加載頁面或更新UI
+		            window.location.reload();
+		        })
+		        .catch(error => {
+		            console.error('Error:', error);
+		            alert('審核失敗：' + error.message);
+		        });
+		    }
+		</script>
+        
 </body>
 
 </html>

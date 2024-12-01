@@ -3,6 +3,8 @@ package com.member.controller;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,13 +18,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.member.model.MemberService;
 import com.member.model.MemberVO;
 import com.member.model.MemberVO.RegisterGroup;
+import com.memcoupon.model.MemCouponService;
+import com.memcoupon.model.MemCouponVO;
 
 @Controller
 @RequestMapping("/mem")
 public class MemberCRUDController {
 	@Autowired
 	MemberService memberSvc;
-
+//	winfred
+    @Autowired
+    private MemCouponService memCouponSvc;
+	
+	
 	@GetMapping("/register")
 	public String showRegisterPage(Model model) {
 		model.addAttribute("memberVO", new MemberVO());
@@ -71,4 +79,33 @@ public class MemberCRUDController {
 		memberSvc.addMem(memberVO);
 		return "front-end/member/registerSuccess"; // 重定向到成功页面
 	}
+	
+    // winfred添加新的方法來顯示會員優惠券列表
+    @GetMapping("/listMemCoupons") //1130
+    public String listMemCoupons(HttpSession session, Model model) {
+        // 從 session 獲取會員帳號
+        String memAccount = (String) session.getAttribute("memAccount");
+        if (memAccount == null) {
+            return "redirect:/mem/login";
+        }
+
+        try {
+            // 獲取會員資訊
+            MemberVO member = memberSvc.findByMemAccount(memAccount);
+            if (member == null) {
+                return "redirect:/mem/login";
+            }
+
+            // 獲取該會員的優惠券列表
+            List<MemCouponVO> memCoupons = memCouponSvc.getAllByMemNo(member.getMemNo());
+            model.addAttribute("memCoupons", memCoupons);
+            
+            return "front-end/membercoupon/memListAllCoupon";
+        } catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
+            return "front-end/membercoupon/memListAllCoupon";
+        }
+    }
+	
+	
 }
