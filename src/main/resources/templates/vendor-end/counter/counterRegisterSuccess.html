@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>註冊成功</title>
+    <script>
+        // 当页面加载时触发
+        window.onload = function() {
+            // 显示 alert 提示
+            alert("恭喜櫃位註冊成功！已發信給您的註冊信箱，如未收到信請立即連繫客服！");
+            // 用户点击确定后跳转到目标页面
+            const redirectUrl = document.getElementById("redirectPath").value;
+            
+            window.location.href = redirectUrl; // 替换为你的目标页面路径
+        };
+    </script>
+</head>
+<body>
+     <input type="hidden" id="redirectPath" th:value="@{/home}" />
+</body>
+</html>

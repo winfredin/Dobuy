@@ -42,6 +42,11 @@
 		});
 	});
 </script>
+<style type="text/css">
+    body {
+      margin: 2rem 1rem 2rem 1rem;
+    }
+</style>
 
 </head>
 <body>
@@ -106,5 +111,20 @@
   </tbody>
 </table>
 
+	 <div id="messageHolder" th:if="${message}" th:text="${message}" style="display:none;"></div>
+
 </body>
+<script type="text/javascript">
+
+//提示修改成功
+
+document.addEventListener("DOMContentLoaded", function() {
+    setTimeout(function() {
+        var message = document.getElementById("messageHolder").textContent;
+        if (message) {
+            alert(message);
+        }
+    }, 100); // 延遲100毫秒
+});
+</script>
 </html>
