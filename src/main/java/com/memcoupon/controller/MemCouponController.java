@@ -1,6 +1,7 @@
 package com.memcoupon.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.validation.BindingResult;
@@ -19,15 +20,49 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import com.memcoupon.model.MemCouponVO;
+import com.member.model.MemberService;
+import com.member.model.MemberVO;
 import com.memcoupon.model.MemCouponService;
 
 @Controller
 @RequestMapping("/memcoupon")
 public class MemCouponController {
 
-    @Autowired
-    MemCouponService memCouponSvc;
+	@Autowired
+	MemCouponService memCouponSvc;
 
+	@Autowired
+	MemberService memberSvc;
+
+    
+    
+    
+    @GetMapping("/memListAllCoupon")
+    public String listMemberCoupons(HttpSession session, Model model) {
+        String memAccount = (String) session.getAttribute("memAccount");
+        if (memAccount == null) {
+            return "redirect:/mem/login49";
+        }
+
+        try {
+            MemberVO member = memberSvc.findByMemAccount(memAccount);
+            if (member == null) {
+                return "redirect:/mem/login49";
+            }
+
+            List<MemCouponVO> memCoupons = memCouponSvc.getAllByMemNo(member.getMemNo());
+            model.addAttribute("memCoupons", memCoupons);
+            return "front-end/memcoupon/memListAllCoupon";  
+        } catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
+            return "front-end/memcoupon/memListAllCoupon";
+        }
+    }
+    
+    
+    
+    
+    
     /*
      * This method will serve as addMemCoupon.html handler.
      */
@@ -134,4 +169,7 @@ public class MemCouponController {
         }
         return result;
     }
+    
+    
+    
 }

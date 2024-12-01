@@ -14,12 +14,23 @@
             background-color: #f5f5f5;
             opacity: 0.7;
         }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="header">
         <h2>我的優惠券</h2>
-        
+        <div th:if="${memNo != null}">
+            會員帳號：<span th:text="${memNo}"></span>
+        </div>
+    
+    <div class="container">
         <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
         
         <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
