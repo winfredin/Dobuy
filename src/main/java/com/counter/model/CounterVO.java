@@ -44,7 +44,7 @@ import com.counter.model.CounterVO.UpdateGroup;
 import com.counterType.model.CounterTypeVO;
 
 
-//test test???
+//test test??
 @Entity // 將此類標記為 JPA 的實體類別
 @Table(name = "COUNTER") // 對應資料表名稱
 public class CounterVO implements Serializable {
