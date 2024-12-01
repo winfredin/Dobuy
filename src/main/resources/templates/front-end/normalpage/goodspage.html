@@ -76,11 +76,7 @@
             
         </div>
     </header>
-     
-  
 
-  
-    
     <div class="goods_body"  >
 
         <div class="goods_list" >
@@ -88,10 +84,11 @@
             <p><b>品牌分類</b></p>
             <ul >
             
-                <li th:each="gg : ${glist}">
-                <a th:href="@{/}" th:text="${gg.goodstName}" th:value="${gg.goodstNo}"></a>
-     			
-                </li>
+      <li th:each="gg : ${glist}">
+    <p  th:attr="data-goodstNo=${gg.goodstNo}" onclick="filterGoods(this)" th:text="${gg.goodstName}"></p>
+    
+	</li>
+
                
             </ul>
             
@@ -129,6 +126,38 @@
 
 
     <script>
+    function filterGoods(element) {
+        const goodstNo = element.getAttribute('data-goodstNo');  // 獲取 `data-goodstNo` 屬性
+        console.log('Selected goodstNo:', goodstNo);  // 輸出選中的類別編號，檢查是否正確
+
+        // 發送 AJAX 請求，並將 `goodstNo` 作為參數
+        fetch(`/goods/filter?goodstNo=${goodstNo}`)
+            .then(response => response.json())
+            .then(data => {
+                const goodsContainer = document.getElementById('goodsContainer');
+                goodsContainer.innerHTML = '';  // 清空現有商品
+
+                // 根據返回的資料動態更新商品顯示
+                if (data.length === 0) {
+                    goodsContainer.innerHTML = '<p>沒有找到符合的商品</p>';
+                } else {
+                    data.forEach(goods => {
+                        const goodsElement = document.createElement('div');
+                        goodsElement.className = 'goods';
+                        goodsElement.innerHTML = `
+                            <div class="image-container">
+                                <img src="/goods/DBGifReader?goodsNo=${goods.goodsNo}" alt="goods-image">
+                            </div>
+                            <div class="goods-name">
+                                <label>${goods.goodsName}</label>
+                            </div>`;
+                        goodsContainer.appendChild(goodsElement);
+                    });
+                }
+            })
+            .catch(error => console.error('Error fetching goods:', error));
+    }
+
 
     </script>
 
