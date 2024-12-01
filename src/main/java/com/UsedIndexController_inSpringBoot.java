@@ -35,15 +35,15 @@ public class UsedIndexController_inSpringBoot {
     }
     
   
-    //=========== 以下第57~62行是提供給 /src/main/resources/templates/back-end/emp/select_page.html 與 listAllEmp.html 要使用的資料 ===================   
+    //=========== 以下第57~62行是提供給 /src/main/resources/templates/front-end/emp/select_page.html 與 listAllEmp.html 要使用的資料 ===================   
     @GetMapping("/used/select_page")
 	public String select_page(Model model) {
-		return "back-end/used/select_page";
+		return "front-end/used/select_page";
 	}
     
     @GetMapping("/used/listAllUsed")
 	public String listAllUsed(Model model) {
-		return "back-end/used/listAllUsed";
+		return "front-end/used/listAllUsed";
 	}
     
     @ModelAttribute("usedListData")  // for select_page.html 第97 109行用 // for listAllEmp.html 第117 133行用

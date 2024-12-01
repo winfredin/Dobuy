@@ -51,13 +51,13 @@ public class UsedNoController {
 		
 		if (usedVO == null) {
 			model.addAttribute("errorMessage", "查無資料");
-			return "back-end/used/select_page";
+			return "front-end/used/select_page";
 		}
 
 		/*************************** 3.查詢完成,準備轉交(Send the Success view) **************/
-		List<UsedPicVO> usedPics = usedVO.getUsedPics();
+		
 		model.addAttribute("usedVO", usedVO);
-		return "back-end/used/update_used_input"; // 查詢完成後轉交update_Used_input.html
+		return "front-end/used/update_used_input"; // 查詢完成後轉交update_Used_input.html
 	}
 	
 	@ExceptionHandler(value = { ConstraintViolationException.class })
@@ -68,14 +68,11 @@ public class UsedNoController {
 	    for (ConstraintViolation<?> violation : violations ) {
 	          strBuilder.append(violation.getMessage() + "<br>");
 	    }
-	    //==== 以下第92~96行是當前面第77行返回 /src/main/resources/templates/back-end/emp/select_page.html用的 ====   
-	    String action = (String) model.getAttribute("action");
-	    UsedVO usedVO =(UsedVO) model.getAttribute("usedVO");
-	    model.addAttribute("usedVO",usedVO);	
+	    //==== 以下第92~96行是當前面第77行返回 /src/main/resources/templates/front-end/emp/select_page.html用的 ====   
 	 
 		String message = strBuilder.toString();
         	
-	    return new ModelAndView("back-end/used/select_page", "errorMessage", "請修正以下錯誤:<br>"+message);
+	    return new ModelAndView("front-end/used/select_page", "errorMessage", "請修正以下錯誤:<br>"+message);
         
 	}
 

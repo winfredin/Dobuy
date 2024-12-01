@@ -58,7 +58,7 @@ public class UsedController {
 	public String addUsed(ModelMap model) {
 		UsedVO usedVO = new UsedVO();
 		model.addAttribute("usedVO", usedVO);
-		return "back-end/used/addUsed";
+		return "front-end/used/addUsed";
 	}
 	
 	@PostMapping("/getOneUsed")
@@ -66,7 +66,7 @@ public class UsedController {
 		 
 		UsedVO usedVO = usedSvc.getOneUsed(Integer.valueOf(usedNo));
 		model.addAttribute("usedVO", usedVO);
-		return "back-end/used/listOneUsed";
+		return "front-end/used/listOneUsed";
 	}
 
 	/*
@@ -86,7 +86,7 @@ public class UsedController {
 //	    	System.out.println(result.getFieldErrorCount());
 //	    	System.out.println(result.getFieldError());
 	        model.addAttribute("errorMessage", "請輸入正確的商品資訊，並上傳至少一張照片");
-	        return "back-end/used/addUsed";
+	        return "front-end/used/addUsed";
 	    }
 
 	    // 轉換 MultipartFile 到 UsedPicVO
@@ -105,7 +105,7 @@ public class UsedController {
 //	    System.out.println(usedVO.getUsedPics().isEmpty());
 	    model.addAttribute("usedVO",usedVO);
 	    redirectAttributes.addFlashAttribute("success", "新增成功！");
-	    return "back-end/used/listOneUsed";
+	    return "front-end/used/listOneUsed";
 	}
 
 
@@ -124,7 +124,7 @@ public class UsedController {
 //			System.out.println(result.getFieldError());
 				List<UsedPicVO> usedPics= usedPicSvc.findAllPicsByUsedNo(usedVO.getUsedNo());
 				usedVO.setUsedPics(usedPics);
-				return "back-end/used/update_used_input";
+				return "front-end/used/update_used_input";
 			}
 		List<MultipartFile> validPictures=filterEmptyFiles(parts);
 		
@@ -132,7 +132,7 @@ public class UsedController {
 			//檢查資料庫有無照片 若無就返回 並提示警告
 			if((usedPicSvc.findAllPicsByUsedNo(usedVO.getUsedNo()).size())==0) {
 				model.addAttribute("errorMessage", "商品資料查無照片  請至少上傳一張照片");
-				return "back-end/used/update_used_input";
+				return "front-end/used/update_used_input";
 			}
 //			else {
 //			//檢查資料庫照片 若有就提取舊照片
@@ -166,7 +166,7 @@ public class UsedController {
 		/*************************** 3.修改完成,準備轉交(Send the Success view) **************/
 		model.addAttribute("success", "- (修改成功)");
 		model.addAttribute("usedVO", newUsedVO);
-		return "back-end/used/listOneUsed"; // 修改成功後轉交listOneUsed.html
+		return "front-end/used/listOneUsed"; // 修改成功後轉交listOneUsed.html
 	}
 
 	/*
@@ -182,7 +182,7 @@ public class UsedController {
 		List<UsedVO> list = usedSvc.getAll();
 		model.addAttribute("usedListData", list);
 		model.addAttribute("success", "- (刪除成功)");
-		return "back-end/used/listAllUsed"; // 刪除完成後轉交listAllUsed.html
+		return "front-end/used/listAllUsed"; // 刪除完成後轉交listAllUsed.html
 	}
 
 	/*
