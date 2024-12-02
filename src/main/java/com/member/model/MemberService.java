@@ -26,6 +26,10 @@ public class MemberService {
 		return memberRepository.findByMemAccountAndMemPassword (memAccount, memPassword).isPresent();
 	}
 	
+	public String getMemNoByAccount(String memAccount) {
+		return memberRepository.getMemNoByAccount(memAccount);
+	}
+	
 	
     // winfred
     public Optional<MemberVO> findById(Integer memNo) { //1130

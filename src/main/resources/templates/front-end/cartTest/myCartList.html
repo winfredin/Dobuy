@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>我的購物車</title>
+<script>
+    // 更新購物車數量
+    function updateCart(button, delta) {
+    	
+    	
+    	const goodsNo = button.getAttribute('data-id');
+    	const goodsPrice = button.getAttribute('data-price');
+    	
+        fetch('/demo/cart/update', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 
+            	goodsNo: goodsNo,
+            	goodsPrice : goodsPrice,
+            	delta: delta })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+            	if(data.newQuantity === 0){
+            		document.getElementById(`item-${goodsNo}`).remove();
+            		alert("商品已移除"); 
+            	}else{
+            		document.getElementById(goodsNo).innerText = data.newQuantity;
+            		document.getElementById(`total-${goodsNo}`).innerText = data.newTotal;
+            	}
+            } else{
+            	alert("更新失敗！");
+            }
+        });
+    }
+
+    // 刪除商品
+    function removeFromCart(button) {
+    	
+    	const goodsNo = button.getAttribute('data-id');
+    	
+        fetch(`/demo/cart/remove`, {
+        	method: 'POST',
+        	headers: {
+                'Content-Type': 'application/json'
+        	},
+            body: JSON.stringify({ 
+                goodsNo: goodsNo,
+                })
+        })
+        .then(response => response.json())
+        .then(data => {
+        	if (data.success) {
+                document.getElementById(`item-${goodsNo}`).remove();
+                alert("商品已移除"); 
+            } else {
+                alert("刪除失敗！");
+            }
+      });
+   }
+</script>
+</head>
+<body>
+    <h2>我的購物車</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>商品ID</th>
+                <th>商品名稱</th>
+                <th>商品價格</th>
+                <th>數量</th>
+                <th>總共價錢</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="entry  : ${cart}" th:id="'item-' + ${entry.key}">
+                <!-- 商品 ID -->
+			    <td th:text="${entry.key}">商品 ID</td>
+			
+			    <!-- 商品名称 -->
+			    <td th:text="${entry.value.goodsName}">商品名稱</td>
+			
+			    <!-- 商品价格 -->
+			    <td th:text="${entry.value.goodsPrice}">商品價格</td>
+			
+			    <!-- 数量 -->
+			    <td th:id="${entry.key}" th:text="${entry.value.quantity}">數量</td>
+    			
+    			 <!-- 商品總價 -->
+			    <td th:id="'total-' + ${entry.key}" th:text="${entry.value.total}">商品總價</td>
+			    
+                <td>
+                    <button onclick="updateCart(this, 1)" 
+                    th:attr="data-id=${entry.key},
+                    data-price=${entry.value.goodsPrice}"
+                    >+</button>
+                    <button onclick="updateCart(this, -1)" 
+                    th:attr="data-id=${entry.key},
+                    data-price=${entry.value.goodsPrice}">-</button>
+                    <button onclick="removeFromCart(this)" 
+                    th:attr="data-id=${entry.key}">刪除</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
