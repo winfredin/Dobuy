@@ -1,0 +1,15 @@
+.container {
+  max-width: 960px;
+}
+/* 左側購物車頁版面設置 */
+.col-md-7.col-lg-8 {
+  padding: 30px 15px;
+  background-color: #fff9f6f7; /* 設置容器背景色為淺灰白色 */
+}
+/*  右側顯示購物車內容  */
+.col-md-5.order-md-last, .col-lg-4.order-md-last {
+  padding: 30px 15px;
+  background-color: #fff9f6f7; /* 設置右側區塊背景色為淺灰白色 */
+}
+
+
