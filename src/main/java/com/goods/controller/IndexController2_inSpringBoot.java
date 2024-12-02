@@ -1,5 +1,6 @@
 package com.goods.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.counter.model.CounterService;
 import com.counter.model.CounterVO;
 import com.goods.model.GoodsService;
 import com.goods.model.GoodsVO;
@@ -26,6 +28,8 @@ public class IndexController2_inSpringBoot {
 	// 目前自動裝配了EmpService --> 供第66使用
 	@Autowired
 	GoodsService goodsSvc;
+	@Autowired
+	CounterService counterSvc;
 
 	// inject(注入資料) via application.properties
 	@Value("${welcome.message}")
@@ -72,15 +76,14 @@ public class IndexController2_inSpringBoot {
 	
 	@GetMapping("/goods/listAllCounterGoods")
 	public String listAllCounterGoods(HttpSession session ,Model model) {
-		//Counter登錄
-    	CounterVO counter = (CounterVO) session.getAttribute("counter"); // 在這裡從 Session 中獲取櫃位信息 
-        if (counter != null) {
-            model.addAttribute("counter", counter);
-        }else {
-        	// 處理未登入的情況
-            return "redirect:/counter/login";
-        }
-		return "vendor-end/goods/listAllCounterGoods";
+		//登錄時檢查counter
+		 CounterVO counter = (CounterVO) session.getAttribute("counter");
+	        if (counter != null) {
+	        	 model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
+	        	return "vendor-end/goods/listAllCounterGoods";
+	        } else {
+	            return "redirect:/counter/login";
+	        }	
 	}
 
 	@ModelAttribute("goodsListData") // for select_page.html 第97 109行用 // for listAllEmp.html 第85行用
@@ -90,11 +93,17 @@ public class IndexController2_inSpringBoot {
 	}
 	
 	//任國測試櫃位管理商品
-	@ModelAttribute("CountergoodsListData") // // for listAllCountergoodsEmp.html 
-	protected List<GoodsVO> CounterreferenceListData(HttpSession session ,Model model) {
-		CounterVO counter = (CounterVO) session.getAttribute("counter");
-		List<GoodsVO> list = goodsSvc.getOneCounter35(counter.getCounterNo());
-		return list;
+	@ModelAttribute("CountergoodsListData") 
+	protected List<GoodsVO> CounterreferenceListData(HttpSession session, Model model) {
+	    CounterVO counter = (CounterVO) session.getAttribute("counter");
+	    if (counter != null) {
+	        List<GoodsVO> list = goodsSvc.getOneCounter35(counter.getCounterNo());
+	        return list;
+	    } else {
+	        // 如果counter為null，返回一個空列表或處理錯誤
+	        model.addAttribute("error", "未登錄或Session信息遺失");
+	        return new ArrayList<>(); // 或者其他適當的錯誤處理
+	    }
 	}
 
 }
