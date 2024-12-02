@@ -86,7 +86,7 @@ input[type="number"] {
     margin-top: 20px; 	/* 設定與表格的距離 */
     padding: 20px;
     background-color: #fff;
-	border: 1px solid #ccc; 
+border: 1px solid #ccc; 
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
@@ -114,6 +114,8 @@ input[type="number"] {
 .total-container .btn-checkout:hover {
     background-color: #ff6600;
 }
+
+
 </style>
 
 
@@ -177,9 +179,9 @@ input[type="number"] {
 		        <tbody>
 		            <th:block th:each="shoppingCartListVO : ${shoppingCartListListData}">
 		                <tr>
-		                    <td>
-		                        <img th:src="@{/shoppingcartlist/DBGifReader} + '?shoppingcartListNo=' + ${shoppingCartListVO.shoppingcartListNo}" width="100px">
-		                    </td>
+	                  		<td>
+							    <img th:src="@{'http://localhost:8080/goods/DBGifReader?goodsNo=' + ${shoppingCartListVO.goodsNo}}" width="100px" height="100px" style="object-fit: contain;">
+							</td>
 		                    <td th:text="${shoppingCartListVO.goodsName}"></td>
 		                    <td th:text="${shoppingCartListVO.goodsPrice}"></td>
                            	<td>
