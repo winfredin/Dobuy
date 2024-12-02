@@ -64,6 +64,12 @@ public class IndexController_inSpringBoot_ShoppingCartList {
     public String listAllShoppingCart(Model model) {
         return "front-end/shoppingcartlist/listAllShoppingCartList"; // 返回顯示所有購物車的頁面
     }
+    
+    // 購物車結帳畫面
+    @GetMapping("/shoppingcartlist/ShoppingCartListCheckout")
+    public String ShoppingCartListCheckout(Model model) {
+    	return "front-end/shoppingcartlist/ShoppingCartListCheckout"; 
+    }
 
     // 為select_page.html提供購物車資料
     @ModelAttribute("shoppingCartListListData")

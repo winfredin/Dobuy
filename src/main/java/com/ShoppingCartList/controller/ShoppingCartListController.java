@@ -1,12 +1,17 @@
 package com.ShoppingCartList.controller;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -22,9 +27,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ShoppingCartList.model.ShoppingCartListService;
 import com.ShoppingCartList.model.ShoppingCartListVO;
-import com.goods.model.GoodsService;
-import com.goods.model.GoodsVO;
-import com.goodstype.model.GoodsTypeVO;
 
 @Controller
 @RequestMapping("/shoppingcartlist")
@@ -42,22 +44,19 @@ public class ShoppingCartListController {
         model.addAttribute("shoppingCartListVO", shoppingCartListVO);
         return "front-end/shoppingcartlist/addShoppingCartList";
     }
-    // 購物車處理
+    // 購物車
     @PostMapping("/add-to-cart")
-    public String addToCart(
-    		@RequestParam("gpPhotos1") byte[] gpPhotos1,
-    		@RequestParam("goodsName") String goodsName,
+    public ResponseEntity<Map<String, Object>> addToCart(
+            @RequestParam("goodsName") String goodsName,
             @RequestParam("goodsPrice") int goodsPrice,
             @RequestParam("goodsNo") int goodsNo,
-            @RequestParam("quantity") int quantity,
-            Model model) {
-
+            @RequestParam("quantity") int quantity) {
+        
         // 計算總價
         int orderTotalPrice = goodsPrice * quantity;
 
         // 創建 ShoppingCartListVO 物件
         ShoppingCartListVO shoppingCartListVO = new ShoppingCartListVO();
-        shoppingCartListVO.setGpPhotos1(gpPhotos1);
         shoppingCartListVO.setGoodsNo(goodsNo);
         shoppingCartListVO.setGoodsName(goodsName);
         shoppingCartListVO.setGoodsPrice(goodsPrice);
@@ -67,9 +66,42 @@ public class ShoppingCartListController {
         // 儲存資料到資料庫
         shoppingCartListSvc.addShoppingCartList(shoppingCartListVO);
 
-        // 重定向回購物車頁面或顯示成功訊息
-        return "redirect:/shoppingcartlist/listAllShoppingCartList";
+        // 取得購物車內的商品數量
+        int cartCount = shoppingCartListSvc.getAll().size();
+
+        // 建立回傳資料
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", true);
+        response.put("cartCount", cartCount);
+
+        return ResponseEntity.ok(response);
     }
+ // 更新購物車商品數量
+    @PostMapping("updateQuantity")
+    public String updateQuantity(@RequestParam("shoppingcartListNo") Integer shoppingcartListNo,
+                                  @RequestParam("goodsNum") Integer goodsNum, Model model) {
+        // 根據 shoppingcartListNo 找到對應的購物車商品
+        ShoppingCartListVO shoppingCartListVO = shoppingCartListSvc.getOneShoppingCartList(shoppingcartListNo);
+        
+        // 更新商品數量
+        shoppingCartListVO.setGoodsNum(goodsNum);
+
+        // 計算新的總價
+        int newTotalPrice = shoppingCartListVO.getGoodsPrice() * goodsNum;
+        shoppingCartListVO.setOrderTotalprice(newTotalPrice);
+
+        // 儲存更新後的資料
+        shoppingCartListSvc.updateShoppingCartList(shoppingCartListVO);
+        
+        // 更新後重新取得所有購物車資料
+        List<ShoppingCartListVO> list = shoppingCartListSvc.getAll();
+        model.addAttribute("shoppingCartListListData", list);
+        model.addAttribute("success", "- (數量更新成功)");
+
+        // 返回購物車頁面
+        return "front-end/shoppingcartlist/listAllShoppingCartList";
+    }
+
     
     /*
      * This method will be called on addShoppingCart.html form submission, handling POST request It also validates the user input

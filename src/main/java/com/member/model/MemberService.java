@@ -36,9 +36,9 @@ public class MemberService {
         return memberRepository.findById(memNo);
     }
     // winfred
-	public MemberVO findByMemAccount(String memAccount) { //1130
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public MemberVO findByMemAccount(String memAccount) {
+        Optional<MemberVO> optionalMember = memberRepository.findByMemAccount(memAccount);
+        return optionalMember.orElse(null);
+    }
 
 }

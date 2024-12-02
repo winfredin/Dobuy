@@ -69,26 +69,26 @@ public class FrontCouponController {
         // 檢查是否登入
         String memAccount = (String) session.getAttribute("memAccount");
         if (memAccount == null) {
-            // 保存原始請求的URL
-            session.setAttribute("originalRequest", 
-                request.getRequestURI() + "?couponNo=" + couponNo);
-            return "redirect:/mem/login";  // 使用現有的登入頁面路徑
+            // 修改這裡：確保路徑格式正確
+            String originalRequest = "/claim?couponNo=" + couponNo;
+            System.out.println("Saving original request: " + originalRequest); // 添加日誌
+            session.setAttribute("originalRequest", originalRequest);
+            return "redirect:/mem/login49";
         }
-
         try {
             // 使用會員帳號獲取會員編號
             MemberVO member = memberService.findByMemAccount(memAccount);
             if (member == null) {
                 redirectAttributes.addFlashAttribute("error", "會員資料不存在");
-                return "redirect:/mem/login";
+                return "redirect:/mem/login49";
             }
 
             memCouponService.claimCoupon(member.getMemNo(), couponNo);
             redirectAttributes.addFlashAttribute("message", "領取成功！");
-            return "redirect:/front-end/coupon/member/list";
+            return "redirect:/memcoupon/memListAllCoupon"; 
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
-            return "redirect:/mem/listMemCoupons";  
+            return "redirect:/memcoupon/memListAllCoupon"; 
         }
     }
     
@@ -97,7 +97,7 @@ public class FrontCouponController {
     public String listMemberCoupons(HttpSession session, Model model) {
         Integer memberNo = (Integer) session.getAttribute("memberNo");
         if (memberNo == null) {
-            return "redirect:/login";  // 或其他登入頁面路徑
+            return "redirect:/mem/login49";  // 或其他登入頁面路徑
         }
         
         List<MemCouponVO> memberCoupons = memCouponService.getAllByMemNo(memberNo);
