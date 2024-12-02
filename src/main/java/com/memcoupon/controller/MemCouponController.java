@@ -52,6 +52,8 @@ public class MemCouponController {
 
             List<MemCouponVO> memCoupons = memCouponSvc.getAllByMemNo(member.getMemNo());
             model.addAttribute("memCoupons", memCoupons);
+            model.addAttribute("memAccount", memAccount);  
+
             return "front-end/memcoupon/memListAllCoupon";  
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
@@ -59,10 +61,7 @@ public class MemCouponController {
         }
     }
     
-    
-    
-    
-    
+        
     /*
      * This method will serve as addMemCoupon.html handler.
      */
