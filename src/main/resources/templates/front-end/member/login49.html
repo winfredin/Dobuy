@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>會員登入</title>
+    <!-- 修正 CSS 路徑 -->
+    <link rel="stylesheet" th:href="@{/member/css/login.css}">
+</head>
+<body>
+    <!-- Logo 路徑修正 -->
+    <img th:src="@{/front-end/member/img/logo-noback.png}" alt="Logo" class="logo">
+
+    <div class="container">
+        <h3 class="title">會員登入</h3>
+
+        <!-- 錯誤訊息區域 -->
+        <div th:if="${errorMsgs}" class="error-container">
+            <div th:each="errorMsg : ${errorMsgs}" class="error">
+                <span th:text="${errorMsg}"></span>
+            </div>
+        </div>
+
+        <!-- 表單 -->
+        <form th:action="@{/mem/loginCheck49}" method="post" th:object="${memberVO}">
+            <div class="form-group">
+                <label for="memAccount">會員帳號:</label>
+                <input type="text" id="memAccount" th:field="*{memAccount}" />
+                <span th:if="${#fields.hasErrors('memAccount')}" th:errors="*{memAccount}" class="error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="memPassword">會員密碼:</label>
+                <input type="password" id="memPassword" th:field="*{memPassword}" />
+                <span th:if="${#fields.hasErrors('memPassword')}" th:errors="*{memPassword}" class="error"></span>
+            </div>
+
+            <button type="submit">登入</button>
+        </form>
+
+        <div class="links">
+            <a th:href="@{/mem/register}">註冊</a>
+            <a th:href="@{/mem/reset-password}">忘記密碼</a>
+        </div>
+    </div>
+    
+    <!-- 添加一些 JavaScript 來追蹤表單提交 -->
+    <script>
+        document.querySelector('form').addEventListener('submit', function(e) {
+            console.log('Form submitted');
+            // 不阻止表單提交，只是記錄
+        });
+    </script>
+</body>
+</html>

@@ -26,6 +26,7 @@ import com.memcoupon.model.MemCouponVO;
 public class MemberCRUDController {
 	@Autowired
 	MemberService memberSvc;
+	
 //	winfred
     @Autowired
     private MemCouponService memCouponSvc;
@@ -79,33 +80,34 @@ public class MemberCRUDController {
 		memberSvc.addMem(memberVO);
 		return "front-end/member/registerSuccess"; // 重定向到成功页面
 	}
-	
-    // winfred添加新的方法來顯示會員優惠券列表
+//	winfred===================================================================================以下	
+    // 新的方法顯示會員優惠券列表
     @GetMapping("/listMemCoupons") //1130
     public String listMemCoupons(HttpSession session, Model model) {
         // 從 session 獲取會員帳號
         String memAccount = (String) session.getAttribute("memAccount");
         if (memAccount == null) {
-            return "redirect:/mem/login";
+            return "redirect:/mem/login49";
         }
 
         try {
             // 獲取會員資訊
             MemberVO member = memberSvc.findByMemAccount(memAccount);
             if (member == null) {
-                return "redirect:/mem/login";
+                return "redirect:/memb/login49";
             }
 
             // 獲取該會員的優惠券列表
             List<MemCouponVO> memCoupons = memCouponSvc.getAllByMemNo(member.getMemNo());
             model.addAttribute("memCoupons", memCoupons);
             
-            return "front-end/membercoupon/memListAllCoupon";
+            return "front-end/memcoupon/memListAllCoupon";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
-            return "front-end/membercoupon/memListAllCoupon";
+            return "front-end/memcoupon/memListAllCoupon";
         }
     }
-	
+//	winfred===================================================================================以上
+
 	
 }

@@ -224,23 +224,5 @@ public class CouponController {
         }
         return "redirect:/couponcheck"; // 審核完成後重定向到優惠券列表頁
     }    
-//    靜態資源無法載入
-//    @PostMapping("/approve")
-//    public String approveCoupon(@RequestParam("couponNo") int couponNo, Model model) {
-//        boolean isApproved = couponSvc.approveCoupon(couponNo);
-//        if (isApproved) {
-//            model.addAttribute("message", "審核成功！");
-//        } else {
-//            model.addAttribute("message", "審核失敗！");
-//        }
-//        // 直接返回對應的頁面名稱
-//        return "back-end/coupon/couponcheck"; // 假設這是優惠券審核結果頁面
-//    }
-    
 
-
-    
-    
-    
-    
 }
