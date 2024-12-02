@@ -37,10 +37,10 @@
                         <div class="breaking-news-area">
                             <div id="breakingNewsTicker" class="ticker">
                                 <ul>
-                                    <li><a href="#">Hello Staff!</a></li>
-                                    <li><a href="#">Hello Universe!</a></li>
-                                    <li><a href="#">Hello Earth!</a></li>
-                                    <li><a href="#">Hello DoBuy!</a></li>
+                                    <li><a th:href="@{back-end-homepage}">Hello Staff!</a></li>
+                                    <li><a th:href="@{back-end-homepage}">Hello Universe!</a></li>
+                                    <li><a th:href="@{back-end-homepage}">Hello Earth!</a></li>
+                                    <li><a th:href="@{back-end-homepage}">Hello DoBuy!</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -87,7 +87,7 @@
                                         <ul class="dropdown">
                                             <li><a href="#">會員管理</a></li>
                                             <li><a href="#">會員管理訂單管理</a></li>
-                                            <li><a href="#">商品審核</a></li>
+                                            <li><a href="/goods/listAllCheckStatus">商品審核</a></li>
                                         </ul>
                                     </li>
                                     <li><a href="#">櫃位管理</a>
@@ -100,7 +100,7 @@
                                     <li><a href="#">商城系統</a>
                                         <ul class="dropdown">
                                             <li><a href="#">首頁輪播圖管理</a></li>
-                                            <li><a href="#">商品分類管理</a></li>
+                                            <li><a href="http://localhost:8080/goodstype/listAllGoodsType">商品分類管理</a></li>
                                         </ul>
                                     </li>
 
