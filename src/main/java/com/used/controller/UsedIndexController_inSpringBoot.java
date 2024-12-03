@@ -1,4 +1,4 @@
-package com;
+package com.used.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
