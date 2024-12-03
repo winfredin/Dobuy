@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,14 +45,26 @@ public class ShoppingCartListController {
         model.addAttribute("shoppingCartListVO", shoppingCartListVO);
         return "front-end/shoppingcartlist/addShoppingCartList";
     }
+    
     // 購物車
     @PostMapping("/add-to-cart")
     public ResponseEntity<Map<String, Object>> addToCart(
             @RequestParam("goodsName") String goodsName,
             @RequestParam("goodsPrice") int goodsPrice,
             @RequestParam("goodsNo") int goodsNo,
-            @RequestParam("quantity") int quantity) {
-        
+            @RequestParam("quantity") int quantity,
+            HttpServletRequest req)  {
+        // 檢查使用者是否已登入
+        HttpSession session = req.getSession();
+        Object memAccount = session.getAttribute("memAccount");
+
+        // 如果使用者未登入
+        if (memAccount == null) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", false);
+            response.put("message", "請先登入才能加入購物車！");
+            return ResponseEntity.ok(response);
+        }
         // 計算總價
         int orderTotalPrice = goodsPrice * quantity;
 
@@ -79,8 +92,19 @@ public class ShoppingCartListController {
  // 更新購物車商品數量
     @PostMapping("updateQuantity")
     public String updateQuantity(@RequestParam("shoppingcartListNo") Integer shoppingcartListNo,
-                                  @RequestParam("goodsNum") Integer goodsNum, Model model) {
-        // 根據 shoppingcartListNo 找到對應的購物車商品
+                                  @RequestParam("goodsNum") Integer goodsNum, Model model,
+                                  HttpServletRequest req) {  // 加入 HttpServletRequest 參數
+
+        // 檢查使用者是否已登入
+        HttpSession session = req.getSession();
+        Object memAccount = session.getAttribute("memAccount");
+
+        if (memAccount == null) {
+            model.addAttribute("errorMessage", "請先登入才能更新購物車數量！");
+            return "front-end/shoppingcartlist/listAllShoppingCartList";  // 返回購物車頁面
+        }
+    	
+    	// 根據 shoppingcartListNo 找到對應的購物車商品
         ShoppingCartListVO shoppingCartListVO = shoppingCartListSvc.getOneShoppingCartList(shoppingcartListNo);
         
         // 更新商品數量
