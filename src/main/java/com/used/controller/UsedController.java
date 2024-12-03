@@ -71,15 +71,15 @@ public class UsedController {
 	@PostMapping("/getSellerUsedListFragment")
     public String getUsedListFragment(HttpSession session, Model model) {
         // 從 session 中取得 memNo
-//        Integer memNo = (Integer) session.getAttribute("memNo");
-//
-//        if (memNo == null) {
-//            // 如果沒有 memNo，處理錯誤情況，這裡可以返回空片段或錯誤信息
-//            return "fragments/usedListFragment :: usedListFragment";
-//        }
+        Integer memNo = (Integer) session.getAttribute("memNo");
+
+        if (memNo == null) {
+            // 如果沒有 memNo，處理錯誤情況，這裡可以返回空片段或錯誤信息
+            return "fragments/usedListFragment :: usedListFragment";
+        }
 
         // 根據 memNo 從資料庫中查詢二手商品列表
-        List<UsedVO> usedListData = usedSvc.memberSelectBySellerNo(211);//測試使用211
+        List<UsedVO> usedListData = usedSvc.memberSelectBySellerNo(memNo);//測試使用211
 
         // 將數據放到模型中
         model.addAttribute("usedListData", usedListData);
