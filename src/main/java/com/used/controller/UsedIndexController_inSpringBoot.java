@@ -1,4 +1,4 @@
-package com;
+package com.used.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,6 +39,10 @@ public class UsedIndexController_inSpringBoot {
     @GetMapping("/used/select_page")
 	public String select_page(Model model) {
 		return "front-end/used/select_page";
+	}
+    @GetMapping("/used/member")
+	public String member(Model model) {
+		return "front-end/used/member";
 	}
     
     @GetMapping("/used/listAllUsed")
