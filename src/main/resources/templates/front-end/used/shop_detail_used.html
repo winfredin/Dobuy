@@ -100,17 +100,15 @@
                     <td class="Goods_Price_0">商品價格</td>
                     <td class="Goods_Price_1" th:text="${usedVO.usedPrice}"></td>
                 </tr>
-                
-                
+
                 <tr class="Goods_Class">
 				    <td class="Goods_Class_0">商品類別 : </td>
 				    <td class="Goods_Class_1">
 				        <span th:each="type : ${goodsTypeList}" 
 				              th:if="${type.goodstNo} == ${usedVO.classNo}" 
-				              th:text="${type.goodstName}">商品名稱</span>
+				              th:text="${type.goodstName}"></span>
 				    </td> 
 				</tr>
-                
                 
                 <tr class="Coupon_Title">
                     <td class="Coupon_Title_0">賣場優惠券</td>
@@ -127,6 +125,7 @@
                 <tr>
                     <form id="add-to-cart-form" class="buy_form" action="/shoppingcartlist/add-to-cart" method="POST">
                         <td class="label_item">數量</td>
+
                         <td><input class="buy_count" value="1" min="1" max ="${usedVO.usedStocks}" type="number" name="quantity"></td>
                         <input type="hidden" name="usedName" th:value="${usedVO.usedName}" />
                         <input type="hidden" name="usedPrice" th:value="${usedVO.usedPrice}" />
