@@ -1,15 +1,19 @@
 package com.used.controller;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
+
+import com.goodstype.model.GoodsTypeService;
+import com.goodstype.model.GoodsTypeVO;
 import com.used.model.UsedService;
 import com.used.model.UsedVO;
-import java.util.*;
 
 
 
@@ -21,6 +25,8 @@ public class UsedIndexController_inSpringBoot {
 	// 目前自動裝配了EmpService --> 供第60使用
 	@Autowired
 	UsedService usedSvc;
+	@Autowired
+	GoodsTypeService goodsTypeService;
 	
     // inject(注入資料) via application.properties
     @Value("${welcome.message}")
@@ -44,17 +50,29 @@ public class UsedIndexController_inSpringBoot {
 	public String member(Model model) {
 		return "front-end/used/member";
 	}
+    @GetMapping("/used/manager")
+	public String manager(Model model) {
+		return "front-end/used/managertest";
+	}
     
     @GetMapping("/used/listAllUsed")
 	public String listAllUsed(Model model) {
+    	
 		return "front-end/used/listAllUsed";
 	}
     
     @ModelAttribute("usedListData")  // for select_page.html 第97 109行用 // for listAllEmp.html 第117 133行用
 	protected List<UsedVO> referenceListData(Model model) {
-		
     	List<UsedVO> list = usedSvc.getAll();
+    	
+    	List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();
+    	model.addAttribute("goodsTypeList",goodsTypeList);
+    	
 		return list;
 	}
+    
+    	
+    	
+	
 
 }

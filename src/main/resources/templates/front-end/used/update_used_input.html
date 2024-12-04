@@ -37,9 +37,17 @@
 		    <input type="hidden" th:field="*{sellerNo}" />
 		    
 		    <label for="classNo">商品類別：</label>
-		    <input type="text" id="classNo" th:field="*{classNo}"  maxlength="10" required/>
-		    <span  th:if="${#fields.hasErrors('classNo')}" th:errors="*{classNo}" class="error" id="classNo.errors"></span>
-		    <br>
+			<select id="classNo" th:field="*{classNo}" required>
+			    <option value="" disabled selected>請選擇商品類別</option>
+			    <option th:each="goodsType : ${goodsTypeList}" 
+			            th:value="${goodsType.goodstNo}" 
+			            th:text="${goodsType.goodstName}" 
+			            th:selected="${goodsType.goodstNo == usedVO.classNo}">
+			    </option>
+			</select>
+			<span th:if="${#fields.hasErrors('classNo')}" th:errors="*{classNo}" class="error" id="classNo.errors"></span>
+			<br>
+
 		
 		    <label for="usedName">商品名稱：</label>
 		    <input type="text" id="usedName" th:field="*{usedName}"  maxlength="60" required />
@@ -75,7 +83,7 @@
 			<select id="usedState" th:field="*{usedState}">
 			    <option value="0" th:selected="${usedState == 0}">未上架</option>
 			    <option value="1" th:selected="${usedState == 1}">上架</option>
-<!-- 		        <option value="2">預設刪除</option> -->
+		        <option value="2" th:selected="${usedState == 2}">刪除</option>
 		    </select>
 		    <br />
 		    

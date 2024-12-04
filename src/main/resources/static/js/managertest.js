@@ -242,7 +242,7 @@ $(document).ready(function() {
     $('#a1').click(function() {
         // 使用AJAX从后端以POST方式获取数据
         $.ajax({
-            url: '/used/getSellerUsedListFragment', // 服务器端 API，返回 Thymeleaf 片段
+            url: '/used/getAllSellerUsedListFragment', // 服务器端 API，返回 Thymeleaf 片段
             type: 'POST',
             success: function(response) {
                 console.log("Fragment HTML:", response); // 打印返回的 HTML，便于调试

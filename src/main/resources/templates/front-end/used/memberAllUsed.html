@@ -53,7 +53,13 @@
                     <tr>
                         <td class="col-usedNo" th:text="${usedVO.usedNo}"></td>
                         <td class="col-usedName" th:text="${usedVO.usedName}"></td>
-                        <td class="col-classNo" th:text="${usedVO.classNo}"></td>
+                        <td class="col-classNo">
+						    <span th:each="goodsType : ${goodsTypeList}" 
+						          th:if="${goodsType.goodstNo == usedVO.classNo}" 
+						          th:text="${goodsType.goodstName}">
+						    </span>
+						</td>
+                        
                         <td class="col-usedPrice" th:text="${usedVO.usedPrice}"></td>
                         <td class="col-usedStocks" th:text="${usedVO.usedStocks}"></td>
                         <td class="col-usedPics" th:if="${usedVO.usedPics == null or usedVO.usedPics.isEmpty()}">
@@ -86,7 +92,7 @@
                             </form>
                         </td>
                         <td class="col-delete">
-                            <form method="post" th:action="@{/used/memberdelete}" style="margin-bottom: 0px;">
+                            <form method="post" th:action="@{/used/memberdelete}" id="a1-delete" style="margin-bottom: 0px;">
                                 <input type="submit" value="刪除">
                                 <input type="hidden" name="usedNo" th:value="${usedVO.usedNo}">
                             </form>

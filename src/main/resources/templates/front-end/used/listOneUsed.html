@@ -41,14 +41,14 @@
 		<th:block th:object="${usedVO}">
 		
 			 <tr>
-	            <th style="padding: 10px;">二手商品編號</th>
+	            <th style="padding: 10px;">商品編號</th>
 	            <th style="padding: 20px;">賣家編號</th>
-	            <th style="padding: 20px;">二手商品名稱</th>
-	            <th style="padding: 20px;">商品類別編號</th>
+	            <th style="padding: 20px;">商品名稱</th>
+	            <th style="padding: 20px;">商品類別</th>
 	            <th style="padding: 20px;">價格</th>
 	            <th style="padding: 20px;">庫存量</th>
 	            <th style="padding: 20px;">照片</th>
-	            <th style="padding: 50px;">二手商品描述</th>
+	            <th style="padding: 50px;">商品描述</th>
 	            <th style="padding: 20px;">上架時間</th>
 	            <th style="padding: 20px;">下架時間</th>
 	            <th style="padding: 20px;">商品狀態</th>
@@ -62,7 +62,13 @@
 				<td th:text="*{usedNo}"></td>
 				<td th:text="*{sellerNo}"></td>
 				<td th:text="*{usedName}"></td>
-				<td th:text="*{classNo}"></td>
+				<td class="col-classNo">
+						    <span th:each="goodsType : ${goodsTypeList}" 
+						          th:if="${goodsType.goodstNo == usedVO.classNo}" 
+						          th:text="${goodsType.goodstName}">
+						    </span>
+						   
+				</td>
 				<td th:text="*{usedPrice}"></td>
 				<td th:text="*{usedStocks}"></td>
 				
@@ -77,7 +83,11 @@
 				<td th:text="*{usedProDesc}"></td>
 				<td th:text="${#dates.format(usedVO.usedLaunchedTime, 'yyyy-MM-dd')}"></td>
 				<td th:text="${#dates.format(usedVO.soldTime, 'yyyy-MM-dd')}"></td>
-				<td th:text="*{usedState}"></td>
+				<td class="col-usedState" th:switch="*{usedState}">
+                            <span th:case="0">未上架</span>
+                            <span th:case="1">上架</span>
+                            <span th:case="2">已刪除</span>
+                </td>
 				
 				
 			<td>
