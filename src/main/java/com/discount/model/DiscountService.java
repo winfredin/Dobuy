@@ -11,7 +11,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.discount.controller.HibernateUtil_CompositeQuery_Discount;
+//import com.discount.controller.HibernateUtil_CompositeQuery_Discount;
 
 @Service("discountService")
 public class DiscountService {
@@ -50,7 +50,7 @@ public class DiscountService {
     }
 
     // 根据条件查询平台优惠
-    public List<DiscountVO> getAll(Map<String, String[]> map) {
-        return HibernateUtil_CompositeQuery_Discount.getAllD(map, sessionFactory.openSession());
-    }
+//    public List<DiscountVO> getAll(Map<String, String[]> map) {
+//        return HibernateUtil_CompositeQuery_Discount.getAllD(map, sessionFactory.openSession());
+//    }
 }

@@ -9,21 +9,23 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface CouponRepository extends JpaRepository<CouponVO, Integer> {
 
-    // 使用原生 SQL 删除优惠券记录
+    // 使用原生 SQL 删除優惠券
     @Transactional
     @Modifying
     @Query(value = "DELETE FROM CouponVO WHERE couponNo = ?1", nativeQuery = true)
     void deleteByCouponNo(int couponNo);
 
-    // 自定义条件查询：根据櫃位編號、优惠券状态和审核状态查询优惠券
+    // 自定義條件
     @Query(value = "FROM CouponVO WHERE counterNo = ?1 AND couponStatus = ?2 AND checkStatus = ?3 ORDER BY couponNo")
     List<CouponVO> findByCounterAndStatusAndCheckStatus(int counterNo, int couponStatus, int checkStatus);
 
-    //審核優惠券
+//  後台審核優惠券
     @Modifying
     @Query("UPDATE CouponVO c SET c.checkStatus = :checkStatus WHERE c.couponNo = :couponNo")
     int updateCheckStatusByCouponNo(@Param("checkStatus") int checkStatus, @Param("couponNo") int couponNo);
     
+    
+//  櫃位優惠券要顯示在前台領取櫃位優惠券頁面
     @Query("SELECT c FROM CouponVO c WHERE c.checkStatus = ?1 AND c.couponStatus = ?2")
     List<CouponVO> findByCheckStatusAndCouponStatus(Integer checkStatus, Integer couponStatus);
     
