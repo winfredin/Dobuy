@@ -19,6 +19,8 @@
         <filter-name>MemberLoginFilter</filter-name>
 <!--         <url-pattern>/goods/getOne_For_Display35</url-pattern> -->
         <url-pattern>/goods/getAll35</url-pattern>
+        <url-pattern>/front-end/coupon/member/list35</url-pattern>
+        <url-pattern>/front-end/coupon/claim35</url-pattern>
     </filter-mapping>
   
 </web-app>

@@ -104,4 +104,43 @@ public class FrontCouponController {
         model.addAttribute("memberCoupons", memberCoupons);
         return "front-end/coupon/memListAllCoupon";
     }
+    
+    //以下昱夆新增
+    @GetMapping("/member/list35")
+    public String listMemCoupons(HttpSession session, Model model) {
+        Integer membNo = Integer.valueOf((String) session.getAttribute("memNo"));
+      
+        List<MemCouponVO> memberCoupons = memCouponService.getAllByMemNo(membNo);
+        model.addAttribute("memberCoupons", memberCoupons);
+        return "front-end/memcoupon/memListAllCoupon";
+    }
+    
+    
+    @GetMapping("/claim35")
+    public String claimCoupon35(@RequestParam Integer couponNo,
+                             HttpSession session,
+                             HttpServletRequest request,
+                             RedirectAttributes redirectAttributes) {
+    	Integer membNo = Integer.valueOf((String) session.getAttribute("memNo"));
+       
+        try {
+            memCouponService.claimCoupon(membNo, couponNo);
+            redirectAttributes.addFlashAttribute("message", "領取成功！");
+            System.out.println("領取成功");
+            return "redirect:/memcoupon/memListAllCoupon"; 
+        } catch (Exception e) {
+        	System.out.println("領取失敗");
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            return "redirect:/memcoupon/memListAllCoupon"; 
+        }
+    }
+  //以上昱夆新增
+    
+    
+    
+    
+    
+    
+    
+    
 }
