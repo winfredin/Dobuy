@@ -75,22 +75,26 @@ public class UsedController {
 	public String getOneUsedOnDetail( @RequestParam("usedNo") String usedNo, Model model) {
 		 
 		UsedVO usedVO = usedSvc.getOneUsed(Integer.valueOf(usedNo));
+		
 		List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();
 		
 		model.addAttribute("usedVO", usedVO);
 		model.addAttribute("goodsTypeList", goodsTypeList);
+
 		return "front-end/used/shop_detail_used";
 	}
 
 	@PostMapping("/getSellerUsedListFragment")
     public String getUsedListFragment(HttpSession session, Model model) {
         // 從 session 中取得 memNo
+
 //        Integer memNo = (Integer) session.getAttribute("memNo");
 //
 //        if (memNo == null) {
 //            // 如果沒有 memNo，處理錯誤情況，這裡可以返回空片段或錯誤信息
 //            return "fragments/usedListFragment :: usedListFragment";
 //        }
+
         // 根據 memNo 從資料庫中查詢二手商品列表
         List<UsedVO> usedListData = usedSvc.memberSelectBySellerNo(2);//測試使用2memNo
         List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();
@@ -263,6 +267,7 @@ public class UsedController {
 		return "front-end/used/managertest"; // 刪除完成後轉交listAllUsed.html
 	}
 	
+
 	@PostMapping("/usedDelete")
 	public String usedDelete(@RequestParam("usedNo") String usedNo, ModelMap model) {
 		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
@@ -292,6 +297,7 @@ public class UsedController {
 	}
 	
 	
+
 	// 去除BindingResult中某個欄位的FieldError紀錄
 	public BindingResult removeFieldError(UsedVO usedVO, BindingResult result, String removedFieldname) {
 		List<FieldError> errorsListToKeep = result.getFieldErrors().stream()

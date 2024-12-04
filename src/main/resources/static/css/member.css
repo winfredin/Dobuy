@@ -508,6 +508,7 @@ th.col-usedProDesc{
 	width: 8%;
 }
 
+
 td.col-usedProDesc {
     width: 8%; /* 二手商品描述欄寬度 */
     max-height: 100px; /* 限制最大高度 */
@@ -534,7 +535,10 @@ th.col-usedState, td.col-usedState {
 
 th.col-modify, td.col-modify {
     width: 0.7%; /* 修改欄寬度 */
+<<<<<<< Upstream, based on branch 'master' of https://github.com/he01314905/Dobuy.git
     
+=======
+>>>>>>> 4454b89 12/4
 }
 
 th.col-delete, td.col-delete {
@@ -560,14 +564,24 @@ td img {
 
 /* 按鈕設置 */
 button {
+<<<<<<< Upstream, based on branch 'master' of https://github.com/he01314905/Dobuy.git
 /*     width: calc(100% - 2px); 減去邊框的寬度 */
 /*     height: calc(100% - 2px); 減去邊框的高度 */
     box-sizing: border-box; /* 確保邊框在計算內 */
     padding: 0;  /* 移除內邊距，確保沒有多餘空間 */
+=======
+    width: calc(100% - 2px); /* 減去邊框的寬度 */
+    height: calc(100% - 2px); /* 減去邊框的高度 */
+    box-sizing: border-box; /* 確保邊框在計算內 */
+    padding: 0; /* 移除內邊距，確保沒有多餘空間 */
+>>>>>>> 4454b89 12/4
     border: none; /* 可選，移除按鈕邊框，使其更平滑 */
     cursor: pointer; /* 滑鼠移過按鈕時顯示手型 */
     
+<<<<<<< Upstream, based on branch 'master' of https://github.com/he01314905/Dobuy.git
     
+=======
+>>>>>>> 4454b89 12/4
 }
 
 button:hover {
