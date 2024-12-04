@@ -93,15 +93,15 @@ public class FrontCouponController {
     }
     
     // 添加會員優惠券列表頁面
-    @GetMapping("/member/list")
-    public String listMemberCoupons(HttpSession session, Model model) {
-        Integer memberNo = (Integer) session.getAttribute("memberNo");
-        if (memberNo == null) {
-            return "redirect:/mem/login49";  // 或其他登入頁面路徑
-        }
-        
-        List<MemCouponVO> memberCoupons = memCouponService.getAllByMemNo(memberNo);
-        model.addAttribute("memberCoupons", memberCoupons);
-        return "front-end/coupon/memListAllCoupon";
-    }
+//    @GetMapping("/member/list")
+//    public String listMemberCoupons(HttpSession session, Model model) {
+//        Integer memberNo = (Integer) session.getAttribute("memberNo");
+//        if (memberNo == null) {
+//            return "redirect:/mem/login49";  // 或其他登入頁面路徑
+//        }
+//        
+//        List<MemCouponVO> memberCoupons = memCouponService.getAllByMemNo(memberNo);
+//        model.addAttribute("memberCoupons", memberCoupons);
+//        return "front-end/coupon/memListAllCoupon";
+//    }
 }
