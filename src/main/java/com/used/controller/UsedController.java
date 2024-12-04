@@ -57,7 +57,7 @@ public class UsedController {
 	 * This method will serve as addUsed.html handler.
 	 */
 	@GetMapping("/addUsed")
-	public String addUsed(ModelMap model) {
+	public String addUsed(ModelMap model,HttpSession session) {
 		UsedVO usedVO = new UsedVO();
 		model.addAttribute("usedVO", usedVO);
 		List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();
@@ -139,10 +139,13 @@ public class UsedController {
 	        BindingResult result,
 	        ModelMap model,
 	        @RequestParam("upfiles") MultipartFile[] parts,
-	        RedirectAttributes redirectAttributes) throws IOException {
+	        RedirectAttributes redirectAttributes,HttpSession session) throws IOException {
 
+		
 		List<MultipartFile> validPictures=filterEmptyFiles(parts);
-
+							
+		usedVO.setSellerNo((Integer)session.getAttribute("memNo"));
+		
 	    if (result.hasErrors() || validPictures.isEmpty()) {
 //	    	System.out.println(result.getFieldErrorCount());
 //	    	System.out.println(result.getFieldError());
@@ -192,6 +195,10 @@ public class UsedController {
 //			System.out.println(result.getFieldError());
 				List<UsedPicVO> usedPics= usedPicSvc.findAllPicsByUsedNo(usedVO.getUsedNo());
 				usedVO.setUsedPics(usedPics);
+				
+				List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();	
+				model.addAttribute("goodsTypeList", goodsTypeList);
+				
 				return "front-end/used/update_used_input";
 			}
 		List<MultipartFile> validPictures=filterEmptyFiles(parts);
@@ -199,7 +206,12 @@ public class UsedController {
 		if (validPictures.isEmpty()) { // 使用者未選擇要上傳的新圖片時 
 			//檢查資料庫有無照片 若無就返回 並提示警告
 			if((usedPicSvc.findAllPicsByUsedNo(usedVO.getUsedNo()).size())==0) {
-				model.addAttribute("errorMessage", "商品資料查無照片  請至少上傳一張照片");
+				
+				model.addAttribute("errorMessage", "請至少上傳一張照片");
+				
+				List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();	
+				model.addAttribute("goodsTypeList", goodsTypeList);
+				
 				return "front-end/used/update_used_input";
 			}
 //			else {

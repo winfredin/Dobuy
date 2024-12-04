@@ -12,7 +12,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>員工資料修改 </title>
+<title>二手商品資料修改 </title>
 
 
 <style type="text/css">
@@ -126,17 +126,20 @@ table th, table td {
 		 <div align="center"> <h2>二手商品資料修改</h2>
 		 <h3><a class="navbar-brand" th:href="@{/used/back}">返回</a></h3></div>
 </nav>
-
-
-	
-		<form th:action="@{update}" method="post" th:object="${usedVO}" enctype="multipart/form-data">
+		<form th:action="@{/used/update}" method="post" th:object="${usedVO}" enctype="multipart/form-data">
 			
+		
+		<span  th:if="${#fields.hasErrors('usedName')}" th:errors="*{usedName}" class="error" id="usedName.errors"></span>
+	    <span  th:if="${#fields.hasErrors('usedProDesc')}" th:errors="*{usedProDesc}" class="error" id="usedProDesc.errors"></span>
+	    <span  th:if="${#fields.hasErrors('usedPrice')}" th:errors="*{usedPrice}" class="error" id="usedPrice.errors"></span>
+	    <span  th:if="${#fields.hasErrors('usedStocks')}" th:errors="*{usedStocks}" class="error" id="usedStocks.errors"></span>
+		
 		    <!-- UsedVO 基本屬性 -->
 		    <label>商品編號：<span th:text="*{usedNo}"></span></label>
 		    <input type="hidden" th:field="*{usedNo}" />
 		    <input type="hidden" th:field="*{sellerNo}" />
 		    
-		    <div class="errorblock" th:utext="${errorMessage}">${errorMessage}</div><br>
+
 		    
 		    <label for="classNo">商品類別：</label>
 			<select id="classNo" th:field="*{classNo}" required>
@@ -147,18 +150,17 @@ table th, table td {
 			            th:selected="${goodsType.goodstNo == usedVO.classNo}">
 			    </option>
 			</select>
-			<span th:if="${#fields.hasErrors('classNo')}" th:errors="*{classNo}" class="error" id="classNo.errors"></span>
+			
 			<br>
 
 		
 		    <label for="usedName">商品名稱：</label>
 		    <input type="text" id="usedName" th:field="*{usedName}"  maxlength="60" required />
-		    <span  th:if="${#fields.hasErrors('usedName')}" th:errors="*{usedName}" class="error" id="usedName.errors"></span>
+		    
 		    <br>
 		
 		    <label for="usedProDesc">商品描述：</label>
-		    <textarea id="usedProDesc" th:field="*{usedProDesc}" maxlength="200" required style="width: 250px; height: 150px;"></textarea>
-		    <span  th:if="${#fields.hasErrors('usedProDesc')}" th:errors="*{usedProDesc}" class="error" id="usedProDesc.errors"></span>
+		    <textarea id="usedProDesc" th:field="*{usedProDesc}" maxlength="200" required style="width: 250px; height: 200px; resize: none;"></textarea>
 		    <br>
 		
 		    <label for="usedNewness">商品新舊程度：</label>
@@ -172,13 +174,13 @@ table th, table td {
 		    <br />
 		
 		    <label for="usedPrice">價格：</label>
-		    <input type="number" id="usedPrice" th:field="*{usedPrice}" min="1" required />
-		    <span  th:if="${#fields.hasErrors('usedPrice')}" th:errors="*{usedPrice}" class="error" id="usedPrice.errors"></span>
+		    <input type="text" id="usedPrice" th:field="*{usedPrice}" min="1"  required />
+		    
 		    <br />
 		
 		    <label for="usedStocks">庫存數量：</label>
-		    <input type="number" id="usedStocks" th:field="*{usedStocks}" min="0" required />
-		    <span  th:if="${#fields.hasErrors('usedStocks')}" th:errors="*{usedStocks}" class="error" id="usedStocks.errors"></span>
+		    <input type="text" id="usedStocks" th:field="*{usedStocks}" min="0" required />
+		    
 		    <br />
 		
 		    <label for="usedState">商品狀態：</label>
@@ -216,11 +218,11 @@ table th, table td {
 		    </table>
 
 		    
-		
 		    <!-- 多張圖片 (UsedPicVO 列表) -->
 		    <div id="usedPicsContainer">
 			    <div class="usedPics">
 			      <label for="upfiles">新增照片:</label>
+			<span class="errorblock" th:utext="${errorMessage}"  >${errorMessage}</span>
 			      <br>
             	  <input type="file" name="upfiles" id="upfiles" accept="images/*" />
 			      <img class="preview-image" style="display: none; max-width: 100px; max-height: 100px; margin-top: 5px;" />
