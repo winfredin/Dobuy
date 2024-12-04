@@ -13,7 +13,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>櫃位資料更新 </title>
-
+<link rel="stylesheet" href="/counter/style.css">
 
 <style type="text/css">
 	
@@ -46,12 +46,11 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
-		 <div align="center"> <h2>櫃位用 </h2>
-		 </div>
-</nav>
+		
+
 	    <div align="center">
         <h2>櫃位資料更新</h2>
+        <div>*必填資料</div>
         <form th:action="@{/counter/vendor-end/update}" method="post" th:object="${counterVO}" enctype="multipart/form-data">
         	 <div>
                 <input type="hidden" th:field="*{counterNo}" />
@@ -65,7 +64,7 @@
 			</div>
 
             <div>
-                <label>櫃位管理者姓名:</label>
+                <label>*櫃位管理者姓名:</label>
                 <input type="text" th:field="*{counterName}" />
                 <span th:if="${#fields.hasErrors('counterName')}" th:errors="*{counterName}" class="error"></span>
             </div>
@@ -77,25 +76,25 @@
             </div>
 
             <div>
-                <label>櫃位地址:</label>
+                <label>*櫃位地址:</label>
                 <input type="text" th:field="*{counterAddress}" />
                 <span th:if="${#fields.hasErrors('counterAddress')}" th:errors="*{counterAddress}" class="error"></span>
             </div>
 
             <div>
-                <label>櫃位電話:</label>
+                <label>*櫃位電話:</label>
                 <input type="text" th:field="*{counterPhone}" />
                 <span th:if="${#fields.hasErrors('counterPhone')}" th:errors="*{counterPhone}" class="error"></span>
             </div>
 
             <div>
-                <label>管理者身分證字號:</label>
+                <label>*管理者身分證字號:</label>
                 <input type="text" th:field="*{counterUid}" />
                 <span th:if="${#fields.hasErrors('counterUid')}" th:errors="*{counterUid}" class="error"></span>
             </div>
 
             <div>
-                <label>櫃位電子信箱:</label>
+                <label>*櫃位電子信箱:</label>
                 <input type="email" th:field="*{counterEmail}" />
                 <span th:if="${#fields.hasErrors('counterEmail')}" th:errors="*{counterEmail}" class="error"></span>
             </div>
@@ -108,13 +107,13 @@
             </div>
 
             <div>
-                <label>櫃位名稱:</label>
+                <label>*櫃位名稱:</label>
                 <input type="text" th:field="*{counterCName}" />
                 <span th:if="${#fields.hasErrors('counterCName')}" th:errors="*{counterCName}" class="error"></span>
             </div>
 
 			<div>
-		    <label>櫃位類別:</label>
+		    <label>*櫃位類別:</label>
 		    <select th:field="*{counterTypeVO.counterTypeNo}">
 		        <option th:each="counterTypeVO : ${counterTypeListData}" 
 		                th:value="${counterTypeVO.counterTypeNo}" 

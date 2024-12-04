@@ -53,7 +53,8 @@ public class MemberLoginController {
 		
 		// 登錄成功，設置 session
 		session.setAttribute("memAccount", memberVO.getMemAccount());
-		session.setAttribute("memNo", memberVO.getMemNo());
+		session.setAttribute("memNo", memberSvc.getMemNoByAccount(memberVO.getMemAccount()));  // 用memAccount去找memNo
+
 		 // 檢查是否有原始請求
 	    String originalRequest = (String) session.getAttribute("originalRequest");
 	    if (originalRequest != null) {

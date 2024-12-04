@@ -152,7 +152,7 @@ div.slider img{
 div.goods_body{
     /* border: 1px solid black; */
     width: 95%;
-    height: 50%;
+    height: 60%;
     display: flex;
     margin-left: 2%;
     margin-right: 3%;
@@ -166,11 +166,18 @@ div.goods_body div.goods_list{
     /* border: 1px solid rgba(247, 170, 103, 0.558); */
     border-radius: 15px;
     background-color: rgba(229, 199, 177, 0.432);
-    opacity: 0.8;
+    opacity: 0.9;
 }
 
 div.goods_body div.goods_list ul{ 
     margin-left: 15%;
+    /* border: 1px solid rgb(0, 0, 0); */
+    border-radius: 15px;
+    font-size: 20px;
+    overflow:hidden;
+}
+div.goods_body div.goods_list ul li{ 
+    margin-left: 20%;
     /* border: 1px solid rgb(0, 0, 0); */
     border-radius: 15px;
     font-size: 20px;
@@ -221,7 +228,7 @@ footer {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 5%;
+    height: 3%;
     background: rgba(0, 0, 0, 0.5);
     display: flex;
     align-items: center;

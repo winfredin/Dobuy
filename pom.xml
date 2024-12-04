@@ -92,8 +92,8 @@
 		</dependency>
 		<!--		HikariCP   連線池  -->
 		<dependency>
-		    <groupId>com.zaxxer</groupId>
-		    <artifactId>HikariCP</artifactId>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
 		</dependency>
 
 
@@ -251,19 +251,16 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
+<!-- redis ====================-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
+
 
 
 	</dependencies>
 
-	<!--		<dependency>-->
-	<!--			<groupId>-->
-	<!--				0205U_Maven_SpringBootMVC_Thymeleaf_Ver5_SpringData-Jpa-->
-	<!--			</groupId>-->
-	<!--			<artifactId>-->
-	<!--				0205U_Maven_SpringBootMVC_Thymeleaf_Ver5_SpringData-Jpa-->
-	<!--			</artifactId>-->
-	<!--			<version>0.0.1-SNAPSHOT</version>-->
-	<!--		</dependency>-->
 	<!--	</dependencies>-->
 
 	<build>

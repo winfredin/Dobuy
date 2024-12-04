@@ -17,7 +17,7 @@ import com.coupon.model.CouponService;
 import com.coupon.model.CouponVO;
 import com.member.model.MemberService;
 import com.member.model.MemberVO;
-import com.memcoupon.controller.HibernateUtil_CompositeQuery_MemCoupon;
+//import com.memcoupon.controller.HibernateUtil_CompositeQuery_MemCoupon;
 
 @Service("memCouponService")
 public class MemCouponService {

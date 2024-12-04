@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.coupon.model.CouponRepository;
 import com.coupon.model.CouponVO;
-import com.coupondetail.controller.HibernateUtil_CompositeQuery_CouponDetail;
+//import com.coupondetail.controller.HibernateUtil_CompositeQuery_CouponDetail;
 
 @Service("couponDetailService")
 public class CouponDetailService {
@@ -55,35 +55,35 @@ public class CouponDetailService {
     
     
     
-    // 新增优惠券明细
+    // 新增
     public void addCouponDetail(CouponDetailVO couponDetailVO) {
         repository.save(couponDetailVO);
     }
-    // 更新优惠券明细
+    // 更新
     public void updateCouponDetail(CouponDetailVO couponDetailVO) {
         repository.save(couponDetailVO);
     }
-    // 删除优惠券明细
+    // 删除
     public void deleteCouponDetail(Integer couponDetailNo) {
         if (repository.existsById(couponDetailNo))
             repository.deleteByCouponDetailNo(couponDetailNo);
     }
-    // 查询单个优惠券明细
+    // 查询單筆
     public CouponDetailVO getOneCouponDetail(Integer couponDetailNo) {
         Optional<CouponDetailVO> optional = repository.findById(couponDetailNo);
         return optional.orElse(null);
     }
-    // 查询所有优惠券明细
+    // 查询所有
 //    public List<CouponDetailVO> getAll() {
 //        return repository.findAll();
 //    }
     
     // 根据條件列出優惠券明细
-    public List<CouponDetailVO> getAll(Map<String, String[]> map) {
-        return HibernateUtil_CompositeQuery_CouponDetail.getAllC(map, sessionFactory.openSession());
-    }
+//    public List<CouponDetailVO> getAll(Map<String, String[]> map) {
+//        return HibernateUtil_CompositeQuery_CouponDetail.getAllC(map, sessionFactory.openSession());
+//    }
     
-    // 根據優惠券編號查詢明細
+    // 櫃位列出自己的優惠券點詳情 可以查看優惠商品明細
     public List<CouponDetailVO> getByCouponNo(Integer couponNo) {
         try {
             List<CouponDetailVO> details = repository.findByCoupon_CouponNo(couponNo);

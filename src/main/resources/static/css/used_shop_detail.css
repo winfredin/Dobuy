@@ -1,8 +1,14 @@
 section.sec1{
   /* border: 1px solid red; */
   display: flex;
-  min-width:1263.33px; /* 版面最小寬度設定 */
-  padding: 0px 0;
+  width:1000px; /* 版面最小寬度設定 */
+  padding: 0 0;
+
+  transform: scale(0.7); /* 縮放至 75% */
+  transform-origin: top left; /* 縮放基準點設為左上角 */
+  min-width: unset; /* 移除原本的最小寬度限制 */
+
+  
 }
 section.sec1 div.flex_container{
   /* border: 1px solid black; */
@@ -120,7 +126,7 @@ section.sec1 div.flex_container div.items.-left div.main-img > img{
 .zoom-pup{
   display: none;
   position: absolute;
-  top: 0;
+  top: 50px;
   left: 0;
   width: 236px;
   height: 236px;
@@ -152,12 +158,12 @@ section.sec1 div.flex_container div.items.-right{
   margin: 0;
   border: 0;
   flex-grow: 1;
-  font-size: 20px; /* 調整文案文字大小 */
+  font-size: 25px; /* 調整文案文字大小 */
   padding: 20px 20px 15px 20px;
   background-color: #ffffff; /* 設置背景顏色為白色 */
   height: 600px;               /* 確保容器占據全部可用高度 */
   box-sizing: border-box;      /* 確保包含邊框和內邊距 */
-
+  opacity: 0.7;
 }
 /* ========== 描述列表 ========== */
 .desc_list{
@@ -174,6 +180,7 @@ section.sec1 div.flex_container div.items.-right{
   justify-content: flex-start; /* 靠左對齊 */
   align-items: center;         /* 垂直居中對齊 */
   margin:10px 0 ;
+  font-size: 25px;
 }
 /* 描述列表 - 商品價格 */
 .Goods_Price_0 {
@@ -247,7 +254,7 @@ section.sec1 div.flex_container div.items.-right{
   align-items: center;      /* 垂直居中 */
   justify-content: center;  /* 水平居中 */
   text-align: center;       /* 文字水平對齊 */ 
-  border: 1px solid #ee4d2d;  /* 設定放入購物車按鈕邊框顏色 */
+  border: 1px solid #c45944;  /* 設定放入購物車按鈕邊框顏色 */
   color: rgb(208, 1, 27);      /* 設定放入購物車文字顏色 */
   background-color: rgba(255, 87, 34, .1); /* 設定放入購物車按鈕顏色 */
 }

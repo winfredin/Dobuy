@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ShoppingCartList.model.ShoppingCartListRepository;
 import com.ShoppingCartList.model.ShoppingCartListService;
 import com.ShoppingCartList.model.ShoppingCartListVO;
 
@@ -35,6 +37,8 @@ public class ShoppingCartListController {
     @Autowired
     ShoppingCartListService shoppingCartListSvc;
 
+    @Autowired
+    ShoppingCartListRepository repository; // 添加這行
     /*
      * This method will serve as addShoppingCart.html handler.
      */
@@ -44,32 +48,52 @@ public class ShoppingCartListController {
         model.addAttribute("shoppingCartListVO", shoppingCartListVO);
         return "front-end/shoppingcartlist/addShoppingCartList";
     }
+    
     // 購物車
     @PostMapping("/add-to-cart")
     public ResponseEntity<Map<String, Object>> addToCart(
             @RequestParam("goodsName") String goodsName,
             @RequestParam("goodsPrice") int goodsPrice,
             @RequestParam("goodsNo") int goodsNo,
-            @RequestParam("quantity") int quantity) {
+            @RequestParam("quantity") int quantity,
+            HttpServletRequest req)  {
+        HttpSession session = req.getSession();
+        Object memAccount = session.getAttribute("memAccount");
+
+        if (memAccount == null) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", false);
+            response.put("message", "請先登入才能加入購物車！");
+            return ResponseEntity.ok(response);
+        }
+
+        // 先檢查是否已有相同商品
+        List<ShoppingCartListVO> existingCartItems = repository.findByGoodsNo(goodsNo);
         
-        // 計算總價
-        int orderTotalPrice = goodsPrice * quantity;
+        if (!existingCartItems.isEmpty()) {
+            // 如果已有相同商品，更新數量和總價
+            ShoppingCartListVO existingItem = existingCartItems.get(0);
+            int newQuantity = existingItem.getGoodsNum() + quantity;
+            int newTotalPrice = goodsPrice * newQuantity;
+            
+            existingItem.setGoodsNum(newQuantity);
+            existingItem.setOrderTotalprice(newTotalPrice);
+            
+            shoppingCartListSvc.updateShoppingCartList(existingItem);
+        } else {
+            // 如果是新商品，建立新的購物車項目
+            ShoppingCartListVO shoppingCartListVO = new ShoppingCartListVO();
+            shoppingCartListVO.setGoodsNo(goodsNo);
+            shoppingCartListVO.setGoodsName(goodsName);
+            shoppingCartListVO.setGoodsPrice(goodsPrice);
+            shoppingCartListVO.setGoodsNum(quantity);
+            shoppingCartListVO.setOrderTotalprice(goodsPrice * quantity);
 
-        // 創建 ShoppingCartListVO 物件
-        ShoppingCartListVO shoppingCartListVO = new ShoppingCartListVO();
-        shoppingCartListVO.setGoodsNo(goodsNo);
-        shoppingCartListVO.setGoodsName(goodsName);
-        shoppingCartListVO.setGoodsPrice(goodsPrice);
-        shoppingCartListVO.setGoodsNum(quantity);
-        shoppingCartListVO.setOrderTotalprice(orderTotalPrice);
+            shoppingCartListSvc.addShoppingCartList(shoppingCartListVO);
+        }
 
-        // 儲存資料到資料庫
-        shoppingCartListSvc.addShoppingCartList(shoppingCartListVO);
-
-        // 取得購物車內的商品數量
         int cartCount = shoppingCartListSvc.getAll().size();
 
-        // 建立回傳資料
         Map<String, Object> response = new HashMap<>();
         response.put("success", true);
         response.put("cartCount", cartCount);
@@ -79,8 +103,19 @@ public class ShoppingCartListController {
  // 更新購物車商品數量
     @PostMapping("updateQuantity")
     public String updateQuantity(@RequestParam("shoppingcartListNo") Integer shoppingcartListNo,
-                                  @RequestParam("goodsNum") Integer goodsNum, Model model) {
-        // 根據 shoppingcartListNo 找到對應的購物車商品
+                                  @RequestParam("goodsNum") Integer goodsNum, Model model,
+                                  HttpServletRequest req) {  // 加入 HttpServletRequest 參數
+
+        // 檢查使用者是否已登入
+        HttpSession session = req.getSession();
+        Object memAccount = session.getAttribute("memAccount");
+
+        if (memAccount == null) {
+            model.addAttribute("errorMessage", "請先登入才能更新購物車數量！");
+            return "front-end/shoppingcartlist/listAllShoppingCartList";  // 返回購物車頁面
+        }
+    	
+    	// 根據 shoppingcartListNo 找到對應的購物車商品
         ShoppingCartListVO shoppingCartListVO = shoppingCartListSvc.getOneShoppingCartList(shoppingcartListNo);
         
         // 更新商品數量

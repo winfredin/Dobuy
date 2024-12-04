@@ -31,10 +31,18 @@ public class MemberService {
 	public boolean validateLogin(String memAccount, String memPassword) {
 		return memberRepository.findByMemAccountAndMemPassword (memAccount, memPassword).isPresent();
 	}
+
 	public List<MemberVO> getAll() {
 		List<MemberVO> memberList= memberRepository.findAll();
 		return memberList;
 	}
+
+	
+	public String getMemNoByAccount(String memAccount) {
+		return memberRepository.getMemNoByAccount(memAccount);
+	}
+	
+
 	
     // winfred
     public Optional<MemberVO> findById(Integer memNo) { //1130

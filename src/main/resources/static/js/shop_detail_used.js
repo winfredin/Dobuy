@@ -75,9 +75,9 @@ mainImg.onmousemove = function(e){
   let offsetLeft = mainImg.offsetLeft;
 
   // 獲取放大鏡區塊的高度
-  let h = zoomPup.clientHeight / 1;
+  let h = zoomPup.clientHeight / 1.4;
   // 獲取放大鏡區塊的寬度
-  let w = zoomPup.clientHeight / 2;
+  let w = zoomPup.clientHeight / 1.4;
 
   // 計算放大鏡的位置，讓它根據滑鼠在圖片中的位置移動
   let top = pageY - offsetTop - h;

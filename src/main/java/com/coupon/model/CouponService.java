@@ -13,9 +13,10 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.coupon.controller.HibernateUtil_CompositeQuery_Coupon;
+//import com.coupon.controller.HibernateUtil_CompositeQuery_Coupon;
 import com.coupondetail.model.CouponDetailRepository;
 import com.coupondetail.model.CouponDetailVO;
+import com.goods.model.GoodsVO;
 
 @Service("couponService")
 public class CouponService {
@@ -29,6 +30,9 @@ public class CouponService {
     @Autowired
     private SessionFactory sessionFactory;
     
+    
+    
+//  櫃位優惠券要顯示在前台領取櫃位優惠券頁面
     public List<CouponVO> getAllApprovedCoupons() {
         return repository.findByCheckStatusAndCouponStatus(1, 1);  // 1: 已審核, 1: 時效內
     }
@@ -91,11 +95,11 @@ public class CouponService {
     }
     
     
-//  同時修改優惠券與明細
+//  櫃位新增優惠券 可以同時設定優惠商品明細
     @Transactional(rollbackOn = Exception.class)
     public CouponVO updateCouponWithDetails(CouponVO couponVO) {
         try {
-            // 打印接收到的數據
+            // 印接收到的數據
             System.out.println("Updating coupon: " + couponVO.getCouponNo());
             System.out.println("Details count: " + 
                 (couponVO.getCouponDetails() != null ? couponVO.getCouponDetails().size() : 0));
@@ -118,7 +122,7 @@ public class CouponService {
                 // 先清除現有明細
                 existingCoupon.getCouponDetails().clear();
                 
-                // 添加新的明細
+                // 新增明細
                 for (CouponDetailVO detail : couponVO.getCouponDetails()) {
                     detail.setCoupon(existingCoupon);  // 設置關聯
                     detail.setUpdatedAt(new Date());
@@ -143,7 +147,7 @@ public class CouponService {
     
     @Transactional
     public void addCouponDetail(Integer couponNo, CouponDetailVO couponDetailVO) {
-        // 查找优惠券是否存在
+        // 查找優惠券是否存在
         CouponVO coupon = repository.findById(couponNo).orElseThrow(() -> new RuntimeException("Coupon not found"));
 
         // 关联优惠券
@@ -154,39 +158,39 @@ public class CouponService {
     }
     
 
-    // 新增优惠券
+    // 新增
     public void addCoupon(CouponVO couponVO) {
         repository.save(couponVO);
     }
 
-    // 更新优惠券
+    // 更新
     public void updateCoupon(CouponVO couponVO) {
         repository.save(couponVO);
     }
 
-    // 删除优惠券
+    // 删除
     public void deleteCoupon(Integer couponNo) {
         if (repository.existsById(couponNo))
             repository.deleteByCouponNo(couponNo);
     }
 
-    // 查询单个优惠券
+    // 查询單筆
     public CouponVO getOneCoupon(Integer couponNo) {
         Optional<CouponVO> optional = repository.findById(couponNo);
         return optional.orElse(null);
     }
 
-    // 查询所有优惠券
+    // 查询所有
     public List<CouponVO> getAll() {
         return repository.findAll();
     }
 
-    // 根据条件查询优惠券
-    public List<CouponVO> getAll(Map<String, String[]> map) {
-        return HibernateUtil_CompositeQuery_Coupon.getAllC(map, sessionFactory.openSession());
-    }
+    // 根据条件查询
+//    public List<CouponVO> getAll(Map<String, String[]> map) {
+//        return HibernateUtil_CompositeQuery_Coupon.getAllC(map, sessionFactory.openSession());
+//    }
     
-    //審核優惠券
+//  後台審核優惠券
     @Transactional
     public boolean approveCoupon(int couponNo) {
         int updatedRows = repository.updateCheckStatusByCouponNo(1, couponNo); // 1 表示已審核
@@ -196,6 +200,11 @@ public class CouponService {
     //根據櫃位編號查詢優惠券
     public List<CouponVO> getCounterCoupon35(int counterNo){ //  11/27
     	return repository.findByCounterAndStatusAndCheckStatus(counterNo, 1, 1);
+    }
+    
+    //任國櫃位優惠管理
+    public List<CouponVO> getOneCounter46(Integer counterNo) {
+        return repository.getOneCounter46(counterNo); // 如果不存在，返回 null
     }
     
     

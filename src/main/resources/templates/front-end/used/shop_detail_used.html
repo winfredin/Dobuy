@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-	<link rel="stylesheet" th:href="@{/slick-1.8.1/slick/slick.css}" />
+    <title>shop_detail_used</title>
+    <link rel="stylesheet" th:href="@{/slick-1.8.1/slick/slick.css}" />
     <link rel="stylesheet" th:href="@{/slick-1.8.1/slick/slick-theme.css}" />
     <link rel="stylesheet" th:href="@{/css/used_detail.css}">
     <link rel="stylesheet" th:href="@{/css/used_shop_detail.css}">
@@ -70,78 +70,82 @@
 </div>
 
     <section class="sec1">
-		<div class="flex_container">
+    <div class="flex_container">
+        <div class="items -left">
+            <div class="main-img">
+				<img th:src="@{/usedpic/UsedDBGifReader(usedPicNo=${usedVO.usedPics[0].usedPicNo})}" alt="" class="main-img-img">
+                <div class="zoom-pup"></div>
+                <div class="zoom-div">
+    			<img th:src="@{/usedpic/UsedDBGifReader(usedPicNo=${usedVO.usedPics[0].usedPicNo})}" alt="">
 
-			<!-- 左邊內容區域 -->
-			<div class="items -left">
-				<div class="main-img">
-					<img th:src="@{/usedpic/UsedDBGifReader} + '?usedPicNo=' + ${usedVO.usedPics[0]?.usedPicNo}" alt="" class="main-img-img">
-					<div class="zoom-pup"></div>
-					<div class="zoom-div">
-						<img th:src="@{/usedpic/UsedDBGifReader} + '?usedPicNo=' + ${usedVO.usedPics[0]?.usedPicNo}" alt="">
-					</div>
-				</div>
-				<div class="spec-list">
-					<a href="javascript:;" class="prev"></a> 
-					<a href="javascript:;" class="next"></a>
-					<div class="spec-items">
-						<ul>
-							<li th:each="usedPicVO, iterStat : ${usedVO.usedPics}"
-							    th:classappend="${iterStat.index == 0} ? 'img-hover'">
-							    <img th:src="@{/usedpic/UsedDBGifReader(usedPicNo=${usedPicVO.usedPicNo})}" alt="Goods Image">
-							</li>
+                </div>
+            </div>
+            <div class="spec-list">
+                <a href="javascript:;" class="prev"></a>
+                <a href="javascript:;" class="next"></a>
+                <div class="spec-items">
+                    <ul>
+                         <li th:each="img, iterStat : ${usedVO.usedPics}" th:classappend="${iterStat.index == 0} ? 'img-hover'">
+					        <img th:src="@{/usedpic/UsedDBGifReader(usedPicNo=${img.usedPicNo})}" alt="Goods Image">
+					    </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
-						</ul>
-
-					</div>
-				</div>
-			</div>
-
-			<!-- 右邊內容區域 -->
-			<div class="items -right">
-				<h1 class="title1" th:text="${usedVO.usedName}"></h1>
-				<table class="desc_list">
-					<tr class="Goods_Price">
-						<td class="Goods_Price_0">商品價格</td>
-						<td class="Goods_Price_1" th:text="'$' + ${usedVO.usedPrice}"></td>
-					</tr>
-					<tr class="Coupon_Title">
-						<td class="Coupon_Title_0">賣場優惠券</td>
-						<td class="Coupon_Title_1" text=""></td>
-					</tr>
-					<tr class="Goods_Amount">
-						<td class="Goods_Amount_0">商品庫存</td>
-						<td class="Goods_Amount_1" th:text="${usedVO.usedStocks}"></td>
-					</tr>
-					<tr class="Goods_Description">
-						<td class="Goods_Description_0">商品敘述</td>
-						<td class="Goods_Description_1" th:text="${usedVO.usedProDesc}"></td>
-					</tr>
-					<tr>
-						<!-- 表單部分 -->
-						<form class="buy_form" action="/shoppingcartlist/add-to-cart" method="POST">
-						    <td class="label_item">數量</td>
-						    <td><input class="buy_count" value="1" min="1" type="number" name="quantity"></td>
-						    <!-- 隱藏欄位傳送商品資料 -->
-							<input type="hidden" name="usedPics" th:value="'data:image/png;base64,' + ${usedVO.usedPics[0]?.usedPics}" />
-						    <input type="hidden" name="usedName" th:value="${usedVO.usedName}" />
-						    <input type="hidden" name="usedPrice" th:value="${usedVO.usedPrice}" />
-						    <input type="hidden" name="usedNo" th:value="${usedVO.usedNo}" />
-						    <!-- 提交按鈕 -->
-						    <tr>
-							    <td></td>
-							    <td>
-							        <button class="shopping_button" type="submit">
-							            <img alt="icon-add-to-cart" class="_kL9Hf" th:src="@{https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/productdetailspage/b96050554b3be4feea08.svg}">
-							            放入購物車
-							        </button>
-							    </td>
-							</tr>
-						</form>
-				</table>
-			</div>
-		</div>
-	</section>
+        <div class="items -right">
+            <h1 class="title1" th:text="${usedVO.usedName}"></h1>
+            <table class="desc_list">
+                <tr class="Goods_Price">
+                    <td class="Goods_Price_0">商品價格</td>
+                    <td class="Goods_Price_1" th:text="${usedVO.usedPrice}"></td>
+                </tr>
+                
+                
+                <tr class="Goods_Class">
+				    <td class="Goods_Class_0">商品類別 : </td>
+				    <td class="Goods_Class_1">
+				        <span th:each="type : ${goodsTypeList}" 
+				              th:if="${type.goodstNo} == ${usedVO.classNo}" 
+				              th:text="${type.goodstName}">商品名稱</span>
+				    </td> 
+				</tr>
+                
+                
+                <tr class="Coupon_Title">
+                    <td class="Coupon_Title_0">賣場優惠券</td>
+                    <td class="Coupon_Title_1" text=""></td>
+                </tr>
+                <tr class="Goods_Amount">
+                    <td class="Goods_Amount_0">商品庫存 :  </td>
+                    <td class="Goods_Amount_1" th:text="${usedVO.usedStocks}"></td>
+                </tr>
+                <tr class="Goods_Description">
+                    <td class="Goods_Description_0">商品敘述</td>
+                    <td class="Goods_Description_1" th:text="${usedVO.usedProDesc}"></td>
+                </tr>
+                <tr>
+                    <form id="add-to-cart-form" class="buy_form" action="/shoppingcartlist/add-to-cart" method="POST">
+                        <td class="label_item">數量</td>
+                        <td><input class="buy_count" value="1" min="1" max ="${usedVO.usedStocks}" type="number" name="quantity"></td>
+                        <input type="hidden" name="usedName" th:value="${usedVO.usedName}" />
+                        <input type="hidden" name="usedPrice" th:value="${usedVO.usedPrice}" />
+                        <input type="hidden" name="usedNo" th:value="${usedVO.usedNo}" />
+                        <tr>
+                            <td></td>
+                            <td>
+                                <button class="shopping_button" type="submit">
+                                    <img alt="icon-add-to-cart" class="_kL9Hf" th:src="@{https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/productdetailspage/b96050554b3be4feea08.svg}">
+                                    放入購物車
+                                </button>
+                            </td>
+                        </tr>
+                    </form>
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>
 
   
   

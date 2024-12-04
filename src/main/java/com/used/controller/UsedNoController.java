@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.goodstype.model.GoodsTypeService;
+import com.goodstype.model.GoodsTypeVO;
 import com.used.model.UsedService;
 import com.used.model.UsedVO;
 import com.usedpic.model.UsedPicService;
@@ -33,7 +35,10 @@ public class UsedNoController {
 	
 	@Autowired
 	UsedService usedSvc;
-
+	
+	@Autowired
+	GoodsTypeService goodsTypeService;
+	
 	@Autowired
 	UsedPicService usedPicSvc;
 	
@@ -48,14 +53,15 @@ public class UsedNoController {
 		/*************************** 2.開始查詢資料 *****************************************/
 		// UsedService UsedSvc = new UsedService();
 		UsedVO usedVO = usedSvc.getOneUsed(Integer.valueOf(usedNo));
-		
 		if (usedVO == null) {
 			model.addAttribute("errorMessage", "查無資料");
 			return "front-end/used/select_page";
 		}
 
 		/*************************** 3.查詢完成,準備轉交(Send the Success view) **************/
+		List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();
 		
+		model.addAttribute("goodsTypeList", goodsTypeList);
 		model.addAttribute("usedVO", usedVO);
 		return "front-end/used/update_used_input"; // 查詢完成後轉交update_Used_input.html
 	}

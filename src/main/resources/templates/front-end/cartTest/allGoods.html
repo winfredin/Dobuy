@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+ <title>商品頁面</title>
+    <style>
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .login-status {
+            margin-right: 20px;
+        }
+    </style>
+</head>
+<body>
+	  <!-- 頁面頂部區域 -->
+    <div class="header">
+        <h3>商品列表</h3>
+        <!-- 登入/登出狀態 -->
+        <div class="login-status">
+        
+        	<span>
+                <a th:href=@{/cart/list35} style="text-decoration: none;">我的購物車</a>
+            </span>
+        
+            <span th:if="${session.memAccount == null}">
+                <a th:href=@{/mem/login} style="text-decoration: none;">登入</a>
+            </span>
+            <span th:if="${session.memAccount != null}">
+                歡迎, <span th:text="${session.memAccount}"></span>! 
+                <a th:href=@{/mem/logout} style="text-decoration: none;">登出</a>
+            </span>
+        </div>
+    </div>
+
+    <!-- 商品列表 -->
+    <h3>商品 + 購物車按鈕</h3>
+    <div>
+        <ul>
+            <!-- 遍歷 goodsList -->
+            <li th:each="goods : ${goodsList}" style="margin-bottom: 20px;">
+                <span th:text="${goods.goodsName}">商品名稱</span>
+                <span th:text="'$' + ${goods.goodsPrice}">商品價格</span>
+                <button 
+                th:attr="data-id=${goods.goodsNo},
+                data-name=${goods.goodsName},
+                data-price=${goods.goodsPrice}"
+                 onclick="addToCart(this)">加入購物車</button>
+            </li>
+        </ul>
+    </div>
+	
+	
+	<script>
+    function addToCart(button) {
+        const goodsName = button.getAttribute('data-name');
+        const goodsPrice = button.getAttribute('data-price');
+        const goodsNo = button.getAttribute('data-id');
+        
+        fetch('/demo/cart/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 
+            	goodsName : goodsName,
+            	goodsPrice : goodsPrice,
+            	goodsNo: goodsNo 
+            	
+            
+            
+            })
+        })
+        .then(response => {
+            if (response.ok) {
+                alert("商品已加入購物車！");
+            } else {
+                alert("加入購物車失敗！");
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+</script>
+</body>
+</html>
