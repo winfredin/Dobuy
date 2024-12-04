@@ -1,0 +1,205 @@
+section.sec1 {
+  display: flex;
+  max-width:80%;
+  padding: 0;
+}
+section.sec1 div.flex_container {
+  display: flex;
+  width: 70%; /* 商品頁寬度設定，基於父元素寬度 */
+  margin: 0 auto;
+  margin-left: 5%;
+}
+/* ================================== 左邊內容區域 ================================== */
+.items.-left {
+  width: 37.5%; /* 左邊區域寬度，占父容器比例 */
+  height: 37%; /* 高度占比 */
+  flex-shrink: 0;
+  background-color: #ffffff;
+  padding-bottom: 2.5%;
+  float: left;
+}
+/* 左邊主要圖片區域 */
+.main-img {
+  position: relative;
+  width: 50%; /* 充滿父容器 */
+  height: 40%;
+  border: 0.1% solid #eee;
+  margin-bottom: 3%;
+  background-color: skyblue;
+}
+/* 左邊下方圖片區域 */
+.spec-list {
+  position: relative;
+  width: 100%; /* 充滿父容器 */
+  height: 13%;
+  margin-bottom: 2%;
+}
+.prev, .next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2%;
+  cursor: pointer;
+  height: 100%;
+  z-index: 10;
+}
+.prev {
+  left: 0;
+  background: url(./../shop_detail_img/smallimgArealeft.gif) no-repeat;
+  background-size: contain;
+}
+.next {
+  right: 0;
+  background: url(./../shop_detail_img/smallimgArearight.gif) no-repeat;
+  background-size: contain;
+}
+.spec-items {
+  position: relative;
+  width: 98%;
+  height: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+}
+.spec-items ul {
+  position: relative;
+  display: flex;
+  margin: 0;
+  padding: 0 2%;
+  list-style: none;
+  width: 100%;
+  height: 100%;
+  transition: all 0.5s;
+}
+.spec-items ul li {
+  width: 13%;
+  height: 100%;
+  margin: 0 1%;
+  display: inline-block;
+}
+.spec-items ul li img {
+  width: 100%;
+  height: 100%;
+  border: 0.2% solid #fff;
+}
+.spec-items ul .img-hover img {
+  border: 0.2% solid #e53e41;
+}
+/* 放大鏡設定 */
+.zoom-pup {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 32.5%;
+  height: 32.5%;
+  background-color: rgb(250, 251, 216);
+  opacity: 0.3;
+}
+.zoom-div {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 100%;
+  width: 45%;
+  height: 45%;
+  background-color: red;
+  overflow: hidden;
+}
+.zoom-div img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+/* ================================== 右邊內容區域 ================================== */
+section.sec1 div.flex_container div.items.-right {
+  flex-grow: 1;
+  font-size: 1.5vw; /* 調整為相對螢幕大小 */
+  padding: 2%;
+  background-color: #ffffff;
+  height: 75%; /* 高度占比 */
+  box-sizing: border-box;
+  opacity: 0.7;
+}
+.desc_list {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  width: 100%;
+}
+.Goods_Price {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 1%;
+}
+.Goods_Price_0 {
+  padding-right: 3%;
+}
+.Goods_Price_1 {
+  font-weight: bold;
+  font-size: 2vw; /* 相對螢幕大小 */
+  color: #d0011b;
+}
+.Coupon_Title {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 1%;
+}
+.Coupon_Title_0 {
+  padding-right: 1%;
+}
+.Coupon_Title_1 {
+  font-size: 1.5vw;
+}
+.Goods_Description {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin: 1%;
+}
+.Goods_Description_0 {
+  width: 8%;
+}
+.Goods_Description_1 {
+  font-size: 1.5vw;
+  width: 90%;
+  max-height: 50%;
+  overflow-y: auto;
+}
+.label_item {
+  display: inline-block;
+  vertical-align: middle;
+  padding-right: 5%;
+  margin: 1%;
+}
+.buy_count {
+  padding: 0.5% 0;
+}
+.shopping_button {
+  padding: 0 3%;
+  cursor: pointer;
+  font-size: 1.2vw;
+  width: 13%;
+  height: 7%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: 0.1vw solid #c45944;
+  color: rgb(208, 1, 27);
+  background-color: rgba(255, 87, 34, 0.1);
+}
+.shopping_button:hover {
+  background-color: rgba(255, 216, 205, 0.3);
+}
+._kL9Hf {
+  width: 1.5%;
+  margin-right: 1%;
+}

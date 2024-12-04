@@ -1,7 +1,6 @@
 package com.used.controller;
 
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,14 +20,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
-import org.thymeleaf.spring5.SpringTemplateEngine;
-import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
+import com.goodstype.model.GoodsTypeService;
+import com.goodstype.model.GoodsTypeVO;
 import com.used.model.UsedService;
 import com.used.model.UsedVO;
 import com.usedpic.model.UsedPicService;
@@ -46,6 +42,9 @@ public class UsedController {
 	private UsedPicService usedPicSvc;
 	
 	@Autowired
+	private GoodsTypeService goodsTypeService;
+	
+	@Autowired
 	private EntityManager EntityManager;
 	
 
@@ -57,6 +56,8 @@ public class UsedController {
 	public String addUsed(ModelMap model) {
 		UsedVO usedVO = new UsedVO();
 		model.addAttribute("usedVO", usedVO);
+		List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();
+		model.addAttribute("goodsTypeList", goodsTypeList);
 		return "front-end/used/addUsed";
 	}
 	
@@ -64,30 +65,58 @@ public class UsedController {
 	public String getOneUsed( @RequestParam("usedNo") String usedNo, Model model) {
 		 
 		UsedVO usedVO = usedSvc.getOneUsed(Integer.valueOf(usedNo));
+		List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();
 		model.addAttribute("usedVO", usedVO);
+		model.addAttribute("goodsTypeList", goodsTypeList);
 		return "front-end/used/listOneUsed";
+	}
+	
+	@PostMapping("/getOneUsedOnDetail")
+	public String getOneUsedOnDetail( @RequestParam("usedNo") String usedNo, Model model) {
+		 
+		UsedVO usedVO = usedSvc.getOneUsed(Integer.valueOf(usedNo));
+		List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();
+		
+		model.addAttribute("usedVO", usedVO);
+		model.addAttribute("goodsTypeList", goodsTypeList);
+		return "front-end/used/shop_detail_used";
 	}
 
 	@PostMapping("/getSellerUsedListFragment")
     public String getUsedListFragment(HttpSession session, Model model) {
         // 從 session 中取得 memNo
-        Integer memNo = (Integer) session.getAttribute("memNo");
-
-        if (memNo == null) {
-            // 如果沒有 memNo，處理錯誤情況，這裡可以返回空片段或錯誤信息
-            return "fragments/usedListFragment :: usedListFragment";
-        }
-
+//        Integer memNo = (Integer) session.getAttribute("memNo");
+//
+//        if (memNo == null) {
+//            // 如果沒有 memNo，處理錯誤情況，這裡可以返回空片段或錯誤信息
+//            return "fragments/usedListFragment :: usedListFragment";
+//        }
         // 根據 memNo 從資料庫中查詢二手商品列表
-        List<UsedVO> usedListData = usedSvc.memberSelectBySellerNo(memNo);//測試使用211
-
+        List<UsedVO> usedListData = usedSvc.memberSelectBySellerNo(2);//測試使用2memNo
+        List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();
         // 將數據放到模型中
         model.addAttribute("usedListData", usedListData);
-
+        model.addAttribute("goodsTypeList", goodsTypeList);
         // 返回Fragment所在的模板，並指定Fragment名稱
         return "front-end/used/memberAllUsed :: usedListFragment";
     }
+	
+	
+	//管理員搜尋所有二手商品
+	@PostMapping("/getAllSellerUsedListFragment")
+    public String getAllUsedListFragment(HttpSession session, Model model) {
+        
+        // 根據 memNo 從資料庫中查詢二手商品列表
+        List<UsedVO> usedListData = usedSvc.getAll();
+        List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();
+		
+        // 將數據放到模型中
+        model.addAttribute("usedListData", usedListData);
+        model.addAttribute("goodsTypeList", goodsTypeList);
 
+        // 返回Fragment所在的模板，並指定Fragment名稱
+        return "front-end/used/listAllUsed :: usedListFragment";
+    }
 
 	
 	
@@ -108,6 +137,8 @@ public class UsedController {
 	    if (result.hasErrors() || validPictures.isEmpty()) {
 //	    	System.out.println(result.getFieldErrorCount());
 //	    	System.out.println(result.getFieldError());
+	    	List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();	
+	    	model.addAttribute("goodsTypeList", goodsTypeList);
 	        model.addAttribute("errorMessage", "請輸入正確的商品資訊，並上傳至少一張照片");
 	        return "front-end/used/addUsed";
 	    }
@@ -126,6 +157,11 @@ public class UsedController {
 //	    System.out.println(usedNo);
 //	    usedVO = usedSvc.getOneUsed(usedNo);
 //	    System.out.println(usedVO.getUsedPics().isEmpty());
+	    
+	    
+	    List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();	
+		
+		model.addAttribute("goodsTypeList", goodsTypeList);
 	    model.addAttribute("usedVO",usedVO);
 	    redirectAttributes.addFlashAttribute("success", "新增成功！");
 	    return "front-end/used/listOneUsed";
@@ -139,7 +175,7 @@ public class UsedController {
 	 * This method will be called on update_Used_input.html form submission, handling POST request It also validates the user input
 	 */
 	@PostMapping("/update")
-	public String update(@Valid UsedVO usedVO, BindingResult result, ModelMap model,
+	public String update(@Valid UsedVO usedVO, BindingResult result,HttpSession session , ModelMap model,
 			@RequestParam("upfiles") MultipartFile[] parts) throws IOException {
 
 		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
@@ -174,20 +210,20 @@ public class UsedController {
 		        usedPicsList.add(usedPicVO);
 		    }
 			usedVO.setUsedPics(usedPicsList);
-		}
-		
-		
+		}	
 		/*************************** 2.開始修改資料 *****************************************/
-	
 		Integer usedNo=usedSvc.updateUsed(usedVO);
 		
-		
 		EntityManager.clear();
+		/*************************** 3.修改完成,準備轉交(Send the Success view) **************/
+		
 		
 		UsedVO newUsedVO= usedSvc.getOneUsed(usedNo);
-//		System.out.println(newUsedVO.getUsedPics().size());//debug用 緩存問題(以解決)
-		/*************************** 3.修改完成,準備轉交(Send the Success view) **************/
-		model.addAttribute("success", "- (修改成功)");
+		
+		List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();	
+		
+		model.addAttribute("goodsTypeList", goodsTypeList);
+		model.addAttribute("success", " (修改成功)");
 		model.addAttribute("usedVO", newUsedVO);
 		return "front-end/used/listOneUsed"; // 修改成功後轉交listOneUsed.html
 	}
@@ -195,44 +231,67 @@ public class UsedController {
 	/*
 	 * This method will be called on listAllUsed.html form submission, handling POST request
 	 */
-	@PostMapping("/delete")
-	public String delete(@RequestParam("usedNo") String usedNo, ModelMap model) {
+	@PostMapping("/memberdelete")
+	public String memberdelete(@RequestParam("usedNo") String usedNo,HttpSession session ,ModelMap model) {
+		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
+//		Integer memNo = (Integer) session.getAttribute("memNo");測試中註解
+		/*************************** 2.開始刪除資料 *****************************************/
+		// UsedService UsedSvc = new UsedService();
+		
+		usedSvc.deleteUsed(Integer.valueOf(usedNo));
+		
+		/*************************** 3.刪除完成,準備轉交(Send the Success view) **************/
+		List<UsedVO> usedListData = usedSvc.memberSelectBySellerNo(2);//memNo
+		
+		model.addAttribute("usedListData", usedListData);
+		
+		return "front-end/used/member"; // 刪除完成後轉交listAllUsed.html
+	}
+
+	@PostMapping("/admindelete")
+	public String admindelete(@RequestParam("usedNo") String usedNo, ModelMap model) {
 		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
 		/*************************** 2.開始刪除資料 *****************************************/
 		// UsedService UsedSvc = new UsedService();
+		
 		usedSvc.deleteUsed(Integer.valueOf(usedNo));
 		/*************************** 3.刪除完成,準備轉交(Send the Success view) **************/
 		List<UsedVO> list = usedSvc.getAll();
+		
 		model.addAttribute("usedListData", list);
 		model.addAttribute("success", "- (刪除成功)");
-		return "front-end/used/listAllUsed"; // 刪除完成後轉交listAllUsed.html
+		return "front-end/used/managertest"; // 刪除完成後轉交listAllUsed.html
 	}
-
-	/*
-	 * 第一種作法 Method used to populate the List Data in view. 如 : 
-	 * <form:select path="usedPicno" id="usedPicno" items="${usedPicListData}" itemValue="usedPicno" itemLabel="dname" />
-	 */
-//	@ModelAttribute("usedPicListData")
-//	protected List<UsedPicVO> referenceListData() {
-//		// usedPicService usedPicSvc = new usedPicService();
-//		List<UsedPicVO> list = usedPicSvc.getAll();
-//		return list;
-//	}
-
-	/*
-	 * 【 第二種作法 】 Method used to populate the Map Data in view. 如 : 
-	 * <form:select path="usedPicno" id="usedPicno" items="${depMapData}" />
-	 */
-//	@ModelAttribute("usedPicMapData") //
-//	protected Map<Integer, String> referenceMapData() {
-//		Map<Integer, String> map = new LinkedHashMap<Integer, String>();
-//		map.put(10, "財務部");
-//		map.put(20, "研發部");
-//		map.put(30, "業務部");
-//		map.put(40, "生管部");
-//		return map;
-//	}
-//
+	
+	@PostMapping("/usedDelete")
+	public String usedDelete(@RequestParam("usedNo") String usedNo, ModelMap model) {
+		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
+		/*************************** 2.開始刪除資料 *****************************************/
+		// UsedService UsedSvc = new UsedService();
+		
+		usedSvc.deleteUsed(Integer.valueOf(usedNo));
+		/*************************** 3.刪除完成,準備轉交(Send the Success view) **************/
+		List<UsedVO> list = usedSvc.getAll();
+		
+		model.addAttribute("usedListData", list);
+		model.addAttribute("success", "- (刪除成功)");
+		return "front-end/used/managertest"; // 刪除完成後轉交listAllUsed.html
+	}
+	
+	
+	@GetMapping("/back") //for update頁面轉移用
+	public String back(HttpSession session, ModelMap model) {
+		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
+		/*************************** 2.確認身分,準備轉交(Send the Success view) **************/
+		if(session.getAttribute("memNo")!=null) {
+			return "front-end/used/member";
+		}else {
+			return "front-end/used/managertest"; // 刪除完成後轉交listAllUsed.html
+		}
+	
+	}
+	
+	
 	// 去除BindingResult中某個欄位的FieldError紀錄
 	public BindingResult removeFieldError(UsedVO usedVO, BindingResult result, String removedFieldname) {
 		List<FieldError> errorsListToKeep = result.getFieldErrors().stream()

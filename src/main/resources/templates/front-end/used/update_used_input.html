@@ -12,19 +12,119 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>員工資料修改 - update_used_input.html</title>
+<title>員工資料修改 </title>
 
-<head th:insert="~{/front-end/used/included-fragment}"></head>
+
 <style type="text/css">
-	
+	/* CSS for the Form Layout */
+body{
+background-image: url("/images/ruben-bagues-vPQfc4niDh0-unsplash.jpg");
+}
+form {
+    width: 50vw;
+    height: auto;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: auto auto auto;
+    gap: 2vh;
+    padding: 2vh;
+    border: 2px solid rgb(128, 128, 128);
+    border-radius: 1vh;
+    
+}
+
+label {
+    grid-column: span 3;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    gap: 1vw; /* Reduced gap to decrease distance between label and input field */
+}
+
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+    flex: 1;
+    padding: 1vh;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 1vh;
+    max-width: 60vw;
+}
+
+input[type="file"] {
+    flex: 1;
+    max-width: 60vw;
+}
+
+button[type="submit"],
+button[type="button"] {
+    grid-column: span 5;
+    padding: 0.5vh; /* Reduce button size by half */
+    font-size: 0.8em;
+    background-color: rgb(128, 64, 64);
+    color: white;
+    border: none;
+    border-radius: 1vh;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 15vw;
+}
+
+button[type="submit"]:hover,
+button[type="button"]:hover {
+    background-color: #0056b3;
+}
+
+.error {
+    color: red;
+    font-size: 0.9em;
+    grid-column: span 5;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    grid-column: span 5;
+    margin-top: 2vh;
+}
+
+table th, table td {
+    padding: 1vh;
+    border: 1px solid rgb(128, 64, 64);
+    text-align: center;
+}
+
+/* Align Photo Area to the Right of Text */
+.preview-container {
+    grid-column: span 2;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1vh;
+    margin-top: 1vh;
+    align-self: start;
+    justify-self: end;
+}
+
+.preview-container img {
+    width: 22.5vw; /* Increased image size by 1.5 times again */
+    height: 22.5vw; /* Increased image size by 1.5 times again */
+    object-fit: cover;
+    border: 2px solid #ddd;
+    border-radius: 1vh;
+}
+
+/* Background Block */
 
 </style>
 </head>
 <body>
 
 <nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
-		 <div align="center"> <h2>二手商品資料修改 - update_used_input.html</h2>
-		 <h3><a class="navbar-brand" th:href="@{/used/select_page}"><img th:src="@{/images/back1.gif}">回查詢頁</a></h3></div>
+		 <div align="center"> <h2>二手商品資料修改</h2>
+		 <h3><a class="navbar-brand" th:href="@{/used/back}">返回</a></h3></div>
 </nav>
 
 
@@ -36,10 +136,20 @@
 		    <input type="hidden" th:field="*{usedNo}" />
 		    <input type="hidden" th:field="*{sellerNo}" />
 		    
+		    <div class="errorblock" th:utext="${errorMessage}">${errorMessage}</div><br>
+		    
 		    <label for="classNo">商品類別：</label>
-		    <input type="text" id="classNo" th:field="*{classNo}"  maxlength="10" required/>
-		    <span  th:if="${#fields.hasErrors('classNo')}" th:errors="*{classNo}" class="error" id="classNo.errors"></span>
-		    <br>
+			<select id="classNo" th:field="*{classNo}" required>
+			    <option value="" disabled selected>請選擇商品類別</option>
+			    <option th:each="goodsType : ${goodsTypeList}" 
+			            th:value="${goodsType.goodstNo}" 
+			            th:text="${goodsType.goodstName}" 
+			            th:selected="${goodsType.goodstNo == usedVO.classNo}">
+			    </option>
+			</select>
+			<span th:if="${#fields.hasErrors('classNo')}" th:errors="*{classNo}" class="error" id="classNo.errors"></span>
+			<br>
+
 		
 		    <label for="usedName">商品名稱：</label>
 		    <input type="text" id="usedName" th:field="*{usedName}"  maxlength="60" required />
@@ -47,7 +157,7 @@
 		    <br>
 		
 		    <label for="usedProDesc">商品描述：</label>
-		    <textarea id="usedProDesc" th:field="*{usedProDesc}" maxlength="200" required></textarea>
+		    <textarea id="usedProDesc" th:field="*{usedProDesc}" maxlength="200" required style="width: 250px; height: 150px;"></textarea>
 		    <span  th:if="${#fields.hasErrors('usedProDesc')}" th:errors="*{usedProDesc}" class="error" id="usedProDesc.errors"></span>
 		    <br>
 		
@@ -75,7 +185,7 @@
 			<select id="usedState" th:field="*{usedState}">
 			    <option value="0" th:selected="${usedState == 0}">未上架</option>
 			    <option value="1" th:selected="${usedState == 1}">上架</option>
-<!-- 		        <option value="2">預設刪除</option> -->
+		        <option value="2" th:selected="${usedState == 2}">刪除</option>
 		    </select>
 		    <br />
 		    
@@ -110,10 +220,10 @@
 		    <!-- 多張圖片 (UsedPicVO 列表) -->
 		    <div id="usedPicsContainer">
 			    <div class="usedPics">
-			      <label for="upfiles">新增二手商品照片上傳:</label>
+			      <label for="upfiles">新增照片:</label>
 			      <br>
             	  <input type="file" name="upfiles" id="upfiles" accept="images/*" />
-			      
+			      <img class="preview-image" style="display: none; max-width: 100px; max-height: 100px; margin-top: 5px;" />
 			    </div>
 			 </div>
 		
@@ -124,12 +234,11 @@
 		</form>
 			
 	
-	<div class="errorblock" th:utext="${errorMessage}">${errorMessage}</div><br>
+	
 
 
 <!-- JavaScript part -->
 <script type="text/javascript">
-
 document.addEventListener("DOMContentLoaded", () => {
     const maxPhotos = 5; // 照片總數限制
     const addPictureBtn = document.getElementById("addPicture");
@@ -140,18 +249,16 @@ document.addEventListener("DOMContentLoaded", () => {
     function updateAddButtonState() {
         const totalPhotos = photoTable.querySelectorAll(".photoRow").length + 
                             usedPicsContainer.querySelectorAll(".usedPics").length;
-        const totalUsedPhotos = photoTable.querySelectorAll(".photoRow").length
+        const totalUsedPhotos = photoTable.querySelectorAll(".photoRow").length;
         
         if (totalPhotos >= maxPhotos) {
-//             addPictureBtn.disabled = true; // 禁用新增按鈕
             addPictureBtn.style.display = "none";
         }
-        if(totalUsedPhotos >= maxPhotos){
-        	addPictureBtn.style.display = "none";
-        	upfilesInput.style.display = "none";
-        }
-        else {
-            addPictureBtn.disabled = false; // 啟用新增按鈕
+        if (totalUsedPhotos >= maxPhotos) {
+            addPictureBtn.style.display = "none";
+            upfilesInput.style.display = "none";
+        } else {
+            addPictureBtn.disabled = false;
         }
     }
 
@@ -167,14 +274,10 @@ document.addEventListener("DOMContentLoaded", () => {
             const newDiv = document.createElement("div");
             newDiv.classList.add("usedPics");
             newDiv.innerHTML = `
-                <input type="file" name="upfiles" id="upfiles" accept="images/*" />
-               
+                <input type="file" name="upfiles" accept="image/*" />
+                <img class="preview-image" style="display: none; max-width: 100px; max-height: 100px; margin-top: 5px;" />
             `;
             usedPicsContainer.appendChild(newDiv);
-
-           
-            
-
             updateAddButtonState();
         }
     });
@@ -182,87 +285,100 @@ document.addEventListener("DOMContentLoaded", () => {
     // 刪除已存在的照片，並發送後端請求
     photoTable.addEventListener("click", (e) => {
         if (e.target.classList.contains("deletePhoto")) {
-            const usedPicNo = e.target.getAttribute("value"); // 獲取按鈕綁定的照片 ID
+            const usedPicNo = e.target.getAttribute("value");
             if (usedPicNo) {
                 fetch(`/usedpic/deleteOneUsedPic`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/x-www-form-urlencoded",
                     },
-                    body: `usedPicNo=${usedPicNo}`, // 傳遞的請求參數
+                    body: `usedPicNo=${usedPicNo}`,
                 })
                     .then((response) => response.text().then((message) => ({ message, ok: response.ok })))
                     .then(({ message, ok }) => {
                         if (ok) {
-                            alert("刪除成功！"); // 成功刪除時顯示訊息
-                            // 從表格中移除該行
+                            alert("刪除成功！");
                             const row = e.target.closest("tr");
                             if (row) row.remove();
                             updateAddButtonState();
                             location.reload();
                         } else {
-                            alert(message); // 顯示後端返回的錯誤訊息
-                            updateAddButtonState()
+                            alert(message);
+                            updateAddButtonState();
                             location.reload();
                         }
                     })
                     .catch((error) => {
                         alert("刪除失敗，請稍後再試！");
                         console.error("Error:", error);
-                        updateAddButtonState()
+                        updateAddButtonState();
                         location.reload();
                     });
             }
         }
     });
     
- // 檔案上限控制
-	  const MAX_FILE_SIZE = 5 * 1024 * 1024; // 最大檔案大小 5MB
-	  const ALLOWED_TYPES = ['image/jpeg', 'image/png','image/gif']; // 允許的檔案類型
-	  const MAX_FILENAME_LENGTH = 30; // 檔名最大長度
-	  const FILENAME_REGEX = /^[\u4e00-\u9fffA-Za-z0-9\s\p{P}\p{S}\u3100-\u312F\u31A0-\u31BF\u3040-\u309F\u30A0-\u30FF]{1,30}$/u;
+    // 檔案上限控制
+    const MAX_FILE_SIZE = 5 * 1024 * 1024; // 最大檔案大小 5MB
+    const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif'];
+    const MAX_FILENAME_LENGTH = 30;
+    const FILENAME_REGEX = /^[\u4e00-\u9fffA-Za-z0-9\s\p{P}\p{S}\u3100-\u312F\u31A0-\u31BF\u3040-\u309F\u30A0-\u30FF]{1,30}$/u;
 
-	  // 動態監聽所有 input[name="upfiles"]
-	  document.addEventListener("change", (event) => {
-	    if (event.target && event.target.name === "upfiles") {
-	      const files = event.target.files;
-	      const errorMessages = [];
+    document.addEventListener("change", (event) => {
+        if (event.target && event.target.name === "upfiles") {
+            const files = event.target.files;
+            const errorMessages = [];
+            const previewImage = event.target.nextElementSibling; // 取得對應的預覽圖片標籤
 
-	      Array.from(files).forEach((file) => {
-	        const fileName = file.name;
-	        const fileSize = file.size;
-	        const fileType = file.type;
+            Array.from(files).forEach((file) => {
+                const fileName = file.name;
+                const fileSize = file.size;
+                const fileType = file.type;
 
-	        // 檢查檔案大小
-	        if (fileSize > MAX_FILE_SIZE) {
-	          errorMessages.push(`${fileName} 超過檔案大小限制 (${(fileSize / 1024 / 1024).toFixed(2)} MB)。`);
-	        }
+                // 檢查檔案大小
+                if (fileSize > MAX_FILE_SIZE) {
+                    errorMessages.push(`${fileName} 超過檔案大小限制 (${(fileSize / 1024 / 1024).toFixed(2)} MB)。`);
+                }
 
-	        // 檢查檔案類型
-	        if (!ALLOWED_TYPES.includes(fileType)) {
-	          errorMessages.push(`${fileName} 類型不被允許 (${fileType})。`);
-	        }
+                // 檢查檔案類型
+                if (!ALLOWED_TYPES.includes(fileType)) {
+                    errorMessages.push(`${fileName} 類型不被允許 (${fileType})。`);
+                }
 
-	        // 檢查檔名長度
-	        if (fileName.length > MAX_FILENAME_LENGTH) {
-	          errorMessages.push(`${fileName} 檔名過長 (最大 ${MAX_FILENAME_LENGTH} 個字元)。`);
-	        }
+                // 檢查檔名長度
+                if (fileName.length > MAX_FILENAME_LENGTH) {
+                    errorMessages.push(`${fileName} 檔名過長 (最大 ${MAX_FILENAME_LENGTH} 個字元)。`);
+                }
 
-	        // 檢查檔名格式
-	        if (!FILENAME_REGEX.test(fileName)) {
-	          errorMessages.push(`${fileName} 檔名含有非法字元 (僅允許中、英、日文、數字和特殊符號 , 且長度最多30個字)。`);
-	        }
-	      });
+                // 檢查檔名格式
+                if (!FILENAME_REGEX.test(fileName)) {
+                    errorMessages.push(`${fileName} 檔名含有非法字元 (僅允許中、英、日文、數字和特殊符號 , 且長度最多30個字)。`);
+                }
 
-	      if (errorMessages.length > 0) {
-	        alert(errorMessages.join("\n"));
-	        event.target.value = ""; // 清空檔案選擇
-	      }
-	    }
-	  });
+                // 預覽圖片
+                if (errorMessages.length === 0 && previewImage) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        previewImage.src = e.target.result;
+                        previewImage.style.display = "block";
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            if (errorMessages.length > 0) {
+                alert(errorMessages.join("\n"));
+                event.target.value = ""; // 清空檔案選擇
+                if (previewImage) {
+                    previewImage.style.display = "none";
+                }
+            }
+        }
+    });
 });
 
 </script>
+
 
 </body>
 </html>
