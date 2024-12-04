@@ -101,6 +101,7 @@ public class UsedController {
         return "front-end/used/memberAllUsed :: usedListFragment";
     }
 	
+	
 	//管理員搜尋所有二手商品
 	@PostMapping("/getAllSellerUsedListFragment")
     public String getAllUsedListFragment(HttpSession session, Model model) {
@@ -218,7 +219,11 @@ public class UsedController {
 		
 		
 		UsedVO newUsedVO= usedSvc.getOneUsed(usedNo);
-		model.addAttribute("success", "- (修改成功)");
+		
+		List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();	
+		
+		model.addAttribute("goodsTypeList", goodsTypeList);
+		model.addAttribute("success", " (修改成功)");
 		model.addAttribute("usedVO", newUsedVO);
 		return "front-end/used/listOneUsed"; // 修改成功後轉交listOneUsed.html
 	}
@@ -256,6 +261,34 @@ public class UsedController {
 		model.addAttribute("usedListData", list);
 		model.addAttribute("success", "- (刪除成功)");
 		return "front-end/used/managertest"; // 刪除完成後轉交listAllUsed.html
+	}
+	
+	@PostMapping("/usedDelete")
+	public String usedDelete(@RequestParam("usedNo") String usedNo, ModelMap model) {
+		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
+		/*************************** 2.開始刪除資料 *****************************************/
+		// UsedService UsedSvc = new UsedService();
+		
+		usedSvc.deleteUsed(Integer.valueOf(usedNo));
+		/*************************** 3.刪除完成,準備轉交(Send the Success view) **************/
+		List<UsedVO> list = usedSvc.getAll();
+		
+		model.addAttribute("usedListData", list);
+		model.addAttribute("success", "- (刪除成功)");
+		return "front-end/used/managertest"; // 刪除完成後轉交listAllUsed.html
+	}
+	
+	
+	@GetMapping("/back") //for update頁面轉移用
+	public String back(HttpSession session, ModelMap model) {
+		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
+		/*************************** 2.確認身分,準備轉交(Send the Success view) **************/
+		if(session.getAttribute("memNo")!=null) {
+			return "front-end/used/member";
+		}else {
+			return "front-end/used/managertest"; // 刪除完成後轉交listAllUsed.html
+		}
+	
 	}
 	
 	

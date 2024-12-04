@@ -488,11 +488,11 @@ th.col-usedName, td.col-usedName {
 }
 
 th.col-classNo, td.col-classNo {
-    width: 4%; /* 商品類別欄寬度 */
+    width: 3%; /* 商品類別欄寬度 */
 }
 
 th.col-usedPrice, td.col-usedPrice {
-    width: 2%; /* 價格欄寬度 */
+    width: 3%; /* 價格欄寬度 */
 }
 
 th.col-usedStocks, td.col-usedStocks {
@@ -504,9 +504,16 @@ th.col-usedPics, td.col-usedPics {
     vertical-align: middle; /* 垂直置中對齊 */
     width: 13%; /* 照片欄寬度 */
 }
+th.col-usedProDesc{
+	width: 8%;
+}
 
-th.col-usedProDesc, td.col-usedProDesc {
+td.col-usedProDesc {
     width: 8%; /* 二手商品描述欄寬度 */
+    max-height: 100px; /* 限制最大高度 */
+    overflow: hidden; /* 隱藏超出內容 */
+    text-overflow: ellipsis; /* 顯示省略號 */
+    white-space: nowrap; /* 不換行 */
 }
 
 th.col-usedNewness, td.col-usedNewness {
@@ -527,6 +534,7 @@ th.col-usedState, td.col-usedState {
 
 th.col-modify, td.col-modify {
     width: 0.7%; /* 修改欄寬度 */
+    
 }
 
 th.col-delete, td.col-delete {
@@ -552,12 +560,13 @@ td img {
 
 /* 按鈕設置 */
 button {
-    width: calc(100% - 2px); /* 減去邊框的寬度 */
-    height: calc(100% - 2px); /* 減去邊框的高度 */
+/*     width: calc(100% - 2px); 減去邊框的寬度 */
+/*     height: calc(100% - 2px); 減去邊框的高度 */
     box-sizing: border-box; /* 確保邊框在計算內 */
-    padding: 0; /* 移除內邊距，確保沒有多餘空間 */
+    padding: 0;  /* 移除內邊距，確保沒有多餘空間 */
     border: none; /* 可選，移除按鈕邊框，使其更平滑 */
     cursor: pointer; /* 滑鼠移過按鈕時顯示手型 */
+    
     
 }
 

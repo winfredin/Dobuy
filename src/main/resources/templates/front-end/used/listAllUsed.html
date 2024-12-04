@@ -31,6 +31,7 @@ table {
 
 /* 表頭和內容設置 */
 th, td {
+    
     border: 1px solid #ddd; /* 表格單元格邊框 */
     padding: 10px; /* 單元格內邊距 */
     text-align: center; /* 文字置中 */
@@ -38,6 +39,7 @@ th, td {
     text-overflow: ellipsis; /* 顯示省略號 */
     vertical-align: middle; /* 垂直置中對齊 */
     height: 100px; /* 設定每個欄位的預設高度 */
+    
 }
 
 /* 表頭設置 */
@@ -72,7 +74,11 @@ th.col-usedPics, td.col-usedPics {
 }
 
 th.col-usedProDesc, td.col-usedProDesc {
-    width: 15%; /* 二手商品描述欄寬度 */
+     width: 15%; /* 二手商品描述欄寬度 */
+    max-height: 100px; /* 限制最大高度 */
+    overflow: hidden; /* 隱藏超出內容 */
+    text-overflow: ellipsis; /* 顯示省略號 */
+    white-space: nowrap; /* 不換行 */
 }
 
 th.col-usedNewness, td.col-usedNewness {
@@ -154,7 +160,7 @@ button:hover {
             </thead>
             <tbody>
                 <th:block th:each="usedVO : ${usedListData}">
-                    <tr>
+                    <tr data-used="${usedVO.usedNo}">
                         <td class="col-usedNo" th:text="${usedVO.usedNo}"></td>
                         <td class="col-usedName" th:text="${usedVO.usedName}"></td>
 <!--                    <td class="col-classNo" th:text="${usedVO.classNo}"></td> -->
