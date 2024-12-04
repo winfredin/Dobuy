@@ -231,6 +231,7 @@ public class UsedController {
 		model.addAttribute("goodsTypeList", goodsTypeList);
 		model.addAttribute("success", " (修改成功)");
 
+
 		model.addAttribute("usedVO", newUsedVO);
 		return "front-end/used/listOneUsed"; // 修改成功後轉交listOneUsed.html
 	}

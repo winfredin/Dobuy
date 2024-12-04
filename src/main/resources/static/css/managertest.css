@@ -509,7 +509,7 @@ th.col-usedPics, td.col-usedPics {
 th.col-usedProDesc {
 	width: 8%;
 }
- td.col-usedProDesc {
+td.col-usedProDesc {
     width: 8%; /* 二手商品描述欄寬度 */
     max-height: 100px; /* 限制最大高度 */
     overflow: hidden; /* 隱藏超出內容 */
