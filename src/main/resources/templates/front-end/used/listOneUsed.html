@@ -135,6 +135,7 @@ button:hover {
 		
 		</div>
 	
+
 	<div th:fragment="usedListFragment">
     <div class="UsedListContainer" id="UsedListContainer">
         <table class="UsedList" id="UsedList" style="width: 100%">
@@ -214,6 +215,76 @@ button:hover {
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
 <script type="text/javascript" th:src="@{/js/usedDataTable.js}"></script>
+=======
+	<table class="center">
+		<th:block th:object="${usedVO}">
+		
+			 <tr>
+	            <th style="padding: 10px;">商品編號</th>
+	            <th style="padding: 20px;">賣家編號</th>
+	            <th style="padding: 20px;">商品名稱</th>
+	            <th style="padding: 20px;">商品類別</th>
+	            <th style="padding: 20px;">價格</th>
+	            <th style="padding: 20px;">庫存量</th>
+	            <th style="padding: 20px;">照片</th>
+	            <th style="padding: 50px;">商品描述</th>
+	            <th style="padding: 20px;">上架時間</th>
+	            <th style="padding: 20px;">下架時間</th>
+	            <th style="padding: 20px;">商品狀態</th>
+	            <th style="padding: 10px;">修改</th>
+	            <th style="padding: 10px;">刪除</th>
+	        </tr>
+		
+		
+			<tr>
+				
+				<td th:text="*{usedNo}"></td>
+				<td th:text="*{sellerNo}"></td>
+				<td th:text="*{usedName}"></td>
+				<td class="col-classNo">
+						    <span th:each="goodsType : ${goodsTypeList}" 
+						          th:if="${goodsType.goodstNo == usedVO.classNo}" 
+						          th:text="${goodsType.goodstName}">
+						    </span>
+						   
+				</td>
+				<td th:text="*{usedPrice}"></td>
+				<td th:text="*{usedStocks}"></td>
+				
+<!-- 				<td th:if="${usedVO.usedPics == null or usedVO.usedPics.isEmpty()}">未上傳照片</td> -->
+
+				<td th:each="usedPicVO : ${usedVO.usedPics}">
+	            		<img th:src="@{/usedpic/UsedDBGifReader} + '?usedPicNo=' + ${usedPicVO.usedPicNo}" width="100px" />
+	            		<span th:text="${usedPicVO.usedPicName}"></span>
+	      		</td>
+	      		
+				<td th:text="*{usedProDesc}"></td>
+				<td th:text="*{usedProDesc}"></td>
+				<td th:text="${#dates.format(usedVO.usedLaunchedTime, 'yyyy-MM-dd')}"></td>
+				<td th:text="${#dates.format(usedVO.soldTime, 'yyyy-MM-dd')}"></td>
+				<td class="col-usedState" th:switch="*{usedState}">
+                            <span th:case="0">未上架</span>
+                            <span th:case="1">上架</span>
+                            <span th:case="2">已刪除</span>
+                </td>
+				
+				
+			<td>
+			  <form method="post" th:action="@{/used/getOne_For_Update}" style="margin-bottom: 0px;">
+			     <input type="submit" value="修改">
+			     <input type="hidden" name="usedNo" th:value="${usedVO.usedNo}"></form>
+			</td>
+			<td>
+			  <form method="post" th:action="@{/used/delete}" style="margin-bottom: 0px;">
+			     <input type="submit" value="刪除">
+			     <input type="hidden" name="usedNo" th:value="${usedVO.usedNo}"></form>
+			</td>
+			</tr>
+		</th:block>
+	</table>
+	
+
+>>>>>>> cab7800 push
 
 </body>
 </html>

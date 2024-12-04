@@ -75,7 +75,7 @@ public class UsedController {
 	public String getOneUsedOnDetail( @RequestParam("usedNo") String usedNo, Model model) {
 		 
 		UsedVO usedVO = usedSvc.getOneUsed(Integer.valueOf(usedNo));
-		
+
 		List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();
 		
 		model.addAttribute("usedVO", usedVO);
@@ -95,6 +95,7 @@ public class UsedController {
 //            return "fragments/usedListFragment :: usedListFragment";
 //        }
 
+
         // 根據 memNo 從資料庫中查詢二手商品列表
         List<UsedVO> usedListData = usedSvc.memberSelectBySellerNo(2);//測試使用2memNo
         List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();
@@ -105,7 +106,7 @@ public class UsedController {
         return "front-end/used/memberAllUsed :: usedListFragment";
     }
 	
-	
+
 	//管理員搜尋所有二手商品
 	@PostMapping("/getAllSellerUsedListFragment")
     public String getAllUsedListFragment(HttpSession session, Model model) {
@@ -223,11 +224,13 @@ public class UsedController {
 		
 		
 		UsedVO newUsedVO= usedSvc.getOneUsed(usedNo);
+
 		
 		List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();	
 		
 		model.addAttribute("goodsTypeList", goodsTypeList);
 		model.addAttribute("success", " (修改成功)");
+
 		model.addAttribute("usedVO", newUsedVO);
 		return "front-end/used/listOneUsed"; // 修改成功後轉交listOneUsed.html
 	}
@@ -297,7 +300,6 @@ public class UsedController {
 	}
 	
 	
-
 	// 去除BindingResult中某個欄位的FieldError紀錄
 	public BindingResult removeFieldError(UsedVO usedVO, BindingResult result, String removedFieldname) {
 		List<FieldError> errorsListToKeep = result.getFieldErrors().stream()

@@ -505,6 +505,7 @@ th.col-usedPics, td.col-usedPics {
     width: 13%; /* 照片欄寬度 */
 }
 
+
 th.col-usedProDesc {
 	width: 8%;
 }
@@ -514,6 +515,7 @@ th.col-usedProDesc {
     overflow: hidden; /* 隱藏超出內容 */
     text-overflow: ellipsis; /* 顯示省略號 */
     white-space: nowrap; /* 不換行 */
+
 }
 
 th.col-usedNewness, td.col-usedNewness {
