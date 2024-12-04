@@ -91,7 +91,7 @@ public class ConterOrderController {
 		// 去除BindingResult中upFiles欄位的FieldError紀錄 --> 見第172行
 		
 		/*************************** 2.開始修改資料 *****************************************/
-		// EmpService empSvc = new EmpService();
+		
 		counterOrderSvc.updateCounterOrder(counterOrderVO);
 
 		/*************************** 3.修改完成,準備轉交(Send the Success view) **************/

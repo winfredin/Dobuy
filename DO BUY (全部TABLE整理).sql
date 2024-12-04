@@ -112,10 +112,7 @@ CREATE TABLE CounterOrder (
     receiverName VARCHAR(10) NOT NULL,
     receiverAdr VARCHAR(100),
     receiverPhone VARCHAR(10) NOT NULL,
-    sellerSatisfaction TINYINT(1) DEFAULT 5,
-    sellerCommentContext VARCHAR(500),
-    sellerCommentDate Timestamp ,
-    orderTime TIMEstamp NOT NULL,
+    orderTime TIMEstamp default now(),
     disNo INT(10),
     orderStatus TINYINT(1) DEFAULT 0 NOT NULL
 

@@ -19,6 +19,7 @@ import com.manager.model.ManagerVO;
 	public class ManagerAuthVO implements Serializable {
 	
 	    private static final long serialVersionUID = 1L;
+	    
 	    @JsonIgnore
 	    @Id
 	    @ManyToOne
