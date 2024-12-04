@@ -93,7 +93,7 @@ public class FrontCouponController {
     }
     
     // 添加會員優惠券列表頁面
-<<<<<<< HEAD
+
     @GetMapping("/member/list")
     public String listMemberCoupons(HttpSession session, Model model) {
         Integer memberNo = (Integer) session.getAttribute("memberNo");
@@ -138,13 +138,6 @@ public class FrontCouponController {
   //以上昱夆新增
     
     
-    
-    
-    
-    
-    
-    
-=======
 //    @GetMapping("/member/list")
 //    public String listMemberCoupons(HttpSession session, Model model) {
 //        Integer memberNo = (Integer) session.getAttribute("memberNo");
@@ -156,5 +149,5 @@ public class FrontCouponController {
 //        model.addAttribute("memberCoupons", memberCoupons);
 //        return "front-end/coupon/memListAllCoupon";
 //    }
->>>>>>> master
+
 }
