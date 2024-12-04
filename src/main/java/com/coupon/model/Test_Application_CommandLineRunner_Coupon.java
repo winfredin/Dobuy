@@ -109,6 +109,20 @@ public class Test_Application_CommandLineRunner_Coupon implements CommandLineRun
 //            System.out.print(aCoupon.getCheckStatus());
 //            System.out.println();
 //        }
+    	
+//      List<CouponVO> list = repository.getOneCounter46(4);
+//      for (CouponVO aCoupon : list) {
+//          System.out.print(aCoupon.getCouponNo() + ", ");
+//          System.out.print(aCoupon.getCounterNo() + ", ");
+//          System.out.print(aCoupon.getCouponTitle() + ", ");
+//          System.out.print(aCoupon.getCouponContext() + ", ");
+//          System.out.print(aCoupon.getCouponStart() + ", ");
+//          System.out.print(aCoupon.getCouponEnd() + ", ");
+//          System.out.print(aCoupon.getCouponStatus() + ", ");
+//          System.out.print(aCoupon.getUsageLimit() + ", ");
+//          System.out.print(aCoupon.getCheckStatus());
+//          System.out.println();
+//      }
 
     }
 }

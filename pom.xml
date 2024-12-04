@@ -257,33 +257,11 @@
 			<artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
 
 
-		<dependency>
-			<groupId>
-				0205U_Maven_SpringBootMVC_Thymeleaf_Ver5_SpringData-Jpa
-			</groupId>
-			<artifactId>
-				0205U_Maven_SpringBootMVC_Thymeleaf_Ver5_SpringData-Jpa
-			</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+
 	</dependencies>
 
-	<!--		<dependency>-->
-	<!--			<groupId>-->
-	<!--				0205U_Maven_SpringBootMVC_Thymeleaf_Ver5_SpringData-Jpa-->
-	<!--			</groupId>-->
-	<!--			<artifactId>-->
-	<!--				0205U_Maven_SpringBootMVC_Thymeleaf_Ver5_SpringData-Jpa-->
-	<!--			</artifactId>-->
-	<!--			<version>0.0.1-SNAPSHOT</version>-->
-	<!--		</dependency>-->
 	<!--	</dependencies>-->
 
 	<build>

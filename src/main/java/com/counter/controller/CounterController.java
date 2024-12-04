@@ -25,10 +25,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.counter.model.CounterService;
 import com.counter.model.CounterVO;
+import com.counter.model.CounterVO.RegisterGroup;
 import com.counter.model.CounterVO.UpdateGroup;
 import com.counterType.model.CounterTypeService;
 import com.counterType.model.CounterTypeVO;
-import com.member.model.MemberVO.RegisterGroup;
+
 
 
 //test test
