@@ -32,8 +32,12 @@
     </form>
    	<br>
 
+<!-- <<<<<<< Upstream, based on branch 'master' of https://github.com/he01314905/Dobuy.git -->
 	
 	<form method="post" th:action="@{/goods/getOne_For_Display}">
+<!-- ======= -->
+<!-- 	<form method="get" th:action="@{/goods/getOneGoods}"> -->
+<!-- >>>>>>> a7b9f22 test -->
 	        輸入商品編號:
 	    <input type="text" name="goodsNo" placeholder="輸入商品編號"/>
 	    <input type="submit" value="送出">
@@ -53,11 +57,42 @@
 	<br><br>
 	<h5><a th:href="@{/mem/login}">login</a><br><br></h5>
 
+<!-- <<<<<<< Upstream, based on branch 'master' of https://github.com/he01314905/Dobuy.git -->
+
+
+
 <br><br>
 	<h5><a th:href="@{/login/Login}">後台login</a><br><br></h5>
 <br><br>
 	<h5><a th:href="@{/counterorder/select_page}">櫃位訂單</a><br><br></h5>
+	
+	
+	
+	
+	
 
+<!-- ======= -->
+	<br><br>
+	<h5><a href='selectPageStorecarousel'>selectPageStorecarousel </a><br><br></h5>
+	
+	<br><br>
+	<h5><a href='/monthsettlement/vendor-end/monthsettlement/addMonthSettlement'>text </a><br><br></h5>
+	
+	<br><br>
+	<h5><a href='/monthsettlement/listAllMonthSettlement'>listAll </a><br><br></h5>
+	
+	<br><br>
+	<h5><a href='/followers/listAllFollowers'>followerslistAll </a><br><br></h5>
+	
+	<br><br>
+	<h5><a href='/storecarousel/listAllStorecarousel'>listAllStorecarousel </a><br><br></h5>
+	
+	<br><br>
+	<h5><a href='/monthsettlement/selectPage'>monthsettlementselectPage </a><br><br></h5>
+	
+	<br><br>
+	<h5><a href='/followers/selectPage'>followersselectPage </a><br><br></h5>
+<!-- >>>>>>> a7b9f22 test -->
 	
 	
 </body>

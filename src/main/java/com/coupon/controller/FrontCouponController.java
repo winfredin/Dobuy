@@ -39,13 +39,16 @@ public class FrontCouponController {
     @Autowired
     private MemberService memberService;
 
+    
+//    櫃位優惠券要顯示在前台領取櫃位優惠券頁面
     @GetMapping("/list")
     public String listAvailableCoupons(Model model) {
         List<CouponVO> coupons = couponService.getAllApprovedCoupons();
         model.addAttribute("coupons", coupons);
         return "front-end/coupon/frontListAllCoupon";
     }
-
+    
+//    領取優惠券頁面點擊詳情顯示明細
     @GetMapping("/detail/{couponNo}")
     public String viewCouponDetail(@PathVariable Integer couponNo, Model model) {
         try {
@@ -54,13 +57,13 @@ public class FrontCouponController {
                 return "redirect:/front-end/coupon/list";
             }
             model.addAttribute("coupon", coupon);
-            return "front-end/coupon/frontCouponDetail";  // 要確保這個路徑對應到正確的模板文件
+            return "front-end/coupon/frontCouponDetail";  
         } catch (Exception e) {
             return "redirect:/front-end/coupon/list";
         }
     }
 
-
+//    點擊領取按鈕加入成我的會員優惠券
     @PostMapping("/claim")
     public String claimCoupon(@RequestParam Integer couponNo,
                              HttpSession session,
@@ -92,6 +95,9 @@ public class FrontCouponController {
         }
     }
     
+
+
+
     // 添加會員優惠券列表頁面
     @GetMapping("/member/list")
     public String listMemberCoupons(HttpSession session, Model model) {
@@ -104,4 +110,56 @@ public class FrontCouponController {
         model.addAttribute("memberCoupons", memberCoupons);
         return "front-end/coupon/memListAllCoupon";
     }
+    
+    //以下昱夆新增
+    @GetMapping("/member/list35")
+    public String listMemCoupons(HttpSession session, Model model) {
+        Integer membNo = Integer.valueOf((String) session.getAttribute("memNo"));
+      
+        List<MemCouponVO> memberCoupons = memCouponService.getAllByMemNo(membNo);
+        model.addAttribute("memberCoupons", memberCoupons);
+        return "front-end/memcoupon/memListAllCoupon";
+    }
+    
+    
+    @GetMapping("/claim35")
+    public String claimCoupon35(@RequestParam Integer couponNo,
+                             HttpSession session,
+                             HttpServletRequest request,
+                             RedirectAttributes redirectAttributes) {
+    	Integer membNo = Integer.valueOf((String) session.getAttribute("memNo"));
+       
+        try {
+            memCouponService.claimCoupon(membNo, couponNo);
+            redirectAttributes.addFlashAttribute("message", "領取成功！");
+            System.out.println("領取成功");
+            return "redirect:/memcoupon/memListAllCoupon"; 
+        } catch (Exception e) {
+        	System.out.println("領取失敗");
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            return "redirect:/memcoupon/memListAllCoupon"; 
+        }
+    }
+  //以上昱夆新增
+    
+    
+    
+    
+    
+    
+    
+    
+
+//    @GetMapping("/member/list")
+//    public String listMemberCoupons(HttpSession session, Model model) {
+//        Integer memberNo = (Integer) session.getAttribute("memberNo");
+//        if (memberNo == null) {
+//            return "redirect:/mem/login49";  // 或其他登入頁面路徑
+//        }
+//        
+//        List<MemCouponVO> memberCoupons = memCouponService.getAllByMemNo(memberNo);
+//        model.addAttribute("memberCoupons", memberCoupons);
+//        return "front-end/coupon/memListAllCoupon";
+//    }
+
 }

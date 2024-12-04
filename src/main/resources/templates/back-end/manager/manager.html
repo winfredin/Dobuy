@@ -1,5 +1,7 @@
-    <th:block th:fragment="head">
-      
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
     <meta charset="UTF-8">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,24 +11,128 @@
     <!-- Title -->
     <title>DoBuy - Lifestyle</title>
 
+
+
+
+<style>
+    .admin-feature-bar {
+   
+  /* background-color: rgba(173, 137, 100, 0.65); 深棕色背景，具有透明感 */
+  border-radius: 10px;
+ 
+}
+
+
+
+.admin-feature-list {
+    display: flex;
+    justify-content: center; /* 水平置中 */
+    list-style: none;
+   
+    
+    border-bottom: 1px solid #ddd; /* 下方邊框 */
+    background: linear-gradient(to bottom,rgba(173, 129, 85, 0.9), rgba(128, 95, 63, 0.99), rgba(128, 95, 63, 0.99));    margin-top: 0;
+  border-radius: 10px; /* 圓角 */
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15); /* 添加陰影 */
+  padding: 10px 0;
+    
+}
+
+.admin-feature-list li {
+    margin: 0 100px; /* 每個項目間距 */
+   margin-left: 20px;
+    
+}
+
+.admin-feature-list li a {
+    color: #130f0f; /* 字體設為白色 */
+  /* padding: 10px 15px; */
+  transition: background-color 0.3s;
+  border-radius: 6px;
+  /* padding-right: 20px; */
+  padding: 10px;
+}
+
+.admin-feature-list li a:hover {
+    text-decoration: underline;
+    background-color: rgba(141, 129, 115, 0.65);
+}
+
+    .profile-container {
+    width: 60%;
+    margin: 20px auto;
+    font-family: Arial, sans-serif;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.profile-form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.profile-info {
+    margin-bottom: 10px;
+}
+
+input[type="text"] {
+    padding: 8px;
+    width: 100%;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.profile-gender input {
+    margin-right: 5px;
+}
+
+.profile-birthday select {
+    padding: 8px;
+    margin-right: 5px;
+}
+
+.save-btn {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #ff4500;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+</style>
+
+
     <!-- Favicon -->
-    <link rel="icon" th:href="@{/img/core-img/logo noback.png}">
+    <link rel="icon" href="img/core-img/favicon.ico">
 
     <!-- Style CSS -->
-<!--     <link rel="stylesheet" href="style.css"> -->
-    <link rel="stylesheet" th:href="@{/style.css}">
-
-	<!-- Fontawesome -->
+    <link rel="stylesheet" href="/back-end-home/css/style.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-	
-	</th:block>
-	
-	
-	
-	
-	
-    <th:block th:fragment="header">
- <header class="header-area">
+</head>
+
+<body>
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="preload-content">
+            <div id="original-load"></div>
+        </div>
+    </div>
+
+
+
+    <!-- ##### Header Area Start ##### -->
+    <header class="header-area">
 
         <!-- Top Header Area -->
         <div class="top-header">
@@ -54,7 +160,7 @@
             <div class="container h-100">
                 <div class="row h-100 align-items-center">
                     <div class="col-12">
-                        <a href="index3" class="original-logo"><img src="img/core-img/logo noback.png" alt=""></a>
+                        <a href="#" class="original-logo"><img src="img/core-img/logo noback.png" alt=""></a>
                     </div>
                 </div>
             </div>
@@ -82,9 +188,9 @@
                             <!-- Nav Start -->
                             <div class="classynav">
                                 <ul>
-                                    <li><a class="dropdown-font" href="index3">首頁</a></li>
+                                    <li><a  class="dropdown-font" href="/back-end-homepage">首頁</a></li>
                                     <li><a href="#">會員管理</a>
-                                        <ul class="dropdown">
+                                        <ul  class="dropdown">
                                             <li><a href="#">會員管理</a></li>
                                             <li><a href="#">會員管理訂單管理</a></li>
                                             <li><a href="#">商品審核</a></li>
@@ -103,10 +209,10 @@
                                             <li><a href="#">商品分類管理</a></li>
                                         </ul>
                                     </li>
-
+                                        
                                     <li><a href="#">管理員資料</a>
                                         <ul class="dropdown">
-                                            <li><a href="#">管理員資料管理</a></li>
+                                            <li><a href="#" id="1">管理員資料管理</a></li>
                                         </ul>
                                     </li>
 
@@ -117,7 +223,7 @@
                                             <li><a href="#">優惠訊息通知</a></li>
                                         </ul>
                                     </li>
-
+                                    
                                     <li><a href="#">客服系統</a>
                                         <ul class="dropdown">
                                             <li><a href="#">FAQ專案管理</a></li>
@@ -125,6 +231,15 @@
                                         </ul>
                                     </li>
                                 </ul>
+
+                                <!-- Search Form  -->
+                                <div id="search-wrapper">
+                                    <form action="#">
+                                        <input type="text" id="search" placeholder="Search something...">
+                                        <div id="close-icon"></div>
+                                        <input class="d-none" type="submit" value="">
+                                    </form>
+                                </div>
                             </div>
                             <!-- Nav End -->
                         </div>
@@ -133,39 +248,76 @@
             </div>
         </div>
     </header>
-   	</th:block>
-	    
-	    
-	    
-	    
-	    
-    <th:block th:fragment="footer">	    
-	        <!-- ##### Footer Area Start ##### -->
-        <footer class="footer-area text-center">
-            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            Copyright &copy;
-            <script>document.write(new Date().getFullYear());</script>
-             All rights reserved | <i class="fa-regular fa-heart fa-bounce"></i> by <a href="index3" target="_blank">DOBUY</a>
-        </footer>   
-        <!-- ##### Footer Area End ##### -->    
-    
-   	</th:block>
 
-	
-	
-    <th:block th:fragment="js">	    
-        <!-- jQuery (Necessary for All JavaScript Plugins) -->
-        <script src="js/jquery/jquery-2.2.4.min.js"></script>
+    <div class="admin-feature-bar">
+        <div class="container">
+            <ul class="admin-feature-list">
+                <li><a href="#" id="admin-data">管理員資料管理</a></li>
+                <li><a href="#" id="admin-permissions">權限列表設定</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+
+
+
+<div class="profile-container">
+    <h2>管理員資料</h2>
+    
+
+    <form class="profile-form">
+       
+<br>
+<div>
+      <span>管理員編號:<span th:text="${managerVO.managerNo}"></span></span><br>
+		<span>管理員名稱:<span th:text="${managerVO.managerName}"></span></span><br>
+		<span>管理員帳號:<span th:text="${managerVO.managerAccount}"></span></span><br>
+		<span>管理員密碼:<span th:text="${managerVO.managerPassword}"></span></span><br>
+		<span>管理員狀態:<span th:text="${managerVO.managerstatusDisplay}"></span><span><br>
+		</div>
+		<span> <h3>管理員權限資料 :</h3>
+    
+            <span th:if="${#lists.isEmpty(one)}">
+                <span>該管理員無權限資料。</span>
+            </span>
+  
+            <div align="center" th:unless="${#lists.isEmpty(one)}">
+       <table>  
+        <thead>
+   			<tr>
+             <th>  權限名稱:  </th> 
+             <th> 權限描述:</th> 
+           </tr> 
+       </thead> 
+                    <th:block th:each="auth : ${one}">
+                 <tr>       
+                        <br>
+                      
+                         <td style="padding-right: 50px;">
+                            <span  class="a" th:text="${auth.authNo.authTitle}"></span><br>
+                        </td>
+                         <td >
+                            <span class="a" th:text="${auth.authNo.authContext}"></span>
+                        </td>
+                      </tr> 
+                    </th:block>
+                    
+                    </table>  
+      
+   
+</div>
+</span>
+</body>
+ <script src="/back-end-home/js/jquery/jquery-2.2.4.min.js"></script>
         <!-- Popper js -->
-        <script src="js/popper.min.js"></script>
+        <script src="/back-end-home/js/popper.min.js"></script>
         <!-- Bootstrap js -->
-        <script src="js/bootstrap.min.js"></script>
+        <script src="/back-end-home/js/bootstrap.min.js"></script>
         <!-- Plugins js -->
-        <script src="js/plugins.js"></script>
+        <script src="/back-end-home/js/plugins.js"></script>
         <!-- Active js -->
-        <script src="js/active.js"></script>	        
-   	</th:block>
-   	
-   	
-   	
- 
+        <script src="/back-end-home/js/active.js"></script>
+
+
+</html>

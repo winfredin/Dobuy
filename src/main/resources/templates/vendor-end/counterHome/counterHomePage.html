@@ -52,22 +52,23 @@
 					<a th:href="@{/}" class="nav-link">首頁</a> 
 					<a href="#" class="nav-link">聯絡我們</a>
 					<a th:href="@{/counter/getFaq(counterNo=${counterVO.counterNo})}" class="nav-link">FAQ常見問題</a>
-					<a href="#" class="nav-link">我的優惠券</a>
+<!-- 					<span th:if="${session.memAccount != null}">  -->
+						<a th:href="@{/front-end/coupon/member/list35}" class="nav-link">我的優惠券</a>
+<!-- 					</span> -->
 				</div>
 
 				<!-- 右邊按鈕 -->
 				<div class="right-actions">
 					<!-- 未登入時顯示註冊和登入 -->
 					<span th:if="${session.memAccount == null}"> 
-					<a th:href="@{/mem/register}" class="login-link">註冊</a> <span
-						class="divider">|</span> <a th:href="@{/mem/login}"
-						class="login-link">登入</a>
+						<a th:href="@{/mem/register}" class="login-link">註冊</a> 
+					<span class="divider">|</span> 
+						<a th:href="@{/mem/login}" class="login-link">登入</a>
 					</span>
 
 					<!-- 已登入時顯示用戶名稱和登出 -->
-					<span th:if="${session.memAccount != null}"> <span
-						class="user-name"
-						th:text="'Welcome&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ ${session.memAccount}"></span>
+					<span th:if="${session.memAccount != null}"> 
+					<span class="user-name" th:text="'Welcome&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ ${session.memAccount}"></span>
 						<a th:href="@{/mem/logout}" class="login-link">登出</a>
 					</span>
 				</div>
@@ -140,21 +141,37 @@
 			</div>
 
 
+
 			<!-- 優惠券 -->
 			<div class="row align-items-end">
-				<!-- 使用 Thymeleaf 循環渲染文字和按鈕 -->
-				<div th:each="coupons : ${coupons}" class="col-12 col-md-6 col-lg-4">
-					<div class="custom-single-blog-area-coupons clearfix mb-100">
-						<!-- 動態生成標題 -->
-						<p th:text="${coupons.couponTitle}"
-							style="font-size: 18px; font-weight: bold;"></p>
-						<!-- 動態生成內容 -->
-						<p th:text="${coupons.couponContext}" style="font-size: 16px;"></p>
-						<!-- 領取按鈕 -->
-						<button class="btn btn-claim" th:text="'領取'"></button>
-					</div>
-				</div>
+			    <!-- 使用 Thymeleaf 循環渲染文字和按鈕 -->
+			    <div th:each="coupons : ${coupons}" class="col-12 col-md-6 col-lg-4" style="margin-bottom: 20px;">
+			        <!-- 文字框 -->
+			        
+			        <form th:action="@{/coupondetail/listByCouponNo}" method="get">
+					<!-- 隱藏字段，傳遞商品編號 -->
+						<input type="hidden" name="couponNo" th:value="${coupons.couponNo}">
+						<!-- 商品區塊作為按鈕 -->
+						<button type="submit" style="width: 100%; background: none; border: none; padding: 0; text-align: left;">
+				        <div class="custom-single-blog-area-coupons clearfix mb-100" style="padding: 20px; border: 1px solid #ccc; border-radius: 5px; background-color: #f5deb3; text-align: center;">
+				            <!-- 動態生成標題 -->
+				            <p th:text="${coupons.couponTitle}" style="font-size: 18px; font-weight: bold;"></p>
+				            <!-- 動態生成內容 -->
+				            <p th:text="${coupons.couponContext}" style="font-size: 16px;"></p>
+				        </div>
+				    	</button>
+				    </form>
+			        <!-- 領取按鈕 -->
+				        <form th:action="@{/front-end/coupon/claim35}" method="get"
+							style="text-align: center; margin-top: -5px;">
+							<input type="hidden" name="couponNo" th:value="${coupons.couponNo}" />
+							<button type="submit" class="btn btn-claim" style="margin-top: 10px;">領取優惠券</button>
+						</form>
+
+			    </div>
 			</div>
+
+
 
 
 			<!-- ///////////////////// -->

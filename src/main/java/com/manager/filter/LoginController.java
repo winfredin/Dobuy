@@ -42,7 +42,7 @@ public class LoginController {
         	session.setAttribute("managerNo", managerVO.getManagerNo());
             session.setAttribute("managerAccount", managerVO.getManagerAccount());
            session.setAttribute("auth", managerVO.getAuths());
-            return "redirect:/manager/select_page";  // 登入成功後，重定向到 Dashboard 頁面
+            return "redirect:/back-end-homepage";  // 登入成功後，重定向到 Dashboard 頁面
         } else {
             // 登入失敗，顯示錯誤訊息
             model.addAttribute("error", "帳號或密碼錯誤");
