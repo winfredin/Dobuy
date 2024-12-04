@@ -67,6 +67,14 @@ public class UsedController {
 		model.addAttribute("usedVO", usedVO);
 		return "front-end/used/listOneUsed";
 	}
+	
+	@PostMapping("/getOneUsedOnDetail")
+	public String getOneUsedOnDetail( @RequestParam("usedNo") String usedNo, Model model) {
+		 
+		UsedVO usedVO = usedSvc.getOneUsed(Integer.valueOf(usedNo));
+		model.addAttribute("usedVO", usedVO);
+		return "front-end/used/shop_detail_used";
+	}
 
 	@PostMapping("/getSellerUsedListFragment")
     public String getUsedListFragment(HttpSession session, Model model) {
@@ -77,7 +85,6 @@ public class UsedController {
             // 如果沒有 memNo，處理錯誤情況，這裡可以返回空片段或錯誤信息
             return "fragments/usedListFragment :: usedListFragment";
         }
-
         // 根據 memNo 從資料庫中查詢二手商品列表
         List<UsedVO> usedListData = usedSvc.memberSelectBySellerNo(memNo);//測試使用211
 
@@ -195,19 +202,38 @@ public class UsedController {
 	/*
 	 * This method will be called on listAllUsed.html form submission, handling POST request
 	 */
-	@PostMapping("/delete")
-	public String delete(@RequestParam("usedNo") String usedNo, ModelMap model) {
+	@PostMapping("/memberdelete")
+	public String memberdelete(@RequestParam("usedNo") String usedNo,HttpSession session ,ModelMap model) {
+		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
+		Integer memNo = (Integer) session.getAttribute("memNo");
+		/*************************** 2.開始刪除資料 *****************************************/
+		// UsedService UsedSvc = new UsedService();
+		
+		usedSvc.deleteUsed(Integer.valueOf(usedNo));
+		
+		/*************************** 3.刪除完成,準備轉交(Send the Success view) **************/
+		List<UsedVO> usedListData = usedSvc.memberSelectBySellerNo(memNo);
+		
+		model.addAttribute("usedListData", usedListData);
+		
+		return "front-end/used/memberAllUsed :: usedListFragment"; // 刪除完成後轉交listAllUsed.html
+	}
+
+	@PostMapping("/admindelete")
+	public String admindelete(@RequestParam("usedNo") String usedNo, ModelMap model) {
 		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
 		/*************************** 2.開始刪除資料 *****************************************/
 		// UsedService UsedSvc = new UsedService();
+		
 		usedSvc.deleteUsed(Integer.valueOf(usedNo));
 		/*************************** 3.刪除完成,準備轉交(Send the Success view) **************/
 		List<UsedVO> list = usedSvc.getAll();
+		
 		model.addAttribute("usedListData", list);
 		model.addAttribute("success", "- (刪除成功)");
 		return "front-end/used/listAllUsed"; // 刪除完成後轉交listAllUsed.html
 	}
-
+	
 	/*
 	 * 第一種作法 Method used to populate the List Data in view. 如 : 
 	 * <form:select path="usedPicno" id="usedPicno" items="${usedPicListData}" itemValue="usedPicno" itemLabel="dname" />
