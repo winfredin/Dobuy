@@ -59,8 +59,11 @@
 </head>
 <body>
 	<!-- fragment引入 -->
+
 	<header th:block th:replace="~{back-end/back-end-home/fraghead :: header}"></header>
 <!-- 	<div th:insert=="vendor-end/counter/Counterincldue :: header"></div> -->
+	  <div th:if="${counter != null}">
+
 
 	<div class="container49">
 
@@ -84,7 +87,7 @@
 			</thead>
 
 			<tbody>
-				<th:block th:each="couponVO : ${couponListData}">
+				<th:block th:each="couponVO : ${counterCouponListData}">
 					<tr>
 						<td th:text="${couponVOStat.count}"></td>
 						<td th:text="${couponVO.couponNo}"></td>
@@ -123,6 +126,7 @@
 				</th:block>
 			</tbody>
 		</table>
+	</div>
 	</div>
 
 	  <ul>

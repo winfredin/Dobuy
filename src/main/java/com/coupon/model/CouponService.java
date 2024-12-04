@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 //import com.coupon.controller.HibernateUtil_CompositeQuery_Coupon;
 import com.coupondetail.model.CouponDetailRepository;
 import com.coupondetail.model.CouponDetailVO;
+import com.goods.model.GoodsVO;
 
 @Service("couponService")
 public class CouponService {
@@ -199,6 +200,11 @@ public class CouponService {
     //根據櫃位編號查詢優惠券
     public List<CouponVO> getCounterCoupon35(int counterNo){ //  11/27
     	return repository.findByCounterAndStatusAndCheckStatus(counterNo, 1, 1);
+    }
+    
+    //任國櫃位優惠管理
+    public List<CouponVO> getOneCounter46(Integer counterNo) {
+        return repository.getOneCounter46(counterNo); // 如果不存在，返回 null
     }
     
     

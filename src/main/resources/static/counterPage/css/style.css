@@ -1592,7 +1592,7 @@ img {
   /* 圓角 */
   background-color: rgb(244, 209, 163);
   /* 背景顏色 */
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   /* 區塊之間的距離 */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   /* 陰影效果 */
@@ -1617,22 +1617,22 @@ img {
   line-height: 1.5;
 }
 
-/* 按鈕樣式 */
-.btn.btn-claim {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  font-size: 14px;
-  cursor: pointer;
-  margin-top: 10px;
-  transition: background-color 0.3s ease;
+.btn-claim {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+.btn-claim:hover {
+    background-color: #0056b3;
+}
+/* 为 container 添加 margin-bottom */
+.row {
+    margin-bottom: 20px;
 }
 
-.btn.btn-claim:hover {
-  background-color: #0056b3;
-}
 
 /* ===============Coupon優惠券============= */
 

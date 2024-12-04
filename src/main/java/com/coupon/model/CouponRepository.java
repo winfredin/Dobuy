@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.goods.model.GoodsVO;
+
 public interface CouponRepository extends JpaRepository<CouponVO, Integer> {
 
     // 使用原生 SQL 删除優惠券
@@ -30,5 +32,9 @@ public interface CouponRepository extends JpaRepository<CouponVO, Integer> {
     List<CouponVO> findByCheckStatusAndCouponStatus(Integer checkStatus, Integer couponStatus);
     
 	CouponVO save(CouponVO couponVO);
+	
+	//任國 抓櫃位優惠券
+	@Query(value = "SELECT * FROM coupon WHERE counterNo = ?1 ORDER BY couponNo DESC", nativeQuery = true)
+    List<CouponVO> getOneCounter46(Integer counterNo);
 
 }

@@ -1,3 +1,4 @@
+
 //package com.coupon.model;
 //
 //import java.util.List;
@@ -112,3 +113,4 @@
 //
 //    }
 //}
+

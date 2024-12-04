@@ -2,6 +2,8 @@ package com.coupon.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.transaction.annotation.Transactional; 
 import javax.validation.Valid;
 import org.springframework.validation.BeanPropertyBindingResult;
@@ -28,6 +30,8 @@ import java.util.stream.Collectors;
 import com.coupon.model.CouponVO;
 import com.coupondetail.model.CouponDetailService;
 import com.coupondetail.model.CouponDetailVO;
+import com.goods.model.GoodsVO;
+import com.counter.model.CounterVO;
 import com.coupon.model.CouponService;
 
 @Controller
@@ -206,6 +210,15 @@ public class CouponController {
 //        model.addAttribute("couponListData", list);
 //        return "vendor-end/coupon/listAllCoupon";
 //    }
+    
+  //任國櫃位優惠券管理
+    @PostMapping("listCounterCoupons_ByCompositeQuery")
+    public String listCounterCoupons(HttpSession session ,HttpServletRequest req, Model model) {
+        CounterVO counter = (CounterVO) session.getAttribute("counter");
+        List<CouponVO> list = couponSvc.getOneCounter46(counter.getCounterNo());
+        model.addAttribute("counterCouponListDat", list); // for listAllEmp.html 第85行用
+        return "vendor-end/coupon/listAllCoupon";
+    }
     
     
 //   後台審核優惠券
