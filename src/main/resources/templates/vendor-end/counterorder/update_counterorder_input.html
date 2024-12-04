@@ -102,30 +102,12 @@
 			<span  th:if="${#fields.hasErrors('receiverPhone')}" th:errors="*{receiverPhone}" class="error" id="receiverPhone.errors"></span>
 			</div>
 			
-			<div>
-			<label>滿意度:</label>
-			<input type="text" th:field="*{sellerSatisfaction}" onclick="hideContent('sellerSatisfaction.errors');" /><br/>
-			<span  th:if="${#fields.hasErrors('sellerSatisfaction')}" th:errors="*{sellerSatisfaction}" class="error" id="sellerSatisfaction.errors"></span>
-			</div>
 			
 			<div>
-			<label>評論內容:</label>
-			<input type="text" th:field="*{sellerCommentContent}" onclick="hideContent('sellerCommentContent.errors');" /><br/>
-			<span  th:if="${#fields.hasErrors('sellerCommentContent')}" th:errors="*{sellerCommentContent}" class="error" id="sellerCommentContent.errors"></span>
+			<label>下單時間:</label>
+			<input type="text" th:field="*{ordertime}" style="border:0px ; font-weight: bold;" readonly /><br/>
+
 			</div>
-			
-			<div>
-			<label>評論日期:</label>
-			<input type="date" th:field="*{sellerCommentDate}" onclick="hideContent('sellerCommentDate.errors');" /><br/>
-			<span  th:if="${#fields.hasErrors('sellerCommentDate')}" th:errors="*{sellerCommentDate}" class="error" id="sellerCommentDate.errors"></span>
-			</div>
-			
-			<div>
-			<label>下單日期:</label>
-			<input type="date" th:field="*{ordertime}" onclick="hideContent('ordertime.errors');" /><br/>
-			<span  th:if="${#fields.hasErrors('ordertime')}" th:errors="*{ordertime}" class="error" id="ordertime.errors"></span>
-			</div>
-			
 			<div>
 			<label>優惠券編號:</label>
 			<input type="text" th:field="*{disno}" onclick="hideContent('disno.errors');" /><br/>
