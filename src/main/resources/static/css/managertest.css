@@ -561,8 +561,8 @@ td img {
 
 /* 按鈕設置 */
 button {
-    width: calc(100% - 2px); /* 減去邊框的寬度 */
-    height: calc(100% - 2px); /* 減去邊框的高度 */
+/*     width: calc(100% - 2px); 減去邊框的寬度 */
+/*     height: calc(100% - 2px); 減去邊框的高度 */
     box-sizing: border-box; /* 確保邊框在計算內 */
     padding: 0; /* 移除內邊距，確保沒有多餘空間 */
     border: none; /* 可選，移除按鈕邊框，使其更平滑 */

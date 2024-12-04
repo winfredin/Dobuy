@@ -303,7 +303,72 @@ $(document).ready(function() {
         });
     });
 });
+//====================二手商品刪除事件======================
 
+document.addEventListener("DOMContentLoaded", function () {
+    // 初始化外部 DataTable
+    let dataTable;
+
+    // 动态绑定嵌入 DataTable 的删除按钮事件
+    document.body.addEventListener('click', function (event) {
+        if (event.target.classList.contains('deleteUsed')) {
+            const button = event.target;
+
+            // 获取绑定的商品编号 (usedNo)
+            const usedNo = button.getAttribute('data-usedNo');
+
+            // 确认删除操作
+            if (!confirm(`確定要刪除商品編號 ${usedNo} 嗎？`)) return;
+
+            // 发送删除请求
+            fetch(`/used/deleteUsed`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ usedNo: usedNo }) // 将 usedNo 发送到后端
+            })
+                .then(response => response.json()) // 将响应解析为 JSON
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message); // 显示成功消息
+
+                        
+						$('#a1').click();// 重新觸發一次click事件取得 fragment
+                    } else {
+                        alert(`刪除失敗：${data.message}`);
+                    }
+                })
+                .catch(error => {
+                    console.error('刪除過程中發生錯誤:', error);
+                    alert('刪除過程中發生錯誤');
+                });
+        }
+    });
+
+    // 当页面动态嵌入 DataTable 后，重新初始化 DataTable
+    function initializeDataTable() {
+        if (dataTable) {
+            dataTable.destroy(); // 如果 DataTable 已初始化，先销毁
+        }
+
+        // 重新初始化 DataTable
+        dataTable = $('#UsedList').DataTable({
+            paging: true,
+            searching: true,
+            ordering: true
+        });
+    }
+
+    // 假设触发嵌入 DataTable 的点击事件
+    document.getElementById('loadDataTableButton').addEventListener('click', function () {
+        // 模拟嵌入新表格（根据你的需求可能是 AJAX 或其他加载方式）
+        // 这里假设 DataTable 已嵌入 DOM 中
+
+        // 初始化新的 DataTable
+        initializeDataTable();
+    });
+});
 
 
 

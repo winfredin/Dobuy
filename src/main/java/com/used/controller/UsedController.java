@@ -2,7 +2,9 @@ package com.used.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
@@ -18,8 +20,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -236,25 +240,7 @@ public class UsedController {
 		return "front-end/used/listOneUsed"; // 修改成功後轉交listOneUsed.html
 	}
 
-	/*
-	 * This method will be called on listAllUsed.html form submission, handling POST request
-	 */
-	@PostMapping("/memberdelete")
-	public String memberdelete(@RequestParam("usedNo") String usedNo,HttpSession session ,ModelMap model) {
-		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
-//		Integer memNo = (Integer) session.getAttribute("memNo");測試中註解
-		/*************************** 2.開始刪除資料 *****************************************/
-		// UsedService UsedSvc = new UsedService();
-		
-		usedSvc.deleteUsed(Integer.valueOf(usedNo));
-		
-		/*************************** 3.刪除完成,準備轉交(Send the Success view) **************/
-		List<UsedVO> usedListData = usedSvc.memberSelectBySellerNo(2);//memNo
-		
-		model.addAttribute("usedListData", usedListData);
-		
-		return "front-end/used/member"; // 刪除完成後轉交listAllUsed.html
-	}
+	
 
 	@PostMapping("/admindelete")
 	public String admindelete(@RequestParam("usedNo") String usedNo, ModelMap model) {
@@ -271,22 +257,24 @@ public class UsedController {
 		return "front-end/used/managertest"; // 刪除完成後轉交listAllUsed.html
 	}
 	
+	@PostMapping("/deleteUsed")//ajax DATATABLE刪除用
+	@ResponseBody
+	public Map<String, Object> usedDelete(@RequestBody Map<String, String> request) {
+	    String usedNo = request.get("usedNo"); // 从 JSON 请求体中获取参数
+	    Map<String, Object> response = new HashMap<>();
 
-	@PostMapping("/usedDelete")
-	public String usedDelete(@RequestParam("usedNo") String usedNo, ModelMap model) {
-		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
-		/*************************** 2.開始刪除資料 *****************************************/
-		// UsedService UsedSvc = new UsedService();
-		
-		usedSvc.deleteUsed(Integer.valueOf(usedNo));
-		/*************************** 3.刪除完成,準備轉交(Send the Success view) **************/
-		List<UsedVO> list = usedSvc.getAll();
-		
-		model.addAttribute("usedListData", list);
-		model.addAttribute("success", "- (刪除成功)");
-		return "front-end/used/managertest"; // 刪除完成後轉交listAllUsed.html
+	    try {
+	        // 调用删除逻辑
+	        usedSvc.deleteUsed(Integer.valueOf(usedNo));
+	        response.put("success", true);
+	        response.put("message", "刪除成功");
+	    } catch (Exception e) {
+	        response.put("success", false);
+	        response.put("message", "刪除失敗：" + e.getMessage());
+	    }
+
+	    return response;
 	}
-	
 	
 	@GetMapping("/back") //for update頁面轉移用
 	public String back(HttpSession session, ModelMap model) {
