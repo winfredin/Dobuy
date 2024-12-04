@@ -21,7 +21,7 @@ import java.util.*;
 @Controller // ch2-p65 ch3-77 ch8-139
 //@RequestMapping("/coupondetail")
 //@RequestMapping("/")
-public class IndexController1_inSpringBoot_Coupondetail {
+public class Controller_Coupondetail {
 
 	// 自動裝配CouponDetailService
 	@Autowired

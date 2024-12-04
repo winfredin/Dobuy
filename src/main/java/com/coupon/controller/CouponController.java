@@ -43,9 +43,8 @@ public class CouponController {
 
     @Autowired
     CouponDetailService coupondetailSvc;
-    /*
-     * This method will serve as addCoupon.html handler.
-     */
+
+//  櫃位新增優惠券 可以同時設定優惠商品明細--進入
     @GetMapping("addCoupon")
     public String addCoupon(ModelMap model) {
         CouponVO couponVO = new CouponVO();
@@ -53,19 +52,19 @@ public class CouponController {
         return "vendor-end/coupon/addCoupon";
     }
     
-    @PostMapping("/addCouponDetail")
-    public ResponseEntity<String> addCouponDetail(@RequestParam Integer couponNo,
-                                                  @RequestBody CouponDetailVO couponDetailVO) {
-        try {
-        	couponSvc.addCouponDetail(couponNo, couponDetailVO);
-            return ResponseEntity.ok("Coupon detail added successfully.");
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
+//    @PostMapping("/addCouponDetail")
+//    public ResponseEntity<String> addCouponDetail(@RequestParam Integer couponNo,
+//                                                  @RequestBody CouponDetailVO couponDetailVO) {
+//        try {
+//        	couponSvc.addCouponDetail(couponNo, couponDetailVO);
+//            return ResponseEntity.ok("Coupon detail added successfully.");
+//        } catch (RuntimeException e) {
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        }
+//    }
 
 
-
+//    櫃位新增優惠券 可以同時設定優惠商品明細--送出
     @PostMapping("/insert")
     public String insertCouponWithDetails(
             @ModelAttribute("couponVO") CouponVO couponVO,
@@ -103,20 +102,18 @@ public class CouponController {
 
     
     
-    @PostMapping("/addCoupon")
-    public String addCoupon(
-        @RequestParam("couponDetail") List<CouponDetailVO> couponDetail,
-        @ModelAttribute("couponVO") CouponVO couponVO
-    ) {
-        // 業務邏輯
-        return "redirect:/success";
-    }
+//    @PostMapping("/addCoupon")
+//    public String addCoupon(
+//        @RequestParam("couponDetail") List<CouponDetailVO> couponDetail,
+//        @ModelAttribute("couponVO") CouponVO couponVO
+//    ) {
+//        // 業務邏輯
+//        return "redirect:/success";
+//    }
     
     
     
-    /*
-     * This method will be called on listAllCoupons.html form submission, handling POST request
-     */
+//    櫃位修改優惠券 可以同時修改優惠商品明細--進入
     @PostMapping("getOne_For_Update")
     public String getOne_For_Update(@RequestParam("couponNo") String couponNo, Model model) {
         try {
@@ -138,7 +135,7 @@ public class CouponController {
             System.out.println("載入優惠券數據：" + couponVO.getCouponTitle());
             System.out.println("明細數量：" + couponVO.getCouponDetails().size());
             
-            return "vendor-end/coupon/update_coupon_input";
+            return "vendor-end/coupon/updateCoupon";
             
         } catch (Exception e) {
             model.addAttribute("error", "載入數據時發生錯誤：" + e.getMessage());
@@ -146,10 +143,7 @@ public class CouponController {
         }
     }
 
-    /*
-     * This method will be called on update_coupon_input.html form submission, handling POST request
-     * It also validates the user input
-     */
+//    櫃位修改優惠券 可以同時修改優惠商品明細--送出
     @PostMapping("update")
     public String update(@Valid CouponVO couponVO, 
                          BindingResult result, 
@@ -161,7 +155,7 @@ public class CouponController {
             for (FieldError error : result.getFieldErrors()) {
                 System.out.println(error.getField() + ": " + error.getDefaultMessage());
             }
-            return "vendor-end/coupon/update_coupon_input";
+            return "vendor-end/coupon/updateCoupon";
         }
 
         try {
@@ -176,20 +170,21 @@ public class CouponController {
             e.printStackTrace();
             model.addAttribute("error", "修改失敗：" + e.getMessage());
             model.addAttribute("couponVO", couponVO);
-            return "vendor-end/coupon/update_coupon_input";
+            return "vendor-end/coupon/updateCoupon";
         }
     }
 
-    // 添加這個方法處理 GET 請求
-    @GetMapping("update")
-    public String handleUpdateGet(@RequestParam(required = false) Integer couponNo, Model model) {
-        // 如果有 couponNo，重定向到修改頁面
-        if (couponNo != null) {
-            return "redirect:/coupon/getOne_For_Update?couponNo=" + couponNo;
-        }
-        // 否則重定向到列表頁面
-        return "redirect:/coupon/listAllCoupon";
-    }
+//    @GetMapping("update")
+//    public String handleUpdateGet(@RequestParam(required = false) Integer couponNo, Model model) {
+//        // 如果有 couponNo，重定向到修改頁面
+//        if (couponNo != null) {
+//            return "redirect:/coupon/getOne_For_Update?couponNo=" + couponNo;
+//        }
+//        // 否則重定向到列表頁面
+//        return "redirect:/coupon/listAllCoupon";
+//    }
+    
+    
     /*
      * This method will be called on listAllCoupons.html form submission, handling POST request
      */
@@ -208,13 +203,13 @@ public class CouponController {
     /*
      * This method will be called on listAllCoupons.html form submission, handling POST request
      */
-    @PostMapping("listCoupon_ByCompositeQuery")
-    public String listAllCoupon(HttpServletRequest req, Model model) {
-        Map<String, String[]> map = req.getParameterMap();
-        List<CouponVO> list = couponSvc.getAll(map);
-        model.addAttribute("couponListData", list);
-        return "vendor-end/coupon/listAllCoupon";
-    }
+//    @PostMapping("listCoupon_ByCompositeQuery")
+//    public String listAllCoupon(HttpServletRequest req, Model model) {
+//        Map<String, String[]> map = req.getParameterMap();
+//        List<CouponVO> list = couponSvc.getAll(map);
+//        model.addAttribute("couponListData", list);
+//        return "vendor-end/coupon/listAllCoupon";
+//    }
     
   //任國櫃位優惠券管理
     @PostMapping("listCounterCoupons_ByCompositeQuery")
@@ -226,7 +221,7 @@ public class CouponController {
     }
     
     
-//    審核優惠券
+//   後台審核優惠券
     @PostMapping("/approve")
     public String approveCoupon(@RequestParam("couponNo") int couponNo, RedirectAttributes redirectAttributes) {
         boolean isApproved = couponSvc.approveCoupon(couponNo);
