@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ShoppingCartList.model.ShoppingCartListRepository;
 import com.ShoppingCartList.model.ShoppingCartListService;
 import com.ShoppingCartList.model.ShoppingCartListVO;
 
@@ -36,6 +37,8 @@ public class ShoppingCartListController {
     @Autowired
     ShoppingCartListService shoppingCartListSvc;
 
+    @Autowired
+    ShoppingCartListRepository repository; // 添加這行
     /*
      * This method will serve as addShoppingCart.html handler.
      */
@@ -54,35 +57,43 @@ public class ShoppingCartListController {
             @RequestParam("goodsNo") int goodsNo,
             @RequestParam("quantity") int quantity,
             HttpServletRequest req)  {
-        // 檢查使用者是否已登入
         HttpSession session = req.getSession();
         Object memAccount = session.getAttribute("memAccount");
 
-        // 如果使用者未登入
         if (memAccount == null) {
             Map<String, Object> response = new HashMap<>();
             response.put("success", false);
             response.put("message", "請先登入才能加入購物車！");
             return ResponseEntity.ok(response);
         }
-        // 計算總價
-        int orderTotalPrice = goodsPrice * quantity;
 
-        // 創建 ShoppingCartListVO 物件
-        ShoppingCartListVO shoppingCartListVO = new ShoppingCartListVO();
-        shoppingCartListVO.setGoodsNo(goodsNo);
-        shoppingCartListVO.setGoodsName(goodsName);
-        shoppingCartListVO.setGoodsPrice(goodsPrice);
-        shoppingCartListVO.setGoodsNum(quantity);
-        shoppingCartListVO.setOrderTotalprice(orderTotalPrice);
+        // 先檢查是否已有相同商品
+        List<ShoppingCartListVO> existingCartItems = repository.findByGoodsNo(goodsNo);
+        
+        if (!existingCartItems.isEmpty()) {
+            // 如果已有相同商品，更新數量和總價
+            ShoppingCartListVO existingItem = existingCartItems.get(0);
+            int newQuantity = existingItem.getGoodsNum() + quantity;
+            int newTotalPrice = goodsPrice * newQuantity;
+            
+            existingItem.setGoodsNum(newQuantity);
+            existingItem.setOrderTotalprice(newTotalPrice);
+            
+            shoppingCartListSvc.updateShoppingCartList(existingItem);
+        } else {
+            // 如果是新商品，建立新的購物車項目
+            ShoppingCartListVO shoppingCartListVO = new ShoppingCartListVO();
+            shoppingCartListVO.setGoodsNo(goodsNo);
+            shoppingCartListVO.setGoodsName(goodsName);
+            shoppingCartListVO.setGoodsPrice(goodsPrice);
+            shoppingCartListVO.setGoodsNum(quantity);
+            shoppingCartListVO.setOrderTotalprice(goodsPrice * quantity);
 
-        // 儲存資料到資料庫
-        shoppingCartListSvc.addShoppingCartList(shoppingCartListVO);
+            shoppingCartListSvc.addShoppingCartList(shoppingCartListVO);
+        }
 
-        // 取得購物車內的商品數量
         int cartCount = shoppingCartListSvc.getAll().size();
 
-        // 建立回傳資料
         Map<String, Object> response = new HashMap<>();
         response.put("success", true);
         response.put("cartCount", cartCount);
