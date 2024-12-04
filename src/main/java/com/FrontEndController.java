@@ -30,11 +30,11 @@ public class FrontEndController {
 	
 	 @GetMapping("member")
 	    public String getMemberPage() {
-	        return "front-end/normalpage/member"; // 對應 templates/content/profile.html
+	        return "front-end/normalpage/member"; 
 	    }
 	 @GetMapping("home")
 	    public String getHomePage() {
-	        return "front-end/normalpage/homepage"; // 對應 templates/content/profile.html
+	        return "front-end/normalpage/homepage"; 
 	    }
 	 @GetMapping("goodspage")
 	    public String getgoodspagePage(Model model) {
@@ -42,9 +42,9 @@ public class FrontEndController {
 		 List<CounterVO> glist = counterSvc.getAll();
 		 model.addAttribute("list",list);
 		 model.addAttribute("glist",glist);
-	        return "front-end/normalpage/goodspage"; // 對應 templates/content/profile.html
+	        return "front-end/normalpage/goodspage"; 
 	    }
-	 
+
 	 
 	 @GetMapping("/goods/filter")
 	 @ResponseBody

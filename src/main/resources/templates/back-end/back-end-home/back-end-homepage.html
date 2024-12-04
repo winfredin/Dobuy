@@ -23,6 +23,10 @@
 </head>
 
 <body>
+<form th:action="@{/logout}" method="get">
+    
+    <button type="submit">登出</button>
+</form>
     <!-- Preloader -->
 
     <div id="preloader-ex">
@@ -114,7 +118,10 @@
 
                                     <li><a href="#">管理員資料</a>
                                         <ul class="dropdown">
-                                            <li><a href="#">管理員資料管理</a></li>
+                                          <li>
+   										 <a th:href="@{'/manager/manager?managerNo=' + ${session.managerNo}}">管理員資料管理</a>
+										</li>
+
                                         </ul>
                                     </li>
 

@@ -28,7 +28,7 @@ public class LoginFilter implements Filter {
 
         // 檢查請求的 URI 是否需要檢查登入
         String uri = httpRequest.getRequestURI();
-
+   
         // 設定不需要驗證登入的頁面，例如登入頁面和登出頁面
         if (uri.endsWith("/login/Login")  || uri.endsWith("/logout")) {
             chain.doFilter(request, response);  // 直接放行
