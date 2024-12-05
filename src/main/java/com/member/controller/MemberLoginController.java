@@ -55,15 +55,17 @@ public class MemberLoginController {
 		session.setAttribute("memAccount", memberVO.getMemAccount());
 		session.setAttribute("memNo", memberSvc.getMemNoByAccount(memberVO.getMemAccount())); // 用memAccount去找memNo
 
-		// 檢查是否有原始請求
-		String originalRequest = (String) session.getAttribute("originalRequest");
-		if (originalRequest != null) {
-			session.removeAttribute("originalRequest"); // 移除原始請求
-			return "redirect:" + originalRequest.replaceFirst(req.getContextPath(), "");
-		}
+		 // 檢查是否有原始請求
+	    String originalRequest = (String) session.getAttribute("originalRequest");
+	    if (originalRequest != null) {
+	        session.removeAttribute("originalRequest"); // 移除原始請求
+	        return "redirect:" + originalRequest.replaceFirst(req.getContextPath(), "");
+	    }
+		
+		
+	    // 如果沒有原始請求，跳轉到默認頁面
+		return "redirect:/member"; // 重定向到成功页面
 
-		// 如果沒有原始請求，跳轉到默認頁面
-		return "front-end/member/loginSuccess"; // 重定向到成功页面
 	}
 
 //	winfred===================================================================================以下
