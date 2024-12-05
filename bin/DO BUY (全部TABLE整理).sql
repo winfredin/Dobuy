@@ -2,34 +2,44 @@ CREATE DATABASE IF NOT EXISTS dobuytest;
 USE dobuytest;
 
 CREATE TABLE counter (
-    counterNo INT NOT NULL AUTO_INCREMENT, -- 主鍵自增編號
-    counterAccount VARCHAR(20) NOT NULL,   -- 櫃位帳號
+    counterNo INT NOT NULL AUTO_INCREMENT , -- 主鍵自增編號
+    counterAccount VARCHAR(20) NOT NULL UNIQUE,   -- 櫃位帳號
     counterName VARCHAR(45) NOT NULL,      -- 櫃位管理者姓名
     counterPassword VARCHAR(20) NOT NULL,  -- 櫃位密碼
     counterAddress VARCHAR(255) NOT NULL,  -- 櫃位地址
     counterPhone VARCHAR(10) NOT NULL,     -- 櫃位電話
     counterUid VARCHAR(10) NOT NULL,       -- 管理者身分證字號
     counterEmail VARCHAR(100) NOT NULL,    -- 櫃位電子信箱
-    counterUbn VARCHAR(255) NOT NULL,      -- 櫃位統一編號
+    counterUbn VARCHAR(255) NOT NULL UNIQUE,      -- 櫃位統一編號
     counterCName VARCHAR(255) NOT NULL,    -- 櫃位名稱
     counterTypeNo INT NOT NULL,            -- 櫃位類別編號（外來鍵）
     counterInform VARCHAR(255),            -- 櫃位資訊介紹
     counterPic LONGBLOB,                   -- 櫃位商標圖片
-    counterStatus TINYINT NOT NULL DEFAULT 1 CHECK (counterStatus IN (0, 1, 2)),        -- 櫃位狀態 (0: 正常, 1: 暫時停權, 2: 永久停權)
+    counterStatus TINYINT NOT NULL DEFAULT 1 CHECK (counterStatus IN (0, 1, 2 )),        -- 櫃位狀態 (0: 停權, 1: 暫時停權, 2: 正常 )
     
     PRIMARY KEY (counterNo)                -- 設定主鍵
 )
 AUTO_INCREMENT = 1;
 
-INSERT INTO counter (counterAccount, counterName, counterPassword, counterAddress, counterPhone, counterUid, counterEmail, counterUbn, counterCName, counterTypeNo, counterInform, counterStatus) VALUES
-('account1', 'John Doe', '12345', '台北', '0912345678', 'A123456789', 'john@example.com', '12345678', '老子有錢', 1, '有錢就來花', 0),
-('account2', 'Jane Smith', '12345', '新北', '0987654321', 'B987654321', 'jane@example.com', '87654321', '美美醫美', 2, 'This counter offers great products.', 0),
-('account3', '3C手機店', '12345', '台北市中山區', '0987654321', 'B234567890', '3cshop@example.com', '87654321', '3C手機專賣', 3, '品質保證，售後服務', 0),
-('account4', 'Alice Chen', '12345', '桃園', '0931234567', 'C123456789', 'alice@example.com', '13579246', '山陵家電', 3, 'Your go-to place for electronics.', 0),
-('account5', 'Bob Wang', '12345', '新竹', '0923456789', 'D987654321', 'bob@example.com', '24681357', '優你庫', 4, 'Fashion and style at its best!', 0),
-('account6', 'Carol Lin', '12345', '桃園', '0919876543', 'E123456789', 'carol@example.com', '12349876', '乃吉', 5, 'Fitness and sports gear available.', 0),
-('account7', 'Ninten Do', '12345', '中壢', '0919875678', 'Q123456789', 'niten@example.com', '12349876', '任你玩', 6, '絕對不是那個N牌', 0),
-('account8', 'Famil Lily', '12345', '中壢', '0905426543', 'J123456789', 'family@example.com', '13459876', '家家樂', 7, '清潔品、食品、等家用品的櫃位',0);
+INSERT INTO counter 
+(counterAccount, counterName, counterPassword, counterAddress, counterPhone, counterUid, counterEmail, counterUbn, counterCName, counterTypeNo, counterInform, counterStatus) 
+VALUES
+-- 女士精品
+('user1', '張淑芬', '12345', '台北市大安區仁愛路123號', '0912345678', 'A123456789', 'ladybag01@example.com', '12345678', '女士精品館', 1, '高品質女士包包與配件櫃位', 2),
+-- 時尚女裝
+('user2', '林美惠', '12345', '新北市板橋區中山路456號', '0923456789', 'B123456789', 'fashion02@example.com', '23456789', '時尚女裝館', 2, '流行女裝與女鞋專櫃', 2),
+-- 男士潮流
+('user3', '王建宏', '12345', '台中市西屯區文心路789號', '0934567890', 'C123456789', 'menstyle01@example.com', '34567890', '男士潮流館', 3, '潮流男包與配件櫃位', 2),
+-- 型男穿搭
+('user4', '陳志明', '12345', '台南市中西區民族路321號', '0945678901', 'D123456789', 'mensfashion02@example.com', '45678901', '型男穿搭館', 4, '專注男裝與男鞋的櫃位', 2),
+-- 美妝與保養
+('user5', '劉慧君', '12345', '高雄市三民區博愛路654號', '0956789012', 'E123456789', 'beautycare01@example.com', '56789012', '美妝保養館', 5, '化妝品與保養品專賣', 2),
+-- 家居科技
+('user6', '黃志成', '12345', '桃園市中壢區新生路987號', '0967890123', 'F123456789', 'homeitech01@example.com', '67890123', '家居科技館', 6, '智能家居與科技商品櫃位', 2),
+-- 女士精品
+('user7', '李佳蓉', '12345', '台中市北屯區中清路159號', '0978901234', 'G123456789', 'ladybag02@example.com', '78901234', '女士精品館二館', 1, '高端女士包包專區', 2),
+-- 時尚女裝
+('user8', '蔡佩玲', '12345', '新竹市東區東門街753號', '0989012345', 'H123456789', 'fashion03@example.com', '89012345', '時尚女裝二館', 2, '時尚女裝與鞋品新系列', 2);
 
 
 CREATE TABLE faq (
@@ -62,13 +72,13 @@ CREATE TABLE counterType (
 )
 AUTO_INCREMENT = 1;
 INSERT INTO counterType (counterTName) VALUES 
-('精品'),
-('藥妝'),
-('家電'),
-('服飾'),
-('運動'),
-('娛樂'),
-('超市');
+('精品'),   
+('時尚女裝'),
+('男士潮流'),
+('型男穿搭'),
+('美妝與保養'),
+('家居科技');
+
 
 
 -- 柏諭
@@ -102,10 +112,7 @@ CREATE TABLE CounterOrder (
     receiverName VARCHAR(10) NOT NULL,
     receiverAdr VARCHAR(100),
     receiverPhone VARCHAR(10) NOT NULL,
-    sellerSatisfaction TINYINT(1) DEFAULT 5,
-    sellerCommentContext VARCHAR(500),
-    sellerCommentDate Timestamp ,
-    orderTime TIMEstamp NOT NULL,
+    orderTime TIMEstamp default now(),
     disNo INT(10),
     orderStatus TINYINT(1) DEFAULT 0 NOT NULL
 
@@ -168,7 +175,8 @@ AUTO_INCREMENT = 1;
 CREATE TABLE MemCoupon (
     memCouponNo INT PRIMARY KEY AUTO_INCREMENT,  -- 會員優惠券編號 (主鍵)
     memNo INT NOT NULL,  -- 會員編號 FK
-    couponNo INT NOT NULL  -- 優惠券編號 FK
+    couponNo INT NOT NULL,  -- 優惠券編號 FK
+    status INT DEFAULT 0  -- 0:未使用, 1:已使用
 )
 AUTO_INCREMENT = 1;
 
@@ -198,25 +206,25 @@ VALUES
 INSERT INTO CouponDetail (couponDetailNo, couponNo, goodsNo, createdAt, updatedAt, counterContext, disRate)
 VALUES
 (1, 1, 1, '2024-10-01 10:00:00', '2024-10-01 10:30:00', '滿1000折100', 0.10),
-(2, 1, 2, '2024-10-02 09:00:00', '2024-10-02 09:15:00', '限時折扣', 0.15),
-(3, 2, 3, '2024-10-03 11:30:00', '2024-10-03 11:40:00', '雙11限量優惠', 0.20),
-(4, 2, 4, '2024-10-05 08:00:00', '2024-10-05 08:30:00', 'VIP專屬優惠', 0.30),
+(2, 1, 2, '2024-10-02 09:00:00', '2024-10-02 09:15:00', '滿2件打9折', 0.15),
+(3, 2, 3, '2024-10-03 11:30:00', '2024-10-03 11:40:00', '滿2件打9折', 0.20),
+(4, 2, 4, '2024-10-05 08:00:00', '2024-10-05 08:30:00', '滿1000折100', 0.30),
 (5, 3, 5, '2024-10-06 13:00:00', '2024-10-06 13:45:00', '新品9折', 0.10),
 (6, 3, 6, '2024-10-07 14:00:00', '2024-10-07 14:15:00', '滿額85折', 0.15),
-(7, 4, 7, '2024-10-08 15:00:00', '2024-10-08 15:10:00', '學生專屬8折', 0.20),
-(8, 4, 8, '2024-10-09 10:00:00', '2024-10-09 10:20:00', '黑五大促銷', 0.25),
-(9, 5, 9, '2024-10-10 12:00:00', '2024-10-10 12:10:00', '限時搶購', 0.30),
+(7, 4, 7, '2024-10-08 15:00:00', '2024-10-08 15:10:00', '滿1000折100', 0.20),
+(8, 4, 8, '2024-10-09 10:00:00', '2024-10-09 10:20:00', '滿2件打9折', 0.25),
+(9, 5, 9, '2024-10-10 12:00:00', '2024-10-10 12:10:00', '滿2件打9折', 0.30),
 (10, 5, 10, '2024-10-11 16:00:00', '2024-10-11 16:15:00', '週年慶85折', 0.15),
-(11, 6, 11, '2024-10-12 17:00:00', '2024-10-12 17:30:00', '滿500送100', 0.10),
-(12, 6, 12, '2024-10-13 11:00:00', '2024-10-13 11:25:00', '會員專屬優惠', 0.20),
+(11, 6, 11, '2024-10-12 17:00:00', '2024-10-12 17:30:00', '滿1000折100', 0.10),
+(12, 6, 12, '2024-10-13 11:00:00', '2024-10-13 11:25:00', '滿2件打9折', 0.20),
 (13, 7, 13, '2024-10-14 14:00:00', '2024-10-14 14:10:00', '新年8折', 0.20),
-(14, 7, 14, '2024-10-15 18:00:00', '2024-10-15 18:20:00', '限量商品優惠', 0.25),
-(15, 8, 15, '2024-10-16 12:00:00', '2024-10-16 12:30:00', '冬季大促銷', 0.15),
-(16, 8, 16, '2024-10-17 13:00:00', '2024-10-17 13:45:00', '開幕專屬優惠', 0.10),
+(14, 7, 14, '2024-10-15 18:00:00', '2024-10-15 18:20:00', '滿1000折100', 0.25),
+(15, 8, 15, '2024-10-16 12:00:00', '2024-10-16 12:30:00', '滿2000折100', 0.15),
+(16, 8, 16, '2024-10-17 13:00:00', '2024-10-17 13:45:00', '滿1000折100', 0.10),
 (17, 9, 17, '2024-10-18 08:00:00', '2024-10-18 08:15:00', '返校季85折', 0.15),
 (18, 9, 18, '2024-10-19 09:00:00', '2024-10-19 09:10:00', '限時8折', 0.20),
-(19, 10, 19, '2024-10-20 10:00:00', '2024-10-20 10:30:00', '夏季折扣', 0.25),
-(20, 10, 20, '2024-10-21 11:00:00', '2024-10-21 11:15:00', '週五限時優惠', 0.30);
+(19, 10, 19, '2024-10-20 10:00:00', '2024-10-20 10:30:00', '滿2000折100', 0.25),
+(20, 10, 20, '2024-10-21 11:00:00', '2024-10-21 11:15:00', '滿2件打9折', 0.30);
 
 INSERT INTO Discount (disNo, disTitle, disContext, disRate, disStatus, descLimit, createdAt, updatedAt, disStart, disEnd)
 VALUES
@@ -241,31 +249,28 @@ VALUES
 (19, '春季大折扣', '春季商品85折', 0.15, 0, '限指定商品', '2025-03-01 10:00:00', '2025-03-01 10:30:00', '2025-03-01 00:00:00', '2025-05-31 23:59:59'),
 (20, '滿千折百', '消費滿1000折100', 0.10, 1, '不限商品', '2024-11-01 15:00:00', '2024-11-01 15:30:00', '2024-11-01 00:00:00', '2024-11-15 23:59:59');
 
-INSERT INTO MemCoupon (memCouponNo, memNo, couponNo)
-VALUES
-(1, 1, 1),
-(2, 2, 2),
-(3, 3, 3),
-(4, 4, 4),
-(5, 5, 5),
-(6, 6, 6),
-(7, 7, 7),
-(8, 8, 8),
-(9, 9, 9),
-(10, 10, 10),
-(11, 1, 1),
-(12, 2, 2),
-(13, 3, 3),
-(14, 4, 4),
-(15, 5, 5),
-(16, 6, 6),
-(17, 7, 7),
-(18, 8, 8),
-(19, 9, 9),
-(20, 10, 10);
+INSERT INTO MemCoupon (memNo, couponNo, status) VALUES
+(1, 1, 0),
+(1, 2, 1),
+(1, 3, 0),
+(2, 1, 0),
+(2, 2, 1),
+(2, 3, 0),
+(3, 1, 1),
+(3, 2, 0),
+(3, 3, 1),
+(4, 1, 0),
+(4, 2, 1),
+(4, 3, 0),
+(5, 1, 1),
+(5, 2, 0),
+(5, 3, 1);
 
 
 -- 定紘
+
+
+
 
 CREATE TABLE Goods (
 	goodsNo INT NOT NULL PRIMARY KEY AUTO_INCREMENT, -- 商品編號，自增主鍵
@@ -436,45 +441,11 @@ VALUES
 (19, 5, '202403', 28000),
 (20, 6, '202403', 43000);
 
--- 櫃位訊息通知
-CREATE TABLE CounterInform (
-    counterInformNo INT NOT NULL PRIMARY KEY AUTO_INCREMENT,       -- 櫃位訊息編號，主鍵
-    counterNo INT NOT NULL,                         -- 櫃位編號，外來鍵
-    informMsg VARCHAR(500) NOT NULL,               -- 通知訊息
-    informDate DATETIME DEFAULT CURRENT_TIMESTAMP,  -- 通知時間
-    informRead TINYINT DEFAULT 0                    -- 已讀未讀 (0: 未讀, 1: 已讀)
-   
-);
-
--- 插入 20 筆假資料
-INSERT INTO CounterInform (counterInformNo, counterNo, informMsg, informDate, informRead) 
-VALUES 
-(1, 1, '商品已上架', '2024-01-01 08:00:00', 0),
-(2, 1, '新的促銷活動開始', '2024-01-02 09:00:00', 0),
-(3, 2, '庫存不足，請補貨', '2024-01-03 10:00:00', 0),
-(4, 2, '櫃位檢查通過', '2024-01-04 11:00:00', 1),
-(5, 3, '本週特價商品', '2024-01-05 12:00:00', 0),
-(6, 3, '請注意上架時間', '2024-01-06 13:00:00', 0),
-(7, 4, '新商品已進貨', '2024-01-07 14:00:00', 1),
-(8, 4, '促銷活動結束提醒', '2024-01-08 15:00:00', 0),
-(9, 5, '顧客滿意度調查', '2024-01-09 16:00:00', 0),
-(10, 5, '本月銷售報告', '2024-01-10 17:00:00', 1),
-(11, 6, '櫃位維護通知', '2024-01-11 18:00:00', 0),
-(12, 6, '即將到期的促銷活動', '2024-01-12 19:00:00', 1),
-(13, 7, '商品回饋活動', '2024-01-13 20:00:00', 0),
-(14, 7, '新年快樂的祝福', '2024-01-14 21:00:00', 0),
-(15, 1, '本週營業時間變更', '2024-01-15 22:00:00', 1),
-(16, 2, '顧客回饋及評價', '2024-01-16 23:00:00', 0),
-(17, 3, '即將到貨商品', '2024-01-17 00:00:00', 0),
-(18, 4, '促銷結束通知', '2024-01-18 01:00:00', 1),
-(19, 5, '庫存檢查通知', '2024-01-19 02:00:00', 0),
-(20, 6, '櫃位改裝計畫', '2024-01-20 03:00:00', 0);
-
-
 -- 灃晉
 CREATE TABLE UsedPic (
     usedPicNo INT NOT NULL AUTO_INCREMENT PRIMARY KEY,  -- 二手商品照片明細編號
     usedNo INT NOT NULL,                                 -- 二手商品編號
+    usedPicName VARCHAR(100),
     usedPics LONGBLOB                                  -- 二手商品照片
    --  FOREIGN KEY (usedNo) REFERENCES Used(usedNo)       -- 二手商品外來鍵
 )AUTO_INCREMENT = 1;
@@ -493,8 +464,8 @@ CREATE TABLE Used (
     usedNo INT(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,              -- 二手商品編號
     classNo INT(10) NOT NULL,                         -- 商品類別編號
     sellerNo INT(10) NOT NULL,                        -- 會員編號(賣家)
-    usedName VARCHAR(20) NOT NULL,                    -- 二手商品名稱
-    usedProDesc VARCHAR(255) NOT NULL,                -- 二手商品描述
+    usedName VARCHAR(200) NOT NULL,                    -- 二手商品名稱
+    usedProDesc VARCHAR(700) NOT NULL,                -- 二手商品描述
     usedNewness TINYINT(1),                           -- 商品新舊程度 (0:近全新, 1:7成新, 2:5成新, 3:3成新)
     usedPrice INT(6) CHECK (usedPrice > 0),           -- 二手商品單價, 必須大於0
     usedStocks INT(5) CHECK (usedStocks > 0),         -- 商品庫存數量, 必須大於0
@@ -556,52 +527,24 @@ DELIMITER ;
 
 
 --  羿豪
-CREATE TABLE followers (
-    followersNo INT(10) NOT NULL,          -- 會員編號 PK、FK
-    counterNo INT NOT NULL,                -- 櫃位編號 PK、FK
-    PRIMARY KEY (followersNo, counterNo)   -- 複合主鍵
-);
-
--- 插入 Followers 表格的假資料
-INSERT INTO followers (followersNo, counterNo) VALUES
-(1, 1),
-(2, 2),
-(3, 3),
-(4, 4),
-(5, 5),
-(6, 6),
-(7, 7),
-(8, 8),
-(9, 8),
-(10, 7);
-
--- 在 followers 表格中新增外來鍵 FK
-
-
 
 -- 建立 ShoppingCartList 表格
 CREATE TABLE ShoppingCartList (
-    shoppingcartListNo INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY, -- 自增主鍵 PK
-    memNo INT(10) NOT NULL,                          -- 會員編號 FK
-    goodsNo INT(10) NOT NULL,                        -- 商品編號 FK
-    goodsNum INT(5) NOT NULL CHECK (goodsNum > 0),   -- 商品數量 > 0
-    goodsPrice INT(5) NOT NULL CHECK (goodsPrice > 0), -- 商品單價 > 0
-    goodsName VARCHAR(20) NOT NULL,                  -- 商品名稱
-    orderTotalprice INT(6) NOT NULL CHECK (orderTotalprice > 0) -- 訂單總金額 > 0
+    shoppingcartListNo INT NOT NULL PRIMARY KEY AUTO_INCREMENT, -- 自增主鍵 PK
+    memNo INT(10) ,                          -- 會員編號 FK
+    goodsNo INT(10) ,                        -- 商品編號 FK
+    gpPhotos1 LONGBLOB,                      -- 商品主圖(必填)
+    goodsName VARCHAR(100),                  -- 商品名稱
+    goodsPrice INT(5)  CHECK (goodsPrice > 0), -- 商品單價 > 0
+    goodsNum INT(5)  CHECK (goodsNum > 0),   -- 商品數量 > 0
+    orderTotalprice INT(6)  CHECK (orderTotalprice > 0) -- 訂單總金額 > 0
 );
 
 -- 插入 ShoppingCartList 表格的假資料
-INSERT INTO shoppingcartList (memNo, goodsNo, goodsNum, goodsPrice, goodsName, orderTotalprice) VALUES
-(1, 1, 2, 500, 'Product A', 1000),
-(2, 2, 1, 800, 'Product B', 800),
-(3, 3, 3, 300, 'Product C', 900),
-(4, 4, 2, 150, 'Product D', 300),
-(5, 5, 4, 200, 'Product E', 800),
-(6, 6, 2, 400, 'Product F', 800),
-(7, 7, 1, 1200, 'Product G', 1200),
-(8, 8, 5, 100, 'Product H', 500),
-(9, 9, 2, 750, 'Product I', 1500),
-(10, 10, 1, 2000, 'Product J', 2000);
+INSERT INTO shoppingcartList (
+memNo, goodsNo, gpPhotos1, goodsName, goodsPrice, goodsNum, orderTotalprice
+) VALUES
+( 1, 7, NULL,'路易威登 LOUIS VUITTON Epi 手鍊紅繩', 9800, 1, 9800);
 
 
 
@@ -668,16 +611,7 @@ VALUES
     (9, 9, '2024-10-09 13:40:00', '商品尺寸不合', NULL, 0, '正在確認'),
     (10, 10, '2024-10-10 15:10:00', '產品少配件', NULL, 1, '處理完成');
     
--- 汝鎂
-    
-    CREATE TABLE MemInform (
-    memInformNo INT NOT NULL AUTO_INCREMENT PRIMARY KEY,  -- 會員通知編號
-    memNO INT NOT NULL,                                   -- 會員編號
-    informMsg Varchar(500) NOT NUll,                      -- 通知訊息
-    informDate DateTime NOT NUll,                         -- 通知日期
-    informRead Tinyint                                    -- 已讀未讀(0: 未讀)(1: 已讀)
-   --  FOREIGN KEY (MemNo) REFERENCES Member(MemNO)       -- 會員通知外來鍵
-);
+
 
 CREATE TABLE Auth (
     authNo INT NOT NULL PRIMARY KEY AUTO_INCREMENT,      -- 權限編號
@@ -689,7 +623,9 @@ CREATE TABLE ManagerAuth (
     managerNo INT NOT NULL  ,   -- 管理員編號 FK
     authNo INT NOT NULL  ,    -- 權限編號 FK
     PRIMARY KEY (managerNo, authNo)   -- 複合主鍵
+  
 );
+
 
 CREATE TABLE CounterCarousel (
     counterCarouselNo INT NOT NULL AUTO_INCREMENT PRIMARY KEY,  -- 輪播資訊編號
@@ -728,23 +664,33 @@ CREATE TABLE GoodComplaint (
 );
 
 CREATE TABLE UsedOrder (
-    usedOrderNo INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,     -- 二手訂單編號
-    usedNo INT(10) NOT NULL,                                     -- 二手商品編號 FK
-    buyerNo INT(10) NOT NULL,                                    -- 買家編號 FK
-    usedOrderTime DATETIME,                                      -- 訂單成立時間
-    usedPrice INT(6) NOT NULL CHECK (usedPrice > 0),             -- 二手商品單價，必須大於0
-    usedCount INT(5) NOT NULL CHECK (usedCount > 0),             -- 二手商品購買數量，必須大於0
-    deliveryStatus TINYINT(5) NOT NULL,                          -- 宅配狀態 (0:未出貨)(1:已出貨)(2:待領件)(3:已領貨)(4:已取消)
-    receiverName VARCHAR(100),                                   -- 收件人姓名
-    receiverAdr VARCHAR(100),                                    -- 收件人地址
-    receiverPhone VARCHAR(100),                                  -- 收件人電話
-    sellerSatisfication TINYINT(5),                              -- 滿意度 (1到5顆星)
-    sellerCommentContent VARCHAR(500),                           -- 評論內文
-    sellerCommentDate DATETIME NOT NULL,                         -- 評論日期
-    usedTotalPrice INT(10) NOT NULL CHECK (usedTotalPrice > 0)   -- 訂單總價，必須大於0
-    -- FOREIGN KEY (usedNo) REFERENCES Used(usedNo),             -- 二手商品訂單外來鍵
-    -- FOREIGN KEY (buyerNo) REFERENCES Member(memNo)            -- 二手商品訂單外來鍵
+    usedOrderNo INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    usedNo INT(10) NOT NULL,
+    buyerNo INT(10) NOT NULL,
+    usedOrderTime DATETIME,
+    usedPrice INT(6) NOT NULL CHECK (usedPrice > 0),
+    usedCount INT(5) NOT NULL CHECK (usedCount > 0),
+    deliveryStatus TINYINT(5) NOT NULL DEFAULT 0,
+    receiverName VARCHAR(200) NOT NULL,
+    receiverAdr VARCHAR(200) NOT NULL,
+    receiverPhone VARCHAR(200) NOT NULL,
+    sellerSatisfication TINYINT(5),
+    sellerCommentContent VARCHAR(500),
+    sellerCommentDate DATETIME,  -- 评论日期字段
+    usedTotalPrice INT(10) NOT NULL CHECK (usedTotalPrice > 0)
 );
+
+DELIMITER $$
+CREATE TRIGGER before_usedorder_update
+BEFORE UPDATE ON UsedOrder
+FOR EACH ROW
+BEGIN
+    IF (NEW.sellerSatisfication IS NOT NULL AND NEW.sellerCommentContent IS NOT NULL) 
+       AND (OLD.sellerCommentDate IS NULL) THEN
+        SET NEW.sellerCommentDate = NOW();
+    END IF;
+END $$
+DELIMITER ;
 
 CREATE TABLE UsedChat (
     usedChatNo INT NOT NULL  AUTO_INCREMENT PRIMARY KEY,      -- 二手商品聊天編號
@@ -759,32 +705,87 @@ CREATE TABLE UsedChat (
     -- FOREIGN KEY (sellerNo) REFERENCES Member(memNo)        -- 二手商品聊天紀錄外來鍵
 );
 
-INSERT INTO UsedOrder 
-    (usedNo, buyerNo, usedOrderTime, usedPrice, usedCount, deliveryStatus, receiverName, receiverAdr, receiverPhone, sellerSatisfication, sellerCommentContent, sellerCommentDate, usedTotalPrice)
-VALUES
-    (1, 1, '2024-10-01 12:00:00', 500, 2, 1, '王大明', '台北市信義區忠孝東路1號', '0912345678', 5, '非常滿意，商品品質很好', '2024-10-02', 1000),
-    (2, 2, '2024-10-02 14:30:00', 300, 1, 0, '李小華', '台北市大安區和平東路2號', '0923456789', 4, '商品符合描述，滿意', '2024-10-03', 300),
-    (3, 3, '2024-10-03 10:15:00', 1200, 1, 2, '陳美麗', '台北市松山區南京東路3號', '0934567890', 3, '商品包裝有些瑕疵', '2024-10-04', 1200),
-    (4, 4, '2024-10-04 16:45:00', 450, 3, 1, '林志強', '台北市萬華區西寧南路4號', '0945678901', 5, '非常喜歡，會再回購', '2024-10-05', 1350),
-    (5, 5, '2024-10-05 09:20:00', 850, 2, 3, '張小英', '新北市板橋區中山路5號', '0956789012', 4, '品質不錯，性價比高', '2024-10-06', 1700),
-    (6, 6, '2024-10-06 18:00:00', 700, 1, 1, '黃建國', '新北市中和區中和路6號', '0967890123', 2, '產品外觀有小瑕疵', '2024-10-07', 700),
-    (7, 7, '2024-10-07 11:30:00', 600, 2, 4, '周玉芬', '桃園市中壢區新生路7號', '0978901234', 3, '尚可接受，質量一般', '2024-10-08', 1200),
-    (8, 8, '2024-10-08 15:45:00', 350, 1, 1, '鄭光明', '桃園市八德區八德路8號', '0989012345', 4, '運送速度快，品質不錯', '2024-10-09', 350),
-    (9, 9, '2024-10-09 13:40:00', 500, 1, 1, '吳淑敏', '台中市北屯區文心路9號', '0910123456', 5, '服務很好，推薦購買', '2024-10-10', 500),
-    (10, 10, '2024-10-10 20:10:00', 1000, 1, 0, '許英傑', '台南市中西區民生路10號', '0921234567', 1, '不是很滿意，服務需改進', '2024-10-11', 1000);
+-- 創建Notice表
+CREATE TABLE Notice (
+    memNoticeNo INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
+    memNo INT,
+    noticeContent VARCHAR(1000) NOT NULL,                         
+    noticeDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    noticeRead TINYINT(1) DEFAULT 0 COMMENT '0:已讀, 1:未讀'
+);
 
--- 插入假資料到 MemInform 表格
-INSERT INTO MemInform (memInformNo, memNO, informMsg, informDate, informRead) VALUES
-(1, 1, '您的訂單已出貨', '2024-11-01 15:00:00', 0),
-(2, 2, '您的訂單已取消', '2024-11-02 16:30:00', 1),
-(3, 3, '新品上架通知', '2024-11-03 10:15:00', 0),
-(4, 4, '限時優惠開始啦', '2024-11-04 11:45:00', 0),
-(5, 5, '您的訂單已送達', '2024-11-05 09:20:00', 1),
-(6, 6, '會員積分到期提醒', '2024-11-06 17:50:00', 0),
-(7, 7, '邀請您參加會員活動', '2024-11-07 13:30:00', 0),
-(8, 8, '您的退貨申請已審核', '2024-11-08 14:40:00', 1),
-(9, 9, '感謝您的反饋', '2024-11-09 08:10:00', 1),
-(10, 10, '系統更新通知', '2024-11-10 12:00:00', 0);
+-- 設置分隔符
+DELIMITER //
+
+-- 創建插入觸發器
+CREATE TRIGGER before_insert_notice
+BEFORE INSERT ON Notice
+FOR EACH ROW
+BEGIN
+    IF NEW.noticeRead IS NULL THEN
+        SET NEW.noticeRead = 0;
+    END IF;
+END//
+
+-- 恢復分隔符
+DELIMITER ;
+
+-- 創建CounterInform表
+CREATE TABLE CounterInform (
+    counterInformNo INT NOT NULL PRIMARY KEY AUTO_INCREMENT,  
+    counterNo INT,
+    informMsg VARCHAR(1000) NOT NULL,                         
+    informDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    informRead TINYINT(1) DEFAULT 0 COMMENT '0:已讀, 1:未讀'
+);
+
+-- 設置分隔符
+DELIMITER //
+
+-- 創建插入觸發器
+CREATE TRIGGER before_insert_counter_inform
+BEFORE INSERT ON CounterInform
+FOR EACH ROW
+BEGIN
+    SET NEW.informDate = CURRENT_TIMESTAMP;
+    IF NEW.informRead IS NULL THEN
+        SET NEW.informRead = 0;
+    END IF;
+END//
+
+-- 創建更新觸發器
+CREATE TRIGGER before_update_counter_inform
+BEFORE UPDATE ON CounterInform
+FOR EACH ROW
+BEGIN
+    SET NEW.informDate = CURRENT_TIMESTAMP;
+END//
+
+-- 恢復分隔符
+DELIMITER ;
+
+
+
+
+-- 創建 Followers 表格
+CREATE TABLE Followers (
+    trackListNo INT(10) AUTO_INCREMENT PRIMARY KEY,   -- 設定 trackListNo 為自動遞增的主鍵
+    followersNo INT(10) NOT NULL,                      -- 會員編號
+    counterNo INT(10) NOT NULL,                        -- 櫃位編號
+    FOREIGN KEY (followersNo) REFERENCES Member (memNo),  -- 設定外來鍵，指向 Member 表的 Mem_No
+    FOREIGN KEY (counterNo) REFERENCES Counter(counterNo)  -- 設定外來鍵，指向 Counter 表的 Counter_No
+);
+
+-- 插入 10 筆假資料，將 counterNo 改為 1~10 依序排列
+INSERT INTO Followers (followersNo, counterNo) VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 6),
+(7, 7),
+(8, 8);
 
 
 ALTER TABLE counter
@@ -828,7 +829,6 @@ ALTER table StoreCarousel  ADD CONSTRAINT StoreCarousel_disNo_FK FOREIGN KEY(dis
     
 ALTER table MonthSettlement ADD CONSTRAINT MonthSettlement_counterNo_FK FOREIGN KEY(counterNo) REFERENCES counter(counterNo);
 
-ALTER table CounterInform ADD CONSTRAINT CounterInform_counterNo_FK FOREIGN KEY(counterNo) REFERENCES counter(counterNo);
 
 ALTER TABLE UsedPic
 ADD CONSTRAINT UsedPic_usedNo_FK FOREIGN KEY (usedNo) REFERENCES Used(usedNo);
@@ -856,13 +856,12 @@ ADD CONSTRAINT shoppingcartlist_goodsNo_FK FOREIGN KEY (goodsNo) REFERENCES good
 
  ALTER TABLE usedComplaint
 ADD CONSTRAINT usedComplaint_memNo_FK FOREIGN KEY (memNo) REFERENCES Member(memNo);
-
- ALTER TABLE usedComplaint
- ADD CONSTRAINT usedComplaint_usedOrderNo_FK FOREIGN KEY (usedOrderNo) REFERENCES UsedOrder(usedOrderNo);
  
+ ALTER TABLE CounterInform
+ ADD CONSTRAINT CounterInform_counterNo_FK FOREIGN KEY (counterNo) REFERENCES counter(counterNo);
  
- ALTER TABLE MemInform
-ADD CONSTRAINT MemInform_memNO_FK FOREIGN KEY (memNo) REFERENCES Member(memNo);
+ ALTER TABLE Notice
+ADD CONSTRAINT Notice_memNO_FK FOREIGN KEY (memNo) REFERENCES Member(memNo);
 
 ALTER TABLE ManagerAuth
 ADD CONSTRAINT ManagerAuth_managerNo_FK FOREIGN KEY (managerNo) REFERENCES Manager(managerNo);

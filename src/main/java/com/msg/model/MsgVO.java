@@ -23,6 +23,9 @@ public class MsgVO implements java.io.Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "counterInformNo")
     private Integer counterInformNo;
+    
+    @Column(name = "counterNo")
+    private Integer counterNo;
 
     @NotNull
     @NotEmpty(message = "訊息內文請勿空白。")
