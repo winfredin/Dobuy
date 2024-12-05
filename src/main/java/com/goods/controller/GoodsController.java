@@ -201,7 +201,7 @@ public class GoodsController {
         List<GoodsVO> list = goodsSvc.getAll();
         model.addAttribute("goodsListData", list);
         model.addAttribute("success", "- (新增成功)");
-        return "redirect:/goods/listAllGoods";  // 新增成功後重導至商品列表
+        return "redirect:/counter/Counterindex";  // 新增成功後導至櫃位首頁
     }
 
 	/*
