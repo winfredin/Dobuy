@@ -24,7 +24,7 @@
         <url-pattern>/front-end/coupon/member/list</url-pattern>
         <url-pattern>/front-end/coupon/*</url-pattern>
         <url-pattern>/memcoupon/*</url-pattern>
-  		<url-pattern>/front-end/coupon/member/*</url-pattern>
+  		<url-pattern>/front-end/*</url-pattern>
     </filter-mapping>
   
 </web-app>
