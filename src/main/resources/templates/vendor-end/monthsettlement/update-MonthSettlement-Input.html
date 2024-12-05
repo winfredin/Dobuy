@@ -53,7 +53,7 @@
         
         <div>
             <label>櫃位編號:</label>
-            <input type="text" th:field="*{counterNo}" onclick="hideContent('counterNo.errors');" /><br/>
+            <input type="text" th:field="*{counterNo}" readonly onclick="hideContent('counterNo.errors');" /><br/>
             <span th:if="${#fields.hasErrors('counterNo')}" th:errors="*{counterNo}" class="error" id="counterNo.errors"></span>
         </div>
         

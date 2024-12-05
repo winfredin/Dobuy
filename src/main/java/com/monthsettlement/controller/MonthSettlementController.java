@@ -278,7 +278,7 @@ public class MonthSettlementController {
 //            return "redirect:/counter/login"; // 未登入時跳轉到登入頁
 //    		}
 //    		Integer counterNo = (Integer) session.getAttribute("counterNo");
-    		List<MonthSettlementVO> monthsettlements = monthSettlementService.getOnemonthsettlement(counterNo);
+    		List<MonthSettlementVO> monthsettlements = (List<MonthSettlementVO>) monthSettlementService.getOneMonthSettlement(counterNo);
     		model.addAttribute("monthsettlementData", monthsettlements);
     		model.addAttribute("monthsettlement", monthSettlementService.getOneMonthSettlement(1));	        
 	        return "vendor-end/monthsettlement/listOneMonthSettlement";
@@ -298,7 +298,7 @@ public class MonthSettlementController {
         }
 
         // 已登入，執行原有邏輯
-        List<MonthSettlementVO> monthSettlements = monthSettlementService.getOnemonthsettlement(counterNo); // 根據櫃位編號取得月結資料
+        List<MonthSettlementVO> monthSettlements = (List<MonthSettlementVO>) monthSettlementService.getOneMonthSettlement(counterNo); // 根據櫃位編號取得月結資料
         if (monthSettlements == null || monthSettlements.isEmpty()) {
             model.addAttribute("error", "找不到任何月結資料");
         } else {
