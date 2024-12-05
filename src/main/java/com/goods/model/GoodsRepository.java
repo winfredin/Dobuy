@@ -33,5 +33,12 @@ public interface GoodsRepository extends JpaRepository<GoodsVO, Integer> {
     
     
   //=============以上昱夆新增===============//
+    
+    
+//=============以下柏翔新增===============//
+
+    List<GoodsVO> findByCounterVO_CounterNo(Integer counterNo);
+        
+//=============以上柏翔新增===============//    
 
 }

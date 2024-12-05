@@ -128,7 +128,13 @@ public class GoodsService {
     
     
     
-    
+    //==================以下柏翔新增=====================//
+
+    public List<GoodsVO> findByCounterVO_CounterNo(Integer counterNo) {
+        return repository.findByCounterVO_CounterNo(counterNo);
+    }
+    //==================以上柏翔新增=====================//
+
     
     
     

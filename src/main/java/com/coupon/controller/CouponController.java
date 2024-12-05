@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 import com.coupon.model.CouponVO;
 import com.coupondetail.model.CouponDetailService;
 import com.coupondetail.model.CouponDetailVO;
+import com.goods.model.GoodsService;
 import com.goods.model.GoodsVO;
 import com.counter.model.CounterVO;
 import com.coupon.model.CouponService;
@@ -43,6 +44,10 @@ public class CouponController {
 
     @Autowired
     CouponDetailService coupondetailSvc;
+    
+    @Autowired
+    GoodsService goodsSvc;
+    
 //    @PostMapping("/addCouponDetail")
 //    public ResponseEntity<String> addCouponDetail(@RequestParam Integer couponNo,
 //                                                  @RequestBody CouponDetailVO couponDetailVO) {
@@ -90,8 +95,13 @@ public class CouponController {
             return "redirect:/counter/login";  // 請根據實際的櫃位登入路徑調整
         }
         
+        List<GoodsVO> goodsList = goodsSvc.findByCounterVO_CounterNo(counter.getCounterNo());
+        model.addAttribute("goodsList", goodsList);
+        
         CouponVO couponVO = new CouponVO();
         couponVO.setCounterNo(counter.getCounterNo());
+        couponVO.setCouponDetails(new ArrayList<>());
+        couponVO.getCouponDetails().add(new CouponDetailVO()); // 添加一個空明細
         model.addAttribute("couponVO", couponVO);
         model.addAttribute("counter", counter);  // 加入這行，提供給 header 使用
         
