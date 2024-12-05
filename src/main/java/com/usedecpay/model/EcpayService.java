@@ -1,4 +1,4 @@
-package com.ecpay.model;
+package com.usedecpay.model;
 
 import java.util.UUID;
 
