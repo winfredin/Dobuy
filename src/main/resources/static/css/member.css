@@ -485,6 +485,10 @@ th.col-usedNo, td.col-usedNo {
 
 th.col-usedName, td.col-usedName {
     width: 8%; /* 商品名稱欄寬度 */
+     max-height: 100px; /* 限制最大高度 */
+    overflow: hidden; /* 隱藏超出內容 */
+    text-overflow: ellipsis; /* 顯示省略號 */
+    white-space: nowrap; /* 不換行 */
 }
 
 th.col-classNo, td.col-classNo {

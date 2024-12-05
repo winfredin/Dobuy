@@ -55,6 +55,10 @@ th.col-usedNo, td.col-usedNo {
 
 th.col-usedName, td.col-usedName {
     width: 10%; /* 商品名稱欄寬度 */
+    max-height: 100px; /* 限制最大高度 */
+    overflow: hidden; /* 隱藏超出內容 */
+    text-overflow: ellipsis; /* 顯示省略號 */
+    white-space: nowrap; /* 不換行 */
 }
 
 th.col-classNo, td.col-classNo {
@@ -143,6 +147,8 @@ button:hover {
         <table class="UsedList" id="UsedList" style="width: 100%">
             <thead>
                 <tr style="background-color:#CCCCFF">
+             
+                    <th class="col-sellerNo">賣家編號</th>
                     <th class="col-usedNo">商品編號</th>
                     <th class="col-usedName">商品名稱</th>
                     <th class="col-classNo">商品類別</th>
@@ -161,6 +167,7 @@ button:hover {
             <tbody>
                 <th:block th:each="usedVO : ${usedListData}">
                     <tr data-used="${usedVO.usedNo}">
+                    <td class="col-sellerNo" th:text="${usedVO.sellerNo}"></td>
                         <td class="col-usedNo" th:text="${usedVO.usedNo}"></td>
                         <td class="col-usedName" th:text="${usedVO.usedName}"></td>
 <!--                    <td class="col-classNo" th:text="${usedVO.classNo}"></td> -->
