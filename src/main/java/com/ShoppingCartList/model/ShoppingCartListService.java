@@ -54,4 +54,15 @@ public class ShoppingCartListService {
     public List<ShoppingCartListVO> getAll(Map<String, String[]> map) {
         return HibernateUtil_CompositeQuery_ShoppingCartList.getAllC(map, sessionFactory.openSession());
     }
+    
+//  結帳用=========================================柏諭
+	public List<ShoppingCartListVO> getCartItemsByMemNo(Integer memNo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+//  結帳用=========================================翊豪
+	public void clearCart(Integer memNo) {
+		// TODO Auto-generated method stub
+		
+	}
 }

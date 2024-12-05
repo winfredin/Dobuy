@@ -70,7 +70,7 @@ public class CouponService {
         }
     }
     
-    // 獲取優惠券及其明細的完整數據
+    // 前台領取櫃位優惠券頁面點查看詳情可以看到明細
     public CouponVO getOneCouponWithDetails(Integer couponNo) {
         try {
             // 從資料庫獲取優惠券
@@ -206,6 +206,12 @@ public class CouponService {
     public List<CouponVO> getOneCounter46(Integer counterNo) {
         return repository.getOneCounter46(counterNo); // 如果不存在，返回 null
     }
+    
+//    結帳用
+	public int applyDiscount(int totalBefore, CouponVO couponVO) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
     
     
     

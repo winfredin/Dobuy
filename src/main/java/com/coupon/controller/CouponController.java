@@ -43,15 +43,6 @@ public class CouponController {
 
     @Autowired
     CouponDetailService coupondetailSvc;
-
-//  櫃位新增優惠券 可以同時設定優惠商品明細--進入
-    @GetMapping("addCoupon")
-    public String addCoupon(ModelMap model) {
-        CouponVO couponVO = new CouponVO();
-        model.addAttribute("couponVO", couponVO);
-        return "vendor-end/coupon/addCoupon";
-    }
-    
 //    @PostMapping("/addCouponDetail")
 //    public ResponseEntity<String> addCouponDetail(@RequestParam Integer couponNo,
 //                                                  @RequestBody CouponDetailVO couponDetailVO) {
@@ -63,6 +54,50 @@ public class CouponController {
 //        }
 //    }
 
+//    @PostMapping("/addCoupon")
+//    public String addCoupon(
+//        @RequestParam("couponDetail") List<CouponDetailVO> couponDetail,
+//        @ModelAttribute("couponVO") CouponVO couponVO
+//    ) {
+//        // 業務邏輯
+//        return "redirect:/success";
+//    }
+    
+    
+//  櫃位新增優惠券 可以同時設定優惠商品明細--進入
+    
+//    test登入功能
+//    @GetMapping("addCoupon")
+//    public String addCoupon(HttpSession session, ModelMap model) {
+//        CounterVO counter = (CounterVO) session.getAttribute("counter");
+//        
+//        // 初始化新的優惠券物件
+//        CouponVO couponVO = new CouponVO();
+//        // 設置櫃位編號
+//        couponVO.setCounterNo(counter.getCounterNo());
+//        
+//        model.addAttribute("couponVO", couponVO);
+//        return "vendor-end/coupon/addCoupon";
+//    }
+    
+    @GetMapping("addCoupon")
+//   從 session 獲取當前登入櫃位資訊
+    public String addCoupon(HttpSession session, ModelMap model) {
+        CounterVO counter = (CounterVO) session.getAttribute("counter");
+        
+        // 如果櫃位未登入，重定向到登入頁
+        if (counter == null) {
+            return "redirect:/counter/login";  // 請根據實際的櫃位登入路徑調整
+        }
+        
+        CouponVO couponVO = new CouponVO();
+        couponVO.setCounterNo(counter.getCounterNo());
+        model.addAttribute("couponVO", couponVO);
+        model.addAttribute("counter", counter);  // 加入這行，提供給 header 使用
+        
+        return "vendor-end/coupon/addCoupon";
+    }
+    
 
 //    櫃位新增優惠券 可以同時設定優惠商品明細--送出
     @PostMapping("/insert")
@@ -102,14 +137,6 @@ public class CouponController {
 
     
     
-//    @PostMapping("/addCoupon")
-//    public String addCoupon(
-//        @RequestParam("couponDetail") List<CouponDetailVO> couponDetail,
-//        @ModelAttribute("couponVO") CouponVO couponVO
-//    ) {
-//        // 業務邏輯
-//        return "redirect:/success";
-//    }
     
     
     
@@ -165,6 +192,7 @@ public class CouponController {
             model.addAttribute("couponVO", updatedCoupon);
             // 直接返回顯示更新後結果的頁面，而不是重定向，確保能顯示更新後的數據
             return "vendor-end/coupon/listOneCoupon";
+            
         } catch (Exception e) {
             System.out.println("Error updating coupon: " + e.getMessage());
             e.printStackTrace();
@@ -211,7 +239,7 @@ public class CouponController {
 //        return "vendor-end/coupon/listAllCoupon";
 //    }
     
-  //任國櫃位優惠券管理
+  //任國櫃位優惠券管理 櫃位列出自己的優惠券 
     @PostMapping("listCounterCoupons_ByCompositeQuery")
     public String listCounterCoupons(HttpSession session ,HttpServletRequest req, Model model) {
         CounterVO counter = (CounterVO) session.getAttribute("counter");

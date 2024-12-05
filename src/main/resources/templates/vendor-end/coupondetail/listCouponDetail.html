@@ -7,16 +7,20 @@
 
 <head th:insert="~{/vendor-end/coupondetail/included-fragment}"></head>
 <style type="text/css">
-    span {
-        display: inline-block;
-        width: 150px;
-        text-align: left;
-        font-weight: bold;
-    }
+/*     span { */
+/*         display: inline-block; */
+/*         width: 150px; */
+/*         text-align: left; */
+/*         font-weight: bold; */
+/*     } */
 </style>
+<link rel="stylesheet" href="/counter/style.css">
+
 </head>
 <body>
-
+	<!-- fragment引入 -->
+<!-- 	<header th:block th:replace="~{back-end/back-end-home/fraghead :: header}"></header>		 -->
+	<div th:insert=="vendor-end/counter/Counterincldue :: header"></div>
     <table>
         <thead>
             <tr>

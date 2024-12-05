@@ -31,7 +31,6 @@ public interface CouponRepository extends JpaRepository<CouponVO, Integer> {
     @Query("SELECT c FROM CouponVO c WHERE c.checkStatus = ?1 AND c.couponStatus = ?2")
     List<CouponVO> findByCheckStatusAndCouponStatus(Integer checkStatus, Integer couponStatus);
     
-	CouponVO save(CouponVO couponVO);
 	
 	//任國 抓櫃位優惠券
 	@Query(value = "SELECT * FROM coupon WHERE counterNo = ?1 ORDER BY couponNo DESC", nativeQuery = true)

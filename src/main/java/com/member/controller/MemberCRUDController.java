@@ -94,7 +94,7 @@ public class MemberCRUDController {
             // 獲取會員資訊
             MemberVO member = memberSvc.findByMemAccount(memAccount);
             if (member == null) {
-                return "redirect:/memb/login49";
+                return "redirect:/mem/login49";
             }
 
             // 獲取該會員的優惠券列表

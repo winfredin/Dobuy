@@ -47,27 +47,27 @@ public class IndexController2_inSpringBoot_Coupon {
 //     }
 
     // 提供所有优惠券列表页面
-//     @GetMapping("/listAllCoupon")
-//     public String listAllCoupon(HttpSession session, Model model) {
-//     	//櫃位優惠券登錄確認
-//         CounterVO counter = (CounterVO) session.getAttribute("counter");
-//         if (counter == null) {
-//             return "redirect:/counter/login";
-//         } else {
-//             // 其他邏輯
-//             model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
-//             model.addAttribute("counterCouponListData", couponSvc.getOneCounter46(counter.getCounterNo()));
-//             return "vendor-end/coupon/listAllCoupon";
-//         }
-//     }
+     @GetMapping("/listAllCoupon")
+     public String listAllCoupon(HttpSession session, Model model) {
+     	//櫃位優惠券登錄確認
+         CounterVO counter = (CounterVO) session.getAttribute("counter");
+         if (counter == null) {
+             return "redirect:/counter/login";
+         } else {
+             // 其他邏輯
+             model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
+             model.addAttribute("counterCouponListData", couponSvc.getOneCounter46(counter.getCounterNo()));
+             return "vendor-end/coupon/listAllCoupon";
+         }
+     }
     
 
 	// 提供CouponVO列表，供 Thymeleaf 使用
-//     @ModelAttribute("couponListData") // for select_page.html 和 listAllCoupon.html
-//     protected List<CouponVO> referenceListData(Model model) {
-//         List<CouponVO> list = couponSvc.getAll();
-//         return list;
-//     }
+     @ModelAttribute("couponListData") // for select_page.html 和 listAllCoupon.html
+     protected List<CouponVO> referenceListData(Model model) {
+         List<CouponVO> list = couponSvc.getAll();
+         return list;
+     }
     
     //任國櫃位管理優惠券
     @ModelAttribute("counterCouponListData")

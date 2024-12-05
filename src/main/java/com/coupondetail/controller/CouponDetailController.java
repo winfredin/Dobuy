@@ -1,6 +1,7 @@
 package com.coupondetail.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
@@ -21,6 +22,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import com.coupondetail.model.CouponDetailVO;
+import com.counter.model.CounterVO;
 import com.coupon.model.CouponService;
 import com.coupon.model.CouponVO;
 import com.coupondetail.model.CouponDetailService;
@@ -37,16 +39,16 @@ public class CouponDetailController {
     CouponDetailService couponDetailSvc;
 
     
-    @PostMapping("/addCoupon")
-    public String addCoupon(@ModelAttribute CouponVO coupon, Model model) {
-        try {
-        	couponSvc.addCouponWithDetails(coupon);
-            model.addAttribute("successMessage", "Coupon added successfully!");
-        } catch (Exception e) {
-            model.addAttribute("errorMessage", "Failed to add coupon: " + e.getMessage());
-        }
-        return "couponForm";
-    }
+//    @PostMapping("/addCoupon")
+//    public String addCoupon(@ModelAttribute CouponVO coupon, Model model) {
+//        try {
+//        	couponSvc.addCouponWithDetails(coupon);
+//            model.addAttribute("successMessage", "Coupon added successfully!");
+//        } catch (Exception e) {
+//            model.addAttribute("errorMessage", "Failed to add coupon: " + e.getMessage());
+//        }
+//        return "couponForm";
+//    }
     
     
     
@@ -116,7 +118,7 @@ public class CouponDetailController {
 //        result = removeFieldError(couponDetailVO, result, "upFiles");
 //
 //        if (result.hasErrors()) {
-////            return "back-end/coupondetail/update_couponDetail_input";
+//            return "back-end/coupondetail/update_couponDetail_input";
 //        }
 //
 //        /*************************** 2.開始修改資料 *****************************************/
@@ -172,19 +174,26 @@ public class CouponDetailController {
 //    }
     
     // 櫃位列出自己的優惠券點詳情 可以查看優惠商品明細
-    @GetMapping("/listByCouponNo")
-    public String listByCouponNo(@RequestParam("couponNo") Integer couponNo, Model model) {
-        try {
-            System.out.println("接收到查詢請求，優惠券編號: " + couponNo);
-            List<CouponDetailVO> details = couponDetailSvc.getByCouponNo(couponNo);
-            model.addAttribute("couponDetails", details);
-            System.out.println("查詢成功，找到 " + details.size() + " 筆明細");
-            return "vendor-end/coupondetail/listCouponDetail";
-        } catch (Exception e) {
-            e.printStackTrace();
-            model.addAttribute("error", "查詢明細失敗：" + e.getMessage());
-            return "error"; // 添加一個錯誤頁面處理異常情況
-        }
+    @GetMapping("/listByCouponNo") 
+    public String listByCouponNo(@RequestParam("couponNo") Integer couponNo, 
+                               HttpSession session, 
+                               Model model) {
+       // 檢查櫃位登入狀態
+       CounterVO counter = (CounterVO) session.getAttribute("counter");
+       if (counter == null) {
+           return "redirect:/counter/login";
+       }
+       
+       try {
+           List<CouponDetailVO> details = couponDetailSvc.getByCouponNo(couponNo);
+           model.addAttribute("couponDetails", details);
+           model.addAttribute("counter", counter);  // 提供給header使用
+           return "vendor-end/coupondetail/listCouponDetail";
+       } catch (Exception e) {
+           e.printStackTrace();
+           model.addAttribute("error", "查詢明細失敗：" + e.getMessage());
+           return "error";
+       }
     }
 
 }
