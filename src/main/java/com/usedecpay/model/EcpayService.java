@@ -24,6 +24,7 @@ public class EcpayService {
 		obj.setTradeDesc("test Description");
 		obj.setItemName("TestItem");
 		obj.setReturnURL("http://localhost:8080/used/select_page");
+		obj.setOrderResultURL(uuId);
 		obj.setNeedExtraPaidInfo("N");
 		obj.setRedeem("N");
 		obj.setClientBackURL("http://localhost:8080/used/select_page");
