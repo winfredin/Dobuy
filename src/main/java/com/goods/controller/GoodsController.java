@@ -252,7 +252,8 @@ public class GoodsController {
         GoodsVO originalGoods = goodsSvc.getOneGoods(goodsVO.getGoodsNo());
         goodsVO.setGoodsStatus(originalGoods.getGoodsStatus());  // 保持原來的上下架狀態
         goodsVO.setCheckStatus(originalGoods.getCheckStatus());  // 保持原來的審核狀態
-        
+        // 先保留原有的櫃位編號 (假設 counterNo 不可修改)
+        goodsVO.setCounterVO(originalGoods.getCounterVO());  // 保持原有的櫃位編號
         // 檢查照片1 - 如果使用者沒有上傳新圖片，則保留原來的圖片
         if (parts1[0].isEmpty()) {
             // 如果沒有上傳新的圖片，保留原來的圖片
