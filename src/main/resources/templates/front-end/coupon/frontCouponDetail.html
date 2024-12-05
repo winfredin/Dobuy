@@ -26,9 +26,27 @@
             text-decoration: none;
             border-radius: 4px;
         }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
+    <div class="header">
+        <div>
+            會員帳號：<span th:text="${memAccount != null ? memAccount : '未登入'}"></span>
+        </div>
+        <div>
+            <a th:href="@{/mem/logout49}" class="btn">登出</a>
+        </div>
+    </div>
+    
     <div class="detail-card">
         <h2 th:text="${coupon.couponTitle}">優惠券標題</h2>
         

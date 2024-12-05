@@ -26,6 +26,7 @@ public interface MemCouponRepository extends JpaRepository<MemCouponVO, Integer>
     @Query("FROM MemCouponVO mc WHERE mc.member = ?1 AND mc.status = ?2")
     List<MemCouponVO> findByMemberAndStatus(MemberVO member, Integer status);
     
+//  前台領取櫃位優惠券後顯示在我的優惠券
     @Query("SELECT COUNT(mc) FROM MemCouponVO mc WHERE mc.coupon.couponNo = :couponNo AND mc.member.memNo = :memberNo")
     long countByCouponAndMember(@Param("couponNo") Integer couponNo, @Param("memberNo") Integer memberNo);
 }

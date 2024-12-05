@@ -9,10 +9,9 @@
 
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 
-<script
-	src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-<link rel="stylesheet"
-	href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css" />
+<script	src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css" />
+<link rel="stylesheet" href="/counter/style.css">
 
 
 
@@ -59,9 +58,10 @@
 </head>
 <body>
 	<!-- fragment引入 -->
+<div th:insert=="vendor-end/counter/Counterincldue :: header"></div>
 
-	<header th:block th:replace="~{back-end/back-end-home/fraghead :: header}"></header>
-<!-- 	<div th:insert=="vendor-end/counter/Counterincldue :: header"></div> -->
+<!-- 	<header th:block th:replace="~{back-end/back-end-home/fraghead :: header}"></header> -->
+	
 	  <div th:if="${counter != null}">
 
 

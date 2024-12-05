@@ -30,6 +30,7 @@
 		<h2>我的優惠券</h2>
 		<div>
 			會員帳號：<span th:text="${memAccount != null ? memAccount : '未登入'}"></span>
+			<a th:href="@{/mem/logout}" class="btn" style="margin-left: 15px;">登出</a>
 		</div>
 	</div>
 
