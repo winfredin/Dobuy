@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.goods.model.GoodsService;
 
-@Controller
+
+@Controller("goodsGifReaderController") 
 @RequestMapping("/goods")
 public class DBGifReaderController {
 	
