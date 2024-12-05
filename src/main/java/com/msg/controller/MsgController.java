@@ -41,7 +41,7 @@ public class MsgController {
     public String addEmp(ModelMap model) {
         MsgVO msgVO = new MsgVO();
         model.addAttribute("msgVO", msgVO);
-        return "back-end/msg/addMsg";
+        return "vendor-end/msg/addMsg";
     }
     
     @PostMapping("insert")
@@ -52,7 +52,7 @@ public class MsgController {
         msgVO.setInformMsg(informMsg); // 設置訊息內文
 
         if (result.hasErrors()) {
-            return "back-end/msg/addMsg";
+            return "vendor-end/msg/addMsg";
         }
 
         /*************************** 2.開始新增資料 *****************************************/
@@ -68,7 +68,7 @@ public class MsgController {
         List<MsgVO> list = msgSvc.getAll();
         model.addAttribute("msgListData", list);
         model.addAttribute("success", "- (新增成功)");
-        return "back-end/msg/listAllMsg"; // 新增成功後重導至顯示所有訊息的頁面
+        return "vendor-end/msg/listAllMsg"; // 新增成功後重導至顯示所有訊息的頁面
     }
 
 
@@ -81,7 +81,7 @@ public class MsgController {
 
         /*************************** 3.查詢完成,準備轉交(Send the Success view) **************/
         model.addAttribute("msgVO", msgVO);
-        return "back-end/msg/update_msg_input"; // 查詢完成後轉交update_msg_input.html
+        return "vendor-end/msg/update_msg_input"; // 查詢完成後轉交update_msg_input.html
     }
     
     
@@ -180,22 +180,14 @@ public class MsgController {
         List<MsgVO> list = msgSvc.getAll();
         model.addAttribute("msgListData", list);
         model.addAttribute("success", "- (刪除成功)");
-        return "back-end/msg/listAllMsg"; // 刪除完成後轉交listAllMsg.html
+        return "vendor-end/msg/listAllMsg"; // 刪除完成後轉交listAllMsg.html
     }
    
     @GetMapping("listAllMsg")
     public String getAllMsg(ModelMap model) {
         List<MsgVO> list = msgSvc.getAll(); // 假設 msgSvc.getAll() 可取得所有訊息
         model.addAttribute("msgListData", list);
-        return "back-end/msg/listAllMsg";
-    }
-    
-   
-    @GetMapping("listAllMsg2")
-    public String getAllMsg2(ModelMap model) {
-    	List<MsgVO> list = msgSvc.getAll();
-    	model.addAttribute("msgListData", list);
-    	return "front-end/msg/listAllMsg2";
+        return "vendor-end/msg/listAllMsg";
     }
     
         
