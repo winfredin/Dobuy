@@ -102,6 +102,7 @@ public class CouponController {
         couponVO.setCounterNo(counter.getCounterNo());
         couponVO.setCouponDetails(new ArrayList<>());
         couponVO.getCouponDetails().add(new CouponDetailVO()); // 添加一個空明細
+        
         model.addAttribute("couponVO", couponVO);
         model.addAttribute("counter", counter);  // 加入這行，提供給 header 使用
         

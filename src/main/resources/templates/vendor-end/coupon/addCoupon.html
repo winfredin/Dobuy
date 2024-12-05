@@ -27,7 +27,8 @@
 				<div class="form-row">
 					<div class="form-field">
 						<label for="counterNo">櫃位編號</label> <input type="text"
-							id="counterNo" th:field="*{counterNo}" />
+							id="counterNo" th:field="*{counterNo}" th:value="${counterNo}"
+							readonly />
 					</div>
 					<div class="form-field">
 						<label for="couponTitle">優惠券名稱</label> <input type="text"
@@ -81,39 +82,36 @@
 
 			<div id="detailsContainer" class="details-section">
 				<div class="detail-item" th:each="detail, stat : *{couponDetails}">
-
-					<div id="detailsContainer">
-						<div class="detail-row">
-							<div class="detail-field">
-								<label>商品</label> <select th:field="*{couponDetails[0].goodsNo}"
-									required>
-									<option value="">請選擇商品</option>
-									<option th:each="goods : ${goodsList}"
-										th:value="${goods.goodsNo}" th:text="${goods.goodsName}"></option>
-								</select>
-							</div>
-							<div class="detail-field">
-								<label>優惠條件</label> <input type="text"
-									th:field="*{couponDetails[0].counterContext}" required />
-							</div>
-							<div class="detail-field">
-								<label>折扣率</label> <input type="number"
-									th:field="*{couponDetails[0].disRate}" step="0.01" min="0.01"
-									max="1.00" required />
-							</div>
-							<button type="button" class="delete-btn"
-								onclick="deleteDetail(this)">刪除</button>
+					<div class="detail-row">
+						<div class="detail-field">
+							<label>商品</label> <select
+								th:field="*{couponDetails[__${stat.index}__].goodsNo}" required>
+								<option value="">請選擇商品</option>
+								<option th:each="goods : ${goodsList}"
+									th:value="${goods.goodsNo}" th:text="${goods.goodsName}"></option>
+							</select>
 						</div>
+						<div class="detail-field">
+							<label>優惠條件</label> <input type="text"
+								th:field="*{couponDetails[__${stat.index}__].counterContext}"
+								required />
+						</div>
+						<div class="detail-field">
+							<label>折扣率</label> <input type="number"
+								th:field="*{couponDetails[__${stat.index}__].disRate}"
+								step="0.01" min="0.01" max="1.00" required />
+						</div>
+						<button type="button" class="delete-btn"
+							onclick="deleteDetail(this)">刪除</button>
 					</div>
 				</div>
 			</div>
-	</div>
 
-	<div class="button-group">
-		<button type="button" id="addDetailBtn" class="btn-secondary">新增明細</button>
-		<button type="submit" class="btn-primary">送出新增</button>
-	</div>
-	</form>
+			<div class="button-group">
+				<button type="button" id="addDetailBtn" class="btn-secondary">新增明細</button>
+				<button type="submit" class="btn-primary">送出新增</button>
+			</div>
+		</form>
 	</div>
 
 	<!-- fragment引入 -->
@@ -127,35 +125,37 @@
 	<script>
 // 使用事件監聽器綁定函數
 document.getElementById('addDetailBtn').addEventListener('click', function() {
- const container = document.getElementById('detailsContainer');
- const index = container.children.length;
- const firstSelect = document.querySelector('select[name^="couponDetails[0].goodsNo"]');
- const goodsListOptions = firstSelect ? firstSelect.innerHTML : '';
+	const container = document.getElementById('detailsContainer');
+	const index = container.children.length;
+	const firstSelect = document.querySelector('select[name^="couponDetails[0].goodsNo"]');
+	const goodsListOptions = firstSelect ? firstSelect.innerHTML : '';
 
- const detailHtml = `
-   <div class="detail-row">
-     <div class="detail-field">
-       <label>商品</label>
-       <select name="couponDetails[${index}].goodsNo" required>
-         ${goodsListOptions}
-       </select>
-     </div>
-     <div class="detail-field">
-       <label>優惠條件</label>
-       <input type="text" name="couponDetails[${index}].counterContext" required />
-     </div>
-     <div class="detail-field">
-       <label>折扣率</label>
-       <input type="number" name="couponDetails[${index}].disRate" step="0.01" min="0.01" max="1.00" required />
-     </div>
-     <button type="button" class="delete-btn" onclick="deleteDetail(this)">刪除</button>
-   </div>
- `;
- container.insertAdjacentHTML('beforeend', detailHtml);
+	const detailHtml = `
+	<div class="detail-item" th:each="detail, stat : *{couponDetails}">
+		<div class="detail-row">
+			<div class="detail-field">
+				<label>商品</label>
+				<select name="couponDetails[${index}].goodsNo" required>
+					${goodsListOptions}
+				</select>
+			</div>
+			<div class="detail-field">
+				<label>優惠條件</label>
+				<input type="text" name="couponDetails[${index}].counterContext" required />
+			</div>
+			<div class="detail-field">
+				<label>折扣率</label>
+				<input type="number" name="couponDetails[${index}].disRate" step="0.01" min="0.01" max="1.00" required />
+			</div>
+			<button type="button" class="delete-btn" onclick="deleteDetail(this)">刪除</button>
+		</div>
+	</div>
+	`;
+	container.insertAdjacentHTML('beforeend', detailHtml);
 });
 
 function deleteDetail(btn) {
- btn.closest('.detail-row').remove();
+	btn.closest('.detail-row').remove();
 }
 </script>
 </body>
