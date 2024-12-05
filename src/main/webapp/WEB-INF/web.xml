@@ -21,14 +21,14 @@
         <url-pattern>/goods/getAll35</url-pattern>
         <url-pattern>/front-end/coupon/member/list35</url-pattern>
         <url-pattern>/front-end/coupon/claim35</url-pattern>
-<<<<<<< HEAD
+
         <url-pattern>/front-end/coupon/member/list</url-pattern>
         <url-pattern>/front-end/coupon/*</url-pattern>
         <url-pattern>/memcoupon/*</url-pattern>
   		<url-pattern>/front-end/*</url-pattern>
-=======
+
         <url-pattern>/cart/list35</url-pattern>
->>>>>>> Ethan01
+
     </filter-mapping>
   
 </web-app>
