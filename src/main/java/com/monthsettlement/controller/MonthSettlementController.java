@@ -104,6 +104,7 @@ public class MonthSettlementController {
         
         List<MonthSettlementVO> list = monthSettlementService.getByCounterNo(counter.getCounterNo());
         model.addAttribute("monthSettlementListData", list);
+        model.addAttribute("counter", counter); // 這裡確保counter被添加到模型中
         return "vendor-end/monthsettlement/listAllMonthSettlement";
     }
     
