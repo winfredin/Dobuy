@@ -45,10 +45,10 @@ public class UsedVO implements Serializable {
     @Min(value = 1, message = "賣家編號: 必須為數字")
     private Integer sellerNo;
 
-    @Column(name = "usedName", nullable = false, length = 60) // 商品名稱
+    @Column(name = "usedName", nullable = false, length = 30) // 商品名稱
     @NotEmpty(message="商品名稱: 請勿空白")
     @Pattern(regexp = "^[\\u4e00-\\u9fffA-Za-z0-9\\s\\p{P}\\p{S}\\u3100-\\u312F\\u31A0-\\u31BF\\u3040-\\u309F\\u30A0-\\u30FF]{1,60}$", message = "商品名稱: 只能是中、英、日文字母、數字和特殊符號 , 且最大長度為60個字")
-    @Size( max = 60, message = "名稱長度最大為60字")
+    @Size( max = 30, message = "名稱長度最大為30字")
     private String usedName;
 
     @Column(name = "usedProDesc", nullable = false, length = 200) // 商品描述

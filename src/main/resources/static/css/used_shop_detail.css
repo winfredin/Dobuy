@@ -158,7 +158,7 @@ section.sec1 div.flex_container div.items.-right{
   margin: 0;
   border: 0;
   flex-grow: 1;
-  font-size: 25px; /* 調整文案文字大小 */
+  font-size: 20px; /* 調整文案文字大小 */
   padding: 20px 20px 15px 20px;
   background-color: #ffffff; /* 設置背景顏色為白色 */
   height: 600px;               /* 確保容器占據全部可用高度 */
@@ -173,6 +173,7 @@ section.sec1 div.flex_container div.items.-right{
   margin: 0;
   list-style: none;
   width: 100%;               /* 確保描述列表寬度充滿父元素 */
+  overflow:hidden;
 }
 /* 商品價格 */
 .Goods_Price {

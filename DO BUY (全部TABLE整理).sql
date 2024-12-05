@@ -438,41 +438,6 @@ VALUES
 (19, 5, '202403', 28000),
 (20, 6, '202403', 43000);
 
--- 櫃位訊息通知
-CREATE TABLE CounterInform (
-    counterInformNo INT NOT NULL PRIMARY KEY AUTO_INCREMENT,       -- 櫃位訊息編號，主鍵
-    counterNo INT NOT NULL,                         -- 櫃位編號，外來鍵
-    informMsg VARCHAR(500) NOT NULL,               -- 通知訊息
-    informDate DATETIME DEFAULT CURRENT_TIMESTAMP,  -- 通知時間
-    informRead TINYINT DEFAULT 0                    -- 已讀未讀 (0: 未讀, 1: 已讀)
-   
-);
-
--- 插入 20 筆假資料
-INSERT INTO CounterInform (counterInformNo, counterNo, informMsg, informDate, informRead) 
-VALUES 
-(1, 1, '商品已上架', '2024-01-01 08:00:00', 0),
-(2, 1, '新的促銷活動開始', '2024-01-02 09:00:00', 0),
-(3, 2, '庫存不足，請補貨', '2024-01-03 10:00:00', 0),
-(4, 2, '櫃位檢查通過', '2024-01-04 11:00:00', 1),
-(5, 3, '本週特價商品', '2024-01-05 12:00:00', 0),
-(6, 3, '請注意上架時間', '2024-01-06 13:00:00', 0),
-(7, 4, '新商品已進貨', '2024-01-07 14:00:00', 1),
-(8, 4, '促銷活動結束提醒', '2024-01-08 15:00:00', 0),
-(9, 5, '顧客滿意度調查', '2024-01-09 16:00:00', 0),
-(10, 5, '本月銷售報告', '2024-01-10 17:00:00', 1),
-(11, 6, '櫃位維護通知', '2024-01-11 18:00:00', 0),
-(12, 6, '即將到期的促銷活動', '2024-01-12 19:00:00', 1),
-(13, 7, '商品回饋活動', '2024-01-13 20:00:00', 0),
-(14, 7, '新年快樂的祝福', '2024-01-14 21:00:00', 0),
-(15, 1, '本週營業時間變更', '2024-01-15 22:00:00', 1),
-(16, 2, '顧客回饋及評價', '2024-01-16 23:00:00', 0),
-(17, 3, '即將到貨商品', '2024-01-17 00:00:00', 0),
-(18, 4, '促銷結束通知', '2024-01-18 01:00:00', 1),
-(19, 5, '庫存檢查通知', '2024-01-19 02:00:00', 0),
-(20, 6, '櫃位改裝計畫', '2024-01-20 03:00:00', 0);
-
-
 -- 灃晉
 CREATE TABLE UsedPic (
     usedPicNo INT NOT NULL AUTO_INCREMENT PRIMARY KEY,  -- 二手商品照片明細編號
@@ -665,16 +630,7 @@ VALUES
     (9, 9, '2024-10-09 13:40:00', '商品尺寸不合', NULL, 0, '正在確認'),
     (10, 10, '2024-10-10 15:10:00', '產品少配件', NULL, 1, '處理完成');
     
--- 汝鎂
-    
-    CREATE TABLE MemInform (
-    memInformNo INT NOT NULL AUTO_INCREMENT PRIMARY KEY,  -- 會員通知編號
-    memNO INT NOT NULL,                                   -- 會員編號
-    informMsg Varchar(500) NOT NUll,                      -- 通知訊息
-    informDate DateTime NOT NUll,                         -- 通知日期
-    informRead Tinyint                                    -- 已讀未讀(0: 未讀)(1: 已讀)
-   --  FOREIGN KEY (MemNo) REFERENCES Member(MemNO)       -- 會員通知外來鍵
-);
+
 
 CREATE TABLE Auth (
     authNo INT NOT NULL PRIMARY KEY AUTO_INCREMENT,      -- 權限編號
@@ -727,23 +683,33 @@ CREATE TABLE GoodComplaint (
 );
 
 CREATE TABLE UsedOrder (
-    usedOrderNo INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,     -- 二手訂單編號
-    usedNo INT(10) NOT NULL,                                     -- 二手商品編號 FK
-    buyerNo INT(10) NOT NULL,                                    -- 買家編號 FK
-    usedOrderTime DATETIME,                                      -- 訂單成立時間
-    usedPrice INT(6) NOT NULL CHECK (usedPrice > 0),             -- 二手商品單價，必須大於0
-    usedCount INT(5) NOT NULL CHECK (usedCount > 0),             -- 二手商品購買數量，必須大於0
-    deliveryStatus TINYINT(5) NOT NULL,                          -- 宅配狀態 (0:未出貨)(1:已出貨)(2:待領件)(3:已領貨)(4:已取消)
-    receiverName VARCHAR(100),                                   -- 收件人姓名
-    receiverAdr VARCHAR(100),                                    -- 收件人地址
-    receiverPhone VARCHAR(100),                                  -- 收件人電話
-    sellerSatisfication TINYINT(5),                              -- 滿意度 (1到5顆星)
-    sellerCommentContent VARCHAR(500),                           -- 評論內文
-    sellerCommentDate DATETIME NOT NULL,                         -- 評論日期
-    usedTotalPrice INT(10) NOT NULL CHECK (usedTotalPrice > 0)   -- 訂單總價，必須大於0
-    -- FOREIGN KEY (usedNo) REFERENCES Used(usedNo),             -- 二手商品訂單外來鍵
-    -- FOREIGN KEY (buyerNo) REFERENCES Member(memNo)            -- 二手商品訂單外來鍵
+    usedOrderNo INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    usedNo INT(10) NOT NULL,
+    buyerNo INT(10) NOT NULL,
+    usedOrderTime DATETIME,
+    usedPrice INT(6) NOT NULL CHECK (usedPrice > 0),
+    usedCount INT(5) NOT NULL CHECK (usedCount > 0),
+    deliveryStatus TINYINT(5) NOT NULL DEFAULT 0,
+    receiverName VARCHAR(200) NOT NULL,
+    receiverAdr VARCHAR(200) NOT NULL,
+    receiverPhone VARCHAR(200) NOT NULL,
+    sellerSatisfication TINYINT(5),
+    sellerCommentContent VARCHAR(500),
+    sellerCommentDate DATETIME,  -- 评论日期字段
+    usedTotalPrice INT(10) NOT NULL CHECK (usedTotalPrice > 0)
 );
+
+DELIMITER $$
+CREATE TRIGGER before_usedorder_update
+BEFORE UPDATE ON UsedOrder
+FOR EACH ROW
+BEGIN
+    IF (NEW.sellerSatisfication IS NOT NULL AND NEW.sellerCommentContent IS NOT NULL) 
+       AND (OLD.sellerCommentDate IS NULL) THEN
+        SET NEW.sellerCommentDate = NOW();
+    END IF;
+END $$
+DELIMITER ;
 
 CREATE TABLE UsedChat (
     usedChatNo INT NOT NULL  AUTO_INCREMENT PRIMARY KEY,      -- 二手商品聊天編號
@@ -784,6 +750,62 @@ INSERT INTO MemInform (memInformNo, memNO, informMsg, informDate, informRead) VA
 (8, 8, '您的退貨申請已審核', '2024-11-08 14:40:00', 1),
 (9, 9, '感謝您的反饋', '2024-11-09 08:10:00', 1),
 (10, 10, '系統更新通知', '2024-11-10 12:00:00', 0);
+
+CREATE TABLE Notice (
+    memNoticeNo INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
+    memNo INT,
+    noticeContent VARCHAR(1000) NOT NULL,                         
+    noticeDate TIMESTAMP,
+    noticeRead TINYINT(1) DEFAULT 0 COMMENT '0:已讀, 1:未讀'
+);
+
+-- 設置分隔符
+DELIMITER //
+
+-- 創建插入觸發器
+CREATE TRIGGER before_insert_notice
+BEFORE INSERT ON Notice
+FOR EACH ROW
+BEGIN
+    -- 如果沒有指定 informRead，預設為 0
+    IF NEW.noticeRead IS NULL THEN
+        SET NEW.noticeRead = 0;
+    END IF;
+END//
+
+-- 創建CounterInform表
+CREATE TABLE CounterInform (
+    counterInformNo INT NOT NULL PRIMARY KEY AUTO_INCREMENT,  
+    informMsg VARCHAR(1000) NOT NULL,                         
+    informDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    informRead TINYINT(1) DEFAULT 0 COMMENT '0:已讀, 1:未讀'
+);
+
+-- 設置分隔符
+DELIMITER //
+
+-- 創建插入觸發器
+CREATE TRIGGER before_insert_counter_inform
+BEFORE INSERT ON CounterInform
+FOR EACH ROW
+BEGIN
+    SET NEW.informDate = CURRENT_TIMESTAMP;
+    -- 如果沒有指定 informRead，預設為 0
+    IF NEW.informRead IS NULL THEN
+        SET NEW.informRead = 0;
+    END IF;
+END//
+
+-- 創建更新觸發器
+CREATE TRIGGER before_update_counter_inform
+BEFORE UPDATE ON CounterInform
+FOR EACH ROW
+BEGIN
+    SET NEW.informDate = CURRENT_TIMESTAMP;
+END//
+
+-- 恢復分隔符
+DELIMITER ;
 
 
 ALTER TABLE counter
