@@ -129,7 +129,7 @@ public class MsgController {
         msgVO.setInformMsg(informMsg); // 設置訊息內文
 
         if (result.hasErrors()) {
-            return "back-end/msg/update_msg_input";
+            return "vendor-end/msg/update_msg_input";
         }
 
         /*************************** 2.開始修改資料 *****************************************/
@@ -137,7 +137,7 @@ public class MsgController {
         MsgVO existingMsgVO = msgSvc.getMsgById(msgVO.getCounterInformNo());
         if (existingMsgVO == null) {
             result.rejectValue("informMsg", "error.msgVO", "消息不存在");
-            return "back-end/msg/update_msg_input";
+            return "vendor-end/msg/update_msg_input";
         }
         existingMsgVO.setInformMsg(informMsg);
         
