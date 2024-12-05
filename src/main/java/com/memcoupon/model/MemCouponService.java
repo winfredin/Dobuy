@@ -33,7 +33,7 @@ public class MemCouponService {
     
     private SessionFactory sessionFactory;  // 添加 SessionFactory
 
-    
+//  前台領取櫃位優惠券後顯示在我的優惠券
     @Transactional
     public MemCouponVO claimCoupon(Integer memberNo, Integer couponNo) {
         // 檢查該會員是否已領取過此優惠券

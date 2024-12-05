@@ -14,6 +14,14 @@
 </head>
 <body>
 	<div class="container">
+		<div class="header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+			<div>
+				會員帳號：<span th:text="${memAccount != null ? memAccount : '未登入'}"></span>
+			</div>
+			<div>
+				<a th:href="@{/mem/logout49}" class="btn">登出</a>
+			</div>
+		</div>
 		<h2>可領取的優惠券</h2>
 
 		<div th:if="${message}" class="alert" th:text="${message}"></div>

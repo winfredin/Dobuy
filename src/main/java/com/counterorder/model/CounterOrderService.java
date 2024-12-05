@@ -45,4 +45,11 @@ public class CounterOrderService {
 		return repository.findAll();
 	}
 
+	
+//	結帳用
+	public CounterOrderVO createOrder(Integer memNo, Integer counterNo, int totalBefore, int totalAfter) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
