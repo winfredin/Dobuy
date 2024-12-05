@@ -21,6 +21,7 @@
         <url-pattern>/goods/getAll35</url-pattern>
         <url-pattern>/front-end/coupon/member/list35</url-pattern>
         <url-pattern>/front-end/coupon/claim35</url-pattern>
+        <url-pattern>/cart/list35</url-pattern>
     </filter-mapping>
   
 </web-app>
