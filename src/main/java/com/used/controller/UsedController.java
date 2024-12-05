@@ -62,6 +62,9 @@ public class UsedController {
 	@PostMapping("/oneButtontoSellUsed")
 	public String addUsed(ModelMap model,HttpSession session) {
 		UsedVO usedVO = new UsedVO();
+		//session提取memNo為sellerNo
+		Integer sellerNo= (Integer) session.getAttribute("memNo");
+		usedVO.setSellerNo(sellerNo);
 		model.addAttribute("usedVO", usedVO);
 		List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();
 		model.addAttribute("goodsTypeList", goodsTypeList);
