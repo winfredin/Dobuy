@@ -6,131 +6,118 @@
 
 <title>優惠券新增 - addCoupon.html</title>
 
-<style type="text/css">
-.container49 {
-	padding: 1rem 12rem 2rem 12rem;
-}
-</style>
+
 <link rel="stylesheet" href="/counter/style.css">
+<link rel="stylesheet" href="/coupon/css/addCoupon.css">
+
+
 
 </head>
 
 <body>
 	<!-- fragment引入 -->
-<!-- 	<header th:block th:replace="~{back-end/back-end-home/fraghead :: header}"></header>		 -->
-	<div th:insert=="vendor-end/counter/Counterincldue :: header"></div>
+	<!-- 	<header th:block th:replace="~{back-end/back-end-home/fraghead :: header}"></header>		 -->
+	<div th:insert=="vendor-end/counter/Counterincldue::header"></div>
 
 
 
-	<div align="center">
-		<h3>
-			<b>XXX櫃位優惠券新增</b>
-		</h3>
+	<div class="form-wrapper">
 		<form th:action="@{insert}" method="post" th:object="${couponVO}">
-
-			<div>
-				<label>櫃位編號:</label> <input type="text" th:field="*{counterNo}"
-					onclick="hideContent('{counterNo.errors');" /><br /> <span
-					th:if="${#fields.hasErrors('{counterNo}')}"
-					th:errors="*{counterNo}" class="error" id="*counterNo.errors"></span>
-			</div>
-
-			<div>
-				<label>優惠券名稱:</label> <input type="text" th:field="*{couponTitle}"
-					onclick="hideContent('couponTitle.errors');" /><br /> <span
-					th:if="${#fields.hasErrors('couponTitle')}"
-					th:errors="*{couponTitle}" class="error" id="couponTitle.errors"></span>
-			</div>
-
-			<div>
-				<label>優惠券內容:</label> <input type="text" th:field="*{couponContext}"
-					onclick="hideContent('couponContext.errors');" /><br /> <span
-					th:if="${#fields.hasErrors('couponContext')}"
-					th:errors="*{couponContext}" class="error"
-					id="couponContext.errors"></span>
-			</div>
-
-			<div>
-				<label>優惠券起始日:</label> <input type="date" th:field="*{couponStart}"
-					onclick="hideContent('couponStart.errors');" /><br /> <span
-					th:if="${#fields.hasErrors('couponStart')}"
-					th:errors="*{couponStart}" class="error" id="couponStart.errors"></span>
-			</div>
-
-			<div>
-				<label>優惠券到期日:</label> <input type="date" th:field="*{couponEnd}"
-					onclick="hideContent('couponEnd.errors');" /><br /> <span
-					th:if="${#fields.hasErrors('couponEnd')}" th:errors="*{couponEnd}"
-					class="error" id="couponEnd.errors"></span>
-			</div>
-
-			<div>
-				<label>優惠券狀態:</label> <select th:field="*{couponStatus}"
-					onclick="hideContent('couponStatus.errors');">
-					<option value="0">未開放</option>
-					<option value="1">時效內</option>
-					<option value="2">過期</option>
-				</select><br /> <span th:if="${#fields.hasErrors('couponStatus')}"
-					th:errors="*{couponStatus}" class="error" id="couponStatus.errors"></span>
-			</div>
-
-			<div>
-				<label>領取次數限制:</label> <input type="number" th:field="*{usageLimit}"
-					onclick="hideContent('usageLimit.errors');" /><br /> <span
-					th:if="${#fields.hasErrors('usageLimit')}"
-					th:errors="*{usageLimit}" class="error" id="usageLimit.errors"></span>
-			</div>
-
-			<div>
-				<label>審核狀態:</label> <select th:field="*{checkStatus}"
-					onclick="hideContent('checkStatus.errors');">
-					<option value="0">未審核</option>
-					<option value="1">已審核</option>
-				</select><br /> <span th:if="${#fields.hasErrors('checkStatus')}"
-					th:errors="*{checkStatus}" class="error" id="checkStatus.errors"></span>
-			</div>
-
-
-			<div id="detailsContainer">
-				<div class="detail" th:each="detail, stat : *{couponDetails}">
-					<input type="hidden"
-						th:field="*{couponDetails[__${stat.index}__].couponDetailNo}" />
-
-					<label>商品編號:</label> <input type="number"
-						th:field="*{couponDetails[__${stat.index}__].goodsNo}" required />
-
-					<label>優惠條件:</label> <input type="text"
-						th:field="*{couponDetails[__${stat.index}__].counterContext}"
-						required /> <label>折扣率:</label> <input type="number"
-						th:field="*{couponDetails[__${stat.index}__].disRate}" step="0.01"
-						min="0.01" max="1.00" required />
+			<div class="form-group">
+				<div class="form-row">
+					<div class="form-field">
+						<label for="counterNo">櫃位編號</label> <input type="text"
+							id="counterNo" th:field="*{counterNo}" />
+					</div>
+					<div class="form-field">
+						<label for="couponTitle">優惠券名稱</label> <input type="text"
+							id="couponTitle" th:field="*{couponTitle}" />
+					</div>
+					<div class="form-field">
+						<label for="couponContext">優惠券內容</label> <input type="text"
+							id="couponContext" th:field="*{couponContext}" />
+					</div>
 				</div>
 			</div>
 
-			<button type="button" onclick="addDetail()">新增明細</button>
-
-
-			<div>
-				<div>
-					<button type="submit" id="submit">送出新增</button>
+			<div class="form-group">
+				<div class="form-row">
+					<div class="form-field">
+						<label for="couponStart">起始日期</label> <input type="date"
+							id="couponStart" th:field="*{couponStart}" />
+					</div>
+					<div class="form-field">
+						<label for="couponEnd">到期日期</label> <input type="date"
+							id="couponEnd" th:field="*{couponEnd}" />
+					</div>
 				</div>
 			</div>
 
-			<!-- 在表單頂部添加錯誤訊息顯示 -->
-			<div th:if="${error}" class="alert alert-danger" role="alert">
-				<span th:text="${error}"></span>
+			<div class="form-group">
+				<div class="form-row">
+					<div class="form-field">
+						<label for="couponStatus">優惠券狀態</label> <select id="couponStatus"
+							th:field="*{couponStatus}">
+							<option value="0">未開放</option>
+							<option value="1">時效內</option>
+							<option value="2">過期</option>
+						</select>
+					</div>
+					<div class="form-field">
+						<label for="usageLimit">領取次數限制</label> <input type="number"
+							id="usageLimit" th:field="*{usageLimit}" />
+					</div>
+					<input type="hidden" th:field="*{checkStatus}" value="0" />
+
+					<!-- 					<div class="form-field"> -->
+					<!-- 						<label for="checkStatus">審核狀態</label> <select id="checkStatus" -->
+					<!-- 							th:field="*{checkStatus}"> -->
+					<!-- 							<option value="0">未審核</option> -->
+					<!-- 							<option value="1">已審核</option> -->
+					<!-- 						</select> -->
+					<!-- 					</div> -->
+				</div>
 			</div>
 
-			<!-- 在表單頂部添加成功訊息顯示 -->
-			<div th:if="${success}" class="alert alert-success" role="alert">
-				<span th:text="${success}"></span>
+			<div id="detailsContainer" class="details-section">
+				<div class="detail-item" th:each="detail, stat : *{couponDetails}">
+
+					<div id="detailsContainer">
+						<div class="detail-row">
+							<div class="detail-field">
+								<label>商品</label> <select th:field="*{couponDetails[0].goodsNo}"
+									required>
+									<option value="">請選擇商品</option>
+									<option th:each="goods : ${goodsList}"
+										th:value="${goods.goodsNo}" th:text="${goods.goodsName}"></option>
+								</select>
+							</div>
+							<div class="detail-field">
+								<label>優惠條件</label> <input type="text"
+									th:field="*{couponDetails[0].counterContext}" required />
+							</div>
+							<div class="detail-field">
+								<label>折扣率</label> <input type="number"
+									th:field="*{couponDetails[0].disRate}" step="0.01" min="0.01"
+									max="1.00" required />
+							</div>
+							<button type="button" class="delete-btn"
+								onclick="deleteDetail(this)">刪除</button>
+						</div>
+					</div>
+				</div>
 			</div>
-		</form>
+	</div>
+
+	<div class="button-group">
+		<button type="button" id="addDetailBtn" class="btn-secondary">新增明細</button>
+		<button type="submit" class="btn-primary">送出新增</button>
+	</div>
+	</form>
 	</div>
 
 	<!-- fragment引入 -->
-	<footer th:block
-		th:replace="~{back-end/back-end-home/fraghead :: footer}"></footer>
+	<!-- 	<footer th:block	th:replace="~{back-end/back-end-home/fraghead :: footer}"></footer> -->
 
 	<!-- fragment引入 -->
 	<th:block th:replace="~{back-end/back-end-home/fraghead :: js}"></th:block>
@@ -138,33 +125,38 @@
 
 
 	<script>
-	    function addDetail() {
-	        const container = document.getElementById('detailsContainer');
-	        const index = container.children.length;
-	        const detailHtml = `
-	            <div class="detail">
-	                <label>商品編號:</label>
-	                <input type="number" name="couponDetails[${index}].goodsNo" required /><br/>
-	
-	                <label>優惠條件:</label>
-	                <input type="text" name="couponDetails[${index}].counterContext" required /><br/>
-	
-	                <label>折扣率:</label>
-	                <input type="number" name="couponDetails[${index}].disRate" step="0.01" min="0.01" max="1.00" required /><br/>
-	            </div>
-	        `;
-	        container.insertAdjacentHTML('beforeend', detailHtml);
-	    }
-	</script>
+// 使用事件監聽器綁定函數
+document.getElementById('addDetailBtn').addEventListener('click', function() {
+ const container = document.getElementById('detailsContainer');
+ const index = container.children.length;
+ const firstSelect = document.querySelector('select[name^="couponDetails[0].goodsNo"]');
+ const goodsListOptions = firstSelect ? firstSelect.innerHTML : '';
 
+ const detailHtml = `
+   <div class="detail-row">
+     <div class="detail-field">
+       <label>商品</label>
+       <select name="couponDetails[${index}].goodsNo" required>
+         ${goodsListOptions}
+       </select>
+     </div>
+     <div class="detail-field">
+       <label>優惠條件</label>
+       <input type="text" name="couponDetails[${index}].counterContext" required />
+     </div>
+     <div class="detail-field">
+       <label>折扣率</label>
+       <input type="number" name="couponDetails[${index}].disRate" step="0.01" min="0.01" max="1.00" required />
+     </div>
+     <button type="button" class="delete-btn" onclick="deleteDetail(this)">刪除</button>
+   </div>
+ `;
+ container.insertAdjacentHTML('beforeend', detailHtml);
+});
 
-	<script type="text/javascript">
-		//清除提示信息
-
-		function hideContent(d) {
-			document.getElementById(d).style.display = "none";
-		}
-	</script>
-
+function deleteDetail(btn) {
+ btn.closest('.detail-row').remove();
+}
+</script>
 </body>
 </html>
