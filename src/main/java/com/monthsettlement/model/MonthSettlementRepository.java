@@ -23,7 +23,22 @@ public interface MonthSettlementRepository extends JpaRepository<MonthSettlement
     @Query(value = "SELECT * FROM monthsettlement WHERE counterNo = ?1 ORDER BY month DESC", nativeQuery = true)
     List<MonthSettlementVO> getOnemonthsettlement(Integer counterNo);
     
-    @Query(value = "SELECT * FROM monthsettlement WHERE counterNo = ?1 ORDER BY month DESC", nativeQuery = true)
-	List<MonthSettlementVO> findByCounterNo(Integer counterNo);
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+//    winfred====================================================================以下
+    @Query("FROM MonthSettlementVO WHERE counterNo = :counterNo")
+    List<MonthSettlementVO> findByCounterNo(Integer counterNo);
+//    winfred====================================================================以上    
+    
 }
 

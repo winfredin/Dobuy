@@ -30,10 +30,14 @@ public class MsgVO implements java.io.Serializable {
     @Column(name = "informMsg")
     private String informMsg;
 
-    @NotNull(message = "發佈日期請勿空白。")
+//    @NotNull(message = "發佈日期請勿空白。")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "informDate") // 移除 insertable 和 updatable 限制
     private Timestamp informDate;
+    
+    
+    @Column(name = "informRead")
+    private Byte informRead;
 
 
     public Integer getCounterInformNo() {
@@ -59,5 +63,15 @@ public class MsgVO implements java.io.Serializable {
     public void setInformDate(Timestamp informDate) {
         this.informDate = informDate;
     }
+
+	public Byte getInformRead() {
+		return informRead;
+	}
+
+	public void setInformRead(Byte informRead) {
+		this.informRead = informRead;
+	}
+    
+    
 }
 

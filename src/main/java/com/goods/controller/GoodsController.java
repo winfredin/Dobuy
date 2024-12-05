@@ -10,6 +10,8 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.counter.model.CounterService;
@@ -249,7 +252,8 @@ public class GoodsController {
         GoodsVO originalGoods = goodsSvc.getOneGoods(goodsVO.getGoodsNo());
         goodsVO.setGoodsStatus(originalGoods.getGoodsStatus());  // 保持原來的上下架狀態
         goodsVO.setCheckStatus(originalGoods.getCheckStatus());  // 保持原來的審核狀態
-        
+        // 先保留原有的櫃位編號 (假設 counterNo 不可修改)
+        goodsVO.setCounterVO(originalGoods.getCounterVO());  // 保持原有的櫃位編號
         // 檢查照片1 - 如果使用者沒有上傳新圖片，則保留原來的圖片
         if (parts1[0].isEmpty()) {
             // 如果沒有上傳新的圖片，保留原來的圖片
@@ -429,13 +433,17 @@ public class GoodsController {
     }
     
     @PostMapping("/updateGoodsStatus")
-    public String updateGoodsStatus(@RequestParam("goodsNo") String goodsNo, 
-                                     @RequestParam("goodsStatus") Byte goodsStatus) {
-        // 根據 goodsNo 更新商品狀態
-    	goodsSvc.updateGoodsStatus(goodsNo, goodsStatus);
-        return "vendor-end/goods/listAllCounterGoods"; // 重新導向到商品列表頁面
+    @ResponseBody  // 新增此註解
+    public ResponseEntity<?> updateGoodsStatus(
+        @RequestParam("goodsNo") String goodsNo, 
+        @RequestParam("goodsStatus") Byte goodsStatus) {
+        try {
+            goodsSvc.updateGoodsStatus(goodsNo, goodsStatus);
+            return ResponseEntity.ok().body("商品狀態更新成功");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                 .body("更新商品狀態失敗：" + e.getMessage());
+        }
     }
 
-
-    
 }

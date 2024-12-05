@@ -68,9 +68,21 @@ public class MonthSettlementService {
 		return null;
 	}
 	
-	public List<MonthSettlementVO> getOnemonthsettlement(Integer counterNo) {
-	    // 查詢資料庫中的該櫃位的月結資料
-	    return repository.findByCounterNo(counterNo); // 假設你有這樣的 DAO 方法
-	}
 
+
+    
+    
+    
+    
+    
+    
+    
+//  winfred====================================================================以下
+
+    public List<MonthSettlementVO> getByCounterNo(Integer counterNo) {
+        return repository.findByCounterNo(counterNo);
+    }
+//  winfred====================================================================以上    
+
+    
 }

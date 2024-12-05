@@ -113,11 +113,11 @@ public class DiscountController {
     /*
      * This method will be called on select_page.html form submission, handling POST request
      */
-    @PostMapping("listDiscount_ByCompositeQuery")
-    public String listAllDiscount(HttpServletRequest req, Model model) {
-        Map<String, String[]> map = req.getParameterMap();
-        List<DiscountVO> list = discountService.getAll(map);
-        model.addAttribute("discountListData", list);
-        return "vendor-end/discount/listAllDiscount";
-    }
+//    @PostMapping("listDiscount_ByCompositeQuery")
+//    public String listAllDiscount(HttpServletRequest req, Model model) {
+//        Map<String, String[]> map = req.getParameterMap();
+//        List<DiscountVO> list = discountService.getAll(map);
+//        model.addAttribute("discountListData", list);
+//        return "vendor-end/discount/listAllDiscount";
+//    }
 }

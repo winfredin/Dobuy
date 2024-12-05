@@ -28,7 +28,7 @@ public class CounterLoginController {
     
     
     @PostMapping("/loginERO")
-    public String loginCheck(@Validated (LoginGroup.class) @ModelAttribute("loginForm") CounterVO counterVO, BindingResult bindingResult, Model model,
+    public String loginCheck(@Validated(LoginGroup.class) @ModelAttribute("loginForm") CounterVO counterVO, BindingResult bindingResult, Model model,
                              HttpSession session, HttpServletRequest req) {
         List<String> errorMsgs = new LinkedList<>();
         if (bindingResult.hasErrors()) {
@@ -38,16 +38,12 @@ public class CounterLoginController {
         if (!counterService.isCounterAccountExists(counterVO.getCounterAccount())) {
             errorMsgs.add("櫃位帳號不存在");
         }
-        
+
         CounterVO authenticatedCounter = counterService.authenticate(counterVO.getCounterAccount(), counterVO.getCounterPassword());
         if (authenticatedCounter == null) {
             errorMsgs.add("帳號或密碼錯誤");
-        }
-        
-        if (authenticatedCounter.getCounterStatus() == 0) {
+        } else if (authenticatedCounter.getCounterStatus() == 0) {
             errorMsgs.add("帳號以停權 請洽客服聯繫");
-            model.addAttribute("errorMsgs", errorMsgs);
-            return "vendor-end/counter/CounterLogin";
         }
 
         if (!errorMsgs.isEmpty()) {
@@ -55,10 +51,9 @@ public class CounterLoginController {
             return "vendor-end/counter/CounterLogin";
         }
 
- 
-     // 登入成功，設置 session
-        session.setAttribute("counter", authenticatedCounter); // 在這裡設置 Session 屬性
-        
+        // 登入成功，設置 session
+        session.setAttribute("counter", authenticatedCounter);
+
         // 檢查是否有原始請求
         String originalRequest = (String) session.getAttribute("originalRequest");
         if (originalRequest != null) {

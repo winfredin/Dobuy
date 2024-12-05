@@ -14,12 +14,17 @@
 		font-weight: bold;
 	}
 </style>
+<link rel="stylesheet" href="/counter/style.css">
+
 </head>
 <body>
+	<!-- fragment引入 -->
+<!-- 	<header th:block th:replace="~{back-end/back-end-home/fraghead :: header}"></header>		 -->
+	<div th:insert=="vendor-end/counter/Counterincldue :: header"></div>
 
 <nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
 		 <div align="center"> <h2>優惠券資料 - listOneCoupon.html</h2>
-		 <h3><a class="navbar-brand" th:href="@{/coupon/select_page}"><img th:src="@{/images/back1.gif}">回查詢頁<label th:text="${success}"></label></a></h3></div>
+		 <h3><a class="navbar-brand" th:href="@{/coupon/listAllCoupon}"><img th:src="@{/images/back1.gif}">回查詢頁<label th:text="${success}"></label></a></h3></div>
 </nav>
 
 	<div align="center" th:fragment="listOneCoupon-div"> <!-- 此div可供其他頁面insert用 -->

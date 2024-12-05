@@ -23,6 +23,10 @@
 </head>
 
 <body>
+<form th:action="@{/logout}" method="get">
+    
+    <button type="submit">登出</button>
+</form>
     <!-- Preloader -->
 
     <div id="preloader-ex">
@@ -93,11 +97,11 @@
                                     <li><a class="dropdown-font" th:href="@{back-end-homepage}">首頁</a></li>
                                     <li><a href="#">會員管理</a>
                                         <ul class="dropdown">
-                                            <li><a href="#">會員管理</a></li>
+                                            <li><a href="/back-end/member">會員管理</a></li>
                                             <li><a href="#">會員管理訂單管理</a></li>
-                                            <li><a href="/goods/listAllCheckStatus">商品審核</a></li>
                                         </ul>
                                     </li>
+                                    
                                     <li><a href="#">櫃位管理</a>
                                         <ul class="dropdown">
                                             <li><a href="#">櫃位管理專區</a></li>
@@ -105,16 +109,27 @@
 
                                         </ul>
                                     </li>
+                                    
                                     <li><a href="#">商城系統</a>
                                         <ul class="dropdown">
                                             <li><a href="#">首頁輪播圖管理</a></li>
-                                            <li><a href="http://localhost:8080/goodstype/listAllGoodsType">商品分類管理</a></li>
+                                            <li><a th:href="@{/goodstype/listAllGoodsType}">商品分類管理</a></li>
                                         </ul>
                                     </li>
-
+                                    
+                                    <li><a href="#">商品審核系統</a>
+                                        <ul class="dropdown">
+                                            <li><a th:href="@{/goods/listAllCheckStatus}">一般商品審核</a></li>
+                                            <li><a href="#">二手商品審核</a></li>
+                                        </ul>
+                                    </li>
+                                    
                                     <li><a href="#">管理員資料</a>
                                         <ul class="dropdown">
-                                            <li><a href="#">管理員資料管理</a></li>
+                                          <li>
+   										 <a th:href="@{'/manager/manager?managerNo=' + ${session.managerNo}}">管理員資料管理</a>
+										</li>
+
                                         </ul>
                                     </li>
 

@@ -1,8 +1,9 @@
 .hello-color {color:yellow;}
 
 body {
-  padding-top: 8rem;
+  padding-top: 2rem;
   font-weight: bold;
+  padding-bottom: 1rem;
 }
 
 .starter-template {

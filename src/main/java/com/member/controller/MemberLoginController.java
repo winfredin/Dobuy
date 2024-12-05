@@ -29,31 +29,31 @@ public class MemberLoginController {
 //	winfred===================================================================================以下	
 	@Autowired
 	MemCouponService memCouponSvc;
+
 //	winfred===================================================================================以上	
 	@PostMapping("/loginCheck")
-	public String loginCheck(@Validated(LoginGroup.class) @ModelAttribute MemberVO memberVO, BindingResult result, Model model
-			,HttpSession session, HttpServletRequest req) {
+	public String loginCheck(@Validated(LoginGroup.class) @ModelAttribute MemberVO memberVO, BindingResult result,
+			Model model, HttpSession session, HttpServletRequest req) {
 		List<String> errorMsgs = new LinkedList<String>();
 		if (result.hasErrors()) {
 			return "front-end/member/login";
 		}
-		
+
 		if (!memberSvc.isAccountExists(memberVO.getMemAccount())) {
 			errorMsgs.add("帳號不存在");
 			model.addAttribute("errorMsgs", errorMsgs);
 			return "front-end/member/login";
 		}
-		
-		if(!memberSvc.validateLogin(memberVO.getMemAccount(), memberVO.getMemPassword())) {
+
+		if (!memberSvc.validateLogin(memberVO.getMemAccount(), memberVO.getMemPassword())) {
 			errorMsgs.add("密碼錯誤");
 			model.addAttribute("errorMsgs", errorMsgs);
 			return "front-end/member/login";
 		}
-		
-		
+
 		// 登錄成功，設置 session
 		session.setAttribute("memAccount", memberVO.getMemAccount());
-		session.setAttribute("memNo", memberSvc.getMemNoByAccount(memberVO.getMemAccount()));  // 用memAccount去找memNo
+		session.setAttribute("memNo", memberSvc.getMemNoByAccount(memberVO.getMemAccount())); // 用memAccount去找memNo
 
 		 // 檢查是否有原始請求
 	    String originalRequest = (String) session.getAttribute("originalRequest");
@@ -64,12 +64,12 @@ public class MemberLoginController {
 		
 		
 	    // 如果沒有原始請求，跳轉到默認頁面
-		return "front-end/member/loginSuccess"; // 重定向到成功页面
+		return "redirect:/member"; // 重定向到成功页面
+
 	}
-	
-	
+
 //	winfred===================================================================================以下
-    // 特別處理優惠券相關的登入
+//	 特別處理優惠券相關的登入
 	@PostMapping("/loginCheck49")
 	public String loginCheck49(@Validated(LoginGroup.class) @ModelAttribute MemberVO memberVO,
 	                         BindingResult result, Model model,
@@ -77,8 +77,6 @@ public class MemberLoginController {
 	    System.out.println("===== loginCheck49 Start =====");
 	    System.out.println("Received Account: " + memberVO.getMemAccount());
 	    System.out.println("Received Password: " + (memberVO.getMemPassword() != null ? "not null" : "null"));
-	    
-	    // ... 其他驗證代碼 ...
 
 	    // 在設置 session 之前打印 memNo
 	    System.out.println("Member NO: " + memberVO.getMemNo());
@@ -91,9 +89,6 @@ public class MemberLoginController {
 	    
 	    // 檢查原始請求
 
-	    
-	    // ... 其他代碼 ...
-	    
 	    System.out.println("===== loginCheck49 End =====");
 	    
 		System.out.println("Entering loginCheck49 method..."); // 添加日誌
@@ -103,21 +98,21 @@ public class MemberLoginController {
 	    
 	    if (result.hasErrors()) {
 	        System.out.println("Validation errors found"); // 添加日誌
-	        return "front-end/member/login49";
+	        return "front-end/mem/login";
 	    }
 	    
 	    if (!memberSvc.isAccountExists(memberVO.getMemAccount())) {
 	        System.out.println("Account does not exist: " + memberVO.getMemAccount()); // 添加日誌
 	        errorMsgs.add("帳號不存在");
 	        model.addAttribute("errorMsgs", errorMsgs);
-	        return "front-end/member/login49";
+	        return "front-end/mem/login";
 	    }
 	    
 	    if (!memberSvc.validateLogin(memberVO.getMemAccount(), memberVO.getMemPassword())) {
 	        System.out.println("Password incorrect for account: " + memberVO.getMemAccount()); // 添加日誌
 	        errorMsgs.add("密碼錯誤");
 	        model.addAttribute("errorMsgs", errorMsgs);
-	        return "front-end/member/login49";
+	        return "front-end/mem/login";
 	    }
 	    
 	    // 登入成功
@@ -155,7 +150,6 @@ public class MemberLoginController {
 	    model.addAttribute("memberVO", new MemberVO());
 	    return "front-end/member/login49";  // 這是視圖路徑，不需要 /mem
 	}
-   
 //	winfred===================================================================================以上
-	
+
 }

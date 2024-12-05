@@ -100,6 +100,8 @@
 			<span  th:if="${#fields.hasErrors('receiverPhone')}" th:errors="*{receiverPhone}" class="error" id="receiverPhone.errors"></span>
 			</div>
 			
+<<<<<<< Upstream, based on branch 'master' of https://github.com/he01314905/Dobuy.git
+=======
 			<div>
 			<label>滿意度:</label>
 			<input type="text" th:field="*{sellerSatisfaction}" onclick="hideContent('sellerSatisfaction.errors');" /><br/>
@@ -108,8 +110,8 @@
 			
 			<div>
 			<label>評論內容:</label>
-			<input type="text" th:field="*{sellerCommentContent}" onclick="hideContent('sellerCommentContent.errors');" /><br/>
-			<span  th:if="${#fields.hasErrors('sellerCommentContent')}" th:errors="*{sellerCommentContent}" class="error" id="sellerCommentContent.errors"></span>
+			<input type="text" th:field="*{sellerCommentContext}" onclick="hideContent('sellerCommentContent.errors');" /><br/>
+			<span  th:if="${#fields.hasErrors('sellerCommentContext')}" th:errors="*{sellerCommentContent}" class="error" id="sellerCommentContent.errors"></span>
 			</div>
 			
 			<div>
@@ -123,6 +125,7 @@
 			<input type="date" th:field="*{ordertime}" onclick="hideContent('ordertime.errors');" /><br/>
 			<span  th:if="${#fields.hasErrors('ordertime')}" th:errors="*{ordertime}" class="error" id="ordertime.errors"></span>
 			</div>
+>>>>>>> 9a96406 會員中心抓取帳號,各項會員資料項目連結
 			
 			<div>
 			<label>優惠券編號:</label>
@@ -142,9 +145,9 @@
 <!-- 			<div> -->
 <!-- 			<label>照片:</label> -->
 <!-- 			<input type="file" th:field="*{upFiles}" onclick="previewImage()" multiple="multiple" onchange="hideContent('upFiles.errors');" /> -->
-<!-- <!-- 			<span  th:if="${#fields.hasErrors('upFiles')}" th:errors="*{upFiles}" class="error" id="upFiles.errors"></span> --> -->
+<!-- <!-- 			<span  th:if="${#fields.hasErrors('upFiles')}" th:errors="*{upFiles}" class="error" id="upFiles.errors"></span> --> 
 <!-- 			<span class="error" th:utext="${errorMessage}" id="upFiles.errors">${errorMessage}</span> -->
-<!-- <!-- 			<h2 id="errorMessage">${errorMessage}</h2>  --> -->
+<!-- <!-- 			<h2 id="errorMessage">${errorMessage}</h2>  --> 
 <!-- 			<div id="blob_holder"></div> -->
 <!-- 			</div> -->
 			

@@ -19,6 +19,10 @@ public class MsgService {
     public void updateMsg(MsgVO msgVO) {
         repository.save(msgVO);
     }
+    
+    public MsgVO getMsgById(Integer counterInformNo) {
+        return repository.findById(counterInformNo).orElse(null);
+    }
 
     public void deleteMsg(Integer counterInformNo) {
         if (repository.existsById(counterInformNo))
@@ -33,4 +37,21 @@ public class MsgService {
     public List<MsgVO> getAll() {
         return repository.findAll();
     }
+    
+    public void save(MsgVO msgVO) {
+        repository.save(msgVO);
+    }
 }
+
+
+
+
+    
+
+
+   
+
+
+   
+  
+

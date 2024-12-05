@@ -9,10 +9,9 @@
 
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 
-<script
-	src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-<link rel="stylesheet"
-	href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css" />
+<script	src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css" />
+<link rel="stylesheet" href="/counter/style.css">
 
 
 
@@ -59,8 +58,12 @@
 </head>
 <body>
 	<!-- fragment引入 -->
-	<header th:block
-		th:replace="~{back-end/back-end-home/fraghead :: header}"></header>
+<div th:insert=="vendor-end/counter/Counterincldue :: header"></div>
+
+<!-- 	<header th:block th:replace="~{back-end/back-end-home/fraghead :: header}"></header> -->
+	
+	  <div th:if="${counter != null}">
+
 
 	<div class="container49">
 
@@ -84,7 +87,7 @@
 			</thead>
 
 			<tbody>
-				<th:block th:each="couponVO : ${couponListData}">
+				<th:block th:each="couponVO : ${counterCouponListData}">
 					<tr>
 						<td th:text="${couponVOStat.count}"></td>
 						<td th:text="${couponVO.couponNo}"></td>
@@ -123,6 +126,7 @@
 				</th:block>
 			</tbody>
 		</table>
+	</div>
 	</div>
 
 	  <ul>
