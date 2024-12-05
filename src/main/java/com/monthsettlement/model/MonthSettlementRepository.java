@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.goods.model.GoodsVO;
+
 public interface MonthSettlementRepository extends JpaRepository<MonthSettlementVO, Integer> {
 
     // 刪除指定抽成月結編號
@@ -18,6 +20,10 @@ public interface MonthSettlementRepository extends JpaRepository<MonthSettlement
     @Query(value = "from MonthSettlementVO where monthSettlementNo = ?1 and counterNo = ?2 and month = ?3 order by monthSettlementNo")
     List<MonthSettlementVO> findByConditions(int monthSettlementNo, int counterNo, String month);
     
+    @Query(value = "SELECT * FROM monthsettlement WHERE counterNo = ?1 ORDER BY month DESC", nativeQuery = true)
+    List<MonthSettlementVO> getOnemonthsettlement(Integer counterNo);
+    
+
     
     
     

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -22,6 +24,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.counter.model.CounterService;
 import com.counter.model.CounterVO;
@@ -43,6 +49,34 @@ public class CounterController {
 //
     @Autowired
     CounterTypeService counterTypeSvc;
+    
+    
+    //註冊成功後發信
+    @Autowired
+    private JavaMailSender mailSender;
+
+    private void sendEmailtoC(String emailTo) {
+    	  try {
+    	        MimeMessage message = mailSender.createMimeMessage();
+    	        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+    	        helper.setFrom("rin020255@gmail.com");
+    	        helper.setTo(emailTo);
+    	        helper.setSubject("DoBuy櫃位註冊成功確認");
+    	        helper.setText("<html><body>"
+    	                + "<h1>您好，歡迎加入DoBuy！</h1>"
+    	                + "<p>您已經成功註冊成為DoBuy的櫃位。</p>"
+    	                + "<p>感謝您加入我們的大家庭！</p>"
+    	                + "<p>請<a href='http://localhost:8080/counter/login'>點擊這裡</a>進行登錄的操作。</p>"
+    	                + "</body></html>", true);
+    	        
+    	        mailSender.send(message);
+    	    } catch (MessagingException e) {
+    	        e.printStackTrace();
+    	        // 你可能想要在這裡添加更多的錯誤處理
+    	    }
+    	}
+    
+    
 
     /*
      * This method will serve as addCounter.html handler.
@@ -92,11 +126,22 @@ public class CounterController {
         }
         // 開始新增資料
         counterSvc.addCounter(counterVO);
+        
+     // 發送郵件
+        try {
+        	sendEmailtoC(counterVO.getCounterEmail());
+        } catch (Exception e) {
+            // 處理發送郵件失敗的情況
+            model.addAttribute("error", "發送確認郵件時發生錯誤，請稍後再試。");
+        }
+        
 
         // 返回成功頁面
 //        model.addAttribute("success", "櫃位資料新增成功！");
         return "vendor-end/counter/counterRegisterSuccess";
     }
+    
+
     
 	@GetMapping("/login")
 	public String showLoginPage(Model model) {

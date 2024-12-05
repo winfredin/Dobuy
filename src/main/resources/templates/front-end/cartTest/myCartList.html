@@ -7,10 +7,13 @@
     // 更新購物車數量
     function updateCart(button, delta) {
     	
-    	
+    	th:id="|price-${item.price}|"
+    	document.getElementById(``)
     	const goodsNo = button.getAttribute('data-id');
     	const goodsPrice = button.getAttribute('data-price');
-    	
+    	const counterCname = button.getAttribute('data-counterCname');
+    	const counterDiv = document.querySelector(`[data-counter="${counterCname}"]`); // 找到櫃位的 DOM
+    	 
         fetch('/demo/cart/update', {
             method: 'POST',
             headers: {
@@ -19,17 +22,29 @@
             body: JSON.stringify({ 
             	goodsNo: goodsNo,
             	goodsPrice : goodsPrice,
-            	delta: delta })
+            	delta : delta,
+            	counterCname : counterCname})
         })
         .then(response => response.json())
         .then(data => {
             if (data.success) {
             	if(data.newQuantity === 0){
             		document.getElementById(`item-${goodsNo}`).remove();
-            		alert("商品已移除"); 
+            		const counterDiv = document.querySelector(`[data-counter="${counterCname}"]`);
+            		alert("商品已移除");
+		            // 检查櫃位内是否还有商品
+		            if (!counterDiv.querySelector("[data-goods-no]")) {
+		                counterDiv.remove(); // 如果没有商品，删除整个櫃位
+		            }else {
+	                    // 更新櫃位总金额
+	                    calculateCounterTotal(counterDiv);
+	                }	 
             	}else{
-            		document.getElementById(goodsNo).innerText = data.newQuantity;
+            		document.getElementById(`quantity-${goodsNo}`).innerText = data.newQuantity;
             		document.getElementById(`total-${goodsNo}`).innerText = data.newTotal;
+            		
+            		// 更新櫃位总金额
+                    calculateCounterTotal(counterDiv);
             	}
             } else{
             	alert("更新失敗！");
@@ -39,8 +54,10 @@
 
     // 刪除商品
     function removeFromCart(button) {
-    	
+
     	const goodsNo = button.getAttribute('data-id');
+    	const counterCname = button.getAttribute('data-counterCname');
+    	
     	
         fetch(`/demo/cart/remove`, {
         	method: 'POST',
@@ -49,63 +66,164 @@
         	},
             body: JSON.stringify({ 
                 goodsNo: goodsNo,
+                counterCname : counterCname
                 })
         })
         .then(response => response.json())
         .then(data => {
         	if (data.success) {
                 document.getElementById(`item-${goodsNo}`).remove();
-                alert("商品已移除"); 
+                alert("商品已移除");
+             // 检查櫃位内是否还有其他商品
+                const counterDiv = document.querySelector(`[data-counter="${counterCname}"]`);
+
+		            // 检查櫃位内是否还有商品
+		            if (!counterDiv.querySelector("[data-goods-no]")) {
+		                counterDiv.remove(); // 如果没有商品，删除整个櫃位
+		            }
+                
+                 
             } else {
                 alert("刪除失敗！");
             }
       });
    }
+    
+    function calculateCounterTotal(counterDiv) {
+        let totalAmount = 0;
+
+        // 遍历当前櫃位内的所有商品
+        const items = counterDiv.querySelectorAll(".item");
+        for (let i = 0; i < items.length; i++) {
+            const item = items[i];
+            const price = parseInt(item.querySelector(".price").textContent); // 商品单价
+            const quantity = parseInt(item.querySelector(".quantity").textContent); // 商品数量
+            totalAmount += price * quantity; // 累加总金额
+        }
+
+        // 更新櫃位总金额显示
+        const totalCounterElement = counterDiv.querySelector(`#total-counter-${counterDiv.getAttribute("data-counter")}`); // 直接通过 id 找到
+        totalCounterElement.querySelector("span").textContent = totalAmount;
+    }
+
+	
+    function calculateAllCounters() {
+        // 获取所有櫃位
+        const counters = document.querySelectorAll("[data-counter]");
+        for (let i = 0; i < counters.length; i++) {
+            calculateCounterTotal(counters[i]); // 调用单个櫃位计算方法
+        }
+    }
+	
+    
+    document.addEventListener("DOMContentLoaded", function () {
+        calculateAllCounters();
+    });
+
+    
+    
+    
 </script>
 </head>
 <body>
-    <h2>我的購物車</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>商品ID</th>
-                <th>商品名稱</th>
-                <th>商品價格</th>
-                <th>數量</th>
-                <th>總共價錢</th>
-                <th>操作</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="entry  : ${cart}" th:id="'item-' + ${entry.key}">
-                <!-- 商品 ID -->
-			    <td th:text="${entry.key}">商品 ID</td>
-			
-			    <!-- 商品名称 -->
-			    <td th:text="${entry.value.goodsName}">商品名稱</td>
-			
-			    <!-- 商品价格 -->
-			    <td th:text="${entry.value.goodsPrice}">商品價格</td>
-			
-			    <!-- 数量 -->
-			    <td th:id="${entry.key}" th:text="${entry.value.quantity}">數量</td>
-    			
-    			 <!-- 商品總價 -->
-			    <td th:id="'total-' + ${entry.key}" th:text="${entry.value.total}">商品總價</td>
-			    
-                <td>
-                    <button onclick="updateCart(this, 1)" 
-                    th:attr="data-id=${entry.key},
-                    data-price=${entry.value.goodsPrice}"
-                    >+</button>
-                    <button onclick="updateCart(this, -1)" 
-                    th:attr="data-id=${entry.key},
-                    data-price=${entry.value.goodsPrice}">-</button>
-                    <button onclick="removeFromCart(this)" 
-                    th:attr="data-id=${entry.key}">刪除</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+	<h2>我的購物車</h2>
+
+	<!-- 整體外層容器 -->
+	<div style="border: 1px solid #ddd; padding: 20px;">
+		<!-- 表頭 -->
+
+
+		<!-- 外層迴圈：遍歷 Map 的每個條目 -->
+		<div th:data-counter="${entry.key}" th:each="entry : ${cart}"
+			style="margin-top: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
+			<!-- 顯示櫃位名稱 -->
+			<div
+				style="padding: 10px 0; font-size: 18px; font-weight: bold; border-bottom: 1px solid #ccc;">
+				<h3 th:text="'櫃位名稱：' + ${entry.key}"></h3>
+			</div>
+
+			<div
+				style="display: flex; font-weight: bold; padding: 10px 0; border-bottom: 2px solid #ccc;">
+				<div style="flex: 1;"></div>
+				<div style="flex: 3;">商品名稱</div>
+				<div style="flex: 1;">商品價格</div>
+				<div style="flex: 1;">數量</div>
+				<div style="flex: 1;">總共價錢</div>
+				<div style="flex: 1;"></div>
+			</div>
+			<!-- 第一個 Container：商品列表 -->
+			<div
+				style="position: relative; border: 1px solid #ccc; margin-bottom: 30px; padding: 20px;">
+				<!-- 內層迴圈：遍歷每個商品列表 -->
+				<div th:each="item : ${entry.value}" th:id="|item-${item.goodsNo}|"
+					data-goods-no="${item.goodsNo}" class="item"
+					style="display: flex; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee;">
+					<!-- 商品 ID -->
+					<div style="flex: 1;" th:text="${item.goodsNo}"></div>
+
+					<!-- 商品名稱 -->
+					<div style="flex: 3;" th:text="${item.goodsName}"></div>
+
+					<!-- 商品價格 -->
+					<div th:id="|price-${item.goodsNo}|" style="flex: 1;" class="price"
+						th:text="${item.goodsPrice}"></div>
+
+					<!-- 數量 -->
+					<div th:id="|quantity-${item.goodsNo}|" style="flex: 1;"
+						class="quantity" th:text="${item.goodsNum}"></div>
+
+					<!-- 總價 -->
+					<div th:id="|total-${item.goodsNo}|" style="flex: 1;"
+						th:text="${item.orderTotalPrice}"></div>
+
+					<!-- 操作按鈕 -->
+					<div style="flex: 1;">
+						<button onclick="updateCart(this, 1)"
+							th:attr="data-id=${item.goodsNo}, data-price=${item.goodsPrice}, data-counterCname=${entry.key}">+</button>
+						<button onclick="updateCart(this, -1)"
+							th:attr="data-id=${item.goodsNo}, data-price=${item.goodsPrice}, data-counterCname=${entry.key}">-</button>
+						<button onclick="removeFromCart(this)"
+							th:attr="data-id=${item.goodsNo}, data-counterCname=${entry.key}">刪除</button>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- 第二個 Container：總計、優惠券、結帳 -->
+
+
+
+			<div style="right: 20px; bottom: 20px; padding: 20px;">
+				<!-- 櫃位右下角功能 -->
+				<div style="margin-top: 20px; text-align: right;">
+
+					<!-- 優惠券 -->
+					<div style="margin-top: 10px;">
+						<label for="couponSelect">優惠券：</label> <select id="couponSelect">
+							<option value="">請選擇優惠券</option>
+						</select>
+					</div>
+
+
+					<!-- 總計金額 -->
+					<div th:id="|total-counter-${entry.key}|" class="counterPrice"
+						style="font-weight: bold; margin-top: 10px;">
+						總金額：<span></span>
+					</div>
+
+
+					<!-- 結帳按鈕 -->
+					<div style="margin-top: 10px;">
+						<button onclick="checkout()"
+							style="background-color: #007bff; color: white; padding: 5px 15px; border: none; cursor: pointer;">
+							結帳</button>
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+	</div>
 </body>
+
 </html>

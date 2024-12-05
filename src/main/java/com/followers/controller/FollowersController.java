@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.counter.model.CounterVO;
 import com.followers.model.FollowersService;
 import com.followers.model.FollowersVO;
 import com.monthsettlement.model.MonthSettlementVO;
@@ -98,15 +100,27 @@ public class FollowersController {
         return "vendor-end/followers/listAllFollowers";
     }
     
-    @GetMapping("/listAllFollowers")
-    public String listAll(@Valid FollowersVO followersVO, BindingResult result, ModelMap model)
-     	{
-        /*************************** 2. 開始新增資料 **********************************/
-        /*************************** 3. 新增完成，重導至清單頁 ***********************/
-        List<FollowersVO> list = followersService.getAll();
+//    @GetMapping("/listAllFollowers")
+//    public String listAll(@Valid FollowersVO followersVO, BindingResult result, ModelMap model)
+//     	{
+//        /*************************** 2. 開始新增資料 **********************************/
+//        /*************************** 3. 新增完成，重導至清單頁 ***********************/
+//        List<FollowersVO> list = followersService.getAll();
+//        model.addAttribute("followersListData", list);
+//        model.addAttribute("success", "- (新增成功)");
+//        System.out.println(followersVO.getTrackListNo());
+//        return "vendor-end/followers/listAllFollowers";
+//    }
+    
+    @GetMapping("listAllFollowers")
+    public String listAll(HttpSession session, ModelMap model) {
+    	CounterVO counter = (CounterVO) session.getAttribute("counter");
+        if (counter == null) {
+            return "redirect:/counter/login";
+        }
+        
+        List<FollowersVO> list = followersService.getByCounterNo(counter.getCounterNo());
         model.addAttribute("followersListData", list);
-        model.addAttribute("success", "- (新增成功)");
-        System.out.println(followersVO.getTrackListNo());
         return "vendor-end/followers/listAllFollowers";
     }
     
@@ -142,7 +156,7 @@ public class FollowersController {
         
         return "vendor-end/followers/selectPage";
     }
-    
+
 //    @PostMapping("/getOneForDisplay")
 //    public String getOneForDisplay(
 //            /*************************** 1.接收請求參數 - 輸入格式的錯誤處理 *************************/
