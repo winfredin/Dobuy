@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.followers.controller.HibernateUtil_CompositeQuery_Followers;
+import com.monthsettlement.model.MonthSettlementVO;
 
 
 @Service("followersService")
@@ -50,5 +51,9 @@ public class FollowersService {
     // 動態查詢取得所有櫃位追蹤清單
     public List<FollowersVO> getAll(Map<Integer, Integer[]> map) {
         return HibernateUtil_CompositeQuery_Followers.getAllC(map, sessionFactory.openSession());
+    }
+    
+    public List<FollowersVO> getByCounterNo(Integer counterNo) {
+    	return repository.findByCounterNo(counterNo);
     }
 }
