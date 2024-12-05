@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.counter.model.CounterVO;
 import com.followers.model.FollowersVO;
+import com.goods.model.GoodsVO;
 import com.monthsettlement.model.MonthSettlementService;
 import com.monthsettlement.model.MonthSettlementVO;
 
@@ -216,6 +217,133 @@ public class MonthSettlementController {
         }
         return result;
     }
+    
+ // 正確的寫法
+//    @GetMapping("/listOneMonthSettlement")
+//    public String listOneMonthSettlement(Model model) {
+//        // 1. 先從資料庫或服務取得資料
+//        List<MonthSettlementVO> monthSettlementVO = monthSettlementService.getAll();  // 或其他方式獲取資料
+//        
+//        // 2. 將資料加入到 model 中
+//        model.addAttribute("monthSettlementVO", monthSettlementVO);
+//        
+//        // 3. 返回視圖名稱
+//        return "vendor-end/monthsettlement/listOneMonthSettlement";
+//    }
+    
+    @GetMapping("/listOneMonthSettlement")
+    public String listOneMonthSettlement(@RequestParam(required = false) Integer monthSettlementNo, Model model) {
+        // 防禦性程式設計
+        if (monthSettlementNo == null) {
+            // 可以選擇重導到錯誤頁面或其他處理方式
+            return "redirect:/monthsettlement/selectPage";
+        }
+        
+        // 取得月結資料
+        MonthSettlementVO monthSettlementVO = monthSettlementService.getOneMonthSettlement(monthSettlementNo);
+        
+        // 確保資料存在
+        if (monthSettlementVO == null) {
+            // 可以添加錯誤訊息
+            model.addAttribute("error", "找不到指定的月結資料");
+            return "redirect:/monthsettlement/selectPage";
+        }
+        MonthSettlementVO monthSettlementVO35 = monthSettlementService.findById(monthSettlementNo);
+
+        if (monthSettlementVO != null) {
+            model.addAttribute("monthSettlementVO", monthSettlementVO);
+        } else {
+            model.addAttribute("error", "找不到相關月結資料！");
+        }
+        
+//        // 將資料添加到 model
+//        model.addAttribute("monthSettlementVO", monthSettlementVO);
+        
+        return "vendor-end/monthsettlement/listOneMonthSettlement";
+    }
+    
+//    ----------測試櫃位月結營收-----------------
+    @GetMapping("/monthsettlement/listAllMonthSettlement5")
+	public String listAllMonthSettlement(HttpSession session,Model model) {
+		//登錄時檢查
+//    	Integer counterNo = Integer.valueOf((String) session.getAttribute("counterNo"));
+//	        if (counterNo != null) {
+//	        	return "vendor-end/monthsettlement/listAllMonthSettlement";
+//	        } else {
+//	            return "redirect:/counter/login";
+//	        }	
+//    		System.out.println("===========");
+    		Integer counterNo = (Integer) session.getAttribute("counterNo");
+//    		if (counterNo == null) {
+//            return "redirect:/counter/login"; // 未登入時跳轉到登入頁
+//    		}
+//    		Integer counterNo = (Integer) session.getAttribute("counterNo");
+    		List<MonthSettlementVO> monthsettlements = monthSettlementService.getOnemonthsettlement(counterNo);
+    		model.addAttribute("monthsettlementData", monthsettlements);
+    		model.addAttribute("monthsettlement", monthSettlementService.getOneMonthSettlement(1));	        
+	        return "vendor-end/monthsettlement/listOneMonthSettlement";
+	       
+	}
+    
+    
+    @GetMapping("/monthsettlement/listMonthSettlement")
+    public String listMonthSettlement(HttpSession session, Model model) {
+        // 檢查櫃位是否已登入
+        Integer counterNo = (Integer) session.getAttribute("counterNo");
+
+        if (counterNo == null) {
+            // 如果未登入，保存當前請求路徑並重定向到登入頁面
+            session.setAttribute("originalRequest", "/monthsettlement/listAllMonthSettlement");
+            return "redirect:/counter/login"; // 假設櫃位的登入頁面是這個路徑
+        }
+
+        // 已登入，執行原有邏輯
+        List<MonthSettlementVO> monthSettlements = monthSettlementService.getOnemonthsettlement(counterNo); // 根據櫃位編號取得月結資料
+        if (monthSettlements == null || monthSettlements.isEmpty()) {
+            model.addAttribute("error", "找不到任何月結資料");
+        } else {
+//            model.addAttribute("monthSettlements", monthSettlements);
+        }
+//        model.addAttribute("monthSettlements", monthSettlements);
+        // 將櫃位編號加入模型，供頁面顯示
+        model.addAttribute("counterNo", counterNo);
+
+        return "vendor-end/monthsettlement/listAllMonthSettlement"; // 假設這是前端月結資料頁面
+    }
+
+
+    
+    
+    
+  //
+//    @PostMapping("listmonthsettlement_ByCompositeQuery")
+//    public String listmonthsettlement(HttpSession session ,HttpServletRequest req, Model model) {
+////        Map<String, String[]> map = req.getParameterMap();
+//    	MonthSettlementVO monthsettlement = (MonthSettlementVO) session.getAttribute("monthsettlement");
+//        MonthSettlementVO list = monthSettlementService.getOneMonthSettlement(monthsettlement.getMonthSettlementNo());
+//        model.addAttribute("monthsettlementData", list); // for listAllEmp.html 第85行用
+//        return "vendor-end/monthsettlement/listAllMonthSettlement";
+//    }
+    
+    @PostMapping("listmonthsettlement_ByCompositeQuery")
+    public String listmonthsettlement(HttpSession session, HttpServletRequest req, Model model) {
+        // 從 session 中獲取商家編號
+        Integer counterNo = (Integer) session.getAttribute("counterNo");
+
+        // 確保商家已登入
+//        if (counterNo == null) {
+//            return "redirect:/counter/login";
+//        }
+
+        // 根據商家編號和其他條件進行查詢
+        MonthSettlementVO monthsettlement = (MonthSettlementVO) session.getAttribute("monthsettlement");
+        MonthSettlementVO list = monthSettlementService.getOneMonthSettlement(monthsettlement.getMonthSettlementNo());
+
+        model.addAttribute("monthsettlementData", list);
+        return "vendor-end/monthsettlement/listAllMonthSettlement";
+    }
+
+
     
    
 }
