@@ -40,6 +40,7 @@ public class CheckoutController {
 
 //    @PostMapping("/confirm")
 //    public String checkout(HttpSession session, Model model) {
+    
         // 1. 檢查會員是否登錄=========================================柏諭
     	
 //        Integer memNo = (Integer) session.getAttribute("memNo");
@@ -118,7 +119,7 @@ public class CheckoutController {
         
         
         
-        // 5. 清空購物車=========================================翊豪
+        // 5. 清空購物車=========================================
         
 //        shoppingCartListService.clearCart(memNo);
 //

@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.counter.model.CounterVO;
 import com.followers.model.FollowersVO;
 import com.monthsettlement.model.MonthSettlementService;
 import com.monthsettlement.model.MonthSettlementVO;
@@ -72,17 +74,50 @@ public class MonthSettlementController {
         return "vendor-end/monthsettlement/listAllMonthSettlement";
     }
     
+//    @GetMapping("listAllMonthSettlement")
+//    public String listAll(@Valid MonthSettlementVO monthsettlementVO, BindingResult result, ModelMap model)
+//     	{
+//        /*************************** 2. 開始新增資料 **********************************/
+//        /*************************** 3. 新增完成，重導至清單頁 ***********************/
+//        List<MonthSettlementVO> list = monthSettlementService.getAll();
+//        model.addAttribute("monthsettlementData", list);
+//        model.addAttribute("success", "- (新增成功)");
+//        System.out.println(monthsettlementVO.getMonth());
+//        return "vendor-end/monthsettlement/listAllMonthSettlement";
+//    }
+    
+    
+    
+    
+    
+    
+    
+//  winfred====================================================================以下
+
     @GetMapping("listAllMonthSettlement")
-    public String listAll(@Valid MonthSettlementVO monthsettlementVO, BindingResult result, ModelMap model)
-     	{
-        /*************************** 2. 開始新增資料 **********************************/
-        /*************************** 3. 新增完成，重導至清單頁 ***********************/
-        List<MonthSettlementVO> list = monthSettlementService.getAll();
-        model.addAttribute("monthsettlementData", list);
-        model.addAttribute("success", "- (新增成功)");
-        System.out.println(monthsettlementVO.getMonth());
+    public String listAll(HttpSession session, ModelMap model) {
+        CounterVO counter = (CounterVO) session.getAttribute("counter");
+        if (counter == null) {
+            return "redirect:/counter/login";
+        }
+        
+        List<MonthSettlementVO> list = monthSettlementService.getByCounterNo(counter.getCounterNo());
+        model.addAttribute("monthSettlementListData", list);
         return "vendor-end/monthsettlement/listAllMonthSettlement";
     }
+    
+//  winfred====================================================================以上    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     @GetMapping("selectPage")
     public String selectPage(Model model) {

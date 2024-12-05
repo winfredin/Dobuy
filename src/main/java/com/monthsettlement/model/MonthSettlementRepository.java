@@ -17,5 +17,22 @@ public interface MonthSettlementRepository extends JpaRepository<MonthSettlement
     // 自訂條件查詢
     @Query(value = "from MonthSettlementVO where monthSettlementNo = ?1 and counterNo = ?2 and month = ?3 order by monthSettlementNo")
     List<MonthSettlementVO> findByConditions(int monthSettlementNo, int counterNo, String month);
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+//    winfred====================================================================以下
+    @Query("FROM MonthSettlementVO WHERE counterNo = :counterNo")
+    List<MonthSettlementVO> findByCounterNo(Integer counterNo);
+//    winfred====================================================================以上    
+    
 }
 

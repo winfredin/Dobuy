@@ -53,4 +53,20 @@ public class MonthSettlementService {
             return HibernateUtil_CompositeQuery_MonthSettlement.getAllC(criteriaMap, session);
         }
     }
+    
+    
+    
+    
+    
+    
+    
+    
+//  winfred====================================================================以下
+
+    public List<MonthSettlementVO> getByCounterNo(Integer counterNo) {
+        return repository.findByCounterNo(counterNo);
+    }
+//  winfred====================================================================以上    
+
+    
 }
