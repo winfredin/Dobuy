@@ -31,7 +31,8 @@ public interface MemberRepository extends JpaRepository<MemberVO, Integer> {
 //	winfred===================================================================================以下
 	Optional<MemberVO> findByMemAccount(String memAccount);
 //	winfred===================================================================================以上
-
+	@Query(value = "SELECT memStatus FROM member WHERE memAccount = ?1 ", nativeQuery = true)
+	Integer findByAcc(String memAccount);
 	
 	@Modifying
 	@Transactional
