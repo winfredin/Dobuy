@@ -11,6 +11,7 @@
 </head>
 
 <body>
+		
   <header>
     <div class="header">
         <div class="logo">
@@ -111,22 +112,25 @@
 				</tr>
                 
                 <tr class="Coupon_Title">
-                    <td class="Coupon_Title_0">賣場優惠券</td>
+<!--                     <td class="Coupon_Title_0">賣場優惠券</td> -->
                     <td class="Coupon_Title_1" text=""></td>
                 </tr>
                 <tr class="Goods_Amount">
                     <td class="Goods_Amount_0">商品庫存 :  </td>
                     <td class="Goods_Amount_1" th:text="${usedVO.usedStocks}"></td>
+                    
                 </tr>
                 <tr class="Goods_Description">
                     <td class="Goods_Description_0">商品敘述</td>
                     <td class="Goods_Description_1" th:text="${usedVO.usedProDesc}"></td>
                 </tr>
                 <tr>
-                    <form id="add-to-cart-form" class="buy_form" action="/shoppingcartlist/add-to-cart" method="POST">
+               <span class="errorblock" style="color: red; font-weight: bold;" th:utext="${errorMessage}"></span>
+               
+                    <form id="add-to-cart-form" class="buy_form" th:action="@{/used/usedBuyCheck}" method="POST">
                         <td class="label_item">數量</td>
 
-                        <td><input class="buy_count" value="1" min="1" max ="${usedVO.usedStocks}" type="number" name="quantity"></td>
+                        <td><input class="buy_count" value="1" min="1" max ="${usedVO.usedStocks}" type="number" name="usedCount"></td>
                         <input type="hidden" name="usedName" th:value="${usedVO.usedName}" />
                         <input type="hidden" name="usedPrice" th:value="${usedVO.usedPrice}" />
                         <input type="hidden" name="usedNo" th:value="${usedVO.usedNo}" />
@@ -135,7 +139,7 @@
                             <td>
                                 <button class="shopping_button" type="submit">
                                     <img alt="icon-add-to-cart" class="_kL9Hf" th:src="@{https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/productdetailspage/b96050554b3be4feea08.svg}">
-                                    放入購物車
+                                    直接購買
                                 </button>
                             </td>
                         </tr>
@@ -153,5 +157,7 @@
       <div>© 2024 DO BUY. All Rights Reserved.</div>
     </footer>
     <script src="/js/shop_detail_used.js"></script>
+  
+   
 </body>
 </html>

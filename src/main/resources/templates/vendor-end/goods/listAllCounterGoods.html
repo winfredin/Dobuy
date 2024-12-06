@@ -50,12 +50,31 @@
     body {
       margin: 1rem 0rem 2rem 0rem;
     }
+    /* 新增商品按鈕樣式 */
+	.add-goods-btn {
+	  margin: 0 20px 0 0 ;
+	  display: inline-block; /* 讓它顯示為區塊元素，這樣可以設置寬度和高度 */
+	  padding: 8px 16px;     /* 按鈕內邊距 */
+	  background-color: #5bc5ff; /* 按鈕背景顏色 */
+	  color: white;          /* 按鈕文字顏色 */
+	  font-size: 14px;       /* 字型大小 */
+	  border-radius: 5px;    /* 邊框圓角 */
+	  text-decoration: none; /* 去除默認的鏈接下劃線 */
+	  cursor: pointer;      /* 滑鼠變為手型 */
+	  transition: background-color 0.3s ease; /* 背景顏色過渡 */
+	}
+	
+	/* 懸停效果 */
+	.add-goods-btn:hover {
+	  background-color: #4141ff; /* 懸停時改變背景顏色 */
+	}
+    
     /* 商品上下架按鈕 */
    .toggle-status-btn {
     font-size: 14px;    /* 調整字型大小 */
     padding: 5px 10px;  /* 調整按鈕內部邊距，控制按鈕的大小 */
     border-radius: 5px; /* 邊框圓角，視覺上讓按鈕看起來更美觀 */
-    background-color: #5bc5ff;; /* 按鈕背景色 */
+    background-color: #5bc5ff; /* 按鈕背景色 */
     color: white;       /* 按鈕文字顏色 */
     border: none;       /* 去掉邊框 */
     cursor: pointer;    /* 滑鼠樣式變為手型 */
@@ -65,12 +84,45 @@
   .toggle-status-btn:hover {
     background-color: #4141ff;  /* 當滑鼠懸停時改變背景色 */
   }
-  
+	  /* 修改按鈕獨立樣式 */
+	.modify-btn {
+	  font-size: 14px;    /* 調整字型大小 */
+	  padding: 5px 10px;  /* 調整按鈕內部邊距 */
+	  border-radius: 5px; /* 邊框圓角 */
+	  background-color: #5bc5ff; /* 按鈕背景色 */
+	  color: white;       /* 文字顏色 */
+	  border: none;       /* 去掉邊框 */
+	  cursor: pointer;    /* 鼠標變為手型 */
+	  transition: background-color 0.3s ease; /* 背景色過渡效果 */
+	}
+	
+	/* 修改按鈕懸停效果 */
+	.modify-btn:hover {
+	  background-color: #4141ff; /* 背景色改為藍色 */
+	}
+	
+	/* 商品上下架按鈕樣式 */
+	.toggle-status-btn {
+	  font-size: 14px;    /* 調整字型大小 */
+	  padding: 5px 10px;  /* 調整按鈕內部邊距 */
+	  border-radius: 5px; /* 邊框圓角 */
+	  background-color: #5bc5ff; /* 按鈕背景色 */
+	  color: white;       /* 文字顏色 */
+	  border: none;       /* 去掉邊框 */
+	  cursor: pointer;    /* 滑鼠變為手型 */
+	  transition: background-color 0.3s ease; /* 背景色過渡效果 */
+	}
+	
+	/* 上下架按鈕懸停效果 */
+	.toggle-status-btn:hover {
+	  background-color: #4141ff; /* 背景色改為藍色 */
+	}
+
   .table-container {
     max-width: 100%; /* 限制容器的最大寬度 */
     max-height: 400px; /* 限制容器的最大高度 */
     margin: 0 auto; /* 水平居中 */
-    padding: 0 20px; /* 添加左右內部間距 */
+    padding: 0 20px 200px 20px; /* 添加左右內部間距 */
   }
   /* 設置整體表格的樣式 */
   table {
@@ -124,18 +176,21 @@
   
   /* 調整商品名稱欄位內容 */
   td:nth-child(4) {
-  margin:8px 0 0 0 ;
-  border: 0 ; /* 去除邊框 */
-  width: 240px; /* 設定固定寬度 */
-  height: 80px; /* 設定高度 */
-  display: -webkit-box;
-  -webkit-line-clamp: 3; /* 顯示最多3行 */
-  -webkit-box-orient: vertical;
-  overflow: hidden; /* 隱藏溢出文本 */
-  text-overflow: ellipsis; /* 溢出文本顯示省略號 */
   text-align: left; /* 文字靠左對齊 */
+/*   margin:8px 0 0 0 ; */
+/*   border: 0 ; /* 去除邊框 */ 
+/*   width: 240px; /* 設定固定寬度 */ 
+/*   height: 80px; /* 設定高度 */ 
+/*   display: -webkit-box; */
+/*   -webkit-line-clamp: 3; /* 顯示最多3行 */
+/*   -webkit-box-orient: vertical; */
+/*   overflow: hidden; /* 隱藏溢出文本 */ 
+/*   text-overflow: ellipsis; /* 溢出文本顯示省略號 */
   }
-  
+	/* 添加底部間距 */
+  .table-container > div {
+	  height: 40px; /* 控制空白區域的高度 */
+  }
   </style>
 </head>
 
@@ -145,7 +200,12 @@
 <div  class="table-container">
 
   <table id="example" class="display" style="width: 100%">
-  <h2>商品管理</h2>
+  <h2 style="display: flex; justify-content: space-between; align-items: center;">
+  商品管理
+  <!-- 讓新增商品按鈕顯示在右側 -->
+  <a th:href="@{/goods/addGoods}" class="add-goods-btn">新增商品</a>
+</h2>
+
     <thead>
       <tr>
 <!--         <th>計數</th> -->
@@ -179,12 +239,15 @@
           <td th:text="${goodsVO.goodsAmount}"></td>
           <td th:text="${goodsVO.goodsStatus == 0 ? '下架' : '上架'}"></td>
           <td th:text="${goodsVO.checkStatus == 0 ? '審核中' : (goodsVO.checkStatus == 1 ? '通過' : '未通過')}"></td>
-          <td>
-            <form method="post" th:action="@{/goods/getOne_For_Update}" style="margin-bottom: 0px;">
-              <input type="submit" value="修改">
-              <input type="hidden" name="goodsNo" th:value="${goodsVO.goodsNo}">
-            </form>
-          </td>
+<td>
+  <form method="post" th:action="@{/goods/getOne_For_Update}" style="margin-bottom: 0px;">
+    <!-- 修改按鈕使用獨立的 modify-btn 類別 -->
+    <button type="submit" class="modify-btn">
+      修改
+    </button>
+    <input type="hidden" name="goodsNo" th:value="${goodsVO.goodsNo}">
+  </form>
+</td>
 			<td>
 			  <!-- 僅在審核通過 (checkStatus == 1) 時顯示上下架按鈕 -->
 			  <th:block th:if="${goodsVO.checkStatus == 1}">
@@ -199,8 +262,9 @@
       </th:block>
     </tbody>
   </table>
+	  <div></div>
   </div>
-
+  
   <script>
   $(".toggle-status-btn").click(function(event) {
 	    event.preventDefault();

@@ -2,6 +2,8 @@ package com.goods.model;
 
 import java.sql.Timestamp;
 import java.util.Base64;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
@@ -19,6 +22,7 @@ import javax.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.counter.model.CounterVO;
+import com.coupondetail.model.CouponDetailVO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.goodstype.model.GoodsTypeVO;
 
@@ -50,7 +54,11 @@ public class GoodsVO implements java.io.Serializable {
     private Timestamp goodsEnddate; // 商品下架日期
     
     
-   
+    //==================以下柏翔新增=====================//
+    private Set<CouponDetailVO> couponDetails = new HashSet<>();
+    //==================以上柏翔新增=====================//
+
+
     
     public GoodsVO() {
     }
@@ -262,10 +270,27 @@ public class GoodsVO implements java.io.Serializable {
         this.goodsEnddate = goodsEnddate;
     }
     
+    //==================以下柏翔新增=====================//
+    @OneToMany(mappedBy = "goodsVO")
+    public Set<CouponDetailVO> getCouponDetails() {
+        return couponDetails;
+    }
+
+    public void setCouponDetails(Set<CouponDetailVO> couponDetails) {
+        this.couponDetails = couponDetails;
+    }
+    //==================以上柏翔新增=====================//
+
+    
+    
     //==================以下昱夆新增=====================//
 
     public String convertToBase64(byte[] bytes) {
         return Base64.getEncoder().encodeToString(bytes);
     }
     //==================以上昱夆新增=====================//
+    
+    
+    
+    
 }

@@ -1,79 +1,346 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 <title>商品審核 - listAllCheckStatus.html</title>
 
 <head th:insert="~{/vendor-end/goods/included-fragment}"></head>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>                                    <!-- ●●js  for jquery datatables 用 -->
-<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>              <!-- ●●js  for jquery datatables 用 -->
+<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>              <!--●●js  for jquery datatables 用 -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css" /> <!-- ●●css for jquery datatables 用 -->
+<!-- Favicon -->
+<link rel="icon" href="/back-end-home/img/core-img/logo noback.png"> 										
+<!-- Style CSS -->
+<link rel="stylesheet" href="/back-end-home/css/style.css"> 												
+<!-- 套入fontawesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"> 	
 
-<!-- ●● jquery datatables 設定 -->
 <script>
-	$(document).ready(function() {
-		$('#example').DataTable({
-			"lengthMenu": [3, 5, 10, 20, 50, 100],
-			"searching": true,  //搜尋功能, 預設是開啟
-		    "paging": true,     //分頁功能, 預設是開啟
-		    "ordering": true,   //排序功能, 預設是開啟
-		    "language": {
-		        "processing": "處理中...",
-		        "loadingRecords": "載入中...",
-		        "lengthMenu": "顯示 _MENU_ 筆結果",
-		        "zeroRecords": "沒有符合的結果",
-		        "info": "顯示第 _START_ 至 _END_ 筆結果，共<font color=red> _TOTAL_ </font>筆",
-		        "infoEmpty": "顯示第 0 至 0 筆結果，共 0 筆",
-		        "infoFiltered": "(從 _MAX_ 筆結果中過濾)",
-		        "search": "搜尋:",
-		        "paginate": {
-		            "first": "第一頁",
-		            "previous": "上一頁",
-		            "next": "下一頁",
-		            "last": "最後一頁"
-		        },
-		        "aria": {
-		            "sortAscending":  ": 升冪排列",
-		            "sortDescending": ": 降冪排列"
-		        }
-		    }
+	var dataTablesJQ = $.noConflict(true); // 使用獨立的 jQuery 實例
+	dataTablesJQ(document).ready(function() {
+		dataTablesJQ('#example').DataTable({
+			"lengthMenu" : [10,20, 50, 100 ],
+			"searching" : true,
+			"paging" : true,
+			"ordering" : true,
+			"language" : {
+				"processing" : "處理中...",
+				"loadingRecords" : "載入中...",
+				"lengthMenu" : "顯示 _MENU_ 筆結果",
+				"zeroRecords" : "沒有符合的結果",
+				"info" : "顯示第 _START_ 至 _END_ 筆結果，共 _TOTAL_ 筆",
+				"infoEmpty" : "顯示第 0 至 0 筆結果，共 0 筆",
+				"infoFiltered" : "(從 _MAX_ 筆結果中過濾)",
+				"search" : "搜尋:",
+				"paginate" : {
+					"first" : "第一頁",
+					"previous" : "上一頁",
+					"next" : "下一頁",
+					"last" : "最後一頁"
+				},
+				"aria" : {
+					"sortAscending" : ": 升冪排列",
+					"sortDescending" : ": 降冪排列"
+				}
+			}
 		});
 	});
 </script>
+
 <style type="text/css">
-body {
-	margin: 1rem 12rem 2rem 12rem;
+  body {
+    margin: 1rem 0rem 2rem 0rem;
+  }
+  h2{
+  padding: 0 0 0 10px;
+  }
+  /* 隱藏表格表頭的排序箭頭（上下鍵按鈕），但保留排序功能 */
+  th.sorting::after,th.sorting_asc::after,th.sorting_desc::after {
+    display: none !important;  /* 隱藏箭頭 */
+  }
+  
+  th.sorting::before,th.sorting_asc::before,th.sorting_desc::before {
+    display: none !important;  /* 隱藏箭頭 */
+  }
+  
+  /* 懸停效果 */
+  .add-goods-btn:hover {
+    background-color: #4141ff;
+  }
+
+  /* 表格容器 */
+  .table-container {
+    max-width: 100%;
+    max-height: 400px;
+    margin: 0 auto;
+    padding: 0 20px 1150px 20px;
+  }
+
+  /* 表格樣式 */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  /* 設置每個表格單元格的邊框樣式 */
+  th, td {
+    border: 1px solid #ddd; /* 淺灰色邊框 */
+    padding: 8px; /* 單元格內部邊距 */
+    text-align: center !important;  /* 確保文字水平居中 */
+    vertical-align: middle !important; /* 垂直居中 */
+  }
+
+  /* 設置表格表頭背景顏色 */
+  thead {
+    background-color: #ffedda; /* 可以根據需要更改顏色 */
+    color: #000;  /* 表頭文字顏色 */
+  }
+
+  /* 表格內容區背景色 */
+  tbody {
+    background-color: #fff9f3;
+  }
+
+  /* 滑鼠懸停效果 */
+  tbody tr:hover {
+    background-color: #fffaf6;
+  }
+
+  /* 調整「商品編號」欄位寬度 */
+  th:nth-child(1), td:nth-child(1) {
+    width: 32px; /* 調整需要的寬度 */
+    padding:10px 10px 10px 10px !important;  /* 調整 */
+  }
+    /* 調整「類別」欄位寬度 */
+  th:nth-child(2), td:nth-child(2) {
+    width: 40px; /* 調整需要的寬度 */
+    padding:10px 10px 10px 10px !important;  /* 調整 */
+  }
+    /* 調整「櫃位名稱」欄位寬度 */
+  th:nth-child(3), td:nth-child(3) {
+    width: 80px; /* 調整需要的寬度 */
+    padding:10px 10px 10px 10px !important;  /* 調整 */
+  }
+    /* 調整「商品照片」欄位寬度 */
+  th:nth-child(4), td:nth-child(4) {
+    width: 80px; /* 調整需要的寬度 */
+    padding:10px 10px 10px 10px !important;  /* 調整 */
+  }
+    /* 調整「商品名稱」欄位寬度 */
+  th:nth-child(5), td:nth-child(5) {
+    width: 180px; /* 調整需要的寬度 */
+    padding:10px 10px 10px 10px !important;  /* 調整 */
+  }
+    /* 調整「商品名稱」欄位內容 */
+  td:nth-child(5) {
+  	text-align: left !important; /* 文字靠左對齊 */
+  }
+    /* 調整「商品敘述」欄位寬度 */
+  th:nth-child(6), td:nth-child(6) {
+    width: 500px; /* 調整需要的寬度 */
+    padding:10px 10px 10px 10px !important;  /* 調整 */
+  }
+    /* 調整「商品敘述」欄位內容 */
+  td:nth-child(6) {
+  	text-align: left !important; /* 文字靠左對齊 */
+  }
+    /* 調整「商品售價」欄位寬度 */
+  th:nth-child(7), td:nth-child(7) {
+    width: 66px; /* 調整需要的寬度 */
+    padding:10px 10px 10px 10px !important;  /* 調整 */
+  }
+    /* 調整「審核」欄位寬度 */
+  th:nth-child(8), td:nth-child(8) {
+    width: 60px; /* 調整需要的寬度 */
+    padding:10px 10px 10px 10px !important;  /* 調整 */
+  }
+  /* 通過和未通過按鈕樣式 */
+  input[type="submit"] {
+    background-color: #ffd165; /* 橘色背景 */
+    color: #000;  /* 按鈕文字顏色設為黑色 */
+    border: none;  /* 去除邊框 */
+    padding: 7px;  /* 調整內邊距 */
+    font-size: 12px;  /* 調整字型大小 */
+    cursor: pointer;  /* 鼠標懸停時顯示為可點擊狀態 */
+    border-radius: 5px;  /* 按鈕圓角 */
+    margin: 5px;
+  }
+  /* 針對「通過」按鈕的 padding 調整 */
+input[type="submit"][value="通過"] {
+    padding: 7px 13px;  /* 調整左右邊距，使其與「未通過」按鈕一致 */
 }
+  /* 滑鼠懸停效果 */
+  input[type="submit"]:hover {
+    background-color: #fec031;  /* 當滑鼠懸停時變成稍深的橘色 */
+   }
+  	/* 添加底部間距 */
+  .table-container > div {
+	  height: 100px; /* 控制空白區域的高度 */
+	  padding:10px 10px 10px 10px !important;  /* 調整 */
+  }
 </style>
+
 </head>
 <body>
+    <header class="header-area">
 
-<nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
-	<div align="center">
-		<h2>商品審核 - listAllCheckStatus.html</h2>
-		<h3><a class="navbar-brand" th:href="@{/goods/select_page}">
-			<img th:src="@{/images/back1.gif}">回查詢頁
-			<label th:text="${success}"></label></a></h3>
-	</div>
-</nav>
+        <!-- Top Header Area -->
+        <div class="top-header">
+            <div class="container h-100">
+                <div class="row h-100 align-items-center">
+                    <!-- Breaking News Area -->
+                    <div class="col-12 col-sm-8">
+                        <div class="breaking-news-area">
+                            <div id="breakingNewsTicker" class="ticker">
+                                <ul>
+                                    <li><a th:href="@{back-end-homepage}">Hello Staff!</a></li>
+                                    <li><a th:href="@{back-end-homepage}">Hello Universe!</a></li>
+                                    <li><a th:href="@{back-end-homepage}">Hello Earth!</a></li>
+                                    <li><a th:href="@{back-end-homepage}">Hello DoBuy!</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <!-- Logo Area -->
+        <div class="logo-area text-center">
+            <div class="container h-100">
+                <div class="row h-100 align-items-center">
+                    <div class="col-12">
+                        <a th:href="@{back-end-homepage}" class="original-logo"><img src="/back-end-home/img/core-img/logo noback.png" alt=""></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nav Area -->
+        <div class="original-nav-area" id="stickyNav">
+            <div class="classy-nav-container breakpoint-off">
+                <div class="container">
+                    <!-- Classy Menu -->
+                    <nav class="classy-navbar justify-content-between">
+
+                        <!-- Navbar Toggler -->
+                        <div class="classy-navbar-toggler">
+                            <span class="navbarToggler"><span></span><span></span><span></span></span>
+                        </div>
+
+                        <!-- Menu -->
+                        <div class="classy-menu" id="originalNav">
+                            <!-- close btn -->
+                            <div class="classycloseIcon">
+                                <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                            </div>
+
+                            <!-- Nav Start -->
+                            <div class="classynav">
+                                <ul>
+                                    <li><a  class="dropdown-font" href="/back-end-homepage">首頁</a></li>
+                                    <li><a href="#">會員管理</a>
+                                        <ul class="dropdown">
+                                            <li><a href="/back-end/member">會員管理</a></li>
+                                            <li><a href="#">會員管理訂單管理</a></li>
+                                        </ul>
+                                    </li>
+                                    
+                                    <li><a href="#">櫃位管理</a>
+                                        <ul class="dropdown">
+                                            <li><a href="#">櫃位管理專區</a></li>
+                                            <li><a href="#">櫃位商城開設審核</a></li>
+
+                                        </ul>
+                                    </li>
+                                    
+                                    <li><a href="#">商城系統</a>
+                                        <ul class="dropdown">
+                                            <li><a href="#">首頁輪播圖管理</a></li>
+                                            <li><a th:href="@{/goodstype/listAllGoodsType}">商品分類管理</a></li>
+                                        </ul>
+                                    </li>
+                                    
+                                    <li><a href="#">商品審核系統</a>
+                                        <ul class="dropdown">
+                                            <li><a th:href="@{/goods/listAllCheckStatus}">一般商品審核</a></li>
+                                            <li><a href="#">二手商品審核</a></li>
+                                        </ul>
+                                    </li>
+                                    
+                                    <li><a href="#">管理員資料</a>
+                                        <ul class="dropdown">
+                                          <li>
+   										 <a th:href="@{'/manager/manager?managerNo=' + ${session.managerNo}}">管理員資料管理</a>
+										</li>
+
+                                        </ul>
+                                    </li>
+
+                                    <li><a href="#">優惠管理</a>
+                                        <ul class="dropdown">
+                                            <li><a href="#">平台優惠活動管理</a></li>
+                                            <li><a href="#">廠商優惠券管理</a></li>
+                                            <li><a href="#">優惠訊息通知</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li><a href="#">客服系統</a>
+                                        <ul class="dropdown">
+                                            <li><a href="#">FAQ專案管理</a></li>
+                                            <li><a href="#">客服訊息回覆</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+
+                                <!-- Search Form  -->
+<!--                                 <div id="search-wrapper"> -->
+<!--                                     <form action="#"> -->
+<!--                                         <input type="text" id="search" placeholder="Search something..."> -->
+<!--                                         <div id="close-icon"></div> -->
+<!--                                         <input class="d-none" type="submit" value=""> -->
+<!--                                     </form> -->
+<!--                                 </div> -->
+                            </div>
+                            <!-- Nav End -->
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+<!-- <nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center"> -->
+<!-- 	<div align="center"> -->
+<!-- 		<h2>商品審核 - listAllCheckStatus.html</h2> -->
+<!-- 		<h3><a class="navbar-brand" th:href="@{/goods/select_page}"> -->
+<!-- 			<img th:src="@{/images/back1.gif}">回查詢頁 -->
+<!-- 			<label th:text="${success}"></label></a></h3> -->
+<!-- 	</div> -->
+<!-- </nav> -->
+<div  class="table-container">
 <table id="example" class="display" style="width: 100%">
+  	<h2 style="display: flex; justify-content: space-between; align-items: center;">
+  商品審核
+	</h2>
   <thead>
-	<tr style="background-color:#CCCCFF">
-		<th>計數</th>
+	<tr>
+<!-- 		<th>計數</th> -->
 		<th>商品編號</th>
-		<th>商品類別名稱</th>
+		<th>類別</th>
 		<th>櫃位名稱</th>
+		<th>商品照片</th>
 		<th>商品名稱</th>
 		<th>商品敘述</th>
-		<th>商品單價</th>
-		<th>商品庫存</th>
-		<th>商品狀態</th>
-		<th>審核狀態</th>
+		<th>商品售價</th>
+<!-- 		<th>商品庫存</th> -->
+<!-- 		<th>商品狀態</th> -->
+<!-- 		<th>審核狀態</th> -->
 <!-- 		<th>上架日期</th> -->
 <!-- 		<th>下架日期</th> -->
-		<th>商品照片</th>
 		<th>審核</th>
 	</tr>
   </thead>
@@ -81,21 +348,21 @@ body {
 	<!-- 加入條件過濾，只顯示 checkStatus == 0 (審核中) 的商品 -->
 	<th:block th:each="goodsVO : ${goodsListData}">
 		<tr th:if="${goodsVO.checkStatus == 0}"> <!-- 只顯示 checkStatus 為 0 的商品 -->
-			<td th:text="${goodsVOStat.count}"></td>
+<!-- 			<td th:text="${goodsVOStat.count}"></td> -->
 			<td th:text="${goodsVO.goodsNo}"></td>
 			<td th:text="${goodsVO.goodsTypeVO.goodstName}"></td>
 			<td th:text="${goodsVO.CounterVO.counterCName}"></td>
-			<td th:text="${goodsVO.goodsName}"></td>
-			<td th:text="${goodsVO.goodsDescription}"></td>
-			<td th:text="${goodsVO.goodsPrice}"></td>
-			<td th:text="${goodsVO.goodsAmount}"></td>
-			<td th:text="${goodsVO.goodsStatus == 0 ? '下架' : '上架'}"></td>
-			<td th:text="${goodsVO.checkStatus == 0 ? '審核中' : (goodsVO.checkStatus == 1 ? '通過' : '未通過')}"></td>
-<!-- 			<td th:text="${goodsVO.goodsDate}"></td> -->
-<!-- 			<td th:text="${goodsVO.goodsEnddate}"></td> -->
 			<td>
 				<img th:src="@{/goods/DBGifReader} + '?goodsNo=' + ${goodsVO.goodsNo}" width="100px">
 			</td>
+			<td th:text="${goodsVO.goodsName}"></td>
+			<td th:text="${goodsVO.goodsDescription}"></td>
+			<td th:text="${goodsVO.goodsPrice}"></td>
+<!-- 			<td th:text="${goodsVO.goodsAmount}"></td> -->
+<!-- 			<td th:text="${goodsVO.goodsStatus == 0 ? '下架' : '上架'}"></td> -->
+<!-- 			<td th:text="${goodsVO.checkStatus == 0 ? '審核中' : (goodsVO.checkStatus == 1 ? '通過' : '未通過')}"></td> -->
+<!-- 			<td th:text="${goodsVO.goodsDate}"></td> -->
+<!-- 			<td th:text="${goodsVO.goodsEnddate}"></td> -->
 			<td>
 				<!-- 審核狀態表單 -->
 				<form method="post" th:action="@{/goods/updateCheckStatus}" style="margin-bottom: 0px;">
@@ -113,6 +380,33 @@ body {
 	</th:block>
   </tbody>
 </table>
+	  <div></div>
+</div>
+        <!-- ##### Footer Area Start ##### -->
+<!--         <footer class="footer-area text-center"> -->
+<!--             <div class="container"> -->
+<!--                 <div class="row"> -->
 
+<!--                 </div> -->
+<!--             </div> -->
+
+<!--             Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+<!--             Copyright &copy; -->
+<!--             <script>document.write(new Date().getFullYear());</script> -->
+<!--              All rights reserved | <i class="fa-regular fa-heart fa-bounce"></i> by <a href="#" target="_blank">DOBUY</a> -->
+
+<!--         </footer> -->
+        <!-- ##### Footer Area End ##### -->
+
+        <!-- jQuery (Necessary for All JavaScript Plugins) -->
+        <script src="/back-end-home/js/jquery/jquery-2.2.4.min.js"></script>
+        <!-- Popper js -->
+        <script src="/back-end-home/js/popper.min.js"></script>
+        <!-- Bootstrap js -->
+        <script src="/back-end-home/js/bootstrap.min.js"></script>
+        <!-- Plugins js -->
+        <script src="/back-end-home/js/plugins.js"></script>
+        <!-- Active js -->
+        <script src="/back-end-home/js/active.js"></script>
 </body>
 </html>

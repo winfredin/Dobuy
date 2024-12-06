@@ -102,25 +102,17 @@
                                     <li><a href="#">櫃位專區</a>
                                         <ul  class="dropdown">
                                             <li><a th:href="@{/counter/vendor-end/manage}">櫃位資料管理</a></li>
-                                            <li><a th:href="@{/counter/test}">常見問題設定</a></li>
-                                            <li><a href="#">營收查詢</a></li>
-                                            <li><a href="#">追蹤管理</a></li>
+                                            <li><a th:href="@{/faq/listCounterFaq}">常見問題設定</a></li>
+                                            <li><a th:href="@{/monthsettlement/listAllMonthSettlement}">營收查詢</a></li>
+                                            <li><a th:href="@{/followers/listAllFollowers}">追蹤管理</a></li>
                                             <li><a th:href="@{/coupon/listAllCoupon}">優惠券設定</a></li>
                                         </ul>
-                                    <li><a href="#">櫃位訊息中心管理</a>
+                                    <li><a th:href="@{/msg/listAllMsg}">櫃位訊息中心管理</a>
                                     </li>
                                     <li><a href="#">訊息回覆</a>
                                     </li>
                                 </ul>
 
-                                <!-- Search Form  -->
-                                <div id="search-wrapper">
-                                    <form action="#">
-                                        <input type="text" id="search" placeholder="Search something...">
-                                        <div id="close-icon"></div>
-                                        <input class="d-none" type="submit" value="">
-                                    </form>
-                                </div>
                             </div>
                             <!-- Nav End -->
                         </div>
