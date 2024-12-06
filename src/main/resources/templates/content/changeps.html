@@ -57,17 +57,48 @@ h2 {
     <h2>更改密碼</h2>
     <p>為了保護你的帳號安全，請不要分享你的密碼給其他人</p>
     
-    <form class="password-form">
-        <div class="form-group">
-            <label for="new-password">新的密碼</label>
-            <input type="password" id="new-password" placeholder="輸入新的密碼">
-        </div>
+    <label th:text="${error}"></label>
+    
+    
+    <form th:action="@{changepas}" method="post" th:object="${memberVO}" class="password-form">
+       
+       
         
         <div class="form-group">
-            <label for="confirm-password">確認密碼</label>
-            <input type="password" id="confirm-password" placeholder="再次輸入密碼">
+            <label for="new-password">新的密碼</label>
+            <input  type="text" id="new-password" th:field="*{memPassword}"  placeholder="輸入密碼" class="input1"><br/>
+       <span th:if="${#fields.hasErrors('memPassword')}" th:errors="*{memPassword}" class="error" id="memPassword.errors"></span>
+        </div>
+        <div class="form-group">
+            <label for="confirm-password" >確認密碼</label>
+            <input  type="text" id="confirm-password" th:field="*{confirmPassword}"  placeholder="再次輸入密碼" class="input2">
+                   <span th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}" class="error" id="confirmPassword.errors"></span>
+            
         </div>
         
         <button type="submit" class="submit-btn">確認</button>
     </form>
 </div>
+<script>
+ 
+    	const input1 = document.querySelector(".input1");
+        const input2 = document.querySelector(".input2");
+        const btn = document.querySelector(".submit-btn");
+        btn.addEventListener("click",function(e){
+            
+            if(input1.value.trim() == "" || input2.value.trim() == ""){
+            	e.preventDefault(); 
+                 alert("密碼不可空白")
+                 return;
+            }else{
+                 if(input1.value.trim() !== input2.value.trim()){
+                	 e.preventDefault(); 
+                     alert("前後密碼不一");
+                     return;
+                 }
+            }
+
+            alert("改成功")
+         });
+    
+</script>
