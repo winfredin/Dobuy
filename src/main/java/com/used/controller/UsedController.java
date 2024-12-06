@@ -63,7 +63,7 @@ public class UsedController {
 	public String addUsed(ModelMap model,HttpSession session) {
 		UsedVO usedVO = new UsedVO();
 		//session提取memNo為sellerNo
-		Integer sellerNo= (Integer) session.getAttribute("memNo");
+		 Integer sellerNo = Integer.valueOf((String)session.getAttribute("memNo"));
 		usedVO.setSellerNo(sellerNo);
 		model.addAttribute("usedVO", usedVO);
 		List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();
@@ -98,7 +98,7 @@ public class UsedController {
     public String getUsedListFragment(HttpSession session, Model model) {
         // 從 session 中取得 memNo
 
-        Integer memNo = (Integer) session.getAttribute("memNo");
+        Integer memNo = Integer.valueOf((String)session.getAttribute("memNo"));
 
         if (memNo == null) {
             // 如果沒有 memNo，處理錯誤情況，這裡可以返回空片段或錯誤信息
@@ -150,7 +150,7 @@ public class UsedController {
 		
 		List<MultipartFile> validPictures=filterEmptyFiles(parts);
 							
-		usedVO.setSellerNo((Integer)session.getAttribute("memNo"));
+		usedVO.setSellerNo(Integer.valueOf((String)session.getAttribute("memNo")));
 		
 	    if (result.hasErrors() || validPictures.isEmpty()) {
 //	    	System.out.println(result.getFieldErrorCount());

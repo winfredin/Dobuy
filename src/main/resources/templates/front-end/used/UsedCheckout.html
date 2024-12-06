@@ -11,7 +11,6 @@
 <link rel="stylesheet" th:href="@{/slick-1.8.1/slick/slick-theme.css}" />
 <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/checkout/"> <!-- 設定正規網址 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3"> <!-- 引入 Docsearch CSS 檔案 -->
-<link rel="stylesheet"th:href="@{/css/usedcheckout.css}" > <!-- 引入自定義樣式 -->
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" > <!-- 引入 Bootstrap 的 CSS 樣式 -->
 <script th:src="@{/js/color-modes.js}"></script> <!-- 引入控制顏色模式的 JavaScript 檔案 -->
 
@@ -25,9 +24,12 @@
 
 	  /* 整體頁面樣式 */
 	  body {
+	  	height:100%;
 	    margin: 0;
 	    padding: 0;
 	    overflow-x: hidden; /* 防止出現水平滾動條 */
+	      display: flex;
+    flex-direction: column; /* 垂直排列內容 */
 	  }
 
 	  /* 設定圖片預設樣式 */
@@ -39,12 +41,12 @@
         user-select: none;
       }
 
-      /* 當螢幕寬度大於等於 768px 時，增大圖片字體大小 */
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
+/*       /* 當螢幕寬度大於等於 768px 時，增大圖片字體大小 */ */
+/*       @media (min-width: 768px) { */
+/*         .bd-placeholder-img-lg { */
+/*           font-size: 3.5rem; */
+/*         } */
+/*       } */
 
       /* 設定分隔線樣式 */
       .b-example-divider {
@@ -102,6 +104,68 @@
       .bd-mode-toggle .dropdown-menu .active .bi {
         display: block !important;
       }
+      
+      .container {
+      height:100%;
+	  width: 90%;
+	  display:flex;
+	   flex: 1;
+ 	}
+ 	
+/* 左側購物車頁版面設置 */
+.col-md-7.col-lg-8 {
+  margin: 0;
+  border: 2px solid #ccc; /* 設定邊框，顏色為灰色，寬度為 2px */
+  border-radius: 15px; /* 設定圓角，數字越大圓角越圓 */
+  padding: 30px 15px;
+  background-color: #fff9f6f7; /* 設置容器背景色為淺灰白色 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 加入輕微的陰影效果來讓框架看起來更立體 */
+}
+
+ 
+ footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    height: 5%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #fff;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.3);
+}
+
+
+
+.shopping-table th,
+.shopping-table td {
+    text-align: center; /* 居中內容 */
+    vertical-align: middle; /* 垂直居中 */
+    padding:0;
+    margin:0;
+     overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.shopping-table th:nth-child(1),
+.shopping-table td:nth-child(1) {
+    width: 50%; /* 商品名稱占40% */
+   
+}
+
+.shopping-table th:nth-child(2),
+.shopping-table td:nth-child(2) {
+    width: 10%; /* 數量占20% */
+}
+
+.shopping-table th:nth-child(3),
+.shopping-table td:nth-child(3) {
+    width: 40%; /* 總價格占40% */
+}
+
 </style>
 
 
@@ -147,198 +211,104 @@
     </header>
     
 
-    <div class="container"> <!-- 設定頁面容器 -->
-  
-
-      <!-- 其他結帳表單內容 -->
+  <div class="container">
+  <form class="needs-validation" novalidate th:action="@{/used/ecpayCheckout}" method="post">
+    <div class="row">
+      <!-- 左側：帳單地址 -->
       <div class="col-md-7 col-lg-8">
-        <h4 class="mb-3">帳單地址</h4>
-        <!-- 設定表單 -->
-        <form class="needs-validation" novalidate>
-          <div class="row g-3">
-            <!-- 使用者資料輸入 -->
-            <div class="col-sm-6">
-              <label for="firstName" class="form-label">名</label>
-              <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
-              <div class="invalid-feedback">
-                需要有效的名字。
-              </div>
-            </div>
-
-            <div class="col-sm-6">
-              <label for="lastName" class="form-label">姓</label>
-              <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
-              <div class="invalid-feedback">
-                需要有效的姓氏。
-              </div>
-            </div>
-
-            <div class="col-12">
-              <label for="username" class="form-label">使用者名稱</label>
-              <div class="input-group has-validation">
-                <span class="input-group-text">@</span>
-                <input type="text" class="form-control" id="username" placeholder="使用者名稱" required>
-              <div class="invalid-feedback">
-                  您的用戶名是必需的。
-                </div>
-              </div>
-            </div>
-
-            <div class="col-12">
-              <label for="email" class="form-label">電子郵件 <span class="text-body-secondary">(選填)</span></label>
-              <input type="email" class="form-control" id="email" placeholder="you@example.com">
-              <div class="invalid-feedback">
-                Please enter a valid email address for shipping updates.
-              </div>
-            </div>
-
-            <div class="col-12">
-              <label for="address" class="form-label">地址</label>
-              <input type="text" class="form-control" id="address" placeholder="地址 1" required>
-              <div class="invalid-feedback">
-                請輸入您的送貨地址。
-              </div>
-            </div>
-
-            <div class="col-12">
-              <label for="address2" class="form-label">地址 2<span class="text-body-secondary">(選填)</span></label>
-              <input type="text" class="form-control" id="address2" placeholder="地址 2">
-            </div>
-          </div>
-
-          <hr class="my-4">
-          
-          <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="same-address">
-            <label class="form-check-label" for="same-address">送貨地址與我的帳單地址相同</label>
-          </div>
-
-          <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="save-info">
-            <label class="form-check-label" for="save-info">儲存此資訊以供下次使用</label>
-          </div>
-<hr class="my-4">
-          支付方式選擇
-          <h4 class="mb-3">支付</h4>
-
-          <div class="my-3">
-            <div class="form-check">
-              <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked required>
-              <label class="form-check-label" for="credit">信用卡</label>
-            </div>
-            <div class="form-check">
-              <input id="debit" name="paymentMethod" type="radio" class="form-check-input" required>
-              <label class="form-check-label" for="debit">金融卡</label>
-            </div>
-            <div class="form-check">
-              <input id="paypal" name="paymentMethod" type="radio" class="form-check-input" required>
-              <label class="form-check-label" for="paypal">PayPal</label>
-            </div>
-          </div>
-
-          <div class="row gy-3">
-            <div class="col-md-6">
-              <label for="cc-name" class="form-label">卡片上的姓名</label>
-              <input type="text" class="form-control" id="cc-name" placeholder="" required>
-              <small class="text-body-secondary">卡片上顯示的全名</small>
-              <div class="invalid-feedback">
-                卡片上姓名為必填項目
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <label for="cc-number" class="form-label">信用卡號碼</label>
-              <input type="text" class="form-control" id="cc-number" placeholder="" required>
-              <div class="invalid-feedback">
-                信用卡號碼為必填項目
-              </div>
-            </div>
-
-            <div class="col-md-3">
-              <label for="cc-expiration" class="form-label">到期日</label>
-              <input type="text" class="form-control" id="cc-expiration" placeholder="" required>
-              <div class="invalid-feedback">
-                需要有效期限
-              </div>
-            </div>
-
-            <div class="col-md-3">
-              <label for="cc-cvv" class="form-label">CVV</label>
-              <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
-              <div class="invalid-feedback">
-                需要安全碼
-              </div>
-            </div>
-          </div>
-
-          <hr class="my-4">
-          
-
-          <button class="w-100 btn btn-primary btn-lg" type="submit">結帳</button>
-        </form>
-      </div>
-    </div>
-
-<div class="container">
-  <div class="row">
-    <!-- 左側：表單內容 -->
-    <div class="col-md-7 col-lg-8">
-      <h4 class="mb-3">帳單地址</h4>
-      <!-- 原有的表單內容 -->
-      <form class="needs-validation" novalidate>
-        <!-- 表單的相關欄位 -->
+        <h4 class="mb-3">收件人資訊</h4>
         <div class="row g-3">
-          <!-- 你的原有表單欄位 -->
+          <div class="col-sm-6">
+            <label for="firstName" class="form-label">姓名</label>
+           <input type="text" 
+           class="form-control" 
+           id="Name" 
+           name="receiverName" 
+           th:value="${receiverName}" 
+           maxlength="40" 
+           pattern="^[\u4e00-\u9fa5a-zA-Z\s]{1,40}$" 
+           title="姓名只能包含中英文和空格，且長度應在 1 到 40 個字元之間。" 
+           required>
+    <div class="invalid-feedback">請填真實姓名 避免查無收件人，姓名長度應在 1 到 40 個字元之間，且僅允許中英文和空格。</div>
+    
+          </div>
+
+          <div class="col-11">
+            <label for="lastName"  class="form-label">電話 :</label>
+            <input type="tel" name="receiverPhone" class="form-control" id="phone" 
+			       th:value="${receiverPhone}" 
+			       pattern="^09\d{8}$" 
+			       title="請輸入有效的手機號碼 (09 開頭，共 10 位數字)。" 
+			       maxlength="10" 
+			       required>
+
+            <div class="invalid-feedback">請輸入有效的手機號碼 (09 開頭，共 10 位數字)。</div>
+          </div>
+
+          <div class="col-12">
+            <label for="address" class="form-label">地址</label>
+            <input type="text" 
+		       class="form-control" 
+		       id="address" 
+		       name="receiverAdr" 
+		       th:value="${receiverAdr}" 
+		       maxlength="80" 
+		       pattern="^[\u4e00-\u9fa5a-zA-Z0-9,.\s\-]{1,80}$" 
+		       title="地址只能包含中英文、數字、逗號、點、空格及連字符，且最多 80 字元。" 
+		       required>
+
+            <div class="invalid-feedback">請輸入您的送貨地址。地址只能包含中英文、數字、逗號、點、空格及連字符，且最多 80 字元。</div>
+          </div>
+          
         </div>
 
         <hr class="my-4">
-        <h4 class="mb-3">支付</h4>
-        <!-- 支付方式選項 -->
-        <div class="my-3">
-          <!-- 支付選項 -->
-        </div>
+      </div>
 
-        <div class="row gy-3">
-          <!-- 信用卡資訊欄位 -->
-        </div>
-
-        <hr class="my-4">
-        <button class="w-100 btn btn-primary btn-lg" type="submit">結帳</button>
-      </form>
-    </div>
-
-    <!-- 右側：購物車商品表格 -->
-    <div class="col-md-5 col-lg-4">
-      <h4 class="mb-3">購物清單</h4>
-      <table class="table table-bordered">
+      <!-- 右側：購物清單 -->
+      <div class="col-md-5 col-lg-4">
+    <h4 class="mb-3">購物清單</h4>
+    <table class="table table-bordered">
         <thead>
-          <tr>
-            <th scope="col">商品名稱</th>
-            <th scope="col">數量</th>
-            <th scope="col">金額</th>
-          </tr>
+            <tr>
+                <th scope="col">商品名稱</th>
+                <th scope="col">數量</th>
+                <th scope="col">單價</th>
+            </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>商品 A</td>
-            <td>1</td>
-            <td>$100</td>
-          </tr>
-          <tr>
-            <td>商品 B</td>
-            <td>2</td>
-            <td>$200</td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <th colspan="2">總計</th>
-            <th>$300</th>
-          </tr>
-        </tfoot>
-      </table>
+		    <tr >
+		        <td>
+				    <span  th:text="${usedVO.usedName}" ></span>
+				</td>
+				<td>
+				    <span  th:text="${usedCount}"></span>
+				</td>
+				<td>
+				    <span  th:text="${usedVO.usedPrice}"></span>
+				</td>
+		    </tr>
+		</tbody>
+		<tfoot>
+		    <tr>
+		        <th colspan="2">總計</th>
+		        <th>
+		            <!-- 總計金額 -->
+		            <input type="number"
+		                   th:value="${usedCount * usedVO.usedPrice}" readonly>
+		        </th>
+		    </tr>
+		</tfoot>
+
+    </table>
+</div>
+
     </div>
-  </div>
+     <input type="text"  hidden class="form-control" th:field="${usedVO.usedName}" readonly>
+	 <input type="number" hidden class="form-control" name="usedCount" th:value="${usedCount}" readonly>
+    <input type="number" hidden class="form-control" th:field="${usedVO.usedPrice}" readonly>
+    <button class="w-100 btn btn-primary btn-lg" type="submit">結帳</button>
+  </form>
 </div>
 
 
