@@ -156,16 +156,13 @@ public class CartControllerTest {
 				if (cartVO.getGoodsNo().equals(goodsNo)) {
 					// 獲取當前數量
 					Integer currentQuantity = cartVO.getGoodsNum();
-					System.out.println("currentQuantity : " + currentQuantity);
 					Integer newQuantity = currentQuantity + delta;
-					System.out.println("newQuantity : " + newQuantity);
 					// 判斷是否刪除
 					if (newQuantity <= 0) {
 						cartList.remove(cartVO); // 刪除該商品
 						if (cartList.isEmpty()) {
 							// 如果櫃位沒有商品了，從 cart 中移除
 							redisTemplate.opsForHash().delete(key, counterNo);
-							System.out.println("櫃位已成功刪除");
 							return ResponseEntity.ok(Map.of("success", true, "newQuantity", newQuantity, "newTotal", 0));
 							// 直接返回，避免後續覆蓋操作
 						}
@@ -211,7 +208,6 @@ public class CartControllerTest {
 			return ResponseEntity.ok(Map.of("success", false, "message", "櫃位不存在"));
 		}
 
-		Map<Object, Object> cart = redisTemplate.opsForHash().entries(key);
 		// 反序列化為商品列表
 		try {
 			List<CartListVO> cartList = objectMapper.readValue(json, new TypeReference<List<CartListVO>>() {
@@ -222,7 +218,6 @@ public class CartControllerTest {
 					if (cartList.isEmpty()) {
 						// 如果櫃位沒有商品了，從 cart 中移除
 						redisTemplate.opsForHash().delete(key, counterNo);
-						System.out.println("櫃位已成功刪除");
 						return ResponseEntity.ok(Map.of("success", true)); // 直接返回，避免後續覆蓋操作
 					}
 					// 序列化並存回 cart
@@ -257,8 +252,6 @@ public class CartControllerTest {
 		try {
 			// 遍历 Redis 中的购物车数据
 			for (Map.Entry<Object, Object> entry : cart.entrySet()) {
-				System.out.println("Key: " + entry.getKey());
-				System.out.println("Value: " + entry.getValue());
 				String counterNoStr = entry.getKey().toString(); // 获取 key（櫃位编号）
 				String json = entry.getValue().toString(); // 获取 value（JSON 格式的 List<CartListVO>）
 

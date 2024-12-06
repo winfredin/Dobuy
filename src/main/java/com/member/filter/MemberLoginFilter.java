@@ -12,8 +12,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+<<<<<<< HEAD
 import com.member.model.MemberVO;
 
+=======
+import org.springframework.stereotype.Component;
+
+
+@WebFilter(urlPatterns = {"/front-end/coupon/list", "/front-end/coupon/member/list35"})
+>>>>>>> Ethan01
 public class MemberLoginFilter implements Filter {
 
 	@Override
@@ -37,12 +44,10 @@ public class MemberLoginFilter implements Filter {
 			if (queryString != null) {
 				originalRequest += "?" + queryString;
 			}
-
+			
 			session.setAttribute("originalRequest", originalRequest);
-			System.out.println(queryString);
-			System.out.println(originalRequest);
 			// 重定向到登入頁面
-			res.sendRedirect(req.getContextPath() + "/mem/login");
+			res.sendRedirect("/mem/login");
 
 		} else {
 			// 已登入，繼續處理請求
