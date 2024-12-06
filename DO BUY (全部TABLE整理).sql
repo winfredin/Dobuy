@@ -126,7 +126,7 @@ CREATE TABLE CounterOrderDetail (
     productPrice INT(5) NOT NULL,
     productDisPrice INT(5) NOT NULL,
     productSpec VARCHAR(10) NOT NULL,
-    couponNo INT(10)
+    memCouponNo INT(10)
 
 ) AUTO_INCREMENT = 1;
 
