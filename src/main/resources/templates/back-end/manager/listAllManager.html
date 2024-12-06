@@ -511,33 +511,31 @@ document.body.addEventListener('click', function(event) {
 // 監聽表單提交，將選中的權限提交
 const form = document.querySelector('form[th\\:action="/manager/updateAuth"]');
 form.addEventListener('submit', function(event) {
-    // 防止默認提交行為，手動填充隱藏欄位
     event.preventDefault();
 
-    // 確保選中的權限資料被提交
+    // 收集選中的權限
     const selectedAuths = [];
     const checkboxes = document.querySelectorAll('input[name="authTypes"]:checked');
     checkboxes.forEach(function(checkbox) {
-        selectedAuths.push(checkbox.value); // 添加選中的權限到數組
+        selectedAuths.push(checkbox.value);
     });
 
     // 查找是否已經有隱藏的 input 欄位
     let authTypesInput = document.querySelector('input[name="authTypes"]');
     if (!authTypesInput) {
-        // 如果沒有，創建並添加到表單中
         authTypesInput = document.createElement('input');
         authTypesInput.type = 'hidden';
         authTypesInput.name = 'authTypes';
         form.appendChild(authTypesInput);
     }
 
-   
+    // 設置隱藏欄位值，若為空則提交空值
     authTypesInput.value = selectedAuths.join(',');
 
-  
     // 提交表單
     form.submit();
 });
+
 
 </script>
 

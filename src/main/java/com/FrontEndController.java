@@ -88,9 +88,8 @@ public class FrontEndController {
 	   public String updatemem(@Valid MemberVO memberVO, BindingResult result, ModelMap model,HttpSession session) 
 				throws IOException {
 				 Object memNoObj = session.getAttribute("memNo");
-				    	    Integer memNo = Integer.parseInt( memNoObj.toString());
+				    	Integer memNo = Integer.parseInt( memNoObj.toString());
 			    	    memSvc.findOne(memNo) ;
-  
 			    	    memberVO.setMemNo(memNo);
 			    	    memSvc.updateMem(memberVO);
 					memberVO = memSvc.findOne(memNo) ;

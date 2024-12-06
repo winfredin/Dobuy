@@ -81,24 +81,38 @@ h2 {
 </div>
 <script>
  
-    	const input1 = document.querySelector(".input1");
-        const input2 = document.querySelector(".input2");
-        const btn = document.querySelector(".submit-btn");
-        btn.addEventListener("click",function(e){
-            
-            if(input1.value.trim() == "" || input2.value.trim() == ""){
-            	e.preventDefault(); 
-                 alert("密碼不可空白")
-                 return;
-            }else{
-                 if(input1.value.trim() !== input2.value.trim()){
-                	 e.preventDefault(); 
-                     alert("前後密碼不一");
-                     return;
-                 }
-            }
+const input1 = document.querySelector(".input1");
+const input2 = document.querySelector(".input2");
+const btn = document.querySelector(".submit-btn");
 
-            alert("改成功")
-         });
+btn.addEventListener("click", function (e) {
+    const password1 = input1.value.trim();
+    const password2 = input2.value.trim();
+
+    // 檢查是否為空
+    if (password1 === "" || password2 === "") {
+        e.preventDefault();
+        alert("密碼不可空白");
+        return;
+    }
+
+    // 檢查是否符合格式（英文、數字、特殊符號）且長度最多10位
+    const validPattern = /^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{2,10}$/; // 支援特殊符號和長度限制
+    if (!validPattern.test(password1)) {
+        e.preventDefault();
+        alert("密碼只能包含英文、數字、特殊符號，且長度需2-10位");
+        return;
+    }
+
+    // 檢查前後密碼是否一致
+    if (password1 !== password2) {
+        e.preventDefault();
+        alert("前後密碼不一致");
+        return;
+    }
+
+    alert("修改成功");
+});
+
     
 </script>

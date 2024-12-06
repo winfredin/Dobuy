@@ -41,6 +41,9 @@ public class AuthController {
 	public String insert(@Valid AuthVO authVO, BindingResult result, ModelMap model)
 			 throws IOException {
 		// EmpService empSvc = new EmpService();
+		if (result.hasErrors() ) {
+			return "back-end/manager/addAuth";
+		}
 		authSvc.addAuth(authVO);
 		/*************************** 3.新增完成,準備轉交(Send the Success view) **************/
 		List<AuthVO> list = authSvc.getAll();
@@ -62,6 +65,9 @@ public class AuthController {
 	@PostMapping("update")
 	public String update(@Valid AuthVO authVO, BindingResult result, ModelMap model) 
 			throws IOException {
+		if (result.hasErrors() ) {
+			return "back-end/manager/update_auth_input";
+		}
 		authSvc.updateAuth(authVO);
 
 		/*************************** 3.修改完成,準備轉交(Send the Success view) **************/

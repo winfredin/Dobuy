@@ -82,21 +82,36 @@ height:30px;
 </div>
 <script src="/js/jquery3.7.1.js"></script>
 <script>
-document.querySelector(".add-add-btn").addEventListener("click",function(){
-	const onElement = document.querySelector(".add-form");
-	
-		  onElement.classList.toggle("bb");
-		  document.querySelector(".ad").classList.toggle("bb");
-	
+document.querySelector(".add-add-btn").addEventListener("click", function () {
+    const onElement = document.querySelector(".add-form");
+    onElement.classList.toggle("bb");
+    document.querySelector(".ad").classList.toggle("bb");
 });
+
 const addvalue = document.querySelector(".addr");
 const btn = document.querySelector(".add-address-btn");
-btn.addEventListener("click",function(e){
-if(addvalue.value.trim() ==""){
-	 e.preventDefault();
-	alert("地址請勿空白");
-	return;
-};
+
+btn.addEventListener("click", function (e) {
+    const address = addvalue.value.trim();
+
+    // 檢查是否為空
+    if (address === "") {
+        e.preventDefault();
+        alert("地址請勿空白");
+        return;
+    }
+
+    // 檢查是否只包含中文、英文和數字
+    const validPattern = /^[\u4e00-\u9fa5a-zA-Z0-9\s]{1,10}$/;
+
+    if (!validPattern.test(address)) {
+        e.preventDefault();
+        alert("地址只能包含中文、英文和數字");
+        return;
+    }else{
+    	alert("地址修改成功");
+    }
 });
+
 
 </script>

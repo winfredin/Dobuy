@@ -60,8 +60,11 @@ public class ManagerController {
 		        result.rejectValue("managerAccount", "account.exists", "此帳號已經存在，請選擇其他帳號！");
 		        return "back-end/manager/addManager";
 		    }
+		    if (result.hasErrors() ) {
+				return "back-end/manager/addManager";
+			}
 		managerSvc.addManager(managerVO);
-		/*************************** 3.新增完成,準備轉交(Send the Success view) **************/
+		
 		List<ManagerVO> list = managerSvc.getAll();
 		model.addAttribute("managerListData", list);
 		model.addAttribute("success", "- (新增成功)");
@@ -81,6 +84,9 @@ public class ManagerController {
 	@PostMapping("update")
 	public String update(@Valid ManagerVO managerVO, BindingResult result, ModelMap model) 
 			throws IOException {
+		 if (result.hasErrors() ) {
+				return "back-end/manager/update_manager_input";
+			}
 		managerSvc.updateManager(managerVO);
 
 		/*************************** 3.修改完成,準備轉交(Send the Success view) **************/
@@ -107,17 +113,25 @@ public class ManagerController {
 	
 	
 	@PostMapping("updateAuth")
-	public String updateAuth( @RequestParam("authTypes") List<Integer> authNo,
+	public String updateAuth(
+			@RequestParam(value = "authTypes", required = false) List<Integer> authNo,
             @RequestParam("managerNo") String managerNo, 
             ModelMap model) {
-	
+		
 		List<ManagerAuthVO> existingAuths = managerAuthSvc.getOne(Integer.valueOf(managerNo));
+		
+		if (authNo == null || authNo.isEmpty()) {
+	        for (ManagerAuthVO existingAuth : existingAuths) {
+	            managerAuthSvc.deleteAuthByManager(Integer.valueOf(managerNo), existingAuth.getAuthNo().getAuthNo());
+	        }
+	      }else {
 	    for (ManagerAuthVO existingAuth : existingAuths) {
 	    	  Integer existingAuthNo = existingAuth.getAuthNo().getAuthNo();
 	        if (!authNo.contains(existingAuthNo)) {
 	            managerAuthSvc.deleteAuthByManager(Integer.valueOf(managerNo),existingAuthNo);
 	        }
 	    }
+	        
 	    ManagerAuthVO managerAuthVO = new ManagerAuthVO();
 	   
 		for(Integer authNos: authNo) {
@@ -128,6 +142,7 @@ public class ManagerController {
 		managerAuthVO.setManagerNo(mv);
 		 managerAuthSvc.updateAuth(managerAuthVO);
 		}
+	        }
 		List<ManagerVO> sb= managerSvc.getAll();
 		model.addAttribute("managerListData",sb);
 	    
