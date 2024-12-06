@@ -20,13 +20,23 @@
 	<!-- 套入fontawesome -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
+
+	<link rel="stylesheet" href="back-end-home/css/login.css">
+
+
+	<style>
+
+	
+	</style>
+
+
 </head>
 
 <body>
-<form th:action="@{/logout}" method="get">
-    
-    <button type="submit">登出</button>
-</form>
+
+
+
+
     <!-- Preloader -->
 
     <div id="preloader-ex">
@@ -36,6 +46,21 @@
             <div class="arc arc3"></div>
         </div>
     </div>
+
+<!-- 登入及顯示管理員姓名 -->
+<div class="admin-controls">
+    <div class="admin-name">
+        <i class="fas fa-user-circle"></i>
+        <span th:text="${session.managerName}">管理員</span>
+    </div>
+    
+    <form th:action="@{/logout}" method="get" style="margin: 0;">
+        <button type="submit" class="logout-btn">
+            <i class="fas fa-sign-out-alt"></i>
+            登出
+        </button>
+    </form>
+</div>
 
     <!-- ##### Header Area Start ##### -->
     <header class="header-area">

@@ -81,29 +81,4 @@ td form {
   	.original-logo img {
       max-width: 10% !important;
     }
-    
-/* @media (max-width: 2600px) { */
-/* .original-logo img { */
-/* 		max-width: 10px !important; */
-/*     } */
-/* } */
-  
-/* @media (max-width: 2100px) { */
-/* .original-logo img { */
-/* 		max-width: 10px !important; */
-/*     } */
-/* } */
-
-/* @media (max-width: 1400px) { */
-/* .original-logo img { */
-/* 		max-width: 10px !important; */
-/*     } */
-/* } */
-
-/* @media (max-width: 700px) { */
-/* .original-logo img { */
-/* 		max-width: 10px !important; */
-/*     } */
-/* } */
-
-
+}
