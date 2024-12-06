@@ -44,17 +44,23 @@ public class MemberLoginController {
 			model.addAttribute("errorMsgs", errorMsgs);
 			return "front-end/member/login";
 		}
+		
 
 		if (!memberSvc.validateLogin(memberVO.getMemAccount(), memberVO.getMemPassword())) {
 			errorMsgs.add("密碼錯誤");
 			model.addAttribute("errorMsgs", errorMsgs);
 			return "front-end/member/login";
 		}
-
+		 Integer memStatus = memberSvc.getMemStatusByAccount(memberVO.getMemAccount());
+		    if (memStatus != null && memStatus == 0) {  // 如果狀態為 0
+		        errorMsgs.add("帳號已停權，請聯繫管理員。");
+		        model.addAttribute("errorMsgs", errorMsgs);
+		        return "front-end/member/login";
+		    }
 		// 登錄成功，設置 session
 		session.setAttribute("memAccount", memberVO.getMemAccount());
 		session.setAttribute("memNo", memberSvc.getMemNoByAccount(memberVO.getMemAccount())); // 用memAccount去找memNo
-
+		
 		 // 檢查是否有原始請求
 	    String originalRequest = (String) session.getAttribute("originalRequest");
 	    if (originalRequest != null) {

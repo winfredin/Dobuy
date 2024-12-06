@@ -98,7 +98,10 @@ public class MemberService {
         public void updatePass(Integer memNo,String memPassword) {
         	memberRepository.updatePass(memPassword, memNo);
         }
-        
+        public Integer getMemStatusByAccount(String memAccount) {
+        	return memberRepository.findByAcc(memAccount);	
+        	
+        }
     }
 
 
