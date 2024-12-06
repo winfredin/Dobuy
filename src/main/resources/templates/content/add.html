@@ -28,7 +28,7 @@ h2 {
     gap: 20px;
 }
 
-.add-card-btn {
+.add-add-btn , .add-address-btn {
     padding: 10px 20px;
     font-size: 16px;
     color: white;
@@ -36,25 +36,67 @@ h2 {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    margin-top:20px;
 }
 
-.add-card-btn:hover {
-    background-color: #e63900;
+.b{
+	display:none;
 }
-
+input{
+width:70%;
+height:30px;
+}
 </style>
 
 
+    
 
 
 <div class="payment-container">
-    <h2>地址資訊</h2>
+    <h2 >地址資訊</h2>
     
     <div class="card-section">
-        <p class="no-card-message">你還沒有填入地址</p>
-        
+    <div class="ad">
+    <span th:if="${memberVO.memAddress==null}"><h3>無地址資訊</h3></span>
+    <span th:if="${memberVO.memAddress!=null}">
+     <label>地址：</label>
+     <span th:text="${memberVO.memAddress}"></span>
+        </span>
         <div class="buttons">
-            <button class="add-card-btn">新增收貨地址</button>
+            <button class="add-add-btn">修改地址</button>
         </div>
+        </div>
+        
+        <form action="address" method="post" th:object="${memberVO}" class="add-form b">
+        <div>
+			<label>修改地址:</label>
+			<input class="addr" type="text" th:field="*{memAddress}" style="border:0px ; font-weight: bold;" /><br/>
+			</div>
+			<div class="buttons">
+            <button type="submit" class="add-address-btn">修改地址</button>
+        </div>
+			</form>
+        
+        
     </div>
 </div>
+<script src="/js/jquery3.7.1.js"></script>
+<script>
+document.querySelector(".add-add-btn").addEventListener("click",function(){
+	const onElement = document.querySelector(".add-form");
+	
+		  onElement.classList.toggle("b");
+		  document.querySelector(".ad").classList.toggle("b");
+	
+});
+const addvalue = document.querySelector(".addr");
+const btn = document.querySelector(".add-address-btn");
+btn.addEventListener("click",function(e){
+if(addvalue.value.trim() ==""){
+	 e.preventDefault();
+	alert("地址請勿空白");
+	return;
+};
+});
+
+</script>

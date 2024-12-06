@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.member.model.MemberVO;
+
 public class MemberLoginFilter implements Filter {
 
 	@Override
@@ -24,8 +26,9 @@ public class MemberLoginFilter implements Filter {
 		// 【取得 session】
 		HttpSession session = req.getSession();
 		// 【從 session 判斷此user是否登入過】
+		MemberVO memberVO = new MemberVO();
 		Object memAccount = session.getAttribute("memAccount");
-
+		
 		if (session == null || memAccount == null) {
 			// 未登錄，記住當前請求的路徑和參數
 			String originalRequest = req.getRequestURI(); // 包含 ContextPath
@@ -43,6 +46,8 @@ public class MemberLoginFilter implements Filter {
 
 		} else {
 			// 已登入，繼續處理請求
+		
+			 
 			chain.doFilter(request, response);
 		}
 

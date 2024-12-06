@@ -1,0 +1,133 @@
+<style>
+    .profile-container {
+    width: 60%;
+    margin: 20px auto;
+    font-family: Arial, sans-serif;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.profile-form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.profile-info {
+    margin-bottom: 10px;
+}
+
+input.a{
+    padding: 8px;
+    width: 100%;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.profile-gender input {
+    margin-right: 5px;
+}
+
+.profile-birthday select {
+    padding: 8px;
+    margin-right: 5px;
+}
+
+button{
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #ff4500;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top:20px;
+width:20%;
+border-radius:10px;
+}
+input[type="text"]{
+width:30%;
+height:30px;
+}
+
+
+
+.b{
+background-color:lightgray;
+}
+
+</style>
+
+
+
+<div class="profile-container">
+    <h2>修改會員資料</h2>
+
+    <form th:action="@{updatemem}" method="post" th:object="${memberVO}">
+			<div>
+			<label>會員帳號:</label>
+			<input class="b" type="text" th:field="*{memAccount}" style="border:0px ; font-weight: bold;" readonly /><br/>
+			</div>
+			<input  type="hidden" th:field="*{memPassword}" style="border:0px ; font-weight: bold;" />
+			<div>
+			<label>會員名稱:</label>
+			<input type="text" th:field="*{memName}" onclick="hideContent('memName.errors');" /><br/>
+			<span th:if="${#fields.hasErrors('memName')}" th:errors="*{memName}" class="error" id="memName.errors"></span>
+			</div>
+			
+			<div>
+			<label>手機號碼:</label>
+			<input type="text" th:field="*{memPhone}" onclick="hideContent('memPhone.errors');" /><br/>
+			<span th:if="${#fields.hasErrors('memPhone')}" th:errors="*{memPhone}" class="error" id="memPhone.errors"></span>
+			</div>
+			
+			<div>
+			<label>Email:</label>
+			<input type="text" th:field="*{memEmail}" onclick="hideContent('memEmail.errors');" /><br/>
+			<span th:if="${#fields.hasErrors('memEmail')}" th:errors="*{memEmail}" class="error" id="memEmail.errors"></span>
+			</div>
+			
+
+			<label>性別:</label>
+			     <input type="radio" th:field="*{memSex}" value="1" id="active" th:checked="${memSex == 1}" />
+    				<label for="active">男生</label>
+			     <input type="radio" th:field="*{memSex}" value="0" id="inactive" th:checked="${memSex == 0}" />
+    				<label for="inactive">女生</label>
+    				 <span th:if="${#fields.hasErrors('memSex')}" th:errors="*{memSex}" class="error" id="memSex.errors"></span>
+					<div>
+			<label>生日:</label>
+			<input type="date" th:field="*{memBirth}" onclick="hideContent('memBirth.errors');" /><br/>
+			<span th:if="${#fields.hasErrors('memBirth')}" th:errors="*{memBirth}" class="error" id="memBirth.errors"></span>
+			</div>
+			<div>
+
+        <button type="submit" class=".up-btn ">儲存修改</button>
+        <button type="button" class=".up-btn ">取消</button>
+    </form>
+</div>
+
+<script>
+$(".cancel-btn").on("click", function() {
+    $.ajax({
+        url: "/content/profile",  // 假設這是返回 profileup.html 的 API
+        method: "GET",
+        success: function(response) {
+            // 將返回的 profileup.html 內容插入到 .use_1 容器
+            $(".use_1").html(response);
+        },
+        error: function(xhr, status, error) {
+            console.error("發生錯誤:", error);
+            alert("無法載入資料，請稍後再試。");
+        }
+    });
+});
+
+
+</script>

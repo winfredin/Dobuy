@@ -41,7 +41,7 @@ input.a{
     margin-right: 5px;
 }
 
-.save-btn {
+.up-btn {
     margin-top: 20px;
     padding: 10px;
     background-color: #ff4500;
@@ -55,54 +55,54 @@ input.a{
 
 
 
-
-
-
 <div class="profile-container">
     <h2>我的檔案</h2>
-    <p>管理你的檔案以保護你的帳戶</p>
 
-    <form class="profile-forma">
-    你的帳號:
-        <label th:text="${session.memAccount}"></label>
-        <div class="profile-info"></div>
+    <div class="profile-forma">
+        <h3>你的帳號:
+            <label th:text="${session.memAccount}"></label>
+        </h3>
 
-        <label>姓名</label>
-        <input  class =a type="text" name="name" placeholder="輸入你的名字">
+        <h3>姓名:
+            <label th:text="${memberVO.memName}"></label>
+        </h3>
 
-        <label>Email</label>
-        <div class="profile-info">
-            <a href="#">變更</a>
-        </div>
+        <h3>Email:
+            <label th:text="${memberVO.memEmail}"></label>
+        </h3>
 
-        <label>手機號碼</label>
-        <div class="profile-info">
-             <a href="#">變更</a>
-        </div>
+        <h3>手機號碼:
+            <label th:text="${memberVO.memPhone}"></label>
+        </h3>
 
-        <label>性別</label>
-        <div class="profile-gender">
-            <input type="radio" name="gender" value="male"> 男性
-            <input type="radio" name="gender" value="female"> 女性
-            <input type="radio" name="gender" value="other"> 其他
-        </div>
+        <h3>性別:
+            <label th:text="${memberVO.memSex == 1 ? '男性' : '女性'}"></label>
+        </h3>
 
-        <label>生日</label>
-        <div class="profile-birthday">
-            <select name="day">
-                <option>日期</option>
-                <!-- 添加日期選項 -->
-            </select>
-            <select name="month">
-                <option>月份</option>
-                <!-- 添加月份選項 -->
-            </select>
-            <select name="year">
-                <option>年份</option>
-                <!-- 添加年份選項 -->
-            </select>
-        </div>
+        <h3>生日:
+            <label th:text="${memberVO.memBirth}"></label>
+        </h3>
 
-        <button type="submit" class="save-btn">儲存</button>
-    </form>
+        <button type="button" class="up-btn">修改會員資料</button>
+    </div>
 </div>
+
+     <script src="/js/jquery3.7.1.js"></script>
+
+<script type="text/javascript">
+    // 當修改會員資料按鈕被點擊時，載入 profileup.html 內容
+    $(".up-btn").on("click", function() {
+        $.ajax({
+            url: "/content/profileup",  // 假設這是返回 profileup.html 的 API
+            method: "GET",
+            success: function(response) {
+                // 將返回的 profileup.html 內容插入到 .use_1 容器
+                $(".use_1").html(response);
+            },
+            error: function(xhr, status, error) {
+                console.error("發生錯誤:", error);
+                alert("無法載入資料，請稍後再試。");
+            }
+        });
+    });
+</script>
