@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.auth.model.AuthService;
+import com.auth.model.AuthVO;
 import com.manager.model.ManagerService;
 import com.manager.model.ManagerVO;
 import com.managerauth.model.ManagerAuthService;
@@ -28,6 +30,8 @@ public class ManagernoController {
 	ManagerService managerSvc;
 	@Autowired
     ManagerAuthService managerAuthSvc;
+	@Autowired
+	AuthService authSvc;
 	/*
 	 * This method will be called on select_page.html form submission, handling POST
 	 * request It also validates the user input
@@ -40,7 +44,7 @@ public class ManagernoController {
 		ModelMap model) {
 		
 	
-		
+		List<AuthVO> alist = authSvc.getAll();
 		ManagerVO managerVO = managerSvc.getOneManager(Integer.valueOf(managerno));
 		List<ManagerVO> list = managerSvc.getAll();
 		model.addAttribute("managerListData", list);     // for select_page.html 第97 109行用
@@ -55,7 +59,7 @@ public class ManagernoController {
 		model.addAttribute("one",one);
 		model.addAttribute("managerVO", managerVO);
 		model.addAttribute("getOne_For_Display", "true"); // 旗標getOne_For_Display見select_page.html的第156行 -->
-		
+		model.addAttribute("alist",alist);
 		return "back-end/manager/manager";  // 查詢完成後轉交listOneEmp.html
 //		return "back-end/manager/select_page"; // 查詢完成後轉交select_page.html由其第158行insert listOneEmp.html內的th:fragment="listOneEmp-div
 	}

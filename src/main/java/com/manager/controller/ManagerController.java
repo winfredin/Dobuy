@@ -87,20 +87,21 @@ public class ManagerController {
 		model.addAttribute("success", "- (修改成功)");
 		managerVO = managerSvc.getOneManager(Integer.valueOf(managerVO.getManagerNo()));
 		model.addAttribute("managerVO", managerVO);
-		return "back-end/manager/listOneManager";
+		return "redirect:/manager/listAllManager";
 }
 	
 	@PostMapping("delete")
 	public String delete(@RequestParam("managerNo") String managerNo, ModelMap model) {
 		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
 		/*************************** 2.開始刪除資料 *****************************************/
-		// EmpService empSvc = new EmpService();
+		// EmpService empSvc = new EmpService(
+		
 		managerSvc.deleteManager(Integer.valueOf(managerNo));
 		/*************************** 3.刪除完成,準備轉交(Send the Success view) **************/
 		List<ManagerVO> list = managerSvc.getAll();
 		model.addAttribute("managerListData", list);
 		model.addAttribute("success", "- (刪除成功)");
-		return "back-end/manager/listAllManager"; // 刪除完成後轉交listAllEmp.html
+		return "redirect:/manager/listAllManager"; // 刪除完成後轉交listAllEmp.html
 	}
 	
 	
