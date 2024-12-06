@@ -4,7 +4,7 @@
 <!-- fragment引入 -->
 <th:block th:replace="~{/back-end/back-end-home/fraghead :: head}"></th:block>
 
-<title>所有優惠券資料 - listAllCoupon.html</title>
+<title>櫃位常見問題設定 -listCounterFaq.html</title>
 
 
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css" />
 <link rel="stylesheet" href="/counter/style.css">
 
-<link rel="stylesheet" href="/coupon/css/listAllCoupon.css">
+
 
 <script>
 	var dataTablesJQ = $.noConflict(true); // 使用獨立的 jQuery 實例
@@ -46,41 +46,14 @@
 		});
 	});
 </script>
-<style>
-  	.original-logo img {
-      max-width: 10% !important;
-    }
-    
-    
-    @media (max-width: 3000px) {
-.original-logo img {
-		max-width: 8.5% !important;
-    }
-}
-  
-@media (max-width: 2100px) {
-.original-logo img {
-		max-width: 8.5% !important;
-    }
-}
 
-@media (max-width: 1400px) {
-.original-logo img {
-		max-width: 8.5% !important;
-    }
-}
 
-@media (max-width: 700px) {
-.original-logo img {
-		max-width: 10% !important;
-    }
-}
-    
-    
 
+<style type="text/css">
+.container {
+	padding: 1rem 12rem 2rem 12rem;
+}
 </style>
-
-
 
 </head>
 <body>
@@ -92,11 +65,64 @@
 
 
 
+	<div class="container">
+
+		<table id="example" class="display" style="width: 100%">
+			<thead>
+				<tr style="background-color: #CCCCFF">
+					<th>計數</th>
+					<th>問題</th>
+					<th>回答</th>
+					<th>櫃位編號</th>
+					<th>修改</th>
+					<th>刪除</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<th:block th:each="faqVO : ${counterFaqListData}">
+					<tr>
+						<td th:text="${faqVOStat.count}"></td>
+						<td th:text="${faqVO.ques}"></td>
+						<td th:text="${faqVO.ans}"></td>
+						<td th:text="${faqVO.counterNo}"></td>
+						
+
+						<td>
+							<form method="post" th:action="@{/faq/getOne_For_Update}"
+								style="margin-bottom: 0px;">
+								<input type="submit" value="修改"> 
+								<input type="hidden" name="faqNo" th:value="${faqVO.faqNo}">
+							</form>
+						</td>
+						<td>
+							<form method="post" th:action="@{/faq/delete}"
+								style="margin-bottom: 0px;">
+								<input type="submit" value="刪除"> <input type="hidden"
+									name="faqNo" th:value="${faqVO.faqNo}">
+							</form>
+
+						</td>
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+	</div>
+	
 
 
-<!-- fragment引入 -->
-<footer th:block th:replace="~{back-end/back-end-home/fraghead :: footer}"></footer>
-<th:block th:replace="~{back-end/back-end-home/fraghead :: js}"></th:block>
+
+
+
+
+	<!-- fragment引入 -->
+	<footer th:block
+		th:replace="~{back-end/back-end-home/fraghead :: footer}"></footer>
+
+
+	<th:block th:replace="~{back-end/back-end-home/fraghead :: js}"></th:block>
+
+
 
 </body>
 </html>
