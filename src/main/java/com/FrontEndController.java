@@ -192,6 +192,6 @@ public class FrontEndController {
 	    	model.addAttribute("memberVO",memberVO);
 	     	return "content/profile"; 
 	    }
-	    	
+	    
 
 }
