@@ -39,7 +39,7 @@ h2 {
     margin-top:20px;
 }
 
-.b{
+.bb{
 	display:none;
 }
 input{
@@ -67,7 +67,7 @@ height:30px;
         </div>
         </div>
         
-        <form action="address" method="post" th:object="${memberVO}" class="add-form b">
+        <form action="address" method="post" th:object="${memberVO}" class="add-form bb">
         <div>
 			<label>修改地址:</label>
 			<input class="addr" type="text" th:field="*{memAddress}" style="border:0px ; font-weight: bold;" /><br/>
@@ -85,8 +85,8 @@ height:30px;
 document.querySelector(".add-add-btn").addEventListener("click",function(){
 	const onElement = document.querySelector(".add-form");
 	
-		  onElement.classList.toggle("b");
-		  document.querySelector(".ad").classList.toggle("b");
+		  onElement.classList.toggle("bb");
+		  document.querySelector(".ad").classList.toggle("bb");
 	
 });
 const addvalue = document.querySelector(".addr");

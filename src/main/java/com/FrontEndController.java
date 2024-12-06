@@ -37,6 +37,7 @@ public class FrontEndController {
 	@Autowired
 	MemberService memSvc;
 	
+	
 	 @GetMapping("member")
 	    public String getMemberPage() {
 		 
@@ -86,9 +87,10 @@ public class FrontEndController {
 	 @PostMapping("updatemem")
 	   public String updatemem(@Valid MemberVO memberVO, BindingResult result, ModelMap model,HttpSession session) 
 				throws IOException {
-					
 				 Object memNoObj = session.getAttribute("memNo");
-			    	    Integer memNo = Integer.parseInt( memNoObj.toString());
+				    	    Integer memNo = Integer.parseInt( memNoObj.toString());
+			    	    memSvc.findOne(memNo) ;
+  
 			    	    memberVO.setMemNo(memNo);
 			    	    memSvc.updateMem(memberVO);
 					memberVO = memSvc.findOne(memNo) ;
@@ -110,10 +112,18 @@ public class FrontEndController {
 		return "front-end/normalpage/member";
 		   
 	   }
-	 
-	 
-	 
-	 
+	 @PostMapping("deleteac")
+	   public String deleteac(ModelMap model,HttpSession session) 
+				throws IOException {
+		 Object memNoObj = session.getAttribute("memNo");
+ 	    Integer memNo = Integer.parseInt( memNoObj.toString()); 
+ 	   MemberVO memberVO = memSvc.findOne(memNo) ;
+ 	  memberVO.setMemStatus(0);
+ 	   memSvc.updateMem(memberVO);
+ 	  
+ 	    session.invalidate();
+	 return "front-end/normalpage/member";
+	 }
 	 @PostMapping("changepas")
 	   public String changepas(@RequestParam("memPassword")String memPassword, @RequestParam("confirmPassword")String confirmPassword,ModelMap model,HttpSession session) 
 				throws IOException {
@@ -147,7 +157,12 @@ public class FrontEndController {
 	        return "content/changeps"; // 對應 templates/content/profile.html
 	    }
 	    @GetMapping("content/delete")
-	    public String getdeletePage() {
+	    public String getdeletePage(Model model,HttpSession session) {
+	    	Object memNoObj = session.getAttribute("memNo");
+	    	Integer memNo = Integer.parseInt( memNoObj.toString());	   
+	    	MemberVO memberVO;
+	    	memberVO = memSvc.findOne(memNo);
+	    	model.addAttribute("memberVO",memberVO);
 	        return "content/delete"; // 對應 templates/content/profile.html
 	    }
 	    
@@ -161,20 +176,16 @@ public class FrontEndController {
 	        return "content/add"; // 對應 templates/content/profile.html
 	    }
 	    @GetMapping("content/profileup")
-	    public String getprofileupPage(HttpSession session,Model model) {
+	    public String getprofileupPage(Model model,HttpSession session) {
 	    	Object memNoObj = session.getAttribute("memNo");
     	    Integer memNo = Integer.parseInt( memNoObj.toString());	    
     	MemberVO memberVO;
     	memberVO = memSvc.findOne(memNo);
-    	memberVO.setMemBirth(null);
-    	memberVO.setMemEmail("");
-    	memberVO.setMemName("");
-    	memberVO.setMemPhone("");
     	model.addAttribute("memberVO",memberVO);
 	        return "content/profileup"; // 對應 templates/content/profile.html
 	    }
 	    @GetMapping("content/profile")
-	    public String getProfilePage(HttpSession session,Model model) {
+	    public String getProfilePage(Model model,HttpSession session) {
 	    	Object memNoObj = session.getAttribute("memNo");
 	    	    Integer memNo = Integer.parseInt( memNoObj.toString());	    
 	    	MemberVO memberVO;

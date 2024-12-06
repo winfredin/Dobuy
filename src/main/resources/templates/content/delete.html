@@ -42,17 +42,16 @@ h2 {
 
 
 <h2>隱私設置</h2>
-
-<div class="all">
-    <div class="app">申請刪除帳號</div>
-<div class="button">
-    <button class="delete">刪除帳號</button>
-</div>
-
-</div>
-
+<form method="post" th:action="@{deleteac}">
+    <div class="all">
+        <div class="app">申請刪除帳號</div>
+        <div class="button">
+            <button class="delete" type="submit">刪除帳號</button>
+        </div>
+    </div>
+</form>
 <script>
-document.querySelector('.delete').addEventListener('click', function(event) {
+document.querySelector('.delete').addEventListener('click', function(e) {
    
     const userConfirmed = confirm("確定要刪除帳號嗎？");
 
@@ -60,7 +59,7 @@ document.querySelector('.delete').addEventListener('click', function(event) {
         alert("帳號已刪除！");
         
     } else {
-        // 用戶取消刪除
+    	e.preventDefault(); 
         alert("操作已取消。");
     }
 });
