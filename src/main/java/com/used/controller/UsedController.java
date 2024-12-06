@@ -119,9 +119,9 @@ public class UsedController {
 
 	//管理員搜尋所有二手商品
 	@PostMapping("/getAllSellerUsedListFragment")
-    public String getAllUsedListFragment(HttpSession session, Model model) {
+    public String getAllUsedListFragment( Model model) {
         
-        // 根據 memNo 從資料庫中查詢二手商品列表
+        
         List<UsedVO> usedListData = usedSvc.getAll();
         List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();
 		
