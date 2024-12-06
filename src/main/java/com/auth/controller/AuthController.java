@@ -68,7 +68,7 @@ public class AuthController {
 		model.addAttribute("success", "- (修改成功)");
 		authVO = authSvc.getOneAuth(Integer.valueOf(authVO.getAuthNo()));
 		model.addAttribute("authVO", authVO);
-		return "back-end/manager/listOneAuth";
+		return "redirect:/manager/listAllAuth";
 	}
 	
 	@PostMapping("delete")
@@ -81,7 +81,7 @@ public class AuthController {
 		List<AuthVO> list = authSvc.getAll();
 		model.addAttribute("authListData", list);
 		model.addAttribute("success", "- (刪除成功)");
-		return "back-end/manager/listAllAuth"; // 刪除完成後轉交listAllEmp.html
+		return "redirect:/manager/listAllAuth"; // 刪除完成後轉交listAllEmp.html
 	}
 	
 	
