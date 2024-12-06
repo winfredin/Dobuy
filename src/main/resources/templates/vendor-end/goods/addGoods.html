@@ -1,0 +1,342 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>商品資料新增 - addGoods.html</title>
+  <link rel="stylesheet" href="/counter/style.css">
+  
+<head th:insert="~{/vendor-end/goods/included-fragment}"></head>
+<style type="text/css">
+	/* 修改 .add_goods 使其具有圓角與背景 */
+	.add_goods {
+	  background-color: #ffffff; /* 設置背景顏色 */
+	  border-radius: 15px; /* 設置圓角 */
+	  padding: 20px; /* 內邊距讓內容不會貼邊 */
+	  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1); /* 添加輕微陰影讓區塊更立體 */
+	  max-width: 800px; /* 設置最大寬度 */
+	  margin: 20px auto; /* 使 section 居中顯示 */
+	}
+	
+	/* 調整表單中的輸入框與選擇框樣式 */
+	input[type="text"], input[type="number"], input[type="date"], select, textarea {
+	  width: 100%; /* 使元素寬度100% */
+	  padding: 8px; /* 內邊距讓內容更清晰 */
+	  margin: 10px 0; /* 上下間距 */
+	  border: 1px solid #ccc; /* 邊框顏色 */
+	  border-radius: 5px; /* 圓角 */
+	  background-color: #f9f9f9; /* 背景顏色 */
+	  box-sizing: border-box; /* 確保padding不會影響寬度 */
+	}
+	
+	input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:focus {
+	  outline: none; /* 去掉聚焦時的藍色邊框 */
+	  border-color: #5bc5ff; /* 當聚焦時邊框變藍 */
+	}
+	
+	/* 增加錯誤訊息的樣式 */
+	.error {
+	  color: red;
+	  font-size: 12px;
+	  margin-top: 5px;
+	}
+	
+	/* 按鈕樣式 */
+	button#submit {
+	  padding: 10px 20px;
+	  background-color: #5bc5ff; /* 按鈕背景色 */
+	  color: white;
+	  border: none;
+	  border-radius: 5px;
+	  cursor: pointer;
+	  font-size: 16px;
+	  margin-top: 10px;
+	}
+	
+	button#submit:hover {
+	  background-color: #4141ff;  /* 當滑鼠懸停時改變背景色 */
+	}
+	
+	button#cancel {
+	  padding: 10px 20px;
+	  background-color: #ccc; /* 設定取消按鈕的顏色 */
+	  color: white;
+	  border: none;
+	  border-radius: 5px;
+	  cursor: pointer;
+	  font-size: 16px;
+	  margin-right: 10px;
+	}
+	
+	button#cancel:hover {
+	  background-color: #b3b3b3; /* 鼠標懸停顏色 */
+	}
+	
+	/* 使表單內容垂直對齊 */
+	form {
+	  display: flex;
+	  flex-direction: column;
+	  align-items: flex-start;
+	  margin-top: 10px;
+	}
+	
+	form div {
+	  width: 100%;
+	}
+	
+	form div label {
+	  display: block;
+	  margin-bottom: 5px;
+	  text-align: left; /* 讓所有的 label 文字靠左 */
+	}
+	
+	form div input, form div select, form div textarea {
+	  width: 100%;
+	}
+	
+	/* 讓form內的元素保持一致的間距 */
+	form div {
+	  margin-bottom: 20px;
+	}
+
+</style>
+</head>
+<body>
+
+<!-- <nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center"> -->
+<!--      <div align="center">  -->
+<!--         <h2>商品資料新增 - addGoods.html</h2> -->
+<!--         <h3><a class="navbar-brand" th:href="@{/goods/select_page}"><img th:src="@{/images/back1.gif}">回查詢頁</a></h3> -->
+<!--      </div> -->
+<!-- </nav> -->
+
+<body>
+
+<div align="center">
+    <section class="add_goods"> 
+        <h3><b>商品新增</b></h3>
+        <form th:action="@{insert}" method="post" th:object="${goodsVO}" enctype="multipart/form-data">
+
+            <div>
+                <label>櫃位名稱:</label>
+                <select th:field="*{counterVO.counterNo}">
+                    <option th:each="counterVO : ${counterListData1}" th:value="${counterVO.counterNo}" th:text="${counterVO.counterCName}" />
+                </select>
+                <span th:if="${#fields.hasErrors('counterVO.counterNo')}" th:errors="*{counterVO.counterNo}" class="error" id="counterVO.counterNo.errors"></span>
+            </div>
+            <div>
+                <label>商品類別名稱:</label>
+                <select th:field="*{goodsTypeVO.goodstNo}">
+                    <option th:each="goodsTypeVO : ${goodsTypeListData}" th:value="${goodsTypeVO.goodstNo}" th:text="${goodsTypeVO.goodstName}" />
+                </select>
+                <span th:if="${#fields.hasErrors('goodsTypeVO.goodstNo')}" th:errors="*{goodsTypeVO.goodstNo}" class="error" id="goodsTypeVO.goodstNo.errors"></span>
+            </div>
+            
+
+            <div>
+                <label>商品名稱:</label>
+                <input type="text" th:field="*{goodsName}" onclick="hideContent('goodsName.errors');" />
+                <span th:if="${#fields.hasErrors('goodsName')}" th:errors="*{goodsName}" class="error" id="goodsName.errors"></span>
+            </div>
+
+            <div>
+                <label>商品描述:</label>
+                <textarea th:field="*{goodsDescription}" onclick="hideContent('goodsDescription.errors');"></textarea>
+                <span th:if="${#fields.hasErrors('goodsDescription')}" th:errors="*{goodsDescription}" class="error" id="goodsDescription.errors"></span>
+            </div>
+
+            <div>
+                <label>商品單價:</label>
+                <input type="number" th:field="*{goodsPrice}" onclick="hideContent('goodsPrice.errors');" />
+                <span th:if="${#fields.hasErrors('goodsPrice')}" th:errors="*{goodsPrice}" class="error" id="goodsPrice.errors"></span>
+            </div>
+
+            <div>
+                <label>商品庫存:</label>
+                <input type="number" th:field="*{goodsAmount}" onclick="hideContent('goodsAmount.errors');" />
+                <span th:if="${#fields.hasErrors('goodsAmount')}" th:errors="*{goodsAmount}" class="error" id="goodsAmount.errors"></span>
+            </div>
+
+            <div>
+                <label>商品主圖(必填):</label>
+                <input type="file" id="gpPhotos1" th:field="*{gpPhotos1}" onchange="previewImage('gpPhotos1')" required />
+                <span class="error" th:utext="${errorMessage}" id="gpPhotos1.errors">${errorMessage}</span>
+                <div id="blobHolder1"></div>
+            </div>
+
+            <div>
+                <label>商品副圖1(選填):</label>
+                <input type="file" id="gpPhotos2" th:field="*{gpPhotos2}" onchange="previewImage('gpPhotos2')" />
+                <span class="error" th:utext="${errorMessage}" id="gpPhotos2.errors">${errorMessage}</span>
+                <div id="blobHolder2"></div>
+            </div>
+
+            <div>
+                <label>商品副圖2(選填):</label>
+                <input type="file" id="gpPhotos3" th:field="*{gpPhotos3}" onchange="previewImage('gpPhotos3')" />
+                <span class="error" th:utext="${errorMessage}" id="gpPhotos3.errors">${errorMessage}</span>
+                <div id="blobHolder3"></div>
+            </div>
+
+            <div>
+                <label>商品副圖3(選填):</label>
+                <input type="file" id="gpPhotos4" th:field="*{gpPhotos4}" onchange="previewImage('gpPhotos4')" />
+                <span class="error" th:utext="${errorMessage}" id="gpPhotos4.errors">${errorMessage}</span>
+                <div id="blobHolder4"></div>
+            </div>
+
+            <div>
+                <label>商品副圖4(選填):</label>
+                <input type="file" id="gpPhotos5" th:field="*{gpPhotos5}" onchange="previewImage('gpPhotos5')" />
+                <span class="error" th:utext="${errorMessage}" id="gpPhotos5.errors">${errorMessage}</span>
+                <div id="blobHolder5"></div>
+            </div>
+
+            <div>
+                <label>商品副圖5(選填):</label>
+                <input type="file" id="gpPhotos6" th:field="*{gpPhotos6}" onchange="previewImage('gpPhotos6')" />
+                <span class="error" th:utext="${errorMessage}" id="gpPhotos6.errors">${errorMessage}</span>
+                <div id="blobHolder6"></div>
+            </div>
+
+            <div>
+                <label>商品副圖6(選填):</label>
+                <input type="file" id="gpPhotos7" th:field="*{gpPhotos7}" onchange="previewImage('gpPhotos7')" />
+                <span class="error" th:utext="${errorMessage}" id="gpPhotos7.errors">${errorMessage}</span>
+                <div id="blobHolder7"></div>
+            </div>
+
+            <div>
+                <label>商品副圖7(選填):</label>
+                <input type="file" id="gpPhotos8" th:field="*{gpPhotos8}" onchange="previewImage('gpPhotos8')" />
+                <span class="error" th:utext="${errorMessage}" id="gpPhotos8.errors">${errorMessage}</span>
+                <div id="blobHolder8"></div>
+            </div>
+
+            <div>
+                <label>商品副圖8(選填):</label>
+                <input type="file" id="gpPhotos9" th:field="*{gpPhotos9}" onchange="previewImage('gpPhotos9')" />
+                <span class="error" th:utext="${errorMessage}" id="gpPhotos9.errors">${errorMessage}</span>
+                <div id="blobHolder9"></div>
+            </div>
+
+            <div>
+                <label>商品副圖9(選填):</label>
+                <input type="file" id="gpPhotos10" th:field="*{gpPhotos10}" onchange="previewImage('gpPhotos10')" />
+                <span class="error" th:utext="${errorMessage}" id="gpPhotos10.errors">${errorMessage}</span>
+                <div id="blobHolder10"></div>
+            </div>
+
+            <div>
+                <label>商品狀態:</label>
+                <select th:field="*{goodsStatus}">
+                    <option value="0" selected>下架</option>
+<!--         這裡不需要顯示 "上架" 選項，因為無法讓櫃位使用者修改 -->
+<!--                 <option value="1">上架</option> -->
+                </select>
+                <span th:if="${#fields.hasErrors('goodsStatus')}" th:errors="*{goodsStatus}" class="error" id="goodsStatus.errors"></span>
+            </div>
+        
+<!--         <div> -->
+<!--             <label>審核狀態:</label> -->
+<!--             <select th:field="*{checkStatus}"> -->
+<!--                 <option value="0">審核中</option> -->
+<!--                 <option value="1">通過</option> -->
+<!--                 <option value="2">未通過</option> -->
+<!--             </select> -->
+<!--             <span th:if="${#fields.hasErrors('checkStatus')}" th:errors="*{checkStatus}" class="error" id="checkStatus.errors"></span> -->
+<!--         </div> -->
+
+<!--         <div> -->
+<!--             <label>上架日期:</label> -->
+<!--             <input type="date" th:field="*{goodsDate}" onclick="hideContent('goodsDate.errors');" /><br/> -->
+<!--             <span th:if="${#fields.hasErrors('goodsDate')}" th:errors="*{goodsDate}" class="error" id="goodsDate.errors"></span> -->
+<!--         </div> -->
+
+<!-- 		<div> -->
+<!-- 		    <label>下架日期:</label> -->
+<!-- 		    <input type="date" th:field="*{goodsEnddate}" onclick="hideContent('goodsEnddate.errors');" /><br/> -->
+<!-- 		    <span th:if="${#fields.hasErrors('goodsEnddate')}" th:errors="*{goodsEnddate}" class="error" id="goodsEnddate.errors"></span> -->
+<!-- 		</div> -->
+
+    </section>
+
+     	<div>
+			<div></div>
+			<div>
+				<button type="button" id="cancel" onclick="history.back();">取消</button>
+				<button type="submit" id="submit">送出</button>
+			</div>
+			<div></div>
+		</div>      
+    </form>
+</div>
+
+<!-- JavaScript part -->
+<script type="text/javascript">
+//清除提示信息
+function hideContent(d) {
+     document.getElementById(d).style.display = "none";
+}
+
+//照片上傳-預覽用
+var filereader_support = typeof FileReader != 'undefined';
+if (!filereader_support) {
+    alert("No FileReader support");
+}
+
+acceptedTypes = {
+    'image/png': true,
+    'image/jpeg': true,
+    'image/gif': true
+};
+
+//修改 previewImage 函式，接受 inputId 參數來處理不同的上傳欄位
+function previewImage(inputId) {
+    var upfile = document.getElementById(inputId);  // 獲取對應的 input 元素
+    var index = inputId.replace(/\D/g, '');  // 使用正則表達式獲取數字部分
+    var blobHolder = document.getElementById('blobHolder' + index);  // 根據數字部分動態選擇 blobHolder
+
+    var files = upfile.files;  // 獲取選中的檔案
+    for (var i = 0; i < files.length; i++) {
+        previewfile(files[i], blobHolder);  // 傳遞 file 和對應的預覽區域
+    }
+}
+
+
+// 修改 previewfile 函式，將預覽顯示的邏輯移到這裡
+function previewfile(file, blobHolder) {
+    // 檢查檔案類型是否符合要求
+    if (filereader_support === true && acceptedTypes[file.type] === true) {
+        var reader = new FileReader();
+        reader.onload = function(event) {
+            var image = new Image();
+            image.src = event.target.result;
+            image.width = 100;
+            image.height = 75;
+            image.border = 2;
+            // 如果預覽區域已經有舊圖片，先清除
+            if (blobHolder.hasChildNodes()) {
+                blobHolder.removeChild(blobHolder.childNodes[0]);  // 移除舊的圖片預覽
+            }
+            blobHolder.appendChild(image);  // 顯示新的圖片預覽
+        };
+        reader.readAsDataURL(file);  // 讀取圖片
+        document.getElementById('submit').disabled = false;  // 啟用提交按鈕
+    } else {
+        // 若文件格式不符，顯示錯誤訊息
+        blobHolder.innerHTML = "<div style='text-align: left;'>" + "● filename: " + file.name
+                + "<br>" + "● ContentType: " + file.type
+                + "<br>" + "● size: " + file.size + "bytes"
+                + "<br>" + "● 上傳ContentType限制: <b><font color=red>image/png、image/jpeg、image/gif</font></b></div>";
+        document.getElementById('submit').disabled = true;  // 禁用提交按鈕
+    }
+}
+
+
+
+</script>
+
+</body>
+</html>
