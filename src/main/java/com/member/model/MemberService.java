@@ -6,9 +6,12 @@ import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.manager.model.ManagerVO;
 
 @Service("memService")
 public class MemberService {
@@ -42,7 +45,9 @@ public class MemberService {
 		return memberRepository.getMemNoByAccount(memAccount);
 	}
 	
-
+	public  void updateMem(MemberVO memberVO) {
+		memberRepository.save(memberVO);
+	}
 	
     // winfred
     public Optional<MemberVO> findById(Integer memNo) { //1130
@@ -53,10 +58,50 @@ public class MemberService {
         Optional<MemberVO> optionalMember = memberRepository.findByMemAccount(memAccount);
         return optionalMember.orElse(null);
     }
-  
+  public MemberVO findOne(Integer memNo) {
+	  return memberRepository.findOne(memNo);
+  }
   
     public void upStatus(Integer memNo,Integer memStatus) { 	
-    	   memberRepository.updateStatus(memStatus,memNo);
-    	   
+    	   memberRepository.updateStatus(memStatus,memNo);   
     }
-}
+    
+    public void upAdd(Integer memNo,String memAddress) { 	
+ 	   memberRepository.updateAdd(memAddress,memNo);   
+ }
+    
+
+        public boolean updateEmail(Integer memNo, String newEmail) {
+            // 使用 findById 獲取資料
+            Optional<MemberVO> optionalMember = memberRepository.findById(memNo);
+            if (optionalMember.isPresent()) {
+                MemberVO member = optionalMember.get();
+                member.setMemEmail(newEmail); // 更新 Email
+                memberRepository.save(member); // 儲存到資料庫
+                return true;
+            }
+            return false; // 若找不到該用戶，返回失敗
+        }
+
+        public boolean updatePhone(Integer memNo, String newPhone) {
+            // 使用 findById 獲取資料
+            Optional<MemberVO> optionalMember = memberRepository.findById(memNo);
+            if (optionalMember.isPresent()) {
+                MemberVO member = optionalMember.get();
+                member.setMemPhone(newPhone); // 更新 Phone
+                memberRepository.save(member); // 儲存到資料庫
+                return true;
+            }
+            return false; // 若找不到該用戶，返回失敗
+        }
+        
+        public void updatePass(Integer memNo,String memPassword) {
+        	memberRepository.updatePass(memPassword, memNo);
+        }
+        public Integer getMemStatusByAccount(String memAccount) {
+        	return memberRepository.findByAcc(memAccount);	
+        	
+        }
+    }
+
+

@@ -56,4 +56,18 @@ public class CounterService {
     public CounterVO authenticate(String counterAccount, String counterPassword) {
         return repository.findByCounterAccountAndCounterPassword(counterAccount, counterPassword);
     }
+    
+    //以下昱夆新增
+    
+    public String getCounterCnameByCounterNo(String counterNo) {
+    	return repository.getCounerCname(counterNo);
+    }
+    
+    public String getCounterNoByCounterCname(String counterCname) {
+    	return repository.getCounerNo(counterCname);
+    }
+    
+    
+    
+    //以上昱夆新增
 }

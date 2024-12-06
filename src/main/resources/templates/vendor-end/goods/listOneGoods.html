@@ -4,27 +4,88 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>商品資料 - listOneGoods.html</title>
-
+  <link rel="stylesheet" href="/counter/style.css">
+  
 <head th:insert="~{/vendor-end/goods/included-fragment}"></head>
 <style type="text/css">
 	
+    /* 統一的樣式調整 */
+    .goods_info {
+        background-color: #ffffff; /* 設定背景顏色 */
+        border-radius: 15px; /* 設定圓角 */
+        padding: 20px; /* 內邊距 */
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1); /* 輕微陰影 */
+        max-width: 800px; /* 最大寬度 */
+        margin: 20px auto; /* 居中顯示 */
+        font-size: 16px; /* 設定字體大小 */
+    }
+
+    /* span 標籤樣式 */
     span {
-		display: inline-block;
-		width: 150px;
-		text-align: left;
-		font-weight: bold;
+        display: block;
+        width: 100%;
+        font-weight: bold;
+        margin: 10px 0;
+        color: #333;
+    }
+
+    .goods_info span {
+        text-align: left;
+    }
+
+    .goods_info img {
+        width: 100px; /* 圖片顯示大小 */
+        height: auto;
+        margin-top: 5px;
+    }
+
+    /* 文字顯示樣式 */
+    .goods_info span:nth-child(even) {
+/*         font-weight: normal; */
+        color: #555;
+    }
+
+    /* 查詢結果標題置中顯示 */
+    .goods_info h3 {
+        text-align: center;
+        font-weight: bold;
+    }
+
+    /* 返回連結樣式 */
+    .back_link {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+	/* 返回按鈕的樣式 */
+	.back_link a {
+	    font-size: 18px;            /* 設定字體大小 */
+	    color: white;               /* 設定按鈕文字顏色 */
+	    background-color: #5bc5ff; /* 按鈕背景色 *
+	    text-decoration: none;      /* 去掉下劃線 */
+	    padding: 10px 20px 0px 10px;         /* 設定內邊距，讓按鈕更大 */
+	    border-radius: 5px;         /* 邊框圓角 */
+	    display: inline-block;      /* 使其顯示為行內塊元素 */
+	    transition: background-color 0.3s ease; /* 增加過渡效果 */
+	    margin:0 ;
+	}
+	
+	/* 懸停時的效果 */
+	.back_link a:hover {
+	    background-color: #4141ff;  /* 當滑鼠懸停時改變背景色 */
 	}
 </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
-		 <div align="center"> <h2>商品個人資料 - listOneGoods.html</h2>
-		 <h3><a class="navbar-brand" th:href="@{/goods/select_page}"><img th:src="@{/images/back1.gif}">回查詢頁<label th:text="${success}"></label></a></h3></div>
-</nav>
+<!-- <nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center"> -->
+<!-- 		 <div align="center"> <h2>商品個人資料 - listOneGoods.html</h2> -->
+<!-- 		 <h3><a class="navbar-brand" th:href="@{/goods/select_page}"><img th:src="@{/images/back1.gif}">回查詢頁<label th:text="${success}"></label></a></h3></div> -->
+<!-- </nav> -->
 
-	<div align="center" th:fragment="listOneGoods-div"> <!-- 此div被select_page.html insert用 -->
-		<h3><span>查詢結果 :</span></h3>
+<div align="center" th:fragment="listOneGoods-div"> 
+    <div class="goods_info">		
+    <h3>結果</h3>
 		<span>商品編號:</span><span th:text="${goodsVO.goodsNo}"></span><br/>
 		<span>商品類別名稱:</span><span th:text="${goodsVO.goodsTypeVO.goodstName}"></span><br/>
 		<span>櫃位名稱:</span><span th:text="${goodsVO.CounterVO.counterCName}"></span><br/>
@@ -37,6 +98,14 @@
 <!-- 		<span>審核狀態:</span><span th:text="${goodsVO.checkStatus == 0 ? '審核中' : (goodsVO.checkStatus == 1 ? '通過' : '未通過')}"></span><br/> -->
 <!-- 		<span>商品上架日期:</span><span th:text="${goodsVO.goodsDate}"></span><br/> -->
 <!-- 		<span>商品下架日期:</span><span th:text="${goodsVO.goodsEnddate}"></span><br/> -->
+	</div>
+	<div class="back_link">
+	    <h3>
+	        <a class="navbar-brand" th:href="@{/counter/Counterindex}">
+	            回櫃位首頁
+	            <label th:text="${success}"></label>  <!-- 可以顯示「修改成功」的文字 -->
+	        </a>
+	    </h3>
 	</div>
 
 </body>

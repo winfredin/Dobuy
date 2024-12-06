@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css" />
 <link rel="stylesheet" href="/counter/style.css">
 
-<link rel="stylesheet" href="/coupon/css/listAllCoupon.css">
+
 
 <script>
 	var dataTablesJQ = $.noConflict(true); // 使用獨立的 jQuery 實例
@@ -46,41 +46,14 @@
 		});
 	});
 </script>
-<style>
-  	.original-logo img {
-      max-width: 10% !important;
-    }
-    
-    
-    @media (max-width: 3000px) {
-.original-logo img {
-		max-width: 8.5% !important;
-    }
-}
-  
-@media (max-width: 2100px) {
-.original-logo img {
-		max-width: 8.5% !important;
-    }
-}
 
-@media (max-width: 1400px) {
-.original-logo img {
-		max-width: 8.5% !important;
-    }
-}
 
-@media (max-width: 700px) {
-.original-logo img {
-		max-width: 10% !important;
-    }
-}
-    
-    
 
+<style type="text/css">
+.container49 {
+	padding: 1rem 12rem 2rem 12rem;
+}
 </style>
-
-
 
 </head>
 <body>
@@ -89,80 +62,89 @@
 
 <!-- 	<header th:block th:replace="~{back-end/back-end-home/fraghead :: header}"></header> -->
 	
-	  <div th:if="${counter != null}">
 
 
-<div class="container49">
-    <h2 class="title">所有優惠券資料</h2>
-    <div class="table-container">
-        <table id="example" class="display" style="width: 100%">
-            <thead>
-                <tr>
-                    <th>計數</th>
-                    <th>優惠券編號</th>
-                    <th>櫃位編號</th>
-                    <th>優惠券名稱</th>
-                    <th>優惠券內容</th>
-                    <th>起始日期</th>
-                    <th>到期日期</th>
-                    <th>狀態</th>
-                    <th>領取次數</th>
-                    <th>審核狀態</th>
-                    <th>明細詳情</th>
-                    <th>修改</th>
-                    <th>刪除</th>
-                </tr>
-            </thead>
-            <tbody>
-                <th:block th:each="couponVO : ${counterCouponListData}">
-                    <tr>
-                        <td th:text="${couponVOStat.count}"></td>
-                        <td th:text="${couponVO.couponNo}"></td>
-                        <td th:text="${couponVO.counterNo}"></td>
-                        <td th:text="${couponVO.couponTitle}"></td>
-                        <td th:text="${couponVO.couponContext}"></td>
-                        <td th:text="${#dates.format(couponVO.couponStart, 'yyyy-MM-dd')}"></td>
-                        <td th:text="${#dates.format(couponVO.couponEnd, 'yyyy-MM-dd')}"></td>
-                        <td th:text="${couponVO.couponStatus == 0 ? '未開放' : (couponVO.couponStatus == 1 ? '時效內' : '過期')}"></td>
-                        <td th:text="${couponVO.usageLimit}"></td>
-                        <td th:text="${couponVO.checkStatus == 0 ? '未審核' : '已審核'}"></td>
-<!-- 明細按鈕 -->
-<td>
-    <form method="get" th:action="@{/coupondetail/listByCouponNo}">
-        <input type="hidden" name="couponNo" th:value="${couponVO.couponNo}">
-        <button type="submit">明細</button>
-    </form>
-</td>
-<!-- 修改按鈕 -->
-<td>
-    <form method="post" th:action="@{/coupon/getOne_For_Update}" style="margin-bottom: 0px;">
-        <input type="hidden" name="couponNo" th:value="${couponVO.couponNo}">
-        <button type="submit">修改</button>
-    </form>
-</td>
-<!-- 刪除按鈕 -->
-<td>
-    <form method="post" th:action="@{/coupon/delete}" style="margin-bottom: 0px;">
-        <input type="hidden" name="couponNo" th:value="${couponVO.couponNo}">
-        <button type="submit">刪除</button>
-    </form>
-</td>
-                    </tr>
-                </th:block>
-            </tbody>
-        </table>
-    </div>
-</div>
 
-<div class="add-coupon-container">
-    <form th:action="@{/coupon/addCoupon}" method="get">
-        <button type="submit">新增優惠券</button>
-    </form>
-</div>
+	<div class="container49">
 
-<!-- fragment引入 -->
-<footer th:block th:replace="~{back-end/back-end-home/fraghead :: footer}"></footer>
-<th:block th:replace="~{back-end/back-end-home/fraghead :: js}"></th:block>
+		<table id="example" class="display" style="width: 100%">
+			<thead>
+				<tr style="background-color: #CCCCFF">
+					<th>計數</th>
+					<th>優惠券編號</th>
+					<th>櫃位編號</th>
+					<th>優惠券名稱</th>
+					<th>優惠券內容</th>
+					<th>起始日期</th>
+					<th>到期日期</th>
+					<th>狀態</th>
+					<th>領取次數</th>
+					<th>審核狀態</th>
+					<th>明細詳情</th>
+					<th>修改</th>
+					<th>刪除</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<th:block th:each="couponVO : ${counterCouponListData}">
+					<tr>
+						<td th:text="${couponVOStat.count}"></td>
+						<td th:text="${couponVO.couponNo}"></td>
+						<td th:text="${couponVO.counterNo}"></td>
+						<td th:text="${couponVO.couponTitle}"></td>
+						<td th:text="${couponVO.couponContext}"></td>
+						<td th:text="${#dates.format(couponVO.couponStart, 'yyyy-MM-dd')}"></td>
+						<td th:text="${#dates.format(couponVO.couponEnd, 'yyyy-MM-dd')}"></td>
+						<td	th:text="${couponVO.couponStatus == 0 ? '未開放' : (couponVO.couponStatus == 1 ? '時效內' : '過期')}"></td>
+						<td th:text="${couponVO.usageLimit}"></td>
+						<td th:text="${couponVO.checkStatus == 0 ? '未審核' : '已審核'}"></td>
+
+						<td>
+							<form method="get" th:action="@{/coupondetail/listByCouponNo}">
+								<input type="hidden" name="couponNo" th:value="${couponVO.couponNo}">
+								<button type="submit">明細</button>
+							</form>
+						</td>
+
+						<td>
+							<form method="post" th:action="@{/coupon/getOne_For_Update}"
+								style="margin-bottom: 0px;">
+								<input type="submit" value="修改"> 
+								<input type="hidden" name="couponNo" th:value="${couponVO.couponNo}">
+							</form>
+						</td>
+						<td>
+							<form method="post" th:action="@{/coupon/delete}"
+								style="margin-bottom: 0px;">
+								<input type="submit" value="刪除"> <input type="hidden"
+									name="couponNo" th:value="${couponVO.couponNo}">
+							</form>
+
+						</td>
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+	</div>
+	
+
+	  <ul>
+		  <li><h5><a th:href="@{/coupon/addCoupon}">Add1</a> a new Coupon.</h5></li>
+		  
+	  </ul>
+
+
+
+
+	<!-- fragment引入 -->
+	<footer th:block
+		th:replace="~{back-end/back-end-home/fraghead :: footer}"></footer>
+
+
+	<th:block th:replace="~{back-end/back-end-home/fraghead :: js}"></th:block>
+
+
 
 </body>
 </html>

@@ -27,5 +27,14 @@ public interface CounterRepository extends JpaRepository<CounterVO, Integer> {
     //登入方法
     CounterVO findByCounterAccountAndCounterPassword(String counterAccount, String counterPassword);
     
+    //以下昱夆新增 用courtNo去找countCName
+    
+    @Query(value = "SELECT counterCName FROM counter WHERE counterNo = ?1 ", nativeQuery = true)
+	String getCounerCname(String counterNo);
+    
+    @Query(value = "SELECT counterNo FROM counter WHERE counterCname = ?1 ", nativeQuery = true)
+    String getCounerNo(String counterCname);
+    
+    //以下昱夆新增
 
 }
