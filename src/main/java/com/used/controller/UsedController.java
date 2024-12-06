@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.goods.model.GoodsService;
 import com.goodstype.model.GoodsTypeService;
 import com.goodstype.model.GoodsTypeVO;
 import com.used.model.UsedService;
@@ -51,14 +52,19 @@ public class UsedController {
 	@Autowired
 	private EntityManager EntityManager;
 	
-
+	@Autowired
+	private GoodsService goodsService;
 	
 	/*
 	 * This method will serve as addUsed.html handler.
 	 */
-	@GetMapping("/addUsed")
+	//用於一鍵轉售
+	@PostMapping("/oneButtontoSellUsed")
 	public String addUsed(ModelMap model,HttpSession session) {
 		UsedVO usedVO = new UsedVO();
+		//session提取memNo為sellerNo
+		Integer sellerNo= (Integer) session.getAttribute("memNo");
+		usedVO.setSellerNo(sellerNo);
 		model.addAttribute("usedVO", usedVO);
 		List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();
 		model.addAttribute("goodsTypeList", goodsTypeList);
@@ -92,16 +98,16 @@ public class UsedController {
     public String getUsedListFragment(HttpSession session, Model model) {
         // 從 session 中取得 memNo
 
-//        Integer memNo = (Integer) session.getAttribute("memNo");
-//
-//        if (memNo == null) {
-//            // 如果沒有 memNo，處理錯誤情況，這裡可以返回空片段或錯誤信息
-//            return "fragments/usedListFragment :: usedListFragment";
-//        }
+        Integer memNo = (Integer) session.getAttribute("memNo");
+
+        if (memNo == null) {
+            // 如果沒有 memNo，處理錯誤情況，這裡可以返回空片段或錯誤信息
+            return "fragments/usedListFragment :: usedListFragment";
+        }
 
 
         // 根據 memNo 從資料庫中查詢二手商品列表
-        List<UsedVO> usedListData = usedSvc.memberSelectBySellerNo(2);//測試使用2memNo
+        List<UsedVO> usedListData = usedSvc.memberSelectBySellerNo(memNo);//測試使用2
         List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();
         // 將數據放到模型中
         model.addAttribute("usedListData", usedListData);
@@ -113,9 +119,9 @@ public class UsedController {
 
 	//管理員搜尋所有二手商品
 	@PostMapping("/getAllSellerUsedListFragment")
-    public String getAllUsedListFragment(HttpSession session, Model model) {
+    public String getAllUsedListFragment( Model model) {
         
-        // 根據 memNo 從資料庫中查詢二手商品列表
+        
         List<UsedVO> usedListData = usedSvc.getAll();
         List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();
 		
