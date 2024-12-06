@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.faq.model.FaqVO;
+
 @Service("msgService")
 public class MsgService {
 
@@ -40,6 +42,11 @@ public class MsgService {
     
     public void save(MsgVO msgVO) {
         repository.save(msgVO);
+    }
+    
+  //任國抓櫃位通知
+    public List<MsgVO> getOneCounterMsg(Integer counterNo) {
+        return repository.findByCounterNo(counterNo); // 如果不存在，返回 null
     }
 }
 

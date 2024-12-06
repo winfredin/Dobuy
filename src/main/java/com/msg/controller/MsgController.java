@@ -4,25 +4,32 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
-
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.counter.model.CounterService;
+import com.counter.model.CounterVO;
+import com.faq.model.FaqVO;
 import com.msg.model.MsgService;
 import com.msg.model.MsgVO;
 import com.notice.model.NoticeService;
@@ -36,6 +43,9 @@ public class MsgController {
     MsgService msgSvc;
     @Autowired
     NoticeService noticeSvc;
+    
+    @Autowired
+    CounterService counterSvc;
     
     @GetMapping("addMsg")
     public String addEmp(ModelMap model) {
@@ -183,12 +193,49 @@ public class MsgController {
         return "vendor-end/msg/listAllMsg"; // 刪除完成後轉交listAllMsg.html
     }
    
+//    @GetMapping("listAllMsg")
+//    public String getAllMsg(ModelMap model) {
+//        List<MsgVO> list = msgSvc.getAll(); // 假設 msgSvc.getAll() 可取得所有訊息
+//        model.addAttribute("msgListData", list);
+//        return "vendor-end/msg/listAllMsg";
+//    }
+    
+//	櫃位通知管理(任國)
     @GetMapping("listAllMsg")
-    public String getAllMsg(ModelMap model) {
-        List<MsgVO> list = msgSvc.getAll(); // 假設 msgSvc.getAll() 可取得所有訊息
-        model.addAttribute("msgListData", list);
+    public String listAllmsg(HttpSession session, Model model) {
+    	//櫃位優惠券登錄確認
+        CounterVO counter = (CounterVO) session.getAttribute("counter");
+        if (counter == null) {
+            return "redirect:/counter/login";
+        } else {
+            // 其他邏輯
+            model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
+            model.addAttribute("counterMsgListData", msgSvc.getOneCounterMsg(counter.getCounterNo()));
+            return "vendor-end/msg/listAllMsg";
+        }
+    }
+    
+    @ModelAttribute("counterMsgListData")
+    protected List<MsgVO> CounterReferenceListData(HttpSession session, Model model) {
+        CounterVO counter = (CounterVO) session.getAttribute("counter");
+        if (counter != null) {
+        	List<MsgVO> list =  msgSvc.getOneCounterMsg(counter.getCounterNo());
+            return list;
+        } else {
+            // 如果counter為null，返回一個空列表或處理錯誤
+            model.addAttribute("error", "未登錄或Session信息遺失");
+            return new ArrayList<>(); // 或者其他適當的錯誤處理
+        }
+    }
+    
+    @PostMapping("listCounterMsg_ByCompositeQuery")
+    public String listCounterMsg(HttpSession session ,HttpServletRequest req, Model model) {
+        CounterVO counter = (CounterVO) session.getAttribute("counter");
+        List<MsgVO> list =  msgSvc.getOneCounterMsg(counter.getCounterNo());
+        model.addAttribute("counterMsgListData", list); 
         return "vendor-end/msg/listAllMsg";
     }
+    
     
         
     }

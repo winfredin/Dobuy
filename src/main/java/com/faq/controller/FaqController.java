@@ -37,7 +37,7 @@ public class FaqController {
 	
 //	櫃位FAQ管理(任國)
     @GetMapping("/listCounterFaq")
-    public String listAllCoupon(HttpSession session, Model model) {
+    public String listAllFaq(HttpSession session, Model model) {
     	//櫃位優惠券登錄確認
         CounterVO counter = (CounterVO) session.getAttribute("counter");
         if (counter == null) {
@@ -67,7 +67,7 @@ public class FaqController {
     public String listCounterFaq(HttpSession session ,HttpServletRequest req, Model model) {
         CounterVO counter = (CounterVO) session.getAttribute("counter");
         List<FaqVO> list = faqsvc.getOneCounterFaq(counter.getCounterNo());
-        model.addAttribute("counterFaqListData", list); // for listAllEmp.html 第85行用
+        model.addAttribute("counterFaqListData", list); 
         return "vendor-end/faq/listCounterFaq";
     }
     
