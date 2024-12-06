@@ -35,7 +35,7 @@ public class FaqController {
 	@Autowired
 	CounterService counterSvc;
 	
-//	櫃位FAQ管理
+//	櫃位FAQ管理(任國)
     @GetMapping("/listCounterFaq")
     public String listAllCoupon(HttpSession session, Model model) {
     	//櫃位優惠券登錄確認
@@ -71,6 +71,6 @@ public class FaqController {
         return "vendor-end/faq/listCounterFaq";
     }
     
-//	櫃位FAQ管理
+//	櫃位FAQ管理(任國)
 
 }
