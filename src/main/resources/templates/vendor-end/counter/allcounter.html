@@ -96,9 +96,15 @@
           <img th:src="@{/counter/DBGifReader} + '?counterNo=' + ${counterVO.counterNo}" width="100px">
         </td>
         <td>
-		  <span th:if="${counterVO.counterStatus == 0}">停權</span>
-		  <span th:if="${counterVO.counterStatus == 1}">審核中</span>
-		  <span th:if="${counterVO.counterStatus == 2}">正常</span>
+<!-- 		  <span th:if="${counterVO.counterStatus == 0}">停權</span> -->
+<!-- 		  <span th:if="${counterVO.counterStatus == 1}">審核中</span> -->
+<!-- 		  <span th:if="${counterVO.counterStatus == 2}">正常</span> -->
+		<select name="counterStatus" th:value="${counterVO.counterStatus}">
+            <option th:value="0" th:selected="${counterVO.counterStatus == 0}" th:text="'停權'"></option>
+            <option th:value="1" th:selected="${counterVO.counterStatus == 1}" th:text="'審核中'"></option>
+            <option th:value="2" th:selected="${counterVO.counterStatus == 2}" th:text="'正常營運'"></option>
+        </select>
+		  
 		</td><!-- 櫃位狀態 -->
         <td>
           <form method="post" th:action="@{/counter/getOne_For_Update}" style="margin-bottom: 0px;">
