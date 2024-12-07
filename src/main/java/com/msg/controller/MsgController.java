@@ -34,6 +34,9 @@ import com.msg.model.MsgService;
 import com.msg.model.MsgVO;
 import com.notice.model.NoticeService;
 import com.notice.model.NoticeVO;
+import com.member.model.MemberVO;
+import com.member.model.MemberRepository;
+import com.member.model.MemberService;
 
 @Controller
 @RequestMapping("/msg")
@@ -46,6 +49,10 @@ public class MsgController {
     
     @Autowired
     CounterService counterSvc;
+    
+    @Autowired 
+    private MemberRepository memberRepository;
+    
     
     @GetMapping("addMsg")
     public String addEmp(ModelMap model) {
@@ -62,6 +69,7 @@ public class MsgController {
         msgVO.setInformMsg(informMsg); // 設置訊息內文
 
         if (result.hasErrors()) {
+            model.addAttribute("memberList", memberRepository.findAll());
             return "vendor-end/msg/addMsg";
         }
 
@@ -72,6 +80,8 @@ public class MsgController {
         NoticeVO noticeVO = new NoticeVO();
         noticeVO.setNoticeContent(informMsg);
         noticeVO.setNoticeDate(new Timestamp(System.currentTimeMillis()));
+        noticeVO.setMemNo(msgVO.getMemNo()); // 使用msgVO中的memNo設置通知
+
         noticeSvc.save(noticeVO); // 使用注入的NoticeService保存通知信息
 
         /*************************** 3.新增完成,準備轉交(Send the Success view) **************/
@@ -80,6 +90,9 @@ public class MsgController {
         model.addAttribute("success", "- (新增成功)");
         return "vendor-end/msg/listAllMsg"; // 新增成功後重導至顯示所有訊息的頁面
     }
+    
+   
+
 
 
     
@@ -98,38 +111,7 @@ public class MsgController {
    
 
     
-//    @PostMapping("update")
-//    public String update(@Valid MsgVO msgVO, BindingResult result, ModelMap model,
-//                         @RequestParam("informMsg") String informMsg) {
-//
-//        /*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
-//        msgVO.setInformMsg(informMsg); // 設置訊息內文
-//
-//        if (result.hasErrors()) {
-//            return "back-end/msg/update_msg_input";
-//        }
-//
-//        /*************************** 2.開始修改資料 *****************************************/
-//        // 更新消息内容
-//        MsgVO existingMsgVO = msgSvc.getMsgById(msgVO.getCounterInformNo());
-//        if (existingMsgVO == null) {
-//            result.rejectValue("informMsg", "error.msgVO", "消息不存在");
-//            return "back-end/msg/update_msg_input";
-//        }
-//        existingMsgVO.setInformMsg(informMsg);
-//        
-//        // 自动更新时间和已读未读状态
-//        existingMsgVO.setInformDate(new Timestamp(System.currentTimeMillis()));
-//        existingMsgVO.setInformRead((byte) 0); // 设置为未读状态
-//
-//        msgSvc.updateMsg(existingMsgVO);
-//
-//        /*************************** 3.修改完成,準備轉交(Send the Success view) **************/
-//        model.addAttribute("success", "修改成功！");
-//
-//        // 修改此處為返回列表頁
-//        return "redirect:/msg/listAllMsg"; 
-//    }
+
     
     @PostMapping("update")
     public String update(@Valid MsgVO msgVO, BindingResult result, ModelMap model,
@@ -182,23 +164,19 @@ public class MsgController {
 
     
     @PostMapping("delete")
-    public String delete(@RequestParam("counterInformNo") String counterInformNo, ModelMap model) {
+    public String delete(HttpSession session,@RequestParam("counterInformNo") String counterInformNo, ModelMap model) {
         /*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
         /*************************** 2.開始刪除資料 *****************************************/
         msgSvc.deleteMsg(Integer.valueOf(counterInformNo));
         /*************************** 3.刪除完成,準備轉交(Send the Success view) **************/
-        List<MsgVO> list = msgSvc.getAll();
-        model.addAttribute("msgListData", list);
+        CounterVO counter = (CounterVO) session.getAttribute("counter");
+        List<MsgVO> list =  msgSvc.getOneCounterMsg(counter.getCounterNo());
+        model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
+        model.addAttribute("counterMsgListData", list); 
         model.addAttribute("success", "- (刪除成功)");
         return "vendor-end/msg/listAllMsg"; // 刪除完成後轉交listAllMsg.html
     }
    
-//    @GetMapping("listAllMsg")
-//    public String getAllMsg(ModelMap model) {
-//        List<MsgVO> list = msgSvc.getAll(); // 假設 msgSvc.getAll() 可取得所有訊息
-//        model.addAttribute("msgListData", list);
-//        return "vendor-end/msg/listAllMsg";
-//    }
     
 //	櫃位通知管理(任國)
     @GetMapping("listAllMsg")
