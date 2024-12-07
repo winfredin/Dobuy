@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- fragment引入 -->
+    <th:block th:replace="~{/back-end/back-end-home/fraghead :: head}"></th:block>
+    
+    <style>
+        .detail-container {
+            padding: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .detail-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .detail-header {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        .info-row {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+        .info-label {
+            width: 150px;
+            font-weight: bold;
+        }
+        .info-content {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- fragment引入 -->
+    <header th:block th:replace="~{back-end/back-end-home/fraghead :: header}"></header>
+
+    <div class="detail-container">
+        <!-- 優惠券基本資訊 -->
+        <div class="detail-card">
+            <div class="detail-header">
+                <h2>優惠券基本資訊</h2>
+            </div>
+            <div class="info-row">
+                <div class="info-label">優惠券編號：</div>
+                <div class="info-content" th:text="${coupon.couponNo}"></div>
+            </div>
+            <!-- 其他優惠券資訊... -->
+        </div>
+
+        <!-- 優惠券明細 -->
+        <div class="detail-card">
+            <div class="detail-header">
+                <h2>優惠商品明細</h2>
+            </div>
+            <table class="table">
+                <thead>
+        <tr>
+            <th>商品編號</th>
+            <th>商品名稱</th>
+            <th>建立時間</th>
+            <th>更新時間</th>
+            <th>優惠條件</th>
+            <th>折扣率</th>
+        </tr>
+    </thead>
+	<tbody>
+	    <tr th:each="detail : ${couponDetails}">
+	        <td th:text="${detail.goodsNo}"></td>	      
+	        <td th:text="${detail.goodsVO != null ? detail.goodsVO.goodsName : ''}"></td>	        
+	        <td th:text="${#dates.format(detail.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+	        <td th:text="${#dates.format(detail.updatedAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+	        <td th:text="${detail.counterContext}"></td>
+	        <td th:text="${detail.disRate}"></td>
+	        
+	        <!-- 移除此欄位，因為 CouponDetailVO 中沒有 goodsDiscount 屬性 -->
+	        <!-- <td th:text="${detail.goodsDiscount}"></td> -->
+	    </tr>
+	</tbody>
+</table>
+        </div>
+
+        <!-- 返回按鈕 -->
+        <div class="text-center mt-4">
+            <a th:href="@{/coupon/approve}" class="btn btn-primary">返回列表</a>
+        </div>
+    </div>
+
+
+	<!-- fragment引入 -->
+	<footer th:block
+		th:replace="~{back-end/back-end-home/fraghead :: footer}"></footer>
+
+	<!-- fragment引入 -->
+	<th:block th:replace="~{back-end/back-end-home/fraghead :: js}"></th:block>
+	
+</body>
+</html>

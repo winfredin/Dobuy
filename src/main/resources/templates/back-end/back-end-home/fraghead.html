@@ -31,12 +31,13 @@
     <th:block th:fragment="header">
     
 
+
 <!-- 登入及顯示管理員姓名 -->
 <div class="admin-controls">
-    <div class="admin-name">
-        <i class="fas fa-user-circle"></i>
-        <span th:text="${session.managerName}">管理員</span>
-    </div>
+<div class="admin-name">
+    <i class="fas fa-user-circle"></i>
+    <span th:text="${session.managerAccount != null ? session.managerAccount : '管理員'}">管理員</span>
+</div>
     
     <form th:action="@{/logout}" method="get" style="margin: 0;">
         <button type="submit" class="logout-btn">
@@ -59,10 +60,10 @@
                         <div class="breaking-news-area">
                             <div id="breakingNewsTicker" class="ticker">
                                 <ul>
-                                    <li><a th:href="@{back-end-homepage}">Hello Staff!</a></li>
-                                    <li><a th:href="@{back-end-homepage}">Hello Universe!</a></li>
-                                    <li><a th:href="@{back-end-homepage}">Hello Earth!</a></li>
-                                    <li><a th:href="@{back-end-homepage}">Hello DoBuy!</a></li>
+                                    <li><a th:href="@{/back-end-homepage}">Hello Staff!</a></li>
+                                    <li><a th:href="@{/back-end-homepage}">Hello Universe!</a></li>
+                                    <li><a th:href="@{/back-end-homepage}">Hello Earth!</a></li>
+                                    <li><a th:href="@{/back-end-homepage}">Hello DoBuy!</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -76,7 +77,7 @@
             <div class="container h-100">
                 <div class="row h-100 align-items-center">
                     <div class="col-12">
-                        <a th:href="@{back-end-homepage}" class="original-logo"><img th:src="@{/back-end-home/img/core-img/logo noback.png}" alt=""></a>
+                        <a th:href="@{/back-end-homepage}" class="original-logo"><img th:src="@{/back-end-home/img/core-img/logo noback.png}" alt=""></a>
                     </div>
                 </div>
             </div>
@@ -104,7 +105,7 @@
                             <!-- Nav Start -->
                             <div class="classynav">
                                 <ul>
-                                    <li><a class="dropdown-font" th:href="@{back-end-homepage}">首頁</a></li>
+                                    <li><a class="dropdown-font" th:href="@{/back-end-homepage}">首頁</a></li>
                                     <li><a href="#">會員管理</a>
                                         <ul class="dropdown">
                                             <li><a href="#">會員管理</a></li>

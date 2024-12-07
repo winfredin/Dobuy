@@ -101,6 +101,18 @@ public class CouponDetailService {
         Query query = session.createQuery("FROM CouponDetailVO");
         return query.list();
     }
+
+
+
+
+	public List<CouponDetailVO> getDetails(int couponNo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+
     
 
     

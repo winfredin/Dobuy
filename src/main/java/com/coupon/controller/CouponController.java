@@ -265,18 +265,13 @@ public class CouponController {
  // 後台審核優惠券的 GET 方法
     @GetMapping("/approve")
     public String showApprovePage(Model model) {
-        // 獲取待審核的優惠券列表
-        List<CouponVO> pendingCoupons = couponSvc.getAllPendingCoupons();  // 需要在 Service 層實現這個方法
-        model.addAttribute("pendingCoupons", pendingCoupons);
-        return "back-end/coupon/couponApprove";  // 審核頁面的視圖名稱
+        // 獲取所有優惠券列表
+        List<CouponVO> list = couponSvc.getAll();
+        // 將數據添加到模型中，注意這裡的屬性名要跟視圖中使用的一致
+        model.addAttribute("couponListData", list);
+        return "back-end/coupon/couponApprove";
     }
     
-    
-//  //後台審核頁面
-//  	@GetMapping("couponcheck")
-//  	public String couponcheck() {
-//  		return "back-end/coupon/couponcheck";
-//  	}
     
 //   後台審核優惠券
     @PostMapping("/approve")
@@ -287,7 +282,7 @@ public class CouponController {
         } else {
             redirectAttributes.addFlashAttribute("message", "審核失敗！");
         }
-        return "redirect:/couponApprove"; // 審核完成後重定向到優惠券列表頁
+        return "redirect:/coupon/approve"; // 修改為正確的路徑
     }    
     
     
@@ -295,8 +290,20 @@ public class CouponController {
     @GetMapping("/approve/{couponNo}")
     public String viewCouponDetail(@PathVariable int couponNo, Model model) {
         CouponVO coupon = couponSvc.getOneCouponWithDetails(couponNo);
+        
+        // 先檢查優惠券是否存在
+        if (coupon == null) {
+            return "redirect:/coupon/approve";
+        }
+
+        // 使用優惠券的 CouponDetails 集合，而不是重新查詢
+        List<CouponDetailVO> details = new ArrayList<>(coupon.getCouponDetails());
+
+
         model.addAttribute("coupon", coupon);
-        return "vendor-end/coupon/couponDetail";
+        model.addAttribute("couponDetails", details);
+        
+        return "back-end/coupondetail/couponDetail";
     }
 
 }
