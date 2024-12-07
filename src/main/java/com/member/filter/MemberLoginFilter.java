@@ -15,7 +15,8 @@ import javax.servlet.http.HttpSession;
 
 import com.member.model.MemberVO;
 
-@WebFilter(urlPatterns = {"/front-end/coupon/list", "/front-end/coupon/member/list35"})
+
+@WebFilter(urlPatterns = {"/front-end/coupon/list", "/front-end/coupon/member/list35", "/cart/list35"})
 
 public class MemberLoginFilter implements Filter {
 

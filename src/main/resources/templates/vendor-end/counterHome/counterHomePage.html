@@ -49,12 +49,12 @@
 				class="container h-30 d-flex justify-content-between align-items-center">
 				<!-- 左邊的文字 -->
 				<div class="left-text">
-					<a th:href="@{/}" class="nav-link">首頁</a> 
-					<a href="#" class="nav-link">聯絡我們</a>
+					<a th:href="@{/myhome}" class="nav-link">首頁</a> 
+					<a th:href="@{/counter/Counterindex}" class="nav-link">我的賣場</a>
 					<a th:href="@{/counter/getFaq(counterNo=${counterVO.counterNo})}" class="nav-link">FAQ常見問題</a>
-<!-- 					<span th:if="${session.memAccount != null}">  -->
+					<span th:if="${session.memAccount != null}"> 
 						<a th:href="@{/front-end/coupon/member/list35}" class="nav-link">我的優惠券</a>
-<!-- 					</span> -->
+					</span>
 				</div>
 
 				<!-- 右邊按鈕 -->
@@ -68,7 +68,7 @@
 
 					<!-- 已登入時顯示用戶名稱和登出 -->
 					<span th:if="${session.memAccount != null}"> 
-					<span class="user-name" th:text="'Welcome&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ ${session.memAccount}"></span>
+					<span class="user-name" th:text="'Welcome&nbsp;&nbsp;&nbsp;'+ ${session.memAccount}"></span>
 						<a th:href="@{/mem/logout}" class="login-link">登出</a>
 					</span>
 				</div>

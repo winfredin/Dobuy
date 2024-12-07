@@ -11,5 +11,8 @@ public interface FaqRepository extends JpaRepository<FaqVO, Integer> {
 
 	@Query(value = "SELECT * FROM faq WHERE counterNo = ?1 ", nativeQuery = true)
 	List<FaqVO> findByCounterNo(Integer counterNo);
+	
+	@Query(value = "SELECT * FROM faq WHERE faqNo = ?1 ", nativeQuery = true)
+	FaqVO findByFaqNo(String FaqNo);
 
 }
