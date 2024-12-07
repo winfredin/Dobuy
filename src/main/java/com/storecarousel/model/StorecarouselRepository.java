@@ -2,12 +2,20 @@ package com.storecarousel.model;
 
 import java.util.List;
 
+
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface StorecarouselRepository extends JpaRepository<StoreCarouselVO, Integer> {
+
+	 @Modifying
+	 @Transactional
 
     // 刪除指定輪播資訊編號
     @Query(value = "DELETE FROM StoreCarousel WHERE storeCarouselNo = ?1", nativeQuery = true)
