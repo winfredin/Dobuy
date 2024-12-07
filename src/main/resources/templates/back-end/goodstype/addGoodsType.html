@@ -3,48 +3,113 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>商品類別新增 - addGoodsType.html</title>
-
+<title>商品類別新增</title>
+<!-- Style CSS -->
+<link rel="stylesheet" href="/back-end-home/css/style.css"> 	
 <head th:insert="~{/back-end/goodstype/included-fragment}"></head>
 <style type="text/css">
-    button {
-        padding: 5px;
+    /* 讓整體區塊有圓角和陰影 */
+    .add_goodstype {
+        background-color: #ffffff; /* 設置背景顏色為白色 */
+        border-radius: 15px; /* 設置圓角為15px */
+        padding: 20px; /* 設置內邊距為20px，讓內容不會貼邊 */
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1); /* 添加陰影效果，使區塊看起來立體 */
+        max-width: 800px; /* 設置區塊最大寬度為800px */
+        margin: 20px auto; /* 使區塊垂直居中並上下留有20px的間距 */
     }
+
+    /* 表單容器樣式 */
     form {
-        display: table;
+        display: flex; /* 設置為flex布局 */
+        flex-direction: column; /* 垂直排列項目 */
+        align-items: flex-start; /* 左對齊表單項目 */
+        margin-top: 10px; /* 設置表單頂部的間距為10px */
     }
+
+    /* 每一個表單項目的間距 */
     form div {
-        display: table-row;
+        margin-bottom: 20px; /* 設置每個表單項目底部的間距為20px */
+        width: 100%; /* 設置每個表單項目的寬度為100% */
     }
-    label, input, span, select {
-        display: table-cell;
-        margin: 5px;
-        text-align: left;
+
+    /* label 標籤的樣式 */
+    form div label {
+        display: block; /* 將label顯示為區塊級元素 */
+        margin-bottom: 5px; /* 設置label底部的間距為5px */
+        text-align: left; /* 讓label文字左對齊 */
     }
-    input[type=text], select {
-        width: 200px;
-        margin: 5px;
+
+    /* 輸入框與選擇框的樣式 */
+    input[type="text"], select {
+        width: 100%; /* 設置輸入框和選擇框寬度為100% */
+        padding: 8px; /* 設置內邊距為8px */
+        margin: 5px 0; /* 設置上下間距為5px */
+        border: 1px solid #ccc; /* 設置邊框為1px寬，顏色為灰色 */
+        border-radius: 5px; /* 設置圓角為5px */
+        background-color: #f9f9f9; /* 設置背景顏色為淺灰色 */
+        box-sizing: border-box; /* 設置為border-box，保證padding不會影響元素寬度 */
     }
-    form div div {
-        display: table-cell;
+
+    /* 輸入框與選擇框聚焦時的邊框顏色變化 */
+    input[type="text"]:focus, select:focus {
+        outline: none;         /* 去掉聚焦時的藍色外圍邊框 */
+        border-color: #ffd165; /* 聚焦時邊框顏色變為藍色 */
     }
-    .center {
-        margin-left: auto;
-        margin-right: auto;
+
+    /* 顯示錯誤訊息的樣式 */
+    .error {
+        color: red; /* 錯誤訊息顯示為紅色 */
+        font-size: 12px; /* 設置字體大小為12px */
+        margin-top: 5px; /* 設置錯誤訊息與上方元素的間距為5px */
+    }
+
+    /* 送出按鈕的樣式 */
+    button#submit {
+        padding: 10px 20px; /* 設置內邊距，10px上下，20px左右 */
+        background-color: #ffd165; /* 橘色背景 */
+        color: white; /* 設置文字顏色為白色 */
+        border: none; /* 去除按鈕的邊框 */
+        border-radius: 5px; /* 設置圓角為5px */
+        cursor: pointer; /* 當滑鼠懸停時顯示為指標 */
+        font-size: 16px; /* 設置字體大小為16px */
+        margin-top: 10px; /* 設置按鈕與上方元素的間距為10px */
+    }
+
+    /* 送出按鈕的懸停效果 */
+    button#submit:hover {
+        background-color: #fec031;  /* 當滑鼠懸停時變成稍深的橘色 */
+    }
+
+    /* 取消按鈕的樣式 */
+    button#cancel {
+        padding: 10px 20px; /* 設置內邊距，10px上下，20px左右 */
+        background-color: #ccc; /* 設置背景顏色為灰色 */
+        color: white; /* 設置文字顏色為白色 */
+        border: none; /* 去除按鈕的邊框 */
+        border-radius: 5px; /* 設置圓角為5px */
+        cursor: pointer; /* 當滑鼠懸停時顯示為指標 */
+        font-size: 16px; /* 設置字體大小為16px */
+        margin-right: 10px; /* 設置右邊距為10px */
+    }
+
+    /* 取消按鈕的懸停效果 */
+    button#cancel:hover {
+        background-color: #b3b3b3; /* 當滑鼠懸停時，背景顏色變為較深的灰色 */
     }
 </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
-    <div align="center">
-        <h2>商品類別新增 - addGoodsType.html</h2>
-        <h3><a class="navbar-brand" th:href="@{/goodstype/select_page}"><img th:src="@{/images/back1.gif}">回查詢頁</a></h3>
-    </div>
-</nav>
+<!-- <nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center"> -->
+<!--     <div align="center"> -->
+<!--         <h2>商品類別新增 - addGoodsType.html</h2> -->
+<!--         <h3><a class="navbar-brand" th:href="@{/goodstype/select_page}"><img th:src="@{/images/back1.gif}">回查詢頁</a></h3> -->
+<!--     </div> -->
+<!-- </nav> -->
 
 <div align="center">
-    <h3><b>所有欄位皆為必填欄位</b></h3>
+  <section class="add_goodstype"> 
+    <h3><b>商品類別新增</b></h3>
     <form th:action="@{insert}" method="post" th:object="${goodsTypeVO}">
         <div>
             <label>商品類別名稱:</label>
@@ -59,11 +124,15 @@
 <!--             <span th:if="${#fields.hasErrors('goodstNo')}" th:errors="*{goodstNo}" class="error" id="goodstNo.errors"></span> -->
 <!--         </div> -->
 
-        <div>
-            <div></div>
-            <div><button type="submit" id="submit">送出新增</button></div>
-            <div></div>
-        </div>
+  </section>
+     	<div>
+			<div></div>
+			<div>
+				<button type="button" id="cancel" onclick="history.back();">取消</button>
+				<button type="submit" id="submit">送出</button>
+			</div>
+			<div></div>
+		</div>      
     </form>
 </div>
 

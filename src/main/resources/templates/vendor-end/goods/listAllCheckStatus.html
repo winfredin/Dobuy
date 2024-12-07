@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-<title>商品審核 - listAllCheckStatus.html</title>
+<title>商品審核</title>
 
 <head th:insert="~{/vendor-end/goods/included-fragment}"></head>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>                                    <!-- ●●js  for jquery datatables 用 -->
@@ -53,7 +53,8 @@
 
 <style type="text/css">
   body {
-    margin: 1rem 0rem 2rem 0rem;
+    margin: 0rem 0rem 2rem 0rem;
+    padding: 0;
   }
   h2{
   padding: 0 0 0 10px;
@@ -112,7 +113,7 @@
 
   /* 調整「商品編號」欄位寬度 */
   th:nth-child(1), td:nth-child(1) {
-    width: 32px; /* 調整需要的寬度 */
+    width: 35px; /* 調整需要的寬度 */
     padding:10px 10px 10px 10px !important;  /* 調整 */
   }
     /* 調整「類別」欄位寬度 */
@@ -122,7 +123,7 @@
   }
     /* 調整「櫃位名稱」欄位寬度 */
   th:nth-child(3), td:nth-child(3) {
-    width: 80px; /* 調整需要的寬度 */
+    width: 83px; /* 調整需要的寬度 */
     padding:10px 10px 10px 10px !important;  /* 調整 */
   }
     /* 調整「商品照片」欄位寬度 */
@@ -214,7 +215,7 @@ input[type="submit"][value="通過"] {
             <div class="container h-100">
                 <div class="row h-100 align-items-center">
                     <div class="col-12">
-                        <a th:href="@{back-end-homepage}" class="original-logo"><img src="/back-end-home/img/core-img/logo noback.png" alt=""></a>
+                        <a th:href="@{/back-end-homepage}" class="original-logo"><img src="/back-end-home/img/core-img/logo noback.png" alt=""></a>
                     </div>
                 </div>
             </div>
