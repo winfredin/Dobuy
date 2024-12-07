@@ -50,11 +50,13 @@ public class StoreCarouselService {
     public List<StoreCarouselVO> getByCounterNo(Integer counterNo) {
         return repository.findByCounterNo(counterNo);
     }
+
         
     // 其他方法保持不變，但需要考慮是否真的需要 map 參數
      public List<StoreCarouselVO> getAll() {  // 移除未使用的參數
         return repository.findAll();
         }
+
 
 
     // 動態查詢輪播資訊

@@ -732,7 +732,8 @@ DELIMITER ;
 
 -- 創建CounterInform表
 CREATE TABLE CounterInform (
-    counterInformNo INT NOT NULL PRIMARY KEY AUTO_INCREMENT,  
+    counterInformNo INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
+    memNo INT,
     counterNo INT,
     informMsg VARCHAR(1000) NOT NULL,                         
     informDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -859,6 +860,9 @@ ADD CONSTRAINT usedComplaint_memNo_FK FOREIGN KEY (memNo) REFERENCES Member(memN
  
  ALTER TABLE CounterInform
  ADD CONSTRAINT CounterInform_counterNo_FK FOREIGN KEY (counterNo) REFERENCES counter(counterNo);
+ 
+ ALTER TABLE CounterInform
+ ADD CONSTRAINT CounterInform_memNo_FK FOREIGN KEY (memNo) REFERENCES member(memNo);
  
  ALTER TABLE Notice
 ADD CONSTRAINT Notice_memNO_FK FOREIGN KEY (memNo) REFERENCES Member(memNo);

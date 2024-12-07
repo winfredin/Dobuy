@@ -56,6 +56,7 @@ public class StorecarouselController {
     // 查詢所有輪播資訊
     @GetMapping("listAllStorecarousel")
     public String listAll(ModelMap model) {
+
         List<StoreCarouselVO> list = storeCarouselService.getAll();
         model.addAttribute("storeCarouselData", list);
         return "back-end/storecarousel/listAllStorecarousel";

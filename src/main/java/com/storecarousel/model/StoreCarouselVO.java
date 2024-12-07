@@ -12,7 +12,9 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 
+
 //import org.hibernate.annotations.CreationTimestamp;
+
 import org.springframework.web.multipart.MultipartFile;
 
 @Entity
@@ -31,7 +33,9 @@ public class StoreCarouselVO {
     private Integer disNo; // 平台優惠編號
 
     @Column(name = "carouselTime", nullable = false, updatable = false)
+
 //    @CreationTimestamp // 自動生成時間戳
+
     private Timestamp carouselTime; // 輪播時間
 
     @Transient // 標記為非持久化字段

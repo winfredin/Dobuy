@@ -48,6 +48,14 @@
                 <input type="text" th:field="*{informMsg}" onclick="hideContent('informMsg.errors');" /><br/>
                 <span th:if="${#fields.hasErrors('informMsg')}" th:errors="*{informMsg}" class="error" id="informMsg.errors"></span>
             </div>
+
+            <div>
+                <label>會員:</label>
+                <select th:field="*{memNo}">
+                    <option th:each="member : ${memberList}" th:value="${member.memNo}" th:text="${member.memNo}"></option>
+                </select>
+            </div>
+
             <div>
                 <div></div>
                 <div><button type="submit" id="submit">送出新增</button></div>
