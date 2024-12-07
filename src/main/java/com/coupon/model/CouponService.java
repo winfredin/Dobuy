@@ -212,6 +212,11 @@ public class CouponService {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+//  後台審核優惠券get方法
+	public List<CouponVO> getAllPendingCoupons() {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
     
     

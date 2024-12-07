@@ -45,7 +45,6 @@ public class FrontCouponController {
     public String listAvailableCoupons(HttpSession session, Model model) {
         // 檢查會員是否已登入
         String memAccount = (String) session.getAttribute("memAccount");
-        System.out.println(memAccount);
         
         // 如果未登入,保存當前請求路徑並重定向到登入頁面
 //        if (memAccount == null) {
@@ -200,22 +199,61 @@ public class FrontCouponController {
 //    }
 
 
-//  前台查看會員優惠券列表頁面
-    @GetMapping("/member/list")
-    public String listMemberCoupons(HttpSession session, Model model) {
-        Integer memNo = Integer.valueOf((String) session.getAttribute("memNo"));
-        if (memNo == null) {
-            return "redirect:/mem/login";  // 或其他登入頁面路徑
-        }
+//  前台點擊連結 查看會員優惠券列表頁面
+    
+//    @GetMapping("/member/list")
+//    public String listMemberCoupons(HttpSession session, Model model) {
+//        // 先檢查 session 中的會員編號
+//        Object memNoObj = session.getAttribute("memNo");
+//        if (memNoObj == null) {
+//            // 如果沒有會員編號，可能需要從會員帳號獲取
+//            String memAccount = (String) session.getAttribute("memAccount");
+//            if (memAccount != null) {
+//                // 透過會員帳號查詢會員資訊
+//                MemberVO member = memberService.findByMemAccount(memAccount);
+//                if (member != null) {
+//                    // 將會員編號存入 session
+//                    session.setAttribute("memNo", String.valueOf(member.getMemNo()));
+//                    // 使用會員編號查詢優惠券
+//                    List<MemCouponVO> memberCoupons = memCouponService.getAllByMemNo(member.getMemNo());
+//                    model.addAttribute("memberCoupons", memberCoupons);
+//                    return "front-end/memcoupon/memListAllCoupon";
+//                }
+//            }
+//            // 如果無法獲取會員資訊，重導向到登入頁面
+//            return "redirect:/mem/login";
+//        }
+//        
+//        // 如果 session 中有會員編號，直接使用
+//        Integer memNo = Integer.valueOf(memNoObj.toString());
+//        List<MemCouponVO> memberCoupons = memCouponService.getAllByMemNo(memNo);
+//        model.addAttribute("memberCoupons", memberCoupons);
+//        return "front-end/memcoupon/memListAllCoupon";
+//    }
+    
+    
+    
+    
+//    @GetMapping("/member/list")
+//    public String listMemberCoupons(HttpSession session, Model model) {
+//        String memAccount = (String) session.getAttribute("memAccount");
+
+//        Integer memNo = Integer.valueOf((String) session.getAttribute("memNo"));
         
-        String memAccount = (String) session.getAttribute("memAccount");
-        if (memAccount == null) {
-            return "redirect:/mem/login";
-        }
-        List<MemCouponVO> memberCoupons = memCouponService.getAllByMemNo(memNo);
-        model.addAttribute("memberCoupons", memberCoupons);
-        return "front-end/coupon/memListAllCoupon";
-    }
+//        System.out.println(memNo);
+//        
+//        if (memNo == null) {
+//            return "redirect:/mem/login";  // 或其他登入頁面路徑
+//        }
+//        
+//        String memAccount = (String) session.getAttribute("memAccount");
+//        if (memAccount == null) {
+//            return "redirect:/mem/login";
+//        }
+//        List<MemCouponVO> memberCoupons = memCouponService.getAllByMemNo(memNo);
+//        model.addAttribute("memberCoupons", memberCoupons);
+//        return "front-end/memcoupon/memListAllCoupon";
+//    }
     
     //以下昱夆新增
     @GetMapping("/member/list35")

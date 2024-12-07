@@ -161,7 +161,8 @@
                                     <li><a href="#">優惠管理</a>
                                         <ul class="dropdown">
                                             <li><a href="#">平台優惠活動管理</a></li>
-                                            <li><a href="#">廠商優惠券管理</a></li>
+<!--                                             <li><a th:href="@{'/coupon/approve/manager?managerNo=' + ${session.managerNo}}">廠商優惠券管理</a></li> -->
+                                            <li><a th:href="@{/coupon/approve}">廠商優惠券管理</a></li>
                                             <li><a href="#">優惠訊息通知</a></li>
                                         </ul>
                                     </li>

@@ -36,25 +36,26 @@ public class MemCouponController {
 
     
     
-    
+//  前台點擊連結 查看會員優惠券列表頁面
     @GetMapping("/memListAllCoupon")
     public String listMemberCoupons(HttpSession session, Model model) {
         String memAccount = (String) session.getAttribute("memAccount");
-        if (memAccount == null) {
-            return "redirect:/mem/login49";
-        }
+//        if (memAccount == null) {
+//            return "redirect:/mem/login";
+//        }
 
         try {
             MemberVO member = memberSvc.findByMemAccount(memAccount);
-            if (member == null) {
-                return "redirect:/mem/login49";
-            }
+//            if (member == null) {
+//                return "redirect:/mem/login";
+//            }
 
             List<MemCouponVO> memCoupons = memCouponSvc.getAllByMemNo(member.getMemNo());
             model.addAttribute("memCoupons", memCoupons);
             model.addAttribute("memAccount", memAccount);  
 
             return "front-end/memcoupon/memListAllCoupon";  
+            
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
             return "front-end/memcoupon/memListAllCoupon";

@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -260,6 +261,23 @@ public class CouponController {
     }
     
     
+    
+ // 後台審核優惠券的 GET 方法
+    @GetMapping("/approve")
+    public String showApprovePage(Model model) {
+        // 獲取待審核的優惠券列表
+        List<CouponVO> pendingCoupons = couponSvc.getAllPendingCoupons();  // 需要在 Service 層實現這個方法
+        model.addAttribute("pendingCoupons", pendingCoupons);
+        return "back-end/coupon/couponApprove";  // 審核頁面的視圖名稱
+    }
+    
+    
+//  //後台審核頁面
+//  	@GetMapping("couponcheck")
+//  	public String couponcheck() {
+//  		return "back-end/coupon/couponcheck";
+//  	}
+    
 //   後台審核優惠券
     @PostMapping("/approve")
     public String approveCoupon(@RequestParam("couponNo") int couponNo, RedirectAttributes redirectAttributes) {
@@ -269,7 +287,16 @@ public class CouponController {
         } else {
             redirectAttributes.addFlashAttribute("message", "審核失敗！");
         }
-        return "redirect:/couponcheck"; // 審核完成後重定向到優惠券列表頁
+        return "redirect:/couponApprove"; // 審核完成後重定向到優惠券列表頁
     }    
+    
+    
+ // 後台審核優惠券 可查看單個優惠券詳情
+    @GetMapping("/approve/{couponNo}")
+    public String viewCouponDetail(@PathVariable int couponNo, Model model) {
+        CouponVO coupon = couponSvc.getOneCouponWithDetails(couponNo);
+        model.addAttribute("coupon", coupon);
+        return "vendor-end/coupon/couponDetail";
+    }
 
 }
