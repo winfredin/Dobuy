@@ -74,20 +74,20 @@ public class FaqController {
 //	櫃位FAQ管理(任國)
 
 
-//	櫃位FAQ管理
-	@GetMapping("/listCounterFaq")
-	public String listAllCoupon(HttpSession session, Model model) {
-		// 櫃位優惠券登錄確認
-		CounterVO counter = (CounterVO) session.getAttribute("counter");
-		if (counter == null) {
-			return "redirect:/counter/login";
-		} else {
-			// 其他邏輯
-			model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
-			model.addAttribute("counterFaqListData", faqsvc.getOneCounterFaq(counter.getCounterNo()));
-			return "vendor-end/faq/listCounterFaq";
-		}
-	}
+////	櫃位FAQ管理
+//	@GetMapping("/listCounterFaq")
+//	public String listAllCoupon(HttpSession session, Model model) {
+//		// 櫃位優惠券登錄確認
+//		CounterVO counter = (CounterVO) session.getAttribute("counter");
+//		if (counter == null) {
+//			return "redirect:/counter/login";
+//		} else {
+//			// 其他邏輯
+//			model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
+//			model.addAttribute("counterFaqListData", faqsvc.getOneCounterFaq(counter.getCounterNo()));
+//			return "vendor-end/faq/listCounterFaq";
+//		}
+//	}
 
 //	@ModelAttribute("counterFaqListData")
 //	protected List<FaqVO> CounterReferenceListData(HttpSession session, Model model) {

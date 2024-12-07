@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -260,6 +261,18 @@ public class CouponController {
     }
     
     
+    
+ // 後台審核優惠券的 GET 方法
+    @GetMapping("/approve")
+    public String showApprovePage(Model model) {
+        // 獲取所有優惠券列表
+        List<CouponVO> list = couponSvc.getAll();
+        // 將數據添加到模型中，注意這裡的屬性名要跟視圖中使用的一致
+        model.addAttribute("couponListData", list);
+        return "back-end/coupon/couponApprove";
+    }
+    
+    
 //   後台審核優惠券
     @PostMapping("/approve")
     public String approveCoupon(@RequestParam("couponNo") int couponNo, RedirectAttributes redirectAttributes) {
@@ -269,7 +282,28 @@ public class CouponController {
         } else {
             redirectAttributes.addFlashAttribute("message", "審核失敗！");
         }
-        return "redirect:/couponcheck"; // 審核完成後重定向到優惠券列表頁
+        return "redirect:/coupon/approve"; // 修改為正確的路徑
     }    
+    
+    
+ // 後台審核優惠券 可查看單個優惠券詳情
+    @GetMapping("/approve/{couponNo}")
+    public String viewCouponDetail(@PathVariable int couponNo, Model model) {
+        CouponVO coupon = couponSvc.getOneCouponWithDetails(couponNo);
+        
+        // 先檢查優惠券是否存在
+        if (coupon == null) {
+            return "redirect:/coupon/approve";
+        }
+
+        // 使用優惠券的 CouponDetails 集合，而不是重新查詢
+        List<CouponDetailVO> details = new ArrayList<>(coupon.getCouponDetails());
+
+
+        model.addAttribute("coupon", coupon);
+        model.addAttribute("couponDetails", details);
+        
+        return "back-end/coupondetail/couponDetail";
+    }
 
 }

@@ -105,10 +105,8 @@ public class Controller_Coupondetail {
 	public String test2() {
 		return "back-end/back-end-home/test2";
 	}
-//後台審核頁面
-	@GetMapping("couponcheck")
-	public String couponcheck() {
-		return "back-end/coupon/couponcheck";
-	}
+	
+	
+
 
 }
