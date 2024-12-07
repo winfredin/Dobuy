@@ -40,17 +40,18 @@ public class FrontCouponController {
     private MemberService memberService;
 
     
-//  櫃位優惠券要顯示在前台領取櫃位優惠券頁面
+//  前台領取櫃位優惠券頁面
     @GetMapping("/list")
     public String listAvailableCoupons(HttpSession session, Model model) {
         // 檢查會員是否已登入
         String memAccount = (String) session.getAttribute("memAccount");
+        System.out.println(memAccount);
         
         // 如果未登入,保存當前請求路徑並重定向到登入頁面
-        if (memAccount == null) {
-            session.setAttribute("originalRequest", "/front-end/coupon/list");
-            return "redirect:/mem/login";
-        }
+//        if (memAccount == null) {
+//            session.setAttribute("originalRequest", "/front-end/coupon/list");
+//            return "redirect:/mem/login";
+//        }
         
         // 已登入則繼續執行原有邏輯
         List<CouponVO> coupons = couponService.getAllApprovedCoupons();
@@ -63,69 +64,66 @@ public class FrontCouponController {
     }
     
 //  前台領取櫃位優惠券頁面點查看詳情可以看到明細
-    @GetMapping("/detail/{couponNo}")
-    public String viewCouponDetail(@PathVariable Integer couponNo, 
-                                 HttpSession session, 
-                                 Model model) {
-        // 第一步：檢查會員登入狀態
-        String memAccount = (String) session.getAttribute("memAccount");
-        
-        // 如果會員未登入,我們需要:
-        // 1. 保存他們想查看的優惠券詳情頁面路徑
-        // 2. 將他們重定向到登入頁面
-        if (memAccount == null) {
-            // 保存原始請求路徑,包含優惠券編號,這樣登入後可以直接查看想看的優惠券
-            session.setAttribute("originalRequest", "/front-end/coupon/detail/" + couponNo);
-            return "redirect:/mem/login";
-        }
-        
-        // 第二步：如果會員已登入,繼續執行原有的優惠券詳情查詢邏輯
-        try {
-            CouponVO coupon = couponService.getOneCouponWithDetails(couponNo);
-            
-            if (coupon == null) {
-                // 找不到優惠券時的處理
-                return "redirect:/front-end/coupon/list";
-            }
-            
-            // 將優惠券資訊和會員資訊都加入模型
-            model.addAttribute("coupon", coupon);
-            model.addAttribute("memAccount", memAccount);
-            
-            return "front-end/coupon/frontCouponDetail";
-            
-        } catch (Exception e) {
-            // 發生異常時的處理
-            return "redirect:/front-end/coupon/list";
-        }
-    }
-    
-    
-    
-    
- // 第二個方法：顯示優惠券詳情
 //    @GetMapping("/detail/{couponNo}")
 //    public String viewCouponDetail(@PathVariable Integer couponNo, 
 //                                 HttpSession session, 
 //                                 Model model) {
-//        // 不需要檢查登入狀態（過濾器會處理），但需要取得會員資訊供頁面使用
+//        // 第一步：檢查會員登入狀態
 //        String memAccount = (String) session.getAttribute("memAccount");
 //        
+//        // 如果會員未登入,我們需要:
+//        // 1. 保存他們想查看的優惠券詳情頁面路徑
+//        // 2. 將他們重定向到登入頁面
+//        if (memAccount == null) {
+//            // 保存原始請求路徑,包含優惠券編號,這樣登入後可以直接查看想看的優惠券
+//            session.setAttribute("originalRequest", "/front-end/coupon/detail/" + couponNo);
+//            return "redirect:/mem/login";
+//        }
+//        
+//        // 第二步：如果會員已登入,繼續執行原有的優惠券詳情查詢邏輯
 //        try {
 //            CouponVO coupon = couponService.getOneCouponWithDetails(couponNo);
+//            
 //            if (coupon == null) {
+//                // 找不到優惠券時的處理
 //                return "redirect:/front-end/coupon/list";
 //            }
 //            
-//            // 將資料加入模型
+//            // 將優惠券資訊和會員資訊都加入模型
 //            model.addAttribute("coupon", coupon);
 //            model.addAttribute("memAccount", memAccount);
 //            
 //            return "front-end/coupon/frontCouponDetail";
+//            
 //        } catch (Exception e) {
+//            // 發生異常時的處理
 //            return "redirect:/front-end/coupon/list";
 //        }
 //    }
+
+ // 第二個方法：顯示優惠券詳情
+    @GetMapping("/detail/{couponNo}")
+    public String viewCouponDetail(@PathVariable Integer couponNo, 
+                                 HttpSession session, 
+                                 Model model) {
+        // 不需要檢查登入狀態（過濾器會處理），但需要取得會員資訊供頁面使用
+        String memAccount = (String) session.getAttribute("memAccount");
+        
+        try {
+            CouponVO coupon = couponService.getOneCouponWithDetails(couponNo);
+            if (coupon == null) {
+                return "redirect:/front-end/coupon/list";
+            }
+            
+            // 將資料加入模型
+            model.addAttribute("coupon", coupon);
+            model.addAttribute("memAccount", memAccount);
+            
+            return "front-end/coupon/frontCouponDetail";
+        } catch (Exception e) {
+            return "redirect:/front-end/coupon/list";
+        }
+    }
     
     
     

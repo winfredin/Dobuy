@@ -123,7 +123,6 @@
     max-height: 400px; /* 限制容器的最大高度 */
     margin: 0 auto; /* 水平居中 */
     padding: 0 20px 200px 20px; /* 添加左右內部間距 */
-
   }
   /* 設置整體表格的樣式 */
   table {
@@ -188,7 +187,10 @@
 /*   overflow: hidden; /* 隱藏溢出文本 */ 
 /*   text-overflow: ellipsis; /* 溢出文本顯示省略號 */
   }
-  
+	/* 添加底部間距 */
+  .table-container > div {
+	  height: 40px; /* 控制空白區域的高度 */
+  }
   </style>
 </head>
 
@@ -260,8 +262,9 @@
       </th:block>
     </tbody>
   </table>
+	  <div></div>
   </div>
-
+  
   <script>
   $(".toggle-status-btn").click(function(event) {
 	    event.preventDefault();

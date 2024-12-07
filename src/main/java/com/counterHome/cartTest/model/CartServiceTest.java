@@ -1,5 +1,6 @@
-package com.counterHome.model;
+package com.counterHome.cartTest.model;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,5 +36,18 @@ public class CartServiceTest {
 	    redisTemplate.delete(key);
 	}
 	
+	
+	//傳入參數 確認商品是否存在
+	public boolean IsExistingItem(List<CartListVO> cartList, String goodsNo) {
+	    for (CartListVO cartListVO : cartList) {
+	        if (goodsNo.equals(cartListVO.getGoodsNo().toString())) {
+	            cartListVO.setGoodsNum(cartListVO.getGoodsNum() + 1);
+	            cartListVO.setOrderTotalPrice(cartListVO.getGoodsNum() * cartListVO.getGoodsPrice());
+	            return true; // 商品已更新
+	        }
+	    }
+	    return false; // 未找到商品
+	}
+
 	
 }

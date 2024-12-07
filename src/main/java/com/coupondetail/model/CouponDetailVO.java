@@ -8,6 +8,7 @@ import javax.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.coupon.model.CouponVO;
+import com.goods.model.GoodsVO;
 
 @Entity
 @Table(name = "coupondetail")
@@ -16,17 +17,17 @@ public class CouponDetailVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // 自增主键
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // 自增主鍵
     @Column(name = "couponDetailNo")
     private Integer couponDetailNo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "couponNo", nullable = false)  // 確保非空
-    private CouponVO coupon; // 优惠券编号 (外键)
+    private CouponVO coupon; // 優惠券編號 (外鍵)
 
-    @Column(name = "goodsNo", nullable = false)
-    @NotNull(message = "商品編號: 請勿空白")
-    private Integer goodsNo;
+    @ManyToOne
+    @JoinColumn(name = "goodsNo", insertable=false, updatable=false)
+    private GoodsVO goodsVO; // 商品編號 (外鍵)
 
     @Column(name = "createdAt", nullable = false)
     @NotNull(message = "建立時間: 請勿空白")
@@ -51,10 +52,19 @@ public class CouponDetailVO implements Serializable {
     @DecimalMax(value = "1.00", message = "折扣率: 必須小於等於{value}")
     private Double disRate;
 
+    @Column(name = "goodsNo", nullable = false)
+    private Integer goodsNo;
+    
+    
+    
     // Constructors
     public CouponDetailVO() {
     }
 
+    
+    
+    
+    
     // 自动设置时间戳
     @PrePersist
     protected void onCreate() {
@@ -70,6 +80,17 @@ public class CouponDetailVO implements Serializable {
     
     
     // Getters and Setters
+    
+    public Integer getGoodsNo() {
+        return goodsNo;
+    }
+
+    public void setGoodsNo(Integer goodsNo) {
+        this.goodsNo = goodsNo;
+    }
+    
+    
+    
     public Integer getCouponDetailNo() {
         return couponDetailNo;
     }
@@ -86,12 +107,12 @@ public class CouponDetailVO implements Serializable {
         this.coupon = coupon;
     }
 
-    public Integer getGoodsNo() {
-        return goodsNo;
+    public GoodsVO getGoodsVO() {
+        return goodsVO;
     }
 
-    public void setGoodsNo(Integer goodsNo) {
-        this.goodsNo = goodsNo;
+    public void setGoodsVO(GoodsVO goodsVO) {
+        this.goodsVO = goodsVO;
     }
 
     public Date getCreatedAt() {

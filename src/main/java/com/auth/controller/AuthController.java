@@ -41,6 +41,9 @@ public class AuthController {
 	public String insert(@Valid AuthVO authVO, BindingResult result, ModelMap model)
 			 throws IOException {
 		// EmpService empSvc = new EmpService();
+		if (result.hasErrors() ) {
+			return "back-end/manager/addAuth";
+		}
 		authSvc.addAuth(authVO);
 		/*************************** 3.新增完成,準備轉交(Send the Success view) **************/
 		List<AuthVO> list = authSvc.getAll();
@@ -62,13 +65,16 @@ public class AuthController {
 	@PostMapping("update")
 	public String update(@Valid AuthVO authVO, BindingResult result, ModelMap model) 
 			throws IOException {
+		if (result.hasErrors() ) {
+			return "back-end/manager/update_auth_input";
+		}
 		authSvc.updateAuth(authVO);
 
 		/*************************** 3.修改完成,準備轉交(Send the Success view) **************/
 		model.addAttribute("success", "- (修改成功)");
 		authVO = authSvc.getOneAuth(Integer.valueOf(authVO.getAuthNo()));
 		model.addAttribute("authVO", authVO);
-		return "back-end/manager/listOneAuth";
+		return "redirect:/manager/listAllAuth";
 	}
 	
 	@PostMapping("delete")
@@ -81,7 +87,7 @@ public class AuthController {
 		List<AuthVO> list = authSvc.getAll();
 		model.addAttribute("authListData", list);
 		model.addAttribute("success", "- (刪除成功)");
-		return "back-end/manager/listAllAuth"; // 刪除完成後轉交listAllEmp.html
+		return "redirect:/manager/listAllAuth"; // 刪除完成後轉交listAllEmp.html
 	}
 	
 	

@@ -58,7 +58,7 @@
                                     <li><a href="#">商城系統</a>
                                         <ul  class="dropdown">
                                             <li><a href="#">櫃位訂單管理</a></li>
-                                            <li><a th:href="@{/goods/listAllCounterGoods}">商品管理</a></li>
+                                            <li><a id="goodsManagement" th:href="@{/goods/listAllCounterGoods}">商品管理</a></li>
                                         </ul>
                                     </li>
                                     <li><a href="#">櫃位前台設置</a>
@@ -70,10 +70,10 @@
                                     <li><a href="#">櫃位專區</a>
                                         <ul  class="dropdown">
                                             <li><a th:href="@{/counter/vendor-end/manage}">櫃位資料管理</a></li>
-                                            <li><a href="#">常見問題設定</a></li>
-                                            <li><a href="#">營收查詢</a></li>
-                                            <li><a href="#">追蹤管理</a></li>
-                                            <li><a href="#">優惠券設定</a></li>
+                                            <li><a th:href="@{/faq/listCounterFaq}">常見問題設定</a></li>
+                                            <li><a th:href="@{/monthsettlement/listAllMonthSettlement}">營收查詢</a></li>
+                                            <li><a th:href="@{/followers/listAllFollowers}">追蹤管理</a></li>
+                                            <li><a th:href="@{/coupon/listAllCoupon}">優惠券設定</a></li>
                                         </ul>
                                     <li><a href="#">櫃位訊息中心管理</a>
                                     </li>
@@ -81,14 +81,6 @@
                                     </li>
                                 </ul>
 
-                                <!-- Search Form  -->
-                                <div id="search-wrapper">
-                                    <form action="#">
-                                        <input type="text" id="search" placeholder="Search something...">
-                                        <div id="close-icon"></div>
-                                        <input class="d-none" type="submit" value="">
-                                    </form>
-                                </div>
                             </div>
                             <!-- Nav End -->
                         </div>
@@ -108,12 +100,7 @@
 </div>
     
 
-<!--     <footer style="position: fixed; bottom: 0; width: 100%; text-align: center; background-color: #f8f9fa; padding: 10px;"> -->
-<!--         Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">DOBUY</a> -->
-<!--     </footer> -->
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 
-    </footer>
     <!-- ##### Footer Area End ##### -->
 
     <!-- jQuery (Necessary for All JavaScript Plugins) -->

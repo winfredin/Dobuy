@@ -24,7 +24,7 @@ public class MsgVO implements java.io.Serializable {
     @Column(name = "counterInformNo")
     private Integer counterInformNo;
     
-    @Column(name = "counterNo")
+    @Column(name = "counterNo", nullable = false)
     private Integer counterNo;
 
     @NotNull
@@ -49,6 +49,15 @@ public class MsgVO implements java.io.Serializable {
 
     public void setCounterInformNo(Integer counterInformNo) {
         this.counterInformNo = counterInformNo;
+    }
+    
+
+    public Integer getCounterNo() {
+        return counterNo;
+    }
+
+    public void setCounterNo(Integer counterNo) {
+        this.counterNo = counterNo;
     }
 
     public String getInformMsg() {

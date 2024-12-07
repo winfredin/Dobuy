@@ -82,7 +82,7 @@ $(".proac").on("click",function(){
             },
             error: function (xhr, status, error) {
                 console.error("發生錯誤:", error);
-                alert("無法更新內容，請稍後再試。");
+                alert("請先登入");
             },
         });
 

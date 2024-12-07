@@ -56,21 +56,18 @@ public class ManagerAuthController {
     	HttpSession session = request.getSession();
     	 List<ManagerAuthVO> managerAuthList = (List<ManagerAuthVO>) session.getAttribute("auth");
     	  Integer loggedInManagerNo = (Integer) session.getAttribute("managerNo");
-    	  
+    	  ManagerVO managerVO ;
     	    boolean isAdmin = false; // 假設 "1" 表示超級管理員
     	    for (ManagerAuthVO managerAuth : managerAuthList) {
-    	    	
     	        if (managerAuth.getManagerNo().getManagerNo().equals(loggedInManagerNo)) {
-    	        
     	                if ("超級管理員".equals(managerAuth.getAuthNo().getAuthTitle())) { // 假設 "1" 是超級管理員的權限代碼
-    	                    isAdmin = true;
-    	                    
+    	                    isAdmin = true;  
     	                    break;
     	                }
     	            }
     	            
     	        }
-    	 
+    	  
     	    model.addAttribute("isAdmin", isAdmin);
     	model.addAttribute("allAuth",allAuth);
 		return "back-end/manager/listAllManager";

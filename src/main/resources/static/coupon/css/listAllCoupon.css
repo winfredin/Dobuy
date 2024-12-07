@@ -1,0 +1,84 @@
+/* 原有的樣式保留或根據需要調整 */
+.original-logo img {
+/*     width: 5.5% important; */
+}
+
+.container49 {
+    padding: 2rem 5rem;
+}
+
+.container49 .title {
+    font-size: 2em;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9em;
+    color: #333;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+th {
+    background-color: #f9f9f9;
+    font-weight: 600;
+}
+
+tr:nth-child(even) {
+    background-color: #f7f7f7;
+}
+
+/* 按鈕樣式 */
+button {
+    background: none;
+    color: #007BFF;
+    border: none;
+    padding: 0;
+    font-size: 1em;
+    cursor: pointer;
+    transition: color 0.3s, text-decoration 0.3s;
+}
+
+button:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* 表格中的按鈕對齊 */
+td form {
+    display: inline-block;
+}
+
+/* 新增優惠券按鈕 */
+.add-coupon-container {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.add-coupon-container button {
+    font-size: 1em;
+    padding: 8px 16px;
+    background-color: #28a745;
+    color: #fff;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.add-coupon-container button:hover {
+    background-color: #218838;
+    
+    
+  	.original-logo img {
+      max-width: 10% !important;
+    }
+}

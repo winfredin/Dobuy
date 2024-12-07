@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -118,6 +119,13 @@
         <form th:action="@{insert}" method="post" th:object="${goodsVO}" enctype="multipart/form-data">
 
             <div>
+                <label>櫃位名稱:</label>
+                <select th:field="*{counterVO.counterNo}">
+                    <option th:each="counterVO : ${counterListData1}" th:value="${counterVO.counterNo}" th:text="${counterVO.counterCName}" />
+                </select>
+                <span th:if="${#fields.hasErrors('counterVO.counterNo')}" th:errors="*{counterVO.counterNo}" class="error" id="counterVO.counterNo.errors"></span>
+            </div>
+            <div>
                 <label>商品類別名稱:</label>
                 <select th:field="*{goodsTypeVO.goodstNo}">
                     <option th:each="goodsTypeVO : ${goodsTypeListData}" th:value="${goodsTypeVO.goodstNo}" th:text="${goodsTypeVO.goodstName}" />
@@ -125,13 +133,6 @@
                 <span th:if="${#fields.hasErrors('goodsTypeVO.goodstNo')}" th:errors="*{goodsTypeVO.goodstNo}" class="error" id="goodsTypeVO.goodstNo.errors"></span>
             </div>
             
-            <div>
-                <label>櫃位名稱:</label>
-                <select th:field="*{counterVO.counterNo}">
-                    <option th:each="counterVO : ${counterListData1}" th:value="${counterVO.counterNo}" th:text="${counterVO.counterCName}" />
-                </select>
-                <span th:if="${#fields.hasErrors('counterVO.counterNo')}" th:errors="*{counterVO.counterNo}" class="error" id="counterVO.counterNo.errors"></span>
-            </div>
 
             <div>
                 <label>商品名稱:</label>

@@ -11,7 +11,7 @@ public class FilterConfig {
         FilterRegistrationBean<LoginFilter> login = new FilterRegistrationBean<>();
         login.setFilter(new LoginFilter());  // 註冊自定義的 Filter
       
-        login.addUrlPatterns("/back-end-homepage"); 
+        login.addUrlPatterns("/back-end-homepage/"); 
         return login;
     }
 }

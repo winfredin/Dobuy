@@ -57,55 +57,241 @@
             padding: 5px;
             text-align: center;
         }
+        admin-feature-bar {
+	/* background-color: rgba(173, 137, 100, 0.65); 深棕色背景，具有透明感 */
+	border-radius: 10px;
+}
+
+.admin-feature-list {
+	display: flex;
+	justify-content: center; /* 水平置中 */
+	list-style: none;
+	border-bottom: 1px solid #ddd; /* 下方邊框 */
+	background: linear-gradient(to bottom, rgba(173, 129, 85, 0.9),
+		rgba(128, 95, 63, 0.99), rgba(128, 95, 63, 0.99));
+	margin-top: 0;
+	border-radius: 10px; /* 圓角 */
+	box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15); /* 添加陰影 */
+	padding: 10px 0;
+}
+
+.admin-feature-list li {
+	margin: 0 100px; /* 每個項目間距 */
+	margin-left: 20px;
+}
+
+.admin-feature-list li a {
+	color: #130f0f; /* 字體設為白色 */
+	/* padding: 10px 15px; */
+	transition: background-color 0.3s;
+	border-radius: 6px;
+	/* padding-right: 20px; */
+	padding: 10px;
+}
+
+.admin-feature-list li a:hover {
+	text-decoration: underline;
+	background-color: rgba(141, 129, 115, 0.65);
+	cursor: pointer;
+}
+
+.profile-container {
+	width: 60%;
+	margin: 20px auto;
+	font-family: Arial, sans-serif;
+}
+
+h2 {
+	font-size: 24px;
+	font-weight: bold;
+}
+
+.profile-form {
+	display: flex;
+	flex-direction: column;
+}
+
+label {
+	font-weight: bold;
+	margin-top: 10px;
+}
+
+.profile-info {
+	margin-bottom: 10px;
+}
+
+input[type="text"] {
+	padding: 8px;
+	width: 100%;
+	margin-bottom: 10px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+}
+
+.profile-gender input {
+	margin-right: 5px;
+}
+
+.profile-birthday select {
+	padding: 8px;
+	margin-right: 5px;
+}
+
+.save-btn {
+	margin-top: 20px;
+	padding: 10px;
+	background-color: #ff4500;
+	color: #fff;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
     </style>
-  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>                                    
+  <link rel="icon" href="img/core-img/favicon.ico">
+
+<!-- Style CSS -->
+<link rel="stylesheet" href="/back-end-home/css/style.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">                                 
 <script	src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>    
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<script>
-	$(document).ready(function() {
-		$('#example').DataTable({
-			"lengthMenu": [3 ,5, 10, 20, 50, 100],
-			"pageLength": 5,
-			"searching": true,  //搜尋功能, 預設是開啟
-		    "paging": true,     //分頁功能, 預設是開啟
-		    "ordering": true,   //排序功能, 預設是開啟
-		    "language": {
-		        "processing": "處理中...",
-		        "loadingRecords": "載入中...",
-		        "lengthMenu": "顯示 _MENU_ 筆結果",
-		        "zeroRecords": "沒有符合的結果",
-		        "info": "顯示第 _START_ 至 _END_ 筆結果，共<font color=red> _TOTAL_ </font>筆",
-		        "infoEmpty": "顯示第 0 至 0 筆結果，共 0 筆",
-		        "infoFiltered": "(從 _MAX_ 筆結果中過濾)",
-		        "infoPostFix": "",
-		        "search": "搜尋:",
-		        "paginate": {
-		            "first": "第一頁",
-		            "previous": "上一頁",
-		            "next": "下一頁",
-		            "last": "最後一頁"
-		        },
-		        "aria": {
-		            "sortAscending":  ": 升冪排列",
-		            "sortDescending": ": 降冪排列"
-		        }
-		    }
-		});
-	});
-</script>
-<body bgcolor="white">
+	<!-- Preloader -->
+	<div id="preloader">
+		<div class="preload-content">
+			<div id="original-load"></div>
+		</div>
+	</div>
 
-<h4>此頁練習採用 EL 的寫法取值:</h4>
 
-<table id="table-1">
-    <tr>
-        <td>
-            <h3>所有權限資料 - listAllAuth</h3>
-            <h4><a th:href="@{/manager/select_page}"><img th:src="@{/images/cat1.gif}" width="150" height="100" border="0">回首頁</a></h4>
-        </td>
-    </tr>
-</table>
+
+	<!-- ##### Header Area Start ##### -->
+	<header class="header-area">
+
+		<!-- Top Header Area -->
+		<div class="top-header">
+			<div class="container h-100">
+				<div class="row h-100 align-items-center">
+					<!-- Breaking News Area -->
+					<div class="col-12 col-sm-8">
+						<div class="breaking-news-area">
+							<div id="breakingNewsTicker" class="ticker">
+								<ul>
+									<li><a href="#">Hello Staff!</a></li>
+									<li><a href="#">Hello Universe!</a></li>
+									<li><a href="#">Hello Earth!</a></li>
+									<li><a href="#">Hello DoBuy!</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Logo Area -->
+		<div class="logo-area text-center">
+			<div class="container h-100">
+				<div class="row h-100 align-items-center">
+					<div class="col-12">
+						<a href="#" class="original-logo"><img
+							src="img/core-img/logo noback.png" alt=""></a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Nav Area -->
+		<div class="original-nav-area" id="stickyNav">
+			<div class="classy-nav-container breakpoint-off">
+				<div class="container">
+					<!-- Classy Menu -->
+					<nav class="classy-navbar justify-content-between">
+
+						<!-- Navbar Toggler -->
+						<div class="classy-navbar-toggler">
+							<span class="navbarToggler"><span></span><span></span><span></span></span>
+						</div>
+
+						<!-- Menu -->
+						<div class="classy-menu" id="originalNav">
+							<!-- close btn -->
+							<div class="classycloseIcon">
+								<div class="cross-wrap">
+									<span class="top"></span><span class="bottom"></span>
+								</div>
+							</div>
+
+							<!-- Nav Start -->
+							<div class="classynav">
+								<ul>
+									<li><a class="dropdown-font" href="/back-end-homepage">首頁</a></li>
+									<li><a href="#">會員管理</a>
+										<ul class="dropdown">
+											<li><a href="#">會員管理</a></li>
+											<li><a href="#">會員管理訂單管理</a></li>
+											<li><a href="#">商品審核</a></li>
+										</ul></li>
+									<li><a href="#">櫃位管理</a>
+										<ul class="dropdown">
+											<li><a href="#">櫃位管理專區</a></li>
+											<li><a href="#">櫃位商城開設審核</a></li>
+
+										</ul></li>
+									<li><a href="#">商城系統</a>
+										<ul class="dropdown">
+											<li><a href="#">首頁輪播圖管理</a></li>
+											<li><a href="#">商品分類管理</a></li>
+										</ul></li>
+
+									<li><a href="#">管理員資料</a>
+										<ul class="dropdown">
+											<li><a href="manager" id="1">管理員資料管理</a></li>
+										</ul></li>
+
+									<li><a href="#">優惠管理</a>
+										<ul class="dropdown">
+											<li><a href="#">平台優惠活動管理</a></li>
+											<li><a href="#">廠商優惠券管理</a></li>
+											<li><a href="#">優惠訊息通知</a></li>
+										</ul></li>
+
+									<li><a href="#">客服系統</a>
+										<ul class="dropdown">
+											<li><a href="#">FAQ專案管理</a></li>
+											<li><a href="#">客服訊息回覆</a></li>
+										</ul></li>
+								</ul>
+
+								<!-- Search Form  -->
+								<div id="search-wrapper">
+									<form action="#">
+										<input type="text" id="search"
+											placeholder="Search something...">
+										<div id="close-icon"></div>
+										<input class="d-none" type="submit" value="">
+									</form>
+								</div>
+							</div>
+							<!-- Nav End -->
+						</div>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</header>
+		
+
+	<div class="admin-feature-bar">
+		<div class="container">
+			<ul class="admin-feature-list">
+			<li><a th:href="@{'/manager/manager?managerNo=' + ${session.managerNo}}" style="font-size:20px">回管理頁</a></li>
+				<li><a href="listAllManager"id="admin-data">管理員資料管理</a></li>
+				<li><a href="listAllAuth" id="admin-permissions">權限列表設定</a></li>
+			</ul>
+		</div>
+	</div>
 
 <table id="example">
 <thead>
@@ -144,9 +330,49 @@
 
 
 </div>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="/back-end-home/js/popper.min.js"></script>
+<!-- Bootstrap js -->
+<script src="/back-end-home/js/bootstrap.min.js"></script>
+<!-- Plugins js -->
+<script src="/back-end-home/js/plugins.js"></script>
+<!-- Active js -->
+<script src="/back-end-home/js/active.js"></script>
 <script>
 
-
+$(document).ready(function() {
+	
+	
+    // 初始化 DataTable
+    var table = $('#example').DataTable({
+        "lengthMenu": [3, 5, 10, 20, 50, 100],
+        "pageLength": 5,
+        "searching": true,
+        "paging": true,
+        "ordering": true,
+        "language": {
+            "processing": "處理中...",
+            "loadingRecords": "載入中...",
+            "lengthMenu": "顯示 _MENU_ 筆結果",
+            "zeroRecords": "沒有符合的結果",
+            "info": "顯示第 _START_ 至 _END_ 筆結果，共<font color=red> _TOTAL_ </font>筆",
+            "infoEmpty": "顯示第 0 至 0 筆結果，共 0 筆",
+            "infoFiltered": "(從 _MAX_ 筆結果中過濾)",
+            "infoPostFix": "",
+            "search": "搜尋:",
+            "paginate": {
+                "first": "第一頁",
+                "previous": "上一頁",
+                "next": "下一頁",
+                "last": "最後一頁"
+            },
+            "aria": {
+                "sortAscending": ": 升冪排列",
+                "sortDescending": ": 降冪排列"
+            }
+        }
+    });
+});
 
 
 </script>
