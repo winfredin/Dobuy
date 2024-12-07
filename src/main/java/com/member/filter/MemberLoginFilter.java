@@ -12,15 +12,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-<<<<<<< HEAD
+
 import com.member.model.MemberVO;
 
-=======
+
 import org.springframework.stereotype.Component;
 
 
 @WebFilter(urlPatterns = {"/front-end/coupon/list", "/front-end/coupon/member/list35"})
->>>>>>> Ethan01
+
 public class MemberLoginFilter implements Filter {
 
 	@Override

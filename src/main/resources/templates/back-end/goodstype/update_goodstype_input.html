@@ -3,46 +3,115 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>商品類別資料修改 - update_goodstype_input.html</title>
-
+<title>商品類別資料修改</title>
+<link rel="stylesheet" href="/back-end-home/css/style.css"> 	
 <head th:insert="~{/back-end/goodstype/included-fragment}"></head>
 <style type="text/css">
-	button {
-		padding: 5px;
-	}
-	form {
-		display: table;
-	}
-	form div {
-		display: table-row;
-	}
-	label, input, span, select {
-		display: table-cell;
-		margin: 5px;
-		text-align: left;		
-	}
-	input[type=text], input[type=password], select, textarea {
-		width: 200px;
-		margin: 5px;
-	}
-	form div div {
-		display: table-cell;
-	}
-	.center {
-        margin-left: auto;
-        margin-right: auto;
-    }
+.update_goodstype {
+  background-color: #ffffff; /* 背景顏色 */
+  border-radius: 15px; /* 圓角 */
+  padding: 20px; /* 內邊距 */
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1); /* 輕微陰影 */
+  max-width: 800px; /* 最大寬度 */
+  margin: 20px auto; /* 居中顯示 */
+}
+
+/* 表單區塊 */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 10px;
+}
+
+form div {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* 標籤 */
+form div label {
+  display: block;
+  margin-bottom: 5px;
+  text-align: left; 
+}
+
+/* 輸入框、選擇框、文本框樣式 */
+input[type="text"], input[type="password"], select, textarea {
+  width: 100%;
+  padding: 8px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  box-sizing: border-box;
+}
+
+input[type="text"]:focus, input[type="password"]:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: #ffb85b;
+}
+
+/* 錯誤訊息 */
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+/* 按鈕樣式 */
+button#submit {
+  padding: 10px 20px;
+  background-color:  #ffd165;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+button#submit:hover {
+  background-color: #fec031;
+}
+
+button#cancel {
+  padding: 10px 20px;
+  background-color: #ccc;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+button#cancel:hover {
+  background-color: #b3b3b3;
+}
+
+/* 讓form內的元素保持一致的間距 */
+form div {
+  margin-bottom: 20px;
+}
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
-		 <div align="center"> <h2>商品類別資料修改 - update_goodstype_input.html</h2>
-		 <h3><a class="navbar-brand" th:href="@{/goodstype/select_page}"><img th:src="@{/images/back1.gif}">回查詢頁</a></h3></div>
-</nav>
+<!-- <nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center"> -->
+<!-- 		 <div align="center"> <h2>商品類別資料修改 - update_goodstype_input.html</h2> -->
+<!-- 		 <h3><a class="navbar-brand" th:href="@{/goodstype/select_page}"><img th:src="@{/images/back1.gif}">回查詢頁</a></h3></div> -->
+<!-- </nav> -->
 
 	<div align="center">
-		<h3><b>所有欄位皆為必填欄位</b></h3>
+	<section class="update_goodstype">
+		<h3><b>商品類別修改</b></h3>
 		<form th:action="@{update}" method="post" th:object="${goodsTypeVO}" enctype="multipart/form-data">
 		    <div>
 		        <label>商品類別編號:</label>
@@ -55,11 +124,15 @@
 		        <span th:if="${#fields.hasErrors('goodstName')}" th:errors="*{goodstName}" class="error"></span>
 		    </div>
 
+		</section>	
+		<div>
+			<div></div>
 			<div>
-				<div></div>
-				<div><button type="submit" id="submit"> 送出修改 </button></div>
-				<div></div>
-			</div>		
+				<button type="button" id="cancel" onclick="history.back();">取消</button>
+				<button type="submit" id="submit">送出</button>
+			</div>
+			<div></div>
+		</div>	
 		</form>
 	</div>
 
