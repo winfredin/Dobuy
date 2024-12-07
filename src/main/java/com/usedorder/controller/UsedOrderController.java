@@ -58,11 +58,16 @@ public class UsedOrderController {
 	        usedOrderVO.setDeliveryStatus(deliveryStatus);
 	        usedOrderSvc.updateUsedOrder(usedOrderVO);
 
-	        // 发送通知消息
+	        // 發送通知消息
 	        String deliveryStatusText = getDeliveryStatusText(deliveryStatus);
 	        NoticeVO noticeVO = new NoticeVO();
 	        noticeVO.setNoticeContent("訂單號 " + usedOrderNo + " 宅配狀態更新為" + deliveryStatusText);
 	        noticeVO.setNoticeDate(new Timestamp(System.currentTimeMillis()));
+	        
+	        // 獲取 buyerNo 並設置到 noticeVO 的 memNo
+	        Integer buyerNo = usedOrderVO.getBuyerNo();
+	        noticeVO.setMemNo(buyerNo);
+
 	        noticeSvc.save(noticeVO);
 
 	        response.put("success", true);
@@ -82,7 +87,8 @@ public class UsedOrderController {
 		case 2: return "待領件"; 
 		case 3: return "已領貨"; 
 		case 4: return "已取消"; 
-		default: return "未知狀態"; } }
+		case 5: return "已付款";
+		default: return "已付款"; } }
 
 	// 去除BindingResult中某個欄位的FieldError紀錄
 	public BindingResult removeFieldError(UsedOrderVO usedOrderVO, BindingResult result, String removedFieldname) {

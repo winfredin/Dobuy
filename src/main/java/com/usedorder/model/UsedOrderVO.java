@@ -54,8 +54,11 @@ public class UsedOrderVO {
                 return "已領貨";
             case 4:
                 return "已取消";
+            case 5:
+                return "已付款"; // 確保5的狀態也能直接處理
             default:
-                return "未知狀態";
+                // 預設為狀態 5 且返回 "已付款"
+                return "已付款";
         }
     }
 

@@ -53,6 +53,12 @@
             window.location.href = "addMsg"; // 跳轉到新增訊息頁面
         });
     });
+	 //點擊後欄位變成淺藍色
+	 $(document).ready(function() {
+         $('#example tbody').on('click', 'tr', function() {
+             $(this).css('background-color', '#dff1f7'); // 將背景色改為淺藍色
+         });
+     });
 </script>
 <style type="text/css">
 .container {
