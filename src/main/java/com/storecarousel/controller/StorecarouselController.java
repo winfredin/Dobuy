@@ -23,27 +23,27 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.storecarousel.model.storeCarouselService;
-import com.storecarousel.model.storeCarouselVO;
+import com.storecarousel.model.StoreCarouselService;
+import com.storecarousel.model.StoreCarouselVO;
 
 @Controller
 @RequestMapping("/storecarousel")
 public class StorecarouselController {
 
     @Autowired
-    storeCarouselService storeCarouselService;
+    StoreCarouselService storeCarouselService;
 
     // 進入新增頁面
     @GetMapping("/vendor-end/storecarousel/addStoreCarousel")
     public String addStoreCarousel(ModelMap model) {
-    	storeCarouselVO storeCarouselVO = new storeCarouselVO();
+    	StoreCarouselVO storeCarouselVO = new StoreCarouselVO();
         model.addAttribute("storeCarouselVO", storeCarouselVO);
         return "vendor-end/storecarousel/addStoreCarousel";
     }
 
     // 新增資料處理
     @PostMapping("insert")
-    public String insert(@Valid storeCarouselVO storeCarouselVO, BindingResult result, ModelMap model) {
+    public String insert(@Valid StoreCarouselVO storeCarouselVO, BindingResult result, ModelMap model) {
         if (result.hasErrors()) {
             return "vendor-end/storecarousel/addStoreCarousel";
         }
@@ -56,7 +56,7 @@ public class StorecarouselController {
     // 查詢所有輪播資訊
     @GetMapping("listAllStoreCarousel")
     public String listAll(ModelMap model) {
-        List<storeCarouselVO> list = storeCarouselService.getAll(null);
+        List<StoreCarouselVO> list = storeCarouselService.getAll(null);
         model.addAttribute("storeCarouselData", list);
         return "vendor-end/storecarousel/listAllStoreCarousel";
     }
@@ -64,14 +64,14 @@ public class StorecarouselController {
     // 更新資料頁面
     @PostMapping("getOneForUpdate")
     public String getOneForUpdate(@RequestParam("storeCarouselNo") Integer storeCarouselNo, ModelMap model) {
-    	storeCarouselVO storeCarouselVO = storeCarouselService.getOneStoreCarousel(storeCarouselNo);
+    	StoreCarouselVO storeCarouselVO = storeCarouselService.getOneStoreCarousel(storeCarouselNo);
         model.addAttribute("storeCarouselVO", storeCarouselVO);
         return "vendor-end/storecarousel/update-StoreCarousel-Input";
     }
 
     // 更新資料處理
     @PostMapping("update")
-    public String update(@Valid storeCarouselVO storeCarouselVO, BindingResult result, ModelMap model) {
+    public String update(@Valid StoreCarouselVO storeCarouselVO, BindingResult result, ModelMap model) {
         if (result.hasErrors()) {
             return "vendor-end/storecarousel/update-StoreCarousel-Input";
         }
@@ -111,7 +111,7 @@ public class StorecarouselController {
     }
 
     // 去除 BindingResult 中某欄位的錯誤
-    public BindingResult removeFieldError(storeCarouselVO storeCarouselVO, BindingResult result, String removedFieldName) {
+    public BindingResult removeFieldError(StoreCarouselVO storeCarouselVO, BindingResult result, String removedFieldName) {
         List<FieldError> errorsToKeep = result.getFieldErrors().stream()
                 .filter(fieldError -> !fieldError.getField().equals(removedFieldName))
                 .collect(Collectors.toList());
