@@ -53,19 +53,31 @@ public class MsgController {
     @Autowired 
     private MemberRepository memberRepository;
     
+    @Autowired
+    private MemberService memberSvc;
+    
     
     @GetMapping("addMsg")
     public String addEmp(ModelMap model) {
         MsgVO msgVO = new MsgVO();
+        model.addAttribute("memberList", memberSvc.getAll());
         model.addAttribute("msgVO", msgVO);
         return "vendor-end/msg/addMsg";
     }
     
+    
     @PostMapping("insert")
-    public String insert(@Valid MsgVO msgVO, BindingResult result, ModelMap model,
+    public String insert(HttpSession session, @Valid MsgVO msgVO, BindingResult result, ModelMap model,
                          @RequestParam("informMsg") String informMsg) {
 
         /*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
+        // 從 session 中獲取 CounterVO
+        CounterVO counter = (CounterVO) session.getAttribute("counter");
+        if (counter == null) {
+            // 處理沒有 CounterVO 的情況
+            return "redirect:/counter/login"; // 假設有一個登錄頁面
+        }
+        msgVO.setCounterNo(counter.getCounterNo()); // 設置 counterNo 到 msgVO 中
         msgVO.setInformMsg(informMsg); // 設置訊息內文
 
         if (result.hasErrors()) {
@@ -76,23 +88,21 @@ public class MsgController {
         /*************************** 2.開始新增資料 *****************************************/
         msgSvc.addMsg(msgVO);
 
-        // 同步新增通知信息到Notice表
+        // 同步新增通知信息到 Notice 表
         NoticeVO noticeVO = new NoticeVO();
         noticeVO.setNoticeContent(informMsg);
         noticeVO.setNoticeDate(new Timestamp(System.currentTimeMillis()));
-        noticeVO.setMemNo(msgVO.getMemNo()); // 使用msgVO中的memNo設置通知
+        noticeVO.setMemNo(msgVO.getMemNo()); // 設置 memNo
 
-        noticeSvc.save(noticeVO); // 使用注入的NoticeService保存通知信息
+        noticeSvc.save(noticeVO); // 使用注入的 NoticeService 保存通知信息
 
         /*************************** 3.新增完成,準備轉交(Send the Success view) **************/
-        List<MsgVO> list = msgSvc.getAll();
-        model.addAttribute("msgListData", list);
+        List<MsgVO> list = msgSvc.getOneCounterMsg(counter.getCounterNo());
+        model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
+        model.addAttribute("counterMsgListData", list);
         model.addAttribute("success", "- (新增成功)");
         return "vendor-end/msg/listAllMsg"; // 新增成功後重導至顯示所有訊息的頁面
     }
-    
-   
-
 
 
     
@@ -108,10 +118,6 @@ public class MsgController {
     }
     
     
-   
-
-    
-
     
     @PostMapping("update")
     public String update(@Valid MsgVO msgVO, BindingResult result, ModelMap model,
