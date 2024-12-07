@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Table(name = "storecarousel")
-public class storeCarouselVO {
+public class StoreCarouselVO {
 
     @Id
     @Column(name = "storeCarouselNo")
