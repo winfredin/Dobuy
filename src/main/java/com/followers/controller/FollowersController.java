@@ -121,6 +121,7 @@ public class FollowersController {
         
         List<FollowersVO> list = followersService.getByCounterNo(counter.getCounterNo());
         model.addAttribute("followersListData", list);
+        model.addAttribute("counter", counter);
         return "vendor-end/followers/listAllFollowers";
     }
     
