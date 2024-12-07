@@ -55,12 +55,20 @@
 .container {
 	padding: 1rem 12rem 2rem 12rem;
 }
+
+
+.error {
+    color: red; /* 紅字 */
+    font-weight: bold; /* 加粗 */
+    font-size: 1.5rem; /* 放大 */
+}
+
 </style>
 
 </head>
 <body>
 	<!-- fragment引入 -->
-	<div th:insert== "vendor-end/counter/Counterincldue ::header"></div>
+	<div th:insert=="vendor-end/counter/Counterincldue::header"></div>
 
 	<!-- 	<header th:block th:replace="~{back-end/back-end-home/fraghead :: header}"></header> -->
 
@@ -68,47 +76,42 @@
 
 
 	<div class="container">
+	<!-- 錯誤訊息區域 -->
+        <div th:if="${errorMsgs}" class="error-container">
+            <!-- 遍歷錯誤信息並顯示 -->
+            <div th:each="errorMsg : ${errorMsgs}" class="error">
+                <span th:text="${errorMsg}"></span>
+            </div>
+        </div>
+		<form th:action="@{/faq/update}" method="post" th:object="${faqVO}">
+			<!-- 隱藏的主鍵欄位 -->
+			<input type="hidden" name="faqNo" th:value="${faqVO.faqNo}"
+				th:field="*{faqNo}" />
+			<input type="hidden" name="counterNo"
+				th:value="${faqVO.counterNo}"/>
+				
+			<table id="example" class="display" style="width: 100%">
+				<thead>
+					<tr style="background-color: #CCCCFF">
+						<th>問題</th>
+						<th>回答</th>
+						<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+					</tr>
+				</thead>
+				<tbody>
 
-		<table id="example" class="display" style="width: 100%">
-			<thead>
-				<tr style="background-color: #CCCCFF">
-					<th>計數</th>
-					<th>問題</th>
-					<th>回答</th>
-					<th>櫃位編號</th>
-					<th>修改</th>
-					<th>刪除</th>
-				</tr>
-			</thead>
-
-			<tbody>
-				<th:block th:each="faqVO : ${counterFaqListData}">
 					<tr>
-						<td th:text="${faqVOStat.count}"></td>
-						<td th:text="${faqVO.ques}"></td>
-						<td th:text="${faqVO.ans}"></td>
-						<td th:text="${faqVO.counterNo}"></td>
-
-
+						<td><input type="text" name="ques" th:field="*{ques}" /></td>
+						<td><input type="text" name="ans" th:field="*{ans}" /></td>
+						
 						<td>
-							<form method="post" th:action="@{/faq/getOneUpdate}"
-								style="margin-bottom: 0px;">
-								<input type="submit" value="修改"> <input type="hidden"
-									name="faqNo" th:value="${faqVO.faqNo}">
-							</form>
-						</td>
-						<td>
-							<form method="post" th:action="@{/faq/delete}"
-								style="margin-bottom: 0px;">
-								<input type="button" value="刪除" onclick="confirmDelete()"> 
-								<input type="hidden" name="faqNo" th:value="${faqVO.faqNo}">
-							</form>
-
+							<button>送出</button>
 						</td>
 					</tr>
-				</th:block>
-			</tbody>
-		</table>
+				</tbody>
+
+			</table>
+		</form>
 	</div>
 
 
@@ -124,17 +127,7 @@
 
 	<th:block th:replace="~{back-end/back-end-home/fraghead :: js}"></th:block>
 
-	<script>
-		function confirmDelete() {
-			if (confirm("確定要刪除嗎？")) {
-				// 用户确认删除，提交表单
-				document.getElementById("deleteForm").submit();
-			} else {
-				// 用户取消，什么都不做
-				alert("已取消刪除！");
-			}
-		}
-	</script>
+
 
 </body>
 </html>

@@ -60,8 +60,7 @@
         const goodsPrice = button.getAttribute('data-price');
         const goodsNo = button.getAttribute('data-id');
         const counterNo = button.getAttribute('data-counterNo');
-        
-        fetch('/demo/cart/add', {
+        fetch('/cart/add', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

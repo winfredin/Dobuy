@@ -14,8 +14,20 @@ public class FaqService {
 		faqRepository.save(faqVO);
     }
 	
-    public List<FaqVO> getOneCounterFaq(Integer counterNo) {
-        return faqRepository.findByCounterNo(counterNo); // 如果不存在，返回 null
-    }
+	public List<FaqVO> getOneCounterFaq(Integer counterNo) {
+		return faqRepository.findByCounterNo(counterNo); // 如果不存在，返回 null
+	}
+	
+	public FaqVO getOneFaq(String faqNo) {
+		return faqRepository.findByFaqNo(faqNo); // 如果不存在，返回 null
+	}
+	
+	public void updateFaq(FaqVO faqVO) {
+		faqRepository.save(faqVO);
+	}
+	
+	public void deleteFaq(Integer faqNo) {
+		faqRepository.deleteById(faqNo);
+	}
 
 }

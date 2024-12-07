@@ -76,7 +76,6 @@ public class MemberCRUDController {
 		}
 
 		// 保存会员信息
-		System.out.println("成功");
 		memberSvc.addMem(memberVO);
 		return "front-end/member/registerSuccess"; // 重定向到成功页面
 	}

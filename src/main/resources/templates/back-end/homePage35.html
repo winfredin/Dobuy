@@ -14,28 +14,29 @@
 	</div>
 
 	<br><br>
-	<h5><a href='home'>前台主頁</a><br><br></h5>
-	
-	<br><br>
-	<h5><a th:href="@{/front-end/coupon/list}">柏翔</a><br><br></h5>
+	<h5><a th:href= "@{/home}">前台主頁</a><br><br></h5>
 	
 	<br><br>
 	<h5><a href='/back-end-homepage'>後台主頁</a><br><br></h5>
 	
+	<form method="get" th:action="@{/counter/getOneCounter_For_Display}">
+	        櫃位前台(輸入櫃位編號):
+	    <input type="text" name="counterNo" placeholder="請輸入櫃位編號"/>
+	    <input type="submit" value="送出">
+
+    </form>
+	<br><br>
+	
+	<h5><a th:href="@{/counter/Counterindex}">櫃位後台</a><br><br></h5>
 	
 	<br><br>
 	<h5><a th:href="@{/addCarousel_page}">addCarousel_page </a><br><br></h5>
+ 
+	<br><br>
+	<h5><a th:href="@{/mem/register}">register</a><br><br></h5>
 	
 	<br><br>
-	<h5><a href='addProduct_page'>addProduct_page</a><br><br></h5>
-	
-    <form method="get" th:action="@{/counter/getOneCounter_For_Display}">
-	        輸入櫃位編號:
-	    <input type="text" name="counterNo" placeholder="請輸入櫃位編號"/>
-	    <input type="submit" value="送出">
-    </form>
-   	<br>
-
+	<h5><a th:href="@{/mem/login}">login</a><br><br></h5>
 <!-- <<<<<<< Upstream, based on branch 'master' of https://github.com/he01314905/Dobuy.git -->
 	
 	<form method="post" th:action="@{/goods/getOne_For_Display}">
@@ -55,11 +56,6 @@
 	<br><br>
 	<h5><a th:href="@{/used}">Usedtest</a><br><br></h5>
 	
-	<br><br>
-	<h5><a th:href="@{/mem/register}">register</a><br><br></h5>
-	
-	<br><br>
-	<h5><a th:href="@{/mem/login}">login</a><br><br></h5>
 
 <!-- <<<<<<< Upstream, based on branch 'master' of https://github.com/he01314905/Dobuy.git -->
 

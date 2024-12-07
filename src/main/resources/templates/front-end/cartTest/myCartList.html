@@ -14,7 +14,7 @@
     	const counterCname = button.getAttribute('data-counterCname');
     	const counterDiv = document.querySelector(`[data-counter="${counterCname}"]`); // 找到櫃位的 DOM
     	 
-        fetch('/demo/cart/update', {
+        fetch('/cart/update', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -57,9 +57,9 @@
 
     	const goodsNo = button.getAttribute('data-id');
     	const counterCname = button.getAttribute('data-counterCname');
+
     	
-    	
-        fetch(`/demo/cart/remove`, {
+        fetch(`/cart/remove`, {
         	method: 'POST',
         	headers: {
                 'Content-Type': 'application/json'
@@ -81,7 +81,7 @@
 		            if (!counterDiv.querySelector("[data-goods-no]")) {
 		                counterDiv.remove(); // 如果没有商品，删除整个櫃位
 		            }
-                
+		            calculateCounterTotal(counterDiv);
                  
             } else {
                 alert("刪除失敗！");
