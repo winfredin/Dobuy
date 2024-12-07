@@ -670,7 +670,7 @@ CREATE TABLE UsedOrder (
     usedOrderTime DATETIME,
     usedPrice INT(6) NOT NULL CHECK (usedPrice > 0),
     usedCount INT(5) NOT NULL CHECK (usedCount > 0),
-    deliveryStatus TINYINT(5) NOT NULL DEFAULT 0,
+    deliveryStatus TINYINT(5) NOT NULL DEFAULT 5,
     receiverName VARCHAR(200) NOT NULL,
     receiverAdr VARCHAR(200) NOT NULL,
     receiverPhone VARCHAR(200) NOT NULL,

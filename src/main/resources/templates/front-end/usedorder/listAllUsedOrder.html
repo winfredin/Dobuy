@@ -74,7 +74,8 @@
 	        type: "POST",
 	        data: {
 	            usedOrderNo: usedOrderNo,
-	            message: message
+	            message: message,
+	            buyerNo: buyerNo
 	        },
 	        success: function(response) {
 	            if (response.success) {
@@ -142,6 +143,7 @@ body {
                         <option value="2" th:selected="${usedOrderVO.deliveryStatus == 2}">待領件</option>
                         <option value="3" th:selected="${usedOrderVO.deliveryStatus == 3}">已領貨</option>
                         <option value="4" th:selected="${usedOrderVO.deliveryStatus == 4}">已取消</option>
+                        <option value="5" th:selected="${usedOrderVO.deliveryStatus == 5}">已付款</option>
                     </select>
                 </td>
                 <td th:text="${usedOrderVO.buyerNo}"></td>
