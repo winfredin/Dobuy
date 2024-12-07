@@ -9,8 +9,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.faq.model.FaqVO;
+import com.notice.model.NoticeVO;
 
 public interface MsgRepository extends JpaRepository<MsgVO, Integer> {
+	
+	
+	List<NoticeVO> findByMemNo(Integer memNo);
 
 	
 

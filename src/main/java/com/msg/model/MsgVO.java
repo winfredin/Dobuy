@@ -26,6 +26,9 @@ public class MsgVO implements java.io.Serializable {
     
     @Column(name = "counterNo", nullable = false)
     private Integer counterNo;
+    
+    @Column(name = "memNo")
+    private Integer memNo;
 
     @NotNull
     @NotEmpty(message = "訊息內文請勿空白。")
@@ -59,6 +62,14 @@ public class MsgVO implements java.io.Serializable {
     public void setCounterNo(Integer counterNo) {
         this.counterNo = counterNo;
     }
+    
+    public Integer getMemNo() {
+		return memNo;
+	}
+
+	public void setMemNo(Integer memNo) {
+		this.memNo = memNo;
+	}
 
     public String getInformMsg() {
         return informMsg;
