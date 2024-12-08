@@ -52,8 +52,19 @@ public class GoodsController {
      * This method will serve as addCouponDetail.html handler.
      */
     @GetMapping("addGoods")
-    public String addGoods(ModelMap model) {
+    public String addGoods(ModelMap model, HttpSession session) {
         GoodsVO goodsVO = new GoodsVO();
+        
+        // 從 session 中獲取登入櫃位
+        CounterVO loginCounter = (CounterVO) session.getAttribute("counter");
+        if (loginCounter == null) {
+            // 若未登入，返回登入頁面
+            return "redirect:/counter/login";
+        }
+
+        // 預設將櫃位資訊設定到 goodsVO 中
+        goodsVO.setCounterVO(loginCounter);
+        
         model.addAttribute("goodsVO", goodsVO);
         return "vendor-end/goods/addGoods";
     }
