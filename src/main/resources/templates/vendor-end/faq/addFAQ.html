@@ -2,18 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <!-- fragment引入 -->
-<th:block th:replace="~{/back-end/back-end-home/fraghead :: head}"></th:block>
+<th:block th:replace="~{/vendor-end/counter/Counterincldue :: head}"></th:block>
 
 <title>櫃位常見問題設定 -listCounterFaq.html</title>
 
 
+<!-- 其他必要的元數據和樣式文件 -->
+
+
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 
-<script
-	src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-<link rel="stylesheet"
-	href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css" />
-<link rel="stylesheet" href="/counter/style.css">
+<script	src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css" />
+
 
 
 
@@ -120,7 +121,7 @@
 		th:replace="~{back-end/back-end-home/fraghead :: footer}"></footer>
 
 
-	<th:block th:replace="~{back-end/back-end-home/fraghead :: js}"></th:block>
+
 
 
 

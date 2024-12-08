@@ -3,10 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <th:block th:replace="~{/vendor-end/counter/Counterincldue :: head}"></th:block>
   <title>商品管理</title>
-  <link rel="stylesheet" href="/counter/style.css">
-<!--   <head th:insert="~{/vendor-end/goods/included-fragment}"></head> -->
-<!--   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>                                     ●●js  for jquery  -->
   <!-- 確保先引入 jQuery -->
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> <!-- 這是正確的 jQuery 載入方式 -->
   
@@ -264,6 +262,8 @@
   </table>
 	  <div></div>
   </div>
+  		
+  		
   
   <script>
   $(".toggle-status-btn").click(function(event) {
