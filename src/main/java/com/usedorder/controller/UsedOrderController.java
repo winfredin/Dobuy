@@ -126,7 +126,11 @@ public class UsedOrderController {
 	@GetMapping("listAllUsedOrder2")
 	public String getAllOrder2(ModelMap model) {
 	    List<UsedOrderVO> list = usedOrderSvc.getAll();
-	    model.addAttribute("usedorderListData", list);
+	 // 過濾掉 deliveryStatus = 6 的訂單
+	    List<UsedOrderVO> filteredList = list.stream()
+	                                         .filter(order -> order.getDeliveryStatus() != 6)
+	                                         .collect(Collectors.toList());
+	    model.addAttribute("usedorderListData", filteredList);
 	    return "front-end/usedorder/listAllUsedOrder2";
 	}
 
