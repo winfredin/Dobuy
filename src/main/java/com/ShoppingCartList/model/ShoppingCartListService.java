@@ -57,8 +57,8 @@ public class ShoppingCartListService {
     
 //  結帳用=========================================柏諭
 	public List<ShoppingCartListVO> getCartItemsByMemNo(Integer memNo) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return repository.findmem(memNo);
 	}
 //  結帳用=========================================翊豪
 	public void clearCart(Integer memNo) {

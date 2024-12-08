@@ -30,7 +30,11 @@ public interface GoodsRepository extends JpaRepository<GoodsVO, Integer> {
     @Query(value = "SELECT * FROM goods WHERE counterNo = ?1 ORDER BY goodsDate DESC", nativeQuery = true)
     List<GoodsVO> getOneCounter35(Integer counterNo);
 
-    
+    @Transactional
+    @Modifying
+    @Query(value = "update goods set goodsAmount=?2  where goodsNo =?1", nativeQuery = true)
+    void upGoodsAmount(Integer goodsNo,Integer goodsAmount);
+
     
   //=============以上昱夆新增===============//
     

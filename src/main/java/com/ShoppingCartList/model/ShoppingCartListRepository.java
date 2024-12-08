@@ -28,6 +28,10 @@ public interface ShoppingCartListRepository extends JpaRepository<ShoppingCartLi
     @Query("FROM ShoppingCartListVO WHERE memNo = ?1 AND goodsNo = ?2")
     List<ShoppingCartListVO> findByMemNoAndGoodsNo(int memNo, int goodsNo);
     
+
+    @Query("FROM ShoppingCartListVO WHERE memNo = ?1")
+    List<ShoppingCartListVO> findmem(Integer memNo);
+
     
     @Query("SELECT s FROM ShoppingCartListVO s WHERE s.memNo = :memNo")
     List<ShoppingCartListVO> findByMemNo(@Param("memNo") Integer memNo);
@@ -36,4 +40,5 @@ public interface ShoppingCartListRepository extends JpaRepository<ShoppingCartLi
     @Transactional
     @Query("DELETE FROM ShoppingCartListVO s WHERE s.memNo = :memNo")
     void deleteByMemNo(@Param("memNo") Integer memNo);
+
 }

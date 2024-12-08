@@ -79,8 +79,16 @@ public class IndexController_inSpringBoot_ShoppingCartList {
         List<ShoppingCartListVO> list = shoppingCartListSvc.getAll();
         for(ShoppingCartListVO a : list) {
        GoodsVO ab = goodsSvc.getOneGoods(a.getGoodsNo());
-       
-       model.addAttribute("ab",ab);
+       ab.setGoodsAmount(ab.getGoodsAmount()-a.getGoodsNum());
+      
+       if(ab.getGoodsAmount()<0) {
+    	   model.addAttribute("error","庫存不足");
+    	   return "front-end/shoppingcartlist/listAllShoppingCartList";
+       }else {
+    	   model.addAttribute("ab",ab);
+    	   goodsSvc.updateGoodsAmount(a.getGoodsNo(),ab.getGoodsAmount());
+       }
+      
       
         }
         
