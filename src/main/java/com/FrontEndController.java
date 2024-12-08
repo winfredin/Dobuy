@@ -36,7 +36,11 @@ public class FrontEndController {
 	CounterService counterSvc;
 	@Autowired
 	MemberService memSvc;
-	
+	@GetMapping("")
+    public String index() {
+	 
+        return "loading"; 
+    }
 	
 	 @GetMapping("member")
 	    public String getMemberPage() {

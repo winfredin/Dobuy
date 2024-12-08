@@ -15,4 +15,8 @@ public interface CounterOrderDetailRepository extends JpaRepository<CounterOrder
 
    @Query(value = "FROM CounterOrderDetailVO WHERE counterOrderNo = ?1 AND goodsNo = ?2 AND goodsNum = ?3 ORDER BY counterOrderDetailNo")
    List<CounterOrderDetailVO> findByOthers(int counterOrderNo, int goodsNo, int goodsNum);
+   
+   
+   
+   
 }

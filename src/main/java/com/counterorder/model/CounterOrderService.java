@@ -44,7 +44,9 @@ public class CounterOrderService {
 	public List<CounterOrderVO> getAll() {
 		return repository.findAll();
 	}
-
+	public Integer getone(Integer memno) {
+		return repository.findone(memno);
+	}
 	
 //	結帳用
 	public CounterOrderVO createOrder(Integer memNo, Integer counterNo, int totalBefore, int totalAfter) {

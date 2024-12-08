@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.counterorder.model.CounterOrderService;
+import com.counterorder.model.CounterOrderVO;
 import com.member.model.MemberService;
 import com.member.model.MemberVO;
 
@@ -20,11 +22,21 @@ import com.member.model.MemberVO;
 public class BackEndController {
 	@Autowired
 	MemberService memberSvc;
+	@Autowired
+	CounterOrderService counterOrderSvc;
+	
 	@GetMapping("member")
 	public String member(ModelMap model) {
 		List<MemberVO> memlist = memberSvc.getAll();
 		model.addAttribute("memlist",memlist);
 		return "back-end/member/member";
+	}
+	@GetMapping("memberorder")
+	public String memberorder(ModelMap model) {
+		
+		List<CounterOrderVO> alist = counterOrderSvc.getAll();
+		model.addAttribute("alist",alist);
+		return "back-end/member/memberorder";
 	}
 	
 	@PostMapping("updateStatus")
