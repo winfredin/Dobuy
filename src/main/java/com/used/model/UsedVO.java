@@ -22,6 +22,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.usedpic.model.UsedPicVO;
 
 @Entity
@@ -83,6 +84,7 @@ public class UsedVO implements Serializable {
     private Integer usedState;
 //==================================================
     //關聯屬性
+    @JsonIgnore
     @OneToMany(mappedBy = "usedVO", cascade = CascadeType.ALL, fetch = FetchType.EAGER) // 一對多關聯
     @OrderBy("usedPicNo asc")
     private List<UsedPicVO> usedPics = new ArrayList<UsedPicVO>(); // 用於儲存商品照片列表
