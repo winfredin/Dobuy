@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ShoppingCartList.model.ShoppingCartListService;
 import com.ShoppingCartList.model.ShoppingCartListVO;
+import com.goods.model.GoodsService;
+import com.goods.model.GoodsVO;
 
 
 
@@ -26,6 +28,8 @@ public class IndexController_inSpringBoot_ShoppingCartList {
     @Autowired
     ShoppingCartListService shoppingCartListSvc;
 
+    @Autowired 
+    GoodsService goodsSvc;
     // 注入資料 (application.properties中的設置)
     @Value("${welcome.message}")
     private String message;
@@ -73,7 +77,13 @@ public class IndexController_inSpringBoot_ShoppingCartList {
     public String ShoppingCartListCheckout(Model model, HttpSession session) {
        
         List<ShoppingCartListVO> list = shoppingCartListSvc.getAll();
+        for(ShoppingCartListVO a : list) {
+       GoodsVO ab = goodsSvc.getOneGoods(a.getGoodsNo());
        
+       model.addAttribute("ab",ab);
+      
+        }
+        
         model.addAttribute("carlist", list);
         return "front-end/shoppingcartlist/ShoppingCartListCheckout";
     }

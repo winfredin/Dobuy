@@ -33,6 +33,7 @@ public class CounterOrderDetailVO implements java.io.Serializable {
 
    @Column(name = "counterOrderNo")
    @NotNull(message = "櫃台訂單編號: 請勿空白")
+   @JoinColumn
    public Integer getCounterOrderNo() {
        return this.counterOrderNo;
    }
@@ -84,12 +85,6 @@ public class CounterOrderDetailVO implements java.io.Serializable {
        this.productDisPrice = productDisPrice;
    }
 
-   @Column(name = "productSpec")
-   @NotEmpty(message = "商品規格: 請勿空白")
-   @Size(max = 10, message = "商品規格: 長度不能超過{max}")
-   public String getProductSpec() {
-       return this.productSpec;
-   }
 
    public void setProductSpec(String productSpec) {
        this.productSpec = productSpec;

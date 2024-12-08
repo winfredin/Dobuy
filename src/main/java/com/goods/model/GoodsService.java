@@ -83,7 +83,9 @@ public class GoodsService {
     public List<GoodsVO> getOneCounter35(Integer counterNo) {
         return repository.getOneCounter35(counterNo); // 如果不存在，返回 null
     }
-    
+    public GoodsVO getOneCounter(Integer goodsNo) {
+        return repository.getOneCounter(goodsNo); // 如果不存在，返回 null
+    }
     
     public List<String> getOneGoodsImg(GoodsVO goodsVO) {
     	List<String> photoList = new ArrayList<String>();

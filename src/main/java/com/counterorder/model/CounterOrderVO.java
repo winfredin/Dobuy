@@ -8,11 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "counterorder")
-public class CounterOrderVO implements java.io.Serializable{
+public class CounterOrderVO implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer counterOrderNo;
 	private Integer counterNo;
@@ -28,10 +28,9 @@ public class CounterOrderVO implements java.io.Serializable{
 	private Date sellerCommentDate;
 	private Date ordertime;
 	private Integer disno;
-	
-	
-	public CounterOrderVO(){
-		
+
+	public CounterOrderVO() {
+
 	}
 
 	@Id
@@ -40,7 +39,6 @@ public class CounterOrderVO implements java.io.Serializable{
 	public Integer getCounterOrderNo() {
 		return counterOrderNo;
 	}
-
 
 	public void setCounterOrderNo(Integer counterOrderNo) {
 		this.counterOrderNo = counterOrderNo;
@@ -51,7 +49,6 @@ public class CounterOrderVO implements java.io.Serializable{
 		return counterNo;
 	}
 
-
 	public void setCounterNo(Integer counterNo) {
 		this.counterNo = counterNo;
 	}
@@ -60,7 +57,6 @@ public class CounterOrderVO implements java.io.Serializable{
 	public Integer getMemNo() {
 		return memNo;
 	}
-
 
 	public void setMemNo(Integer memNo) {
 		this.memNo = memNo;
@@ -71,7 +67,6 @@ public class CounterOrderVO implements java.io.Serializable{
 		return orderTotalBefore;
 	}
 
-
 	public void setOrderTotalBefore(Integer orderTotalBefore) {
 		this.orderTotalBefore = orderTotalBefore;
 	}
@@ -80,7 +75,6 @@ public class CounterOrderVO implements java.io.Serializable{
 	public Integer getOrderTotalAfter() {
 		return orderTotalAfter;
 	}
-
 
 	public void setOrderTotalAfter(Integer orderTotalAfter) {
 		this.orderTotalAfter = orderTotalAfter;
@@ -91,6 +85,26 @@ public class CounterOrderVO implements java.io.Serializable{
 		return orderStatus;
 	}
 
+	@Transient
+	public String getOrderDisplay() {
+		if (orderStatus != null) {
+			switch (orderStatus) {
+			case 0:
+				return "未付款";
+			case 1:
+				return "已付款";
+
+			case 2:
+				return "已取消";
+			case 3:
+				return "已發貨";
+			case 4:
+				return "已完成";
+			}
+
+		}
+		return "訂單未成立";
+	}
 
 	public void setOrderStatus(Integer orderStatus) {
 		this.orderStatus = orderStatus;
@@ -101,7 +115,6 @@ public class CounterOrderVO implements java.io.Serializable{
 		return receiverName;
 	}
 
-
 	public void setReceiverName(String receiverName) {
 		this.receiverName = receiverName;
 	}
@@ -110,7 +123,6 @@ public class CounterOrderVO implements java.io.Serializable{
 	public String getReceiverAdr() {
 		return receiverAdr;
 	}
-
 
 	public void setReceiverAdr(String receiverAdr) {
 		this.receiverAdr = receiverAdr;
@@ -121,32 +133,27 @@ public class CounterOrderVO implements java.io.Serializable{
 		return receiverPhone;
 	}
 
-
 	public void setReceiverPhone(String receiverPhone) {
 		this.receiverPhone = receiverPhone;
 	}
 
-	
-	@Column(name = "orderTime", insertable=false, updatable=false)
+	@Column(name = "orderTime", insertable = false, updatable = false)
 	public Date getOrdertime() {
 		return ordertime;
 	}
-
 
 	public void setOrdertime(Date ordertime) {
 		this.ordertime = ordertime;
 	}
 
-	@Column(name="disNo")
+	@Column(name = "disNo")
 	public Integer getDisno() {
 		return disno;
 	}
 
-
 	public void setDisno(Integer disno) {
 		this.disno = disno;
 	}
-
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;

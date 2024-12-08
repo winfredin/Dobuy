@@ -38,7 +38,9 @@ public interface GoodsRepository extends JpaRepository<GoodsVO, Integer> {
 //=============以下柏翔新增===============//
 
     List<GoodsVO> findByCounterVO_CounterNo(Integer counterNo);
-        
-//=============以上柏翔新增===============//    
+    @Query(value = "SELECT counterNo  FROM goods WHERE goodsNo = ?1 ", nativeQuery = true)
+    GoodsVO getOneCounter(Integer goodsNo);
+
+  
 
 }

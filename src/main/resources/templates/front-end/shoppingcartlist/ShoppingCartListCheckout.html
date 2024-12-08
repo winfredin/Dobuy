@@ -84,29 +84,35 @@
         <form method="post" action="/ecpayCheckout">
           <div class="mb-3">
             <label for="fullName" class="form-label">姓名</label>
-            <input type="text" class="form-control" id="fullName" placeholder="請輸入您的姓名" 
+            <input type="text" class="form-control" id="fullName" name="name" placeholder="請輸入您的姓名" 
               pattern="^[A-Za-z\u4e00-\u9fa5]{2,10}$" title="姓名必須是2-10位的中文或英文，不能有特殊符號" required>
             <div class="error" id="fullNameError"></div>
           </div>
+            <div class="mb-3">
+            <label for="phone" class="form-label">手機</label>
+            <input type="phone" class="form-control" id="phone" name="phone" placeholder="請輸入您的手機" 
+                 pattern="^09\d{8}$" title="手機格式不正確，必須包含 09,並且要10位數字" required>
+            <div class="error" id="phoneError"></div>
+          </div>
           <div class="mb-3">
             <label for="address" class="form-label">地址</label>
-            <input type="text" class="form-control" id="address" placeholder="請輸入送貨地址" 
+            <input type="text" class="form-control" id="address" name="address" placeholder="請輸入送貨地址" 
               pattern="^[A-Za-z0-9\u4e00-\u9fa5]{2,20}$" title="地址只能包含中文、英文和數字，且長度為2-20位" required>
             <div class="error" id="addressError"></div>
           </div>
-          <div class="mb-3">
-            <label for="email" class="form-label">電子郵件</label>
-            <input type="email" class="form-control" id="email" placeholder="請輸入您的電子郵件" 
-              pattern="^[\w-]+(\.[\w-]+)*@[\w-]+\.[a-z]{2,50}$" title="電子郵件格式不正確，必須包含 '@' 並以 .com 結尾" required>
-            <div class="error" id="emailError"></div>
-          </div>
+          
+          
           <th:block th:each="a:${carlist}">
           <div th:text="${a.orderTotalprice}"></div>
             <input type="hidden" name="orderTotalprice" th:value="${a.orderTotalprice}">
             <input type="hidden" name="goodsName" th:value="${a.goodsName}">
             <input type="hidden" name="goodsNum" th:value="${a.goodsNum}">
+            <input type="hidden" name="goodsNo" th:value="${a.goodsNo}">
+            <input type="hidden" name="memNo" th:value="${a.memNo}">
           </th:block>
-          
+        <span th:each="b:${ab}">
+        <input type="hidden" name="counterNo" th:value="${b.counterVO.counterNo}"></span>
+      
           <button class="btn btn-primary" id="ecpayCheckoutBtn" type="submit">立即結帳</button>
         </form>
       </div>
@@ -156,14 +162,14 @@
     document.getElementById('fullName').addEventListener('focus', function() {
       document.getElementById('fullNameError').innerText = '姓名必須是2-10位的中文或英文，不能有特殊符號';
     });
+    document.getElementById('phone').addEventListener('focus', function() {
+        document.getElementById('phoneError').innerText = '手機必須09開頭且要10位數字';
+      });
 
     document.getElementById('address').addEventListener('focus', function() {
       document.getElementById('addressError').innerText = '地址只能包含中文、英文和數字，且長度為2-20位';
     });
 
-    document.getElementById('email').addEventListener('focus', function() {
-      document.getElementById('emailError').innerText = '電子郵件格式不正確，必須包含 @ 並以 .com 結尾';
-    });
   </script>
 </body>
 </html>

@@ -19,6 +19,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import com.counterorderdetail.model.CounterOrderDetailVO;
+import com.ecpay.payment.integration.ecpayOperator.EcpayFunction;
+import com.counterorder.model.CounterOrderService;
+import com.counterorder.model.CounterOrderVO;
 import com.counterorderdetail.model.CounterOrderDetailService;
 
 @Controller
@@ -27,15 +30,33 @@ public class CounterOrderDetailController {
 
    @Autowired
    CounterOrderDetailService counterOrderDetailService;
-
+   @Autowired
+   CounterOrderService counterOrderService;
    /*
     * 處理新增訂單明細的表單請求
     */
-   @GetMapping("addCounterOrderDetail")
-   public String addCounterOrderDetail(ModelMap model) {
-       CounterOrderDetailVO counterOrderDetailVO = new CounterOrderDetailVO();
-       model.addAttribute("counterOrderDetailVO", counterOrderDetailVO);
-       return "vendor-end/counterOrderDetail/addCounterOrderDetail";
+   @PostMapping("addCounterOrderDetail")
+   public String addCounterOrderDetail(@RequestParam Map<String, String> params,ModelMap model) {
+	  
+	    String totalAmount = params.get("TradeAmt");
+	    String tradeDesc = params.get("TradeDesc");
+	    String goodsName = params.get("ItemName");
+	    String count = params.get("CustomField1");
+	    String goodsNo = params.get("CustomField2");
+	    String counterOrderNo =params.get("CustomField3");
+	    
+	    CounterOrderVO a= counterOrderService.getOneCounterOrder(Integer.parseInt(counterOrderNo));
+	    a.setOrderStatus(1);
+	    CounterOrderDetailVO counterOrderDetailVO = new CounterOrderDetailVO();
+	    counterOrderDetailVO.setProductPrice(Integer.parseInt(totalAmount));
+	    counterOrderDetailVO.setGoodsNum(Integer.parseInt(count));
+	    counterOrderDetailVO.setGoodsNo(Integer.parseInt(goodsNo));
+	    counterOrderDetailVO.setProductDisPrice(Integer.parseInt(totalAmount));
+	    counterOrderDetailVO.setCounterOrderNo(Integer.parseInt( counterOrderNo));
+
+	    counterOrderDetailService.addCounterOrderDetail(counterOrderDetailVO);
+		return "member";
+       
    }
 
    /*
