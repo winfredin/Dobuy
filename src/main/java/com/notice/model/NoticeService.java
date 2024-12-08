@@ -2,6 +2,9 @@ package com.notice.model;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.msg.model.MsgVO;
+
 import java.util.List;
 
 @Service("noticeService")
@@ -30,6 +33,10 @@ public class NoticeService {
     	repository.deleteAll();
     }
     
+  //抓會員通知
+    public List<NoticeVO> getOneMemberNotice(Integer memNo) {
+        return repository.findByMemNo(memNo); // 如果不存在，返回 null
+    }
    
     
 
