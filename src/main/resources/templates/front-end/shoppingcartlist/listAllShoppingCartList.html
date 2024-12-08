@@ -99,7 +99,22 @@ border: 1px solid #ccc;
     font-weight: bold;
     margin-right: 10px; /* 設定總金額與按鈕間的間距 */
 }
+/* 刪除按鈕樣式 */
+table#example input[type="submit"] {
+    background-color: #ffa54b; /* 橘色 */
+    color: #000;  /* 按鈕文字顏色設為黑色 */
+    border: none;  /* 去除邊框 */
+    padding: 7px 15px;  /* 調整內邊距 */
+    font-size: 14px;  /* 字型大小 */
+    cursor: pointer;  /* 鼠標懸停時顯示為可點擊狀態 */
+    border-radius: 5px;  /* 按鈕圓角 */
+    margin: 5px;
+}
 
+/* 刪除按鈕懸停效果 */
+table#example input[type="submit"]:hover {
+    background-color: #fe7e28;  /* 當滑鼠懸停時變成稍深的橘色 */
+}
 /* 結帳按鈕樣式 */
 .total-container .btn-checkout {
     background-color: #FF7F00; /* 橘色 */

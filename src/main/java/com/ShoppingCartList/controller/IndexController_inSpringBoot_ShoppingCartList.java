@@ -3,12 +3,15 @@ package com.ShoppingCartList.controller;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ShoppingCartList.model.ShoppingCartListService;
@@ -67,9 +70,14 @@ public class IndexController_inSpringBoot_ShoppingCartList {
     
     // 購物車結帳畫面
     @GetMapping("/shoppingcartlist/ShoppingCartListCheckout")
-    public String ShoppingCartListCheckout(Model model) {
-    	return "front-end/shoppingcartlist/ShoppingCartListCheckout"; 
+    public String ShoppingCartListCheckout(Model model, HttpSession session) {
+       
+        List<ShoppingCartListVO> list = shoppingCartListSvc.getAll();
+       
+        model.addAttribute("carlist", list);
+        return "front-end/shoppingcartlist/ShoppingCartListCheckout";
     }
+
 
     // 為select_page.html提供購物車資料
     @ModelAttribute("shoppingCartListListData")

@@ -7,12 +7,11 @@
   <title>購物車清單</title>
   <link rel="stylesheet" th:href="@{/shoppingcartlist/css/bootstrap.min.css}">
   <link rel="stylesheet" th:href="@{/shoppingcartlist/css/checkout.css}">
-  <style type="text/css">
+  <style>
     body {
       font-family: 'Arial', sans-serif;
       background-color: #f8f9fa;
     }
-
     .container {
       max-width: 1000px;
       margin: 30px auto;
@@ -21,60 +20,62 @@
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
       border-radius: 10px;
     }
-
     h4 {
       font-size: 1.5rem;
       font-weight: bold;
       margin-bottom: 20px;
     }
-
     .form-label {
       font-weight: bold;
       color: #333;
     }
-
     .form-control {
       border-radius: 8px;
       border: 1px solid #ccc;
       padding: 12px;
       margin-bottom: 15px;
     }
-
     .form-control:focus {
       border-color: #007bff;
       box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
     }
-
     .btn-primary {
       background-color: #007bff;
       border: none;
       padding: 12px 20px;
-      width: 100%;
       border-radius: 8px;
       font-size: 1.1rem;
       font-weight: bold;
+      display: block;
+      margin-top: 20px;
     }
-
     .btn-primary:hover {
       background-color: #0056b3;
     }
-
-    .footer {
-      text-align: center;
-      font-size: 0.9rem;
-      color: #666;
-      margin-top: 50px;
-      padding: 10px;
-      background-color: #f1f1f1;
-      border-radius: 5px;
-    }
-
     .error {
       color: red;
       font-size: 0.9rem;
     }
+    .content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .left, .right {
+      flex: 1;
+      min-width: 300px;
+    }
+    .right {
+      max-width: 400px;
+    }
+    @media (max-width: 768px) {
+      .content {
+        flex-direction: column;
+      }
+    }
   </style>
 </head>
+
 
     <div class="row g-5">
       <!-- 右側顯示購物車內容 -->
@@ -142,90 +143,79 @@
             </div>
 
           <!-- 地址欄位 -->
+
+<body>
+  <div class="container">
+    <h4>結帳</h4>
+    <div class="content">
+      <!-- 左側表單 -->
+      <div class="left">
+        <form method="post" action="/ecpayCheckout">
+          <div class="mb-3">
+            <label for="fullName" class="form-label">姓名</label>
+            <input type="text" class="form-control" id="fullName" placeholder="請輸入您的姓名" 
+              pattern="^[A-Za-z\u4e00-\u9fa5]{2,10}$" title="姓名必須是2-10位的中文或英文，不能有特殊符號" required>
+            <div class="error" id="fullNameError"></div>
+          </div>
+
           <div class="mb-3">
             <label for="address" class="form-label">地址</label>
             <input type="text" class="form-control" id="address" placeholder="請輸入送貨地址" 
               pattern="^[A-Za-z0-9\u4e00-\u9fa5]{2,20}$" title="地址只能包含中文、英文和數字，且長度為2-20位" required>
             <div class="error" id="addressError"></div>
           </div>
-
-          <!-- 新增 Email 欄位 -->
           <div class="mb-3">
             <label for="email" class="form-label">電子郵件</label>
             <input type="email" class="form-control" id="email" placeholder="請輸入您的電子郵件" 
-              pattern="^[\w-]+(\.[\w-]+)*@[\w-]+\.[a-z]{2,6}$" title="電子郵件格式不正確，必須包含 '@' 並以 .com 結尾" required>
+              pattern="^[\w-]+(\.[\w-]+)*@[\w-]+\.[a-z]{2,50}$" title="電子郵件格式不正確，必須包含 '@' 並以 .com 結尾" required>
             <div class="error" id="emailError"></div>
           </div>
-
-
-          <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="save-info">
-            <label class="form-check-label" for="save-info">儲存此資訊以供下次使用</label>
-          </div>
-
-          <hr class="my-4">
-          <!-- 支付方式選擇 -->
-<!--           <h4 class="mb-3">支付</h4> -->
-
-<!--           <div class="my-3"> -->
-<!--             <div class="form-check"> -->
-<!--               <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked required> -->
-<!--               <label class="form-check-label" for="credit">信用卡</label> -->
-<!--             </div> -->
-<!--             <div class="form-check"> -->
-<!--               <input id="debit" name="paymentMethod" type="radio" class="form-check-input" required> -->
-<!--               <label class="form-check-label" for="debit">金融卡</label> -->
-<!--             </div> -->
-<!--             <div class="form-check"> -->
-<!--               <input id="paypal" name="paymentMethod" type="radio" class="form-check-input" required> -->
-<!--               <label class="form-check-label" for="paypal">PayPal</label> -->
-<!--             </div> -->
-<!--           </div> -->
-
-<!--           <div class="row gy-3"> -->
-<!--             <div class="col-md-6"> -->
-<!--               <label for="cc-name" class="form-label">卡片上的姓名</label> -->
-<!--               <input type="text" class="form-control" id="cc-name" placeholder="" required> -->
-<!--               <small class="text-body-secondary">卡片上顯示的全名</small> -->
-<!--               <div class="invalid-feedback"> -->
-<!--                 卡片上姓名為必填項目 -->
-<!--               </div> -->
-<!--             </div> -->
-
-<!--             <div class="col-md-6"> -->
-<!--               <label for="cc-number" class="form-label">信用卡號碼</label> -->
-<!--               <input type="text" class="form-control" id="cc-number" placeholder="" required> -->
-<!--               <div class="invalid-feedback"> -->
-<!--                 信用卡號碼為必填項目 -->
-<!--               </div> -->
-<!--             </div> -->
-
-<!--             <div class="col-md-3"> -->
-<!--               <label for="cc-expiration" class="form-label">到期日</label> -->
-<!--               <input type="text" class="form-control" id="cc-expiration" placeholder="" required> -->
-<!--               <div class="invalid-feedback"> -->
-<!--                 需要有效期限 -->
-<!--               </div> -->
-<!--             </div> -->
-
-<!--             <div class="col-md-3"> -->
-<!--               <label for="cc-cvv" class="form-label">CVV</label> -->
-<!--               <input type="text" class="form-control" id="cc-cvv" placeholder="" required> -->
-<!--               <div class="invalid-feedback"> -->
-<!--                 需要安全碼 -->
-<!--               </div> -->
-<!--             </div> -->
-<!--           </div> -->
-
-<!--           <hr class="my-4"> -->
-
-          <button class="w-100 btn btn-primary btn-lg" type="submit">結帳</button>
+          <th:block th:each="a:${carlist}">
+          <div th:text="${a.orderTotalprice}"></div>
+            <input type="hidden" name="orderTotalprice" th:value="${a.orderTotalprice}">
+            <input type="hidden" name="goodsName" th:value="${a.goodsName}">
+            <input type="hidden" name="goodsNum" th:value="${a.goodsNum}">
+          </th:block>
+          
+          <button class="btn btn-primary" id="ecpayCheckoutBtn" type="submit">立即結帳</button>
         </form>
-
       </div>
-    </form>
+      <!-- 右側購物車 -->
+      <div class="right">
+        <h4 class="d-flex justify-content-between align-items-center mb-3">
+          <span class="text-primary">購物車清單</span>
+          <span class="badge bg-primary rounded-pill">3</span>
+        </h4>
+        <ul class="list-group mb-3">
+          <li class="list-group-item d-flex justify-content-between lh-sm">
+            <div>
+              <h6 class="my-0">產品名稱</h6>
+              <small class="text-body-secondary">簡要說明</small>
+            </div>
+            <span class="text-body-secondary">$12</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between lh-sm">
+            <div>
+              <h6 class="my-0">第二個產品</h6>
+              <small class="text-body-secondary">簡要說明</small>
+            </div>
+            <span class="text-body-secondary">$8</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
+            <div class="text-success">
+              <h6 class="my-0">促銷代碼</h6>
+              <small>EXAMPLECODE</small>
+            </div>
+            <span class="text-success">−$5</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between">
+            <span>總計 (NT)</span>
+            <strong>$20</strong>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
-
   <footer class="footer">
     <div>© 2024 DO BUY. All Rights Reserved.</div>
   </footer>

@@ -73,7 +73,7 @@ public class GoodsVO implements java.io.Serializable {
     public void setGoodsNo(Integer goodsNo) {
         this.goodsNo = goodsNo;
     }
-    
+    @JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "goodstNo")   // 指定用來join table的column
     public GoodsTypeVO getGoodsTypeVO() {
@@ -271,6 +271,7 @@ public class GoodsVO implements java.io.Serializable {
     }
     
     //==================以下柏翔新增=====================//
+    @JsonIgnore
     @OneToMany(mappedBy = "goodsVO")
     public Set<CouponDetailVO> getCouponDetails() {
         return couponDetails;
