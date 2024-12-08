@@ -1,4 +1,4 @@
-優惠券及明細<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
@@ -77,55 +77,54 @@
 </head>
 
     <div class="row g-5">
-      <!-- 右側顯示購物車內容 -->
-      <div class="col-md-5 col-lg-4 order-md-last">
-        <h4 class="d-flex justify-content-between align-items-center mb-3">
-          <span class="text-primary">購物車清單</span>         購物車標題
-          <span class="badge bg-primary rounded-pill">3</span>顯示商品數量
-        </h4>
-        <ul class="list-group mb-3"> 顯示購物車項目
-          <li class="list-group-item d-flex justify-content-between lh-sm">
-            <div>
-              <h6 class="my-0">產品名稱</h6>
-              <small class="text-body-secondary">簡要說明</small>
-            </div>
-            <span class="text-body-secondary">$12</span>
-          </li>
-          更多商品項目
-          <li class="list-group-item d-flex justify-content-between lh-sm">
-            <div>
-              <h6 class="my-0">第二個產品</h6>
-              <small class="text-body-secondary">簡要說明</small>
-            </div>
-            <span class="text-body-secondary">$8</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between lh-sm">
-            <div>
-              <h6 class="my-0">第三個產品</h6>
-              <small class="text-body-secondary">簡要說明</small>
-            </div>
-            <span class="text-body-secondary">$5</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
-            <div class="text-success">
-              <h6 class="my-0">促銷代碼</h6>
-              <small>EXAMPLECODE</small>
-            </div>
-            <span class="text-success">−$5</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between">
-            <span>總計 (NT)</span>
-            <strong>$20</strong>
-          </li>
-        </ul>
-
-        <form class="card p-2">
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="促銷代碼">
-            <button type="submit" class="btn btn-secondary">兌換</button>
-          </div>
-        </form>
+		     <!-- 購物車商品列表 -->
+		<ul class="list-group mb-3">
+		    <li class="list-group-item" th:each="item : ${cartItems}">
+		        <div class="d-flex justify-content-between">
+		            <div>
+		                <h6 class="my-0" th:text="${item.goodsName}">商品名稱</h6>
+		                <small class="text-muted" th:text="|數量: ${item.goodsNum}|">數量</small>
+		            </div>
+		            <span th:text="|$${item.orderTotalprice}|">價格</span>
+		        </div>
+		    </li>
+		
+		    <!-- 優惠券選擇 -->
+		    <li class="list-group-item">
+		        <div class="form-group">
+				    <label for="couponSelect">選擇優惠券</label>
+				    <select id="couponSelect" class="form-control" th:if="${availableCoupons != null}">
+				        <option value="">請選擇優惠券</option>
+				        <option th:each="coupon : ${availableCoupons}"
+				                th:value="${coupon.coupon.couponNo}"
+				                th:text="|${coupon.coupon.couponTitle} - ${coupon.coupon.couponContext}|">
+				        </option>
+				    </select>
+				    <div th:if="${availableCoupons == null || availableCoupons.empty}" class="text-muted">
+				        目前沒有可用的優惠券
+				    </div>
+				</div>
+		    </li>
+		
+		    <!-- 折扣金額 -->
+		    <li class="list-group-item d-flex justify-content-between bg-light">
+		        <div class="text-success">
+		            <h6 class="my-0">優惠折扣</h6>
+		            <small id="couponDesc"></small>
+		        </div>
+		        <span class="text-success">-$<span id="discountAmount">0</span></span>
+		    </li>
+		
+		    <!-- 總金額 -->
+		    <li class="list-group-item d-flex justify-content-between">
+		        <span>總計</span>
+		        <strong>$<span id="totalAmount" th:text="${totalAmount}">0</span></strong>
+		    </li>
+		</ul>
       </div>
+
+
+
       <!-- 其他結帳表單內容 -->
       <div class="col-md-7 col-lg-8">
         <h4 class="mb-3">帳單地址</h4>
@@ -221,10 +220,8 @@
 
           <button class="w-100 btn btn-primary btn-lg" type="submit">結帳</button>
         </form>
-
       </div>
-    </form>
-  </div>
+
 
   <footer class="footer">
     <div>© 2024 DO BUY. All Rights Reserved.</div>
@@ -232,6 +229,99 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+  
+  
+  
+//保存原始總金額
+  let originalTotal = document.getElementById('totalAmount').textContent;
+
+  document.addEventListener('DOMContentLoaded', function() {
+      // 優惠券選擇的處理
+      const couponSelect = document.getElementById('couponSelect');
+      if (couponSelect) {
+          couponSelect.addEventListener('change', function() {
+              const couponNo = this.value;
+              
+              if (!couponNo) {
+                  // 如果沒有選擇優惠券，重置金額
+                  document.getElementById('discountAmount').textContent = '0';
+                  document.getElementById('totalAmount').textContent = originalTotal;
+                  document.getElementById('couponDesc').textContent = '';
+                  return;
+              }
+              
+              // 顯示載入中
+              document.getElementById('discountAmount').textContent = '計算中...';
+              
+              // 發送 AJAX 請求計算折扣
+              fetch('/shoppingcartlist/calculateDiscount', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/x-www-form-urlencoded',
+                  },
+                  body: 'couponNo=' + couponNo
+              })
+              .then(response => {
+                  if (!response.ok) {
+                      throw new Error('網路錯誤');
+                  }
+                  return response.json();
+              })
+              .then(data => {
+                  if (data.error) {
+                      alert(data.error);
+                      return;
+                  }
+                  
+                  // 更新折扣金額
+                  const discountElement = document.getElementById('discountAmount');
+                  const totalElement = document.getElementById('totalAmount');
+                  const descElement = document.getElementById('couponDesc');
+                  
+                  // 格式化金額顯示
+                  discountElement.textContent = Math.round(data.discount).toLocaleString();
+                  totalElement.textContent = Math.round(data.newTotal).toLocaleString();
+                  
+                  // 如果有折扣描述，也更新它
+                  if (data.description) {
+                      descElement.textContent = data.description;
+                  }
+                  
+                  // 反饋動畫效果
+                  discountElement.parentElement.classList.add('highlight');
+                  totalElement.parentElement.classList.add('highlight');
+                  setTimeout(() => {
+                      discountElement.parentElement.classList.remove('highlight');
+                      totalElement.parentElement.classList.remove('highlight');
+                  }, 1000);
+              })
+              .catch(error => {
+                  console.error('Error:', error);
+                  alert('計算折扣時發生錯誤');
+                  // 重置顯示
+                  document.getElementById('discountAmount').textContent = '0';
+                  document.getElementById('totalAmount').textContent = originalTotal;
+                  document.getElementById('couponDesc').textContent = '';
+              });
+          });
+      }
+
+      // 添加金額變更的動畫效果
+      const style = document.createElement('style');
+      style.textContent = `
+          .highlight {
+              animation: highlight 1s ease-out;
+          }
+          @keyframes highlight {
+              0% { background-color: #ffeb3b; }
+              100% { background-color: transparent; }
+          }
+      `;
+      document.head.appendChild(style);
+  });
+  
+  
+  
     // 表單驗證提示顯示
     document.getElementById('fullName').addEventListener('focus', function() {
       document.getElementById('fullNameError').innerText = '姓名必須是2-10位的中文或英文，不能有特殊符號';

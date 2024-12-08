@@ -77,5 +77,13 @@ public class IndexController_inSpringBoot_ShoppingCartList {
         List<ShoppingCartListVO> list = shoppingCartListSvc.getAll();
         return list; // 返回所有購物車列表
     }
+    
+    
+//    柏翔測試=====================================================
+//    @GetMapping("/shoppingcartlist/ShoppingCartListCheckout49")
+//    public String ShoppingCartListCheckout49(Model model) {
+//    	return "front-end/shoppingcartlist/ShoppingCartListCheckout49"; 
+//    }
+//  柏翔測試=====================================================
 
 }
