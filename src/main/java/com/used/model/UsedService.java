@@ -111,6 +111,13 @@ public class UsedService {
 		
 	}
 	
+	//訂單更改used商品的stock
+	public void withholdingStock(Integer usedStocks,Integer usedNo) {
+		
+		repository.withholdingStock( usedStocks, usedNo);
+		
+	}
+	
 	
 	
 }

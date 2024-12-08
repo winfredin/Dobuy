@@ -54,7 +54,28 @@ public class UsedOrderService {
     public void save(UsedOrderVO usedOrderVO) {
         repository.save(usedOrderVO);
     }
+    
+    //訂單更改狀態用   gary lee
+    public int changeStatusByUsedOrderNo(Byte deliveryStatus,Integer usedOrderNo) {
+    	try {
+    	repository.changeStatusByUsedOrderNo(deliveryStatus, usedOrderNo);
+    	
+    		return 1;
+    	}catch(Exception e){
+    		return 0;
+    	}
+    }
+    
+    //預存訂單資料且回傳訂單編號用
+    public Integer addUsedOrderwhileCheckOut(UsedOrderVO usedOrderVO) {
+    	
+    	 usedOrderVO = repository.save(usedOrderVO);
+    	 
+        return usedOrderVO.getUsedOrderNo();
+    }
 
+    
+    
 }
 
 
