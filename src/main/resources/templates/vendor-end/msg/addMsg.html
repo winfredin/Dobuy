@@ -5,7 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>櫃位訊息新增 - addMsg.html</title>
 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 <head th:insert="~{/vendor-end/msg/included-fragment}"></head>
+
 <style type="text/css">
     button {
         padding: 5px;
@@ -36,39 +42,58 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
-         <div align="center"> <h2>櫃位訊息新增</h2>
-         <h3><a class="navbar-brand" th:href="@{/msg/listAllMsg}">回櫃位訊息管理</a></h3></div>
-</nav>
+<div align="center">
+    <!-- 新增按鈕 -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addMsgModal">
+        新增訊息
+    </button>
+</div>
 
-    <div align="center">
+<!-- Modal -->
+<div class="modal fade" id="addMsgModal" tabindex="-1" role="dialog" aria-labelledby="addMsgModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addMsgModalLabel">新增訊息</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
         <form th:action="@{insert}" method="post" th:object="${msgVO}" enctype="multipart/form-data">
             <div>
                 <label>內文:</label>
-                <input type="text" th:field="*{informMsg}" onclick="hideContent('informMsg.errors');" /><br/>
+                <input type="text" class="form-control" th:field="*{informMsg}" onclick="hideContent('informMsg.errors');" /><br/>
                 <span th:if="${#fields.hasErrors('informMsg')}" th:errors="*{informMsg}" class="error" id="informMsg.errors"></span>
             </div>
 
             <div>
                 <label>會員:</label>
-                <select th:field="*{memNo}">
+                <select class="form-control" th:field="*{memNo}">
                     <option th:each="member : ${memberList}" th:value="${member.memNo}" th:text="${member.memNo}"></option>
                 </select>
             </div>
-
-            <div>
-                <div></div>
-                <div><button type="submit" id="submit">送出新增</button></div>
-                <div></div>
-            </div>        
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="cancelAdd()">取消</button>
+                <button type="submit" class="btn btn-primary">送出新增</button>
+            </div>
         </form>
+      </div>
     </div>
+  </div>
+</div>
 
 <!-- JavaScript part -->
 <script type="text/javascript">
     // 清除提示信息
     function hideContent(d) {
         document.getElementById(d).style.display = "none";
+    }
+
+    // 取消按鈕點擊事件
+    function cancelAdd() {
+        $('#addMsgModal').modal('hide');
+        window.location.href = "/msg/listAllMsg"; // 重定向到 listAllMsg.html 頁面
     }
 </script>
 

@@ -88,6 +88,7 @@ public class UsedOrderController {
 		case 3: return "已領貨"; 
 		case 4: return "已取消"; 
 		case 5: return "已付款";
+		case 6: return "未付款";
 		default: return "已付款"; } }
 
 	// 去除BindingResult中某個欄位的FieldError紀錄
@@ -103,12 +104,23 @@ public class UsedOrderController {
 	}
 
 	// 賣家訂單管理
+//	@GetMapping("listAllUsedOrder")
+//	public String getAllOrder(ModelMap model) {
+//	    List<UsedOrderVO> list = usedOrderSvc.getAll(); 
+//	    model.addAttribute("usedorderListData", list);
+//	    return "front-end/usedorder/listAllUsedOrder";
+//	}
 	@GetMapping("listAllUsedOrder")
 	public String getAllOrder(ModelMap model) {
 	    List<UsedOrderVO> list = usedOrderSvc.getAll(); 
-	    model.addAttribute("usedorderListData", list);
+	    // 過濾掉 deliveryStatus = 6 的訂單
+	    List<UsedOrderVO> filteredList = list.stream()
+	                                         .filter(order -> order.getDeliveryStatus() != 6)
+	                                         .collect(Collectors.toList());
+	    model.addAttribute("usedorderListData", filteredList);
 	    return "front-end/usedorder/listAllUsedOrder";
 	}
+
 
 	// 買家訂單管理
 	@GetMapping("listAllUsedOrder2")
