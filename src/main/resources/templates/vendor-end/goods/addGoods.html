@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>商品資料新增</title>
-  <link rel="stylesheet" href="/counter/style.css">
+<th:block th:replace="~{/vendor-end/counter/Counterincldue :: head}"></th:block>
   
 <head th:insert="~{/vendor-end/goods/included-fragment}"></head>
 <style type="text/css">
@@ -118,13 +118,15 @@
         <h3><b>商品新增</b></h3>
         <form th:action="@{insert}" method="post" th:object="${goodsVO}" enctype="multipart/form-data">
 
-            <div>
-                <label>櫃位名稱:</label>
-                <select th:field="*{counterVO.counterNo}">
-                    <option th:each="counterVO : ${counterListData1}" th:value="${counterVO.counterNo}" th:text="${counterVO.counterCName}" />
-                </select>
-                <span th:if="${#fields.hasErrors('counterVO.counterNo')}" th:errors="*{counterVO.counterNo}" class="error" id="counterVO.counterNo.errors"></span>
-            </div>
+			<div>
+			    <label>櫃位名稱:</label>
+			    <!-- 顯示櫃位名稱 -->
+			    <span th:text="${#session.getAttribute('counter').counterCName}"></span>
+			    <!-- 隱藏櫃位編號 -->
+			    <input type="hidden" th:field="*{counterVO.counterNo}" th:value="${#session.getAttribute('counter').counterNo}" />
+			    <span th:if="${#fields.hasErrors('counterVO.counterNo')}" th:errors="*{counterVO.counterNo}" class="error"></span>
+			</div>
+
             <div>
                 <label>商品類別名稱:</label>
                 <select th:field="*{goodsTypeVO.goodstNo}">

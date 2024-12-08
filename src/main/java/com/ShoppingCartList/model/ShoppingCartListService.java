@@ -63,6 +63,24 @@ public class ShoppingCartListService {
 //  結帳用=========================================翊豪
 	public void clearCart(Integer memNo) {
 		// TODO Auto-generated method stub
+	}	
+	
+	    // 結帳相關方法 柏翔
+	    public List<ShoppingCartListVO> getCartItemsByMemNo49(Integer memNo) {
+	        if (memNo == null) {
+	            throw new IllegalArgumentException("會員編號不能為空");
+	        }
+	        return repository.findByMemNo(memNo);
+	    }
+
+	    public void clearCart49(Integer memNo) {
+	        if (memNo == null) {
+	            throw new IllegalArgumentException("會員編號不能為空");
+	        }
+	        repository.deleteByMemNo(memNo);
+	    }
 		
-	}
+		
+		
+	
 }

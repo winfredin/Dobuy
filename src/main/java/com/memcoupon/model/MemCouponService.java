@@ -1,6 +1,7 @@
 package com.memcoupon.model;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -107,6 +108,17 @@ public class MemCouponService {
         // 這裡可以根據需求改寫查詢邏輯
         return memCouponRepository.findAll();
     }
+
+
+    public List<MemCouponVO> getAvailableCoupons(Integer memNo) {
+        if (memNo == null) {
+            return new ArrayList<>();
+        }
+        
+        // 查詢該會員可用的優惠券（未使用且未過期）
+        return memCouponRepository.findAvailableCouponsByMemNo(memNo);
+    }
+	
 
     
     

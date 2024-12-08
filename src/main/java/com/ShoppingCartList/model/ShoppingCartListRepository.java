@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
+import io.lettuce.core.dynamic.annotation.Param;
+
 public interface ShoppingCartListRepository extends JpaRepository<ShoppingCartListVO, Integer> {
 
     // 刪除指定的購物車項目，根據 shoppingcartListNo 來進行刪除
@@ -26,6 +28,17 @@ public interface ShoppingCartListRepository extends JpaRepository<ShoppingCartLi
     @Query("FROM ShoppingCartListVO WHERE memNo = ?1 AND goodsNo = ?2")
     List<ShoppingCartListVO> findByMemNoAndGoodsNo(int memNo, int goodsNo);
     
+
     @Query("FROM ShoppingCartListVO WHERE memNo = ?1")
     List<ShoppingCartListVO> findmem(Integer memNo);
+
+    
+    @Query("SELECT s FROM ShoppingCartListVO s WHERE s.memNo = :memNo")
+    List<ShoppingCartListVO> findByMemNo(@Param("memNo") Integer memNo);
+    
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM ShoppingCartListVO s WHERE s.memNo = :memNo")
+    void deleteByMemNo(@Param("memNo") Integer memNo);
+
 }
