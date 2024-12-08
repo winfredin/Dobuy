@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS dobuytest;
-USE dobuytest;
+CREATE DATABASE IF NOT EXISTS dobuy;
+USE dobuy;
 
 CREATE TABLE counter (
     counterNo INT NOT NULL AUTO_INCREMENT , -- 主鍵自增編號
@@ -673,7 +673,7 @@ CREATE TABLE UsedOrder (
     usedOrderTime DATETIME,
     usedPrice INT(6) NOT NULL CHECK (usedPrice > 0),
     usedCount INT(5) NOT NULL CHECK (usedCount > 0),
-    deliveryStatus TINYINT(5) NOT NULL DEFAULT 5,
+    deliveryStatus TINYINT(6) NOT NULL DEFAULT 5,
     receiverName VARCHAR(200) NOT NULL,
     receiverAdr VARCHAR(200) NOT NULL,
     receiverPhone VARCHAR(200) NOT NULL,

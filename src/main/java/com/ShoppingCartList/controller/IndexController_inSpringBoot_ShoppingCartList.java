@@ -95,5 +95,8 @@ public class IndexController_inSpringBoot_ShoppingCartList {
         List<ShoppingCartListVO> list = shoppingCartListSvc.getAll();
         return list; // 返回所有購物車列表
     }
+    
+    
+
 
 }
