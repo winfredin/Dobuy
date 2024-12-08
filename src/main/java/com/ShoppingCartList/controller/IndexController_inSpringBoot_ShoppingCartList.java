@@ -87,11 +87,6 @@ public class IndexController_inSpringBoot_ShoppingCartList {
     }
     
     
-//    柏翔測試=====================================================
-//    @GetMapping("/shoppingcartlist/ShoppingCartListCheckout49")
-//    public String ShoppingCartListCheckout49(Model model) {
-//    	return "front-end/shoppingcartlist/ShoppingCartListCheckout49"; 
-//    }
-//  柏翔測試=====================================================
+
 
 }
