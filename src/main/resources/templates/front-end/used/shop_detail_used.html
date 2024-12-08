@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -125,12 +125,15 @@
                     <td class="Goods_Description_1" th:text="${usedVO.usedProDesc}"></td>
                 </tr>
                 <tr>
-               <span class="errorblock" style="color: red; font-weight: bold;" th:utext="${errorMessage}"></span>
                
-                    <form id="add-to-cart-form" class="buy_form" th:action="@{/used/usedBuyCheck}" method="POST">
+                        
                         <td class="label_item">數量</td>
 
                         <td>
+               			<span class="errorblock" style="color: red; font-weight: bold;" th:utext="${errorMessage}"></span>
+                    	<form id="add-to-cart-form" class="buy_form" th:action="@{/used/usedBuyCheck}" method="POST">
+                        <input type="hidden" name ="memNo"id="memNo" th:value="${memNo}" />
+						<input type="hidden" name ="sellerNo" id="sellerNo" th:value="${usedVO.sellerNo}" />
 						<input class="buy_count" 
 						       value="1" 
 						       min="1" 
@@ -138,30 +141,39 @@
 						       type="number" 
 						       name="usedCount" 
 						       oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 5);">
-
-						</td>
                         <input type="hidden" name="usedName" th:value="${usedVO.usedName}" />
                         <input type="hidden" name="usedPrice" th:value="${usedVO.usedPrice}" />
                         <input type="hidden" name="usedNo" th:value="${usedVO.usedNo}" />
-                        <tr>
-                            <td></td>
-                            <td>
-                                <button class="shopping_button" type="submit">
-                                    <img alt="icon-add-to-cart" class="_kL9Hf" th:src="@{https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/productdetailspage/b96050554b3be4feea08.svg}">
-                                    直接購買
-                                </button>
-                            </td>
-                        </tr>
+						        <button 
+						            class="shopping_button" 
+						            type="submit" 
+						            th:if="${session.memNo != null }">
+						            <img alt="icon-add-to-cart" class="_kL9Hf" 
+						                 th:src="@{https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/productdetailspage/b96050554b3be4feea08.svg}">
+						            直接購買
+						        </button>
+
                     </form>
+						</td>
+                        <tr>
+						    <td>
+						        <!-- 當 session.memNo 為空時，顯示提示 -->
+						        <span th:if="${session.memNo == null}" style="color: red; font-weight: bold;">
+						            若要購買請先登入
+						        </span>
+						        						
+						        <!-- 按鈕僅在 session.memNo 存在且不等於 usedVO.sellerNo 時顯示 -->
+						    </td>
+						</tr>
                 </tr>
             </table>
         </div>
     </div>
 </section>
 
-  
-  
+ 
   </div>
+  
     <footer>
       <div>© 2024 DO BUY. All Rights Reserved.</div>
     </footer>

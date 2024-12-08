@@ -39,6 +39,9 @@ public interface UsedRepository extends JpaRepository<UsedVO, Integer>{
 	@Query(value ="SELECT * FROM used WHERE sellerNo = ?1 AND usedNo = ?2", nativeQuery = true)
 	List<UsedVO> findBySellerNoAndUsedNo(Integer sellerNo, Integer usedNo);
 
-
-	
+	//訂單更改used商品的stock
+	@Transactional
+	@Modifying
+	@Query(value = "UPDATE used SET usedStocks = ?1 WHERE usedNo = ?2 ", nativeQuery = true)
+	void withholdingStock(Integer usedStocks,Integer usedNo);
 }
