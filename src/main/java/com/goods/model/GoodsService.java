@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -126,7 +128,9 @@ public class GoodsService {
 
     }
     
-    //==================以上昱夆新增=====================//
+    public void updateGoodsAmount(Integer goodsNo,Integer goodsAmount) {
+        repository.upGoodsAmount(goodsNo,goodsAmount);
+    }
     
     
     
@@ -136,6 +140,8 @@ public class GoodsService {
         return repository.findByCounterVO_CounterNo(counterNo);
     }
     //==================以上柏翔新增=====================//
+
+	
 
     
     

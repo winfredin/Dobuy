@@ -25,4 +25,7 @@ public interface ShoppingCartListRepository extends JpaRepository<ShoppingCartLi
     // 根據會員編號和商品編號查詢指定商品在會員的購物車中的紀錄
     @Query("FROM ShoppingCartListVO WHERE memNo = ?1 AND goodsNo = ?2")
     List<ShoppingCartListVO> findByMemNoAndGoodsNo(int memNo, int goodsNo);
+    
+    @Query("FROM ShoppingCartListVO WHERE memNo = ?1")
+    List<ShoppingCartListVO> findmem(Integer memNo);
 }
