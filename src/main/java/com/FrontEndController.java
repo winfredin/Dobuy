@@ -2,7 +2,9 @@ package com;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -24,6 +26,9 @@ import com.goodstype.model.GoodsTypeService;
 import com.goodstype.model.GoodsTypeVO;
 import com.member.model.MemberService;
 import com.member.model.MemberVO;
+import com.used.model.UsedService;
+import com.used.model.UsedVO;
+import com.usedpic.model.UsedPicVO;
 
 @Controller
 public class FrontEndController {
@@ -36,6 +41,10 @@ public class FrontEndController {
 	CounterService counterSvc;
 	@Autowired
 	MemberService memSvc;
+	@Autowired
+	UsedService usedSvc;
+	
+	
 	@GetMapping("")
     public String index() {
 	 
@@ -55,9 +64,19 @@ public class FrontEndController {
 	    public String getgoodspagePage(Model model) {
 		 List<GoodsVO> list = goodsSvc.getAll();
 		 List<GoodsTypeVO> glist = goodstSvc.getAll();
+		
 		 model.addAttribute("list",list);
 		 model.addAttribute("glist",glist);
 	        return "front-end/normalpage/goodspage"; 
+	    }
+	 @GetMapping("usedgoodspage")
+	    public String getusedgoodspagePage(Model model) {
+		 List<UsedVO> list = usedSvc.getAll();
+		 List<GoodsTypeVO> glist = goodstSvc.getAll();
+		
+		 model.addAttribute("list",list);
+		 model.addAttribute("glist",glist);
+	        return "front-end/normalpage/usedgoodspage"; 
 	    }
 
 	 
@@ -87,6 +106,46 @@ public class FrontEndController {
 		    }
 		    return filteredgoodst; 
 		}
+	 
+	 @GetMapping("/usedgoods/filter")
+	 @ResponseBody
+	 public List<Map<String, Object>> usedfilterGoodsByType(@RequestParam("goodstNo") String goodstNo) {
+	     List<UsedVO> alist = usedSvc.getAll();
+	     int goodstNoInt;
+	     try {
+	         goodstNoInt = Integer.parseInt(goodstNo); 
+	     } catch (NumberFormatException e) {
+	         return new ArrayList<>();
+	     }   
+
+	     List<Map<String, Object>> filteredGoods = new ArrayList<>();
+	     for (UsedVO goods : alist) {
+	         if (goods.getClassNo() != null && goods.getClassNo() == goodstNoInt) {
+	             Map<String, Object> goodsMap = new HashMap<>();
+	             goodsMap.put("usedNo", goods.getUsedNo());
+	             goodsMap.put("usedName", goods.getUsedName());
+	             goodsMap.put("usedProDesc", goods.getUsedProDesc());
+	             goodsMap.put("usedPrice", goods.getUsedPrice());
+
+	             // 提取圖片資料，將圖片編號獨立存儲
+	             List<Integer> usedPics = new ArrayList<>();
+	             for (UsedPicVO pic : goods.getUsedPics()) {
+	                 usedPics.add(pic.getUsedPicNo());
+	             }
+	             goodsMap.put("usedPics", usedPics);  // 傳遞圖片編號資料
+
+	             filteredGoods.add(goodsMap);
+	         }
+	     }
+	     return filteredGoods;
+	 }
+
+
+	 
+	 
+	 
+	 
+	 
 	 
 	 @PostMapping("updatemem")
 	   public String updatemem(@Valid MemberVO memberVO, BindingResult result, ModelMap model,HttpSession session) 

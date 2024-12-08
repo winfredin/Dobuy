@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goods Page</title>
+    <link rel="stylesheet" href="/css/slick.css">
+    <link rel="stylesheet" href="/css/slick-theme.css">
+    <link rel="stylesheet" href="/css/usedgoodspage.css">
+</head>
+<body>
+    <header>
+        <div class="header">
+            <div class="logo">
+                <img src="images/logo noback.png" alt="logo">
+            </div>
+            <div class="header_bar">
+                <div class="search">
+                    <input type="text" placeholder="Search..." class="search-input">
+                    <img src="images/magnifying-glass-dollar-solid.svg" alt="Search">
+                </div>
+                <div class="nav_bar">
+                    <div class="head">
+                        <a href="home">Home</a>
+                        <a href="goodspage">一般商城</a>
+                        <a href="usedgoodspage">二手商城</a>
+                        <a href="#contact">品牌</a>
+                    </div>
+                </div>
+            </div>
+            <div class="icon_area">
+                <div class="icons">
+                    <a href="member"><img src="images/會員中心.png" alt="User"></a>
+                    <a href="/mem/login"><img src="images/log-in.png" alt="Login"></a>
+                    <a href="#"><img src="images/聊天室(FAQ 客服).png" alt="Chat"></a>
+                    <a href="#"><img src="images/購物車.png" alt="Cart"></a>
+                </div>
+                <div class="coupon_area">
+                    <a class="coupon" href="#"><img src="images/優惠卷領取頁面圖示.png" alt="coupon"></a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="goods_body">
+        <div class="goods_list">
+            <p><b>品牌分類</b></p>
+            <ul>
+                <li th:each="gg : ${glist}">
+                    <p th:attr="data-goodstNo=${gg.goodstNo}" onclick="filterGoods(this)" th:text="${gg.goodstName}"></p>
+                </li>
+            </ul>
+        </div>
+       <div class="bestsell_goods" id="goodsContainer">
+    <div class="goods" th:each="used : ${list}">
+        <div th:each="usedgoods,iterStat : ${used.usedPics}">
+            <div  th:if="${iterStat.index == 0}"class="image-container">
+                <img th:src="@{/usedpic/UsedDBGifReader} + '?usedPicNo=' + ${usedgoods.usedPicNo}" alt="goods-image" />
+            </div>
+        </div>
+        <div class="goods-name">
+            <label th:text="${used.usedName}"></label>
+        </div>
+    </div>
+</div>
+
+    </div>
+    <footer>
+        <div>© 2024 DO BUY. All Rights Reserved.</div>
+    </footer>
+    <script src="/js/jquery3.7.1.js"></script>
+    <script src="/js/slick.js"></script>
+    <script>
+    function filterGoods(element) {
+        const goodstNo = element.getAttribute('data-goodstNo');
+        if (!goodstNo) {
+            console.error('goodstNo is missing or invalid');
+            return;
+        }
+
+        fetch(`/usedgoods/filter?goodstNo=${goodstNo}`)
+        .then(response => response.json())
+        .then(data => {
+            const goodsContainer = document.getElementById('goodsContainer');
+            goodsContainer.innerHTML = '';  // 清空現有商品
+            if (data.length === 0) {
+                goodsContainer.innerHTML = '<p>沒有找到符合的商品</p>';
+            } else {
+                data.forEach(goods => {
+                    const goodsElement = document.createElement('div');
+                    goodsElement.className = 'goods';
+                    
+                    // 顯示第一張圖片
+                    const firstPic = goods.usedPics && goods.usedPics.length > 0 ? goods.usedPics[0] : ''; // 取第一張圖片編號
+                    goodsElement.innerHTML = `
+                        <div class="image-container">
+                            <img src="/usedpic/UsedDBGifReader?usedPicNo=${firstPic}" alt="goods-image">
+                        </div>
+                        <div class="goods-name">
+                            <label>${goods.usedName}</label>
+                        </div>
+                    `;
+
+                    goodsContainer.appendChild(goodsElement);
+                });
+            }
+        })
+        .catch(error => console.error('Error fetching goods:', error));
+
+    }
+
+    </script>
+</body>
+</html>

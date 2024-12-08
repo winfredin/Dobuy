@@ -1,0 +1,235 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body 設定 */
+body {
+    width: 100%;
+    height: 100%;
+    background-image: url("/images/ruben-bagues-vPQfc4niDh0-unsplash.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/*=========================================HEADER======================================*/
+header div {
+    position: relative;
+    display: flex;
+    height: 20%;
+}
+
+div.logo {
+    width: 11%;
+}
+
+div img[alt="logo"] {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+div.header_bar {
+    display: block;
+    position: relative;
+    width: 73%;
+}
+
+div.header_bar div[class="search"] {
+    display: flex;
+    width: 95%;
+}
+
+div.search {
+    margin-top: 3.5%;
+    margin-bottom: 3%;
+    margin-left: 1%;
+    height: 25%;
+    border-radius: 10px;
+}
+
+input.search {
+    margin-left: 10%;
+    width: 100%;
+    height: 40px;
+    border-radius: 30px;
+    border: 1px solid rgba(149, 93, 56, 0.366);
+    background-color: rgba(237, 237, 230, 0.339);
+    font-size: 20px;
+    padding-left: 20px;
+    box-sizing: border-box;
+}
+
+div.search button {
+    display: none;
+    width: 25px;
+    height: 25px;
+}
+
+div.search img {
+    width: 30px;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.head {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 1% 0%;
+    width: 100%;
+    height: 50px;
+    margin-bottom: auto;
+    border-radius: 10px;
+    background-color: rgba(229, 199, 177, 0.432);
+}
+
+.head a {
+    text-align: center;
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    font-size: 16px;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.head a:hover {
+    color: brown;
+}
+
+div.icon_area {
+    display: block;
+    margin-left: 0%;
+    margin-right: 0%;
+    align-items: center;
+}
+
+div.icons a.icons {
+    display: flex;
+    margin-left: 0%;
+    margin-right: 0%;
+    align-items: center;
+}
+
+div a[class="coupon"] {
+    display: flex;
+    width: 100px;
+    height: 100px;
+    margin-top: 10%;
+    margin-left: 20%;
+}
+
+/*=========================================FOOTER======================================*/
+footer {
+    position: auto;
+    bottom: 0;
+    width: 100%;
+    height: 5%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #fff;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/*=========================================GOODS BODY======================================*/
+div.goods_body {
+    width: 95%;
+    height: 80%;
+    display: flex;
+    margin-left: 2%;
+    margin-right: 3%;
+    box-sizing: border-box;
+}
+
+/* 商品類別設定，顯示在左側 */
+div.goods_body div.goods_list {
+    width: 20%;  /* 設置為20%，讓商品類別在左側 */
+    background-color: rgba(229, 199, 177, 0.432);
+    opacity: 0.8;
+    border-radius: 15px;
+    padding: 10px;
+}
+
+div.goods_list ul {
+    font-size: 20px;
+}
+
+div.goods_list li {
+    margin-bottom: 10px;
+}
+
+div.goods_list li:hover {
+    cursor: pointer;
+    color: blue;
+}
+
+/* 顯示商品區域 */
+div.bestsell_goods {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);  /* 每行顯示 3 個商品 */
+    gap: 20px;  /* 商品區塊間距 */
+    box-sizing: border-box;
+    padding: 20px;
+    overflow-y: auto;
+    max-height: 80vh;
+    background-color: rgba(229, 199, 177, 0.432);
+}
+
+div.bestsell_goods::-webkit-scrollbar {
+    display: none;
+}
+
+div.goods {
+    display: flex;
+    flex-direction: column;  /* 垂直排列圖片和名稱 */
+    justify-content: flex-start;  /* 預設置於頂端 */
+    align-items: center;
+    width: 100%;
+    max-width: 300px;
+    height: auto;  /* 自動調整高度 */
+    border-radius: 15px;
+    background-color: rgba(229, 199, 177, 0.432);
+    box-sizing: border-box;
+    padding: 15px;
+}
+
+div.image-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;  /* 水平居中 */
+    align-items: center;  /* 垂直居中 */
+}
+
+
+img[alt="goods-image"] {
+    width: 100%;  
+    height: 100%;  
+    object-fit: cover;  /* 保持圖片比例，並覆蓋容器 */
+}
+
+div.goods-name {
+    margin-top: 10px;  /* 商品名稱與圖片之間有點距離 */
+    font-size: 14px;
+    text-align: center;
+    color: #333;
+}
+div.goods-name label {
+    display: block;
+    margin-top: 5px;
+}
+/* 商品名稱 hover效果 */
+div.goods-name:hover {
+    cursor: pointer;
+    color: brown;
+}
