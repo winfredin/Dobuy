@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <!-- fragment引入 -->
-<th:block th:replace="~{/back-end/back-end-home/fraghead :: head}"></th:block>
+<th:block th:replace="~{/vendor-end/counter/Counterincldue :: head}"></th:block>
 <title>櫃位訊息管理 - listAllMsg.html</title>
 
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
-<link rel="stylesheet" href="/counter/style.css">
+
 
 <script>
     var dataTablesJQ = $.noConflict(true); // 使用獨立的 jQuery 實例
@@ -114,10 +114,9 @@
 
 
     <!-- fragment引入 -->
-<!--     <footer th:block -->
-<!--         th:replace="~{back-end/back-end-home/fraghead :: footer}"></footer> -->
+    <footer th:block
+        th:replace="~{back-end/back-end-home/fraghead :: footer}"></footer>
 
-    <th:block th:replace="~{back-end/back-end-home/fraghead :: js}"></th:block>
 
 </body>
 </html>
