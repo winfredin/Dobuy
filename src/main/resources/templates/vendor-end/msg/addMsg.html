@@ -1,101 +1,109 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>櫃位訊息新增 - addMsg.html</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>櫃位訊息新增 - addMsg.html</title>
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<head th:insert="~{/vendor-end/msg/included-fragment}"></head>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
 
-<style type="text/css">
-    button {
-        padding: 5px;
-    }
-    form {
-        display: table;
-    }
-    form div {
-        display: table-row;
-    }
-    label, input, span, select {
-        display: table-cell;
-        margin: 5px;
-        text-align: left;        
-    }
-    input[type=text], input[type=password], select, textarea {
-        width: 200px;
-        margin: 5px;
-    }
-    form div div {
-        display: table-cell;
-    }
-    .center {
-        margin-left: auto;
-        margin-right: auto;
-    }
-</style>
+        .container {
+            margin-top: 50px;
+            max-width: 500px;
+        }
+
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+        }
+
+        .card-header {
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            font-size: 1.25rem;
+            padding: 10px;
+        }
+
+        .form-control {
+            margin: 10px auto;
+            width: 70%;
+            text-align: center;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: center;
+            padding: 15px;
+        }
+
+        .btn {
+            margin: 5px;
+            width: 120px;
+        }
+    </style>
 </head>
 <body>
 
-<div align="center">
-    <!-- 新增按鈕 -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addMsgModal">
-        新增訊息
-    </button>
-</div>
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="modal-title">新增訊息</h5>
+        </div>
+        <div class="card-body">
+            <form th:action="@{insert}" method="post" th:object="${msgVO}" enctype="multipart/form-data">
+                <!-- 內文 -->
+                <div class="form-group">
+                    <label for="informMsg">內文:</label>
+                    <input type="text" class="form-control" id="informMsg" th:field="*{informMsg}" placeholder="請輸入訊息內容" onclick="hideContent('informMsg.errors');" />
+                    <span th:if="${#fields.hasErrors('informMsg')}" th:errors="*{informMsg}" class="error" id="informMsg.errors"></span>
+                </div>
 
-<!-- Modal -->
-<div class="modal fade" id="addMsgModal" tabindex="-1" role="dialog" aria-labelledby="addMsgModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="addMsgModalLabel">新增訊息</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form th:action="@{insert}" method="post" th:object="${msgVO}" enctype="multipart/form-data">
-            <div>
-                <label>內文:</label>
-                <input type="text" class="form-control" th:field="*{informMsg}" onclick="hideContent('informMsg.errors');" /><br/>
-                <span th:if="${#fields.hasErrors('informMsg')}" th:errors="*{informMsg}" class="error" id="informMsg.errors"></span>
-            </div>
+                <!-- 會員 -->
+                <div class="form-group">
+                    <label for="memNo">會員:</label>
+                    <select class="form-control" id="memNo" th:field="*{memNo}">
+                        <option th:each="member : ${memberList}" th:value="${member.memNo}" th:text="${member.memNo}"></option>
+                    </select>
+                </div>
 
-            <div>
-                <label>會員:</label>
-                <select class="form-control" th:field="*{memNo}">
-                    <option th:each="member : ${memberList}" th:value="${member.memNo}" th:text="${member.memNo}"></option>
-                </select>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="cancelAdd()">取消</button>
-                <button type="submit" class="btn btn-primary">送出新增</button>
-            </div>
-        </form>
-      </div>
+                <!-- 按鈕 -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="cancelAdd()">取消</button>
+                    <button type="submit" class="btn btn-primary">送出新增</button>
+                </div>
+            </form>
+        </div>
     </div>
-  </div>
 </div>
 
-<!-- JavaScript part -->
-<script type="text/javascript">
-    // 清除提示信息
-    function hideContent(d) {
-        document.getElementById(d).style.display = "none";
+<!-- JavaScript -->
+<script>
+    // 隱藏錯誤訊息
+    function hideContent(id) {
+        document.getElementById(id).style.display = "none";
     }
 
-    // 取消按鈕點擊事件
+    // 取消按鈕跳轉
     function cancelAdd() {
-        $('#addMsgModal').modal('hide');
-        window.location.href = "/msg/listAllMsg"; // 重定向到 listAllMsg.html 頁面
+        window.location.href = "/msg/listAllMsg"; // 導回訊息列表頁面
     }
 </script>
 
 </body>
 </html>
+
+
+
+
+

@@ -1,77 +1,94 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>櫃位訊息修改 - update_msg_input.html</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>櫃位訊息修改 - update_msg_input.html</title>
 
-<head th:insert="~{/vendor-end/msg/included-fragment}"></head>
-<style type="text/css">
-	
-	button {
-		padding: 5px;
-	}
-	form {
-		display: table;
-	}
-	form div {
-		display: table-row;
-	}
-	label, input, span, select {
-		display: table-cell;
-		margin: 5px;
-		text-align: left;		
-	}
-	input[type=text], input[type=password], select, textarea {
-		width: 200px;
-		margin: 5px;
-	}
-	form div div {
-		display: table-cell;
-	}
-	.center {
-        margin-left: auto;
-        margin-right: auto;
-    }
-</style>
+    <!-- 引入 Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .frame {
+            border: 2px solid #000;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            background-color: #ffffff;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"], .form-control-plaintext {
+            width: 70%;
+            text-align: center;
+            margin: auto;
+        }
+
+        .btn {
+            width: 150px;
+            margin: 10px 5px;
+        }
+    </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
-		 <div align="center"> <h2>櫃位通知修改</h2>
-		 <h3><a class="navbar-brand" th:href="@{/msg/listAllMsg}">回櫃位訊息管理</a></h3></div>
-</nav>
+<div class="container">
+    <div class="frame">
+        <h2 class="text-center">修改櫃位訊息</h2>
+        <form th:action="@{update}" method="post" th:object="${msgVO}" enctype="multipart/form-data">
+            <!-- 櫃位訊息編號 -->
+            <div class="form-group">
+                <label for="counterInformNo">櫃位訊息編號:</label>
+                <input type="text" class="form-control-plaintext" id="counterInformNo" th:field="*{counterInformNo}" readonly />
+            </div>
 
-	<div align="center">
-		<form th:action="@{update}" method="post" th:object="${msgVO}" enctype="multipart/form-data">
-			<div>
-			<label>櫃位訊息編號:</label>
-			<input type="text" th:field="*{counterInformNo}" style="border:0px ; font-weight: bold;" readonly /><br/>
-			</div>
-			
-			<div>
-			<label>內文:</label>
-			<input type="text" th:field="*{informMsg}" onclick="hideContent('informMsg.errors');" /><br/>
-			<span  th:if="${#fields.hasErrors('informMsg')}" th:errors="*{informMsg}" class="error" id="informMsg.errors"></span>
-			</div>
-												
-			<div>
-				<div></div>
-				<div><button type="submit" id="submit"> 送出修改 </button></div>
-				<div></div>
-			</div>		
-		</form>
-	
-	</div>
+            <!-- 內文 -->
+            <div class="form-group">
+                <label for="informMsg">內文:</label>
+                <input type="text" class="form-control" id="informMsg" th:field="*{informMsg}" onclick="hideContent('informMsg.errors');" />
+                <span th:if="${#fields.hasErrors('informMsg')}" th:errors="*{informMsg}" class="error" id="informMsg.errors"></span>
+            </div>
 
+            <!-- 按鈕 -->
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">送出修改</button>
+                <a class="btn btn-secondary" th:href="@{/msg/listAllMsg}">取消</a>
+            </div>
+        </form>
+    </div>
+</div>
 
-<!-- JavaScript part -->
-<script type="text/javascript">
-//清除提示信息
-function hideContent(d) {
-     document.getElementById(d).style.display = "none";
-}
-
+<!-- JavaScript -->
+<script>
+    // 隱藏提示訊息
+    function hideContent(id) {
+        document.getElementById(id).style.display = "none";
+    }
 </script>
 
 </body>
