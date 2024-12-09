@@ -1,6 +1,7 @@
 package com.counterHome.cartTest.controller;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +33,7 @@ public class CartControllerTest {
 
 	@Autowired
 	private RedisTemplate<String, Object> redisTemplate;
-
+	
 	@Autowired
 	CartServiceTest cartServiceTestSvc;
 
@@ -52,8 +53,9 @@ public class CartControllerTest {
 		// 這裡的 goodsNo 對應到前端 JSON 中的鍵值對 { "goodsNo": "12345" }
 		// 這裡的 requestBody.get("goodsNo")會返回"12345"
 		String goodsName = (String) requestBody.get("goodsName");
-		String goodsPriceStr = requestBody.get("goodsPrice").toString();
-		String counterNoStr = requestBody.get("counterNo").toString();
+		String goodsPriceStr = (String)requestBody.get("goodsPrice");
+		String counterNoStr =(String) requestBody.get("counterNo");
+		String base64Image = (String) requestBody.get("base64Image");
 
 		if (goodsName == null || goodsNo == null || counterNoStr == null || goodsPriceStr == null) {
 			return ResponseEntity.badRequest().body("請求參數缺失");
@@ -66,10 +68,11 @@ public class CartControllerTest {
 		if (memNo == null) {
 			return buildErrorResponse(HttpStatus.UNAUTHORIZED, "請先登入");
 		}
-		String key = "cart:" + memNo; // 組合成key
+		String cartKey = "cart:" + memNo; // 組合成key
+		String imgKey = "img:" + memNo; // 組合成key
 
 		// 从 Redis 中获取当前商品信息
-		Map<Object, Object> cart = redisTemplate.opsForHash().entries(key); // (counterNo, cartListVO)
+		Map<Object, Object> cart = redisTemplate.opsForHash().entries(cartKey); // (counterNo, cartListVO)
 
 		List<CartListVO> cartList;// (存不同counterNo的List)
 
@@ -106,6 +109,8 @@ public class CartControllerTest {
 			cartVO.setOrderTotalPrice(1 * goodsPrice);
 
 			cartList.add(cartVO);
+			
+			redisTemplate.opsForHash().put(imgKey, goodsNo, base64Image);//沒有找到商品才存圖片，要存會員編號?
 		}
 
 		// 將商品的list轉成json格式
@@ -119,7 +124,7 @@ public class CartControllerTest {
 			return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "保留商品數據發生異常");
 		}
 		// 将商品信息存入 Redis
-		redisTemplate.opsForHash().put(key, counterNoStr, json);
+		redisTemplate.opsForHash().put(cartKey, counterNoStr, json);
 
 		return ResponseEntity.ok("商品已加入購物車");
 	}
@@ -242,16 +247,29 @@ public class CartControllerTest {
 	public String listCart(Model model, HttpSession session) {
 
 		String memNo = (String) session.getAttribute("memNo");
-		String key = "cart:" + memNo;
+		String cartkey = "cart:" + memNo;
+		String imgkey = "img:" + memNo;
 
-		Map<Object, Object> cart = redisTemplate.opsForHash().entries(key);
+		Map<Object, Object> imgMap = redisTemplate.opsForHash().entries(imgkey);
+		Map<String, String> base64Map = new HashMap<>(); //用於儲存後轉換的img
+		Map<Object, Object> cartMap = redisTemplate.opsForHash().entries(cartkey);
 		Map<String, List<CartListVO>> convertedCart = new HashMap<>(); // 用於存儲轉換後的數據
-
+		
 		ObjectMapper objectMapper = new ObjectMapper(); // 轉換格式用
+		
+		for (Map.Entry<Object, Object> entry : imgMap.entrySet()) {
+		    String goodsNo = (String) entry.getKey(); // 商品编号
+		    String base64Image = (String) entry.getValue(); // 图片的 byte[]
 
+		    // 存入新的 Map
+		    base64Map.put(goodsNo, base64Image);
+		    
+		}
+
+		
 		try {
 			// 遍历 Redis 中的购物车数据
-			for (Map.Entry<Object, Object> entry : cart.entrySet()) {
+			for (Map.Entry<Object, Object> entry : cartMap.entrySet()) {
 				String counterNoStr = entry.getKey().toString(); // 获取 key（櫃位编号）
 				String json = entry.getValue().toString(); // 获取 value（JSON 格式的 List<CartListVO>）
 
@@ -265,6 +283,7 @@ public class CartControllerTest {
 			e.printStackTrace();
 		}
 
+		model.addAttribute("base64Map", base64Map);
 		model.addAttribute("cart", convertedCart);
 		return "front-end/cartTest/myCartList"; // 對應購物車頁面模板名
 	}

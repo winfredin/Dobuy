@@ -6,12 +6,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +19,6 @@ import com.counter.model.CounterService;
 import com.counter.model.CounterVO;
 import com.faq.model.FaqService;
 import com.faq.model.FaqVO;
-import com.member.model.MemberVO;
 
 @Controller
 @RequestMapping("/faq")
@@ -75,6 +71,7 @@ public class FaqController {
 
 
 ////	櫃位FAQ管理
+//	櫃位FAQ管理
 //	@GetMapping("/listCounterFaq")
 //	public String listAllCoupon(HttpSession session, Model model) {
 //		// 櫃位優惠券登錄確認

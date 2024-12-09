@@ -74,24 +74,19 @@ public class IndexController_inSpringBoot_ShoppingCartList {
     
     // 購物車結帳畫面
     @GetMapping("/shoppingcartlist/ShoppingCartListCheckout")
-    public String ShoppingCartListCheckout(Model model, HttpSession session) {
-       
+    public String ShoppingCartListCheckout(Model model) {
         List<ShoppingCartListVO> list = shoppingCartListSvc.getAll();
-        for(ShoppingCartListVO a : list) {
-       GoodsVO ab = goodsSvc.getOneGoods(a.getGoodsNo());
-       ab.setGoodsAmount(ab.getGoodsAmount()-a.getGoodsNum());
-      
-       if(ab.getGoodsAmount()<0) {
-    	   model.addAttribute("error","庫存不足");
-    	   return "front-end/shoppingcartlist/listAllShoppingCartList";
-       }else {
-    	   model.addAttribute("ab",ab);
-    	   goodsSvc.updateGoodsAmount(a.getGoodsNo(),ab.getGoodsAmount());
-       }
-      
-      
+        for (ShoppingCartListVO a : list) {
+            GoodsVO goods = goodsSvc.getOneGoods(a.getGoodsNo());
+            if (goods.getGoodsAmount() < a.getGoodsNum()) {
+                model.addAttribute("error", "庫存不足");
+                return "front-end/shoppingcartlist/listAllShoppingCartList";
+            }else {
+            	 model.addAttribute("ab", goods);
+            goods.setGoodsAmount(goods.getGoodsAmount() - a.getGoodsNum());
+            goodsSvc.updateGoodsAmount(a.getGoodsNo(), goods.getGoodsAmount());
+            }
         }
-        
         model.addAttribute("carlist", list);
         return "front-end/shoppingcartlist/ShoppingCartListCheckout";
     }

@@ -54,8 +54,10 @@ public class CounterIndexController {
 		return "vendor-end/counterorder/select_page";
 	}
     
-    @GetMapping("/counterorder/listAllCounterOrder")
+    @GetMapping("/counter/listAllCounterOrder")
 	public String listAllEmp(Model model) {
+    	List<CounterOrderVO> alist = counterOrderSvc.getAll();
+		model.addAttribute("alist",alist);
 		return "vendor-end/counterorder/listAllCounterOrder";
 	}
     

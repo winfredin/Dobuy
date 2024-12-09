@@ -53,7 +53,9 @@ public class LoginController {
     // 登出功能
     @GetMapping("logout")
     public String logout(HttpSession session) {
-        session.invalidate();  // 使 Session 無效
+        session.removeAttribute("managerNo"); 
+        session.removeAttribute("managerAccount");
+        session.removeAttribute("auth");
         return "redirect:/login/Login";  // 登出後，重新導向到登入頁面
     }
 }

@@ -12,11 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
-import com.member.model.MemberVO;
-
 @WebFilter(urlPatterns = {"/front-end/coupon/list", "/front-end/coupon/member/list35"
 		, "/cart/list35", "/front-end/coupon/member/list", "/memcoupon/memListAllCoupon"})
+
 
 public class MemberLoginFilter implements Filter {
 
@@ -29,20 +27,18 @@ public class MemberLoginFilter implements Filter {
 
 		// 【取得 session】
 		HttpSession session = req.getSession();
-		// 【從 session 判斷此user是否登入過】
-		MemberVO memberVO = new MemberVO();
 		Object memAccount = session.getAttribute("memAccount");
 		
 		if (session == null || memAccount == null) {
 			// 未登錄，記住當前請求的路徑和參數
-			String originalRequest = req.getRequestURI(); // 包含 ContextPath
-			String queryString = req.getQueryString(); // 获取 GET 参数
-			
-			if (queryString != null) {
-				originalRequest += "?" + queryString;
-			}
-			
-			session.setAttribute("originalRequest", originalRequest);
+//			String originalRequest = req.getRequestURI(); // 包含 ContextPath
+//			String queryString = req.getQueryString(); // 获取 GET 参数
+//			
+//			if (queryString != null) {
+//				originalRequest += "?" + queryString;
+//			}
+//			
+//			session.setAttribute("originalRequest", originalRequest);
 			// 重定向到登入頁面
 			res.sendRedirect("/mem/login");
 

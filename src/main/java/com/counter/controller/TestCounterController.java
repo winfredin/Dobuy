@@ -6,8 +6,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.counter.model.CounterService;
 import com.counter.model.CounterVO;
@@ -17,6 +20,7 @@ import com.counterType.model.CounterTypeVO;
 import java.util.*;
 
 @Controller //ch2 P65 ch3 P77 ch8 p139
+@RequestMapping("/back-end")
 public class TestCounterController {
 	
 	@Autowired
@@ -41,14 +45,29 @@ public class TestCounterController {
 		return "<font color=green><b> index3 ?????   <b></font>";   
 	}
 	
-	@GetMapping("/counter/allcounter") //ch2 P65 ch3 P77 ch8 p139
-	public String test(Model model) {
+	@GetMapping("/counter") //ch2 P65 ch3 P77 ch8 p139
+	public String counterlist(Model model) {
+		List<CounterVO> list = counterSvc.getAll();
+		model.addAttribute("counterlist",list);
 		return "vendor-end/counter/allcounter"; //檔案位置 src\main\resources\templates\counter\allcounter  //P137  
+	}
+	
+	@PostMapping("/updateCStatus")
+	public String updateCounterStatus(@RequestParam("counterStatus") Integer counterStatus,
+	                                  @RequestParam("counterNo") Integer counterNo,
+	                                  RedirectAttributes redirectAttributes) {
+	    try {
+	        counterSvc.upStatus(counterNo, counterStatus);
+	        redirectAttributes.addFlashAttribute("message", "櫃位狀態修改成功！");
+	    } catch (Exception e) {
+	        // 這裡處理異常，例如記錄錯誤或添加錯誤消息
+	        redirectAttributes.addFlashAttribute("error", "修改失敗：" + e.getMessage());
+	    }
+	    return "redirect:/back-end/counter"; 
 	}
 	
 	   @ModelAttribute("counterListData")  // for select_page.html 第97 109行用 // for listAllEmp.html 第85行用
 		protected List<CounterVO> referenceListData(Model model) {
-			
 	    	List<CounterVO> list = counterSvc.getAll();
 			return list;
 		}

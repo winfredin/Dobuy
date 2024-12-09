@@ -37,6 +37,16 @@ public class NoticeService {
     public List<NoticeVO> getOneMemberNotice(Integer memNo) {
         return repository.findByMemNo(memNo); // 如果不存在，返回 null
     }
+    
+    public void markAllAsRead() {
+        List<NoticeVO> notices = repository.findAll();
+        for (NoticeVO notice : notices) {
+            notice.setNoticeRead((byte)1);  // Assuming the noticeRead field is an integer and 1 represents 'read'
+        }
+        repository.saveAll(notices);
+    }
+
+
    
     
 

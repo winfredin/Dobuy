@@ -115,7 +115,7 @@ public class CouponService {
             existingCoupon.setCouponStatus(couponVO.getCouponStatus());
             existingCoupon.setUsageLimit(couponVO.getUsageLimit());
             existingCoupon.setCheckStatus(couponVO.getCheckStatus());
-            existingCoupon.setCounterNo(couponVO.getCounterNo());
+            existingCoupon.setCounter(couponVO.getCounter());
             
             // 處理明細
             if (couponVO.getCouponDetails() != null && !couponVO.getCouponDetails().isEmpty()) {

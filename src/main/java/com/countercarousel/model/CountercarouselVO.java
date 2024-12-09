@@ -27,10 +27,24 @@ public class CountercarouselVO {
 	
 	@Column(name = "carouselTime", insertable = false, updatable = false)
 	private Timestamp carouselTime;
-
 	
 	@Transient // 標記為非持久化字段
 	private MultipartFile upFile;
+	
+	
+	//-----------------定紘----------------
+		@Column(name = "goodsNo")
+		private Integer goodsNo;
+		
+	public Integer getGoodsNo() {
+		return goodsNo;
+	}
+
+	public void setGoodsNo(Integer goodsNo) {
+		this.goodsNo = goodsNo;
+	}
+	//------------------------------------
+	
 	
 	@Column(name = "carouselPic") 
 	private byte[] carouselPic;
@@ -38,9 +52,6 @@ public class CountercarouselVO {
 	@Transient // 非持久化字段
 	private String base64Image;
 	
-	@Column(name = "goodsNo")
-	private Integer goodsNo;
-
 	public Integer getId() {
 		return id;
 	}
@@ -86,14 +97,6 @@ public class CountercarouselVO {
         	this.base64Image = Base64.getEncoder().encodeToString(this.carouselPic);
         }
     }
-
-	public Integer getGoodsNo() {
-		return goodsNo;
-	}
-
-	public void setGoodsNo(Integer goodsNo) {
-		this.goodsNo = goodsNo;
-	}
 	
 	// Getter 和 Setter
 	public Timestamp getCarouselTime() {
