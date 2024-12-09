@@ -110,15 +110,16 @@ CREATE TABLE CounterOrder (
     counterOrderNo INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     counterNo INT(10) NOT NULL,                    -- FK
     memNo INT(10) NOT NULL,                        -- FK
-    orderTotalPriceBefore INT(6) NOT NULL,
-    orderTotalPriceAfter INT(6) NOT NULL,
+    orderTotalBefore INT(6) NOT NULL,
+    orderTotalAfter INT(6) NOT NULL,
     receiverName VARCHAR(10) NOT NULL,
     receiverAdr VARCHAR(100),
     receiverPhone VARCHAR(10) NOT NULL,
     orderTime TIMEstamp default now(),
-    memCouponNo INT(10),
-    orderStatus TINYINT(1) DEFAULT 0 NOT NULL
-
+    orderStatus TINYINT(1) DEFAULT 0 NOT NULL,
+	reservedAmount INT DEFAULT 0,
+	memCouponNo INT 
+	
 ) AUTO_INCREMENT = 1;
 
 CREATE TABLE CounterOrderDetail (

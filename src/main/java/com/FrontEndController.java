@@ -183,7 +183,9 @@ public class FrontEndController {
  	  memberVO.setMemStatus(0);
  	   memSvc.updateMem(memberVO);
  	  
- 	    session.invalidate();
+ 	  session.removeAttribute("memAccount");
+		session.removeAttribute("memNo"); // 用memAccount去找memNo
+		session.removeAttribute("memStatus");
 	 return "front-end/normalpage/member";
 	 }
 	 @PostMapping("changepas")

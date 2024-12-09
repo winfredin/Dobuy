@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 
 import com.counterorderdetail.model.CounterOrderDetailVO;
 import com.ecpay.payment.integration.ecpayOperator.EcpayFunction;
+import com.goods.model.GoodsService;
 import com.counterorder.model.CounterOrderService;
 import com.counterorder.model.CounterOrderVO;
 import com.counterorderdetail.model.CounterOrderDetailService;
@@ -31,33 +32,42 @@ public class CounterOrderDetailController {
    @Autowired
    CounterOrderDetailService counterOrderDetailService;
    @Autowired
-   CounterOrderService counterOrderService;
+   CounterOrderService counterOrderSvc;
+   
+   @Autowired
+   GoodsService goodsSvc;
+   
    /*
     * 處理新增訂單明細的表單請求
     */
-   @PostMapping("addCounterOrderDetail")
-   public String addCounterOrderDetail(@RequestParam Map<String, String> params,ModelMap model) {
-	  
-	    String totalAmount = params.get("TradeAmt");
-	    String tradeDesc = params.get("TradeDesc");
-	    String goodsName = params.get("ItemName");
-	    String count = params.get("CustomField1");
-	    String goodsNo = params.get("CustomField2");
-	    String counterOrderNo =params.get("CustomField3");
-	    
-	    CounterOrderVO a= counterOrderService.getOneCounterOrder(Integer.parseInt(counterOrderNo));
-	    a.setOrderStatus(1);
-	    CounterOrderDetailVO counterOrderDetailVO = new CounterOrderDetailVO();
-	    counterOrderDetailVO.setProductPrice(Integer.parseInt(totalAmount));
-	    counterOrderDetailVO.setGoodsNum(Integer.parseInt(count));
-	    counterOrderDetailVO.setGoodsNo(Integer.parseInt(goodsNo));
-	    counterOrderDetailVO.setProductDisPrice(Integer.parseInt(totalAmount));
-	    counterOrderDetailVO.setCounterOrderNo(Integer.parseInt( counterOrderNo));
+   @PostMapping("/addCounterOrderDetail")
+   public String addCounterOrderDetail(@RequestParam Map<String, String> params) {
+       String totalAmount = params.get("TradeAmt");
+       String goodsName = params.get("ItemName");
+       String goodsNum = params.get("CustomField1");
+       String goodsNo = params.get("CustomField2");
+       String counterOrderNo = params.get("CustomField3");
 
-	    counterOrderDetailService.addCounterOrderDetail(counterOrderDetailVO);
-		return "member";
-       
+       // 更新訂單狀態
+       CounterOrderVO order = counterOrderSvc.getOneCounterOrder(Integer.parseInt(counterOrderNo));
+       order.setOrderStatus(1);
+       counterOrderSvc.updateCounterOrder(order);
+
+       // 插入訂單明細
+       CounterOrderDetailVO detail = new CounterOrderDetailVO();
+       detail.setProductPrice(Integer.parseInt(totalAmount));
+       detail.setGoodsNum(Integer.parseInt(goodsNum));
+       detail.setGoodsNo(Integer.parseInt(goodsNo));
+       detail.setProductDisPrice(Integer.parseInt(totalAmount));
+       detail.setCounterOrderNo(Integer.parseInt(counterOrderNo));
+       counterOrderDetailService.addCounterOrderDetail(detail);
+
+       // 扣除庫存
+       goodsSvc.updateGoodsAmount(Integer.parseInt(goodsNo), -Integer.parseInt(goodsNum));
+
+       return "redirect:/member";
    }
+
 
    /*
     * 處理新增訂單明細的表單提交，包含驗證用戶輸入
