@@ -197,7 +197,7 @@ public class UsedEcpayController {
 	    try {
 	        // 提取綠界發送的 CheckMacValue
 	        String receivedCheckMacValue = params.get("CheckMacValue");
-	        System.out.println(params);
+//	        System.out.println(params);
 	        String usedOrderNo= params.get("CustomField1");
 	        
 	        String RtnCode = params.get("RtnCode");
