@@ -54,11 +54,12 @@ public class StorecarouselController {
     }
 
     // 查詢所有輪播資訊
-    @GetMapping("listAllStorecarousel")
+    @GetMapping("listAllStorecarouseltest")
     public String listAll(ModelMap model) {
         List<StoreCarouselVO> list = storeCarouselService.getAll();
-        model.addAttribute("storeCarouselData", list);
-        return "back-end/storecarousel/listAllStorecarousel";
+        System.out.println("=======");
+        model.addAttribute("storeCarouselList", list);
+        return "back-end/storecarousel/listAllStorecarouseltest";
     }
 
     // 更新資料頁面

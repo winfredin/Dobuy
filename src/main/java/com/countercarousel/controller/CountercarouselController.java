@@ -19,7 +19,7 @@ import com.countercarousel.model.CountercarouselRepository;
 import com.countercarousel.model.CountercarouselVO;
 
 @Controller
-@RequestMapping("/carousel")
+@RequestMapping("/front-end-carousel")
 public class CountercarouselController {
 
 	@Autowired
@@ -31,7 +31,7 @@ public class CountercarouselController {
 		return "vendor-end/front-end-carousel/addCarousel";
 	}
 	
-	@PostMapping("insert")
+	@PostMapping("/insert")
 	public String insert(@ModelAttribute CountercarouselVO countercarouselVO) {
 		try {
 			MultipartFile file = countercarouselVO.getUpFile();
@@ -47,7 +47,7 @@ public class CountercarouselController {
 	}
 
 	// 顯示圖片列表
-	@GetMapping("all")
+	@GetMapping("/ALLCarousel")
 	public String getAllImages(ModelMap model) {
 		List<CountercarouselVO> carouselList = countercarouselRepository.findAll();
 		for (CountercarouselVO i : carouselList) {
@@ -55,7 +55,7 @@ public class CountercarouselController {
 		}
 
 		model.addAttribute("carouselList", carouselList);
-		return "/back-end-carousel/ALLCarousel";
+		return "vendor-end/front-end-carousel/ALLCarousel";
 	}
 
 }

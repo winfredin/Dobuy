@@ -32,4 +32,7 @@ public interface StorecarouselRepository extends JpaRepository<StoreCarouselVO, 
     // 自訂條件查詢：櫃位編號 + 優惠編號
     @Query("FROM StoreCarouselVO WHERE counterNo = :counterNo AND disNo = :disNo ORDER BY carouselTime DESC")
     List<StoreCarouselVO> findByCounterNoAndDisNo(Integer counterNo, Integer disNo);
+    
+//    @Query("SELECT * FROM StoreCarouselVO WHERE counterNo = :counterNo AND disNo = :disNo ORDER BY carouselTime DESC")
+//	List<StoreCarouselVO> findAll(Integer counterNo);
 }
