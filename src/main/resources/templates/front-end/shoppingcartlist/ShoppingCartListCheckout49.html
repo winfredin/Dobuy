@@ -90,9 +90,7 @@
             <div class="col-sm-6">
               <label for="firstName" class="form-label">名</label>
               <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
-              <div class="invalid-feedback">
-                需要有效的名字。
-              </div>
+              <div class="invalid-feedback">                需要有效的名字。              </div>
             </div>
 
           <!-- 地址欄位 -->
@@ -174,20 +172,129 @@
 </div>
 
 
+<!-- 在總計金額下方添加 -->
+<div class="discount-summary mt-3">
+    <h5>優惠摘要</h5>
+    <div class="card">
+        <div class="card-body">
+            <div th:each="entry : ${cartItemsByCounter}" class="mb-2">
+                <div class="d-flex justify-content-between">
+                    <span th:text="|櫃位 ${entry.key} 優惠:|">櫃位優惠</span>
+                    <span class="text-danger" th:id="|discountSummary-${entry.key}|">
+                        尚未選擇優惠券
+                    </span>
+                </div>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between font-weight-bold">
+                <span>優惠後總金額：</span>
+                <span class="text-primary" id="finalTotalAfterDiscount" 
+                      th:text="|$${totalAmount}|">
+                    $0
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
           <hr class="my-4">
 
 
           <button class="w-100 btn btn-primary btn-lg" type="submit">結帳</button>
         </form>
       </div>
+      
+      <!-- 除錯區域 -->
+<div id="debug-info" style="display: none;">
+    <pre></pre>
+</div>
+      
 
 
   <footer class="footer">
     <div>© 2024 DO BUY. All Rights Reserved.</div>
   </footer>
+  
+<script>
+// 用於顯示除錯信息的輔助函數
+function showDebugInfo(message) {
+    const debugPre = document.querySelector('#debug-info pre');
+    if (debugPre) {
+        debugPre.textContent += new Date().toISOString() + ': ' + message + '\n';
+    }
+}
+</script>
 
 <script th:inline="javascript">
+
 document.addEventListener('DOMContentLoaded', function() {
+    const checkoutForm = document.querySelector('form.needs-validation');
+    
+    // 添加表單提交事件監聽器
+    checkoutForm.addEventListener('submit', async function(event) {
+        // 防止表單的默認提交行為
+        event.preventDefault();
+        
+        // 為了除錯，先印出訊息確認事件觸發
+        console.log('表單提交事件觸發');
+        
+        // 收集優惠券資訊
+        const couponSelections = {};
+        document.querySelectorAll('.coupon-select').forEach(select => {
+            const counterId = select.getAttribute('data-counter');
+            const couponValue = select.value;
+            if (couponValue) {
+                // 記錄櫃位和對應的優惠券編號
+                couponSelections[counterId] = parseInt(couponValue);
+            }
+        });
+        
+        // 印出收集到的資料
+        console.log('優惠券選擇:', couponSelections);
+
+        try {
+            // 發送結帳請求
+            const response = await fetch('/shoppingcartlist/checkout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    counterCoupons: couponSelections
+                })
+            });
+
+            // 印出服務器回應
+            console.log('服務器原始回應:', response);
+            
+            const result = await response.json();
+            console.log('服務器處理結果:', result);
+
+            if (result.error) {
+                alert(result.error);
+                return;
+            }
+
+            if (result.success) {
+                // 使用動態構建的 URL 進行重導向
+                const baseUrl = window.location.protocol + '//' + window.location.host;
+                console.log('準備重導向到:', baseUrl + '/home');
+                window.location.href = baseUrl + '/home';
+            }
+
+        } catch (error) {
+            // 詳細的錯誤記錄
+            console.error('結帳過程發生錯誤:', error);
+            alert('結帳過程發生錯誤，請稍後再試');
+        }
+    });
+    
+
+    // 為了確認事件監聽器已經設置，添加一條日誌
+    console.log('表單提交事件監聽器已設置');
+	
+	
+	
+	
     // 監聽所有優惠券選擇
     const couponSelects = document.querySelectorAll('.coupon-select');
     if (couponSelects) {
@@ -206,7 +313,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         try {
-            const response = await fetch('/shoppingcartlist/calculateDiscount', {
+            // 1. 計算折扣金額
+            const discountResponse = await fetch('/shoppingcartlist/calculateDiscount', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -217,20 +325,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 })
             });
 
-            if (!response.ok) {
+            if (!discountResponse.ok) {
                 throw new Error('網路錯誤');
             }
 
-            const data = await response.json();
-            console.log('Response data:', data); // 調試用
-
-            if (data.error) {
-                alert(data.error);
+            const discountData = await discountResponse.json();
+            
+            if (discountData.error) {
+                alert(discountData.error);
                 resetDiscount(counterId);
                 return;
             }
 
-            updatePrices(counterId, data);
+            // 2. 更新顯示的折扣金額
+            updatePrices(counterId, discountData);
+            
+            // 3. 更新優惠摘要顯示
+            updateDiscountSummary(counterId, discountData);
+            
+            // 4. 更新總金額
             updateTotalAmount();
 
         } catch (error) {
@@ -241,10 +354,20 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function resetDiscount(counterId) {
+        // 重置金額顯示
         const originalTotal = document.getElementById(`counterTotal-${counterId}`).getAttribute('data-original');
         document.getElementById(`discountAmount-${counterId}`).textContent = '0';
         document.getElementById(`counterTotal-${counterId}`).textContent = originalTotal;
         document.getElementById(`couponDesc-${counterId}`).textContent = '';
+        
+        // 重置優惠摘要
+        const summaryElement = document.querySelector(`#discountSummary-${counterId}`);
+        if (summaryElement) {
+            summaryElement.textContent = '尚未選擇優惠券';
+            summaryElement.classList.remove('text-success');
+            summaryElement.classList.add('text-danger');
+        }
+        
         updateTotalAmount();
     }
 
@@ -262,28 +385,53 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    function updateDiscountSummary(counterId, data) {
+        const summaryElement = document.querySelector(`#discountSummary-${counterId}`);
+        const finalTotalElement = document.getElementById('finalTotalAfterDiscount');
+        
+        if (summaryElement) {
+            if (data.discount > 0) {
+                summaryElement.textContent = `已套用優惠：-$${Math.round(data.discount).toLocaleString()}`;
+                summaryElement.classList.remove('text-danger');
+                summaryElement.classList.add('text-success');
+            } else {
+                summaryElement.textContent = '尚未選擇優惠券';
+                summaryElement.classList.remove('text-success');
+                summaryElement.classList.add('text-danger');
+            }
+        }
+
+        if (finalTotalElement) {
+            finalTotalElement.textContent = `$${Math.round(data.newTotal).toLocaleString()}`;
+        }
+    }
+
     function updateTotalAmount() {
         let total = 0;
         document.querySelectorAll('[id^="counterTotal-"]').forEach(elem => {
             const amount = parseFloat(elem.textContent.replace(/,/g, '')) || 0;
             total += amount;
         });
+        
+        // 更新最終總金額
         const finalTotalElement = document.getElementById('finalTotal');
+        const finalTotalAfterDiscountElement = document.getElementById('finalTotalAfterDiscount');
+        
         if (finalTotalElement) {
             finalTotalElement.textContent = Math.round(total).toLocaleString();
         }
+        if (finalTotalAfterDiscountElement) {
+            finalTotalAfterDiscountElement.textContent = `$${Math.round(total).toLocaleString()}`;
+        }
     }
 });
-</script>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  </script>
+  
+  
   <script>
-
-  
-  
   
     // 表單驗證提示顯示
-    document.getElementById('fullName').addEventListener('focus', function() {
+    document.getElementById('firstName').addEventListener('focus', function() {
       document.getElementById('fullNameError').innerText = '姓名必須是2-10位的中文或英文，不能有特殊符號';
     });
 
@@ -294,6 +442,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('email').addEventListener('focus', function() {
       document.getElementById('emailError').innerText = '電子郵件格式不正確，必須包含 @ 並以 .com 結尾';
     });
+
   </script>
 </body>
 </html>
