@@ -25,9 +25,9 @@
 			<div class="form-group">
 				<div class="form-row">
 					<div class="form-field">
-						<label for="counterNo">櫃位編號</label> <input type="text"
-							id="counterNo" th:field="*{counterNo}" th:value="${counterNo}"
-							readonly />
+						<label for="counterNo">櫃位編號</label> 
+						<input type="text" id="counterNo" th:field="*{counter.counterNo}" readonly />
+
 					</div>
 					<div class="form-field">
 						<label for="couponTitle">優惠券名稱</label> <input type="text"
@@ -67,7 +67,7 @@
 						<label for="usageLimit">領取次數限制</label> <input type="number"
 							id="usageLimit" th:field="*{usageLimit}" />
 					</div>
-					<input type="hidden" th:field="*{checkStatus}" value="0" />
+					<input type="hidden" th:field="*{checkStatus}" />
 
 					<!-- 					<div class="form-field"> -->
 					<!-- 						<label for="checkStatus">審核狀態</label> <select id="checkStatus" -->
@@ -130,25 +130,26 @@ document.getElementById('addDetailBtn').addEventListener('click', function() {
 	const goodsListOptions = firstSelect ? firstSelect.innerHTML : '';
 
 	const detailHtml = `
-	<div class="detail-item" th:each="detail, stat : *{couponDetails}">
-		<div class="detail-row">
-			<div class="detail-field">
-				<label>商品</label>
-				<select name="couponDetails[${index}].goodsNo" required>
-					${goodsListOptions}
-				</select>
-			</div>
-			<div class="detail-field">
-				<label>優惠條件</label>
-				<input type="text" name="couponDetails[${index}].counterContext" required />
-			</div>
-			<div class="detail-field">
-				<label>折扣率</label>
-				<input type="number" name="couponDetails[${index}].disRate" step="0.01" min="0.01" max="1.00" required />
-			</div>
-			<button type="button" class="delete-btn" onclick="deleteDetail(this)">刪除</button>
+		<div class="detail-item">
+		    <div class="detail-row">
+		        <div class="detail-field">
+		            <label>商品</label>
+		            <select name="couponDetails[${index}].goodsNo" required>
+		                ${goodsListOptions}
+		            </select>
+		        </div>
+		        <div class="detail-field">
+		            <label>優惠條件</label>
+		            <input type="text" name="couponDetails[${index}].counterContext" required />
+		        </div>
+		        <div class="detail-field">
+		            <label>折扣率</label>
+		            <input type="number" name="couponDetails[${index}].disRate" step="0.01" min="0.01" max="1.00" required />
+		        </div>
+		        <input type="hidden" name="couponDetails[${index}].checkStatus" value="0" />
+		        <button type="button" class="delete-btn" onclick="deleteDetail(this)">刪除</button>
+		    </div>
 		</div>
-	</div>
 	`;
 	container.insertAdjacentHTML('beforeend', detailHtml);
 });

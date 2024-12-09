@@ -18,7 +18,6 @@ import com.coupon.model.CouponService;
 import com.coupon.model.CouponVO;
 import com.member.model.MemberService;
 import com.member.model.MemberVO;
-//import com.memcoupon.controller.HibernateUtil_CompositeQuery_MemCoupon;
 
 @Service("memCouponService")
 public class MemCouponService {
@@ -49,10 +48,10 @@ public class MemCouponService {
             throw new RuntimeException("優惠券不存在或尚未審核通過");
         }
 
-        // 檢查優惠券是否在有效期內
+        // 檢查優惠券是否已過期（允許開始日期在未來）
         Date now = new Date();
-        if (now.before(coupon.getCouponStart()) || now.after(coupon.getCouponEnd())) {
-            throw new RuntimeException("優惠券不在有效期內");
+        if (now.after(coupon.getCouponEnd())) {
+            throw new RuntimeException("優惠券已過期，無法領取");
         }
 
         // 獲取會員資訊 - 修改為使用 findById
@@ -66,6 +65,7 @@ public class MemCouponService {
         MemCouponVO memCoupon = new MemCouponVO();
         memCoupon.setCoupon(coupon);
         memCoupon.setMember(member);
+        memCoupon.setStatus(0);  // 預設未使用
 
         return memCouponRepository.save(memCoupon);
     }

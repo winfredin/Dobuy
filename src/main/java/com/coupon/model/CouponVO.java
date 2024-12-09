@@ -9,7 +9,9 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.counter.model.CounterVO;
 import com.coupondetail.model.CouponDetailVO;
+import com.member.model.MemberVO;
 import com.memcoupon.model.MemCouponVO;
 
 @Entity
@@ -23,9 +25,11 @@ public class CouponVO implements Serializable {
     @Column(name = "couponNo")
     private Integer couponNo;
 
-    @Column(name = "counterNo", nullable = false)
-    @NotNull(message = "櫃位編號: 請勿空白")
-    private Integer counterNo;
+    
+//  外鍵設置
+    @ManyToOne
+    @JoinColumn(name = "counterNo", referencedColumnName = "counterNo", nullable = false)
+    private CounterVO counter;
 
     @Column(name = "couponTitle", nullable = false, length = 255)
     @NotEmpty(message = "優惠券名稱: 請勿空白")
@@ -64,11 +68,12 @@ public class CouponVO implements Serializable {
     @NotNull(message = "審核狀態: 請勿空白")
     @Min(value = 0, message = "審核狀態: 最小值為{value}")
     @Max(value = 1, message = "審核狀態: 最大值為{value}")
-    private Integer checkStatus;
-//    外鍵設置
+    private Integer checkStatus = 0;
+//  外鍵設置
     @OneToMany(mappedBy = "coupon", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CouponDetailVO> couponDetails = new ArrayList<>();
 
+//  外鍵設置
     @OneToMany(mappedBy = "coupon", cascade = CascadeType.ALL)
     private List<MemCouponVO> memCoupons = new ArrayList<>();
     
@@ -95,18 +100,21 @@ public class CouponVO implements Serializable {
     public Integer getCouponNo() {
         return couponNo;
     }
-//  外鍵設置
     public void setCouponNo(Integer couponNo) {
         this.couponNo = couponNo;
     }
-//  外鍵設置
-    public Integer getCounterNo() {
-        return counterNo;
+    
+    
+//  外鍵設置   
+    public CounterVO getCounter() {
+        return this.counter;
     }
-
-    public void setCounterNo(Integer counterNo) {
-        this.counterNo = counterNo;
+    
+    public void setCounter(CounterVO counter) {
+        this.counter = counter;
     }
+    
+    
 
     public String getCouponTitle() {
         return couponTitle;

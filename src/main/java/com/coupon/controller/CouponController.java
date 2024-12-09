@@ -49,42 +49,18 @@ public class CouponController {
     @Autowired
     GoodsService goodsSvc;
     
-//    @PostMapping("/addCouponDetail")
-//    public ResponseEntity<String> addCouponDetail(@RequestParam Integer couponNo,
-//                                                  @RequestBody CouponDetailVO couponDetailVO) {
-//        try {
-//        	couponSvc.addCouponDetail(couponNo, couponDetailVO);
-//            return ResponseEntity.ok("Coupon detail added successfully.");
-//        } catch (RuntimeException e) {
-//            return ResponseEntity.badRequest().body(e.getMessage());
-//        }
-//    }
-
-//    @PostMapping("/addCoupon")
-//    public String addCoupon(
-//        @RequestParam("couponDetail") List<CouponDetailVO> couponDetail,
-//        @ModelAttribute("couponVO") CouponVO couponVO
-//    ) {
-//        // 業務邏輯
-//        return "redirect:/success";
-//    }
-    
-    
-//  櫃位新增優惠券 可以同時設定優惠商品明細--進入
-    
-//    test登入功能
-//    @GetMapping("addCoupon")
-//    public String addCoupon(HttpSession session, ModelMap model) {
-//        CounterVO counter = (CounterVO) session.getAttribute("counter");
-//        
-//        // 初始化新的優惠券物件
-//        CouponVO couponVO = new CouponVO();
-//        // 設置櫃位編號
-//        couponVO.setCounterNo(counter.getCounterNo());
-//        
-//        model.addAttribute("couponVO", couponVO);
-//        return "vendor-end/coupon/addCoupon";
-//    }
+    // 確保 counter 存在的公共方法
+    @ModelAttribute("counter")
+    public CounterVO populateCounter(HttpSession session) {
+        CounterVO counter = (CounterVO) session.getAttribute("counter");
+        if (counter == null) {
+            counter = new CounterVO(); // 設置一個空的 CounterVO
+            counter.setCounterNo(0);   // 設置合理的默認值，避免模板出錯
+            counter.setCounterStatus(0); // 適配 Thymeleaf 的 counterStatus
+            session.setAttribute("counter", counter); // 將 counter 放回 session
+        }
+        return counter;
+    }
     
     @GetMapping("addCoupon")
 //   從 session 獲取當前登入櫃位資訊
@@ -100,7 +76,7 @@ public class CouponController {
         model.addAttribute("goodsList", goodsList);
         
         CouponVO couponVO = new CouponVO();
-        couponVO.setCounterNo(counter.getCounterNo());
+        couponVO.setCounter(counter);  // 設置 CounterVO
         couponVO.setCouponDetails(new ArrayList<>());
         couponVO.getCouponDetails().add(new CouponDetailVO()); // 添加一個空明細
         
@@ -115,33 +91,30 @@ public class CouponController {
     @PostMapping("/insert")
     public String insertCouponWithDetails(
             @ModelAttribute("couponVO") CouponVO couponVO,
+            HttpSession session,
             RedirectAttributes redirectAttributes) {
         try {
-            // 輸出調試信息
-            System.out.println("接收到的數據：");
-            System.out.println("優惠券標題: " + couponVO.getCouponTitle());
-            System.out.println("明細數量: " + 
-                (couponVO.getCouponDetails() != null ? 
-                 couponVO.getCouponDetails().size() : 0));
-            
-            // 添加驗證
-            if (couponVO.getCouponDetails() == null || 
-                couponVO.getCouponDetails().isEmpty()) {
-                throw new IllegalArgumentException("至少需要一個優惠券明細");
+            // 從 Session 中獲取 CounterVO
+            CounterVO counter = (CounterVO) session.getAttribute("counter");
+            if (counter == null) {
+                throw new IllegalStateException("未登入櫃位，無法新增優惠券");
             }
             
-            // 調用服務保存數據
-            CouponVO savedCoupon = couponSvc.addCouponWithDetails(couponVO);
-            
-            // 設置成功消息
-            redirectAttributes.addFlashAttribute("success", 
-                String.format("優惠券 %s 新增成功！", savedCoupon.getCouponTitle()));
+            // 設置 counter 到 couponVO
+            couponVO.setCounter(counter);
+
+            // 驗證優惠券明細
+            if (couponVO.getCouponDetails() == null || couponVO.getCouponDetails().isEmpty()) {
+                throw new IllegalArgumentException("至少需要一個優惠券明細");
+            }
+
+            // 保存數據
+            couponSvc.addCouponWithDetails(couponVO);
+
+            redirectAttributes.addFlashAttribute("success", "優惠券新增成功");
             return "redirect:/coupon/listAllCoupon";
-            
         } catch (Exception e) {
-            // 設置錯誤消息
             redirectAttributes.addFlashAttribute("error", "新增失敗：" + e.getMessage());
-            // 保留輸入的數據
             redirectAttributes.addFlashAttribute("couponVO", couponVO);
             return "redirect:/coupon/addCoupon";
         }
@@ -154,8 +127,17 @@ public class CouponController {
     
 //    櫃位修改優惠券 可以同時修改優惠商品明細--進入
     @PostMapping("getOne_For_Update")
-    public String getOne_For_Update(@RequestParam("couponNo") String couponNo, Model model) {
+    public String getOne_For_Update(@RequestParam("couponNo") String couponNo, 
+                                    Model model, 
+                                    HttpSession session) {
         try {
+            // 從 session 中獲取 counter 資料
+            CounterVO counter = (CounterVO) session.getAttribute("counter");
+            if (counter == null) {
+                return "redirect:/counter/login"; // 如果沒有登入，重定向到登入頁面
+            }
+            model.addAttribute("counter", counter);
+
             // 獲取優惠券數據
             CouponVO couponVO = couponSvc.getOneCouponWithDetails(Integer.valueOf(couponNo));
             
@@ -186,14 +168,25 @@ public class CouponController {
     @PostMapping("update")
     public String update(@Valid CouponVO couponVO, 
                          BindingResult result, 
-                         Model model) {
+                         Model model,
+                         HttpSession session) {
         System.out.println("Received update request for coupon: " + couponVO.getCouponNo());
-        
+
+        // 從 session 取得 counter 並添加到 model
+        CounterVO counter = (CounterVO) session.getAttribute("counter");
+        if (counter == null) {
+            return "redirect:/counter/login"; // 如果未登入，重定向到登入頁面
+        }
+        model.addAttribute("counter", counter);
+
+        // 確保 couponVO 的 counter 也正確設置
+        if (couponVO.getCounter() == null) {
+            couponVO.setCounter(counter);
+        }
+
         if (result.hasErrors()) {
             System.out.println("Validation errors found:");
-            for (FieldError error : result.getFieldErrors()) {
-                System.out.println(error.getField() + ": " + error.getDefaultMessage());
-            }
+            model.addAttribute("couponVO", couponVO);
             return "vendor-end/coupon/updateCoupon";
         }
 
@@ -202,9 +195,7 @@ public class CouponController {
             CouponVO updatedCoupon = couponSvc.updateCouponWithDetails(couponVO);
             model.addAttribute("success", "修改成功！");
             model.addAttribute("couponVO", updatedCoupon);
-            // 直接返回顯示更新後結果的頁面，而不是重定向，確保能顯示更新後的數據
             return "vendor-end/coupon/listOneCoupon";
-            
         } catch (Exception e) {
             System.out.println("Error updating coupon: " + e.getMessage());
             e.printStackTrace();
@@ -213,6 +204,7 @@ public class CouponController {
             return "vendor-end/coupon/updateCoupon";
         }
     }
+
 
 //    @GetMapping("update")
 //    public String handleUpdateGet(@RequestParam(required = false) Integer couponNo, Model model) {

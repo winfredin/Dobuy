@@ -3,15 +3,19 @@ package com.counter.model;
 import java.io.IOException;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -42,6 +46,7 @@ import com.counter.model.CounterVO.LoginGroup;
 import com.counter.model.CounterVO.RegisterGroup;
 import com.counter.model.CounterVO.UpdateGroup;
 import com.counterType.model.CounterTypeVO;
+import com.coupon.model.CouponVO;
 
 
 //test test??
@@ -130,6 +135,26 @@ public class CounterVO implements Serializable {
     @Max(value = 2, message = "櫃位狀態: 必須為0、1或2")
     private Integer counterStatus = 1;
 
+    //柏翔新增以下
+    @OneToMany(mappedBy = "counter", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CouponVO> coupons = new ArrayList<>();
+    
+    public List<CouponVO> getCoupons() {
+        return coupons;
+    }
+ // 添加優惠券到櫃位
+    public void addCoupon(CouponVO coupon) {
+        coupons.add(coupon);
+        coupon.setCounter(this); // 設置雙向關聯
+    }
+
+    // 移除優惠券
+    public void removeCoupon(CouponVO coupon) {
+        coupons.remove(coupon);
+        coupon.setCounter(null);
+    }
+    //柏翔新增以上    
+    
     // Constructors
     public CounterVO() {
     }
