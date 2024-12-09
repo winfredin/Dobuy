@@ -13,7 +13,9 @@ public class MemberLogoutController {
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		// 清除 session
-		session.invalidate();
+		session.removeAttribute("memAccount");
+		session.removeAttribute("memNo"); // 用memAccount去找memNo
+		session.removeAttribute("memStatus");
 		// 重定向到登入頁面
 		return "redirect:/mem/login";
 	}
@@ -24,7 +26,9 @@ public class MemberLogoutController {
 	@GetMapping("/logout49")
 	public String logout49(HttpSession session) {
 		// 清除 session
-		session.invalidate();
+		session.removeAttribute("memAccount");
+		session.removeAttribute("memNo"); // 用memAccount去找memNo
+		session.removeAttribute("memStatus");
 		// 重定向到登入頁面
 		return "redirect:/mem/login49";
 	}
