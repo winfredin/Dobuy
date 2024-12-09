@@ -1,5 +1,8 @@
 package com.counterHome;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -7,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.countercarousel.model.CountercarouselVO;
+import com.goods.model.GoodsLightVO;
 import com.goods.model.GoodsService;
 import com.goods.model.GoodsVO;
 
@@ -37,7 +41,12 @@ public class RootController35 {
 	
 	@GetMapping("cart_test")
 	public String allGoods(ModelMap model) {
-		model.addAttribute("goodsList", goodsSvc.getAll());
+		List<GoodsVO> goodsVO =  goodsSvc.getAll();
+		List<GoodsLightVO> goodsLightVO = new ArrayList<GoodsLightVO>();
+		for(GoodsVO goods : goodsVO) {
+			goodsLightVO.add(new GoodsLightVO(goods));
+		}
+		model.addAttribute("goodsList", goodsLightVO);
 		return "front-end/cartTest/allGoods";
 	}
 	

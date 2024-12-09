@@ -2,64 +2,74 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
- <title>商品頁面</title>
-    <style>
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .login-status {
-            margin-right: 20px;
-        }
-    </style>
+<title>商品頁面</title>
+<style>
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.login-status {
+	margin-right: 20px;
+}
+
+.goods-image {
+	width: 100px;
+	height: 100px;
+	object-fit: cover;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+}
+</style>
 </head>
 <body>
-	  <!-- 頁面頂部區域 -->
-    <div class="header">
-        <h3>商品列表</h3>
-        <!-- 登入/登出狀態 -->
-        <div class="login-status">
-        
-        	<span>
-                <a th:href=@{/cart/list35} style="text-decoration: none;">我的購物車</a>
-            </span>
-        
-            <span th:if="${session.memAccount == null}">
-                <a th:href=@{/mem/login} style="text-decoration: none;">登入</a>
-            </span>
-            <span th:if="${session.memAccount != null}">
-                歡迎, <span th:text="${session.memAccount}"></span>! 
-                <a th:href=@{/mem/logout} style="text-decoration: none;">登出</a>
-            </span>
-        </div>
-    </div>
+	<!-- 頁面頂部區域 -->
+	<div class="header">
+		<h3>商品列表</h3>
+		<!-- 登入/登出狀態 -->
+		<div class="login-status">
 
-    <!-- 商品列表 -->
-    <h3>商品 + 購物車按鈕</h3>
-    <div>
-        <ul>
-            <!-- 遍歷 goodsList -->
-            <li th:each="goods : ${goodsList}" style="margin-bottom: 20px;">
-                <span th:text="${goods.goodsName}">商品名稱</span>
-                <span th:text="'$' + ${goods.goodsPrice}">商品價格</span>
-                <button 
-                th:attr="data-id=${goods.goodsNo},
-                data-name=${goods.goodsName},
-                data-price=${goods.goodsPrice},
-                data-counterNo=${goods.counterVO.counterNo}"
-                 onclick="addToCart(this)">加入購物車</button>
-            </li>
-        </ul>
-    </div>
-	
-	
+			<span> <a th:href=@{/cart/list35}
+				style="text-decoration: none;">我的購物車</a>
+			</span> <span th:if="${session.memAccount == null}"> <a
+				th:href=@{/mem/login} style="text-decoration: none;">登入</a>
+			</span> <span th:if="${session.memAccount != null}"> 歡迎, <span
+				th:text="${session.memAccount}"></span>! <a th:href=@{/mem/logout}
+				style="text-decoration: none;">登出</a>
+			</span>
+		</div>
+	</div>
+
+	<!-- 商品列表 -->
+	<h3>商品 + 購物車按鈕</h3>
+	<div>
+		<ul>
+			<!-- 遍歷 goodsList -->
+			<li th:each="goods : ${goodsList}" style="margin-bottom: 20px;">
+				<img class="goods-image" th:src="'data:image/png;base64,' + ${goods.base64Image}" th:alt="${goods.goodsNo}"> 
+				<span th:text="${goods.goodsName}">商品名稱</span>
+				<span th:text="'$' + ${goods.goodsPrice}">商品價格</span>
+				<button
+					th:attr="data-id=${goods.goodsNo},
+                	data-name=${goods.goodsName},
+                	data-price=${goods.goodsPrice},
+                	data-counterNo=${goods.counterVO.counterNo},
+                	data-base64Image=${goods.base64Image}"
+					onclick="addToCart(this)">加入購物車</button>
+			</li>
+		</ul>
+	</div>
+
+
 	<script>
     function addToCart(button) {
         const goodsName = button.getAttribute('data-name');
         const goodsPrice = button.getAttribute('data-price');
         const goodsNo = button.getAttribute('data-id');
         const counterNo = button.getAttribute('data-counterNo');
+        const base64Image = button.getAttribute('data-base64Image');
+        
         fetch('/cart/add', {
             method: 'POST',
             headers: {
@@ -69,8 +79,8 @@
             	goodsName : goodsName,
             	goodsPrice : goodsPrice,
             	goodsNo : goodsNo,
-            	counterNo : counterNo
-            	
+            	counterNo : counterNo,
+            	base64Image : base64Image
             })
         })
         .then(response => {

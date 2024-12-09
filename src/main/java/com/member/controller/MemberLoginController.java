@@ -63,11 +63,11 @@ public class MemberLoginController {
 		session.setAttribute("memStatus", memberSvc.getMemStatusByAccount(memberVO.getMemAccount()));
 		 // 檢查是否有原始請求
 		
-	    String originalRequest = (String) session.getAttribute("originalRequest");
-	    if (originalRequest != null) {
-	        session.removeAttribute("originalRequest"); // 移除原始請求
-	        return "redirect:" + originalRequest.replaceFirst(req.getContextPath(), "");
-	    }
+//	    String originalRequest = (String) session.getAttribute("originalRequest");
+//	    if (originalRequest != null) {
+//	        session.removeAttribute("originalRequest"); // 移除原始請求
+//	        return "redirect:" + originalRequest.replaceFirst(req.getContextPath(), "");
+//	    }
 		
 		
 	    // 如果沒有原始請求，跳轉到默認頁面
