@@ -27,10 +27,24 @@ public class CountercarouselVO {
 	
 	@Column(name = "carouselTime", insertable = false, updatable = false)
 	private Timestamp carouselTime;
-
 	
 	@Transient // 標記為非持久化字段
 	private MultipartFile upFile;
+	
+	
+	//-----------------定紘----------------
+		@Column(name = "goodsNo")
+		private Integer goodsNo;
+		
+	public Integer getGoodsNo() {
+		return goodsNo;
+	}
+
+	public void setGoodsNo(Integer goodsNo) {
+		this.goodsNo = goodsNo;
+	}
+	//------------------------------------
+	
 	
 	@Column(name = "carouselPic") 
 	private byte[] carouselPic;
