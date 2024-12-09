@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.mail.MessagingException;
+
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.*;
@@ -165,6 +167,30 @@ public class UsedOrderController {
 
         return response;
     }
+	
+    @PostMapping("sendComplaintEmail")
+    @ResponseBody
+    public Map<String, Object> sendComplaintEmail(@RequestParam("orderNo") Integer orderNo,
+                                                  @RequestParam("subject") String subject,
+                                                  @RequestParam("content") String content) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            // 發送郵件的邏輯
+            // 這裡你可以使用之前分享的 JavaMail API 代碼來發送郵件
+
+            // 假設這是你的發送郵件邏輯
+            MailSender.sendEmail("rubylin2000@gmail.com", subject, content);
+
+            response.put("success", true);
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("error", "發生錯誤: " + e.getMessage());
+        }
+        return response;
+    }
+
+	
+
 	
 }
 
