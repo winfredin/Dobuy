@@ -2,6 +2,7 @@ package com.goods.model;
 
 import java.util.Base64;
 
+import com.counter.model.CounterVO;
 import com.goodstype.model.GoodsTypeVO;
 
 public class GoodsLightVO {
@@ -11,6 +12,7 @@ public class GoodsLightVO {
 	private Integer goodsAmount;
 	private String base64Image;
 	private GoodsTypeVO goodsTypeVO;
+	private CounterVO counterVO;
 	
 	  public GoodsLightVO(GoodsVO goodsVO) {
 	        if (goodsVO != null) {
@@ -22,6 +24,7 @@ public class GoodsLightVO {
 	                this.base64Image = Base64.getEncoder().encodeToString(goodsVO.getGpPhotos1());
 	            }
 	            this.setGoodsTypeVO(goodsVO.getGoodsTypeVO());
+	            this.setCounterVO(goodsVO.getCounterVO());
 	        }
 	    }
 	
@@ -62,5 +65,13 @@ public class GoodsLightVO {
 
 	public void setGoodsTypeVO(GoodsTypeVO goodsTypeVO) {
 		this.goodsTypeVO = goodsTypeVO;
+	}
+
+	public CounterVO getCounterVO() {
+		return counterVO;
+	}
+
+	public void setCounterVO(CounterVO counterVO) {
+		this.counterVO = counterVO;
 	}
 }

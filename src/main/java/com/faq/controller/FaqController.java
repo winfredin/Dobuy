@@ -6,12 +6,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +19,6 @@ import com.counter.model.CounterService;
 import com.counter.model.CounterVO;
 import com.faq.model.FaqService;
 import com.faq.model.FaqVO;
-import com.member.model.MemberVO;
 
 @Controller
 @RequestMapping("/faq")
@@ -75,19 +71,19 @@ public class FaqController {
 
 
 //	櫃位FAQ管理
-	@GetMapping("/listCounterFaq")
-	public String listAllCoupon(HttpSession session, Model model) {
-		// 櫃位優惠券登錄確認
-		CounterVO counter = (CounterVO) session.getAttribute("counter");
-		if (counter == null) {
-			return "redirect:/counter/login";
-		} else {
-			// 其他邏輯
-			model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
-			model.addAttribute("counterFaqListData", faqsvc.getOneCounterFaq(counter.getCounterNo()));
-			return "vendor-end/faq/listCounterFaq";
-		}
-	}
+//	@GetMapping("/listCounterFaq")
+//	public String listAllCoupon(HttpSession session, Model model) {
+//		// 櫃位優惠券登錄確認
+//		CounterVO counter = (CounterVO) session.getAttribute("counter");
+//		if (counter == null) {
+//			return "redirect:/counter/login";
+//		} else {
+//			// 其他邏輯
+//			model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
+//			model.addAttribute("counterFaqListData", faqsvc.getOneCounterFaq(counter.getCounterNo()));
+//			return "vendor-end/faq/listCounterFaq";
+//		}
+//	}
 
 //	@ModelAttribute("counterFaqListData")
 //	protected List<FaqVO> CounterReferenceListData(HttpSession session, Model model) {
