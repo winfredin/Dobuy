@@ -27,7 +27,9 @@ public class CounterOrderVO implements java.io.Serializable {
 	private String sellerCommentContext;
 	private Date sellerCommentDate;
 	private Date ordertime;
-	private Integer disno;
+//	private Integer disno;
+//	柏翔改
+	private Integer memCouponNo;
 
 	public CounterOrderVO() {
 
@@ -146,15 +148,25 @@ public class CounterOrderVO implements java.io.Serializable {
 		this.ordertime = ordertime;
 	}
 
-	@Column(name = "disNo")
-	public Integer getDisno() {
-		return disno;
+//	@Column(name = "disNo")
+//	public Integer getDisno() {
+//		return disno;
+//	}
+//
+//	public void setDisno(Integer disno) {
+//		this.disno = disno;
+//	}
+	
+//	柏翔改
+	@Column(name = "memCouponNo")
+	public Integer getMemCouponNo() {
+		return memCouponNo;
 	}
-
-	public void setDisno(Integer disno) {
-		this.disno = disno;
+//	柏翔改
+	public void setMemCouponNo(Integer memCouponNo) {
+		this.memCouponNo = memCouponNo;
 	}
-
+	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}

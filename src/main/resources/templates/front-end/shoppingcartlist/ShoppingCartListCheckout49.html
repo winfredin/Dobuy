@@ -174,6 +174,30 @@
 </div>
 
 
+<!-- 在總計金額下方添加 -->
+<div class="discount-summary mt-3">
+    <h5>優惠摘要</h5>
+    <div class="card">
+        <div class="card-body">
+            <div th:each="entry : ${cartItemsByCounter}" class="mb-2">
+                <div class="d-flex justify-content-between">
+                    <span th:text="|櫃位 ${entry.key} 優惠:|">櫃位優惠</span>
+                    <span class="text-danger" th:id="|discountSummary-${entry.key}|">
+                        尚未選擇優惠券
+                    </span>
+                </div>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between font-weight-bold">
+                <span>優惠後總金額：</span>
+                <span class="text-primary" id="finalTotalAfterDiscount" 
+                      th:text="|$${totalAmount}|">
+                    $0
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
           <hr class="my-4">
 
 
@@ -278,7 +302,57 @@ document.addEventListener('DOMContentLoaded', function() {
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+//套用優惠券的函數
+  async function applyOrderDiscount(counterOrderNo, memCouponNo) {
+      try {
+          const response = await fetch('/shoppingcartlist/applyDiscount', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+              },
+              body: new URLSearchParams({
+                  counterOrderNo: counterOrderNo,
+                  memCouponNo: memCouponNo
+              })
+          });
 
+          const data = await response.json();
+          
+          if (data.error) {
+              alert(data.error);
+              return;
+          }
+
+          // 更新頁面顯示
+          updateOrderDisplay(counterOrderNo, data);
+          
+      } catch (error) {
+          console.error('套用優惠券時發生錯誤:', error);
+          alert('套用優惠券時發生錯誤，請稍後再試');
+      }
+  }
+
+  // 更新訂單顯示
+  function updateOrderDisplay(counterOrderNo, data) {
+      const orderElement = document.querySelector(`#order-${counterOrderNo}`);
+      if (orderElement) {
+          // 更新原價顯示
+          orderElement.querySelector('.original-price').textContent = 
+              `原價: $${data.originalTotal.toLocaleString()}`;
+              
+          // 更新折扣金額
+          orderElement.querySelector('.discount-amount').textContent = 
+              `折扣: -$${data.discount.toLocaleString()}`;
+              
+          // 更新最終金額
+          orderElement.querySelector('.final-price').textContent = 
+              `優惠後金額: $${data.finalTotal.toLocaleString()}`;
+              
+          // 更新優惠說明
+          orderElement.querySelector('.discount-description').textContent = 
+              data.discountDescription;
+      }
+  }
   
   
   
