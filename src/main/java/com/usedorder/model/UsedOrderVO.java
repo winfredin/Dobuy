@@ -78,9 +78,10 @@ public class UsedOrderVO {
 
     @Column(name = "sellerCommentContent")
     private String sellerCommentContent; // 評論內文
-
     
-    @Column(name = "sellerCommentDate")
+    
+
+	@Column(name = "sellerCommentDate")
     private Timestamp sellerCommentDate; // 評論日期
 
     @NotNull
