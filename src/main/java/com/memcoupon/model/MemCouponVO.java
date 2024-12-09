@@ -34,7 +34,7 @@ public class MemCouponVO implements Serializable {
     private CouponVO coupon;
     
     @Column(name = "status")
-    private Integer status;  // 添加狀態欄位，0:未使用, 1:已使用
+    private Integer status = 0;  // 添加狀態欄位，0:未使用, 1:已使用
     
     public MemCouponVO() {
     }

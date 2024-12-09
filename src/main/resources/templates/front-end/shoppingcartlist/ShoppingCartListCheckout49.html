@@ -136,11 +136,11 @@
                             class="form-control coupon-select" 
                             th:data-counter="${entry.key}">
                         <option value="">請選擇優惠券</option>
-                        <option th:each="coupon : ${availableCoupons}"
-                                th:if="${coupon.coupon.counterNo == entry.key}"
-                                th:value="${coupon.coupon.couponNo}"
-                                th:text="|${coupon.coupon.couponTitle} - ${coupon.coupon.couponContext}|">
-                        </option>
+						<option th:each="coupon : ${availableCoupons}"
+						        th:if="${coupon.coupon.counter?.counterNo == entry.key}"
+						        th:value="${coupon.coupon.couponNo}"
+						        th:text="|${coupon.coupon.couponTitle} - ${coupon.coupon.couponContext}|">
+						</option>
                     </select>
                 </div>
             </li>
