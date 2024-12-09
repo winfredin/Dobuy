@@ -1,5 +1,8 @@
 package com.usedecpay.controller;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -10,8 +13,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -28,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ecpay.payment.integration.AllInOne;
 import com.goodstype.model.GoodsTypeService;
 import com.member.model.MemberService;
 import com.used.model.UsedService;
@@ -36,9 +43,17 @@ import com.usedecpay.model.UsedEcpayService;
 import com.usedorder.model.UsedOrderService;
 import com.usedorder.model.UsedOrderVO;
 
+import ecpay.payment.integration.ecpayOperator.EcpayFunction;
+
+
+
+
 @RestController
 @RequestMapping("/used")
 public class UsedEcpayController {
+	
+	private final String HashKey="pwFHCqoQZGmho4w6";
+	private final String HashIV="EkRm7iFT261dpevs";
 
 	@Autowired
 	UsedEcpayService ecpayService;
@@ -54,7 +69,8 @@ public class UsedEcpayController {
 	
 	@Autowired
 	private GoodsTypeService goodsTypeService;
-
+	
+	 
 	@PostMapping("/ecpayCheckout")
 	public ResponseEntity<String> ecpayCheckout(
 								@RequestParam("usedNo") String usedNo,
@@ -176,52 +192,41 @@ public class UsedEcpayController {
 	}
 	}
 	
+	@PostMapping("/ecpay/notify")
+	public String handleECPayNotify(@RequestParam Map<String, String> params) {
+	    try {
+	        // 提取綠界發送的 CheckMacValue
+	        String receivedCheckMacValue = params.get("CheckMacValue");
+	        System.out.println(params);
+	        String usedOrderNo= params.get("CustomField1");
+	        
+	        String RtnCode = params.get("RtnCode");
+	        String calculatedCheckMacValue = EcpayFunction.genCheckMacValue( HashKey, HashIV,new Hashtable<>(params));
+
+	        // 驗證 CheckMacValue
+	        if (calculatedCheckMacValue.equals(receivedCheckMacValue)) {
+	            // 通知有效，處理您的業務邏輯
+	        	//將預存訂單永續
+	        	if( "1".equals(RtnCode)){
+	        	usedOrderService.changeStatusByUsedOrderNo((byte)5, Integer.valueOf(usedOrderNo));
+	        	System.out.println("更改訂單狀態成功");
+	        	}
+	        	System.out.println("o");
+	            return "1|OK";
+	        } else {
+	            // 通知無效，丟棄請求
+	        	System.out.println("x");
+	            return "0|ERROR";
+	        }
+	    } catch (Exception e) {
+	        // 捕獲其他異常
+	        return "0|ERROR: " + e.getMessage();
+	    }
+	}
+
 	
+
 	
-//	 @PostMapping("/notify")
-//	 public String handleECPayNotify(HttpServletRequest request) {
-//	        // 接收綠界回傳的所有參數
-//	        Map<String, String> params = getAllParams(request);
-//	        
-//	        String HashKey="pwFHCqoQZGmho4w6";
-//	        String HashIV="EkRm7iFT261dpevs";
-//	        // 驗證 CheckMacValue 是否正確
-//	        if (!validateCheckMacValue(params,HashKey,HashIV)) {
-//	        	System.out.println("X");
-//	            return "CheckMacValue Failed";
-//	        }
-//
-//	        // 處理訂單，例如更新訂單狀態
-//	        String usedOrderNo = params.get("CustomField1"); // 訂單編號
-//	        String tradeStatus = params.get("RtnCode"); // 交易狀態
-//	        String tradeMessage = params.get("RtnMsg"); // 交易訊息
-//
-//	        if ("1".equals(tradeStatus)) {
-//	            // 交易成功，更新訂單狀態
-//	            System.out.println("交易成功，訂單編號: " + usedOrderNo);
-//	            
-//	            usedOrderService.changeStatusByUsedOrderNo((byte)5 ,Integer.valueOf(usedOrderNo) );
-//	            
-//	            
-//	        } else {
-//	            // 交易失敗
-//	            System.out.println("交易失敗: " + tradeMessage);
-//	        }
-//
-//	        // 回應綠界要求的固定字串 "1|OK"
-//	        return "1|OK";
-//	    }
-//
-//	 private Map<String, String> getAllParams(HttpServletRequest request) {
-//		    Map<String, String> params = new HashMap<>();
-//		    Enumeration<String> paramNames = request.getParameterNames();
-//		    while (paramNames.hasMoreElements()) {
-//		        String paramName = paramNames.nextElement();
-//		        System.out.println(paramName+request.getParameter(paramName));
-//		        params.put(paramName, request.getParameter(paramName));
-//		    }
-//		    return params;
-//		}
 
 	
 }
