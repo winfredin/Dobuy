@@ -76,52 +76,7 @@
   </style>
 </head>
 
-    <div class="row g-5">
-		     <!-- 購物車商品列表 -->
-		<ul class="list-group mb-3">
-		    <li class="list-group-item" th:each="item : ${cartItems}">
-		        <div class="d-flex justify-content-between">
-		            <div>
-		                <h6 class="my-0" th:text="${item.goodsName}">商品名稱</h6>
-		                <small class="text-muted" th:text="|數量: ${item.goodsNum}|">數量</small>
-		            </div>
-		            <span th:text="|$${item.orderTotalprice}|">價格</span>
-		        </div>
-		    </li>
-		
-		    <!-- 優惠券選擇 -->
-		    <li class="list-group-item">
-		        <div class="form-group">
-				    <label for="couponSelect">選擇優惠券</label>
-				    <select id="couponSelect" class="form-control" th:if="${availableCoupons != null}">
-				        <option value="">請選擇優惠券</option>
-				        <option th:each="coupon : ${availableCoupons}"
-				                th:value="${coupon.coupon.couponNo}"
-				                th:text="|${coupon.coupon.couponTitle} - ${coupon.coupon.couponContext}|">
-				        </option>
-				    </select>
-				    <div th:if="${availableCoupons == null || availableCoupons.empty}" class="text-muted">
-				        目前沒有可用的優惠券
-				    </div>
-				</div>
-		    </li>
-		
-		    <!-- 折扣金額 -->
-		    <li class="list-group-item d-flex justify-content-between bg-light">
-		        <div class="text-success">
-		            <h6 class="my-0">優惠折扣</h6>
-		            <small id="couponDesc"></small>
-		        </div>
-		        <span class="text-success">-$<span id="discountAmount">0</span></span>
-		    </li>
-		
-		    <!-- 總金額 -->
-		    <li class="list-group-item d-flex justify-content-between">
-		        <span>總計</span>
-		        <strong>$<span id="totalAmount" th:text="${totalAmount}">0</span></strong>
-		    </li>
-		</ul>
-      </div>
+
 
 
 
@@ -157,66 +112,70 @@
           </div>
 
 
-          <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="save-info">
-            <label class="form-check-label" for="save-info">儲存此資訊以供下次使用</label>
-          </div>
+
+
+   <div class="row g-5">
+    <!-- 購物車商品列表，按櫃位分組 -->
+    <div th:each="entry : ${cartItemsByCounter}" class="mb-4">
+        <h5 th:text="|櫃位 ${entry.key} 商品|">櫃位商品</h5>
+        <ul class="list-group mb-3">
+            <!-- 該櫃位的商品列表 -->
+            <li class="list-group-item" th:each="item : ${entry.value}">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6 class="my-0" th:text="|商品名稱: ${item.goodsName}|">商品名稱</h6>
+                        <small class="text-muted" th:text="|數量: ${item.goodsNum}|">數量</small>
+                    </div>
+                    <span th:text="|$${item.orderTotalprice}|">價格</span>
+                </div>
+            </li>
+
+            <!-- 該櫃位的優惠券選擇 -->
+            <li class="list-group-item">
+                <div class="form-group">
+                    <label th:for="|couponSelect-${entry.key}|">選擇優惠券</label>
+                    <select th:id="|couponSelect-${entry.key}|" 
+                            class="form-control coupon-select" 
+                            th:data-counter="${entry.key}">
+                        <option value="">請選擇優惠券</option>
+                        <option th:each="coupon : ${availableCoupons}"
+                                th:if="${coupon.coupon.counterNo == entry.key}"
+                                th:value="${coupon.coupon.couponNo}"
+                                th:text="|${coupon.coupon.couponTitle} - ${coupon.coupon.couponContext}|">
+                        </option>
+                    </select>
+                </div>
+            </li>
+
+            <!-- 該櫃位的折扣金額 -->
+            <li class="list-group-item d-flex justify-content-between bg-light">
+                <div class="text-success">
+                    <h6 class="my-0">優惠折扣</h6>
+                    <small th:id="|couponDesc-${entry.key}|"></small>
+                </div>
+                <span class="text-success">-$<span th:id="|discountAmount-${entry.key}|">0</span></span>
+            </li>
+
+			<!-- 該櫃位的小計 -->
+			<li class="list-group-item d-flex justify-content-between">
+			    <span>櫃位小計</span>
+			    <strong>$<span th:id="|counterTotal-${entry.key}|" 
+			                  th:text="${counterTotals.get(entry.key)}"
+			                  th:data-original="${counterTotals.get(entry.key)}">0</span></strong>
+			</li>
+        </ul>
+    </div>
+
+    <!-- 總計金額 -->
+    <div class="list-group-item d-flex justify-content-between bg-primary text-white">
+        <span><strong>總計金額</strong></span>
+        <strong>$<span id="finalTotal" th:text="${totalAmount}">0</span></strong>
+    </div>
+</div>
+
 
           <hr class="my-4">
-          <!-- 支付方式選擇 -->
-<!--           <h4 class="mb-3">支付</h4> -->
 
-<!--           <div class="my-3"> -->
-<!--             <div class="form-check"> -->
-<!--               <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked required> -->
-<!--               <label class="form-check-label" for="credit">信用卡</label> -->
-<!--             </div> -->
-<!--             <div class="form-check"> -->
-<!--               <input id="debit" name="paymentMethod" type="radio" class="form-check-input" required> -->
-<!--               <label class="form-check-label" for="debit">金融卡</label> -->
-<!--             </div> -->
-<!--             <div class="form-check"> -->
-<!--               <input id="paypal" name="paymentMethod" type="radio" class="form-check-input" required> -->
-<!--               <label class="form-check-label" for="paypal">PayPal</label> -->
-<!--             </div> -->
-<!--           </div> -->
-
-<!--           <div class="row gy-3"> -->
-<!--             <div class="col-md-6"> -->
-<!--               <label for="cc-name" class="form-label">卡片上的姓名</label> -->
-<!--               <input type="text" class="form-control" id="cc-name" placeholder="" required> -->
-<!--               <small class="text-body-secondary">卡片上顯示的全名</small> -->
-<!--               <div class="invalid-feedback"> -->
-<!--                 卡片上姓名為必填項目 -->
-<!--               </div> -->
-<!--             </div> -->
-
-<!--             <div class="col-md-6"> -->
-<!--               <label for="cc-number" class="form-label">信用卡號碼</label> -->
-<!--               <input type="text" class="form-control" id="cc-number" placeholder="" required> -->
-<!--               <div class="invalid-feedback"> -->
-<!--                 信用卡號碼為必填項目 -->
-<!--               </div> -->
-<!--             </div> -->
-
-<!--             <div class="col-md-3"> -->
-<!--               <label for="cc-expiration" class="form-label">到期日</label> -->
-<!--               <input type="text" class="form-control" id="cc-expiration" placeholder="" required> -->
-<!--               <div class="invalid-feedback"> -->
-<!--                 需要有效期限 -->
-<!--               </div> -->
-<!--             </div> -->
-
-<!--             <div class="col-md-3"> -->
-<!--               <label for="cc-cvv" class="form-label">CVV</label> -->
-<!--               <input type="text" class="form-control" id="cc-cvv" placeholder="" required> -->
-<!--               <div class="invalid-feedback"> -->
-<!--                 需要安全碼 -->
-<!--               </div> -->
-<!--             </div> -->
-<!--           </div> -->
-
-<!--           <hr class="my-4"> -->
 
           <button class="w-100 btn btn-primary btn-lg" type="submit">結帳</button>
         </form>
@@ -227,98 +186,99 @@
     <div>© 2024 DO BUY. All Rights Reserved.</div>
   </footer>
 
+<script th:inline="javascript">
+document.addEventListener('DOMContentLoaded', function() {
+    // 監聽所有優惠券選擇
+    const couponSelects = document.querySelectorAll('.coupon-select');
+    if (couponSelects) {
+        couponSelects.forEach(select => {
+            select.addEventListener('change', handleCouponChange);
+        });
+    }
+
+    async function handleCouponChange() {
+        const counterId = this.getAttribute('data-counter');
+        const couponNo = this.value;
+        
+        if (!couponNo) {
+            resetDiscount(counterId);
+            return;
+        }
+
+        try {
+            const response = await fetch('/shoppingcartlist/calculateDiscount', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    couponNo: couponNo,
+                    counterId: counterId
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error('網路錯誤');
+            }
+
+            const data = await response.json();
+            console.log('Response data:', data); // 調試用
+
+            if (data.error) {
+                alert(data.error);
+                resetDiscount(counterId);
+                return;
+            }
+
+            updatePrices(counterId, data);
+            updateTotalAmount();
+
+        } catch (error) {
+            console.error('Error:', error);
+            alert('計算折扣時發生錯誤');
+            resetDiscount(counterId);
+        }
+    }
+
+    function resetDiscount(counterId) {
+        const originalTotal = document.getElementById(`counterTotal-${counterId}`).getAttribute('data-original');
+        document.getElementById(`discountAmount-${counterId}`).textContent = '0';
+        document.getElementById(`counterTotal-${counterId}`).textContent = originalTotal;
+        document.getElementById(`couponDesc-${counterId}`).textContent = '';
+        updateTotalAmount();
+    }
+
+    function updatePrices(counterId, data) {
+        const discountElement = document.getElementById(`discountAmount-${counterId}`);
+        const totalElement = document.getElementById(`counterTotal-${counterId}`);
+        const descElement = document.getElementById(`couponDesc-${counterId}`);
+
+        if (discountElement && totalElement) {
+            discountElement.textContent = Math.round(data.discount).toLocaleString();
+            totalElement.textContent = Math.round(data.newTotal).toLocaleString();
+            if (descElement && data.description) {
+                descElement.textContent = data.description;
+            }
+        }
+    }
+
+    function updateTotalAmount() {
+        let total = 0;
+        document.querySelectorAll('[id^="counterTotal-"]').forEach(elem => {
+            const amount = parseFloat(elem.textContent.replace(/,/g, '')) || 0;
+            total += amount;
+        });
+        const finalTotalElement = document.getElementById('finalTotal');
+        if (finalTotalElement) {
+            finalTotalElement.textContent = Math.round(total).toLocaleString();
+        }
+    }
+});
+</script>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-  
-  
-  
-//保存原始總金額
-  let originalTotal = document.getElementById('totalAmount').textContent;
 
-  document.addEventListener('DOMContentLoaded', function() {
-      // 優惠券選擇的處理
-      const couponSelect = document.getElementById('couponSelect');
-      if (couponSelect) {
-          couponSelect.addEventListener('change', function() {
-              const couponNo = this.value;
-              
-              if (!couponNo) {
-                  // 如果沒有選擇優惠券，重置金額
-                  document.getElementById('discountAmount').textContent = '0';
-                  document.getElementById('totalAmount').textContent = originalTotal;
-                  document.getElementById('couponDesc').textContent = '';
-                  return;
-              }
-              
-              // 顯示載入中
-              document.getElementById('discountAmount').textContent = '計算中...';
-              
-              // 發送 AJAX 請求計算折扣
-              fetch('/shoppingcartlist/calculateDiscount', {
-                  method: 'POST',
-                  headers: {
-                      'Content-Type': 'application/x-www-form-urlencoded',
-                  },
-                  body: 'couponNo=' + couponNo
-              })
-              .then(response => {
-                  if (!response.ok) {
-                      throw new Error('網路錯誤');
-                  }
-                  return response.json();
-              })
-              .then(data => {
-                  if (data.error) {
-                      alert(data.error);
-                      return;
-                  }
-                  
-                  // 更新折扣金額
-                  const discountElement = document.getElementById('discountAmount');
-                  const totalElement = document.getElementById('totalAmount');
-                  const descElement = document.getElementById('couponDesc');
-                  
-                  // 格式化金額顯示
-                  discountElement.textContent = Math.round(data.discount).toLocaleString();
-                  totalElement.textContent = Math.round(data.newTotal).toLocaleString();
-                  
-                  // 如果有折扣描述，也更新它
-                  if (data.description) {
-                      descElement.textContent = data.description;
-                  }
-                  
-                  // 反饋動畫效果
-                  discountElement.parentElement.classList.add('highlight');
-                  totalElement.parentElement.classList.add('highlight');
-                  setTimeout(() => {
-                      discountElement.parentElement.classList.remove('highlight');
-                      totalElement.parentElement.classList.remove('highlight');
-                  }, 1000);
-              })
-              .catch(error => {
-                  console.error('Error:', error);
-                  alert('計算折扣時發生錯誤');
-                  // 重置顯示
-                  document.getElementById('discountAmount').textContent = '0';
-                  document.getElementById('totalAmount').textContent = originalTotal;
-                  document.getElementById('couponDesc').textContent = '';
-              });
-          });
-      }
-
-      // 添加金額變更的動畫效果
-      const style = document.createElement('style');
-      style.textContent = `
-          .highlight {
-              animation: highlight 1s ease-out;
-          }
-          @keyframes highlight {
-              0% { background-color: #ffeb3b; }
-              100% { background-color: transparent; }
-          }
-      `;
-      document.head.appendChild(style);
-  });
   
   
   
