@@ -61,7 +61,7 @@ public class UsedOrderController {
 	        // 發送通知消息
 	        String deliveryStatusText = getDeliveryStatusText(deliveryStatus);
 	        NoticeVO noticeVO = new NoticeVO();
-	        noticeVO.setNoticeContent("訂單號 " + usedOrderNo + " 宅配狀態更新為" + deliveryStatusText);
+	        noticeVO.setNoticeContent("訂單號 " + usedOrderNo + " 訂單狀態更新為" + deliveryStatusText);
 	        noticeVO.setNoticeDate(new Timestamp(System.currentTimeMillis()));
 	        
 	        // 獲取 buyerNo 並設置到 noticeVO 的 memNo
