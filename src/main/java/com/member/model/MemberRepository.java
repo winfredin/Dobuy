@@ -28,6 +28,9 @@ public interface MemberRepository extends JpaRepository<MemberVO, Integer> {
 
 	@Query(value = "SELECT * FROM member WHERE memNo = ?1 ", nativeQuery = true)
 	MemberVO findOne(Integer memNo);
+	
+	@Query(value = "SELECT * FROM member WHERE memEmail = ?1 ", nativeQuery = true)
+	MemberVO findByMemEmail(String email);
 //	winfred===================================================================================以下
 	Optional<MemberVO> findByMemAccount(String memAccount);
 //	winfred===================================================================================以上

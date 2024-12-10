@@ -63,6 +63,7 @@ public class MemberVO {
     private String memUID;
 
     @Column(name = "memEmail", length = 50)
+    @NotEmpty(message="信箱: 請勿空白" , groups = {RegisterGroup.class})
     private String memEmail;
 
     @Column(name = "memSex")

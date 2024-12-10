@@ -980,4 +980,15 @@ INSERT INTO NewCoupons (couponNo, counterNo, couponTitle, couponContext, couponS
 (18, 6, '滿12000減2000', '消費滿12000元立減2000元', '2024-12-27 00:00:00', '2024-12-31 23:59:59', 1, 150, 1),
 (19, 1, '滿25000減4500', '消費滿25000元立減4500元', '2024-12-28 00:00:00', '2024-12-31 23:59:59', 0, 100, 1),
 (20, 2, '滿40000打75折', '消費滿40000元享75折優惠', '2024-12-29 00:00:00', '2024-12-31 23:59:59', 1, 50, 1);
+
+
+CREATE TABLE emailverification (
+    id INT AUTO_INCREMENT PRIMARY KEY,      -- 自增主鍵
+    email VARCHAR(255),              		-- 郵箱地址
+    verificationCode VARCHAR(255),          -- 驗證碼
+    isVerified TINYINT DEFAULT 0,           -- 是否已驗證（0: 未驗證, 1: 已驗證）
+    sentTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP -- 發送驗證碼的時間，預設為當前時間
+);
+
+
 -- 以上昱夆新增 練習用
