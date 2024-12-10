@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -54,10 +55,10 @@ public class CouponVO implements Serializable {
     private Date couponEnd;
 
     @Column(name = "couponStatus", nullable = false)
-    @NotNull(message = "優惠券狀態: 請勿空白")
+//    @NotNull(message = "優惠券狀態: 請勿空白")
     @Min(value = 0, message = "優惠券狀態: 最小值為{value}")
     @Max(value = 2, message = "優惠券狀態: 最大值為{value}")
-    private Integer couponStatus;
+    private Integer couponStatus = 1;
 
     @Column(name = "usageLimit", nullable = false)
     @NotNull(message = "領取次數: 請勿空白")
@@ -71,6 +72,7 @@ public class CouponVO implements Serializable {
     private Integer checkStatus = 0;
 //  外鍵設置
     @OneToMany(mappedBy = "coupon", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Valid
     private List<CouponDetailVO> couponDetails = new ArrayList<>();
 
 //  外鍵設置
