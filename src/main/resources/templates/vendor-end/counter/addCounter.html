@@ -14,53 +14,133 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>DoBuy櫃位註冊</title>
 
+    <!-- Favicon -->
+    <link rel="icon" th:href="@{/back-end-home/img/core-img/logo noback.png}">
+
+    <!-- Style CSS -->
+   	<link rel="stylesheet" href="/counter/style.css">
+
+
 
 <style type="text/css">
+	.regist {
+	  background-color: #ffffff; /* 設置背景顏色 */
+	  border-radius: 15px; /* 設置圓角 */
+	  padding: 20px; /* 內邊距讓內容不會貼邊 */
+	  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1); /* 添加輕微陰影讓區塊更立體 */
+	  max-width: 800px; /* 設置最大寬度 */
+	  margin: 20px auto; /* 使 section 居中顯示 */
+	}
 	
-	button {
-		padding: 5px;
+	
+	/* 調整表單中的輸入框與選擇框樣式 */
+	input[type="text"], input[type="email"], input[type="password"], select, textarea {
+	  width: 100%; /* 使元素寬度100% */
+	  padding: 8px; /* 內邊距讓內容更清晰 */
+	  margin: 10px 0; /* 上下間距 */
+	  border: 1px solid #ccc; /* 邊框顏色 */
+	  border-radius: 5px; /* 圓角 */
+	  background-color: #f9f9f9; /* 背景顏色 */
+	  box-sizing: border-box; /* 確保padding不會影響寬度 */
 	}
+	
+	input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus, select:focus, textarea:focus {
+	  outline: none; /* 去掉聚焦時的藍色邊框 */
+	  border-color: #5bc5ff; /* 當聚焦時邊框變藍 */
+	}
+	
+	/* 增加錯誤訊息的樣式 */
+	.error {
+	  color: red;
+	  font-size: 12px;
+	  margin-top: 5px;
+	}
+	
+	/* 按鈕樣式 */
+	button#submit {
+	  padding: 10px 20px;
+	  background-color: #5bc5ff; /* 按鈕背景色 */
+	  color: white;
+	  border: none;
+	  border-radius: 5px;
+	  cursor: pointer;
+	  font-size: 16px;
+	  margin-top: 10px;
+	}
+	
+	button#submit:hover {
+	  background-color: #4141ff;  /* 當滑鼠懸停時改變背景色 */
+	}
+	
+	button#cancel {
+	  padding: 10px 20px;
+	  background-color: #ccc; /* 設定取消按鈕的顏色 */
+	  color: white;
+	  border: none;
+	  border-radius: 5px;
+	  cursor: pointer;
+	  font-size: 16px;
+	  margin-right: 10px;
+	}
+	
+	button#cancel:hover {
+	  background-color: #b3b3b3; /* 鼠標懸停顏色 */
+	}
+	
+	/* 使表單內容垂直對齊 */
 	form {
-		display: table;
+	  display: flex;
+	  flex-direction: column;
+	  align-items: flex-start;
+	  margin-top: 10px;
 	}
+	
 	form div {
-		display: table-row;
+	  width: 100%;
 	}
-	label, input, span, select {
-		display: table-cell;
-		margin: 5px;
-		text-align: left;		
+	
+	form div label {
+	  display: block;
+	  margin-bottom: 5px;
+	  text-align: left; /* 讓所有的 label 文字靠左 */
 	}
-	input[type=text], input[type=password], select, textarea {
-		width: 200px;
-		margin: 5px;
+	
+	form div input, form div select, form div textarea {
+	  width: 100%;
 	}
-	form div div {
-		display: table-cell;
+	
+	/* 讓form內的元素保持一致的間距 */
+	form div {
+	  margin-bottom: 20px;
 	}
-	.center {
-        margin-left: auto;
-        margin-right: auto;
-    }
-    .error {
-    color: red;
-    font-size: 12px;
-	}
+	.logo {
+    display: block;
+    margin: 30px auto;
+    width: 200px;
+    height: auto;
+}
+
 </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
-		 <div align="center"> <h2>櫃位註冊</h2>
-<!-- 		 <h3><a class="navbar-brand" th:href="@{/emp/select_page}"><img th:src="@{/images/back1.gif}">回查詢頁</a></h3> -->
-		 </div>
-</nav>
+	<!-- Logo -->
+	<img th:src="@{/counterPage/img/core-img/logo-noback.png}" alt="Logo"
+		class="logo">
+		
+ 	    <div align="center">
 
-	    <div align="center">
-        <h2>櫃位資料新增</h2>
+		 <h1>櫃位註冊</h1>
+
+
+         </div>
+        <section class="regist">
+		 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+		    <span style="color: red;">*為不可空白</span>
+		</div>
         <form th:action="@{/counter/insert}" method="post" th:object="${counterVO}" enctype="multipart/form-data">
             <div>
-			    <label for="counterAccount">櫃位帳號:</label>
+			    <label for="counterAccount">*櫃位帳號:</label>
 			    <input type="text" th:field="*{counterAccount}" id="counterAccount" />
 			    <!-- 表單驗證錯誤 -->
 			    <span th:if="${#fields.hasErrors('counterAccount')}" th:errors="*{counterAccount}" class="error"></span>
@@ -69,61 +149,61 @@
 			</div>
 
             <div>
-                <label>櫃位管理者姓名:</label>
+                <label>*櫃位管理者姓名:</label>
                 <input type="text" th:field="*{counterName}" />
                 <span th:if="${#fields.hasErrors('counterName')}" th:errors="*{counterName}" class="error"></span>
             </div>
 
             <div>
-                <label>櫃位密碼:</label>
+                <label>*櫃位密碼:</label>
                 <input type="password" th:field="*{counterPassword}" />
                 <span th:if="${#fields.hasErrors('counterPassword')}" th:errors="*{counterPassword}" class="error"></span>
             </div>
             <div>
-			    <label>確認密碼:</label>
+			    <label>*確認密碼:</label>
 			    <input type="password" id="confirmPassword" />
 			    <span id="passwordError" class="error"></span>
 			</div>
 
             <div>
-                <label>櫃位地址:</label>
+                <label>*櫃位地址:</label>
                 <input type="text" th:field="*{counterAddress}" />
                 <span th:if="${#fields.hasErrors('counterAddress')}" th:errors="*{counterAddress}" class="error"></span>
             </div>
 
             <div>
-                <label>櫃位電話:</label>
+                <label>*櫃位電話:</label>
                 <input type="text" th:field="*{counterPhone}" />
                 <span th:if="${#fields.hasErrors('counterPhone')}" th:errors="*{counterPhone}" class="error"></span>
             </div>
 
             <div>
-                <label>管理者身分證字號:</label>
+                <label>*管理者身分證字號:</label>
                 <input type="text" th:field="*{counterUid}" />
                 <span th:if="${#fields.hasErrors('counterUid')}" th:errors="*{counterUid}" class="error"></span>
             </div>
 
             <div>
-                <label>櫃位電子信箱:</label>
+                <label>*櫃位電子信箱:</label>
                 <input type="email" th:field="*{counterEmail}" />
                 <span th:if="${#fields.hasErrors('counterEmail')}" th:errors="*{counterEmail}" class="error"></span>
             </div>
 
             <div>
-                <label>櫃位統一編號:</label>
+                <label>*櫃位統一編號:</label>
                 <input type="text" th:field="*{counterUbn}" />
                 <span th:if="${#fields.hasErrors('counterUbn')}" th:errors="*{counterUbn}" class="error"></span>
                 <span th:if="${ubnError}" th:text="${ubnError}" class="error"></span>
             </div>
 
             <div>
-                <label>櫃位名稱:</label>
+                <label>*櫃位名稱:</label>
                 <input type="text" th:field="*{counterCName}" />
                 <span th:if="${#fields.hasErrors('counterCName')}" th:errors="*{counterCName}" class="error"></span>
             </div>
 
 			<div>
-		    <label>櫃位類別:</label>
+		    <label>*櫃位類別:</label>
 		    <select th:field="*{counterTypeVO.counterTypeNo}">
 		        <option th:each="counterTypeVO : ${counterTypeListData}" 
 		                th:value="${counterTypeVO.counterTypeNo}" 
@@ -148,13 +228,16 @@
 			</div>
 			<!-- 圖片預覽區域 -->
 			<div id="blob_holder" style="margin-top: 10px;">
-			    <p>圖片預覽將顯示於此</p>
+			    <p>圖片預覽</p>
 			</div>
-
-
+	 </section>
+		
+			<div align="center">
             <div>
-                <button type="submit">送出新增</button>
+                <button type="submit" id="submit" >註冊</button>
             </div>
+            </div>
+           
         </form>
     </div>
 
@@ -178,8 +261,18 @@ document.querySelector("form").addEventListener("submit", function (e) {
     if (password !== confirmPassword) {
         e.preventDefault(); // 阻止表單提交
         passwordError.textContent = "密碼與確認密碼不一致！";
+        // 將焦點移至密碼欄
+        document.getElementById("counterPassword").focus();
+        // 清除錯誤訊息后，立即显示错误信息
+        setTimeout(function() {
+            passwordError.textContent = "密碼與確認密碼不一致！";
+        }, 10);
     }
 });
+
+//照片上傳 - 預覽功能
+// 保存上次上傳的圖片
+let lastUploadedImage = null;
 
 //照片上傳 - 預覽功能
 function previewImage(input) {
@@ -187,8 +280,16 @@ function previewImage(input) {
     const acceptedTypes = ["image/png", "image/jpeg", "image/gif"];
     const blobHolder = document.getElementById("blob_holder");
 
-    // 清空之前的預覽內容
-    blobHolder.innerHTML = "";
+    // 如果没有選擇文件，恢復之前圖片預覽
+    if (!file) {
+        if (lastUploadedImage) {
+            blobHolder.innerHTML = lastUploadedImage;
+        } else {
+            blobHolder.innerHTML = `<p>圖片預覽</p>`;
+        }
+        return;
+    }
+    
 
     // 檢查檔案是否有效
     if (file && acceptedTypes.includes(file.type)) {
@@ -196,17 +297,28 @@ function previewImage(input) {
         reader.onload = function (event) {
             const image = new Image();
             image.src = event.target.result;
-            image.style.width = "100px";
-            image.style.height = "75px";
+            image.style.width = "150px";
+            image.style.height = "120px";
             image.style.border = "2px solid #ccc";
             image.alt = "圖片預覽";
+            blobHolder.innerHTML = ""; // 清空之前的內容
             blobHolder.appendChild(image);
+            // 保存當前圖片的預覽HTML
+            lastUploadedImage = blobHolder.innerHTML;
         };
         reader.readAsDataURL(file);
     } else {
         blobHolder.innerHTML = `<div style="color: red;">無效的檔案格式！請上傳 PNG、JPEG 或 GIF 格式的圖片。</div>`;
     }
 }
+
+// 檢查檔案輸入框的狀態
+document.getElementById("counterPic").addEventListener("change", function(event) {
+    // 如果没有選擇文件（用戶取消了選擇），恢復之前的預覽
+    if (!event.target.files.length) {
+        previewImage({files: []});
+    }
+});
 </script>
 
 </body>
