@@ -15,7 +15,7 @@ CREATE TABLE counter (
     counterTypeNo INT NOT NULL,            -- 櫃位類別編號（外來鍵）
     counterInform VARCHAR(255),            -- 櫃位資訊介紹
     counterPic LONGBLOB,                   -- 櫃位商標圖片
-    counterStatus TINYINT NOT NULL DEFAULT 1 CHECK (counterStatus IN (0, 1, 2 )),        -- 櫃位狀態 (0: 停權, 1: 暫時停權, 2: 正常 )
+    counterStatus TINYINT NOT NULL DEFAULT 1 CHECK (counterStatus IN (0, 1, 2, 3 )),        -- 櫃位狀態 (0: 停權, 1: 暫時停權, 2: 正常 )
     
     PRIMARY KEY (counterNo)                -- 設定主鍵
 )
