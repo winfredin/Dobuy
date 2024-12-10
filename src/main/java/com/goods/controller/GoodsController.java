@@ -60,6 +60,8 @@ public class GoodsController {
         if (loginCounter == null) {
             // 若未登入，返回登入頁面
             return "redirect:/counter/login";
+        }else {
+        	model.addAttribute("counter", counterSvc.getOneCounter(loginCounter.getCounterNo()));
         }
 
         // 預設將櫃位資訊設定到 goodsVO 中
@@ -216,7 +218,12 @@ public class GoodsController {
 	 * This method will be called on listAllEmp.html form submission, handling POST request
 	 */
     @PostMapping("getOne_For_Update")
-    public String getOne_For_Update(@RequestParam("goodsNo") String goodsNo, ModelMap model) {
+    public String getOne_For_Update(HttpSession session ,@RequestParam("goodsNo") String goodsNo, ModelMap model) {
+    	
+        //任國櫃位
+    	CounterVO counter = (CounterVO) session.getAttribute("counter");
+    	model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
+    	//任國櫃位
 		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
 		/*************************** 2.開始查詢資料 *****************************************/
 		// EmpService empSvc = new EmpService();
@@ -231,7 +238,7 @@ public class GoodsController {
 	 * This method will be called on update_emp_input.html form submission, handling POST request It also validates the user input
 	 */
     @PostMapping("update")
-    public String update(@Valid GoodsVO goodsVO, BindingResult result, ModelMap model,
+    public String update(HttpSession session ,@Valid GoodsVO goodsVO, BindingResult result, ModelMap model,
                          @RequestParam("gpPhotos1") MultipartFile[] parts1,
                          @RequestParam(value = "gpPhotos2", required = false) MultipartFile[] parts2,
                          @RequestParam(value = "gpPhotos3", required = false) MultipartFile[] parts3,
@@ -242,7 +249,10 @@ public class GoodsController {
                          @RequestParam(value = "gpPhotos8", required = false) MultipartFile[] parts8,
                          @RequestParam(value = "gpPhotos9", required = false) MultipartFile[] parts9,
                          @RequestParam(value = "gpPhotos10", required = false) MultipartFile[] parts10 ) throws IOException {
-        
+        //任國櫃位
+    	CounterVO counter = (CounterVO) session.getAttribute("counter");
+    	model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
+    	//任國櫃位
         /*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
         // 去除BindingResult中gpPhotos欄位的FieldError紀錄
         result = removeFieldError(goodsVO, result, "gpPhotos1");

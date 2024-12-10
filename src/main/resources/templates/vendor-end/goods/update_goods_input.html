@@ -111,7 +111,7 @@ form div {
 <!-- 		<h3><a class="navbar-brand" th:href="@{/goods/select_page}"><img th:src="@{/images/back1.gif}">回查詢頁</a></h3> -->
 <!-- 	</div> -->
 <!-- </nav> -->
-
+<div th:insert="vendor-end/counter/Counterincldue :: header"></div>
 <div align="center">
 	<section class="update_goods">
 	<h3><b>商品修改</b></h3>
@@ -262,6 +262,8 @@ form div {
 		</div>
 	</form>
 </div>
+
+<footer th:block th:replace="~{back-end/back-end-home/fraghead :: footer}"></footer>
 
 <script type="text/javascript">
 function previewImage(event, blobHolderId) {
