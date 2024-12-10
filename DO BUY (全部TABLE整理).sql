@@ -15,7 +15,7 @@ CREATE TABLE counter (
     counterTypeNo INT NOT NULL,            -- 櫃位類別編號（外來鍵）
     counterInform VARCHAR(255),            -- 櫃位資訊介紹
     counterPic LONGBLOB,                   -- 櫃位商標圖片
-    counterStatus TINYINT NOT NULL DEFAULT 1 CHECK (counterStatus IN (0, 1, 2 )),        -- 櫃位狀態 (0: 停權, 1: 暫時停權, 2: 正常 )
+    counterStatus TINYINT NOT NULL DEFAULT 1 CHECK (counterStatus IN (0, 1, 2, 3 )),        -- 櫃位狀態 (0: 停權, 1: 暫時停權, 2: 正常 )
     
     PRIMARY KEY (counterNo)                -- 設定主鍵
 )
@@ -25,19 +25,19 @@ INSERT INTO counter
 (counterAccount, counterName, counterPassword, counterAddress, counterPhone, counterUid, counterEmail, counterUbn, counterCName, counterTypeNo, counterInform, counterStatus) 
 VALUES
 -- 女士精品
-('user1', '張淑芬', '12345', '台北市大安區仁愛路123號', '0912345678', 'A123456789', 'ladybag01@example.com', '12345678', '女士精品館', 1, '高品質女士包包與配件櫃位', 2),
+('user1', '張淑芬', '12345', '台北市大安區仁愛路123號', '0912345678', 'A123456789', 'ladybag01@example.com', '12345678', '女士精品館', 1, '高品質女士包包與配件櫃位', 3),
 -- 時尚女裝
-('user2', '林美惠', '12345', '新北市板橋區中山路456號', '0923456789', 'B123456789', 'fashion02@example.com', '23456789', '時尚女裝館', 2, '流行女裝與女鞋專櫃', 2),
+('user2', '林美惠', '12345', '新北市板橋區中山路456號', '0923456789', 'B123456789', 'fashion02@example.com', '23456789', '時尚女裝館', 2, '流行女裝與女鞋專櫃', 3),
 -- 男士潮流
-('user3', '王建宏', '12345', '台中市西屯區文心路789號', '0934567890', 'C123456789', 'menstyle01@example.com', '34567890', '男士潮流館', 3, '潮流男包與配件櫃位', 2),
+('user3', '王建宏', '12345', '台中市西屯區文心路789號', '0934567890', 'C123456789', 'menstyle01@example.com', '34567890', '男士潮流館', 3, '潮流男包與配件櫃位', 3),
 -- 型男穿搭
-('user4', '陳志明', '12345', '台南市中西區民族路321號', '0945678901', 'D123456789', 'mensfashion02@example.com', '45678901', '型男穿搭館', 4, '專注男裝與男鞋的櫃位', 2),
+('user4', '陳志明', '12345', '台南市中西區民族路321號', '0945678901', 'D123456789', 'mensfashion02@example.com', '45678901', '型男穿搭館', 4, '專注男裝與男鞋的櫃位', 3),
 -- 美妝與保養
-('user5', '劉慧君', '12345', '高雄市三民區博愛路654號', '0956789012', 'E123456789', 'beautycare01@example.com', '56789012', '美妝保養館', 5, '化妝品與保養品專賣', 2),
+('user5', '劉慧君', '12345', '高雄市三民區博愛路654號', '0956789012', 'E123456789', 'beautycare01@example.com', '56789012', '美妝保養館', 5, '化妝品與保養品專賣', 3),
 -- 家居科技
-('user6', '黃志成', '12345', '桃園市中壢區新生路987號', '0967890123', 'F123456789', 'homeitech01@example.com', '67890123', '家居科技館', 6, '智能家居與科技商品櫃位', 2),
+('user6', '黃志成', '12345', '桃園市中壢區新生路987號', '0967890123', 'F123456789', 'homeitech01@example.com', '67890123', '家居科技館', 6, '智能家居與科技商品櫃位', 3),
 -- 女士精品
-('user7', '李佳蓉', '12345', '台中市北屯區中清路159號', '0978901234', 'G123456789', 'ladybag02@example.com', '78901234', '女士精品館二館', 1, '高端女士包包專區', 2),
+('user7', '李佳蓉', '12345', '台中市北屯區中清路159號', '0978901234', 'G123456789', 'ladybag02@example.com', '78901234', '女士精品館二館', 1, '高端女士包包專區', 3),
 -- 時尚女裝
 ('user8', '蔡佩玲', '12345', '新竹市東區東門街753號', '0989012345', 'H123456789', 'fashion03@example.com', '89012345', '時尚女裝二館', 2, '時尚女裝與鞋品新系列', 2);
 
@@ -110,15 +110,16 @@ CREATE TABLE CounterOrder (
     counterOrderNo INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     counterNo INT(10) NOT NULL,                    -- FK
     memNo INT(10) NOT NULL,                        -- FK
-    orderTotalPriceBefore INT(6) NOT NULL,
-    orderTotalPriceAfter INT(6) NOT NULL,
+    orderTotalBefore INT(6) NOT NULL,
+    orderTotalAfter INT(6) NOT NULL,
     receiverName VARCHAR(10) NOT NULL,
     receiverAdr VARCHAR(100),
     receiverPhone VARCHAR(10) NOT NULL,
     orderTime TIMEstamp default now(),
-    memCouponNo INT(10),
-    orderStatus TINYINT(1) DEFAULT 0 NOT NULL
-
+    orderStatus TINYINT(1) DEFAULT 0 NOT NULL,
+	reservedAmount INT DEFAULT 0,
+	memCouponNo INT 
+	
 ) AUTO_INCREMENT = 1;
 
 CREATE TABLE CounterOrderDetail (
@@ -128,7 +129,6 @@ CREATE TABLE CounterOrderDetail (
     goodsNum INT(5) NOT NULL,
     productPrice INT(5) NOT NULL,
     productDisPrice INT(5) NOT NULL,
-    productSpec VARCHAR(10) NOT NULL,
     memCouponNo INT(10)
 
 ) AUTO_INCREMENT = 1;

@@ -1,14 +1,20 @@
 package com.counterorder.model;
 
 import java.sql.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import com.counterorderdetail.model.CounterOrderDetailVO;
 
 @Entity
 @Table(name = "counterorder")
@@ -23,11 +29,40 @@ public class CounterOrderVO implements java.io.Serializable {
 	private String receiverName;
 	private String receiverAdr;
 	private String receiverPhone;
-	private Integer sellerSatisfaction;
-	private String sellerCommentContext;
-	private Date sellerCommentDate;
 	private Date ordertime;
-//	private Integer disno;
+	private Integer reservedAmount;
+	
+	private Integer goodsNo;
+	private List<CounterOrderDetailVO> counterOrderDatailVO;
+	
+	@OneToMany(mappedBy = "counterOrderVO", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	public List<CounterOrderDetailVO> getCounterOrderDatailVO() {
+		return counterOrderDatailVO;
+	}
+
+	public void setCounterOrderDatailVO(List<CounterOrderDetailVO> counterOrderDatailVO) {
+		this.counterOrderDatailVO = counterOrderDatailVO;
+	}
+
+	@Transient
+	public Integer getGoodsNo() {
+		return goodsNo;
+	}
+
+	public void setGoodsNo(Integer goodsNo) {
+		this.goodsNo = goodsNo;
+	}
+
+	@Column(name = "reservedAmount")
+public Integer getReservedAmount() {
+		return reservedAmount;
+	}
+
+	public void setReservedAmount(Integer reservedAmount) {
+		this.reservedAmount = reservedAmount;
+	}
+
+	//	private Integer disno;
 //	柏翔改
 	private Integer memCouponNo;
 

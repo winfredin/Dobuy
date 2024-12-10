@@ -33,6 +33,8 @@ import com.goods.model.GoodsService;
 import com.goods.model.GoodsVO;
 import com.goodstype.model.GoodsTypeService;
 import com.goodstype.model.GoodsTypeVO;
+import com.msg.model.MsgService;
+import com.msg.model.MsgVO;
 
 @Controller
 @Validated
@@ -48,6 +50,9 @@ public class GoodsController {
 	@Autowired
 	CounterService counterSvc;
 
+    @Autowired
+    MsgService msgSvc;
+	
     /*
      * This method will serve as addCouponDetail.html handler.
      */
@@ -60,6 +65,8 @@ public class GoodsController {
         if (loginCounter == null) {
             // 若未登入，返回登入頁面
             return "redirect:/counter/login";
+        }else {
+        	model.addAttribute("counter", counterSvc.getOneCounter(loginCounter.getCounterNo()));
         }
 
         // 預設將櫃位資訊設定到 goodsVO 中
@@ -112,12 +119,9 @@ public class GoodsController {
         
         goodsVO.setCheckStatus((byte) 0);  // 這裡假設 0 表示 "待審核"
         
-        // 檢查照片1 - 確保至少上傳一張照片
-        if (parts1[0].isEmpty()) {
-            model.addAttribute("errorMessage", "商品主圖(必填): 請上傳至少一張照片");
-            return "vendor-end/goods/addGoods";  // 若沒有上傳照片1，返回錯誤
-        } else {
-            for (MultipartFile multipartFile : parts1) {
+        // 檢查照片1 
+        if (parts1 != null && parts1.length > 0 && !parts1[0].isEmpty()) {
+        	for (MultipartFile multipartFile : parts1) {
                 byte[] photoData1 = multipartFile.getBytes();
                 goodsVO.setGpPhotos1(photoData1);  // 儲存圖片路徑
             }
@@ -219,7 +223,12 @@ public class GoodsController {
 	 * This method will be called on listAllEmp.html form submission, handling POST request
 	 */
     @PostMapping("getOne_For_Update")
-    public String getOne_For_Update(@RequestParam("goodsNo") String goodsNo, ModelMap model) {
+    public String getOne_For_Update(HttpSession session ,@RequestParam("goodsNo") String goodsNo, ModelMap model) {
+    	
+        //任國櫃位
+    	CounterVO counter = (CounterVO) session.getAttribute("counter");
+    	model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
+    	//任國櫃位
 		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
 		/*************************** 2.開始查詢資料 *****************************************/
 		// EmpService empSvc = new EmpService();
@@ -234,7 +243,7 @@ public class GoodsController {
 	 * This method will be called on update_emp_input.html form submission, handling POST request It also validates the user input
 	 */
     @PostMapping("update")
-    public String update(@Valid GoodsVO goodsVO, BindingResult result, ModelMap model,
+    public String update(HttpSession session ,@Valid GoodsVO goodsVO, BindingResult result, ModelMap model,
                          @RequestParam("gpPhotos1") MultipartFile[] parts1,
                          @RequestParam(value = "gpPhotos2", required = false) MultipartFile[] parts2,
                          @RequestParam(value = "gpPhotos3", required = false) MultipartFile[] parts3,
@@ -245,7 +254,10 @@ public class GoodsController {
                          @RequestParam(value = "gpPhotos8", required = false) MultipartFile[] parts8,
                          @RequestParam(value = "gpPhotos9", required = false) MultipartFile[] parts9,
                          @RequestParam(value = "gpPhotos10", required = false) MultipartFile[] parts10 ) throws IOException {
-        
+        //任國櫃位
+    	CounterVO counter = (CounterVO) session.getAttribute("counter");
+    	model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
+    	//任國櫃位
         /*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
         // 去除BindingResult中gpPhotos欄位的FieldError紀錄
         result = removeFieldError(goodsVO, result, "gpPhotos1");
@@ -434,6 +446,20 @@ public class GoodsController {
         // 更新商品的審核狀態
         goodsSvc.updateCheckStatus(Integer.valueOf(goodsNo), checkStatus);
 
+        // 2. 取得商品詳細資訊（如櫃位名稱、商品名稱）
+        GoodsVO goodsVO = goodsSvc.getOneGoods(Integer.valueOf(goodsNo));
+        
+        if (checkStatus == 1) { // 審核通過
+            String informMsg = goodsVO.getGoodsName() + " 商品審核通過";
+            Integer counterNo = goodsVO.getCounterVO().getCounterNo();
+            msgSvc.addCounterInform(counterNo, informMsg); // 新增通知
+        }
+        if (checkStatus == 2) { // 審核未通過
+            String informMsg = goodsVO.getGoodsName() + " 商品審核未通過";
+            Integer counterNo = goodsVO.getCounterVO().getCounterNo();
+            msgSvc.addCounterInform(counterNo, informMsg); // 新增通知
+        }
+        
         // 重新查詢所有商品列表
         List<GoodsVO> list = goodsSvc.getAll();
         model.addAttribute("goodsListData", list);
@@ -456,5 +482,4 @@ public class GoodsController {
                                  .body("更新商品狀態失敗：" + e.getMessage());
         }
     }
-
 }

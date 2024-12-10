@@ -13,42 +13,108 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>櫃位資料更新 </title>
-<link rel="stylesheet" href="/counter/style.css">
+<th:block th:replace="~{/vendor-end/counter/Counterincldue :: head}"></th:block>
+
 
 <style type="text/css">
+	.update {
+	  background-color: #ffffff; /* 設置背景顏色 */
+	  border-radius: 15px; /* 設置圓角 */
+	  padding: 20px; /* 內邊距讓內容不會貼邊 */
+	  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1); /* 添加輕微陰影讓區塊更立體 */
+	  max-width: 800px; /* 設置最大寬度 */
+	  margin: 20px auto; /* 使 section 居中顯示 */
+	}
 	
-	button {
-		padding: 5px;
+	/* 調整表單中的輸入框與選擇框樣式 */
+	input[type="text"], input[type="email"],  select, textarea {
+	  width: 100%; /* 使元素寬度100% */
+	  padding: 8px; /* 內邊距讓內容更清晰 */
+	  margin: 10px 0; /* 上下間距 */
+	  border: 1px solid #ccc; /* 邊框顏色 */
+	  border-radius: 5px; /* 圓角 */
+	  background-color: #f9f9f9; /* 背景顏色 */
+	  box-sizing: border-box; /* 確保padding不會影響寬度 */
 	}
+	
+	input[type="text"]:focus, input[type="email"]:focus, select:focus, textarea:focus {
+	  outline: none; /* 去掉聚焦時的藍色邊框 */
+	  border-color: #5bc5ff; /* 當聚焦時邊框變藍 */
+	}
+	
+	/* 增加錯誤訊息的樣式 */
+	.error {
+	  color: red;
+	  font-size: 12px;
+	  margin-top: 5px;
+	}
+	
+	/* 按鈕樣式 */
+	button#submit {
+	  padding: 10px 20px;
+	  background-color: #5bc5ff; /* 按鈕背景色 */
+	  color: white;
+	  border: none;
+	  border-radius: 5px;
+	  cursor: pointer;
+	  font-size: 16px;
+	  margin-top: 10px;
+	}
+	
+	button#submit:hover {
+	  background-color: #4141ff;  /* 當滑鼠懸停時改變背景色 */
+	}
+	
+	button#cancel {
+	  padding: 10px 20px;
+	  background-color: #ccc; /* 設定取消按鈕的顏色 */
+	  color: white;
+	  border: none;
+	  border-radius: 5px;
+	  cursor: pointer;
+	  font-size: 16px;
+	  margin-right: 10px;
+	}
+	
+	button#cancel:hover {
+	  background-color: #b3b3b3; /* 鼠標懸停顏色 */
+	}
+	
+	/* 使表單內容垂直對齊 */
 	form {
-		display: table;
+	  display: flex;
+	  flex-direction: column;
+	  align-items: flex-start;
+	  margin-top: 10px;
 	}
+	
 	form div {
-		display: table-row;
+	  width: 100%;
 	}
-	label, input, span, select {
-		display: table-cell;
-		margin: 5px;
-		text-align: left;		
+	
+	form div label {
+	  display: block;
+	  margin-bottom: 5px;
+	  text-align: left; /* 讓所有的 label 文字靠左 */
 	}
-	input[type=text], input[type=password], select, textarea {
-		width: 200px;
-		margin: 5px;
+	
+	form div input, form div select, form div textarea {
+	  width: 100%;
 	}
-	form div div {
-		display: table-cell;
+	
+	/* 讓form內的元素保持一致的間距 */
+	form div {
+	  margin-bottom: 20px;
 	}
-	.center {
-        margin-left: auto;
-        margin-right: auto;
-    }
+
 </style>
 </head>
 <body>
 
-		
+		<div th:insert="vendor-end/counter/Counterincldue :: header"></div>
 
 	    <div align="center">
+	    <section class="update"> 
         <h2>櫃位資料更新</h2>
         <div>*必填資料</div>
         <form th:action="@{/counter/vendor-end/update}" method="post" th:object="${counterVO}" enctype="multipart/form-data">
@@ -136,29 +202,27 @@
 			    <input type="file" th:field="*{counterPic}" id="counterPic" accept="image/png, image/jpeg, image/gif" onchange="previewImage(this)" />
 			</div>
 			<!-- 圖片預覽區域 -->
-				<img id="preview_image" th:src="@{/counter/DBGifReader} + '?counterNo=' + ${counterVO.counterNo}" width="100px">
-			<div id="blob_holder" style="margin-top: 10px;">
+			<div align="center">
+				<img id="preview_image" th:src="@{/counter/DBGifReader} + '?counterNo=' + ${counterVO.counterNo}" width="100px" height = "100px">
+			</div>		
+			<div  id="blob_holder" style="margin-top: 10px;">
 			</div>
 
 
 			<div>
-<!-- 			    <label for="counterStatus">櫃位狀態:</label> -->
 			    <input type="hidden"  select th:field="*{counterStatus}" id="counterStatus">
-<!-- 			        <option value="0">停用</option> -->
-<!-- 			        <option value="1" selected>審核中</option> -->
-<!-- 			        <option value="2">可營運</option> -->
-<!-- 			    </select> -->
-<!-- 			    <span th:if="${#fields.hasErrors('counterStatus')}" th:errors="*{counterStatus}" class="error"></span> -->
 			</div>
 		
+		</section>
 			
             <div>
-                <button type="submit">送出修改</button>
+            	<button type="button" id="cancel" onclick="history.back();">取消</button>
+                <button type="submit" id="submit">送出修改</button>
             </div>
         </form>
     </div>
 
-	
+	<footer th:block th:replace="~{back-end/back-end-home/fraghead :: footer}"></footer>
 	
 <!-- JavaScript part -->
 <script type="text/javascript">
@@ -168,7 +232,7 @@ function hideContent(d) {
     document.getElementById(d).style.display = "none";
 }
 
-// const originalImageHTML = `<img id="preview_image" th:src="@{/counter/DBGifReader} + '?counterNo=' + ${counterVO.counterNo}" width="100px">`;
+const originalImageHTML = `<img id="preview_image" th:src="@{/counter/DBGifReader} + '?counterNo=' + ${counterVO.counterNo}" width="100px">`;
 
 //照片上傳 - 預覽功能
 function previewImage(input) {
@@ -184,10 +248,10 @@ function previewImage(input) {
  }
 
  // 如果用户未选择文件，恢复原始的 <img>
-//  if (!file) {
-//      blobHolder.innerHTML = originalImageHTML;
-//      return;
-//  }
+ if (!file) {
+     blobHolder.innerHTML = originalImageHTML;
+     return;
+ }
 
  // 檢查檔案是否有效
  if (acceptedTypes.includes(file.type)) {

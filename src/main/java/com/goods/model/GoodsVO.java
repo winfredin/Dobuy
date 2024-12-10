@@ -58,10 +58,17 @@ public class GoodsVO implements java.io.Serializable {
     private Set<CouponDetailVO> couponDetails = new HashSet<>();
     //==================以上柏翔新增=====================//
 
-
+    public GoodsVO() {}
     
-    public GoodsVO() {
-    }
+    
+   
+    
+    public GoodsVO(Integer goodsNo, @NotNull(message = "商品名稱: 請勿空白") @Size(min = 1, max = 500, message = "商品名稱: 長度必需在{min}到{max}之間") String goodsName) {
+    		this.goodsNo=goodsNo;
+    		this.goodsName=goodsName;
+    		
+    	}
+    
 
     @Id
     @Column(name = "goodsNo")

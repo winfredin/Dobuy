@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.countercarousel.model.CountercarouselVO;
 
+import io.lettuce.core.dynamic.annotation.Param;
+
 public interface GoodsRepository extends JpaRepository<GoodsVO, Integer> {
 
     /**
@@ -44,7 +46,8 @@ public interface GoodsRepository extends JpaRepository<GoodsVO, Integer> {
     List<GoodsVO> findByCounterVO_CounterNo(Integer counterNo);
     @Query(value = "SELECT counterNo  FROM goods WHERE goodsNo = ?1 ", nativeQuery = true)
     GoodsVO getOneCounter(Integer goodsNo);
-
+    
+    List<GoodsVO> findByGoodsNameContaining(String goodsName);
   
-
+    List<GoodsVO> findByCounterVO_CounterCName(String counterCName);
 }
