@@ -28,7 +28,9 @@ public interface CounterRepository extends JpaRepository<CounterVO, Integer> {
     //登入方法
     CounterVO findByCounterAccountAndCounterPassword(String counterAccount, String counterPassword);
     
+
     //修改櫃位狀態
+
    
     
     //以下昱夆新增 用courtNo去找countCName
