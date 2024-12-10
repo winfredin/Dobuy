@@ -81,7 +81,7 @@ public class UsedController {
 		return "front-end/used/listOneUsed";
 	}
 	
-	@PostMapping("/getOneUsedOnDetail")
+	@GetMapping("/getOneUsedOnDetail")
 	public String getOneUsedOnDetail( @RequestParam("usedNo") String usedNo, Model model) {
 		 
 		UsedVO usedVO = usedSvc.getOneUsed(Integer.valueOf(usedNo));
@@ -102,7 +102,7 @@ public class UsedController {
 
         if (memNo == null) {
             // 如果沒有 memNo，處理錯誤情況，這裡可以返回空片段或錯誤信息
-            return "fragments/usedListFragment :: usedListFragment";
+            return "front-end/used/memberAllUsed :: usedListFragment";
         }
 
 
@@ -294,17 +294,7 @@ public class UsedController {
 	    return response;
 	}
 	
-	@GetMapping("/back") //for update頁面轉移用
-	public String back(HttpSession session, ModelMap model) {
-		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
-		/*************************** 2.確認身分,準備轉交(Send the Success view) **************/
-		if(session.getAttribute("memNo")!=null) {
-			return "front-end/used/member";
-		}else {
-			return "front-end/used/managertest"; // 刪除完成後轉交listAllUsed.html
-		}
 	
-	}
 	
 	
 	// 去除BindingResult中某個欄位的FieldError紀錄

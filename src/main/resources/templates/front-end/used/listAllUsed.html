@@ -22,7 +22,7 @@
 /* 父容器 */
 /* 表格設置 */
 table {
-    width: 100%; /* 表格占滿父容器 */
+    width: 80%; /* 表格占滿父容器 */
     table-layout: fixed; /* 固定表格佈局，讓欄位等寬 */
     border-collapse: collapse; /* 合併邊框 */
     background-color: white; /* 可選，表格背景色 */
@@ -31,7 +31,7 @@ table {
 
 /* 表頭和內容設置 */
 th, td {
-    
+     position: relative; /* Slick 的定位基於此 */
     border: 1px solid #ddd; /* 表格單元格邊框 */
     padding: 10px; /* 單元格內邊距 */
     text-align: center; /* 文字置中 */
@@ -50,11 +50,11 @@ th {
 
 /* 各個欄位的寬度設置 */
 th.col-usedNo, td.col-usedNo {
-    width: 5%; /* 商品編號欄寬度 */
+    width: 1%; /* 商品編號欄寬度 */
 }
 
 th.col-usedName, td.col-usedName {
-    width: 10%; /* 商品名稱欄寬度 */
+    width: 5%; /* 商品名稱欄寬度 */
     max-height: 100px; /* 限制最大高度 */
     overflow: hidden; /* 隱藏超出內容 */
     text-overflow: ellipsis; /* 顯示省略號 */
@@ -62,15 +62,15 @@ th.col-usedName, td.col-usedName {
 }
 
 th.col-classNo, td.col-classNo {
-    width: 8%; /* 商品類別欄寬度 */
+    width: 5%; /* 商品類別欄寬度 */
 }
 
 th.col-usedPrice, td.col-usedPrice {
-    width: 8%; /* 價格欄寬度 */
+    width: 5%; /* 價格欄寬度 */
 }
 
 th.col-usedStocks, td.col-usedStocks {
-    width: 6%; /* 庫存量欄寬度 */
+    width: 3%; /* 庫存量欄寬度 */
 }
 
 th.col-usedPics, td.col-usedPics {
@@ -78,7 +78,7 @@ th.col-usedPics, td.col-usedPics {
 }
 
 th.col-usedProDesc, td.col-usedProDesc {
-     width: 15%; /* 二手商品描述欄寬度 */
+     width: 10%; /* 二手商品描述欄寬度 */
     max-height: 100px; /* 限制最大高度 */
     overflow: hidden; /* 隱藏超出內容 */
     text-overflow: ellipsis; /* 顯示省略號 */
@@ -86,38 +86,41 @@ th.col-usedProDesc, td.col-usedProDesc {
 }
 
 th.col-usedNewness, td.col-usedNewness {
-    width: 8%; /* 新舊程度欄寬度 */
+    width: 6%; /* 新舊程度欄寬度 */
 }
 
 th.col-usedLaunchedTime, td.col-usedLaunchedTime {
-    width: 8%; /* 上架時間欄寬度 */
+    width: 6%; /* 上架時間欄寬度 */
 }
 
 th.col-soldTime, td.col-soldTime {
-    width: 8%; /* 下架時間欄寬度 */
+    width: 6%; /* 下架時間欄寬度 */
 }
 
 th.col-usedState, td.col-usedState {
-    width: 6%; /* 商品狀態欄寬度 */
+    width: 3%; /* 商品狀態欄寬度 */
 }
 
 th.col-modify, td.col-modify {
-    width: 4%; /* 修改欄寬度 */
+    width: 2%; /* 修改欄寬度 */
 }
 
 th.col-delete, td.col-delete {
-    width: 4%; /* 刪除欄寬度 */
+    width: 2%; /* 刪除欄寬度 */
 }
 
 /* 限制圖片大小 */
 td img {
     max-width: 100px; /* 最大寬度限制為 100px */
     max-height: 100px; /* 最大高度限制為 100px */
-    min-width: 100px;
-    min-height: 100px;
+    min-width: 100%;
+    min-height: 100%;
     width: auto; /* 確保圖片寬高比一致 */
     height: auto; /* 確保圖片寬高比一致 */
 }
+
+
+
 
 /* 按鈕設置 */
 button {
@@ -232,7 +235,7 @@ button:hover {
 		
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script> -->
 
 <script type="text/javascript" th:src="@{/js/usedDataTable.js}"></script>
 <script>

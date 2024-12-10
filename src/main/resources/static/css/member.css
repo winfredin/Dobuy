@@ -454,7 +454,7 @@ span{
 /* UsedListContainer CSS by GARY LEE */
 /* 表格設置 */
 table {
-    width: 100%; /* 表格占滿父容器 */
+    width:90%; /* 表格占滿父容器 */
     table-layout: fixed; /* 固定表格佈局，讓欄位等寬*/
     border-collapse: collapse; /* 合併邊框 */
     background-color: white; /* 可選，表格背景色 */
@@ -469,7 +469,7 @@ th, td {
     overflow: hidden; /* 隱藏超出內容 */
 /*     text-overflow: ellipsis; 顯示省略號 */
     vertical-align: middle; /* 垂直置中對齊 */
-    height: 100px; /* 設定每個欄位的預設高度 */
+    max-height: 100px; /* 設定每個欄位的預設高度 */
 }
 
 /* 表頭設置 */
@@ -478,9 +478,14 @@ th {
     font-weight: bold; /* 表頭文字加粗 */
 }
 
+
+
 /* 各個欄位的寬度設置 */
+th.col-col-sellerNo, td.col-sellerNo {
+    width: 5%; /* 商品編號欄寬度 */
+}
 th.col-usedNo, td.col-usedNo {
-    width: 1%; /* 商品編號欄寬度 */
+    width: 5%; /* 商品編號欄寬度 */
 }
 
 th.col-usedName, td.col-usedName {
@@ -506,7 +511,8 @@ th.col-usedStocks, td.col-usedStocks {
 th.col-usedPics, td.col-usedPics {
 	text-align: center; /* 確保照片在欄位中水平置中 */
     vertical-align: middle; /* 垂直置中對齊 */
-    width: 13%; /* 照片欄寬度 */
+    height:100px;
+    width: 10%; /* 照片欄寬度 */
 }
 th.col-usedProDesc{
 	width: 8%;

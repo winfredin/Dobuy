@@ -38,7 +38,7 @@ public class CancelUnpaidOrdersJob implements Job {
             String deleteOrderQuery = "DELETE FROM UsedOrder WHERE usedOrderNo = ?";
             jdbcTemplate.update(deleteOrderQuery, orderNo);
 
-            System.out.println("訂單已刪除：" + orderNo + "，商品庫存已還原：" + usedNo);
+            System.out.println("訂單已刪除：" + orderNo + "商品編號:"+ usedNo+ "，商品庫存已還原："+ usedCount+"個");
         }
     }
 

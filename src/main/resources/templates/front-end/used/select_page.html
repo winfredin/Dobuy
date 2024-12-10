@@ -113,7 +113,7 @@
 		</li>
 		
 		
-		<li><form method="post" th:action="@{/used/getOneUsedOnDetail}">
+		<li><form method="get" th:action="@{/used/getOneUsedOnDetail}">
 				選擇二手商品編號頁面測試:
 				<select name="usedNo">
 				     <option th:each="usedVO : ${usedListData}" th:value="${usedVO.usedNo}" th:text="${usedVO.usedNo}" />
