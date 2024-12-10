@@ -62,7 +62,7 @@ public class CouponController {
         return counter;
     }
     
-    @GetMapping("addCoupon")
+    @GetMapping("/addCoupon")
 //   從 session 獲取當前登入櫃位資訊
     public String addCoupon(HttpSession session, ModelMap model) {
         CounterVO counter = (CounterVO) session.getAttribute("counter");
@@ -87,35 +87,49 @@ public class CouponController {
     }
     
 
-//    櫃位新增優惠券 可以同時設定優惠商品明細--送出
+ // 櫃位新增優惠券，可以同時設定優惠商品明細--送出
     @PostMapping("/insert")
     public String insertCouponWithDetails(
-            @ModelAttribute("couponVO") CouponVO couponVO,
+            @Valid @ModelAttribute("couponVO") CouponVO couponVO,
+            BindingResult result,
             HttpSession session,
+            Model model,
             RedirectAttributes redirectAttributes) {
+
+        CounterVO counter = (CounterVO) session.getAttribute("counter");
+        if (counter == null) {
+            redirectAttributes.addFlashAttribute("error", "請先登入櫃位");
+            return "redirect:/counter/login";
+        }
+
+        // 設置優惠券狀態
+        couponVO.setCouponStatus(1); // 設定預設值（1 = 有效）
+        couponVO.setCounter(counter); // 設置櫃位
+
+        Date now = new Date(); // 獲取當前時間
+        if (couponVO.getCouponDetails() != null) {
+            for (CouponDetailVO detail : couponVO.getCouponDetails()) {
+                detail.setCreatedAt(now);
+                detail.setUpdatedAt(now);
+                detail.setCoupon(couponVO); // 設置外鍵關聯
+            }
+        }
+
+        // 重新驗證
+        if (result.hasErrors()) {
+            List<GoodsVO> goodsList = goodsSvc.findByCounterVO_CounterNo(counter.getCounterNo());
+            model.addAttribute("goodsList", goodsList);
+            model.addAttribute("couponVO", couponVO);
+            return "vendor-end/coupon/addCoupon";
+        }
+
         try {
-            // 從 Session 中獲取 CounterVO
-            CounterVO counter = (CounterVO) session.getAttribute("counter");
-            if (counter == null) {
-                throw new IllegalStateException("未登入櫃位，無法新增優惠券");
-            }
-            
-            // 設置 counter 到 couponVO
-            couponVO.setCounter(counter);
-
-            // 驗證優惠券明細
-            if (couponVO.getCouponDetails() == null || couponVO.getCouponDetails().isEmpty()) {
-                throw new IllegalArgumentException("至少需要一個優惠券明細");
-            }
-
-            // 保存數據
             couponSvc.addCouponWithDetails(couponVO);
-
             redirectAttributes.addFlashAttribute("success", "優惠券新增成功");
             return "redirect:/coupon/listAllCoupon";
         } catch (Exception e) {
+            e.printStackTrace();
             redirectAttributes.addFlashAttribute("error", "新增失敗：" + e.getMessage());
-            redirectAttributes.addFlashAttribute("couponVO", couponVO);
             return "redirect:/coupon/addCoupon";
         }
     }

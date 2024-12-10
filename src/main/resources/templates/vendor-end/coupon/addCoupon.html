@@ -9,7 +9,106 @@
 
 <link rel="stylesheet" href="/coupon/css/addCoupon.css">
 
+<style>
+/* 整體容器樣式 */
+body {
+	/*             background: url('/images/background.jpg') no-repeat center center fixed; */
+	background-size: cover;
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+}
 
+/*         .container { */
+/*             width: 90%; */
+/*             margin: 2rem auto; */
+/*             background: rgba(255, 255, 255, 0.85); */
+/*             padding: 2rem; */
+/*             border-radius: 12px; */
+/*             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); */
+/*         } */
+
+/* 表格樣式 */
+table {
+	width: 100%;
+	border-collapse: collapse;
+	background-color: rgba(255, 255, 255, 0.95);
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+thead {
+	background: linear-gradient(to right, #6A5ACD, #8470FF);
+	color: white;
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+thead th {
+	padding: 12px;
+	font-size: 14px;
+	text-align: center;
+}
+
+tbody tr:nth-child(even) {
+	background-color: rgba(240, 248, 255, 0.6);
+}
+
+tbody tr:nth-child(odd) {
+	background-color: rgba(255, 255, 255, 0.8);
+}
+
+tbody tr:hover {
+	background-color: rgba(173, 216, 230, 0.8);
+	transition: background-color 0.3s ease;
+}
+
+td {
+	text-align: center;
+	padding: 10px;
+	color: #333333;
+	font-size: 14px;
+	border-bottom: 1px solid rgba(200, 200, 200, 0.3);
+}
+
+/* 返回按鈕 */
+.back-btn {
+	display: inline-block;
+	margin-top: 1.5rem;
+	padding: 8px 20px;
+	font-size: 14px;
+	font-weight: bold;
+	color: #fff;
+	background-color: #87CEFA;
+	border: none;
+	border-radius: 5px;
+	text-decoration: none;
+	text-align: center;
+	transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.back-btn:hover {
+	background-color: #4682B4;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+	transform: translateY(-2px);
+}
+
+.error-message {
+	color: red;
+	font-size: 12px;
+	margin-top: 5px;
+}
+
+.is-invalid {
+	border-color: red;
+	background-color: #ffe6e6;
+}
+
+/* 錯誤的輸入框下的提示文字 */
+.is-invalid+.error-message {
+	color: red;
+	font-size: 12px;
+}
+</style>
 
 </head>
 
@@ -21,52 +120,74 @@
 
 
 	<div class="form-wrapper">
-		<form th:action="@{insert}" method="post" th:object="${couponVO}">
+<form th:action="@{/coupon/insert}" method="post" th:object="${couponVO}" novalidate>
+
+
 			<div class="form-group">
 				<div class="form-row">
-					<div class="form-field">
-						<label for="counterNo">櫃位編號</label> 
-						<input type="text" id="counterNo" th:field="*{counter.counterNo}" readonly />
-
-					</div>
 					<div class="form-field">
 						<label for="couponTitle">優惠券名稱</label> <input type="text"
-							id="couponTitle" th:field="*{couponTitle}" />
+							id="couponTitle" th:field="*{couponTitle}" class="form-control"
+							th:classappend="${#fields.hasErrors('couponTitle')} ? 'is-invalid' : ''"
+							required />
+						<!-- 錯誤訊息顯示 -->
+						<div class="error-message"
+							th:if="${#fields.hasErrors('couponTitle')}"
+							th:errors="*{couponTitle}"></div>
 					</div>
+
 					<div class="form-field">
 						<label for="couponContext">優惠券內容</label> <input type="text"
-							id="couponContext" th:field="*{couponContext}" />
+							id="couponContext" th:field="*{couponContext}"
+							class="form-control"
+							th:classappend="${#fields.hasErrors('couponContext')} ? 'is-invalid' : ''"
+							required />
+						<div class="error-message"
+							th:if="${#fields.hasErrors('couponContext')}"
+							th:errors="*{couponContext}"></div>
 					</div>
-				</div>
-			</div>
 
-			<div class="form-group">
-				<div class="form-row">
 					<div class="form-field">
 						<label for="couponStart">起始日期</label> <input type="date"
-							id="couponStart" th:field="*{couponStart}" />
+							id="couponStart" th:field="*{couponStart}" class="form-control"
+							th:classappend="${#fields.hasErrors('couponStart')} ? 'is-invalid' : ''"
+							required />
+						<div class="error-message"
+							th:if="${#fields.hasErrors('couponStart')}"
+							th:errors="*{couponStart}"></div>
 					</div>
+
 					<div class="form-field">
 						<label for="couponEnd">到期日期</label> <input type="date"
-							id="couponEnd" th:field="*{couponEnd}" />
+							id="couponEnd" th:field="*{couponEnd}" class="form-control"
+							th:classappend="${#fields.hasErrors('couponEnd')} ? 'is-invalid' : ''"
+							required />
+						<div class="error-message"
+							th:if="${#fields.hasErrors('couponEnd')}"
+							th:errors="*{couponEnd}"></div>
 					</div>
 				</div>
 			</div>
 
 			<div class="form-group">
 				<div class="form-row">
-					<div class="form-field">
-						<label for="couponStatus">優惠券狀態</label> <select id="couponStatus"
-							th:field="*{couponStatus}">
-							<option value="0">未開放</option>
-							<option value="1">時效內</option>
-							<option value="2">過期</option>
-						</select>
-					</div>
+
+					<!-- 隱藏欄位：優惠券狀態預設為「時效內」 -->
+					<input type="hidden" id="couponStatus" th:field="*{couponStatus}"
+						value="1" />
+
+
 					<div class="form-field">
 						<label for="usageLimit">領取次數限制</label> <input type="number"
-							id="usageLimit" th:field="*{usageLimit}" />
+							id="usageLimit" th:field="*{usageLimit}" class="form-control"
+							th:classappend="${#fields.hasErrors('usageLimit')} ? 'is-invalid' : ''"
+							required />
+						<div class="error-message"
+							th:if="${#fields.hasErrors('usageLimit')}"
+							th:errors="*{usageLimit}"></div>
 					</div>
+
+
 					<input type="hidden" th:field="*{checkStatus}" />
 
 					<!-- 					<div class="form-field"> -->
@@ -81,28 +202,52 @@
 
 			<div id="detailsContainer" class="details-section">
 				<div class="detail-item" th:each="detail, stat : *{couponDetails}">
-					<div class="detail-row">
-						<div class="detail-field">
-							<label>商品</label> <select
-								th:field="*{couponDetails[__${stat.index}__].goodsNo}" required>
-								<option value="">請選擇商品</option>
-								<option th:each="goods : ${goodsList}"
-									th:value="${goods.goodsNo}" th:text="${goods.goodsName}"></option>
-							</select>
-						</div>
-						<div class="detail-field">
-							<label>優惠條件</label> <input type="text"
-								th:field="*{couponDetails[__${stat.index}__].counterContext}"
-								required />
-						</div>
-						<div class="detail-field">
-							<label>折扣率</label> <input type="number"
-								th:field="*{couponDetails[__${stat.index}__].disRate}"
-								step="0.01" min="0.01" max="1.00" required />
-						</div>
-						<button type="button" class="delete-btn"
-							onclick="deleteDetail(this)">刪除</button>
+					<!-- 					<div class="detail-row"> -->
+					<div class="detail-field">
+						<label>商品</label> <select
+							th:field="*{couponDetails[__${stat.index}__].goodsNo}"
+							class="form-control"
+							th:classappend="${#fields.hasErrors('couponDetails[__${stat.index}__].goodsNo')} ? 'is-invalid' : ''"
+							required>
+							<option value="">請選擇商品</option>
+							<option th:each="goods : ${goodsList}"
+								th:value="${goods.goodsNo}" th:text="${goods.goodsName}"></option>
+						</select>
+						<div class="error-message"
+							th:if="${#fields.hasErrors('couponDetails[__${stat.index}__].goodsNo')}"
+							th:errors="*{couponDetails[__${stat.index}__].goodsNo}"></div>
 					</div>
+
+					<div class="detail-field">
+						<label>優惠條件</label> <input type="text"
+							th:field="*{couponDetails[__${stat.index}__].counterContext}"
+							class="form-control"
+							th:classappend="${#fields.hasErrors('couponDetails[__${stat.index}__].counterContext')} ? 'is-invalid' : ''"
+							required />
+						<div class="error-message"
+							th:if="${#fields.hasErrors('couponDetails[__${stat.index}__].counterContext')}"
+							th:errors="*{couponDetails[__${stat.index}__].counterContext}"></div>
+					</div>
+
+					<div class="detail-field">
+						<label>折扣率</label> <input type="number"
+							th:field="*{couponDetails[__${stat.index}__].disRate}"
+							step="0.01" min="0.01" max="1.00" class="form-control"
+							th:classappend="${#fields.hasErrors('couponDetails[__${stat.index}__].disRate')} ? 'is-invalid' : ''"
+							required />
+						<div class="error-message"
+							th:if="${#fields.hasErrors('couponDetails[__${stat.index}__].disRate')}"
+							th:errors="*{couponDetails[__${stat.index}__].disRate}"></div>
+					</div>
+
+<input type="hidden" th:field="*{couponDetails[__${stat.index}__].createdAt}" />
+<input type="hidden" th:field="*{couponDetails[__${stat.index}__].updatedAt}" />
+
+
+
+					<button type="button" class="delete-btn"
+						onclick="deleteDetail(this)">刪除</button>
+					<!-- 					</div> -->
 				</div>
 			</div>
 
@@ -113,12 +258,16 @@
 		</form>
 	</div>
 
-	<!-- fragment引入 -->
-	<!-- 	<footer th:block	th:replace="~{back-end/back-end-home/fraghead :: footer}"></footer> -->
+	<!-- 返回按鈕 -->
+	<div class="text-center mt-4">
+		<a th:href="@{/coupon/listAllCoupon}" class="btn btn-primary">返回列表</a>
+	</div>
+
+
 
 	<!-- fragment引入 -->
-
-
+	<footer th:block
+		th:replace="~{back-end/back-end-home/fraghead :: footer}"></footer>
 
 
 	<script>
@@ -131,7 +280,6 @@ document.getElementById('addDetailBtn').addEventListener('click', function() {
 
 	const detailHtml = `
 		<div class="detail-item">
-		    <div class="detail-row">
 		        <div class="detail-field">
 		            <label>商品</label>
 		            <select name="couponDetails[${index}].goodsNo" required>
@@ -148,15 +296,16 @@ document.getElementById('addDetailBtn').addEventListener('click', function() {
 		        </div>
 		        <input type="hidden" name="couponDetails[${index}].checkStatus" value="0" />
 		        <button type="button" class="delete-btn" onclick="deleteDetail(this)">刪除</button>
-		    </div>
 		</div>
 	`;
 	container.insertAdjacentHTML('beforeend', detailHtml);
 });
 
 function deleteDetail(btn) {
-	btn.closest('.detail-row').remove();
+	btn.closest('.detail-item').remove();
 }
 </script>
+
+
 </body>
 </html>
