@@ -29,10 +29,7 @@ public interface CounterRepository extends JpaRepository<CounterVO, Integer> {
     CounterVO findByCounterAccountAndCounterPassword(String counterAccount, String counterPassword);
     
     //修改櫃位狀態
-    @Modifying
-    @Transactional
-    @Query("UPDATE CounterVO c SET c.counterStatus = :counterStatus WHERE c.counterNo = :counterNo")
-    void updateCStatus(@Param("counterStatus") int counterStatus, @Param("counterNo") int counterNo);
+   
     
     //以下昱夆新增 用courtNo去找countCName
     
