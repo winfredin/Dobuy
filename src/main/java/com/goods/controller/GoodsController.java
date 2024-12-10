@@ -33,6 +33,8 @@ import com.goods.model.GoodsService;
 import com.goods.model.GoodsVO;
 import com.goodstype.model.GoodsTypeService;
 import com.goodstype.model.GoodsTypeVO;
+import com.msg.model.MsgService;
+import com.msg.model.MsgVO;
 
 @Controller
 @Validated
@@ -48,6 +50,9 @@ public class GoodsController {
 	@Autowired
 	CounterService counterSvc;
 
+    @Autowired
+    MsgService msgSvc;
+	
     /*
      * This method will serve as addCouponDetail.html handler.
      */
@@ -441,6 +446,20 @@ public class GoodsController {
         // 更新商品的審核狀態
         goodsSvc.updateCheckStatus(Integer.valueOf(goodsNo), checkStatus);
 
+        // 2. 取得商品詳細資訊（如櫃位名稱、商品名稱）
+        GoodsVO goodsVO = goodsSvc.getOneGoods(Integer.valueOf(goodsNo));
+        
+        if (checkStatus == 1) { // 審核通過
+            String informMsg = goodsVO.getGoodsName() + " 商品審核通過";
+            Integer counterNo = goodsVO.getCounterVO().getCounterNo();
+            msgSvc.addCounterInform(counterNo, informMsg); // 新增通知
+        }
+        if (checkStatus == 2) { // 審核未通過
+            String informMsg = goodsVO.getGoodsName() + " 商品審核未通過";
+            Integer counterNo = goodsVO.getCounterVO().getCounterNo();
+            msgSvc.addCounterInform(counterNo, informMsg); // 新增通知
+        }
+        
         // 重新查詢所有商品列表
         List<GoodsVO> list = goodsSvc.getAll();
         model.addAttribute("goodsListData", list);
@@ -463,5 +482,4 @@ public class GoodsController {
                                  .body("更新商品狀態失敗：" + e.getMessage());
         }
     }
-
 }
