@@ -19,7 +19,7 @@
 <script>
     $(document).ready(function() {
         $('#example').DataTable({
-            "lengthMenu": [3 ,5, 10, 20, 50, 100],
+            "lengthMenu": [10, 20, 50, 100],
             "searching": true,
             "paging": true,
             "ordering": true,
@@ -45,7 +45,39 @@
                 }
             }
         });
+        
+     // 星形評分互動
+        $('#starRating i').hover(
+            function() {
+                var hoverValue = $(this).data('value');
+                $('#starRating i').each(function() {
+                    if ($(this).data('value') <= hoverValue) {
+                        $(this).addClass('hover');
+                    } else {
+                        $(this).removeClass('hover');
+                    }
+                });
+            },
+            function() {
+                $('#starRating i').removeClass('hover');
+            }
+        );
+
+        $('#starRating i').on('click', function() {
+            var selectedValue = $(this).data('value');
+            $('#sellerSatisfication').val(selectedValue); // 更新隱藏輸入框的值
+            $('#starRating i').each(function() {
+                if ($(this).data('value') <= selectedValue) {
+                    $(this).addClass('selected');
+                } else {
+                    $(this).removeClass('selected');
+                }
+            });
+        });
     });
+    
+    
+    
 
     function showOrderDetails(element) {
         var orderNo = element.getAttribute('data-orderNo');
@@ -76,6 +108,17 @@
             '<button type="button" class="btn btn-primary" onclick="saveComment(' + orderNo + ')">保存</button>' +
             '<button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>'
         );
+        $('#orderDetailModal').modal('show');
+        
+     // 設置星形評分
+        $('#starRating i').removeClass('selected');
+        $('#starRating i').each(function() {
+            if ($(this).data('value') <= sellerSatisfication) {
+                $(this).addClass('selected');
+            }
+        });
+        $('#sellerSatisfication').val(sellerSatisfication);
+
         $('#orderDetailModal').modal('show');
     }
 
@@ -139,6 +182,29 @@
             }
         });
     }
+    function renderStars(element, rating) {
+        let starsHtml = '';
+        for (let i = 1; i <= 5; i++) {
+            if (i <= rating) {
+                starsHtml += '<i class="fas fa-star" style="color: gold;"></i>'; // 實心星星
+            } else {
+                starsHtml += '<i class="far fa-star" style="color: gold;"></i>'; // 空心星星
+            }
+        }
+        element.innerHTML = starsHtml; // 清空並重新設置 HTML
+    }
+
+
+    
+    $(document).on('DOMContentLoaded', function() {
+        $('.star-display').each(function() {
+            const rating = $(this).data('rating');
+            renderStars(this, rating);
+        });
+    });
+
+
+
 
 
 
@@ -159,6 +225,16 @@ textarea {
     box-sizing: border-box;
     resize: none;
 }
+
+#starRating i {
+            font-size: 24px;
+            color: gray;
+            cursor: pointer;
+            margin: 0 2px;
+        }
+#starRating i.selected, #starRating i.hover {
+            color: gold;
+        }
 </style>
 </head>
 <body>
@@ -166,6 +242,7 @@ textarea {
 <nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
          <div align="center"> <h2>買家二手訂單管理</h2></div>
 </nav>
+
 
 <table id="example" class="display" style="width: 100%">
   <thead>
@@ -210,7 +287,9 @@ textarea {
                     <i class="fas fa-search"></i>
                 </a>
             </td>
-            <td th:text="${usedOrderVO.sellerSatisfication}"></td>
+            <td>
+            <span class="star-display" th:attr="data-rating=${usedOrderVO.sellerSatisfication}"></span>
+            </td>           
         </tr>
     </th:block>
 </tbody>
@@ -237,13 +316,16 @@ textarea {
     <p>收件人姓名: <span id="receiverName"></span></p>
     <p>收件人電話: <span id="receiverPhone"></span></p>
     <p>收件人地址: <span id="receiverAdr"></span></p>
-    <p>滿意度: <select id="sellerSatisfication">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-    </select></p>
+    <p><strong>滿意度:</strong>
+                        <span id="starRating">
+                            <i class="fas fa-star" data-value="1"></i>
+                            <i class="fas fa-star" data-value="2"></i>
+                            <i class="fas fa-star" data-value="3"></i>
+                            <i class="fas fa-star" data-value="4"></i>
+                            <i class="fas fa-star" data-value="5"></i>
+                        </span>
+                        <input type="hidden" id="sellerSatisfication" value="0">
+                    </p>
     <p>評論內文: <textarea id="sellerCommentContent"></textarea></p>
     <p>評論日期: <span id="sellerCommentDate"></span></p>
     <hr>
@@ -273,4 +355,13 @@ textarea {
 </html>
         
 
+
+
+
+
+
+  
+       
+
         
+   
