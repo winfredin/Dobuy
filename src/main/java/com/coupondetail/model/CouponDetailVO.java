@@ -30,13 +30,13 @@ public class CouponDetailVO implements Serializable {
     private GoodsVO goodsVO; // 商品編號 (外鍵)
 
     @Column(name = "createdAt", nullable = false)
-    @NotNull(message = "建立時間: 請勿空白")
+//    @NotNull(message = "建立時間: 請勿空白")
     @PastOrPresent(message = "建立時間: 必須是過去或現在的時間")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createdAt;
 
     @Column(name = "updatedAt", nullable = false)
-    @NotNull(message = "更新時間: 請勿空白")
+//    @NotNull(message = "更新時間: 請勿空白")
     @PastOrPresent(message = "更新時間: 必須是過去或現在的時間")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date updatedAt;
@@ -53,6 +53,7 @@ public class CouponDetailVO implements Serializable {
     private Double disRate;
 
     @Column(name = "goodsNo", nullable = false)
+    @NotNull(message = "商品: 請選擇一個商品")
     private Integer goodsNo;
     
     

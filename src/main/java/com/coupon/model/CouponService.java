@@ -38,35 +38,54 @@ public class CouponService {
     }
     
 //    同時新增優惠券與明細
-    @Transactional(rollbackOn = Exception.class)  
+    @Transactional(rollbackOn = Exception.class)
     public CouponVO addCouponWithDetails(CouponVO couponVO) {
         try {
-            // 1. 設置基本數據
+            // 1. 參數驗證
+            if (couponVO == null) {
+                throw new IllegalArgumentException("優惠券對象不能為空");
+            }
+
+            // 2. 設置基本數據
+            Date now = new Date();  // 創建一個時間實例重複使用
             if (couponVO.getCouponStart() == null) {
-                couponVO.setCouponStart(new Date());
+                couponVO.setCouponStart(now);
             }
             
-            // 2. 備份明細列表並清空原有關聯
-            List<CouponDetailVO> details = new ArrayList<>(couponVO.getCouponDetails());
+            // 設置優惠券狀態（如果需要）
+            if (couponVO.getCouponStatus() == null) {
+                couponVO.setCouponStatus(1);  // 假設 1 代表有效
+            }
+
+            // 3. 處理明細
+            List<CouponDetailVO> details = new ArrayList<>();
+            if (couponVO.getCouponDetails() != null) {
+                details.addAll(couponVO.getCouponDetails());
+            }
             couponVO.getCouponDetails().clear();
-            
-            // 3. 先保存優惠券主體
+
+            // 4. 保存優惠券主體
             CouponVO savedCoupon = repository.save(couponVO);
-            
-            // 4. 為每個明細設置關聯並添加到優惠券
+
+            // 5. 處理明細
             for (CouponDetailVO detail : details) {
+                // 驗證明細數據
+                if (detail.getDisRate() == null || detail.getDisRate() <= 0) {
+                    throw new IllegalArgumentException("折扣率必須大於0");
+                }
+
                 detail.setCoupon(savedCoupon);
-                detail.setCreatedAt(new Date());
-                detail.setUpdatedAt(new Date());
+                detail.setCreatedAt(now);  // 使用同一個時間實例
+                detail.setUpdatedAt(now);
                 savedCoupon.getCouponDetails().add(detail);
             }
-            
-            // 5. 再次保存以更新關聯
+
+            // 6. 最終保存
             return repository.save(savedCoupon);
-            
+
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("保存優惠券和明細失敗：" + e.getMessage());
+            throw new RuntimeException("保存優惠券和明細失敗：" + e.getMessage(), e);  // 加入原始異常
         }
     }
     
