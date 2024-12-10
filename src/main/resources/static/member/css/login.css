@@ -105,3 +105,31 @@ a:hover {
     color: #0056b3;
     text-decoration: underline;
 }
+
+#memEmail {
+	width: 70%; /* 	 設置固定寬度  */
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+
+.mail-container {
+	text-align: left; /* 外層容器設置文字靠左 */
+	display: block;
+	text-align: left;
+	margin: 10px 0 5px;
+	font-size: 16px;
+	font-weight: bold;
+	color: #333;
+}
+
+
+#memEmailConfirm{
+	margin-left: 42px;
+	width: 54%; /* 設置固定寬度 */
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+}

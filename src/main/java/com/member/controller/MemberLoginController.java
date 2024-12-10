@@ -158,5 +158,6 @@ public class MemberLoginController {
 	    return "front-end/member/login49";  // 這是視圖路徑，不需要 /mem
 	}
 //	winfred===================================================================================以上
-
+	
+	
 }

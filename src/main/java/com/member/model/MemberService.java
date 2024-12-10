@@ -36,8 +36,11 @@ public class MemberService {
 	}
 
 	public List<MemberVO> getAll() {
-		List<MemberVO> memberList= memberRepository.findAll();
-		return memberList;
+		return memberRepository.findAll();
+	}
+	
+	public MemberVO findByMemEmail(String email) {
+		return memberRepository.findByMemEmail(email);
 	}
 
 	

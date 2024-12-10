@@ -1,42 +1,15 @@
-document.addEventListener("DOMContentLoaded", function() {
-	// 获取输入字段
-	const memAccount = document.getElementById("memAccount");
-	const memPassword = document.getElementById("memPassword");
-	const confirmPassword = document.getElementById("confirmPassword");
-
-	// 添加事件监听器，直接阻止非法字符输入
-	function restrictInput(event) {
-		// 允许的键：英文字符（大小写）和数字
-		const allowedKeys = /^[a-zA-Z0-9]$/;
-
-		// 获取当前按下的键
-		const key = event.key;
-
-		// 如果按键不匹配正则，则阻止默认行为
-		if (!allowedKeys.test(key)) {
-			event.preventDefault();
-		}
-	}
-
-	// 绑定事件到输入框
-	memAccount.addEventListener("keypress", restrictInput);
-	memPassword.addEventListener("keypress", restrictInput);
-	confirmPassword.addEventListener("keypress", restrictInput);
-});
-
 
 //發送驗證碼
 function sendVerificationCode() {
 	const email = document.getElementById('memEmail').value.trim();
 	const firstButton = document.getElementById('firstButton');
-
-	console.log(email);
+	
 	if (!email) {
 		alert('請輸入信箱');
 		return;
 	}
 
-	fetch('/email/sent', {
+	fetch('/email/forget', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({ email })
@@ -94,7 +67,7 @@ function verifyCode() {
 	}
 
 	// 模擬驗證邏輯
-	fetch('/email/verify', {
+	fetch('/email/verify/forget', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({
@@ -104,10 +77,19 @@ function verifyCode() {
 	})
 		.then(response => response.json())
 		.then(data => {
+
 			if (data.success === "true") {
 				alert(data.message);
-				// 顯示驗證碼輸入框
+
 				document.getElementById('verification-section').style.display = 'none';
+				document.querySelectorAll('.form-group').forEach(element => {
+					element.style.display = 'block'; // 显示这些元素
+				});
+				document.querySelector('.form-button').style.display = 'block';
+
+				document.getElementById("memAccount").value = data.memAccount;
+
+				document.getElementById("memAccount").setAttribute('readonly', true);
 				//輸入文字框readonly
 				document.getElementById('memEmail').setAttribute('readonly', true);
 				//鎖發送驗證碼按紐
@@ -118,6 +100,54 @@ function verifyCode() {
 		})
 		.catch(error => {
 			console.error('錯誤:', error);
-			alert('驗證失敗，請稍後再試！');
+			alert('發生錯誤，請稍後再試！');
 		});
 }
+
+
+document.querySelector('.form-button').addEventListener('click', function (event) {
+	event.preventDefault(); // 防止表單默認提交行為
+	// 收集需要提交的数据
+	const memEmail = document.getElementById('memEmail').value.trim();
+	const memPassword = document.getElementById('memPassword').value.trim();
+	const confirmMemPassword = document.getElementById('confirmMemPassword').value.trim();
+
+	// 校验数据是否为空
+	if (!memAccount || !memPassword || !confirmMemPassword) {
+		alert('所有字段都是必填的');
+		return;
+	}
+
+	// 校验密码是否一致
+	if (memPassword !== confirmMemPassword) {
+		alert('密碼輸入不一致');
+		return;
+	}
+
+	// 发送 fetch 请求
+	fetch('/mem/updatePassword', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			memPassword: memPassword,
+			memEmail : memEmail
+		})
+	})
+		.then(response => response.json()) // 解析 JSON 响应
+		.then(data => {
+			if (data.success === "true") {
+				alert(data.message); 
+				// 根据需要更新页面或跳转
+				window.location.href = '/mem/login'; // 示例跳转
+			} else {
+				alert(data.message); 
+			}
+		})
+		.catch(error => {
+			console.error('發生錯誤:', error);
+			alert('更新失敗，請稍後再試');
+		});
+})
+
