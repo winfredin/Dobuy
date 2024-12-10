@@ -112,6 +112,7 @@
 <!-- </nav> -->
 
 <body>
+<div th:insert="vendor-end/counter/Counterincldue :: header"></div>
 
 <div align="center">
     <section class="add_goods"> 
@@ -274,6 +275,7 @@
 		</div>      
     </form>
 </div>
+<footer th:block th:replace="~{back-end/back-end-home/fraghead :: footer}"></footer>
 
 <!-- JavaScript part -->
 <script type="text/javascript">

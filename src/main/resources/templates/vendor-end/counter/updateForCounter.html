@@ -27,7 +27,7 @@
 	}
 	
 	/* 調整表單中的輸入框與選擇框樣式 */
-	input[type="text"], input[type="number"], input[type="date"], select, textarea {
+	input[type="text"], input[type="email"],  select, textarea {
 	  width: 100%; /* 使元素寬度100% */
 	  padding: 8px; /* 內邊距讓內容更清晰 */
 	  margin: 10px 0; /* 上下間距 */
@@ -37,7 +37,7 @@
 	  box-sizing: border-box; /* 確保padding不會影響寬度 */
 	}
 	
-	input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:focus {
+	input[type="text"]:focus, input[type="email"]:focus, select:focus, textarea:focus {
 	  outline: none; /* 去掉聚焦時的藍色邊框 */
 	  border-color: #5bc5ff; /* 當聚焦時邊框變藍 */
 	}
@@ -111,7 +111,7 @@
 </head>
 <body>
 
-		
+		<div th:insert="vendor-end/counter/Counterincldue :: header"></div>
 
 	    <div align="center">
 	    <section class="update"> 
@@ -220,7 +220,7 @@
         </form>
     </div>
 
-	
+	<footer th:block th:replace="~{back-end/back-end-home/fraghead :: footer}"></footer>
 	
 <!-- JavaScript part -->
 <script type="text/javascript">
@@ -230,7 +230,7 @@ function hideContent(d) {
     document.getElementById(d).style.display = "none";
 }
 
-// const originalImageHTML = `<img id="preview_image" th:src="@{/counter/DBGifReader} + '?counterNo=' + ${counterVO.counterNo}" width="100px">`;
+const originalImageHTML = `<img id="preview_image" th:src="@{/counter/DBGifReader} + '?counterNo=' + ${counterVO.counterNo}" width="100px">`;
 
 //照片上傳 - 預覽功能
 function previewImage(input) {
@@ -246,10 +246,10 @@ function previewImage(input) {
  }
 
  // 如果用户未选择文件，恢复原始的 <img>
-//  if (!file) {
-//      blobHolder.innerHTML = originalImageHTML;
-//      return;
-//  }
+ if (!file) {
+     blobHolder.innerHTML = originalImageHTML;
+     return;
+ }
 
  // 檢查檔案是否有效
  if (acceptedTypes.includes(file.type)) {
