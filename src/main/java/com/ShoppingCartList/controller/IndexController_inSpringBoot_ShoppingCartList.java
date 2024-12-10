@@ -1,5 +1,6 @@
 package com.ShoppingCartList.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -74,22 +75,35 @@ public class IndexController_inSpringBoot_ShoppingCartList {
     
     // 購物車結帳畫面
     @GetMapping("/shoppingcartlist/ShoppingCartListCheckout")
-    public String ShoppingCartListCheckout(Model model) {
-        List<ShoppingCartListVO> list = shoppingCartListSvc.getAll();
-        for (ShoppingCartListVO a : list) {
-            GoodsVO goods = goodsSvc.getOneGoods(a.getGoodsNo());
-            if (goods.getGoodsAmount() < a.getGoodsNum()) {
-                model.addAttribute("error", "庫存不足");
-                return "front-end/shoppingcartlist/listAllShoppingCartList";
-            }else {
-            	 model.addAttribute("ab", goods);
-            goods.setGoodsAmount(goods.getGoodsAmount() - a.getGoodsNum());
-            goodsSvc.updateGoodsAmount(a.getGoodsNo(), goods.getGoodsAmount());
+    public String ShoppingCartListCheckout(Model model, HttpSession session) {
+        List<ShoppingCartListVO> cartItems = shoppingCartListSvc.getAll();
+        List<GoodsVO> insufficientStockItems = new ArrayList<>();
+        
+        for (ShoppingCartListVO cartItem : cartItems) {
+            GoodsVO goods = goodsSvc.getOneGoods(cartItem.getGoodsNo());
+            Integer counterNo=goods.getCounterVO().getCounterNo();
+            model.addAttribute("counterNo",counterNo);
+            if (goods.getGoodsAmount() < cartItem.getGoodsNum()) {
+                insufficientStockItems.add(goods);
+            } else {
+                // 扣除庫存
+                goods.setGoodsAmount(goods.getGoodsAmount() - cartItem.getGoodsNum());
+                goodsSvc.updateGoodsAmount(cartItem.getGoodsNo(), goods.getGoodsAmount());
             }
         }
-        model.addAttribute("carlist", list);
+
+        if (!insufficientStockItems.isEmpty()) {
+            model.addAttribute("error", "以下商品庫存不足：" + insufficientStockItems);
+            return "front-end/shoppingcartlist/listAllShoppingCartList";
+        }
+
+        // 將購物車資料存儲到 Session，供後續結帳使用
+        session.setAttribute("cartItems", cartItems);
+      
+        model.addAttribute("carlist", cartItems);
         return "front-end/shoppingcartlist/ShoppingCartListCheckout";
     }
+
 
 
     // 為select_page.html提供購物車資料
