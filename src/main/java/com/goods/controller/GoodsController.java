@@ -112,12 +112,9 @@ public class GoodsController {
         
         goodsVO.setCheckStatus((byte) 0);  // 這裡假設 0 表示 "待審核"
         
-        // 檢查照片1 - 確保至少上傳一張照片
-        if (parts1[0].isEmpty()) {
-            model.addAttribute("errorMessage", "商品主圖(必填): 請上傳至少一張照片");
-            return "vendor-end/goods/addGoods";  // 若沒有上傳照片1，返回錯誤
-        } else {
-            for (MultipartFile multipartFile : parts1) {
+        // 檢查照片1 
+        if (parts1 != null && parts1.length > 0 && !parts1[0].isEmpty()) {
+        	for (MultipartFile multipartFile : parts1) {
                 byte[] photoData1 = multipartFile.getBytes();
                 goodsVO.setGpPhotos1(photoData1);  // 儲存圖片路徑
             }
