@@ -276,49 +276,40 @@ let lastUploadedImage = null;
 
 //照片上傳 - 預覽功能
 function previewImage(input) {
-    const file = input.files[0];
-    const acceptedTypes = ["image/png", "image/jpeg", "image/gif"];
-    const blobHolder = document.getElementById("blob_holder");
+ const file = input.files[0];
+ const acceptedTypes = ["image/png", "image/jpeg", "image/gif"];
+ const blobHolder = document.getElementById("blob_holder");
+ const previewImage = document.getElementById("preview_image");
 
-    // 如果没有選擇文件，恢復之前圖片預覽
-    if (!file) {
-        if (lastUploadedImage) {
-            blobHolder.innerHTML = lastUploadedImage;
-        } else {
-            blobHolder.innerHTML = `<p>圖片預覽</p>`;
-        }
-        return;
-    }
-    
+ // 清空 blob_holder 和移除现有的 <img>
+ blobHolder.innerHTML = "";
+ if (previewImage) {
+     previewImage.remove();
+ }
 
-    // 檢查檔案是否有效
-    if (file && acceptedTypes.includes(file.type)) {
-        const reader = new FileReader();
-        reader.onload = function (event) {
-            const image = new Image();
-            image.src = event.target.result;
-            image.style.width = "150px";
-            image.style.height = "120px";
-            image.style.border = "2px solid #ccc";
-            image.alt = "圖片預覽";
-            blobHolder.innerHTML = ""; // 清空之前的內容
-            blobHolder.appendChild(image);
-            // 保存當前圖片的預覽HTML
-            lastUploadedImage = blobHolder.innerHTML;
-        };
-        reader.readAsDataURL(file);
-    } else {
-        blobHolder.innerHTML = `<div style="color: red;">無效的檔案格式！請上傳 PNG、JPEG 或 GIF 格式的圖片。</div>`;
-    }
+ // 如果用户未选择文件，恢复原始的 <img>
+ if (!file) {
+     blobHolder.innerHTML =`<p>圖片預覽</p>`;
+     return;
+ }
+
+ // 檢查檔案是否有效
+ if (acceptedTypes.includes(file.type)) {
+     const reader = new FileReader();
+     reader.onload = function (event) {
+         const image = new Image();
+         image.src = event.target.result;
+         image.style.width = "100px";
+         image.style.height = "100px";
+         image.style.border = "2px solid #ccc";
+         image.alt = "圖片預覽";
+         blobHolder.appendChild(image);
+     };
+     reader.readAsDataURL(file);
+ } else {
+     blobHolder.innerHTML = `<div style="color: red;">無效的檔案格式！請上傳 PNG、JPEG 或 GIF 格式的圖片。</div>`;
+ }
 }
-
-// 檢查檔案輸入框的狀態
-document.getElementById("counterPic").addEventListener("change", function(event) {
-    // 如果没有選擇文件（用戶取消了選擇），恢復之前的預覽
-    if (!event.target.files.length) {
-        previewImage({files: []});
-    }
-});
 </script>
 
 </body>

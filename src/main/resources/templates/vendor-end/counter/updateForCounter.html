@@ -202,8 +202,10 @@
 			    <input type="file" th:field="*{counterPic}" id="counterPic" accept="image/png, image/jpeg, image/gif" onchange="previewImage(this)" />
 			</div>
 			<!-- 圖片預覽區域 -->
-				<img id="preview_image" th:src="@{/counter/DBGifReader} + '?counterNo=' + ${counterVO.counterNo}" width="100px">
-			<div id="blob_holder" style="margin-top: 10px;">
+			<div align="center">
+				<img id="preview_image" th:src="@{/counter/DBGifReader} + '?counterNo=' + ${counterVO.counterNo}" width="100px" height = "100px">
+			</div>		
+			<div  id="blob_holder" style="margin-top: 10px;">
 			</div>
 
 
