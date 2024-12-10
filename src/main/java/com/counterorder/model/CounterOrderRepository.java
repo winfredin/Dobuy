@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.data.repository.query.Param;  // 正確的導入
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 
 public interface CounterOrderRepository extends JpaRepository<CounterOrderVO, Integer> {
 
@@ -47,6 +48,8 @@ public interface CounterOrderRepository extends JpaRepository<CounterOrderVO, In
         @Param("status") Integer status
     );
 	
-	
+    @Query("SELECT co FROM CounterOrderVO co WHERE co.orderStatus = 0 AND TIMESTAMPDIFF(MINUTE, co.ordertime, CURRENT_TIMESTAMP) > 1")
+    List<CounterOrderVO> findExpiredOrders();
+    
 	
 }

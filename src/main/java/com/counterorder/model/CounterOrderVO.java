@@ -23,11 +23,30 @@ public class CounterOrderVO implements java.io.Serializable {
 	private String receiverName;
 	private String receiverAdr;
 	private String receiverPhone;
-	private Integer sellerSatisfaction;
-	private String sellerCommentContext;
-	private Date sellerCommentDate;
 	private Date ordertime;
-//	private Integer disno;
+	private Integer reservedAmount;
+	
+	private Integer goodsNo;
+	
+	@Transient
+	public Integer getGoodsNo() {
+		return goodsNo;
+	}
+
+	public void setGoodsNo(Integer goodsNo) {
+		this.goodsNo = goodsNo;
+	}
+
+	@Column(name = "reservedAmount")
+public Integer getReservedAmount() {
+		return reservedAmount;
+	}
+
+	public void setReservedAmount(Integer reservedAmount) {
+		this.reservedAmount = reservedAmount;
+	}
+
+	//	private Integer disno;
 //	柏翔改
 	private Integer memCouponNo;
 

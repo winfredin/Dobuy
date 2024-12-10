@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.goods.controller.HibernateUtil_CompositeQuery_Goods;
 
@@ -127,7 +128,7 @@ public class GoodsService {
     	 return photoList;
 
     }
-    
+    @Transactional
     public void updateGoodsAmount(Integer goodsNo,Integer goodsAmount) {
         repository.upGoodsAmount(goodsNo,goodsAmount);
     }

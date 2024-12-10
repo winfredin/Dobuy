@@ -1,3 +1,6 @@
+document.addEventListener("DOMContentLoaded", function () {
+
+
 let items = document.querySelectorAll('.goods .item');
 let itemsToShow = 4; // 初始顯示的商品數量
 
@@ -373,4 +376,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-
+});

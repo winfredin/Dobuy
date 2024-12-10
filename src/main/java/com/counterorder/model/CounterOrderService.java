@@ -9,8 +9,11 @@ import javax.transaction.Transactional;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import com.goods.model.GoodsService;
+import com.goods.model.GoodsVO;
 import com.memcoupon.model.MemCouponVO;
 
 
@@ -24,6 +27,9 @@ public class CounterOrderService {
 	
 	@Autowired
     private SessionFactory sessionFactory;
+	
+	@Autowired
+    private GoodsService goodsService;
 
 	public void addCounterOrder(CounterOrderVO counterOrderVO) {
 		repository.save(counterOrderVO);
@@ -90,7 +96,25 @@ public class CounterOrderService {
         repository.save(order);
     }
     
-    
-
+//    @Transactional
+//    @Scheduled(fixedRate = 100000)  // 這裡是固定時間間隔（60000 毫秒 = 1 分鐘）
+//    public void restoreInventoryForExpiredOrders() {
+//    	System.out.println("Running scheduled task...");
+//        List<CounterOrderVO> expiredOrders = repository.findExpiredOrders();
+//        CounterOrderVO counterOrderVO = new CounterOrderVO();
+//        Integer goodsNo = counterOrderVO.getGoodsNo();  
+//        for (CounterOrderVO order : expiredOrders) {
+//            if (order.getReservedAmount() > 0) {
+//                // 恢復庫存
+//                
+//                GoodsVO goods = goodsService.getOneGoods(goodsNo);
+//                goods.setGoodsAmount(goods.getGoodsAmount() + order.getReservedAmount());  // 加回預扣數量
+//                goodsService.updateGoodsAmount(goodsNo, goods.getGoodsAmount());
+//
+//                // 更新訂單的預扣數量為 0，表示庫存已經恢復
+//                order.setReservedAmount(0);  // 更新為 0
+//                repository.save(order);
+//            }
+//        }
 
 }
