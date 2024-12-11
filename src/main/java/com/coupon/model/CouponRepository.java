@@ -12,10 +12,10 @@ import com.goods.model.GoodsVO;
 public interface CouponRepository extends JpaRepository<CouponVO, Integer> {
 
     // 使用原生 SQL 删除優惠券
-    @Transactional
-    @Modifying
-    @Query(value = "DELETE FROM CouponVO WHERE couponNo = ?1", nativeQuery = true)
-    void deleteByCouponNo(int couponNo);
+	@Transactional
+	@Modifying
+	@Query(value = "DELETE FROM coupon WHERE couponNo = ?1", nativeQuery = true)
+	void deleteByCouponNo(Integer couponNo);
 
     // 自定義條件
     @Query(value = "FROM CouponVO WHERE counterNo = ?1 AND couponStatus = ?2 AND checkStatus = ?3 ORDER BY couponNo")

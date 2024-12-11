@@ -188,11 +188,12 @@ public class CouponService {
     }
 
     // 删除
+    @Transactional
     public void deleteCoupon(Integer couponNo) {
-        if (repository.existsById(couponNo))
-            repository.deleteByCouponNo(couponNo);
+        // 先刪除所有關聯的明細記錄
+        couponDetailRepository.deleteByCouponNo(couponNo);
+        repository.deleteById(couponNo);
     }
-
     // 查询單筆
     public CouponVO getOneCoupon(Integer couponNo) {
         Optional<CouponVO> optional = repository.findById(couponNo);
