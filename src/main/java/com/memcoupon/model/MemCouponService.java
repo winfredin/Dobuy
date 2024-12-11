@@ -41,6 +41,8 @@ public class MemCouponService {
         if (count > 0) {
             throw new RuntimeException("您已領取過此優惠券");
         }
+        // 減少優惠券可領取次數
+        couponService.decreaseUsageLimit(couponNo);
 
         // 獲取優惠券資訊
         CouponVO coupon = couponService.getOneCoupon(couponNo);

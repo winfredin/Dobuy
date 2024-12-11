@@ -243,6 +243,20 @@ public class CouponService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+    // 减少優惠券可領取次數
+    @Transactional
+    public void decreaseUsageLimit(Integer couponNo) {
+        CouponVO coupon = repository.findById(couponNo)
+            .orElseThrow(() -> new RuntimeException("找不到優惠券：" + couponNo));
+            
+        if (coupon.getUsageLimit() > 0) {
+            coupon.setUsageLimit(coupon.getUsageLimit() - 1);
+            repository.save(coupon);
+        } else {
+            throw new RuntimeException("此優惠券已達領取上限");
+        }
+    }
     
     
     

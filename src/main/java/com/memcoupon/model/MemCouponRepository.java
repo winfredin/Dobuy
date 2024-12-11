@@ -39,5 +39,8 @@ public interface MemCouponRepository extends JpaRepository<MemCouponVO, Integer>
             "AND c.couponEnd >= CURRENT_DATE")
      List<MemCouponVO> findAvailableCouponsByMemNo(@Param("memNo") Integer memNo);
     
+//    領取後數量減1
+    boolean existsByMemberMemNoAndCouponCouponNo(Integer memNo, Integer couponNo);
+
 
 }

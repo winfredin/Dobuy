@@ -174,7 +174,10 @@ body {
 						th:text="${#dates.format(coupon.couponStart, 'yyyy-MM-dd')}"></span>
 					至 <span th:text="${#dates.format(coupon.couponEnd, 'yyyy-MM-dd')}"></span>
 				</p>
-
+<p>
+    剩餘可領取次數：
+    <span th:text="${coupon.usageLimit}"></span>
+</p>
 				<div style="margin-top: 15px;">
 					<form th:action="@{/front-end/coupon/claim}" method="post"
 						style="display: inline;">
