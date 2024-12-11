@@ -1,5 +1,6 @@
 package com.member.model;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,6 +12,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.goods.model.GoodsVO;
 import com.manager.model.ManagerVO;
 
 @Service("memService")
@@ -105,6 +107,10 @@ public class MemberService {
         	return memberRepository.findByAcc(memAccount);	
         	
         }
+        
+        
+
+		
     }
 
 
