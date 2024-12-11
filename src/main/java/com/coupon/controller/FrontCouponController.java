@@ -65,6 +65,7 @@ public class FrontCouponController {
     // 第二個方法：顯示優惠券詳情
     @GetMapping("/detail/{couponNo}")
     public String viewCouponDetail(@PathVariable Integer couponNo,
+                                 @RequestParam(required = false) String from, // 添加來源參數
                                  HttpSession session,
                                  Model model) {
         String memAccount = (String) session.getAttribute("memAccount");
@@ -75,18 +76,13 @@ public class FrontCouponController {
                 return "redirect:/front-end/coupon/list";
             }
             
-            // 添加調試日誌
-            System.out.println("Coupon: " + coupon);
-            System.out.println("Coupon Details: " + 
-                (coupon.getCouponDetails() != null ? 
-                 coupon.getCouponDetails().size() : "null"));
-            
             model.addAttribute("coupon", coupon);
             model.addAttribute("memAccount", memAccount);
+            model.addAttribute("from", from); // 將來源資訊傳給視圖
             
             return "front-end/coupon/frontCouponDetail";
         } catch (Exception e) {
-            e.printStackTrace();  // 添加異常堆棧輸出
+            e.printStackTrace();
             return "redirect:/front-end/coupon/list";
         }
     }

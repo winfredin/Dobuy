@@ -130,13 +130,16 @@
     </div>
 
     <!-- 領取與返回按鈕 -->
-    <div class="button-group">
-        <form th:action="@{/front-end/coupon/claim}" method="post" style="display:inline;">
-            <input type="hidden" name="couponNo" th:value="${coupon.couponNo}" />
-            <button type="submit">領取優惠券</button>
-        </form>
-        <a th:href="@{/front-end/coupon/list}">返回列表</a>
-    </div>
+<div class="button-group">
+    <form th:action="@{/front-end/coupon/claim}" method="post" style="display:inline;">
+        <input type="hidden" name="couponNo" th:value="${coupon.couponNo}" />
+        <button type="submit">領取優惠券</button>
+    </form>
+    
+    <!-- 根據來源決定返回連結 -->
+    <a th:href="${from == 'memList' ? '/memcoupon/memListAllCoupon' : '/front-end/coupon/list'}" 
+       class="btn">返回列表</a>
+</div>
 </div>
 </body>
 </html>
