@@ -20,6 +20,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.counter.model.CounterService;
+import com.counter.model.CounterVO;
+import com.counterorder.model.CounterOrderService;
+import com.counterorder.model.CounterOrderVO;
+import com.counterorderdetail.model.CounterOrderDetailService;
+import com.counterorderdetail.model.CounterOrderDetailVO;
+import com.coupon.model.CouponService;
+import com.coupon.model.CouponVO;
 import com.goods.model.GoodsService;
 import com.goods.model.GoodsVO;
 import com.goodstype.model.GoodsTypeService;
@@ -40,6 +47,14 @@ public class FrontEndController {
 	@Autowired
 	CounterService counterSvc;
 	@Autowired
+	CounterOrderService counterOrderSvc;
+	@Autowired
+	CounterOrderDetailService counterOrderDetailSvc;
+	@Autowired
+	CouponService couponSvc;
+	
+	
+	@Autowired
 	MemberService memSvc;
 	@Autowired
 	UsedService usedSvc;
@@ -52,8 +67,33 @@ public class FrontEndController {
     }
 	
 	 @GetMapping("member")
-	    public String getMemberPage() {
-		 
+	    public String getMemberPage(HttpSession session, Model model) {
+		 	
+		 	if(session.getAttribute("memNo")==null) {
+		 		
+		 		return "redirect:/mem/login";
+		 	}else{
+		 		String memNo = (String)session.getAttribute("memNo");
+		 		List<CounterOrderVO> membersbuyorder=counterOrderSvc.ListfindByMemNoAndStatusNot4(Integer.valueOf(memNo));
+		 		System.out.println(membersbuyorder.size());
+		 		if(membersbuyorder.size()==0) {
+		 			return "front-end/normalpage/member";
+		 		}
+		 		List<CounterOrderVO> newlist = new ArrayList<>();
+		 		for(CounterOrderVO counterOrderVO:membersbuyorder) {
+		 			Integer eachOrderNo = counterOrderVO.getCounterOrderNo();
+		 			List<CounterOrderDetailVO> detailList= counterOrderDetailSvc.getDetailsByOrderNo(eachOrderNo);
+		 			System.out.println(detailList.size());
+		 			counterOrderVO.setCounterOrderDatailVO(detailList);
+		 			newlist.add(counterOrderVO);		 		
+		 		}
+		 		
+		 		List<CouponVO> couponList=couponSvc.getAll();	 	
+		 		List<CounterVO> counterList=counterSvc.getAll();		 	
+		 		model.addAttribute("couponList",couponList);
+		 		model.addAttribute("counterList",counterList);
+		 		model.addAttribute("orders",newlist);
+		 	}
 	        return "front-end/normalpage/member"; 
 	    }
 	 @GetMapping("home")
