@@ -121,6 +121,7 @@ section.sec1 div.flex_container div.items.-left div.main-img{
 /* 左邊圖片大小設定  */
 section.sec1 div.flex_container div.items.-left div.main-img > img{
   width: 100%;
+  height:100%;
 } 
 /* 放大鏡設定 */
 .zoom-pup{
