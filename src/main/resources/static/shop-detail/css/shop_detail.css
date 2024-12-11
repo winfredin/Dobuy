@@ -1,7 +1,7 @@
 section.sec1{
   /* border: 1px solid red; */
   min-width:1263.33px; /* 版面最小寬度設定 */
-  padding: 100px 0;
+  padding: 50px 0;
 }
 section.sec1 div.flex_container{
   /* border: 1px solid black; */
@@ -147,6 +147,10 @@ section.sec1 div.flex_container div.items.-left div.main-img > img{
 }
 
 /* ================================== 右邊內容區域 ================================== */
+.counterCName{
+  width:680px;
+  height:40px;
+}
 .title1{
   width:680px;
   height:118px;
@@ -208,7 +212,7 @@ section.sec1 div.flex_container div.items.-right{
 }
 
 
-/* 賣場優惠券 */
+/* 商品庫存 */
 .Goods_Amount{
   width:680px;
   height:32px;
@@ -217,11 +221,11 @@ section.sec1 div.flex_container div.items.-right{
   align-items: center;
   margin: 10px 0;
 }
-/* 描述列表 - 賣場優惠券 */
+/* 描述列表 - 商品庫存 */
 .Goods_Amount_0 {
   padding-right: 30px; /* 右邊加一點間距 */
 }
-/* 描述列表 - 賣場優惠券的優惠券顯示 */
+/* 描述列表 - 商品庫存 */
 .Goods_Amount_0 {
   font-size: 20px;
 }
