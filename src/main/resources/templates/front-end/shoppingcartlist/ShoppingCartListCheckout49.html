@@ -76,10 +76,6 @@
   </style>
 </head>
 
-
-
-
-
       <!-- 其他結帳表單內容 -->
       <div class="col-md-7 col-lg-8">
         <h4 class="mb-3">帳單地址</h4>
@@ -214,45 +210,34 @@
     <div>© 2024 DO BUY. All Rights Reserved.</div>
   </footer>
   
-<script>
-// 用於顯示除錯信息的輔助函數
-function showDebugInfo(message) {
-    const debugPre = document.querySelector('#debug-info pre');
-    if (debugPre) {
-        debugPre.textContent += new Date().toISOString() + ': ' + message + '\n';
-    }
-}
-</script>
+<!-- 訂單明細測試用 -->
 
+
+
+
+<!-- 訂單測試用 -->
 <script th:inline="javascript">
 
 document.addEventListener('DOMContentLoaded', function() {
     const checkoutForm = document.querySelector('form.needs-validation');
     
-    // 添加表單提交事件監聽器
+    // 結帳表單提交
     checkoutForm.addEventListener('submit', async function(event) {
-        // 防止表單的默認提交行為
         event.preventDefault();
         
-        // 為了除錯，先印出訊息確認事件觸發
-        console.log('表單提交事件觸發');
-        
-        // 收集優惠券資訊
+        // 收集優惠券選擇
         const couponSelections = {};
         document.querySelectorAll('.coupon-select').forEach(select => {
             const counterId = select.getAttribute('data-counter');
             const couponValue = select.value;
             if (couponValue) {
-                // 記錄櫃位和對應的優惠券編號
                 couponSelections[counterId] = parseInt(couponValue);
             }
         });
         
-        // 印出收集到的資料
-        console.log('優惠券選擇:', couponSelections);
+        console.log('準備送出的優惠券資料:', couponSelections);
 
         try {
-            // 發送結帳請求
             const response = await fetch('/shoppingcartlist/checkout', {
                 method: 'POST',
                 headers: {
@@ -263,11 +248,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 })
             });
 
-            // 印出服務器回應
-            console.log('服務器原始回應:', response);
-            
             const result = await response.json();
-            console.log('服務器處理結果:', result);
+            console.log('處理結果:', result);
 
             if (result.error) {
                 alert(result.error);
@@ -275,83 +257,65 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             if (result.success) {
-                // 使用動態構建的 URL 進行重導向
+                // 成功後轉到下一步 =================================================後面給綠界用
                 const baseUrl = window.location.protocol + '//' + window.location.host;
-                console.log('準備重導向到:', baseUrl + '/home');
                 window.location.href = baseUrl + '/home';
             }
 
         } catch (error) {
-            // 詳細的錯誤記錄
-            console.error('結帳過程發生錯誤:', error);
+            console.error('結帳發生錯誤:', error);
             alert('結帳過程發生錯誤，請稍後再試');
         }
     });
-    
 
-    // 為了確認事件監聽器已經設置，添加一條日誌
-    console.log('表單提交事件監聽器已設置');
-	
-	
-	
-	
-    // 監聽所有優惠券選擇
+    // 優惠券選擇變更時只做預覽
     const couponSelects = document.querySelectorAll('.coupon-select');
-    if (couponSelects) {
-        couponSelects.forEach(select => {
-            select.addEventListener('change', handleCouponChange);
-        });
-    }
-
-    async function handleCouponChange() {
-        const counterId = this.getAttribute('data-counter');
-        const couponNo = this.value;
-        
-        if (!couponNo) {
-            resetDiscount(counterId);
-            return;
-        }
-
-        try {
-            // 1. 計算折扣金額
-            const discountResponse = await fetch('/shoppingcartlist/calculateDiscount', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: new URLSearchParams({
-                    couponNo: couponNo,
-                    counterId: counterId
-                })
-            });
-
-            if (!discountResponse.ok) {
-                throw new Error('網路錯誤');
-            }
-
-            const discountData = await discountResponse.json();
+    couponSelects.forEach(select => {
+        select.addEventListener('change', async function() {
+            const counterId = this.getAttribute('data-counter');
+            const couponNo = this.value;
             
-            if (discountData.error) {
-                alert(discountData.error);
+            if (!couponNo) {
                 resetDiscount(counterId);
                 return;
             }
 
-            // 2. 更新顯示的折扣金額
-            updatePrices(counterId, discountData);
-            
-            // 3. 更新優惠摘要顯示
-            updateDiscountSummary(counterId, discountData);
-            
-            // 4. 更新總金額
-            updateTotalAmount();
+            try {
+                // 呼叫預覽 API 計算折扣（此API只計算不更新資料庫）
+                const previewResponse = await fetch('/shoppingcartlist/calculateDiscount', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({
+                        couponNo: couponNo,
+                        counterId: counterId
+                    })
+                });
 
-        } catch (error) {
-            console.error('Error:', error);
-            alert('計算折扣時發生錯誤');
-            resetDiscount(counterId);
-        }
-    }
+                if (!previewResponse.ok) {
+                    throw new Error('網路錯誤');
+                }
+
+                const previewData = await previewResponse.json();
+                if (previewData.error) {
+                    alert(previewData.error);
+                    resetDiscount(counterId);
+                    return;
+                }
+
+                // 更新頁面顯示
+                updatePrices(counterId, previewData);
+                updateDiscountSummary(counterId, previewData);
+                updateTotalAmount();
+
+            } catch (error) {
+                console.error('預覽折扣時發生錯誤:', error);
+                alert('計算折扣時發生錯誤');
+                resetDiscount(counterId);
+            }
+        });
+    });
 
     function resetDiscount(counterId) {
         // 重置金額顯示
@@ -377,10 +341,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const descElement = document.getElementById(`couponDesc-${counterId}`);
 
         if (discountElement && totalElement) {
-            discountElement.textContent = Math.round(data.discount).toLocaleString();
-            totalElement.textContent = Math.round(data.newTotal).toLocaleString();
-            if (descElement && data.description) {
-                descElement.textContent = data.description;
+            // 只有有優惠的商品才顯示折扣金額
+            if (data.discount > 0) {
+                discountElement.textContent = Math.round(data.discount).toLocaleString();
+                totalElement.textContent = Math.round(data.newTotal).toLocaleString();
+                if (descElement && data.description) {
+                    descElement.textContent = data.description + 
+                        " (僅適用於指定商品)";  // 加上提示文字
+                }
+            } else {
+                resetDiscount(counterId);  // 如果沒有折扣則重置顯示
             }
         }
     }
@@ -431,17 +401,17 @@ document.addEventListener('DOMContentLoaded', function() {
   <script>
   
     // 表單驗證提示顯示
-    document.getElementById('firstName').addEventListener('focus', function() {
-      document.getElementById('fullNameError').innerText = '姓名必須是2-10位的中文或英文，不能有特殊符號';
-    });
+//     document.getElementById('firstName').addEventListener('focus', function() {
+//       document.getElementById('fullNameError').innerText = '姓名必須是2-10位的中文或英文，不能有特殊符號';
+//     });
 
-    document.getElementById('address').addEventListener('focus', function() {
-      document.getElementById('addressError').innerText = '地址只能包含中文、英文和數字，且長度為2-20位';
-    });
+//     document.getElementById('address').addEventListener('focus', function() {
+//       document.getElementById('addressError').innerText = '地址只能包含中文、英文和數字，且長度為2-20位';
+//     });
 
-    document.getElementById('email').addEventListener('focus', function() {
-      document.getElementById('emailError').innerText = '電子郵件格式不正確，必須包含 @ 並以 .com 結尾';
-    });
+//     document.getElementById('email').addEventListener('focus', function() {
+//       document.getElementById('emailError').innerText = '電子郵件格式不正確，必須包含 @ 並以 .com 結尾';
+//     });
 
   </script>
 </body>
