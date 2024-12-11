@@ -84,16 +84,19 @@
             </div>
 
             <div class="items -right">
+				<h4 class="counterCName">
+				    <a class="counterCName_0" th:href="@{'/counter/getOneCounter_For_Display?counterNo=' + ${goods.counterVO.counterNo}}" th:text="${counterInform}"></a>
+				</h4>
                 <h1 class="title1" th:text="${goods.goodsName}"></h1>
                 <table class="desc_list">
                     <tr class="Goods_Price">
                         <td class="Goods_Price_0">商品價格</td>
                         <td class="Goods_Price_1" th:text="'$' + ${goods.goodsPrice}"></td>
                     </tr>
-                    <tr class="Coupon_Title">
-                        <td class="Coupon_Title_0">賣場優惠券</td>
-                        <td class="Coupon_Title_1" text=""></td>
-                    </tr>
+<!--                     <tr class="Coupon_Title"> -->
+<!--                         <td class="Coupon_Title_0">賣場優惠券</td> -->
+<!--                         <td class="Coupon_Title_1" text=""></td> -->
+<!--                     </tr> -->
                     <tr class="Goods_Amount">
                         <td class="Goods_Amount_0">商品庫存</td>
                         <td class="Goods_Amount_1" th:text="${goods.goodsAmount}"></td>

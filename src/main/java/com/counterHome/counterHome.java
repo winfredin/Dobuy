@@ -77,9 +77,21 @@ public class counterHome {
 	@GetMapping("getOneGoods") // 11/28 測試點商品後帶到商品詳情頁面
 	public String getOneGoods(@RequestParam("goodsNo") String goodsNo, ModelMap model) {
 		GoodsVO goods = goodsSvc.getOneGoods(Integer.valueOf(goodsNo)); // 查詢到回傳的是一個物件
+		
+		//==================以下羿豪新增的=====================//
+	    Integer counterNo = goods.getCounterVO().getCounterNo(); // 透過 CounterVO 取得 counterNo
+	    CounterVO counter = counterSvc.getOneCounter(counterNo); // 根據 counterNo 查詢 CounterVO
+	    String counterInform = (counter != null) ? counter.getCounterInform() : "未知櫃位"; // 如果找不到，顯示預設值
+	    //==================以上羿豪新增的=====================//
+	    
 		List<String> goodsImg = goodsSvc.getOneGoodsImg(goods);// 將查到的物件中的圖片轉成base64，在渲染到前端
 		model.addAttribute("goods", goods);
 		model.addAttribute("goodsImg", goodsImg);
+		
+		//==================以下羿豪新增的=====================//
+	    model.addAttribute("counterInform", counterInform); // 將櫃位名稱傳遞給前端
+	    //==================以上羿豪新增的=====================//
+	    
 		return "front-end/shop-detail/shop-detail";
 	}
 
