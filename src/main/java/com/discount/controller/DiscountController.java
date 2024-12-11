@@ -35,7 +35,7 @@ public class DiscountController {
     public String addDiscount(ModelMap model) {
         DiscountVO discountVO = new DiscountVO();
         model.addAttribute("discountVO", discountVO);
-        return "vendor-end/discount/addDiscount";
+        return "back-end/discount/addDiscount";
     }
 
     /*
@@ -70,7 +70,7 @@ public class DiscountController {
 
         /*************************** 3.查詢完成,準備轉交(Send the Success view) **************/
         model.addAttribute("discountVO", discountVO);
-        return "vendor-end/discount/update_discount_input";
+        return "back-end/discount/update_discount_input";
     }
 
     /*
@@ -82,7 +82,7 @@ public class DiscountController {
 
         /*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
         if (result.hasErrors()) {
-            return "vendor-end/discount/update_discount_input";
+            return "back-end/discount/update_discount_input";
         }
 
         /*************************** 2.開始修改資料 *****************************************/
@@ -92,7 +92,7 @@ public class DiscountController {
         model.addAttribute("success", "- (修改成功)");
         discountVO = discountService.getOneDiscount(discountVO.getDisNo());
         model.addAttribute("discountVO", discountVO);
-        return "vendor-end/discount/listOneDiscount";
+        return "back-end/discount/listOneDiscount";
     }
 
     /*
@@ -107,7 +107,7 @@ public class DiscountController {
         List<DiscountVO> list = discountService.getAll();
         model.addAttribute("discountListData", list);
         model.addAttribute("success", "- (刪除成功)");
-        return "vendor-end/discount/listAllDiscount";
+        return "back-end/discount/listAllDiscount";
     }
 
     /*
