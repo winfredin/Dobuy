@@ -146,6 +146,8 @@ section.sec1 div.flex_container div.items.-left div.main-img > img{
   background-color: red;
   overflow: hidden;
 }
+
+
 /* 放大鏡大圖大小設定 */
 .zoom-div img{
   position: absolute;
