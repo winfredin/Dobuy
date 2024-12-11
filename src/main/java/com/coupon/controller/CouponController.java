@@ -25,6 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -33,6 +34,10 @@ import com.coupondetail.model.CouponDetailService;
 import com.coupondetail.model.CouponDetailVO;
 import com.goods.model.GoodsService;
 import com.goods.model.GoodsVO;
+import com.msg.model.MsgService;
+import com.msg.model.MsgVO;
+import com.notice.model.NoticeService;
+import com.notice.model.NoticeVO;
 import com.counter.model.CounterVO;
 import com.coupon.model.CouponService;
 
@@ -48,6 +53,9 @@ public class CouponController {
     
     @Autowired
     GoodsService goodsSvc;
+    
+    @Autowired
+    MsgService msgService; 
     
     // 確保 counter 存在的公共方法
     @ModelAttribute("counter")
@@ -268,7 +276,7 @@ public class CouponController {
     
     
     
- // 後台審核優惠券的 GET 方法
+ // 後台審核優惠券的 GET 方法---顯是頁面
     @GetMapping("/approve")
     public String showApprovePage(Model model) {
         // 獲取所有優惠券列表
@@ -279,18 +287,41 @@ public class CouponController {
     }
     
     
-//   後台審核優惠券
+//   後台審核優惠券---送出修改資料
     @PostMapping("/approve")
     public String approveCoupon(@RequestParam("couponNo") int couponNo, RedirectAttributes redirectAttributes) {
-        boolean isApproved = couponSvc.approveCoupon(couponNo);
-        if (isApproved) {
-            redirectAttributes.addFlashAttribute("message", "審核成功！");
-        } else {
-            redirectAttributes.addFlashAttribute("message", "審核失敗！");
+        try {
+            // 1. 驗證並審核優惠券
+            boolean isApproved = couponSvc.approveCoupon(couponNo);
+            if (isApproved) {
+                // 2. 獲取優惠券資訊
+                CouponVO couponVO = couponSvc.getOneCouponWithDetails(couponNo);
+                if (couponVO != null && couponVO.getCounter() != null) {
+                    // 3. 發送通知到該櫃位
+                    Integer counterNo = couponVO.getCounter().getCounterNo();
+                    String informMsg = "您的優惠券【" + couponVO.getCouponTitle() + "】已通過審核，現可進行使用！";
+
+                    MsgVO msgVO = new MsgVO();
+                    msgVO.setCounterNo(counterNo);
+                    msgVO.setInformMsg(informMsg);
+                    msgVO.setInformDate(new Timestamp(System.currentTimeMillis())); // 設定發送時間
+                    msgVO.setInformRead((byte) 0); // 設定為未讀
+
+                    msgService.addMsg(msgVO); // 保存通知
+                }
+
+                redirectAttributes.addFlashAttribute("message", "審核成功，已發送通知給櫃位。");
+            } else {
+                redirectAttributes.addFlashAttribute("message", "審核失敗！");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("message", "審核時發生錯誤：" + e.getMessage());
         }
-        return "redirect:/coupon/approve"; // 修改為正確的路徑
-    }    
-    
+
+        return "redirect:/coupon/approve"; // 重定向到審核列表頁面
+    }
+ 
     
  // 後台審核優惠券 可查看單個優惠券詳情
     @GetMapping("/approve/{couponNo}")

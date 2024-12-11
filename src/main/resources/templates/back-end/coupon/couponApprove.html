@@ -131,9 +131,11 @@ table#example button:disabled {
 	<table id="example" class="display" style="width: 100%">
 <thead>
     <tr>
-        <th>計數</th>
+ 
         <th>優惠券編號</th>
         <th>櫃位編號</th>
+        <th>櫃位名稱</th>
+        
         <th>優惠券名稱</th>
         <th>優惠券內容</th>
         <th>起始日期</th>
@@ -149,9 +151,11 @@ table#example button:disabled {
 		<tbody>
 			<th:block th:each="couponVO : ${couponListData}">
 				<tr>
-					<td th:text="${couponVOStat.count}"></td>
+
 					<td th:text="${couponVO.couponNo}"></td>
+					<td th:text="${couponVO.counter.counterNo}"></td>
 					<td th:text="${couponVO.counter.counterCName}"></td>
+					
 					<td th:text="${couponVO.couponTitle}"></td>
 					<td th:text="${couponVO.couponContext}"></td>
 					<td th:text="${#dates.format(couponVO.couponStart, 'yyyy-MM-dd')}"></td>
