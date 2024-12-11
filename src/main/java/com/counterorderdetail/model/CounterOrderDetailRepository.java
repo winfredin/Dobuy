@@ -24,7 +24,9 @@ public interface CounterOrderDetailRepository extends JpaRepository<CounterOrder
           nativeQuery = true)
    void insertBatch(@Param("details") List<CounterOrderDetailVO> details);
 
-
+   // 根據訂單編號查詢所有訂單明細
+   List<CounterOrderDetailVO> findByCounterOrderNo(Integer counterOrderNo);
+   
 }
    
    

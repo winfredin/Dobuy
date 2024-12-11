@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 @Service("counterOrderDetailService")
 public class CounterOrderDetailService {
 	         
@@ -42,4 +43,16 @@ public class CounterOrderDetailService {
    public void addCounterOrderDetails(List<CounterOrderDetailVO> details) {
 	   repository.insertBatch(details);
 	}
+   
+
+//   柏翔
+   @Transactional
+   public List<CounterOrderDetailVO> getDetailsByOrderNo(Integer orderNo) {
+       if (orderNo == null) {
+           return null;
+       }
+       return repository.findByCounterOrderNo(orderNo);
+   }
+
+   
 }

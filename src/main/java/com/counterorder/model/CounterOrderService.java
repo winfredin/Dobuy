@@ -137,6 +137,27 @@ public class CounterOrderService {
             }
         }
     }
+    
+    
+//    柏翔
+    @Transactional
+    public void updateCounterOrder49(CounterOrderVO order) {
+        // 加入日誌
+        System.out.println("準備更新訂單 " + order.getCounterOrderNo());
+        System.out.println("更新金額為: " + order.getOrderTotalAfter());
+        
+        try {
+            repository.save(order);
+            // 確認更新後的結果
+            CounterOrderVO updated = repository.findById(order.getCounterOrderNo()).orElse(null);
+            if (updated != null) {
+                System.out.println("更新後金額為: " + updated.getOrderTotalAfter());
+            }
+        } catch (Exception e) {
+            System.err.println("更新訂單時發生錯誤: " + e.getMessage());
+            throw e;
+        }
+    }
 
 }
 

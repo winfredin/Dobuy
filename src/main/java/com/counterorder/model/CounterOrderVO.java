@@ -99,7 +99,7 @@ public Integer getReservedAmount() {
 		this.memNo = memNo;
 	}
 
-	@Column(name = "orderTotalPriceBefore")
+	@Column(name = "orderTotalBefore")
 	public Integer getOrderTotalBefore() {
 		return orderTotalBefore;
 	}
@@ -108,7 +108,7 @@ public Integer getReservedAmount() {
 		this.orderTotalBefore = orderTotalBefore;
 	}
 
-	@Column(name = "orderTotalPriceAfter")
+	@Column(name = "orderTotalAfter")
 	public Integer getOrderTotalAfter() {
 		return orderTotalAfter;
 	}
