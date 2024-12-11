@@ -1,0 +1,112 @@
+/* 通用样式 */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: url('/counterPage/img/core-img/sand.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+
+/* Logo样式 */
+.logo {
+    display: block;
+    margin: 30px auto;
+    width: 200px; /* 调整大小 */
+    height: auto;
+}
+
+/* 容器样式 */
+.container {
+    width: 50%;
+    margin: 50px auto;
+    padding: 20px 40px;
+    background: rgba(255, 255, 255, 0.9); /* 半透明背景 */
+    border-radius: 15px; /* 圆角 */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* 阴影效果 */
+    text-align: center; /* 文字居中 */
+    display: flex;
+    flex-direction: column; /* 垂直排列 */
+    align-items: center; /* 子元素水平居中 */
+    justify-content: center; /* 子元素垂直居中 */
+}
+
+/* 欄位名稱样式 */
+.product-row:first-child {
+    font-weight: bold;
+    border-bottom: 2px solid #ccc; /* 底部边框 */
+    padding: 10px 0;
+}
+
+/* 單個商品行樣式 */
+.product-row {
+    display: flex; /* 使用 flex 排版 */
+    width: 100%; /* 宽度占满父容器 */
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* 淡边框 */
+    align-items: center; /* 垂直居中 */
+    justify-content: space-between; /* 子元素左右分布 */
+}
+
+.product-row:last-child {
+    border-bottom: none; /* 最后一行不需要边框 */
+}
+
+/* 商品链接样式 */
+
+.product-form {
+    width: 100%; /* 确保 form 占满父级宽度 */
+    margin: 0; /* 去除默认 margin */
+    padding: 0; /* 去除默认 padding */
+}
+.product-link {
+    display: flex; /* 使用 flex 排版 */
+    width: 100%; /* 链接宽度占满父容器 */
+    height: 100%; /* 链接高度占满父容器 */
+    text-decoration: none; /* 去掉下划线 */
+    color: inherit; /* 保持文字颜色与父级一致 */
+    background: none; /* 移除背景 */
+    border: none; /* 移除边框 */
+    padding: 0; /* 移除 padding */
+    cursor: pointer;
+    justify-content: flex-start; /* 内容靠左对齐 */
+    align-items: center; /* 垂直居中 */
+}
+
+.product-link:hover {
+    background-color: rgba(0, 0, 0, 0.05); /* 增加 hover 效果 */
+    cursor: pointer;
+}
+
+/* 商品圖片样式 */
+.product-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.product-image img {
+    max-width: 100px; /* 图片最大宽度 */
+    max-height: 100px; /* 图片最大高度 */
+    object-fit: contain; /* 确保图片保持比例 */
+    display: block;
+}
+
+/* 商品名稱样式 */
+.product-name {
+    flex: 3; /* 名称部分占较大空间 */
+    padding-left: 20px;
+    display: flex;
+    align-items: center;
+    text-align: left;
+    font-size: 1.2rem;
+}
+
+/* 商品價格样式 */
+.product-price {
+    flex: 1; /* 价格部分占较小空间 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+}
