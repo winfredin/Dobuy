@@ -5,46 +5,127 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>優惠券明細資料 - listOneCouponDetail.html</title>
 
-<head th:insert="~{/vendor-end/coupondetail/included-fragment}"></head>
-<style type="text/css">
-/*     span { */
-/*         display: inline-block; */
-/*         width: 150px; */
-/*         text-align: left; */
-/*         font-weight: bold; */
-/*     } */
-</style>
+<!-- <head th:insert="~{/vendor-end/coupondetail/included-fragment}"></head> -->
+    <style>
+/* 限定樣式於優惠券明細頁面 */
+.coupon-detail-page {
+/*     background: url('/images/background.jpg') no-repeat center center fixed; */
+    background-size: cover;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.coupon-detail-page .container1 {
+    width: 90%;
+    margin: 2rem auto;
+    background: rgba(255, 255, 255, 0.85);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.coupon-detail-page table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.coupon-detail-page thead {
+    background: linear-gradient(to right, #6A5ACD, #8470FF);
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.coupon-detail-page thead th {
+    padding: 12px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.coupon-detail-page tbody tr:nth-child(even) {
+    background-color: rgba(240, 248, 255, 0.6);
+}
+
+.coupon-detail-page tbody tr:nth-child(odd) {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.coupon-detail-page tbody tr:hover {
+    background-color: rgba(173, 216, 230, 0.8);
+    transition: background-color 0.3s ease;
+}
+
+.coupon-detail-page td {
+    text-align: center;
+    padding: 10px;
+    color: #333333;
+    font-size: 14px;
+    border-bottom: 1px solid rgba(200, 200, 200, 0.3);
+}
+
+.coupon-detail-page .back-btn {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 8px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #87CEFA;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.coupon-detail-page .back-btn:hover {
+    background-color: #4682B4;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+}
+
+    </style>
 <link rel="stylesheet" href="/counter/style.css">
 <link rel="stylesheet" href="/coupon/css/listCouponDetail.css">
 
 </head>
-<body>
-	<!-- fragment引入 -->
-<!-- 	<header th:block th:replace="~{back-end/back-end-home/fraghead :: header}"></header>		 -->
-	<div th:insert=="vendor-end/counter/Counterincldue :: header"></div>
-    <table>
-        <thead>
-            <tr>
-                <th>優惠券編號</th>
-                <th>商品編號</th>
-                <th>建立時間</th>
-                <th>更新時間</th>
-                <th>優惠條件</th>
-                <th>折扣率</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="detail : ${couponDetails}">
-                <!-- 修正這裡：使用 detail.coupon.couponNo 來存取優惠券編號 -->
-                <td th:text="${detail.coupon != null ? detail.coupon.couponNo : ''}"></td>
-                <td th:text="${detail.goodsNo}"></td>
-                <td th:text="${#dates.format(detail.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                <td th:text="${#dates.format(detail.updatedAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                <td th:text="${detail.counterContext}"></td>
-                <td th:text="${detail.disRate}"></td>
-            </tr>
-        </tbody>
-    </table>
+<body class="coupon-detail-page">
+    <!-- fragment引入 -->
+    <div th:insert="vendor-end/counter/Counterincldue :: header"></div>
 
+    <!-- 容器 -->
+    <div class="container1">
+        <h2 style="text-align: center; margin-bottom: 1.5rem; color: #333;">優惠券明細資料</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>優惠券編號</th>
+                    <th>商品編號</th>
+                    <th>建立時間</th>
+                    <th>更新時間</th>
+                    <th>優惠條件</th>
+                    <th>折扣率</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="detail : ${couponDetails}">
+                    <td th:text="${detail.coupon != null ? detail.coupon.couponNo : ''}"></td>
+                    <td th:text="${detail.goodsNo}"></td>
+                    <td th:text="${#dates.format(detail.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <td th:text="${#dates.format(detail.updatedAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <td th:text="${detail.counterContext}"></td>
+                    <td th:text="${detail.disRate}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- 返回按鈕 -->
+        <div style="text-align: center;">
+            <a th:href="@{/coupon/listAllCoupon}" class="back-btn">返回列表</a>
+        </div>
+    </div>
 </body>
 </html>

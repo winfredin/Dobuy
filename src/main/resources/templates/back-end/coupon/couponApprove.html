@@ -4,8 +4,7 @@
 <!-- fragment引入 -->
 <th:block th:replace="~{/back-end/back-end-home/fraghead :: head}"></th:block>
 
-	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-	
+	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>	
 	<script	src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css" />
 
@@ -42,9 +41,84 @@
 </script>
 
 <style type="text/css">
+
+/* 表格容器樣式 */
 .container49 {
-    padding: 1rem 12rem 2rem 12rem;
+    padding: 2rem 8rem; /* 調整邊距 */
 }
+
+/* 表格本體樣式，添加透明感 */
+table#example {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: rgba(255, 248, 240, 0.9); /* 淺橘色帶透明度 */
+    font-family: Arial, sans-serif;
+    color: #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加陰影效果 */
+    border-radius: 10px; /* 圓角邊框 */
+    overflow: hidden; /* 避免圓角被內容影響 */
+}
+
+/* 表頭樣式，添加透明感與漸變背景 */
+table#example thead tr {
+    background: linear-gradient(to right, #FFDEAD, #FFA07A); /* 淺棕至橘色漸變 */
+    color: #fff; /* 白色文字 */
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase; /* 大寫字母 */
+    height: 50px;
+    font-size: 16px;
+    letter-spacing: 1px;
+}
+
+/* 表格列樣式 */
+table#example tbody tr {
+    border-bottom: 1px solid rgba(222, 184, 135, 0.6); /* 半透明邊框 */
+    text-align: center;
+    height: 45px;
+}
+
+/* 偶數行和奇數行添加透明感背景 */
+table#example tbody tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.6); /* 偶數行背景 */
+}
+
+table#example tbody tr:nth-child(odd) {
+    background-color: rgba(255, 239, 213, 0.5); /* 奇數行背景 */
+}
+
+/* 滑過效果，帶有透明變化 */
+table#example tbody tr:hover {
+    background-color: rgba(255, 218, 185, 0.8); /* 橘色帶透明感 */
+    transition: background-color 0.3s ease;
+}
+
+/* 表格按鈕樣式 */
+table#example button, 
+table#example a.btn {
+    background-color: #FFCC66;
+    border: none;
+    color: #fff;
+    padding: 6px 12px;
+    margin: 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+table#example button:hover, 
+table#example a.btn:hover {
+    background-color: #FFB347;
+}
+
+table#example button:disabled {
+    background-color: #D3D3D3;
+    cursor: not-allowed;
+}
+
 </style>
 
 </head>
@@ -55,24 +129,22 @@
 
 <div class="container49">
 	<table id="example" class="display" style="width: 100%">
-		<thead>
-			<tr style="background-color: #CCCCFF">
-				<th>計數</th>
-				<th>優惠券編號</th>
-				<th>櫃位編號</th>
-				<th>優惠券名稱</th>
-				<th>優惠券內容</th>
-				<th>起始日期</th>
-				<th>到期日期</th>
-				<th>狀態</th>
-				<th>領取次數</th>
-				<th>審核狀態</th>
-<!-- 				<th>修改</th> -->
-				<th>詳情</th>
-				<th>審核</th>
-				
-			</tr>
-		</thead>
+<thead>
+    <tr>
+        <th>計數</th>
+        <th>優惠券編號</th>
+        <th>櫃位編號</th>
+        <th>優惠券名稱</th>
+        <th>優惠券內容</th>
+        <th>起始日期</th>
+        <th>到期日期</th>
+        <th>狀態</th>
+        <th>領取次數</th>
+        <th>審核狀態</th>
+        <th>詳情</th>
+        <th>審核</th>
+    </tr>
+</thead>
 
 		<tbody>
 			<th:block th:each="couponVO : ${couponListData}">

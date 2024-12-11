@@ -6,14 +6,13 @@
 
 /* Body 設定 */
 body {
-    width: 100%;
-    height: 100%;
+    width: 100%; /* 使用100%讓body全螢幕 */
+    height: 0; /* 設定高度為整個螢幕高度 */
     background-image: url("/images/ruben-bagues-vPQfc4niDh0-unsplash.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-    min-height: 100vh;
-    display: flex;
+    background-size: cover; /* 背景圖片會完全覆蓋，並保持比例 */
+    background-repeat: no-repeat; 
+    background-position: center center; /* 讓圖片置中 */
+    min-height: 100vh; /* 保證最小高度為瀏覽器視窗的高度 */
     flex-direction: column;
 }
 
@@ -22,6 +21,7 @@ header div {
     position: relative;
     display: flex;
     height: 20%;
+    
 }
 
 div.logo {
@@ -29,15 +29,18 @@ div.logo {
 }
 
 div img[alt="logo"] {
+     position: relative;
     width: 100%;
     height: auto;
     border-radius: 10px;
 }
 
 div.header_bar {
+	/* 	border:3px solid blue; */
     display: block;
     position: relative;
     width: 73%;
+   
 }
 
 div.header_bar div[class="search"] {
@@ -45,23 +48,27 @@ div.header_bar div[class="search"] {
     width: 95%;
 }
 
-div.search {
+div.search{
     margin-top: 3.5%;
     margin-bottom: 3%;
     margin-left: 1%;
+    /* margin-right: auto; */
+    
     height: 25%;
     border-radius: 10px;
+/*     border:3px solid green; */
+    
 }
 
-input.search {
+input.search{
     margin-left: 10%;
     width: 100%;
     height: 40px;
-    border-radius: 30px;
+    border-radius: 30px; /* 設定邊框圓角 */
     border: 1px solid rgba(149, 93, 56, 0.366);
-    background-color: rgba(237, 237, 230, 0.339);
+    background-color:rgba(237, 237, 230, 0.339);
     font-size: 20px;
-    padding-left: 20px;
+    padding-left:20px;
     box-sizing: border-box;
 }
 
@@ -233,3 +240,32 @@ div.goods-name:hover {
     cursor: pointer;
     color: brown;
 }
+
+  #suggestions {
+    border: 1px solid #ccc;
+    background-color: #fff;
+    position: absolute;
+    top: 35px;
+    left: 80px;
+    margin-left: 30px;
+    z-index: 10;
+    width: calc(100% - 20px);
+    box-sizing: border-box;
+    display: none;  
+    height: auto;  
+    max-height:40vh;
+    overflow-y: auto  
+}
+#suggestions::-webkit-scrollbar {
+    width: 0;  
+    height: 0; 
+}
+
+        .suggestion {
+            padding: 20px;
+            cursor: pointer;
+        }
+
+        .suggestion:hover {
+            background-color: #f0f0f0;
+        }

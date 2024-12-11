@@ -181,8 +181,7 @@
             <input type="hidden" name="goodsNo" th:value="${a.goodsNo}">
             <input type="hidden" name="memNo" th:value="${a.memNo}">
           </th:block>
-        <span th:each="b:${ab}">
-        <input type="hidden" name="counterNo" th:value="${b.counterVO.counterNo}"></span>
+        <input type="hidden" name="counterNo" th:value="${counterNo}"></span>
       
           <button class="btn btn-primary" id="ecpayCheckoutBtn" type="submit">立即結帳</button>
         </form>

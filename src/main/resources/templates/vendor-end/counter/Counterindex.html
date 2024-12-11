@@ -127,7 +127,8 @@
    <span th:text="${counter.counterCName}" style="font-size: 16px; color: #333;">櫃位名稱</span>
    <span th:if="${counter.counterStatus == 0}" style="font-size: 16px; color: #333;">(停權)</span>
    <span th:if="${counter.counterStatus == 1}" style="font-size: 16px; color: #333;">(審核中)</span>
-   <span th:if="${counter.counterStatus == 2}" style="font-size: 16px; color: #333;">(運營)</span>
+   <span th:if="${counter.counterStatus == 2}" style="font-size: 16px; color: #333;">(違規)</span>
+   <span th:if="${counter.counterStatus == 3}" style="font-size: 16px; color: #333;">(運營)</span>
   <button type="button" onclick="logout()" style="font-size: 14px; padding: 5px 10px; background-color: #f0ad4e; border: none; color: white; cursor: pointer; z-index: 1000; position: relative;">登出</button>
    <form id="logoutForm" th:action="@{/counter/logout}" method="post" style="display: none;"></form>
 </div>
@@ -155,11 +156,9 @@
  <div id="counterStatusHolder" th:text="${counter.counterStatus}" style="display:none;"></div>
 
 <script>
-登出
 function logout() {
     document.getElementById("logoutForm").submit();
 }
-
 
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -168,9 +167,9 @@ document.addEventListener("DOMContentLoaded", function() {
         goodsManagementLink.addEventListener("click", function(event) {
             var counterStatusHolder = document.getElementById("counterStatusHolder");
             var counterStatus = parseInt(counterStatusHolder.textContent); // 將文本轉為整數
-            if (counterStatus === 1) {
+            if (counterStatus <= 2) {
                 event.preventDefault(); // 阻止默認行為（跳頁）
-                alert("對不起，您的帳號目前處於審核中，無法進行此操作。");
+                alert("對不起，您的帳號暫時無法使用此功能，如有問題敬請聯絡客服。");
             }
         });
     }

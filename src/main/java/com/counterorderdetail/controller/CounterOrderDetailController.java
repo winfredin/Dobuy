@@ -42,30 +42,14 @@ public class CounterOrderDetailController {
     */
    @PostMapping("/addCounterOrderDetail")
    public String addCounterOrderDetail(@RequestParam Map<String, String> params) {
-       String totalAmount = params.get("TradeAmt");
-       String goodsName = params.get("ItemName");
-       String goodsNum = params.get("CustomField1");
-       String goodsNo = params.get("CustomField2");
-       String counterOrderNo = params.get("CustomField3");
-
-       // 更新訂單狀態
+       String counterOrderNo = params.get("CustomField1");
+       
+       // 更新訂單狀態為已付款
        CounterOrderVO order = counterOrderSvc.getOneCounterOrder(Integer.parseInt(counterOrderNo));
        order.setOrderStatus(1);
        counterOrderSvc.updateCounterOrder(order);
 
-       // 插入訂單明細
-       CounterOrderDetailVO detail = new CounterOrderDetailVO();
-       detail.setProductPrice(Integer.parseInt(totalAmount));
-       detail.setGoodsNum(Integer.parseInt(goodsNum));
-       detail.setGoodsNo(Integer.parseInt(goodsNo));
-       detail.setProductDisPrice(Integer.parseInt(totalAmount));
-       detail.setCounterOrderNo(Integer.parseInt(counterOrderNo));
-       counterOrderDetailService.addCounterOrderDetail(detail);
-
-       // 扣除庫存
-       goodsSvc.updateGoodsAmount(Integer.parseInt(goodsNo), -Integer.parseInt(goodsNum));
-
-       return "redirect:/member";
+       return "redirect:/member"; // 結帳完成後重定向到會員中心或其他頁面
    }
 
 

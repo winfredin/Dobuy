@@ -81,7 +81,7 @@ public class UsedController {
 		return "front-end/used/listOneUsed";
 	}
 	
-	@PostMapping("/getOneUsedOnDetail")
+	@GetMapping("/getOneUsedOnDetail")
 	public String getOneUsedOnDetail( @RequestParam("usedNo") String usedNo, Model model) {
 		 
 		UsedVO usedVO = usedSvc.getOneUsed(Integer.valueOf(usedNo));

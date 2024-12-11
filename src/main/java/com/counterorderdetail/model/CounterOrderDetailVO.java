@@ -3,6 +3,8 @@ package com.counterorderdetail.model;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
+import com.counterorder.model.CounterOrderVO;
+
 @Entity
 @Table(name = "CounterOrderDetail")
 public class CounterOrderDetailVO implements java.io.Serializable {
@@ -14,10 +16,20 @@ public class CounterOrderDetailVO implements java.io.Serializable {
    private Integer goodsNum;
    private Integer productPrice;
    private Integer productDisPrice;
-   private String productSpec;
    private Integer memCouponNo;
+   private CounterOrderVO counterOrderVO;
+   
+   @ManyToOne
+   @JoinColumn(name = "counterOrderNo", insertable = false, updatable = false)
+   public CounterOrderVO getCounterOrderVO() {
+	return counterOrderVO;
+}
 
-   public CounterOrderDetailVO() {
+public void setCounterOrderVO(CounterOrderVO counterOrderVO) {
+	this.counterOrderVO = counterOrderVO;
+}
+
+public CounterOrderDetailVO() {
    }
 
    @Id
@@ -73,6 +85,9 @@ public class CounterOrderDetailVO implements java.io.Serializable {
    public void setProductPrice(Integer productPrice) {
        this.productPrice = productPrice;
    }
+   public void setProductDisPrice(Integer productDisPrice) {
+       this.productDisPrice = productDisPrice;
+   }
 
    @Column(name = "productDisPrice")
    @NotNull(message = "商品折扣價: 請勿空白")
@@ -81,14 +96,6 @@ public class CounterOrderDetailVO implements java.io.Serializable {
        return this.productDisPrice;
    }
 
-   public void setProductDisPrice(Integer productDisPrice) {
-       this.productDisPrice = productDisPrice;
-   }
-
-
-   public void setProductSpec(String productSpec) {
-       this.productSpec = productSpec;
-   }
 
    @Column(name = "memCouponNo")
    public Integer getMemCouponNo() {

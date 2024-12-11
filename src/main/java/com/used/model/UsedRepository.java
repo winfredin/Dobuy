@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.goods.model.GoodsVO;
+
 public interface UsedRepository extends JpaRepository<UsedVO, Integer>{
 
 //會員使用額外方法
@@ -44,4 +46,6 @@ public interface UsedRepository extends JpaRepository<UsedVO, Integer>{
 	@Modifying
 	@Query(value = "UPDATE used SET usedStocks = ?1 WHERE usedNo = ?2 ", nativeQuery = true)
 	void withholdingStock(Integer usedStocks,Integer usedNo);
+	
+	List<UsedVO> findByUsedNameContaining(String usedName);
 }

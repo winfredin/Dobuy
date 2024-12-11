@@ -39,4 +39,7 @@ public class CounterOrderDetailService {
    public List<CounterOrderDetailVO> getAll() {
        return repository.findAll();
    }
+   public void addCounterOrderDetails(List<CounterOrderDetailVO> details) {
+	   repository.insertBatch(details);
+	}
 }

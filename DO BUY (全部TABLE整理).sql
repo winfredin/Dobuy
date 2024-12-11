@@ -25,19 +25,19 @@ INSERT INTO counter
 (counterAccount, counterName, counterPassword, counterAddress, counterPhone, counterUid, counterEmail, counterUbn, counterCName, counterTypeNo, counterInform, counterStatus) 
 VALUES
 -- 女士精品
-('user1', '張淑芬', '12345', '台北市大安區仁愛路123號', '0912345678', 'A123456789', 'ladybag01@example.com', '12345678', '女士精品館', 1, '高品質女士包包與配件櫃位', 2),
+('user1', '張淑芬', '12345', '台北市大安區仁愛路123號', '0912345678', 'A123456789', 'ladybag01@example.com', '12345678', '女士精品館', 1, '高品質女士包包與配件櫃位', 3),
 -- 時尚女裝
-('user2', '林美惠', '12345', '新北市板橋區中山路456號', '0923456789', 'B123456789', 'fashion02@example.com', '23456789', '時尚女裝館', 2, '流行女裝與女鞋專櫃', 2),
+('user2', '林美惠', '12345', '新北市板橋區中山路456號', '0923456789', 'B123456789', 'fashion02@example.com', '23456789', '時尚女裝館', 2, '流行女裝與女鞋專櫃', 3),
 -- 男士潮流
-('user3', '王建宏', '12345', '台中市西屯區文心路789號', '0934567890', 'C123456789', 'menstyle01@example.com', '34567890', '男士潮流館', 3, '潮流男包與配件櫃位', 2),
+('user3', '王建宏', '12345', '台中市西屯區文心路789號', '0934567890', 'C123456789', 'menstyle01@example.com', '34567890', '男士潮流館', 3, '潮流男包與配件櫃位', 3),
 -- 型男穿搭
-('user4', '陳志明', '12345', '台南市中西區民族路321號', '0945678901', 'D123456789', 'mensfashion02@example.com', '45678901', '型男穿搭館', 4, '專注男裝與男鞋的櫃位', 2),
+('user4', '陳志明', '12345', '台南市中西區民族路321號', '0945678901', 'D123456789', 'mensfashion02@example.com', '45678901', '型男穿搭館', 4, '專注男裝與男鞋的櫃位', 3),
 -- 美妝與保養
-('user5', '劉慧君', '12345', '高雄市三民區博愛路654號', '0956789012', 'E123456789', 'beautycare01@example.com', '56789012', '美妝保養館', 5, '化妝品與保養品專賣', 2),
+('user5', '劉慧君', '12345', '高雄市三民區博愛路654號', '0956789012', 'E123456789', 'beautycare01@example.com', '56789012', '美妝保養館', 5, '化妝品與保養品專賣', 3),
 -- 家居科技
-('user6', '黃志成', '12345', '桃園市中壢區新生路987號', '0967890123', 'F123456789', 'homeitech01@example.com', '67890123', '家居科技館', 6, '智能家居與科技商品櫃位', 2),
+('user6', '黃志成', '12345', '桃園市中壢區新生路987號', '0967890123', 'F123456789', 'homeitech01@example.com', '67890123', '家居科技館', 6, '智能家居與科技商品櫃位', 3),
 -- 女士精品
-('user7', '李佳蓉', '12345', '台中市北屯區中清路159號', '0978901234', 'G123456789', 'ladybag02@example.com', '78901234', '女士精品館二館', 1, '高端女士包包專區', 2),
+('user7', '李佳蓉', '12345', '台中市北屯區中清路159號', '0978901234', 'G123456789', 'ladybag02@example.com', '78901234', '女士精品館二館', 1, '高端女士包包專區', 3),
 -- 時尚女裝
 ('user8', '蔡佩玲', '12345', '新竹市東區東門街753號', '0989012345', 'H123456789', 'fashion03@example.com', '89012345', '時尚女裝二館', 2, '時尚女裝與鞋品新系列', 2);
 
@@ -129,7 +129,6 @@ CREATE TABLE CounterOrderDetail (
     goodsNum INT(5) NOT NULL,
     productPrice INT(5) NOT NULL,
     productDisPrice INT(5) NOT NULL,
-    productSpec VARCHAR(10) NOT NULL,
     memCouponNo INT(10)
 
 ) AUTO_INCREMENT = 1;
@@ -981,4 +980,15 @@ INSERT INTO NewCoupons (couponNo, counterNo, couponTitle, couponContext, couponS
 (18, 6, '滿12000減2000', '消費滿12000元立減2000元', '2024-12-27 00:00:00', '2024-12-31 23:59:59', 1, 150, 1),
 (19, 1, '滿25000減4500', '消費滿25000元立減4500元', '2024-12-28 00:00:00', '2024-12-31 23:59:59', 0, 100, 1),
 (20, 2, '滿40000打75折', '消費滿40000元享75折優惠', '2024-12-29 00:00:00', '2024-12-31 23:59:59', 1, 50, 1);
+
+
+CREATE TABLE emailverification (
+    id INT AUTO_INCREMENT PRIMARY KEY,      -- 自增主鍵
+    email VARCHAR(255),              		-- 郵箱地址
+    verificationCode VARCHAR(255),          -- 驗證碼
+    isVerified TINYINT DEFAULT 0,           -- 是否已驗證（0: 未驗證, 1: 已驗證）
+    sentTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP -- 發送驗證碼的時間，預設為當前時間
+);
+
+
 -- 以上昱夆新增 練習用

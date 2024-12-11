@@ -112,12 +112,12 @@
 <!-- </nav> -->
 
 <body>
+<div th:insert="vendor-end/counter/Counterincldue :: header"></div>
 
 <div align="center">
     <section class="add_goods"> 
         <h3><b>商品新增</b></h3>
-        <form th:action="@{insert}" method="post" th:object="${goodsVO}" enctype="multipart/form-data">
-
+		<form th:action="@{insert}" method="post" th:object="${goodsVO}" enctype="multipart/form-data" onsubmit="return validateForm();">
 			<div>
 			    <label>櫃位名稱:</label>
 			    <!-- 顯示櫃位名稱 -->
@@ -135,98 +135,113 @@
                 <span th:if="${#fields.hasErrors('goodsTypeVO.goodstNo')}" th:errors="*{goodsTypeVO.goodstNo}" class="error" id="goodsTypeVO.goodstNo.errors"></span>
             </div>
             
+<!--              <div> -->
+<!--                  <label>商品名稱:</label> -->
+<!--                  <input type="text" th:field="*{goodsName}" onclick="hideContent('goodsName.errors');" /> -->
+<!--                  <span th:if="${#fields.hasErrors('goodsName')}" th:errors="*{goodsName}" class="error" id="goodsName.errors"></span> -->
+<!--              </div> -->
+             
+             <div>
+			    <label>商品名稱:</label>
+			    <input type="text" th:field="*{goodsName}" onclick="hideContent('goodsName.errors');" />
+			    <span id="goodsName.errors" class="error"></span>
+			</div>
 
-            <div>
-                <label>商品名稱:</label>
-                <input type="text" th:field="*{goodsName}" onclick="hideContent('goodsName.errors');" />
-                <span th:if="${#fields.hasErrors('goodsName')}" th:errors="*{goodsName}" class="error" id="goodsName.errors"></span>
-            </div>
+<!--             <div> -->
+<!--                 <label>商品描述:</label> -->
+<!--                 <textarea th:field="*{goodsDescription}" onclick="hideContent('goodsDescription.errors');"></textarea> -->
+<!--                 <span th:if="${#fields.hasErrors('goodsDescription')}" th:errors="*{goodsDescription}" class="error" id="goodsDescription.errors"></span> -->
+<!--             </div> -->
 
-            <div>
-                <label>商品描述:</label>
-                <textarea th:field="*{goodsDescription}" onclick="hideContent('goodsDescription.errors');"></textarea>
-                <span th:if="${#fields.hasErrors('goodsDescription')}" th:errors="*{goodsDescription}" class="error" id="goodsDescription.errors"></span>
-            </div>
+			<div>
+			    <label>商品描述:</label>
+			    <textarea th:field="*{goodsDescription}" onclick="hideContent('goodsDescription.errors');"></textarea>
+			    <span id="goodsDescription.errors" class="error"></span>
+			</div>
 
-            <div>
-                <label>商品單價:</label>
-                <input type="number" th:field="*{goodsPrice}" onclick="hideContent('goodsPrice.errors');" />
-                <span th:if="${#fields.hasErrors('goodsPrice')}" th:errors="*{goodsPrice}" class="error" id="goodsPrice.errors"></span>
-            </div>
+<!--             <div> -->
+<!--                 <label>商品單價:</label> -->
+<!--                 <input type="number" th:field="*{goodsPrice}" onclick="hideContent('goodsPrice.errors');" /> -->
+<!--                 <span th:if="${#fields.hasErrors('goodsPrice')}" th:errors="*{goodsPrice}" class="error" id="goodsPrice.errors"></span> -->
+<!--             </div> -->
+            
+			<div>
+			    <label>商品單價:</label>
+			    <input type="number" th:field="*{goodsPrice}" onclick="hideContent('goodsPrice.errors');" />
+			    <span id="goodsPrice.errors" class="error"></span>
+			</div>
 
-            <div>
-                <label>商品庫存:</label>
-                <input type="number" th:field="*{goodsAmount}" onclick="hideContent('goodsAmount.errors');" />
-                <span th:if="${#fields.hasErrors('goodsAmount')}" th:errors="*{goodsAmount}" class="error" id="goodsAmount.errors"></span>
-            </div>
+
+<!--             <div> -->
+<!--                 <label>商品庫存:</label> -->
+<!--                 <input type="number" th:field="*{goodsAmount}" onclick="hideContent('goodsAmount.errors');" /> -->
+<!--                 <span th:if="${#fields.hasErrors('goodsAmount')}" th:errors="*{goodsAmount}" class="error" id="goodsAmount.errors"></span> -->
+<!--             </div> -->
+
+			<div>
+			    <label>商品庫存:</label>
+			    <input type="number" th:field="*{goodsAmount}" onclick="hideContent('goodsAmount.errors');" />
+			    <span id="goodsAmount.errors" class="error"></span>
+			</div>
 
             <div>
                 <label>商品主圖(必填):</label>
-                <input type="file" id="gpPhotos1" th:field="*{gpPhotos1}" onchange="previewImage('gpPhotos1')" required />
-                <span class="error" th:utext="${errorMessage}" id="gpPhotos1.errors">${errorMessage}</span>
+                <input type="file" id="gpPhotos1" th:field="*{gpPhotos1}" onchange="previewImage('gpPhotos1')" />
+				<span id="gpPhotos1.errors" class="error"></span>
                 <div id="blobHolder1"></div>
             </div>
 
             <div>
                 <label>商品副圖1(選填):</label>
                 <input type="file" id="gpPhotos2" th:field="*{gpPhotos2}" onchange="previewImage('gpPhotos2')" />
-                <span class="error" th:utext="${errorMessage}" id="gpPhotos2.errors">${errorMessage}</span>
                 <div id="blobHolder2"></div>
             </div>
 
             <div>
                 <label>商品副圖2(選填):</label>
                 <input type="file" id="gpPhotos3" th:field="*{gpPhotos3}" onchange="previewImage('gpPhotos3')" />
-                <span class="error" th:utext="${errorMessage}" id="gpPhotos3.errors">${errorMessage}</span>
                 <div id="blobHolder3"></div>
             </div>
 
             <div>
                 <label>商品副圖3(選填):</label>
                 <input type="file" id="gpPhotos4" th:field="*{gpPhotos4}" onchange="previewImage('gpPhotos4')" />
-                <span class="error" th:utext="${errorMessage}" id="gpPhotos4.errors">${errorMessage}</span>
                 <div id="blobHolder4"></div>
             </div>
 
             <div>
                 <label>商品副圖4(選填):</label>
                 <input type="file" id="gpPhotos5" th:field="*{gpPhotos5}" onchange="previewImage('gpPhotos5')" />
-                <span class="error" th:utext="${errorMessage}" id="gpPhotos5.errors">${errorMessage}</span>
                 <div id="blobHolder5"></div>
             </div>
 
             <div>
                 <label>商品副圖5(選填):</label>
                 <input type="file" id="gpPhotos6" th:field="*{gpPhotos6}" onchange="previewImage('gpPhotos6')" />
-                <span class="error" th:utext="${errorMessage}" id="gpPhotos6.errors">${errorMessage}</span>
                 <div id="blobHolder6"></div>
             </div>
 
             <div>
                 <label>商品副圖6(選填):</label>
                 <input type="file" id="gpPhotos7" th:field="*{gpPhotos7}" onchange="previewImage('gpPhotos7')" />
-                <span class="error" th:utext="${errorMessage}" id="gpPhotos7.errors">${errorMessage}</span>
                 <div id="blobHolder7"></div>
             </div>
 
             <div>
                 <label>商品副圖7(選填):</label>
                 <input type="file" id="gpPhotos8" th:field="*{gpPhotos8}" onchange="previewImage('gpPhotos8')" />
-                <span class="error" th:utext="${errorMessage}" id="gpPhotos8.errors">${errorMessage}</span>
                 <div id="blobHolder8"></div>
             </div>
 
             <div>
                 <label>商品副圖8(選填):</label>
                 <input type="file" id="gpPhotos9" th:field="*{gpPhotos9}" onchange="previewImage('gpPhotos9')" />
-                <span class="error" th:utext="${errorMessage}" id="gpPhotos9.errors">${errorMessage}</span>
                 <div id="blobHolder9"></div>
             </div>
 
             <div>
                 <label>商品副圖9(選填):</label>
                 <input type="file" id="gpPhotos10" th:field="*{gpPhotos10}" onchange="previewImage('gpPhotos10')" />
-                <span class="error" th:utext="${errorMessage}" id="gpPhotos10.errors">${errorMessage}</span>
                 <div id="blobHolder10"></div>
             </div>
 
@@ -274,14 +289,88 @@
 		</div>      
     </form>
 </div>
+<footer th:block th:replace="~{back-end/back-end-home/fraghead :: footer}"></footer>
 
 <!-- JavaScript part -->
 <script type="text/javascript">
-//清除提示信息
-function hideContent(d) {
-     document.getElementById(d).style.display = "none";
+//表單驗證函數
+function validateForm() {
+    let valid = true;
+
+    // 檢查商品名稱
+    let goodsName = document.querySelector('input[name="goodsName"]');
+    let goodsNameError = document.getElementById('goodsName.errors');
+    if (!goodsName.value.trim()) {
+        goodsNameError.innerText = '商品名稱: 請勿空白';
+        valid = false;
+    } else {
+        goodsNameError.innerText = '';
+    }
+
+    // 檢查商品描述
+    let goodsDescription = document.querySelector('textarea[name="goodsDescription"]');
+    let goodsDescriptionError = document.getElementById('goodsDescription.errors');
+    if (!goodsDescription.value.trim()) {
+        goodsDescriptionError.innerText = '商品描述: 請勿空白';
+        valid = false;
+    } else {
+        goodsDescriptionError.innerText = '';
+    }
+
+    // 檢查商品單價
+    let goodsPrice = document.querySelector('input[name="goodsPrice"]');
+    let goodsPriceError = document.getElementById('goodsPrice.errors');
+    if (!goodsPrice.value.trim()) {
+        goodsPriceError.innerText = '商品單價: 請勿空白';
+        valid = false;
+    } else {
+        goodsPriceError.innerText = '';
+    }
+
+    // 檢查商品庫存
+    let goodsAmount = document.querySelector('input[name="goodsAmount"]');
+    let goodsAmountError = document.getElementById('goodsAmount.errors');
+    if (!goodsAmount.value.trim()) {
+        goodsAmountError.innerText = '商品庫存: 請勿空白';
+        valid = false;
+    } else {
+        goodsAmountError.innerText = '';
+    }
+    
+    // 檢查商品主圖(必填)
+    let gpPhotos1 = document.querySelector('input[name="gpPhotos1"]');
+    let gpPhotos1Error = document.getElementById('gpPhotos1.errors');
+    if (!gpPhotos1.files.length) {  // 檢查是否選擇了圖片
+        gpPhotos1Error.innerText = '商品主圖(必填)：請上傳圖片';
+        valid = false;
+    } else {
+        gpPhotos1Error.innerText = '';
+    }
+
+    return valid;
 }
 
+// 隱藏錯誤訊息
+function hideContent(errorId) {
+    document.getElementById(errorId).innerText = '';  // 清除錯誤訊息
+}
+
+// 改善圖片上傳的錯誤訊息處理
+function handleImageUpload(inputId, errorId) {
+    let fileInput = document.getElementById(inputId);
+    let errorElement = document.getElementById(errorId);
+
+    if (fileInput.files.length > 0) {
+        errorElement.innerText = '';  // 上傳成功，清除錯誤訊息
+    } else {
+        errorElement.innerText = '請上傳圖片';
+    }
+}
+
+// 圖片選擇後調用 handleImageUpload
+document.getElementById('gpPhotos1').addEventListener('change', function() {
+    handleImageUpload('gpPhotos1', 'gpPhotos1.errors');
+});
 //照片上傳-預覽用
 var filereader_support = typeof FileReader != 'undefined';
 if (!filereader_support) {
