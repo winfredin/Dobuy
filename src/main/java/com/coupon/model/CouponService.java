@@ -90,10 +90,10 @@ public class CouponService {
     }
     
     // 前台領取櫃位優惠券頁面點查看詳情可以看到明細
+    @Transactional
     public CouponVO getOneCouponWithDetails(Integer couponNo) {
         try {
-            // 從資料庫獲取優惠券
-            Optional<CouponVO> couponOpt = repository.findById(couponNo);
+            Optional<CouponVO> couponOpt = repository.findByIdWithDetails(couponNo);
             
             if (!couponOpt.isPresent()) {
                 throw new RuntimeException("找不到優惠券編號：" + couponNo);
@@ -101,14 +101,20 @@ public class CouponService {
             
             CouponVO coupon = couponOpt.get();
             
-            // 確保明細列表已初始化
+            // 檢查明細是否存在
             if (coupon.getCouponDetails() == null) {
                 coupon.setCouponDetails(new ArrayList<>());
             }
             
-            return coupon;
+            // 調試日誌
+            System.out.println("明細數量: " + coupon.getCouponDetails().size());
+            for (CouponDetailVO detail : coupon.getCouponDetails()) {
+                System.out.println("明細ID: " + detail.getGoodsNo());
+            }
             
+            return coupon;
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException("獲取優惠券數據時發生錯誤：" + e.getMessage());
         }
     }

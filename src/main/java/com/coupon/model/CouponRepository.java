@@ -1,6 +1,8 @@
 package com.coupon.model;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -35,5 +37,10 @@ public interface CouponRepository extends JpaRepository<CouponVO, Integer> {
 	//任國 抓櫃位優惠券
 	@Query(value = "SELECT * FROM coupon WHERE counterNo = ?1 ORDER BY couponNo DESC", nativeQuery = true)
     List<CouponVO> getOneCounter46(Integer counterNo);
+	
+//	前台查詢詳情用
+    @Query("SELECT c FROM CouponVO c LEFT JOIN FETCH c.couponDetails WHERE c.couponNo = :couponNo")
+    Optional<CouponVO> findByIdWithDetails(@Param("couponNo") Integer couponNo);
+	
 
 }

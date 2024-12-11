@@ -62,6 +62,36 @@ public class FrontCouponController {
         return "front-end/coupon/frontListAllCoupon";
     }
     
+    // 第二個方法：顯示優惠券詳情
+    @GetMapping("/detail/{couponNo}")
+    public String viewCouponDetail(@PathVariable Integer couponNo,
+                                 HttpSession session,
+                                 Model model) {
+        String memAccount = (String) session.getAttribute("memAccount");
+        
+        try {
+            CouponVO coupon = couponService.getOneCouponWithDetails(couponNo);
+            if (coupon == null) {
+                return "redirect:/front-end/coupon/list";
+            }
+            
+            // 添加調試日誌
+            System.out.println("Coupon: " + coupon);
+            System.out.println("Coupon Details: " + 
+                (coupon.getCouponDetails() != null ? 
+                 coupon.getCouponDetails().size() : "null"));
+            
+            model.addAttribute("coupon", coupon);
+            model.addAttribute("memAccount", memAccount);
+            
+            return "front-end/coupon/frontCouponDetail";
+        } catch (Exception e) {
+            e.printStackTrace();  // 添加異常堆棧輸出
+            return "redirect:/front-end/coupon/list";
+        }
+    }
+    
+    
 //  前台領取櫃位優惠券頁面點查看詳情可以看到明細
 //    @GetMapping("/detail/{couponNo}")
 //    public String viewCouponDetail(@PathVariable Integer couponNo, 
@@ -100,32 +130,6 @@ public class FrontCouponController {
 //        }
 //    }
 
- // 第二個方法：顯示優惠券詳情
-    @GetMapping("/detail/{couponNo}")
-    public String viewCouponDetail(@PathVariable Integer couponNo, 
-                                 HttpSession session, 
-                                 Model model) {
-        // 不需要檢查登入狀態（過濾器會處理），但需要取得會員資訊供頁面使用
-        String memAccount = (String) session.getAttribute("memAccount");
-        
-        try {
-            CouponVO coupon = couponService.getOneCouponWithDetails(couponNo);
-            if (coupon == null) {
-                return "redirect:/front-end/coupon/list";
-            }
-            
-            // 將資料加入模型
-            model.addAttribute("coupon", coupon);
-            model.addAttribute("memAccount", memAccount);
-            
-            return "front-end/coupon/frontCouponDetail";
-        } catch (Exception e) {
-            return "redirect:/front-end/coupon/list";
-        }
-    }
-    
-    
-    
     
  // 第三個方法：顯示優惠券詳情
 //    @GetMapping("/detail/{couponNo}")
@@ -142,7 +146,7 @@ public class FrontCouponController {
 //            return "redirect:/front-end/coupon/list";
 //        }
 //    }
-//    
+
     
     
 
