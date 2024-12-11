@@ -140,3 +140,21 @@
     }
 
 })(jQuery);
+
+// 初始化 Slick 特效
+	                    function initializeSlick() {
+						    $('.photo-slider').not('.slick-initialized').slick({
+						        dots: false,
+						        infinite: true,
+						        speed: 300,
+						        slidesToShow: 1,
+						        adaptiveHeight: true,
+						        arrows: false // 禁用 previous 和 next 按鈕
+						        
+						    });
+						    
+						}
+
+
+	                    // 初次载入时初始化 Slick
+	                    initializeSlick();

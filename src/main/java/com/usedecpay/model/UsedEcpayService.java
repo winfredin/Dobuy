@@ -53,7 +53,7 @@ public class UsedEcpayService {
 		obj.setTotalAmount(totalAmount);
 		obj.setTradeDesc("商品名稱 "+usedName +"商品件數"+usedCount+"件");
 		obj.setItemName("訂單編號"+usedOrderNo+"商品編號 "+usedNo+"商品名稱 "+usedName +"商品件數"+usedCount+"件");
-		obj.setReturnURL("https://2286-114-25-216-99.ngrok-free.app/used/ecpay/notify");// 接收綠界收款回覆的controller網址，controller做完資料分析及資料儲存後，回覆1|OK給綠界
+		obj.setReturnURL("https://4ff3-111-249-21-118.ngrok-free.app/used/ecpay/notify");// 接收綠界收款回覆的controller網址，controller做完資料分析及資料儲存後，回覆1|OK給綠界
 //		obj.setOrderResultURL("http://localhost:8080/used/select_page");
 		obj.setNeedExtraPaidInfo("N");
 		obj.setRedeem("N");

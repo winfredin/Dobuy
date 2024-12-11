@@ -1,4 +1,5 @@
 
+
 let items = document.querySelectorAll('.goods .item');
 let itemsToShow = 4; // 初始顯示的商品數量
 
@@ -250,7 +251,7 @@ $(document).ready(function() {
 
                 // 使用 fragment 替换 <div class="use_1">
                 $('.use_1').html(response);
-
+				
                 // 检查并销毁已有 DataTables 实例
                 if ($.fn.DataTable.isDataTable('#UsedList')) {
                     $('#UsedList').DataTable().destroy();
@@ -371,6 +372,269 @@ document.addEventListener("DOMContentLoaded", function () {
         initializeDataTable();
     });
 });
+////=========================二手訂單事件(我是買家)==============================================
 
 
+    // 当 span id 为 a1 的元素被点击时，触发 AJAX 事件
+    $('#a2').click(function() {
+        // 使用AJAX从后端以POST方式获取数据
+        $.ajax({
+            url: '/usedorder/getBuyerUsedOrderListFragment', // 服务器端 API，返回 Thymeleaf 片段
+            type: 'POST',
+            success: function(response) {
+                console.log("Fragment HTML:", response); // 打印返回的 HTML，便于调试
+
+                // 使用 fragment 替换 <div class="use_1">
+                $('.use_1').html(response);
+
+                // 检查并销毁已有 DataTables 实例
+                if ($.fn.DataTable.isDataTable('#exampleBuyer')) {
+                    $('#exampleBuyer').DataTable().destroy();
+                }
+
+                // 重新初始化 DataTables
+                $('#exampleBuyer').DataTable({
+                    "lengthMenu": [3, 5, 10, 20, 50, 100],
+                    "searching": true,
+                    "paging": true,
+                    "ordering": true,
+                    "language": {
+                        "processing": "處理中...",
+                        "loadingRecords": "載入中...",
+                        "lengthMenu": "顯示 _MENU_ 筆結果",
+                        "zeroRecords": "沒有符合的結果",
+                        "info": "顯示第 _START_ 至 _END_ 筆結果，共<font color=red> _TOTAL_ </font>筆",
+                        "infoEmpty": "顯示第 0 至 0 筆結果，共 0 筆",
+                        "infoFiltered": "(從 _MAX_ 筆結果中過濾)",
+                        "paginate": {
+                            "first": "第一頁",
+                            "previous": "上一頁",
+                            "next": "下一頁",
+                            "last": "最後一頁"
+                        }
+                    }
+                });
+
+                // 监听 DataTables 分页切换事件，重新初始化 Slick
+                $('#exampleBuyer').on('draw.dt', function () {
+                   
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error('Error fetching used list data:', error);
+            }
+        });
+    });
+	
+	
+	
+	function showOrderDetails(element) {
+	        var orderNo = element.getAttribute('data-orderNo');
+	        var usedNo = element.getAttribute('data-usedNo');
+	        var usedPrice = element.getAttribute('data-usedPrice');
+	        var usedCount = element.getAttribute('data-usedCount');
+	        var usedTotalPrice = element.getAttribute('data-usedTotalPrice');
+	        var receiverName = element.getAttribute('data-receiverName');
+	        var receiverPhone = element.getAttribute('data-receiverPhone');
+	        var receiverAdr = element.getAttribute('data-receiverAdr');
+	        var sellerSatisfication = element.getAttribute('data-sellerSatisfication');
+	        var sellerCommentContent = element.getAttribute('data-sellerCommentContent');
+	        var sellerCommentDate = element.getAttribute('data-sellerCommentDate');
+
+	        $('#orderDetailModal').find('#orderNo').text(orderNo);
+	        $('#orderDetailModal').find('#usedNo').text(usedNo);
+	        $('#orderDetailModal').find('#usedPrice').text(usedPrice);
+	        $('#orderDetailModal').find('#usedCount').text(usedCount);
+	        $('#orderDetailModal').find('#usedTotalPrice').text(usedTotalPrice);
+	        $('#orderDetailModal').find('#receiverName').text(receiverName);
+	        $('#orderDetailModal').find('#receiverPhone').text(receiverPhone);
+	        $('#orderDetailModal').find('#receiverAdr').text(receiverAdr);
+	        $('#orderDetailModal').find('#sellerSatisfication').val(sellerSatisfication);
+	        $('#orderDetailModal').find('#sellerCommentContent').val(sellerCommentContent);
+	        $('#orderDetailModal').find('#sellerCommentDate').text(sellerCommentDate);
+
+	        $('#orderDetailModal').find('.modal-footer').html(
+	            '<button type="button" class="btn btn-primary" onclick="saveComment(' + orderNo + ')">保存</button>' +
+	            '<button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>'
+	        );
+	        $('#orderDetailModal').modal('show');
+	    }
+
+
+
+	    function saveComment(orderNo) {
+	        var formData = new FormData();
+	        formData.append('usedOrderNo', orderNo);
+	        formData.append('sellerCommentContent', $('#sellerCommentContent').val());
+	        formData.append('sellerSatisfication', $('#sellerSatisfication').val());
+
+	        $.ajax({
+	            url: '/usedorder/updateComment',
+	            type: 'POST',
+	            data: formData,
+	            processData: false,
+	            contentType: false,
+	            success: function(response) {
+	                if (response.success) {
+	                    alert('評論更新成功');
+	                    var imageUrl = response.imageUrl; // 假設後端返回了更新後的圖片 URL
+	                    $('#imgPreview').attr('src', imageUrl);
+	                    $('#imgPreview').show();
+	                    $('#orderDetailModal').modal('hide');
+	                    location.reload();  // 刷新页面，更新显示
+	                } else {
+	                    alert('評論更新失敗: ' + response.error);
+	                }
+	            },
+	            error: function(xhr, status, error) {
+	                alert('評論更新过程中出現錯誤: ' + error);
+	            }
+	        });
+	    }
+	    
+	    function sendComplaintEmail() {
+	        var orderNo = $('#orderNo').text();
+	        var subject = $('#complaintSubject').val();
+	        var content = $('#complaintContent').val();
+	        
+	        var formData = new FormData();
+	        formData.append('orderNo', orderNo);
+	        formData.append('subject', subject);
+	        formData.append('content', content);
+
+	        $.ajax({
+	            url: '/usedorder/sendComplaintEmail',
+	            type: 'POST',
+	            data: formData,
+	            processData: false,
+	            contentType: false,
+	            success: function(response) {
+	                if (response.success) {
+	                    alert('郵件發送成功');
+	                } else {
+	                    alert('郵件發送失敗: ' + response.error);
+	                }
+	            },
+	            error: function(xhr, status, error) {
+	                alert('郵件發送過程中出現錯誤: ' + error);
+	            }
+	        });
+	    }
+
+
+//=========================二手訂單事件(我是賣家)==============================================
+
+
+    // 当 span id 为 a1 的元素被点击时，触发 AJAX 事件
+    $('#a3').click(function() {
+        // 使用AJAX从后端以POST方式获取数据
+        $.ajax({
+            url: '/usedorder/getSellerUsedOrderListFragment', // 服务器端 API，返回 Thymeleaf 片段
+            type: 'POST',
+            success: function(response) {
+                console.log("Fragment HTML:", response); // 打印返回的 HTML，便于调试
+
+                // 使用 fragment 替换 <div class="use_1">
+                $('.use_1').html(response);
+
+                // 检查并销毁已有 DataTables 实例
+                if ($.fn.DataTable.isDataTable('#exampleSeller')) {
+                    $('#exampleSeller').DataTable().destroy();
+                }
+
+                // 重新初始化 DataTables
+                $('#exampleSeller').DataTable({
+                    "lengthMenu": [3, 5, 10, 20, 50, 100],
+                    "searching": true,
+                    "paging": true,
+                    "ordering": true,
+                    "language": {
+                        "processing": "處理中...",
+                        "loadingRecords": "載入中...",
+                        "lengthMenu": "顯示 _MENU_ 筆結果",
+                        "zeroRecords": "沒有符合的結果",
+                        "info": "顯示第 _START_ 至 _END_ 筆結果，共<font color=red> _TOTAL_ </font>筆",
+                        "infoEmpty": "顯示第 0 至 0 筆結果，共 0 筆",
+                        "infoFiltered": "(從 _MAX_ 筆結果中過濾)",
+                        "paginate": {
+                            "first": "第一頁",
+                            "previous": "上一頁",
+                            "next": "下一頁",
+                            "last": "最後一頁"
+                        }
+                    }
+                });
+
+                // 监听 DataTables 分页切换事件，重新初始化 Slick
+                $('#exampleSeller').on('draw.dt', function () {
+                   
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error('Error fetching used list data:', error);
+            }
+        });
+    });
+	
+
+	
+	function updateDeliveryStatus(usedOrderNo) {
+		    var deliveryStatus = $("#deliveryStatus-" + usedOrderNo).val();
+
+		    $.ajax({
+		        url: "/usedorder/updateDeliveryStatus",
+		        type: "POST",
+		        data: {
+		            usedOrderNo: usedOrderNo,
+		            deliveryStatus: deliveryStatus
+		        },
+		        success: function(response) {
+		            if (response.success) {
+		                alert('更新成功');
+		                // 向 counterInform 表新增数据
+		                addCounterInform(usedOrderNo, "訂單狀態更新");
+		            } else {
+		                alert('更新失败: ' + response.error);
+		            }
+		        },
+		        error: function(xhr, status, error) {
+		            alert('更新过程中出现错误: ' + error);
+		        }
+		    });
+		}
+
+		function addNotice(usedOrderNo, message) {
+		    $.ajax({
+		        url: "/usedorder/addNotice",
+		        type: "POST",
+		        data: {
+		            usedOrderNo: usedOrderNo,
+		            message: message,
+		            buyerNo: buyerNo
+		        },
+		        success: function(response) {
+		            if (response.success) {
+		                console.log('通知新增成功');
+		            } else {
+		                console.log('通知新增失败: ' + response.error);
+		            }
+		        },
+		        error: function(xhr, status, error) {
+		            console.log('通知新增过程中出现错误: ' + error);
+		        }
+		    });
+		}
+	    
+	    function showOrderDetails(orderNo, buyerNo, usedNo, usedPrice, usedCount, usedTotalPrice) {
+	        $('#orderDetailModal').find('.modal-body').html(
+	            '<p>買家編號: ' + buyerNo + '</p>' +
+	            '<p>訂單編號: ' + orderNo + '</p>' +
+	            '<p>商品編號: ' + usedNo + '</p>' +
+	            '<p>二手商品單價: ' + usedPrice + '</p>' +
+	            '<p>購買數量: ' + usedCount + '</p>' +
+	            '<p>訂單總價: ' + usedTotalPrice + '</p>'
+	        );
+	        $('#orderDetailModal').modal('show');
+	    }
+	
 

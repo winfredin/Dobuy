@@ -1,5 +1,7 @@
 package com.usedorder.model;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -11,8 +13,19 @@ public interface UsedOrderRepository extends JpaRepository<UsedOrderVO, Integer>
 //    @Modifying
 //    @Query(value = "delete from counterinform where usedOrderNo = ?1", nativeQuery = true)
 //    void deleteByUsedOrderNo(int usedOrderNo);
+	
 	  @Transactional
 	  @Modifying
 	  @Query(value = "Update usedorder SET deliveryStatus=?1 where usedOrderNo = ?2", nativeQuery = true)
 	  void changeStatusByUsedOrderNo(Byte deliveryStatus,Integer usedOrderNo);
+	  
+	  //找尋會員身為買家的訂單  
+	  @Query(value = "SELECT * FROM usedorder where BuyerNo = ?1 AND deliveryStatus != 6", nativeQuery = true)
+	  List<UsedOrderVO> selectBuyerOrderByMemNo(Integer buyerNo);
+	  
+	  //找尋會員身為賣家的訂單(透過賣的商品編號)
+	  @Query(value = "SELECT * FROM usedorder where usedNo = ?1 AND deliveryStatus != 6", nativeQuery = true)
+	  List<UsedOrderVO> selectSellerOrderBySellerUsedNo(Integer usedNo);
+	  
+	  
 }
