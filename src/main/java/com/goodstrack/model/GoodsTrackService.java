@@ -5,6 +5,8 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -37,4 +39,6 @@ public class GoodsTrackService {
     public boolean isGoodsTracked(Integer memNo, Integer goodsNo) {
         return goodsTrackRepository.findByMemNoAndGoodsNo(memNo, goodsNo) != null;
     }
+    
+    
 }

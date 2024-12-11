@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -90,17 +90,22 @@
             
         </div>
 
-     <div class="bestsell_goods" id="goodsContainer">
-  <div class="goods" th:each="goodsVO : ${list}">
-      
-         <div class="image-container">
-            <img th:src="@{/goods/DBGifReader} + '?goodsNo=' + ${goodsVO.goodsNo}" alt="goods-image">
-         </div>
-         <div class="goods-name">
-            <label th:text="${goodsVO.goodsName}"></label>
-            
-         </div>
-      </div>
+ <div class="bestsell_goods" id="goodsContainer">
+	  <div class="goods" th:each="goodsVO : ${list}">
+	      <!-- 單個商品的表單 -->
+		<form th:action="@{/counter/getOneGoods}" method="get">
+		<!-- 隱藏字段，傳遞商品編號 -->
+			<input type="hidden" name="goodsNo" th:value="${goodsVO.goodsNo}" >
+			<button type="submit" class="product-button">	
+			         <div class="image-container">
+			            <img th:src="@{/goods/DBGifReader} + '?goodsNo=' + ${goodsVO.goodsNo}" alt="goods-image">
+			         </div>
+			         <div class="goods-name">
+			            <span th:text="${goodsVO.goodsName}"></span>
+			         </div>
+		     </button>    
+	    </form>
+	  </div>
    
 </div>
 

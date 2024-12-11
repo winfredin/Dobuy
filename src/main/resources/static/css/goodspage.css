@@ -274,3 +274,14 @@ footer {
     color: #fff;
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.3);
 }
+
+.product-button {
+	top: 10%;
+	width: 100%; /*宽度占满父容器*/
+	height: 95%; /*高度是父元素的80%*/
+	background: none;
+	border: none;
+	padding: 0;
+	text-align: left;
+	/*   cursor: pointer; */
+}

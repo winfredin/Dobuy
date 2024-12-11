@@ -11,7 +11,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 @Configuration
 public class MailConfig {
-
+	
 	@Bean(name = "primaryMailSender")
 	@Primary
     public JavaMailSender primaryMailSender() {
