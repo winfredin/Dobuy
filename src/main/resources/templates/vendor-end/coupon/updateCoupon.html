@@ -104,8 +104,7 @@ table.update-coupon-table tr:hover {
 				<option value="0">未開放</option>
 				<option value="1">時效內</option>
 				<option value="2">過期</option>
-			</select> <label>領取次數</label> 
-			<input type="number" th:field="*{usageLimit}"
+			</select> <label>領取次數</label> <input type="number" th:field="*{usageLimit}"
 				min="1" required />
 
 			<!-- 優惠商品明細 -->
@@ -121,23 +120,16 @@ table.update-coupon-table tr:hover {
 				</thead>
 				<tbody>
 					<tr th:each="detail, stat : *{couponDetails}">
-					
-						<td>
-<!-- 						<select -->
-<!-- 							th:field="*{couponDetails[__${stat.index}__].goodsNo}" -->
-<!-- 							class="form-control" -->
-<!-- 							th:classappend="${#fields.hasErrors('couponDetails[__${stat.index}__].goodsNo')} ? 'is-invalid' : ''" -->
-<!-- 							required> -->
-<!-- 							<option value="">請選擇商品</option> -->
-<!-- 							<option th:each="goods : ${goodsList}" -->
-<!-- 								th:value="${goods.goodsNo}" th:text="${goods.goodsName}"></option> -->
-<!-- 						</select> -->
-						<input type="number"
-							th:field="*{couponDetails[__${stat.index}__].goodsNo}" required />
+
+						<td><select
+							th:field="*{couponDetails[__${stat.index}__].goodsNo}"
+							class="form-control" required>
+								<option value="">請選擇商品</option>
+								<option th:each="goods : ${goodsList}"
+									th:value="${goods.goodsNo}" th:text="${goods.goodsName}"
+									th:selected="${couponDetails != null and goods.goodsNo == couponDetails[__${stat.index}__].goodsNo}"></option>
+						</select> <!-- 												<input type="number"  --> <!-- 													th:field="*{couponDetails[__${stat.index}__].goodsNo}" required /> -->
 						</td>
-						
-						
-						
 						<td><input type="text"
 							th:field="*{couponDetails[__${stat.index}__].counterContext}"
 							required /></td>
@@ -207,6 +199,31 @@ function updateDetailIndices() {
         });
     });
 }
+
+
+function addDetail() {
+    const container = document.querySelector('#detailsContainer tbody'); 
+    const rowCount = container.rows.length;
+
+    const goodsListOptions = document.querySelector('select[name^="couponDetails[0].goodsNo"]').innerHTML;
+
+    const newRow = `
+        <tr>
+            <td>
+                <select name="couponDetails[${rowCount}].goodsNo" required>
+                    ${goodsListOptions}
+                </select>
+            </td>
+            <td><input type="text" name="couponDetails[${rowCount}].counterContext" required /></td>
+            <td><input type="number" name="couponDetails[${rowCount}].disRate" step="0.01" min="0.01" max="1.00" required /></td>
+            <td>
+                <button type="button" class="remove-detail-btn" onclick="removeDetail(this)">刪除</button>
+            </td>
+        </tr>
+    `;
+    container.insertAdjacentHTML('beforeend', newRow);
+}
+
 </script>
 
 

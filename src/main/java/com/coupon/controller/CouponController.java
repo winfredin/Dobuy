@@ -184,6 +184,10 @@ public class CouponController {
             if (couponVO.getCouponDetails() == null) {
                 couponVO.setCouponDetails(new ArrayList<>());
             }
+            // 加載商品列表
+            List<GoodsVO> goodsList = goodsSvc.findByCounterVO_CounterNo(counter.getCounterNo());
+            model.addAttribute("goodsList", goodsList);
+            
             
             // 將數據添加到模型
             model.addAttribute("couponVO", couponVO);
@@ -279,9 +283,12 @@ public class CouponController {
      */
     @PostMapping("delete")
     public String delete(@RequestParam("couponNo") String couponNo, ModelMap model) {
+    	
         /*************************** 2.開始刪除資料 *****************************************/
         couponSvc.deleteCoupon(Integer.valueOf(couponNo));
 
+        
+        
         /*************************** 3.刪除完成,準備轉交(Send the Success view) **************/
         List<CouponVO> list = couponSvc.getAll();
         model.addAttribute("couponListData", list);
