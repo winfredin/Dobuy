@@ -129,7 +129,37 @@ table#example input[type="submit"]:hover {
 .total-container .btn-checkout:hover {
     background-color: #ff6600;
 }
+/* 彈出視窗樣式 */
+#popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    display: none;
+    z-index: 9999;  /* 確保彈出視窗在最上層 */
+}
 
+/* 動畫容器居中 */
+#popup .lottie-container {
+    margin: 20px auto;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* 確保動畫在容器內居中 */
+}
+
+/* 訊息文字 */
+#popup .message {
+    font-size: 18px;
+    margin-top: 10px;
+}
 
 </style>
 
@@ -214,7 +244,7 @@ table#example input[type="submit"]:hover {
 <!-- 		                        </form> -->
 <!-- 		                    </td> -->
 		                    <td>
-		                        <form method="post" th:action="@{/shoppingcartlist/delete}" style="margin-bottom: 0px;">
+		                        <form method="post" th:action="@{/shoppingcartlist/delete}" style="margin-bottom: 0px;" onsubmit="showPopup(event)">
 		                            <input type="submit" value="刪除">
 		                            <input type="hidden" name="shoppingcartListNo" th:value="${shoppingCartListVO.shoppingcartListNo}">
 		                        </form>
@@ -232,10 +262,17 @@ table#example input[type="submit"]:hover {
 		        <button class="btn-checkout" onclick="goToCheckout()">去買單</button>
 		    </div>
 	</section>
-	
+	<!-- 彈出視窗 -->
+    <div id="popup">
+        <div class="lottie-container" id="lottie"></div>
+        <div class="message">商品已從購物車內移除！</div>
+    </div>
+    
     <footer>
         <div>© 2024 DO BUY. All Rights Reserved.</div>
     </footer>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.6/lottie.min.js"></script>
     
     <script>
         // 假設每個小計是存在該欄位的
@@ -256,6 +293,32 @@ table#example input[type="submit"]:hover {
 
 // 測試用 柏翔
             window.location.href = '/shoppingcartlist/ShoppingCartListCheckout49';  
+        }
+        
+        // 顯示彈出視窗並播放動畫
+        function showPopup(event) {
+            event.preventDefault(); // 防止表單提交
+            const popup = document.getElementById('popup');
+            const lottieContainer = document.getElementById('lottie');
+
+            // 加載 Lottie 動畫
+            const animation = lottie.loadAnimation({
+                container: lottieContainer, 
+                path: 'https://lottie.host/bcf977fe-a2c8-4754-bea3-cf415a3b9121/rOkAuE6z9O.json', 
+                renderer: 'svg',
+                loop: false,
+                autoplay: true,
+            });
+
+            // 顯示彈出視窗
+            popup.style.display = 'block';
+
+            // 設置動畫完成後自動隱藏彈出視窗
+            setTimeout(function() {
+                popup.style.display = 'none';
+                // 提交表單 (刪除商品)
+                event.target.submit();
+            }, 2000); // 2秒後隱藏視窗
         }
 
     </script>
