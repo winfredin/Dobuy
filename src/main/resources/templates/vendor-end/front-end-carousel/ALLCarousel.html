@@ -25,7 +25,7 @@
 					<td th:text="${#dates.format(carouselVO.carouselTime, 'yyyy-MM-dd')}"></td>
 					<td>
                         <!-- 顯示 Base64 圖片 -->
-                        <img th:src="${carouselVO.base64Image}" alt="圖片" width="150px" />
+                        <img th:src="'data:image/jpeg;base64,' + ${carouselVO.base64Image}" alt="圖片" width="150px" />
                     </td>
                     <td th:text="${carouselVO.goodsNo}"></td>
 					
