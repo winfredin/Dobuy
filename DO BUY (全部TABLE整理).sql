@@ -378,13 +378,13 @@ VALUES
 (20, 10, NULL);
 
 -- 商城輪播資訊
-CREATE TABLE StoreCarousel (
-    storeCarouselNo INT NOT NULL PRIMARY KEY AUTO_INCREMENT,     -- 輪播資訊編號，主鍵
-    counterNo INT NOT NULL,                        -- 櫃位編號，外來鍵
-    disNo INT NOT NULL,                           -- 平台優惠編號，外來鍵
-    carouselTime DATETIME NOT NULL,               -- 輪播時間
-    carouselPic LONGBLOB                          -- 輪播圖片
 
+CREATE TABLE StoreCarousel (
+    storeCarouselNo INT NOT NULL PRIMARY KEY AUTO_INCREMENT,  -- 輪播資訊編號，主鍵
+    counterNo INT NOT NULL,                                    -- 櫃位編號，外來鍵
+    disNo INT NOT NULL,                                         -- 平台優惠編號，外來鍵
+    carouselTime DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,   -- 輪播時間，自動生成當前時間戳
+    carouselPic LONGBLOB                                        -- 輪播圖片
 );
 
 -- 插入 20 筆假資料

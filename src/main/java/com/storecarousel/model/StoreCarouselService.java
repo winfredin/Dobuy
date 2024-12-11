@@ -1,5 +1,6 @@
 package com.storecarousel.model;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -64,6 +65,13 @@ public class StoreCarouselService {
 	public void setRepository(StorecarouselRepository repository) {
 		this.repository = repository;
 	}
+	
+	public void setDefaultCarouselTime(StoreCarouselVO storeCarouselVO) {
+	    if (storeCarouselVO.getCarouselTime() == null) {
+	        storeCarouselVO.setCarouselTime(new Timestamp(System.currentTimeMillis()));
+	    }
+	}
+
 
 
 

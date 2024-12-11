@@ -16,7 +16,11 @@
     </script>
 </head>
 <body>
-	 <form id="redirectForm" method="get" th:action="@{/carousel/add}">
+
+	 <!-- 顯示圖片 -->
+     <img th:src="@{${uploadSuccess}}" alt="上傳成功" width="500" />
+     
+	 <form id="redirectForm" method="get" th:action="@{/countercarousel/addCarousel}">
         <!-- 表单内容 -->
         <input type="hidden" name="hiddenField" value="someValue" />
     </form>

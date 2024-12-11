@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<form th:action="@{/carousel/insert}" method="post" th:object="${countercarouselVO}" enctype="multipart/form-data">
+<form th:action="@{/front-end-carousel/insert}" method="post" th:object="${countercarouselVO}" enctype="multipart/form-data">
     <!-- 櫃位編號 -->
     <label for="counterNo">櫃位編號:</label>
     <input type="number" th:field="*{counterNo}" />
@@ -25,7 +25,7 @@
     <button type="submit">提交</button>
     <br /><br>
     
-    <h5><a href='carousel/all'>List</a> all<br><br></h5>
+    <h5><a th:href="@{vendor-end/front-end-carousel/addCarousel}">List</a> all<br><br></h5>
 	<br><br>
 	<br><br>
     

@@ -8,7 +8,7 @@
 
 <form th:action="@{/storecarousel/insert}" method="post" th:object="${storeCarouselVO}" enctype="multipart/form-data">
     <!-- 輪播資訊編號 (自動生成，隱藏) -->
-    <input type="hidden" th:field="*{storeCarouselNo}" />
+    <input type="hidden" th:field="*{id}" />
 
     <!-- 櫃位編號 -->
     <label for="counterNo">櫃位編號:</label>
@@ -26,9 +26,15 @@
     <br /><br />
 
     <!-- 輪播時間 (自動生成，隱藏) -->
-    <input type="hidden" th:field="*{carouselTime}" />
-
+<!--     <input type="hidden" th:field="*{carouselTime}" /> -->
+    
+    <form action="/storecarousel/insert" method="post">
+    <input type="datetime-local" name="carouselTime" required value="${new java.text.SimpleDateFormat('yyyy-MM-dd\'T\'HH:mm').format(new java.util.Date())}">
     <button type="submit">提交</button>
+</form>
+    
+
+<!--     <button type="submit">提交</button> -->
     <br /><br />
 
     <!-- 返回列表 -->
