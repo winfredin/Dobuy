@@ -34,8 +34,11 @@ import com.coupondetail.model.CouponDetailService;
 import com.coupondetail.model.CouponDetailVO;
 import com.goods.model.GoodsService;
 import com.goods.model.GoodsVO;
+import com.member.model.MemberService;
+import com.member.model.MemberVO;
 import com.msg.model.MsgService;
 import com.msg.model.MsgVO;
+import com.notice.model.NoticeRepository;
 import com.notice.model.NoticeService;
 import com.notice.model.NoticeVO;
 import com.counter.model.CounterVO;
@@ -56,6 +59,15 @@ public class CouponController {
     
     @Autowired
     MsgService msgService; 
+    
+    @Autowired
+    NoticeService noticeService; 
+    
+    @Autowired
+    MemberService memberService;
+        
+    @Autowired
+    NoticeRepository noticeRepository; 
     
     // 確保 counter 存在的公共方法
     @ModelAttribute("counter")
@@ -287,7 +299,7 @@ public class CouponController {
     }
     
     
-//   後台審核優惠券---送出修改資料
+//   後台審核優惠券---送出修改資料、通知審核成功訊息給櫃位
     @PostMapping("/approve")
     public String approveCoupon(@RequestParam("couponNo") int couponNo, RedirectAttributes redirectAttributes) {
         try {
@@ -342,5 +354,53 @@ public class CouponController {
         
         return "back-end/coupondetail/couponDetail";
     }
+
+    // 推播通知到會員中心
+    @PostMapping("/pushNotification")
+    public String pushNotification(@RequestParam("couponNo") Integer couponNo, RedirectAttributes redirectAttributes) {
+        try {
+            CouponVO coupon = couponSvc.getOneCouponWithDetails(couponNo);
+            if (coupon == null) {
+                redirectAttributes.addFlashAttribute("error", "優惠券不存在，無法推送通知。");
+                return "redirect:/coupon/approve";
+            }
+
+            String message = "全新優惠券【" + coupon.getCouponTitle() + "】現已上架！立即查看並領取優惠。";
+
+            // 取得所有會員清單
+            List<MemberVO> allMembers = memberService.getAll();
+            System.out.println("會員清單總數：" + allMembers.size());
+
+            List<Integer> memNos = allMembers.stream().map(MemberVO::getMemNo).distinct().collect(Collectors.toList());
+            System.out.println("去重後會員數量：" + memNos.size());
+
+            // 查詢已存在通知的會員
+            List<Integer> existingMemNos = noticeRepository.findExistingMemNosByContent(message, memNos);
+            System.out.println("已存在通知的會員數：" + existingMemNos.size());
+
+            // 過濾未推送的會員
+            List<NoticeVO> newNotices = new ArrayList<>();
+            for (Integer memNo : memNos) {
+                if (!existingMemNos.contains(memNo)) {
+                    NoticeVO notice = new NoticeVO();
+                    notice.setMemNo(memNo);
+                    notice.setNoticeContent(message);
+                    notice.setNoticeRead((byte) 0);
+                    notice.setNoticeDate(new Timestamp(System.currentTimeMillis()));
+                    newNotices.add(notice);
+                }
+            }
+            noticeRepository.saveAll(newNotices);
+
+            System.out.println("新增通知數量：" + newNotices.size());
+            redirectAttributes.addFlashAttribute("success", "通知已成功推送至所有會員。");
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("error", "推播通知時發生錯誤：" + e.getMessage());
+        }
+
+        return "redirect:/coupon/approve";
+    }
+
 
 }
