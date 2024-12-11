@@ -33,5 +33,10 @@ public interface CouponDetailRepository extends JpaRepository<CouponDetailVO, In
     @Query("DELETE FROM CouponDetailVO cd WHERE cd.couponDetailNo = :couponDetailNo")
     void deleteByCouponDetailNo(@Param("couponDetailNo") Integer couponDetailNo);
 
+    
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM CouponDetailVO d WHERE d.coupon.couponNo = ?1")
+    void deleteByCouponNo(Integer couponNo);
 
 }
