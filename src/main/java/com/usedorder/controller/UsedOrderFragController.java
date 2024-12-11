@@ -73,7 +73,7 @@ public class UsedOrderFragController {
 		// 返回Fragment所在的模板，並指定Fragment名稱
 		return "front-end/usedorder/BuyerUsedOrderFragment :: usedOrderFragment";
 	}
-<<<<<<< Upstream, based on branch 'master' of https://github.com/he01314905/Dobuy.git
+
 	
 	
 	
@@ -137,6 +137,4 @@ public class UsedOrderFragController {
 	
 	
 	
-=======
->>>>>>> 3a970c8 push 二手訂單頁面
 }
