@@ -49,6 +49,10 @@ public class MsgService {
         return repository.findByCounterNo(counterNo); // 如果不存在，返回 null
     }
     
+    public int countUnread(Integer counterNo) {
+        return repository.counterReader(counterNo, (byte)0);
+    }
+    
     public void addCounterInform(Integer counterNo, String informMsg) {
         MsgVO counterInformVO = new MsgVO();
         counterInformVO.setCounterNo(counterNo);

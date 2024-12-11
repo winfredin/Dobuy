@@ -16,18 +16,22 @@ import com.counter.model.CounterService;
 import com.counter.model.CounterVO;
 import com.counterType.model.CounterTypeService;
 import com.counterType.model.CounterTypeVO;
+import com.msg.model.MsgService;
 
 import java.util.*;
 
 @Controller //ch2 P65 ch3 P77 ch8 p139
 @RequestMapping("/back-end")
-public class TestCounterController {
+public class BackendCounterController {
 	
 	@Autowired
 	CounterService counterSvc;
 	
 	@Autowired
 	CounterTypeService counterTyperSvc;
+	
+    @Autowired
+    MsgService msgSvc;
 	
 	@GetMapping("counter/test") //ch2 P65 ch3 P77 ch8 p139
 	public String myMethod() {
@@ -57,8 +61,15 @@ public class TestCounterController {
 	                                  @RequestParam("counterNo") Integer counterNo,
 	                                  RedirectAttributes redirectAttributes) {
 	    try {
-	        counterSvc.upStatus(counterNo, counterStatus);
+	    	counterSvc.upStatus(counterNo, counterStatus);
+	    	CounterVO counterVO = counterSvc.getOneCounter(Integer.valueOf(counterNo));
+	        
 	        redirectAttributes.addFlashAttribute("message", "櫃位狀態修改成功！");
+	        if (counterStatus > 0) { 
+	        	String informMsg = counterVO.getCounterCName() + " 你的櫃位狀態已更改，如有疑問請聯繫客服";
+	            Integer counterNo1 = counterVO.getCounterNo();
+	            msgSvc.addCounterInform(counterNo1, informMsg); // 新增通知
+	        }
 	    } catch (Exception e) {
 	        // 這裡處理異常，例如記錄錯誤或添加錯誤消息
 	        redirectAttributes.addFlashAttribute("error", "修改失敗：" + e.getMessage());
