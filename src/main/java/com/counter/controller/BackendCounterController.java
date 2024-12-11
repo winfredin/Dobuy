@@ -1,7 +1,11 @@
 package com.counter.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.MailException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +36,28 @@ public class BackendCounterController {
 	
     @Autowired
     MsgService msgSvc;
+    
+    @Autowired
+    @Qualifier("primaryMailSender")
+    private JavaMailSender mailSender;
+    
+    private void sendEmail(CounterVO counter) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(counter.getCounterEmail());
+        message.setSubject("您的櫃位已被停權");
+        message.setText("親愛的 " + counter.getCounterName() + "，\n\n" +
+                        "我們很遺憾地通知您，您的櫃位 " + counter.getCounterCName() + " 已被停權。請盡快與我們聯繫以解決問題。\n\n" +
+                        "感謝您的理解。\n" +
+                        "您的客服團隊");
+
+        try {
+            mailSender.send(message);
+        } catch (MailException e) {
+            // 處理發送郵件失敗的情況
+            e.printStackTrace();
+            // 這裡可以選擇記錄錯誤日志或拋出異常，但不要讓發送郵件的錯誤影響主業務邏輯
+        }
+    }
 	
 	@GetMapping("counter/test") //ch2 P65 ch3 P77 ch8 p139
 	public String myMethod() {
@@ -65,7 +91,11 @@ public class BackendCounterController {
 	    	CounterVO counterVO = counterSvc.getOneCounter(Integer.valueOf(counterNo));
 	        
 	        redirectAttributes.addFlashAttribute("message", "櫃位狀態修改成功！");
-	        if (counterStatus > 0) { 
+	        //櫃位停權
+            if (counterStatus == 0) {
+                sendEmail(counterVO);
+            }
+            else if (counterStatus > 0) { 
 	        	String informMsg = counterVO.getCounterCName() + " 你的櫃位狀態已更改，如有疑問請聯繫客服";
 	            Integer counterNo1 = counterVO.getCounterNo();
 	            msgSvc.addCounterInform(counterNo1, informMsg); // 新增通知
