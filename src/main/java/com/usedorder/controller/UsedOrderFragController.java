@@ -73,6 +73,7 @@ public class UsedOrderFragController {
 		// 返回Fragment所在的模板，並指定Fragment名稱
 		return "front-end/usedorder/BuyerUsedOrderFragment :: usedOrderFragment";
 	}
+
 	
 	
 	

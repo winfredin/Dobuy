@@ -216,6 +216,12 @@ footer {
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.3);
    
 }
+footer div {
+    margin: 0;
+    padding: 0;
+    width: 100%; /* 确保子元素宽度一致 */
+    text-align: center; /* 居中对齐 */
+}
 div.use_body div.use_list{ 
     height: 100%;
     width: 25%;
