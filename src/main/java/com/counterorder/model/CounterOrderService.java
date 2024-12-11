@@ -157,6 +157,20 @@ public class CounterOrderService {
             throw e;
         }
     }
+    
+    //gary
+    public List<CounterOrderVO> ListfindByMemNoAndStatusNot4(Integer memNo) {
+    	
+    	List<CounterOrderVO> buyerOrderList	= repository.findByMemNoAndStatusNot4(memNo);
+    	
+    	return buyerOrderList;
+    }
+    
+    
+    
+    
+    
+    
 
 
 
