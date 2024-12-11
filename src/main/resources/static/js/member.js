@@ -374,7 +374,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 ////=========================二手訂單事件(我是買家)==============================================
 
-$(document).ready(function() {
+
     // 当 span id 为 a1 的元素被点击时，触发 AJAX 事件
     $('#a2').click(function() {
         // 使用AJAX从后端以POST方式获取数据
@@ -520,17 +520,16 @@ $(document).ready(function() {
 	            }
 	        });
 	    }
-});
+
 
 //=========================二手訂單事件(我是賣家)==============================================
 
 
-$(document).ready(function() {
     // 当 span id 为 a1 的元素被点击时，触发 AJAX 事件
     $('#a3').click(function() {
         // 使用AJAX从后端以POST方式获取数据
         $.ajax({
-            url: '/usedorder/getBuyerUsedOrderListFragment', // 服务器端 API，返回 Thymeleaf 片段
+            url: '/usedorder/getSellerUsedOrderListFragment', // 服务器端 API，返回 Thymeleaf 片段
             type: 'POST',
             success: function(response) {
                 console.log("Fragment HTML:", response); // 打印返回的 HTML，便于调试
@@ -576,6 +575,8 @@ $(document).ready(function() {
             }
         });
     });
+	
+
 	
 	function updateDeliveryStatus(usedOrderNo) {
 		    var deliveryStatus = $("#deliveryStatus-" + usedOrderNo).val();
@@ -636,4 +637,4 @@ $(document).ready(function() {
 	        $('#orderDetailModal').modal('show');
 	    }
 	
-});
+
