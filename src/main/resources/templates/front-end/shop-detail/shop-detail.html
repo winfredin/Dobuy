@@ -128,12 +128,31 @@
         </div>
     </section>
 
+	<!-- 原本的「請先進行登入！」彈出視窗 -->
+	<div id="login-popup" class="popup-container">
+	    <div class="popup-content">
+	        <div id="lottie-animation-login" class="lottie-animation"></div><!-- 顯示登入動畫的區域 -->
+	        <p class="popup-message">請先進行登入!</p>							<!-- 顯示的訊息 -->	
+	    </div>
+	</div>
+	
+	<!-- 新增的成功加入購物車的彈出視窗 -->
+	<div id="cart-popup" class="popup-container">
+	    <div class="popup-content">
+	        <div id="lottie-animation-cart" class="lottie-animation"></div><!-- 顯示打勾動畫的區域 -->
+	        <p class="popup-message">商品已成功加入購物車！</p>				   <!-- 顯示的訊息 -->
+	    </div>
+	</div>
+	
+	
     <footer>
         <div>© 2024 DO BUY. All Rights Reserved.</div>
     </footer>
 
     <script th:src="@{/shop-detail/js/shop_detail.js}"></script>
-
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.1/lottie.min.js"></script>
+	
+	
     <!-- 新增的 AJAX 代碼 -->
 <script>
     document.getElementById('add-to-cart-form').addEventListener('submit', function(event) {
@@ -148,14 +167,19 @@
         })
         .then(response => response.json())  // 假設伺服器回傳 JSON
         .then(data => {
-            if (data.success) {
-                alert('商品已成功加入購物車！');
+            if (data.success) {		// 如果加入購物車成功
+            	 showCartPopup();  	// 顯示成功加入購物車的彈出視窗
                 
                 // 更新購物車圖示（假設返回的資料中有購物車內商品數量）
                 document.querySelector('.cart-icon').textContent = '購物車 (' + data.cartCount + ')';
             } else {
-                alert('請先進行登入!');
-                window.location.href = '/mem/login';  // 跳轉到登入頁面
+                // 顯示彈出式視窗
+                showLoginPopup();  // 顯示請先登入的彈出視窗
+                setTimeout(function() {
+                    // 兩秒後隱藏登入彈出視窗並跳轉到登入頁面
+                    hideLoginPopup();
+                    window.location.href = '/mem/login';  // 跳轉到登入頁面
+                }, 2000);
             }
         })
         .catch(error => {
@@ -163,6 +187,51 @@
             alert('加入購物車時發生錯誤！');
         });
     });
+ // 顯示成功加入購物車的彈出視窗
+    function showCartPopup() {
+        var popup = document.getElementById('cart-popup');
+        popup.classList.add('show');
+        
+        // 初始化 Lottie 動畫
+        var animation = lottie.loadAnimation({
+            container: document.getElementById('lottie-animation-cart'),	// 動畫的容器
+            renderer: 'svg',												// 使用 SVG 渲染
+            loop: false,													// 不循環播放
+            autoplay: true,													// 自動播放
+            path: 'https://lottie.host/bcf977fe-a2c8-4754-bea3-cf415a3b9121/rOkAuE6z9O.json'  // 打勾動畫的URL
+        });
+        // 等待動畫結束後兩秒隱藏彈出視窗
+        setTimeout(function() {
+            hideCartPopup();	// 隱藏彈出視窗
+        }, 2000);  // 動畫播放完兩秒後隱藏視窗
+    }
+
+    // 隱藏成功加入購物車的彈出視窗
+    function hideCartPopup() {
+        var popup = document.getElementById('cart-popup');
+        popup.classList.add('fadeOut');	// 加入隱藏的動畫效果
+    }
+
+    // 顯示請先登入的彈出視窗
+    function showLoginPopup() {
+        var popup = document.getElementById('login-popup');
+        popup.classList.add('show');	// 加入隱藏的動畫效果
+        
+        // 初始化 Lottie 動畫（這裡可以是另一個動畫）
+        var animation = lottie.loadAnimation({
+            container: document.getElementById('lottie-animation-login'),	// 動畫的容器
+            renderer: 'svg',												// 使用 SVG 渲染
+            loop: false,													// 不循環播放
+            autoplay: true,													// 自動播放
+            path: 'https://lottie.host/6801e334-3aba-4f33-b6f1-752dd457a4bf/fsYE9LcphP.json'  // 請登入動畫URL
+        });
+    }
+
+    // 隱藏請先登入的彈出視窗
+    function hideLoginPopup() {
+        var popup = document.getElementById('login-popup');
+        popup.classList.add('fadeOut');
+    }
 </script>
 
 </body>
