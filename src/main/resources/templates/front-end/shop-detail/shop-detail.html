@@ -84,7 +84,9 @@
             </div>
 
             <div class="items -right">
-            	<h4 class="counterCName" th:text="${counterInform}"> </h4>
+				<h4 class="counterCName">
+				    <a class="counterCName_0" th:href="@{'/counter/getOneCounter_For_Display?counterNo=' + ${goods.counterVO.counterNo}}" th:text="${counterInform}"></a>
+				</h4>
                 <h1 class="title1" th:text="${goods.goodsName}"></h1>
                 <table class="desc_list">
                     <tr class="Goods_Price">
