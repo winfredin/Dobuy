@@ -301,3 +301,71 @@ section.sec1 div.flex_container div.items.-right{
   width: 20px;
   margin-right: 10px; /* 圖片與文字之間的間距 */
 }
+/* ================================== 彈出式視窗樣式 ================================== */
+/* 彈出式視窗樣式 */
+.popup-container {
+    display: none;  /* 初始不顯示 */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);	/* 使視窗居中 */
+    background-color: white;			/* 背景顏色 */
+    width: 300px;
+    height: 150px;
+    border-radius: 15px;  /* 圓角 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 輕微陰影 */
+    z-index: 9999;							/* 保證彈出視窗顯示在最上層 */
+    text-align: center;
+    padding: 20px;
+    animation: fadeIn 0.5s ease-out;		/* 顯示時的動畫 */
+}
+/* 彈出視窗內容的樣式 */
+.popup-content {
+    display: flex;
+    flex-direction: column;  /* 使內容垂直排列 */
+    align-items: center;  /* 置中對齊 */
+    justify-content: center;  /* 垂直置中 */
+}
+/* 顯示的訊息樣式 */
+.popup-message {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #333;  /* 設定文字顏色 */
+}
+/* Lottie 動畫的區域 */
+.lottie-animation {
+    width: 60px;
+    height: 60px;  /* 設定動畫尺寸 */
+}
+
+/* 顯示彈出視窗的動畫 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;	/* 逐漸顯示 */
+    }
+}
+
+/* 當彈出視窗顯示時應用這個類 */
+.popup-container.show {
+    display: block;  /* 顯示彈出視窗 */
+    animation: fadeIn 0.5s ease-out;  /* 顯示動畫 */
+}
+
+/* 隱藏彈出視窗的動畫 */
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+        display: none;  /* 設定為隱藏 */
+    }
+}
+
+/* 當彈出視窗隱藏時應用這個類 */
+.popup-container.fadeOut {
+    animation: fadeOut 1s forwards;  /* 隱藏動畫 */
+}
