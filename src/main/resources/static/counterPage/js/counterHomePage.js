@@ -160,6 +160,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 /* ===============商品收藏愛心============= */
 function toggleHeart(element) {
+	
+	
     // 切换爱心颜色
 	const memAccount = element.getAttribute('data-memAccount');
 	if (!memAccount) { // 判斷 null, undefined, 空字串
@@ -196,6 +198,20 @@ function toggleHeart(element) {
 }
 
 
+
+document.addEventListener('DOMContentLoaded', () => {
+	
+	// 使用全局變量 window.favoriteGoodsSet
+//	   console.log(window.favoriteGoodsSet); // 確保全局變量正確加載
+       // 遍历所有的爱心图标
+       document.querySelectorAll('.heart-icon-container .fas.fa-heart').forEach(icon => {
+           const goodsNo = icon.getAttribute('data-goodsNo'); // 获取商品编号
+           if (favoriteGoodsSet.includes(goodsNo)) {
+               // 如果该商品编号在 favoriteGoodsSet 中，将爱心标记为选中
+               icon.classList.add('heart-active');
+           }
+       });
+   });
 /* ===============商品收藏愛心============= */
 
 
