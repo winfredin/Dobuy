@@ -55,6 +55,7 @@ public class ShoppingCartListController {
             @RequestParam("goodsName") String goodsName,
             @RequestParam("goodsPrice") int goodsPrice,
             @RequestParam("goodsNo") int goodsNo,
+            @RequestParam("counterNo") int counterNo,
             @RequestParam("quantity") int quantity,
             HttpServletRequest req)  {
         HttpSession session = req.getSession();
@@ -84,6 +85,7 @@ public class ShoppingCartListController {
             // 如果是新商品，建立新的購物車項目
             ShoppingCartListVO shoppingCartListVO = new ShoppingCartListVO();
             shoppingCartListVO.setGoodsNo(goodsNo);
+            shoppingCartListVO.setCounterNo(counterNo);
             shoppingCartListVO.setGoodsName(goodsName);
             shoppingCartListVO.setGoodsPrice(goodsPrice);
             shoppingCartListVO.setGoodsNum(quantity);

@@ -26,6 +26,7 @@ public class ShoppingCartListVO implements java.io.Serializable {
     private Integer shoppingcartListNo;
     private Integer memNo;
     private Integer goodsNo;
+    private Integer counterNo;
     private byte[] gpPhotos1; 
     private String goodsName;
     private Integer goodsPrice;
@@ -69,6 +70,15 @@ public class ShoppingCartListVO implements java.io.Serializable {
         this.goodsNo = goodsNo;
     }
 
+    @Column(name = "counterNo")
+    public Integer getCounterNo() {
+        return counterNo;
+    }
+
+    public void setCounterNo(Integer counterNo) {
+        this.counterNo = counterNo;
+    }
+    
     @Lob
     @Column(name = "gpPhotos1")
 //    @NotNull(message = "商品主圖(必填): 請勿空白")
