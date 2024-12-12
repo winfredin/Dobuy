@@ -15,6 +15,7 @@ import com.counter.model.CounterVO;
 import com.coupon.model.CouponService;
 import com.coupon.model.CouponVO;
 import com.goods.model.GoodsVO;
+import com.msg.model.MsgService;
 
 import java.util.*;
 
@@ -30,6 +31,9 @@ public class IndexController2_inSpringBoot_Coupon {
     
     @Autowired
 	CounterService counterSvc;
+    
+    @Autowired
+    MsgService msgSvc;
 
 
     // 提供所有优惠券列表页面
@@ -43,6 +47,7 @@ public class IndexController2_inSpringBoot_Coupon {
              // 其他邏輯
              model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
              model.addAttribute("counterCouponListData", couponSvc.getOneCounter46(counter.getCounterNo()));
+             model.addAttribute("msgSvc", msgSvc);
              return "vendor-end/coupon/listAllCoupon";
          }
      }
