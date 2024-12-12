@@ -102,6 +102,7 @@ public class CouponController {
         
         model.addAttribute("couponVO", couponVO);
         model.addAttribute("counter", counter);  // 加入這行，提供給 header 使用
+        model.addAttribute("msgSvc", msgService);
         
         return "vendor-end/coupon/addCoupon";
     }
@@ -117,6 +118,7 @@ public class CouponController {
             RedirectAttributes redirectAttributes) {
 
         CounterVO counter = (CounterVO) session.getAttribute("counter");
+        model.addAttribute("msgSvc", msgService);
         if (counter == null) {
             redirectAttributes.addFlashAttribute("error", "請先登入櫃位");
             return "redirect:/counter/login";
@@ -171,6 +173,7 @@ public class CouponController {
                 return "redirect:/counter/login"; // 如果沒有登入，重定向到登入頁面
             }
             model.addAttribute("counter", counter);
+            model.addAttribute("msgSvc", msgService);
 
             // 獲取優惠券數據
             CouponVO couponVO = couponSvc.getOneCouponWithDetails(Integer.valueOf(couponNo));
@@ -219,6 +222,7 @@ public class CouponController {
 
             // 返回原頁面並顯示錯誤
             model.addAttribute("couponVO", couponVO);
+            model.addAttribute("msgSvc", msgService);
             return "vendor-end/coupon/updateCoupon";
         }
 

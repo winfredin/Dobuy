@@ -4,107 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>SellerUsedOrderFragment</title>
-<head th:insert="~{/front-end/usedorder/included-fragment}"></head>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<script>
-    $(document).ready(function() {
-        $('#exampleSeller').DataTable({
-            "lengthMenu": [3 ,5, 10, 20, 50, 100],
-            "searching": true,
-            "paging": true,
-            "ordering": true,
-            "language": {
-                "processing": "處理中...",
-                "loadingRecords": "載入中...",
-                "lengthMenu": "顯示 _MENU_ 筆結果",
-                "zeroRecords": "沒有符合的結果",
-                "info": "顯示第 _START_ 至 _END_ 筆結果，共<font color=red> _TOTAL_ </font>筆",
-                "infoEmpty": "顯示第 0 至 0 筆結果，共 0 筆",
-                "infoFiltered": "(從 _MAX_ 筆結果中過濾)",
-                "infoPostFix": "",
-                "search": "搜尋:",
-                "paginate": {
-                    "first": "第一頁",
-                    "previous": "上一頁",
-                    "next": "下一頁",
-                    "last": "最後一頁"
-                },
-                "aria": {
-                    "sortAscending":  ": 升冪排列",
-                    "sortDescending": ": 降冪排列"
-                }
-            }
-        });
-    });
-    
-    function updateDeliveryStatus(usedOrderNo) {
-	    var deliveryStatus = $("#deliveryStatus-" + usedOrderNo).val();
 
-	    $.ajax({
-	        url: "/usedorder/updateDeliveryStatus",
-	        type: "POST",
-	        data: {
-	            usedOrderNo: usedOrderNo,
-	            deliveryStatus: deliveryStatus
-	        },
-	        success: function(response) {
-	            if (response.success) {
-	                alert('更新成功');
-	                // 向 counterInform 表新增数据
-	                addCounterInform(usedOrderNo, "訂單狀態更新");
-	            } else {
-	                alert('更新失败: ' + response.error);
-	            }
-	        },
-	        error: function(xhr, status, error) {
-	            alert('更新过程中出现错误: ' + error);
-	        }
-	    });
-	}
-
-	function addNotice(usedOrderNo, message) {
-	    $.ajax({
-	        url: "/usedorder/addNotice",
-	        type: "POST",
-	        data: {
-	            usedOrderNo: usedOrderNo,
-	            message: message,
-	            buyerNo: buyerNo
-	        },
-	        success: function(response) {
-	            if (response.success) {
-	                console.log('通知新增成功');
-	            } else {
-	                console.log('通知新增失败: ' + response.error);
-	            }
-	        },
-	        error: function(xhr, status, error) {
-	            console.log('通知新增过程中出现错误: ' + error);
-	        }
-	    });
-	}
-    
-    function showOrderDetails(orderNo, buyerNo, usedNo, usedPrice, usedCount, usedTotalPrice) {
-        $('#orderDetailModal').find('.modal-body').html(
-            '<p>買家編號: ' + buyerNo + '</p>' +
-            '<p>訂單編號: ' + orderNo + '</p>' +
-            '<p>商品編號: ' + usedNo + '</p>' +
-            '<p>二手商品單價: ' + usedPrice + '</p>' +
-            '<p>購買數量: ' + usedCount + '</p>' +
-            '<p>訂單總價: ' + usedTotalPrice + '</p>'
-        );
-        $('#orderDetailModal').modal('show');
-    }
-</script>
 <style type="text/css">
 body {
     margin: 1rem 12rem 2rem 12rem;
 }
+
+#starRating i {
+            font-size: 24px;
+            color: gray;
+            cursor: pointer;
+            margin: 0 2px;
+        }
+#starRating i.selected, #starRating i.hover {
+            color: gold;
+        }
 </style>
 </head>
 <body>
@@ -154,9 +68,20 @@ body {
                 <td th:text="${usedOrderVO.receiverPhone}"></td>
                 <td th:text="${usedOrderVO.receiverAdr}"></td>
                 <td>
-                    <a href="javascript:void(0);" th:onclick="'showOrderDetails(' + ${usedOrderVO.usedOrderNo} + ', ' + ${usedOrderVO.buyerNo} + ', ' + ${usedOrderVO.usedNo} + ', ' + ${usedOrderVO.usedPrice} + ', ' + ${usedOrderVO.usedCount} + ', ' + ${usedOrderVO.usedTotalPrice} + ')'" title="查看詳細信息">
-                        <i class="fas fa-search"></i>
-                    </a>
+                <a href="javascript:void(0);" 
+                   th:attr=" data-buyerNo=${usedOrderVO.buyerNo},
+                             data-orderNo=${usedOrderVO.usedOrderNo}, 
+                             data-usedNo=${usedOrderVO.usedNo}, 
+                             data-usedPrice=${usedOrderVO.usedPrice}, 
+                             data-usedCount=${usedOrderVO.usedCount}, 
+                             data-usedTotalPrice=${usedOrderVO.usedTotalPrice}, 
+                             data-sellerSatisfication=${usedOrderVO.sellerSatisfication}, 
+                             data-sellerCommentContent=${usedOrderVO.sellerCommentContent},
+                             data-sellerCommentDate=${usedOrderVO.sellerCommentDate}"
+                   onclick="showOrderDetails(this)" title="查看詳細信息">
+                    <i class="fas fa-search"></i>
+                </a>
+            
                 </td>
                 <td>
                     <button type="button" th:onclick="'updateDeliveryStatus(' + ${usedOrderVO.usedOrderNo} + ')'">更新</button>
@@ -177,7 +102,23 @@ body {
         </button>
       </div>
       <div class="modal-body">
-        <!-- 詳情內容會動態生成並插入到這裡 -->
+        <p>買家編號: <span id="buyerNo"></span></p>
+        <p>訂單編號: <span id="orderNo"></span></p>
+        <p>商品編號: <span id="usedNo"></span></p>
+        <p>二手商品單價: <span id="usedPrice"></span></p>
+        <p>購買數量: <span id="usedCount"></span></p>
+        <p>訂單總價: <span id="usedTotalPrice"></span></p>
+        <p><strong>滿意度:</strong>
+          <span id="starRating">
+            <i class="fas fa-star" data-value="1"></i>
+            <i class="fas fa-star" data-value="2"></i>
+            <i class="fas fa-star" data-value="3"></i>
+            <i class="fas fa-star" data-value="4"></i>
+            <i class="fas fa-star" data-value="5"></i>
+          </span>
+        </p>
+        <p>評論內文: <span id="sellerCommentContent"></span></p>
+        <p>評論日期: <span id="sellerCommentDate"></span></p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
@@ -185,7 +126,7 @@ body {
     </div>
   </div>
 </div>
-</div>
+
 
 </body>
 </html>

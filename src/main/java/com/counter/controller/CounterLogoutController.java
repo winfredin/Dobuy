@@ -14,7 +14,7 @@ public class CounterLogoutController {
     @PostMapping("/logout")
     public String logout(HttpSession session, RedirectAttributes redirectAttributes) {
         // 清除session中的用户信息
-        session.invalidate();
+    	session.removeAttribute("counter");
         
         // 添加一個消息給用戶
         redirectAttributes.addFlashAttribute("message", "您已成功登出。");
