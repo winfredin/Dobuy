@@ -53,8 +53,7 @@ public class CheckoutCouponController {
     MemCouponService memCouponService;
     
     @Autowired
-    CounterOrderService counterOrderService;
-    
+    CounterOrderService counterOrderService;    
 
     @Autowired
     CounterOrderDetailService counterOrderDetailService;
@@ -65,7 +64,7 @@ public class CheckoutCouponController {
 	
     
     
-    //購物車預覽優惠顯示結帳頁面
+    //購物車預覽優惠顯示結帳頁面============顯示結帳頁面
     @GetMapping("/shoppingcartlist/ShoppingCartListCheckout49")
     public String showCheckoutPage(HttpSession session, Model model) {
         Object memNoObj = session.getAttribute("memNo");
@@ -127,7 +126,7 @@ public class CheckoutCouponController {
     }
 
 
-    // 計算折扣金額  預覽用
+    // 計算折扣金額================計算優惠折扣預覽
     @PostMapping("/shoppingcartlist/calculateDiscount")
     @ResponseBody
     public Map<String, Object> calculateDiscount(
@@ -240,74 +239,5 @@ public class CheckoutCouponController {
         }
     }
     
-    //套用優惠在訂單上
-//    @PostMapping("/shoppingcartlist/applyDiscount")
-//    @ResponseBody
-//    public Map<String, Object> applyOrderDiscount(
-//            @RequestParam Integer counterOrderNo,
-//            @RequestParam Integer memCouponNo,
-//            HttpSession session) {
-//        
-//        Map<String, Object> response = new HashMap<>();
-//        
-//        try {
-//            // 獲取訂單資訊
-//            CounterOrderVO order = counterOrderService.getOneCounterOrder(counterOrderNo);
-//            if (order == null) {
-//                return Map.of("error", "找不到指定訂單");
-//            }
-//
-//            // 驗證會員權限 - 確保訂單屬於當前登入會員
-//            Object memNoObj = session.getAttribute("memNo");
-//            if (memNoObj == null || !order.getMemNo().equals(
-//                memNoObj instanceof Integer ? (Integer) memNoObj : 
-//                Integer.parseInt((String) memNoObj))) {
-//                return Map.of("error", "沒有權限操作此訂單");
-//            }
-//
-//            // 檢查訂單狀態 - 只有未付款的訂單可以套用優惠券
-//            if (order.getOrderStatus() != 0) { // 0 表示未付款
-//                return Map.of("error", "只有未付款的訂單可以套用優惠券");
-//            }
-//
-//            // 獲取會員優惠券資訊
-//            MemCouponVO memCoupon = memCouponService.getOneMemCoupon(memCouponNo);
-//            if (memCoupon == null || memCoupon.getStatus() == 1) { // 1 表示已使用
-//                return Map.of("error", "優惠券不可用");
-//            }
-//
-//            // 獲取優惠券詳細資訊
-//            CouponVO coupon = memCoupon.getCoupon();
-//            if (coupon == null) {
-//                return Map.of("error", "優惠券資訊不完整");
-//            }
-//
-//            List<CounterOrderDetailVO> details = counterOrderDetailService.getDetailsByOrderNo(counterOrderNo);
-//            double finalTotal = details.stream()
-//                    .mapToDouble(detail -> detail.getProductDisPrice() * detail.getGoodsNum())
-//                    .sum();
-//
-//            // 更新訂單資訊
-//            order.setOrderTotalAfter((int)finalTotal);
-//            order.setMemCouponNo(memCouponNo);
-//            counterOrderService.updateCounterOrder(order);
-//
-//            // 更新優惠券狀態
-//            memCoupon.setStatus(1);
-//            memCouponService.updateMemCoupon(memCoupon);
-//
-//            // 構建回應
-//            response.put("success", true);
-//            response.put("originalTotal", order.getOrderTotalBefore());
-//            response.put("finalTotal", (int)finalTotal);
-//            
-//            return response;
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return Map.of("error", "套用優惠券時發生錯誤: " + e.getMessage());
-//        }
-//    }
-//    
 
 }
