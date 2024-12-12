@@ -47,7 +47,7 @@ public class DiscountController {
 
         /*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
         if (result.hasErrors()) {
-            return "vendor-end/discount/addDiscount";
+            return "back-end/discount/addDiscount";
         }
 
         /*************************** 2.開始新增資料 *****************************************/

@@ -64,7 +64,7 @@ public class IndexController3_inSpringBoot_Discount {
     }
 
     // 提供所有優惠活動列表頁面
-    @GetMapping("/discount/listAllDiscount")
+    @GetMapping("/listAllDiscount")
     public String listAllDiscount(Model model) {
         return "back-end/discount/listAllDiscount";
     }
