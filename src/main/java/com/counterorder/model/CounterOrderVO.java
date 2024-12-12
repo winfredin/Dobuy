@@ -53,14 +53,7 @@ public class CounterOrderVO implements java.io.Serializable {
 		this.goodsNo = goodsNo;
 	}
 
-	@Column(name = "reservedAmount")
-public Integer getReservedAmount() {
-		return reservedAmount;
-	}
 
-	public void setReservedAmount(Integer reservedAmount) {
-		this.reservedAmount = reservedAmount;
-	}
 
 	//	private Integer disno;
 //	柏翔改
