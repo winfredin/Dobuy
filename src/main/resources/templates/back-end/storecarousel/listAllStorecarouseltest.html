@@ -2,16 +2,24 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>所有商城輪播資訊 - listAllStoreCarousel.html</title>
+    <title>商城輪播資訊</title>
 
     <!-- 引入 Thymeleaf Fragment -->
     <head th:insert="~{/back-end/storecarousel/included-fragment}"></head>
-    
+
     <!-- jQuery 和 DataTables -->
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css" /> <!-- ●●css for jquery datatables 用 -->
+    <!-- Favicon -->
+    <link rel="icon" href="/back-end-home/img/core-img/logo noback.png"> 										
+    <!-- Style CSS -->
+    <link rel="stylesheet" href="/back-end-home/css/style.css"> 													
+    <!-- 套入fontawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"> 
 
     <!-- DataTables 設定 -->
     <script>
@@ -24,11 +32,11 @@
                 "language": {
                     "processing": "處理中...",
                     "loadingRecords": "載入中...",
-                    "lengthMenu": "顯示 _MENU_ 筆結果",
+                    "lengthMenu": "顯示 _MENU_ 組結果",
                     "zeroRecords": "沒有符合的結果",
-                    "info": "顯示第 _START_ 至 _END_ 筆結果，共 <span style='color:red;'>_TOTAL_</span> 筆",
-                    "infoEmpty": "顯示第 0 至 0 筆結果，共 0 筆",
-                    "infoFiltered": "(從 _MAX_ 筆結果中過濾)",
+                    "info": "顯示第 _START_ 至 _END_ 組結果，共 <span style='color:red;'>_TOTAL_</span> 組",
+                    "infoEmpty": "顯示第 0 至 0 組結果，共 0 組",
+                    "infoFiltered": "(從 _MAX_ 組結果中過濾)",
                     "search": "搜尋:",
                     "paginate": {
                         "first": "第一頁",
@@ -37,149 +45,213 @@
                         "last": "最後一頁"
                     },
                     "aria": {
-                        "sortAscending": ": 升冪排列",
-                        "sortDescending": ": 降冪排列"
+                        "sortAscending": ": 升序排列",
+                        "sortDescending": ": 降序排列"
                     }
                 }
             });
         });
     </script>
 
-    <style>
+    <style type="text/css">
         body {
-            font-family: 'Arial', sans-serif;
-            margin: 1rem auto;
-            background-color: #f2f6fc; /* 新的淺藍背景 */
+            font-family: 'Microsoft JhengHei', Arial, sans-serif;
+            margin: 0;
+            background-color:  #ffd165; /* 與上一頁相同的背景顏色 */
             color: #333;
+        }
+        h2{
+            padding: 0 0 0 10px;
         }
 
         nav {
-            background-color: #0056b3; /* 深藍色標題區 */
-            padding: 1rem;
+            background-color: #007bff;
+            padding: 1.5rem 1rem;
             border-radius: 10px;
             margin-bottom: 2rem;
+            text-align: center;
         }
 
         nav h2 {
             color: #fff;
-            text-align: center;
-            margin: 0;
-            font-size: 1.5rem;
+            font-size: 2rem;
         }
 
         nav a {
             color: #fff;
             text-decoration: none;
             font-weight: bold;
-            margin-top: 0.5rem;
-            display: inline-block;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: #fff; /* 表格白色背景 */
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-
-        thead {
-            background-color: #1e90ff; /* 表頭藍色背景 */
-            color: #fff;
-        }
-
-        tbody tr:nth-child(odd) {
-            background-color: #f7faff; /* 條紋效果 */
-        }
-
-        tbody tr:hover {
-            background-color: #e8f7ff; /* 滑鼠懸停效果 */
-        }
-
-        table th, table td {
-            padding: 1rem;
-            text-align: center;
-            border-bottom: 1px solid #ddd;
-        }
-
-        table img {
-            border-radius: 5px;
-        }
-
-        input[type="submit"] {
-            background-color: #ff5733; /* 按鈕橘色背景 */
-            color: white;
-            border: none;
-            padding: 0.4rem 0.8rem;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #c74427;
         }
 
         .container {
             padding: 2rem;
             background: #fff;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        thead {
+            background-color: #ffedda;
+            color: #000;
+        }
+
+        tbody {
+            background-color: #fff9f3;
+        }
+
+        table th, table td {
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        table img {
+            border-radius: 8px;
+        }
+
+        input[type="submit"] {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #218838;
+        }
+
+        .add-button-container {
+            text-align: right;
+            margin-bottom: 1rem;
+        }
+
+        .add-button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 10px 10px 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-button:hover {
+            background-color: #0056b3;
+        }
+
+        th:nth-child(1), td:nth-child(1) {
+            width: 35px;
+            padding: 10px !important;
+        }
+
+        th:nth-child(2), td:nth-child(2) {
+            width: 330px;
+            padding: 10px !important;
+        }
+
+        th:nth-child(3), td:nth-child(3) {
+            width: 330px;
+            padding: 10px !important;
+        }
+
+        th:nth-child(4), td:nth-child(4) {
+            width: 255px;
+            padding: 10px !important;
+        }
+
+        th:nth-child(5), td:nth-child(5) {
+            width: 255px;
+            padding: 10px !important;
+        }
+
+        input[type="submit"][value="修改"] {
+            background-color: #ffd165;
+            color: #000;
+            border: none;
+            padding: 7px 15px;
+            font-size: 12px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 5px;
+        }
+
+        input[type="submit"][value="刪除"] {
+            background-color: #ffd165;
+            color: #000;
+            border: none;
+            padding: 7px 15px;
+            font-size: 12px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 5px;
+        }
+
+        input[type="submit"][value="修改"]:hover,
+        input[type="submit"][value="刪除"]:hover {
+            background-color: #fec031;
         }
     </style>
 </head>
 <body>
+    <header class="header-area">
+        <nav>
+            <h2>商城輪播資訊</h2>
+        </nav>
 
-<nav>
-    <h2>所有商城輪播資訊</h2>
-    <div style="text-align: center;">
-        <a th:href="@{/storecarousel/selectPageStorecarousel}">
-            <img th:src="@{/images/back1.gif}" alt="返回查詢頁" style="vertical-align: middle; margin-right: 8px;"> 回查詢頁
-        </a>
-    </div>
-</nav>
-
-<div class="container">
-    <table id="example" class="display">
-        <thead>
-            <tr>
-                <th>輪播資訊編號</th>
-                <th>櫃位編號</th>
-                <th>平台優惠編號</th>
-                <th>輪播時間</th>
-                <th>輪播圖片</th>
-                <th>修改</th>
-                <th>刪除</th>
-            </tr>
-        </thead>
-        <tbody>
-            <th:block th:each="storeCarouselVO : ${storeCarouselList}">
-                <tr>
-                    <td th:text="${storeCarouselVO.id}"></td>
-                    <td th:text="${storeCarouselVO.counterNo}"></td>
-                    <td th:text="${storeCarouselVO.disNo}"></td>
-                    <td th:text="${storeCarouselVO.carouselTime}"></td>
-                    <td>
-						<img th:src="'data:image/jpeg;base64,' + ${storeCarouselVO.base64Image}" alt="carousel image" width="100" height="75" />
-                    </td>
-                    <td>
-                        <form method="post" th:action="@{/storecarousel/getOneForUpdate}" style="margin-bottom: 0;">
-                            <input type="submit" value="修改">
-                            <input type="hidden" name="storeCarouselNo" th:value="${storeCarouselVO.id}">
-                        </form>
-                    </td>
-                    <td>
-                        <form method="post" th:action="@{/storecarousel/delete}" style="margin-bottom: 0;">
-                            <input type="submit" value="刪除">
-                            <input type="hidden" name="storeCarouselNo" th:value="${storeCarouselVO.id}">
-                        </form>
-                    </td>
-                </tr>
-            </th:block>
-        </tbody>
-    </table>
-</div>
-
-</body>
+        <div class="container">
+            <div class="add-button-container">
+                <form th:action="@{/storecarousel/addStorecarousel}" method="get">
+                    <button type="submit" class="add-button">新增</button>
+                </form>
+            </div>
+            
+            <table id="example" class="display">
+                <thead>
+                    <tr>
+                        <th>輪播資訊編號</th>
+                        <th>櫃位編號</th>
+                        <th>平台優惠編號</th>
+                        <th>輪播時間</th>
+                        <th>輪播圖片</th>
+                        <th>修改</th>
+                        <th>刪除</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <th:block th:each="storeCarouselVO : ${storeCarouselList}">
+                        <tr>
+                            <td th:text="${storeCarouselVO.id}"></td>
+                            <td th:text="${storeCarouselVO.counterNo}"></td>
+                            <td th:text="${storeCarouselVO.disNo}"></td>
+                            <td th:text="${storeCarouselVO.carouselTime}"></td>
+                            <td><img th:src="'data:image/jpeg;base64,' + ${storeCarouselVO.base64Image}" alt="carousel image" width="100" height="75" /></td>
+                            <td>
+                                <form th:action="@{/storecarousel/getOneForUpdate}" method="post">
+                                    <input type="submit" value="修改">
+                                    <input type="hidden" name="storeCarouselNo" th:value="${storeCarouselVO.id}">
+                                </form>
+                            </td>
+                            <td>
+                                <form th:action="@{/storecarousel/delete}" method="post">
+                                    <input type="submit" value="刪除">
+                                    <input type="hidden" name="storeCarouselNo" th:value="${storeCarouselVO.id}">
+                                </form>
+                            </td>
+                        </tr>
+                    </th:block>
+                </tbody>
+            </table>
+        </div>
+    </body>
 </html>
