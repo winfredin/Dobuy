@@ -364,13 +364,13 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // 假设触发嵌入 DataTable 的点击事件
-    document.getElementById('loadDataTableButton').addEventListener('click', function () {
-        // 模拟嵌入新表格（根据你的需求可能是 AJAX 或其他加载方式）
-        // 这里假设 DataTable 已嵌入 DOM 中
-
-        // 初始化新的 DataTable
-        initializeDataTable();
-    });
+//    document.getElementById('loadDataTableButton').addEventListener('click', function () {
+//        // 模拟嵌入新表格（根据你的需求可能是 AJAX 或其他加载方式）
+//        // 这里假设 DataTable 已嵌入 DOM 中
+//
+//        // 初始化新的 DataTable
+//        initializeDataTable();
+//    });
 });
 
 ////=========================二手訂單事件(我是買家)==============================================
@@ -684,6 +684,172 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 order.style.display = 'none'; // 隱藏不匹配的訂單
             }
+        });
+    });
+});
+//==============================星形評分互動============================
+document.addEventListener("DOMContentLoaded", () => {
+    const maxStars = 5; // 最大星星數
+
+    // 星形評分互動
+    $(document).on('mouseenter', '#starRating i', function () {
+        const hoverValue = $(this).data('value');
+        $('#starRating i').each(function () {
+            if ($(this).data('value') <= hoverValue) {
+                $(this).addClass('hover');
+            } else {
+                $(this).removeClass('hover');
+            }
+        });
+    });
+
+    $(document).on('mouseleave', '#starRating i', function () {
+        $('#starRating i').removeClass('hover');
+    });
+
+    $(document).on('click', '#starRating i', function () {
+        const selectedValue = $(this).data('value');
+        $('#sellerSatisfication').val(selectedValue); // 更新隱藏輸入框的值
+        $('#starRating i').each(function () {
+            if ($(this).data('value') <= selectedValue) {
+                $(this).addClass('selected');
+            } else {
+                $(this).removeClass('selected');
+            }
+        });
+    });
+
+    // 顯示訂單詳細資訊
+    window.showOrderDetails = function (element) {
+        const orderNo = element.getAttribute('data-orderNo');
+        const usedNo = element.getAttribute('data-usedNo');
+        const usedPrice = element.getAttribute('data-usedPrice');
+        const usedCount = element.getAttribute('data-usedCount');
+        const usedTotalPrice = element.getAttribute('data-usedTotalPrice');
+        const receiverName = element.getAttribute('data-receiverName');
+        const receiverPhone = element.getAttribute('data-receiverPhone');
+        const receiverAdr = element.getAttribute('data-receiverAdr');
+        const sellerSatisfication = element.getAttribute('data-sellerSatisfication');
+        const sellerCommentContent = element.getAttribute('data-sellerCommentContent');
+        const sellerCommentDate = element.getAttribute('data-sellerCommentDate');
+
+        $('#orderDetailModal').find('#orderNo').text(orderNo);
+        $('#orderDetailModal').find('#usedNo').text(usedNo);
+        $('#orderDetailModal').find('#usedPrice').text(usedPrice);
+        $('#orderDetailModal').find('#usedCount').text(usedCount);
+        $('#orderDetailModal').find('#usedTotalPrice').text(usedTotalPrice);
+        $('#orderDetailModal').find('#receiverName').text(receiverName);
+        $('#orderDetailModal').find('#receiverPhone').text(receiverPhone);
+        $('#orderDetailModal').find('#receiverAdr').text(receiverAdr);
+        $('#orderDetailModal').find('#sellerSatisfication').val(sellerSatisfication);
+        $('#orderDetailModal').find('#sellerCommentContent').val(sellerCommentContent);
+        $('#orderDetailModal').find('#sellerCommentDate').text(sellerCommentDate);
+
+        $('#orderDetailModal').find('.modal-footer').html(
+            '<button type="button" class="btn btn-primary" onclick="saveComment(' + orderNo + ')">保存</button>' +
+            '<button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>'
+        );
+
+        // 設置星形評分
+        $('#starRating i').removeClass('selected');
+        $('#starRating i').each(function () {
+            if ($(this).data('value') <= sellerSatisfication) {
+                $(this).addClass('selected');
+            }
+        });
+
+        $('#sellerSatisfication').val(sellerSatisfication);
+        $('#orderDetailModal').modal('show');
+    };
+
+    // 保存評論
+	function saveComment() {
+	    var formData = new FormData();
+	    formData.append('usedOrderNo', $('#orderNo').text());
+	    formData.append('sellerCommentContent', $('#sellerCommentContent').val());
+	    formData.append('sellerSatisfication', $('#sellerSatisfication').val());
+	    
+	    console.log("orderNo = " + $('#orderNo').val());
+	    console.log("sellerCommentContent = " + $('#sellerCommentContent').val());
+	    console.log("sellerSatisfication = " + $('#sellerSatisfication').val());
+
+	    $.ajax({
+	        url: '/usedorder/updateFragComment',
+	        type: 'POST',
+	        data: formData,
+	        processData: false,
+	        contentType: false,
+	        success: function(response) {
+	            if (response.success) {
+	                alert('評論更新成功');
+	                var imageUrl = response.imageUrl; // 假設後端返回了更新後的圖片 URL
+	                $('#imgPreview').attr('src', imageUrl);
+	                $('#imgPreview').show();
+	                $('#orderDetailModal').modal('hide');
+	                location.reload();  // 刷新页面，更新顯示
+	            } else {
+	                alert('評論更新失敗: ' + response.error);
+	            }
+	        },
+	        error: function(xhr, status, error) {
+	            alert('評論更新过程中出現錯誤: ' + error);
+	        }
+	    });
+	}
+
+    // 發送投訴郵件
+    window.sendComplaintEmail = function () {
+        const orderNo = $('#orderNo').text();
+        const subject = $('#complaintSubject').val();
+        const content = $('#complaintContent').val();
+
+        const formData = new FormData();
+        formData.append('orderNo', orderNo);
+        formData.append('subject', subject);
+        formData.append('content', content);
+
+        $.ajax({
+            url: '/usedorder/sendComplaintEmail',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                if (response.success) {
+                    alert('郵件發送成功');
+                } else {
+                    alert('郵件發送失敗: ' + response.error);
+                }
+            },
+            error: function (xhr, status, error) {
+                alert('郵件發送過程中出現錯誤: ' + error);
+            }
+        });
+    };
+
+    // 渲染星形評分
+    function renderStars(element, rating) {
+        let starsHtml = '';
+        for (let i = 1; i <= maxStars; i++) {
+            if (i <= rating) {
+                starsHtml += '<i class="fas fa-star" style="color: gold;"></i>'; // 實心星星
+            } else {
+                starsHtml += '<i class="far fa-star" style="color: gold;"></i>'; // 空心星星
+            }
+        }
+        element.innerHTML = starsHtml; // 清空並重新設置 HTML
+    }
+
+    $(document).on('mouseenter', '.star-display', function () {
+        const rating = $(this).data('rating');
+        renderStars(this, rating);
+    });
+
+    // 動態生成的內容重新初始化
+    $(document).ajaxComplete(function () {
+        $('.star-display').each(function () {
+            const rating = $(this).data('rating');
+            renderStars(this, rating);
         });
     });
 });
