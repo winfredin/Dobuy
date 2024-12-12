@@ -29,6 +29,8 @@ public class HibernateUtil_CompositeQuery_ShoppingCartList {
             predicate = builder.equal(root.get(columnName), Integer.valueOf(value));
         } else if ("goodsNo".equals(columnName)) { // 用於 Integer
             predicate = builder.equal(root.get(columnName), Integer.valueOf(value));
+        } else if ("counterNo".equals(columnName)) { // 用於 Integer
+        	predicate = builder.equal(root.get(columnName), Integer.valueOf(value));
         } else if ("goodsNum".equals(columnName)) { // 用於 Integer
             predicate = builder.equal(root.get(columnName), Integer.valueOf(value));
         }
