@@ -3,6 +3,8 @@ package com.counterHome;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -77,6 +79,7 @@ public class counterHome {
 	@GetMapping("getOneGoods") // 11/28 測試點商品後帶到商品詳情頁面
 	public String getOneGoods(@RequestParam("goodsNo") String goodsNo, ModelMap model) {
 		GoodsVO goods = goodsSvc.getOneGoods(Integer.valueOf(goodsNo)); // 查詢到回傳的是一個物件
+		
 		
 		//==================以下羿豪新增的=====================//
 	    Integer counterNo = goods.getCounterVO().getCounterNo(); // 透過 CounterVO 取得 counterNo

@@ -61,6 +61,7 @@ public class ShoppingCartListController {
         HttpSession session = req.getSession();
         Object memAccount = session.getAttribute("memAccount");
 
+        String memNo = (String) session.getAttribute("memNo"); // 用 session 獲取用戶 ID
         if (memAccount == null) {
             Map<String, Object> response = new HashMap<>();
             response.put("success", false);
@@ -84,6 +85,7 @@ public class ShoppingCartListController {
         } else {
             // 如果是新商品，建立新的購物車項目
             ShoppingCartListVO shoppingCartListVO = new ShoppingCartListVO();
+            shoppingCartListVO.setMemNo(Integer.valueOf(memNo));
             shoppingCartListVO.setGoodsNo(goodsNo);
             shoppingCartListVO.setCounterNo(counterNo);
             shoppingCartListVO.setGoodsName(goodsName);
