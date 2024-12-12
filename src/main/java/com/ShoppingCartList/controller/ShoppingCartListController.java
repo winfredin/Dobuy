@@ -57,11 +57,12 @@ public class ShoppingCartListController {
             @RequestParam("goodsNo") int goodsNo,
             @RequestParam("counterNo") int counterNo,
             @RequestParam("quantity") int quantity,
-            HttpServletRequest req)  {
+            HttpServletRequest req) {
+
         HttpSession session = req.getSession();
         Object memAccount = session.getAttribute("memAccount");
-
         String memNo = (String) session.getAttribute("memNo"); // 用 session 獲取用戶 ID
+
         if (memAccount == null) {
             Map<String, Object> response = new HashMap<>();
             response.put("success", false);
@@ -69,18 +70,18 @@ public class ShoppingCartListController {
             return ResponseEntity.ok(response);
         }
 
-        // 先檢查是否已有相同商品
-        List<ShoppingCartListVO> existingCartItems = repository.findByGoodsNo(goodsNo);
-        
+        // 根據 memNo 和 goodsNo 查詢是否已經有相同商品
+        List<ShoppingCartListVO> existingCartItems = repository.findByMemNoAndGoodsNo(Integer.valueOf(memNo), goodsNo);
+
         if (!existingCartItems.isEmpty()) {
             // 如果已有相同商品，更新數量和總價
             ShoppingCartListVO existingItem = existingCartItems.get(0);
             int newQuantity = existingItem.getGoodsNum() + quantity;
             int newTotalPrice = goodsPrice * newQuantity;
-            
+
             existingItem.setGoodsNum(newQuantity);
             existingItem.setOrderTotalprice(newTotalPrice);
-            
+
             shoppingCartListSvc.updateShoppingCartList(existingItem);
         } else {
             // 如果是新商品，建立新的購物車項目
