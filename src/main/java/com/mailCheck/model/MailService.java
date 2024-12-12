@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class MailService {
 
 	public void sendEmail(String toEmail, String verificationCode) {
 		SimpleMailMessage message = new SimpleMailMessage();
+		message.setFrom("TibameMailCIA103@gmail.com");
 		message.setTo(toEmail);
 		message.setSubject("驗證碼 (Secondary Email)");
 		message.setText("您的驗證碼是：" + verificationCode + "，請在有效時間內使用！");
