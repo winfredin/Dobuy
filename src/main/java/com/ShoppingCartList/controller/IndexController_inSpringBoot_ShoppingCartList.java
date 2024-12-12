@@ -89,6 +89,7 @@ public class IndexController_inSpringBoot_ShoppingCartList {
                 // 扣除庫存
                 goods.setGoodsAmount(goods.getGoodsAmount() - cartItem.getGoodsNum());
                 goodsSvc.updateGoodsAmount(cartItem.getGoodsNo(), goods.getGoodsAmount());
+            
             }
         }
 
