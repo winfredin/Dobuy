@@ -3,186 +3,150 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>櫃位輪播資訊管理 - selectPage.html</title>
-
-<div th:insert="~{/vendor-end/countercarousel/included-fragment}"></div> <!-- 使用included-fragment.html網頁的全部 -->
+<title>商城輪播資訊新增</title>
+<!-- Style CSS -->
+<link rel="stylesheet" href="/back-end-home/css/style.css"> 	
+<head th:insert="~{/back-end/storecarousel/included-fragment}"></head>
 <style type="text/css">
-    /* Reuse styles from previous page for consistency */
-    body {
-        background-color: #f4f4f9; /* Light background */
-        font-family: Arial, sans-serif;
+    /* 讓整體區塊有圓角和陰影 */
+    .addStoreCarousel {
+        background-color: #ffffff; /* 設置背景顏色為白色 */
+        border-radius: 15px; /* 設置圓角為15px */
+        padding: 20px; /* 設置內邊距為20px，讓內容不會貼邊 */
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1); /* 添加陰影效果，使區塊看起來立體 */
+        max-width: 800px; /* 設置區塊最大寬度為800px */
+        margin: 20px auto; /* 使區塊垂直居中並上下留有20px的間距 */
     }
 
-    /* Navbar with dark header */
-    nav.navbar {
-        background-color: #343a40;
-        border-bottom: 2px solid #ffd165; /* Adds a subtle yellow line under the navbar */
-    }
-
-    .navbar h2, .navbar h3 {
-        color: white;
-    }
-
-    .navbar-brand img {
-        width: 30px; /* Adjust size of the back button */
-    }
-
-    .navbar h3 a {
-        color: white;
-        text-decoration: none;
-    }
-
-    /* Section container with shadow and rounded corners */
-    .a {
-        background-color: #ffffff; /* White background */
-        border-radius: 15px; /* Rounded corners */
-        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1); /* Add soft shadow */
-        padding: 20px;
-        max-width: 800px;
-        margin: 20px auto; /* Center align and add space */
-    }
-
-    /* Form styling */
+    /* 表單容器樣式 */
     form {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        margin-top: 10px;
+        display: flex; /* 設置為flex布局 */
+        flex-direction: column; /* 垂直排列項目 */
+        align-items: flex-start; /* 左對齊表單項目 */
+        margin-top: 10px; /* 設置表單頂部的間距為10px */
     }
 
+    /* 每一個表單項目的間距 */
     form div {
-        margin-bottom: 20px;
-        width: 100%;
+        margin-bottom: 20px; /* 設置每個表單項目底部的間距為20px */
+        width: 100%; /* 設置每個表單項目的寬度為100% */
     }
 
-    label {
-        font-weight: bold;
-        margin-bottom: 5px;
+    /* label 標籤的樣式 */
+    form div label {
+        display: block; /* 將label顯示為區塊級元素 */
+        margin-bottom: 5px; /* 設置label底部的間距為5px */
+        text-align: left; /* 讓label文字左對齊 */
     }
 
-    input[type="text"], input[type="password"], select, textarea {
-        width: 100%;
-        padding: 8px;
-        margin: 5px 0;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        background-color: #f9f9f9;
-        box-sizing: border-box;
+    /* 輸入框與選擇框的樣式 */
+    input[type="text"], select, input[type="file"] {
+        width: 100%; /* 設置輸入框和選擇框寬度為100% */
+        padding: 8px; /* 設置內邊距為8px */
+        margin: 5px 0; /* 設置上下間距為5px */
+        border: 1px solid #ccc; /* 設置邊框為1px寬，顏色為灰色 */
+        border-radius: 5px; /* 設置圓角為5px */
+        background-color: #f9f9f9; /* 設置背景顏色為淺灰色 */
+        box-sizing: border-box; /* 設置為border-box，保證padding不會影響元素寬度 */
     }
 
-    input[type="text"]:focus, input[type="password"]:focus, select:focus {
-        border-color: #ffd165; /* Focus effect */
-        outline: none;
+    /* 輸入框與選擇框聚焦時的邊框顏色變化 */
+    input[type="text"]:focus, select:focus {
+        outline: none;         /* 去掉聚焦時的藍色外圍邊框 */
+        border-color: #ffd165; /* 聚焦時邊框顏色變為藍色 */
     }
 
-    /* Buttons style */
-    button {
-        padding: 10px 20px;
-        background-color: #ffd165;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
+    /* 顯示錯誤訊息的樣式 */
+    .error {
+        color: red; /* 錯誤訊息顯示為紅色 */
+        font-size: 12px; /* 設置字體大小為12px */
+        margin-top: 5px; /* 設置錯誤訊息與上方元素的間距為5px */
     }
 
-    button:hover {
-        background-color: #fec031;
+    /* 送出按鈕的樣式 */
+    button#submit {
+        padding: 10px 20px; /* 設置內邊距，10px上下，20px左右 */
+        background-color: #ffd165; /* 橘色背景 */
+        color: white; /* 設置文字顏色為白色 */
+        border: none; /* 去除按鈕的邊框 */
+        border-radius: 5px; /* 設置圓角為5px */
+        cursor: pointer; /* 當滑鼠懸停時顯示為指標 */
+        font-size: 16px; /* 設置字體大小為16px */
+        margin-top: 10px; /* 設置按鈕與上方元素的間距為10px */
     }
 
-    /* Center the error block */
-    .errorblock {
-        color: red;
-        font-size: 14px;
+    /* 送出按鈕的懸停效果 */
+    button#submit:hover {
+        background-color: #fec031;  /* 當滑鼠懸停時變成稍深的橘色 */
     }
 
-    /* Align the list of options and inputs */
-    ul {
-        list-style-type: none;
-        padding-left: 0;
+    /* 取消按鈕的樣式 */
+    button#cancel {
+        padding: 10px 20px; /* 設置內邊距，10px上下，20px左右 */
+        background-color: #ccc; /* 設置背景顏色為灰色 */
+        color: white; /* 設置文字顏色為白色 */
+        border: none; /* 去除按鈕的邊框 */
+        border-radius: 5px; /* 設置圓角為5px */
+        cursor: pointer; /* 當滑鼠懸停時顯示為指標 */
+        font-size: 16px; /* 設置字體大小為16px */
+        margin-right: 10px; /* 設置右邊距為10px */
     }
 
-    li {
-        margin: 10px 0;
+    /* 取消按鈕的懸停效果 */
+    button#cancel:hover {
+        background-color: #b3b3b3; /* 當滑鼠懸停時，背景顏色變為較深的灰色 */
     }
 </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
-    <div align="center"> 
-        <h2>櫃位輪播資訊管理 - selectPage.html</h2>
-        <h3>
-            <a class="navbar-brand" th:href="@{/}">
-                <img th:src="@{/images/back1.gif}">回首頁
-            </a>
-        </h3>
+<div align="center">
+  <section class="addStoreCarousel"> 
+    <h3><b>商城輪播資訊新增</b></h3>
+    <form th:action="@{insert}" method="post" th:object="${storeCarouselVO}" enctype="multipart/form-data">
+    <div>
+        <label>輪播資訊編號:</label>
+        <input type="text" th:field="*{id}" readonly/><br/>
+        <span th:if="${#fields.hasErrors('id')}" th:errors="*{id}" class="error"></span>
     </div>
-</nav>
 
-<br><br><br><br><br><br>
+    <div>
+        <label>櫃位編號:</label>
+        <input type="text" th:field="*{counterNo}" /><br/>
+        <span th:if="${#fields.hasErrors('counterNo')}" th:errors="*{counterNo}" class="error"></span>
+    </div>
 
-<h4><span>資料查詢:</span></h4>
+    <div>
+        <label>平台優惠編號:</label>
+        <input type="text" th:field="*{disNo}" /><br/>
+        <span th:if="${#fields.hasErrors('disNo')}" th:errors="*{disNo}" class="error"></span>
+    </div>
 
-<!-- Error block -->
-<div class="errorblock" th:utext="${errorMessage}">${errorMessage}</div><br>
+    <div>
+        <label>輪播時間:</label>
+        <input type="text" th:field="*{carouselTime}" /><br/>
+        <span th:if="${#fields.hasErrors('carouselTime')}" th:errors="*{carouselTime}" class="error"></span>
+    </div>
 
-<div class="a">
-  <ul>
-    <li><h5><a th:href="@{/countercarousel/ALLCarousel}">List</a> all Counter Carousels. <br><br></h5></li>
+    <div>
+        <label>輪播圖片:</label>
+        <input type="file" th:field="*{upFile}" /><br/>
+        <span th:if="${#fields.hasErrors('upFile')}" th:errors="*{upFile}" class="error"></span>
+    </div>
 
-    <li>
-        <form method="post" th:action="@{/countercarousel/getOneForDisplay}">
-            輸入輪播資訊編號:
-            <input type="text" name="counterCarouselNo" th:value="${param.id}" > 
-            <input type="submit" value="送出">
-        </form><br>
-    </li>
+    <div>
+        <button type="button" id="cancel" onclick="history.back();">取消</button>
+        <button type="submit" id="submit">送出</button>
+    </div>
+</form>
 
-    <li><form method="post" th:action="@{/countercarousel/getOneForDisplay}">
-            選擇輪播資訊編號:
-            <select name="counterCarouselNo">
-                <option th:each="counterCarouselVO : ${counterCarouselList}" th:value="${counterCarouselVO.id}" th:text="${counterCarouselVO.id}" />
-            </select>
-            <input type="submit" value="送出">
-        </form><br>
-    </li>
 
-    <li><form method="post" th:action="@{/countercarousel/getOneForDisplay}">
-            選擇櫃位編號:
-            <select name="counterNo">
-                <option th:each="counterCarouselVO : ${counterCarouselListData}" th:value="${counterCarouselVO.counterNo}" th:text="${counterCarouselVO.counterNo}" />
-            </select>
-            <input type="submit" value="送出">
-        </form><br>
-    </li>
-    
-    <!-- Advanced query -->
-    <li>   
-    <form method="post" th:action="@{/countercarousel/listByCompositeQuery}">
-        <font color=blue>萬用複合查詢:</font><br>
-        輸入輪播資訊編號: 
-        <input type="text" name="counterCarouselNo" value=""><br>
-        輸入櫃位編號: 
-        <input type="text" name="counterNo" value=""><br>
-        輸入商品編號: 
-        <input type="text" name="goodsNo" value=""><br>
-        <input type="submit" value="送出">
-     </form>
-  </li>
-  </ul>   
-
-<h4><span>櫃位輪播資訊管理</span></h4>
-<ul>
-    <li><h5><a th:href="@{/countercarousel/addCarousel}">Add</a> a new Counter Carousel.</h5></li>
-</ul>
-</div>
-    
-<!-- 旗標getOne_For_Display見CounterCarouselController.java的相關邏輯 -->
-<div class="b" th:if="${getOneForDisplay}">
-    <!-- 使用listOneCounterCarousel.html網頁的listOneCounterCarousel-div片段 --> 
-    <div th:insert="~{/vendor-end/countercarousel/listOneCounterStorecarousel :: listOneCounterStorecarousel-div}"></div>
-</div>
+<script type="text/javascript">
+// 清除提示信息
+function hideContent(d) {
+    document.getElementById(d).style.display = "none";
+}
+</script>
 
 </body>
 </html>

@@ -6,14 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>商城輪播資訊</title>
-
-    <!-- 引入 Thymeleaf Fragment -->
-    <head th:insert="~{/back-end/storecarousel/included-fragment}"></head>
-
-    <!-- jQuery 和 DataTables -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css" /> <!-- ●●css for jquery datatables 用 -->
+	<!-- fragment引入 -->
+	<th:block th:replace="~{back-end/back-end-home/fraghead :: head}"></th:block>
+	<head th:insert="~{/back-end/storecarousel/included-fragment}"></head>
+	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>                                    <!-- ●●js  for jquery datatables 用 -->
+	<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>              <!-- ●●js  for jquery datatables 用 -->
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css" /> <!-- ●●css f
     <!-- Favicon -->
     <link rel="icon" href="/back-end-home/img/core-img/logo noback.png"> 										
     <!-- Style CSS -->
@@ -22,192 +20,134 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"> 
 
     <!-- DataTables 設定 -->
-    <script>
-        $(document).ready(function() {
-            $('#example').DataTable({
-                "lengthMenu": [3, 5, 10, 20, 50, 100],
-                "searching": true,
-                "paging": true,
-                "ordering": true,
-                "language": {
-                    "processing": "處理中...",
-                    "loadingRecords": "載入中...",
-                    "lengthMenu": "顯示 _MENU_ 組結果",
-                    "zeroRecords": "沒有符合的結果",
-                    "info": "顯示第 _START_ 至 _END_ 組結果，共 <span style='color:red;'>_TOTAL_</span> 組",
-                    "infoEmpty": "顯示第 0 至 0 組結果，共 0 組",
-                    "infoFiltered": "(從 _MAX_ 組結果中過濾)",
-                    "search": "搜尋:",
-                    "paginate": {
-                        "first": "第一頁",
-                        "previous": "上一頁",
-                        "next": "下一頁",
-                        "last": "最後一頁"
-                    },
-                    "aria": {
-                        "sortAscending": ": 升序排列",
-                        "sortDescending": ": 降序排列"
-                    }
-                }
-            });
-        });
-    </script>
+<script>
+	var dataTablesJQ = $.noConflict(true); // 使用獨立的 jQuery 實例
+	dataTablesJQ(document).ready(function() {
+		dataTablesJQ('#example').DataTable({
+			"lengthMenu" : [10,20, 50, 100 ],
+			"searching" : true,
+			"paging" : true,
+			"ordering" : true,
+			"language" : {
+				"processing" : "處理中...",
+				"loadingRecords" : "載入中...",
+				"lengthMenu" : "顯示 _MENU_ 筆結果",
+				"zeroRecords" : "沒有符合的結果",
+				"info" : "顯示第 _START_ 至 _END_ 筆結果，共 _TOTAL_ 筆",
+				"infoEmpty" : "顯示第 0 至 0 筆結果，共 0 筆",
+				"infoFiltered" : "(從 _MAX_ 筆結果中過濾)",
+				"search" : "搜尋:",
+				"paginate" : {
+					"first" : "第一頁",
+					"previous" : "上一頁",
+					"next" : "下一頁",
+					"last" : "最後一頁"
+				},
+				"aria" : {
+					"sortAscending" : ": 升冪排列",
+					"sortDescending" : ": 降冪排列"
+				}
+			}
+		});
+	});
+</script>
 
     <style type="text/css">
         body {
-            font-family: 'Microsoft JhengHei', Arial, sans-serif;
-            margin: 0;
-            background-color:  #ffd165; /* 與上一頁相同的背景顏色 */
-            color: #333;
-        }
-        h2{
-            padding: 0 0 0 10px;
-        }
+    margin: 0rem 0rem 2rem 0rem;
+    padding: 0;
+  }
 
-        nav {
-            background-color: #007bff;
-            padding: 1.5rem 1rem;
-            border-radius: 10px;
-            margin-bottom: 2rem;
-            text-align: center;
-        }
+         table { 
+             width: 100%;
+             border-collapse: collapse; 
+             background-color: #ffffff; 
+             border-radius: 10px; 
+             overflow: hidden; 
+         } 
 
-        nav h2 {
-            color: #fff;
-            font-size: 2rem;
-        }
+         thead { 
+             background-color: #ffedda; 
+             color: #000; 
+         } 
 
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            font-weight: bold;
-        }
+         tbody { 
+             background-color: #fff9f3; 
+        } 
 
-        .container {
-            padding: 2rem;
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
+         table th, table td { 
+             padding: 1rem; 
+             text-align: center; 
+             border-bottom: 1px solid #dee2e6; 	
+         } 
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: #ffffff;
-            border-radius: 10px;
-            overflow: hidden;
-        }
+         table img { 
+             border-radius: 8px; 
+        } 
 
-        thead {
-            background-color: #ffedda;
-            color: #000;
-        }
+         .add-button-container { 
+             text-align: right; 
+             margin-bottom: 1rem; 
+         } 
 
-        tbody {
-            background-color: #fff9f3;
-        }
+         .add-button { 
+             background-color: #28a745; 
+             color: white; 
+             border: none; 
+             padding: 10px 10px 10px 10px; 
+             border-radius: 10px; 
+             cursor: pointer; 
+             font-size: 14px; 
+             transition: background-color 0.3s ease; 
+         } 
 
-        table th, table td {
-            padding: 1rem;
-            text-align: center;
-            border-bottom: 1px solid #dee2e6;
-        }
+/*          .add-button:hover {  */
+/*              background-color: #0056b3;  */
+/*         }  */
 
-        table img {
-            border-radius: 8px;
-        }
 
-        input[type="submit"] {
-            background-color: #28a745;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+       input[type="submit"][value="修改"] { 
+            background-color: #ffd165; 
+             color: #000; 
+             border: none; 
+             padding: 7px 15px; 
+             font-size: 12px; 
+            cursor: pointer;             
+             border-radius: 5px;              
+             margin: 5px; 
+        } 
 
-        input[type="submit"]:hover {
-            background-color: #218838;
-        }
-
-        .add-button-container {
-            text-align: right;
-            margin-bottom: 1rem;
-        }
-
-        .add-button {
-            background-color: #28a745;
-            color: white;
-            border: none;
-            padding: 10px 10px 10px 10px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background-color 0.3s ease;
-        }
-
-        .add-button:hover {
-            background-color: #0056b3;
-        }
-
-        th:nth-child(1), td:nth-child(1) {
-            width: 35px;
-            padding: 10px !important;
-        }
-
-        th:nth-child(2), td:nth-child(2) {
-            width: 330px;
-            padding: 10px !important;
-        }
-
-        th:nth-child(3), td:nth-child(3) {
-            width: 330px;
-            padding: 10px !important;
-        }
-
-        th:nth-child(4), td:nth-child(4) {
-            width: 255px;
-            padding: 10px !important;
-        }
-
-        th:nth-child(5), td:nth-child(5) {
-            width: 255px;
-            padding: 10px !important;
-        }
-
-        input[type="submit"][value="修改"] {
-            background-color: #ffd165;
-            color: #000;
-            border: none;
+         input[type="submit"][value="刪除"] { 
+             background-color: #ffd165; 
+            color: #000; 
+             border: none; 
             padding: 7px 15px;
-            font-size: 12px;
-            cursor: pointer;
-            border-radius: 5px;
-            margin: 5px;
-        }
+            font-size: 12px; 
+             cursor: pointer; 
+            border-radius: 5px; 
+            margin: 5px; 
+         } 
 
-        input[type="submit"][value="刪除"] {
-            background-color: #ffd165;
-            color: #000;
-            border: none;
-            padding: 7px 15px;
-            font-size: 12px;
-            cursor: pointer;
-            border-radius: 5px;
-            margin: 5px;
-        }
-
-        input[type="submit"][value="修改"]:hover,
-        input[type="submit"][value="刪除"]:hover {
-            background-color: #fec031;
-        }
-    </style>
+/*         input[type="submit"][value="修改"]:hover, */
+/*         input[type="submit"][value="刪除"]:hover { */
+/*             background-color: #fec031; */
+/*         } */
+     </style>
 </head>
 <body>
     <header class="header-area">
-        <nav>
-            <h2>商城輪播資訊</h2>
-        </nav>
+    
+    	<!-- fragment引入 -->
+	<header th:block th:replace="~{back-end/back-end-home/fraghead :: header}"></header>
+<!--    <!-- Preloader --> 
+<!--     <div id="preloader"> -->
+<!--         <div class="preload-content"> -->
+<!--             <div id="original-load"></div> -->
+<!--         </div> -->
+    </div>
+<!--         <nav> -->
+<!-- <!--             <h2>商城輪播資訊</h2> -->
+<!--         </nav> -->
 
         <div class="container">
             <div class="add-button-container">
@@ -253,5 +193,15 @@
                 </tbody>
             </table>
         </div>
+        <!-- jQuery (Necessary for All JavaScript Plugins) -->
+        <script src="/back-end-home/js/jquery/jquery-2.2.4.min.js"></script>
+        <!-- Popper js -->
+        <script src="/back-end-home/js/popper.min.js"></script>
+        <!-- Bootstrap js -->
+        <script src="/back-end-home/js/bootstrap.min.js"></script>
+        <!-- Plugins js -->
+        <script src="/back-end-home/js/plugins.js"></script>
+        <!-- Active js -->
+        <script src="/back-end-home/js/active.js"></script>
     </body>
 </html>
