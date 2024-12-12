@@ -41,7 +41,7 @@ public class EcpayController {
             @RequestParam("counterNo") Integer counterNo,
             HttpSession session) {
         
-        // 獲取購物車資料
+       
         @SuppressWarnings("unchecked")
         List<ShoppingCartListVO> cartItems = (List<ShoppingCartListVO>) session.getAttribute("cartItems");
         if (cartItems == null || cartItems.isEmpty()) {
@@ -78,10 +78,12 @@ public class EcpayController {
                     detail.setProductPrice(cartItem.getGoodsPrice());
                     detail.setProductDisPrice(cartItem.getOrderTotalprice());
                     detail.setCounterOrderNo(counterOrderNo);
-                    
+                    counterOrderDetailSvc.addCounterOrderDetail(detail);
                     return detail;
+                   
                 }).toList();
-        counterOrderDetailSvc.addCounterOrderDetails(details);
+       
+        
 
         // 生成 ECPay 表單
         try {

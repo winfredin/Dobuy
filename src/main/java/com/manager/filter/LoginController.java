@@ -37,7 +37,7 @@ public class LoginController {
         // 透過服務層來取得管理者資料
         ManagerVO managerVO = managerSvc.getAP(managerAccount, managerPassword);
     
-        if (managerVO != null) {
+        if (managerAccount.equals(managerVO.getManagerAccount())&& managerPassword.equals(managerVO.getManagerPassword()) ) {
             // 登入成功，將管理者名稱存入 Session
         	session.setAttribute("managerNo", managerVO.getManagerNo());
             session.setAttribute("managerAccount", managerVO.getManagerAccount());

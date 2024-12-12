@@ -19,7 +19,7 @@ import com.memcoupon.model.MemCouponVO;
 
 
 
-
+@Transactional
 @Service("CounterOrderService")
 public class CounterOrderService {
 
@@ -103,6 +103,44 @@ public class CounterOrderService {
     
     
     @Transactional
+
+    public void restoreInventoryForExpiredOrders() {
+        System.out.println("Running scheduled task...");
+
+        // 找出所有過期且未處理的訂單
+        List<CounterOrderVO> expiredOrders = repository.findExpiredOrders();
+
+        // 處理每一筆過期訂單
+        for (CounterOrderVO order : expiredOrders) {
+                // 從訂單明細中獲取商品資訊
+                List<CounterOrderDetailVO> details = order.getCounterOrderDatailVO();
+                	
+                for (CounterOrderDetailVO detail : details) {
+                    Integer goodsNo = detail.getGoodsNo();
+                    Integer reservedGoodsAmount = detail.getGoodsNum();
+
+                    // 恢復商品庫存
+                    GoodsVO goods = goodsService.getOneGoods(goodsNo);
+                    if (goods != null) {
+                        Integer updatedAmount = goods.getGoodsAmount() + reservedGoodsAmount;
+                        System.out.println("Updating goods ID: " + goodsNo + " from amount: " 
+                                            + goods.getGoodsAmount() + " to: " + updatedAmount);
+//                        goods.setGoodsAmount(updatedAmount);
+                        goodsService.updateGoodsAmount(goodsNo, updatedAmount);
+                    } else {
+                        System.out.println("Goods not found with ID: " + goodsNo);
+                    }
+                    
+                }
+
+           
+                
+            } 
+              
+            
+        }
+    }
+
     public void restore() {
     	 System.out.println("Running scheduled task...");
 
@@ -171,6 +209,7 @@ public class CounterOrderService {
     
     
     
+
 
 
 
