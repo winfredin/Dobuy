@@ -19,7 +19,7 @@ import com.memcoupon.model.MemCouponVO;
 
 
 
-
+@Transactional
 @Service("CounterOrderService")
 public class CounterOrderService {
 
@@ -107,11 +107,9 @@ public class CounterOrderService {
 
         // 處理每一筆過期訂單
         for (CounterOrderVO order : expiredOrders) {
-            Integer reservedAmount = order.getReservedAmount();
-            if (reservedAmount != null && reservedAmount > 0) {
                 // 從訂單明細中獲取商品資訊
                 List<CounterOrderDetailVO> details = order.getCounterOrderDatailVO();
-
+                	
                 for (CounterOrderDetailVO detail : details) {
                     Integer goodsNo = detail.getGoodsNo();
                     Integer reservedGoodsAmount = detail.getGoodsNum();
@@ -122,21 +120,21 @@ public class CounterOrderService {
                         Integer updatedAmount = goods.getGoodsAmount() + reservedGoodsAmount;
                         System.out.println("Updating goods ID: " + goodsNo + " from amount: " 
                                             + goods.getGoodsAmount() + " to: " + updatedAmount);
-                        goods.setGoodsAmount(updatedAmount);
+//                        goods.setGoodsAmount(updatedAmount);
                         goodsService.updateGoodsAmount(goodsNo, updatedAmount);
                     } else {
                         System.out.println("Goods not found with ID: " + goodsNo);
                     }
+                    
                 }
 
-                // 將訂單的預扣數量設為 0，表示恢復完成
-                order.setReservedAmount(0);
-                repository.save(order); // 更新訂單狀態
-            } else {
-                System.out.println("Order with ID " + order.getCounterOrderNo() + " has no reserved amount.");
-            }
+           
+                
+            } 
+              
+            
         }
     }
 
-}
+
 

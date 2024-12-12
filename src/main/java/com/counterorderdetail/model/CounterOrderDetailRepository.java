@@ -20,7 +20,7 @@ public interface CounterOrderDetailRepository extends JpaRepository<CounterOrder
    @Transactional
    @Modifying
    @Query(value = "INSERT INTO counterorderdetail (goodsno, goodsnum, productprice, productdisprice, counterorderno) " +
-                  "VALUES (:#{#details[0].goodsNo}, :#{#details[0].goodsNum}, :#{#details[0].productPrice}, :#{#details[0].productDisPrice}, :#{#details[0].counterOrderNo})",
+                  "VALUES (:#{#details.goodsNo}, :#{#details.goodsNum}, :#{#details.productPrice}, :#{#details.productDisPrice}, :#{#details.counterOrderNo})",
           nativeQuery = true)
    void insertBatch(@Param("details") List<CounterOrderDetailVO> details);
 

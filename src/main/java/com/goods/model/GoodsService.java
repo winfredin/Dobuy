@@ -128,10 +128,12 @@ public class GoodsService {
     	 return photoList;
 
     }
-    @Transactional
+    
+    
     public void updateGoodsAmount(Integer goodsNo,Integer goodsAmount) {
-        repository.upGoodsAmount(goodsNo,goodsAmount);
-    }
+    	repository.upGoodsAmount(goodsAmount,goodsNo);
+         }
+    
     
     
     
