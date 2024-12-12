@@ -117,7 +117,6 @@ CREATE TABLE CounterOrder (
     receiverPhone VARCHAR(10) NOT NULL,
     orderTime TIMEstamp default now(),
     orderStatus TINYINT(1) DEFAULT 0 NOT NULL,
-	reservedAmount INT DEFAULT 0,
 	memCouponNo INT 
 	
 ) AUTO_INCREMENT = 1;

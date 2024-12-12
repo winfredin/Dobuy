@@ -33,23 +33,28 @@ public class LoginController {
     public String login(@RequestParam("managerAccount") String managerAccount,
                         @RequestParam("managerPassword") String managerPassword,
                         HttpSession session, Model model) {
-
-        // 透過服務層來取得管理者資料
+    	
+    	if(managerAccount.trim()=="" || managerPassword=="") {
+    		model.addAttribute("error", "帳號或密碼不得為空");
+            return "back-end/login/Login";  
+    	}
+        
         ManagerVO managerVO = managerSvc.getAP(managerAccount, managerPassword);
-    
+    if(managerVO!=null) {
         if (managerAccount.equals(managerVO.getManagerAccount())&& managerPassword.equals(managerVO.getManagerPassword()) ) {
             // 登入成功，將管理者名稱存入 Session
         	session.setAttribute("managerNo", managerVO.getManagerNo());
             session.setAttribute("managerAccount", managerVO.getManagerAccount());
            session.setAttribute("auth", managerVO.getAuths());
             return "redirect:/back-end-homepage";  // 登入成功後，重定向到 Dashboard 頁面
-        } else {
-            // 登入失敗，顯示錯誤訊息
-            model.addAttribute("error", "帳號或密碼錯誤");
-            return "back-end/login/Login";  // 重新導向到登入頁面
-        }
+        } 
+    } 
+        // 登入失敗，顯示錯誤訊息
+        model.addAttribute("error", "帳號或密碼錯誤");
+        return "back-end/login/Login";  
+    
+   
     }
-
     // 登出功能
     @GetMapping("logout")
     public String logout(HttpSession session) {
