@@ -51,13 +51,13 @@ public class DisNoController {
         model.addAttribute("discountListData", list); // for select_page.html 下拉選單
         if (discountVO == null) {
             model.addAttribute("errorMessage", "查無資料");
-            return "vendor-end/discount/select_page";
+            return "back-end/discount/select_page";
         }
 
         /***************************3.查詢完成,準備轉交(Send the Success view)*****************/
         model.addAttribute("discountVO", discountVO);
         model.addAttribute("getOne_For_Display", "true"); // Flag for displaying specific data
-        return "vendor-end/discount/select_page";
+        return "back-end/discount/select_page";
     }
 
     /*
@@ -75,6 +75,6 @@ public class DisNoController {
         List<DiscountVO> list = discountService.getAll();
         model.addAttribute("discountListData", list); // for select_page.html 下拉選單
         String message = strBuilder.toString();
-        return new ModelAndView("vendor-end/discount/select_page", "errorMessage", "請修正以下錯誤:<br>" + message);
+        return new ModelAndView("back-end/discount/select_page", "errorMessage", "請修正以下錯誤:<br>" + message);
     }
 }

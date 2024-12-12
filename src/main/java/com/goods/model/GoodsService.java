@@ -133,6 +133,9 @@ public class GoodsService {
     
     
     public void updateGoodsAmount(Integer goodsNo,Integer goodsAmount) {
+
+    
+
     	 Optional<GoodsVO> optional = repository.findById(goodsNo);
 
          // 如果商品存在，更新商品狀態
@@ -144,6 +147,7 @@ public class GoodsService {
          }
     	
     }
+
     
     
     

@@ -55,7 +55,7 @@ public class UsedNoController {
 		UsedVO usedVO = usedSvc.getOneUsed(Integer.valueOf(usedNo));
 		if (usedVO == null) {
 			model.addAttribute("errorMessage", "查無資料");
-			return "front-end/used/select_page";
+			return "front-end/normalpage/member";
 		}
 
 		/*************************** 3.查詢完成,準備轉交(Send the Success view) **************/

@@ -34,6 +34,7 @@ import com.counter.model.CounterVO;
 import com.followers.model.FollowersService;
 import com.followers.model.FollowersVO;
 import com.monthsettlement.model.MonthSettlementVO;
+import com.msg.model.MsgService;
 
 @Controller
 @RequestMapping("/followers")
@@ -41,6 +42,9 @@ public class FollowersController {
 
     @Autowired
     FollowersService followersService;
+    
+    @Autowired
+    MsgService msgSvc;
 
     @GetMapping("/addFollowers")
     public String addFollowers(ModelMap model) {
@@ -122,6 +126,7 @@ public class FollowersController {
         List<FollowersVO> list = followersService.getByCounterNo(counter.getCounterNo());
         model.addAttribute("followersListData", list);
         model.addAttribute("counter", counter);
+        model.addAttribute("msgSvc", msgSvc);
         return "vendor-end/followers/listAllFollowers";
     }
     

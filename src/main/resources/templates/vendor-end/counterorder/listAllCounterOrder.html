@@ -2,123 +2,59 @@
 <html lang="zh-TW" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="description" content="">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+ <th:block th:replace="~{/vendor-end/counter/Counterincldue :: head}"></th:block>
 
-    <title>櫃位首頁</title>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="icon" href="/counter/img/core-img/DB.jpg">
-    <link rel="stylesheet" href="/counter/style.css">
+    <title>櫃位訂單管理</title>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+<script
+	src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css" />
+    
+    <script>
+	var dataTablesJQ = $.noConflict(true); // 使用獨立的 jQuery 實例
+	dataTablesJQ(document).ready(function() {
+		dataTablesJQ('#example').DataTable({
+			"lengthMenu" : [20, 50, 100 ],
+			"searching" : true,
+			"paging" : true,
+			"ordering" : true,
+			"language" : {
+				"processing" : "處理中...",
+				"loadingRecords" : "載入中...",
+				"lengthMenu" : "顯示 _MENU_ 筆結果",
+				"zeroRecords" : "沒有符合的結果",
+				"info" : "顯示第 _START_ 至 _END_ 筆結果，共 _TOTAL_ 筆",
+				"infoEmpty" : "顯示第 0 至 0 筆結果，共 0 筆",
+				"infoFiltered" : "(從 _MAX_ 筆結果中過濾)",
+				"search" : "搜尋:",
+				"paginate" : {
+					"first" : "第一頁",
+					"previous" : "上一頁",
+					"next" : "下一頁",
+					"last" : "最後一頁"
+				},
+				"aria" : {
+					"sortAscending" : ": 升冪排列",
+					"sortDescending" : ": 降冪排列"
+				}
+			}
+		});
+	});
+	</script>
 </head>
-<header class="header-area">
 
-        <!-- Top Header Area -->
-        <div class="top-header">
-            <div class="container h-100">
-                <div class="row h-100 align-items-center">
-                    <!-- Breaking News Area -->
-                    <div class="col-12 col-sm-8">
-                        <div class="breaking-news-area">
-                            <div id="breakingNewsTicker" class="ticker">
-                                <ul>
-                                    <li><a href="#">Hello Counter!</a></li>
-                                    <li><a href="#">Hello Universe!</a></li>
-                                    <li><a href="#">Hello Earth!</a></li>
-                                    <li><a href="#">Hello DoBuy!</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Logo Area -->
-        <div class="logo-area text-center">
-            <div class="container h-100">
-                <div class="row h-100 align-items-center">
-                    <div class="col-12">
-                        <a th:href="@{/counter/Counterindex}" class="original-logo"><img src="/counter/img/core-img/logo noback.png" alt=""></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Nav Area -->
-        <div class="original-nav-area" id="stickyNav">
-            <div class="classy-nav-container breakpoint-off">
-                <div class="container">
-                    <!-- Classy Menu -->
-                    <nav class="classy-navbar justify-content-between">
-
-                        <!-- Navbar Toggler -->
-                        <div class="classy-navbar-toggler">
-                            <span class="navbarToggler"><span></span><span></span><span></span></span>
-                        </div>
-
-                        <!-- Menu -->
-                        <div class="classy-menu" id="originalNav">
-                            <!-- close btn -->
-                            <div class="classycloseIcon">
-                                <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
-                            </div>
-
-                            <!-- Nav Start -->
-                            <div class="classynav">
-                                <ul>
-                                    <li><a  class="dropdown-font" th:href="@{/counter/Counterindex}">首頁</a></li>
-                                    <li><a href="#">商城系統</a>
-                                        <ul  class="dropdown">
-                                            <li><a href="/counter/listAllCounterOrder">櫃位訂單管理</a></li>
-                                            <li><a id="goodsManagement" th:href="@{/goods/listAllCounterGoods}">商品管理</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="#">櫃位前台設置</a>
-                                        <ul  class="dropdown">
-                                            <li><a th:href="@{/front-end-carousel/ALLCarousel}">櫃位輪播管理</a></li>
-                                            <li><a href="#">首頁商品管理</a></li>
-                                            <li><a th:href="@{/faq/listCounterFaq}">FAQ常見問題管理</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="#">櫃位專區</a>
-                                        <ul  class="dropdown">
-                                            <li><a th:href="@{/counter/vendor-end/manage}">櫃位資料管理</a></li>
-                                            <li><a th:href="@{/faq/add}">FAQ常見問題設定</a></li>
-                                            <li><a th:href="@{/monthsettlement/listAllMonthSettlement}">營收查詢</a></li>
-                                            <li><a th:href="@{/followers/listAllFollowers}">追蹤管理</a></li>
-                                            <li><a th:href="@{/coupon/listAllCoupon}">優惠券設定</a></li>
-                                        </ul>
-                                    <li><a th:href="@{/msg/listAllMsg}">櫃位訊息中心管理</a>
-                                    </li>
-                                    <li><a href="#">訊息回覆</a>
-                                    </li>
-                                </ul>
-
-                            </div>
-                            <!-- Nav End -->
-                        </div>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </header>
 <body>
-    <!-- Preloader -->
-    <div id="preloader">
-        <div class="preload-content">
-            <div id="original-load"></div>
-        </div>
-    </div>
+
+	<div th:insert== "vendor-end/counter/Counterincldue ::header"></div>
 
     <!-- Header and Navigation (same as original) -->
 
     <!-- Table Start -->
     <table id="example">
         <thead>
-            <tr>
+            <tr style="background-color: #CCCCFF">
                 <th>訂單編號</th>
                 <th>櫃位編號</th>
                 <th>會員編號</th>
@@ -150,74 +86,10 @@
             </th:block>
         </tbody>
     </table>
-    <!-- Table End -->
 
-    <footer style="position: fixed; bottom: 0; width: 100%; text-align: center; background-color: #f8f9fa; padding: 10px;">
-        Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">DOBUY</a>
-    </footer>
+	<!-- fragment引入 -->
+	<footer th:block
+		th:replace="~{back-end/back-end-home/fraghead :: footer}"></footer>
 
-    <!-- jQuery -->
-    <script src="/js/jquery3.7.1.js"></script>
-    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-    <script src="/counter/js/popper.min.js"></script>
-    <script src="/counter/js/bootstrap.min.js"></script>
-    <script src="/counter/js/plugins.js"></script>
-    <script src="/counter/js/active.js"></script>
-
-    <script>
-        $(document).ready(function() {
-            // 初始化 DataTable
-            var table = $('#example').DataTable({
-                "lengthMenu": [3, 5, 10, 20, 50, 100],
-                "pageLength": 10,
-                "searching": true,
-                "paging": true,
-                "ordering": true,
-                "language": {
-                    "processing": "處理中...",
-                    "loadingRecords": "載入中...",
-                    "lengthMenu": "顯示 _MENU_ 筆結果",
-                    "zeroRecords": "沒有符合的結果",
-                    "info": "顯示第 _START_ 至 _END_ 筆結果，共<font color=red> _TOTAL_ </font>筆",
-                    "infoEmpty": "顯示第 0 至 0 筆結果，共 0 筆",
-                    "infoFiltered": "(從 _MAX_ 筆結果中過濾)",
-                    "infoPostFix": "",
-                    "search": "搜尋:",
-                    "paginate": {
-                        "first": "第一頁",
-                        "previous": "上一頁",
-                        "next": "下一頁",
-                        "last": "最後一頁"
-                    },
-                    "aria": {
-                        "sortAscending": ": 升冪排列",
-                        "sortDescending": ": 降冪排列"
-                    }
-                },
-                "initComplete": function(settings, json) {
-                    // DataTable 加載完成後隱藏預載動畫
-                    $('#preloader').fadeOut();
-                }
-            });
-        });
-
-        function logout() {
-            document.getElementById("logoutForm").submit();
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            var goodsManagementLink = document.getElementById("goodsManagement");
-            if (goodsManagementLink) {
-                goodsManagementLink.addEventListener("click", function(event) {
-                    var counterStatusHolder = document.getElementById("counterStatusHolder");
-                    var counterStatus = parseInt(counterStatusHolder.textContent);
-                    if (counterStatus === 1) {
-                        event.preventDefault();
-                        alert("對不起，您的帳號目前處於審核中，無法進行此操作。");
-                    }
-                });
-            }
-        });
-    </script>
 </body>
 </html>

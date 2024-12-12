@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.goods.model.GoodsService;
+import com.goods.model.GoodsVO;
 import com.goodstype.model.GoodsTypeService;
 import com.goodstype.model.GoodsTypeVO;
 import com.used.model.UsedService;
@@ -60,11 +61,26 @@ public class UsedController {
 	 */
 	//用於一鍵轉售
 	@PostMapping("/oneButtontoSellUsed")
-	public String addUsed(ModelMap model,HttpSession session) {
+	public String addUsed(
+			@RequestParam("goodsNo") String goodsNo,
+			ModelMap model,
+			HttpSession session) {
 		UsedVO usedVO = new UsedVO();
+		 Integer goodsNoWantsSell= Integer.valueOf(goodsNo); //goodsNo
+		 
+		 GoodsVO goodsVO=goodsService.getOneGoods(goodsNoWantsSell);
+		 usedVO.setUsedName(goodsVO.getGoodsName());
+		 usedVO.setUsedProDesc(goodsVO.getGoodsDescription());
+		 usedVO.setUsedPrice(goodsVO.getGoodsPrice());
+		 
+		 
+		 
+		 
 		//session提取memNo為sellerNo
 		 Integer sellerNo = Integer.valueOf((String)session.getAttribute("memNo"));
 		usedVO.setSellerNo(sellerNo);
+		
+		model.addAttribute("goodsVO", goodsVO);
 		model.addAttribute("usedVO", usedVO);
 		List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();
 		model.addAttribute("goodsTypeList", goodsTypeList);

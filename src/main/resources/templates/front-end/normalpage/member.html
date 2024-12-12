@@ -11,6 +11,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+
+
+
+
 
 </head>
 <body>
@@ -117,42 +123,58 @@
             <div class="use" >
                 <div class="nav_bar">
 
-                    <div class="chos"> 
-                        <div class="aaa" id="b1">全部</div>
-                        <div  id="b2">待付款</div>
-                        <div id="b3">待出貨</div>
-                        <div  id="b4">待收貨</div>
-                        <div  id="b5">已完成</div>
-                        <div  id="b6">取消</div>
-                        <div  id="b7">退款/退貨</div>
-                    </div>
-                    <div class="searchtitle">
+<!--                     <div class="chos">  -->
+<!--                         <div class="aaa" id="b1">全部</div> -->
+<!--                         <div  id="b2">待付款</div> -->
+<!--                         <div id="b3">待出貨</div> -->
+<!--                         <div  id="b4">待收貨</div> -->
+<!--                         <div  id="b5">已完成</div> -->
+<!--                         <div  id="b6">取消</div> -->
+<!--                         <div  id="b7">退款/退貨</div> -->
+<!--                     </div> -->
+<!--                     <div class="searchtitle"> -->
                         
-                        <input class="searchtitle" role="search" autocomplete="off" placeholder="您可以透過賣家名稱，訂單編號或商品名稱搜尋" value="">
-                        <img src="/images/magnifying-glass-dollar-solid.svg" alt="Search" class="se">
-                    </div>
+<!--                         <input class="searchtitle" role="search" autocomplete="off" placeholder="您可以透過賣家名稱，訂單編號或商品名稱搜尋" value=""> -->
+<!--                         <img src="/images/magnifying-glass-dollar-solid.svg" alt="Search" class="se"> -->
+<!--                     </div> -->
 
                 </div>
+                
                     <div class="use_1">
                         <div class="goods" >
                         <div>
-  <h3>購買訂單</h3>
+  <div>
+  <h3>購買訂單</h3> <input type="text" id="orderSearchInput" placeholder="搜尋訂單">
+</div>
+  
   <!-- 使用訂單編號跑 foreach -->
   <div class="order" th:each="order : ${orders}">
     <div>
       <p><strong>訂單編號:</strong> <span th:text="${order.counterOrderNo}"></span></p>
-      <p><strong>櫃位編號:</strong> 
+      <p><strong>櫃位名稱:</strong> 
         <span th:each="counterVO : ${counterList}" 
               th:if="${counterVO.counterNo} == ${order.counterNo}" 
-              th:text="${counterVO.counterName}"></span>
+              th:text="${counterVO.counterCName}">
+        </span>
       </p>
       <p><strong>訂單總額:</strong> <span th:text="${order.orderTotalAfter}"></span></p>
-      <p><strong>優惠卷編號:</strong> <span th:text="${order.memCouponNo}"></span></p>
+      <p><strong>優惠卷編號:</strong> 
+      
+        <span th:if="${order.memCouponNo == null}">
+		    沒有使用
+		</span>
+		<span th:each="coupon : ${couponList}" 
+		      th:if="${coupon.couponNo == order.memCouponNo}" 
+		      th:text="${coupon.couponTitle}">
+		</span>
+		  
+		</p>
+
       <p><strong>收件人姓名:</strong> <span th:text="${order.receiverName}"></span></p>
       <p><strong>收件人電話:</strong> <span th:text="${order.receiverPhone}"></span></p>
       <p><strong>收件人地址:</strong> <span th:text="${order.receiverAdr}"></span></p>
       <p><strong>訂單成立時間:</strong> <span th:text="${order.ordertime}"></span></p>
-      <p><strong>訂單狀態:</strong> <span th:text="${order.orderStatus}"></span></p>
+      <p><strong>訂單狀態:</strong> <span th:text="${order.getOrderDisplay}"></span></p>
     </div>
 
     <h4>訂單明細</h4>
@@ -160,10 +182,11 @@
       <thead>
         <tr>
           <th>商品編號</th>
+          <th>商品名稱</th>
           <th>商品數量</th>
           <th>商品單價</th>
           <th>商品單價(折價)</th>
-          <th>會員優惠券編號</th>
+          <th>會員優惠券</th>
           <th>一鍵轉售</th>
         </tr>
       </thead>
@@ -171,21 +194,31 @@
         <!-- 使用訂單明細跑 foreach -->
         <tr th:each="counterOrderDetailVO : ${order.counterOrderDatailVO}">
           <td th:text="${counterOrderDetailVO.goodsNo}"></td>
+          <td 
+          th:each="goodsVO : ${goodsNamelist}" 
+          th:if="${goodsVO.goodsNo == counterOrderDetailVO.goodsNo}" 
+          th:text="${goodsVO.goodsName}">
+    
+          </td>
           <td th:text="${counterOrderDetailVO.goodsNum}"></td>
           <td th:text="${counterOrderDetailVO.productPrice}"></td>
           <td th:text="${counterOrderDetailVO.productDisPrice}"></td>
           
-		  <td>
-			    <span th:if="${#lists.contains(couponList.counponVO?[couponNo == counterOrderDetailVO.memCouponNo])}">
-			        <span th:each="coupon : ${couponList}" 
-			              th:if="${coupon.couponNo == counterOrderDetailVO.memCouponNo}" 
-			              th:text="${coupon.couponTitle}">
-			        </span>
-			    </span>
-			    <span th:if="${!#lists.contains(couponList.?[couponNo == counterOrderDetailVO.memCouponNo])}">
-			        無匹配的優惠券
-			    </span>
-		 </td>
+		 <td>
+		        <span th:each="coupon : ${couponList}" 
+		              th:if="${coupon.couponNo == counterOrderDetailVO.memCouponNo}" 
+		              th:text="${coupon.couponTitle}">
+		        </span>
+				<span th:if="${counterOrderDetailVO.memCouponNo == null}">
+				    沒有使用
+				</span>
+
+		</td>
+
+
+
+
+
           <td>
             <form method="post" th:action="@{/used/oneButtontoSellUsed}">
             <input type="submit" value="轉售"/>
@@ -223,6 +256,12 @@
 <script src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script th:src="@{/js/member.js}"></script>
+
+
+
+
+
+
 
    
 

@@ -19,6 +19,7 @@ import com.counter.model.CounterService;
 import com.counter.model.CounterVO;
 import com.faq.model.FaqService;
 import com.faq.model.FaqVO;
+import com.msg.model.MsgService;
 
 @Controller
 @RequestMapping("/faq")
@@ -29,6 +30,9 @@ public class FaqController {
 
 	@Autowired
 	CounterService counterSvc;
+	
+    @Autowired
+    MsgService msgSvc;
 
 	
 //	櫃位FAQ管理(任國)
@@ -42,6 +46,7 @@ public class FaqController {
             // 其他邏輯
             model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
             model.addAttribute("counterFaqListData", faqsvc.getOneCounterFaq(counter.getCounterNo()));
+            model.addAttribute("msgSvc", msgSvc);
             return "vendor-end/faq/listCounterFaq";
         }
     }
@@ -115,6 +120,7 @@ public class FaqController {
 		CounterVO counter = (CounterVO) session.getAttribute("counter");
 		model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
 		model.addAttribute("faqVO", faqsvc.getOneFaq(faqNo));
+		model.addAttribute("msgSvc", msgSvc);
 		return "vendor-end/faq/updateFAQ";
 	}
 
@@ -124,6 +130,7 @@ public class FaqController {
 	public String updateFaq(@ModelAttribute FaqVO faqVO, HttpSession session, Model model) {
 		CounterVO counter = (CounterVO) session.getAttribute("counter");
 		model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
+		model.addAttribute("msgSvc", msgSvc);
 		List<String> errorMsgs = new LinkedList<String>();
 		if (faqVO.getQues() == null || faqVO.getQues().trim().isEmpty()) {
 			errorMsgs.add("問題不能空白");
@@ -148,6 +155,7 @@ public class FaqController {
 		CounterVO counter = (CounterVO) session.getAttribute("counter");
 		model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
 		model.addAttribute("faqVO", new FaqVO());
+		model.addAttribute("msgSvc", msgSvc);
 		
 		return "vendor-end/faq/addFAQ"; // 指向 Thymeleaf 模板路径
 	}
@@ -157,6 +165,7 @@ public class FaqController {
 		CounterVO counter = (CounterVO) session.getAttribute("counter");
 		faqVO.setCounterNo(counter.getCounterNo());
 		model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
+		model.addAttribute("msgSvc", msgSvc);
 		List<String> errorMsgs = new LinkedList<String>();
 		if (faqVO.getQues() == null || faqVO.getQues().trim().isEmpty()) {
 			errorMsgs.add("問題不能空白");
@@ -168,10 +177,10 @@ public class FaqController {
 		if (!errorMsgs.isEmpty()) {
 			model.addAttribute("faqVO", faqVO);
 			model.addAttribute("errorMsgs", errorMsgs);
-			return "vendor-end/faq/add";
+			return "vendor-end/faq/addFAQ";
 		}
 		faqsvc.addFaq(faqVO);
-		model.addAttribute("faqVO", new FaqVO());
+		model.addAttribute("faqVO", new FaqVO());		
 		return "redirect:/faq/listCounterFaq";
 		
 	}

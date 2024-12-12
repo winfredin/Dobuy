@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 <title>商品審核</title>
-
+<!-- fragment引入 -->
+<th:block th:replace="~{back-end/back-end-home/fraghead :: head}"></th:block>
 <head th:insert="~{/vendor-end/goods/included-fragment}"></head>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>                                    <!-- ●●js  for jquery datatables 用 -->
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>              <!--●●js  for jquery datatables 用 -->
@@ -187,133 +188,14 @@ input[type="submit"][value="通過"] {
 
 </head>
 <body>
-    <header class="header-area">
-
-        <!-- Top Header Area -->
-        <div class="top-header">
-            <div class="container h-100">
-                <div class="row h-100 align-items-center">
-                    <!-- Breaking News Area -->
-                    <div class="col-12 col-sm-8">
-                        <div class="breaking-news-area">
-                            <div id="breakingNewsTicker" class="ticker">
-                                <ul>
-                                    <li><a th:href="@{back-end-homepage}">Hello Staff!</a></li>
-                                    <li><a th:href="@{back-end-homepage}">Hello Universe!</a></li>
-                                    <li><a th:href="@{back-end-homepage}">Hello Earth!</a></li>
-                                    <li><a th:href="@{back-end-homepage}">Hello DoBuy!</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+	<!-- fragment引入 -->
+	<header th:block th:replace="~{back-end/back-end-home/fraghead :: header}"></header>
+   <!-- Preloader -->
+    <div id="preloader">
+        <div class="preload-content">
+            <div id="original-load"></div>
         </div>
-
-        <!-- Logo Area -->
-        <div class="logo-area text-center">
-            <div class="container h-100">
-                <div class="row h-100 align-items-center">
-                    <div class="col-12">
-                        <a th:href="@{/back-end-homepage}" class="original-logo"><img src="/back-end-home/img/core-img/logo noback.png" alt=""></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Nav Area -->
-        <div class="original-nav-area" id="stickyNav">
-            <div class="classy-nav-container breakpoint-off">
-                <div class="container">
-                    <!-- Classy Menu -->
-                    <nav class="classy-navbar justify-content-between">
-
-                        <!-- Navbar Toggler -->
-                        <div class="classy-navbar-toggler">
-                            <span class="navbarToggler"><span></span><span></span><span></span></span>
-                        </div>
-
-                        <!-- Menu -->
-                        <div class="classy-menu" id="originalNav">
-                            <!-- close btn -->
-                            <div class="classycloseIcon">
-                                <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
-                            </div>
-
-                            <!-- Nav Start -->
-                            <div class="classynav">
-                                <ul>
-                                    <li><a  class="dropdown-font" href="/back-end-homepage">首頁</a></li>
-                                    <li><a href="#">會員管理</a>
-                                        <ul class="dropdown">
-                                            <li><a href="/back-end/member">會員管理</a></li>
-                                            <li><a href="#">會員管理訂單管理</a></li>
-                                        </ul>
-                                    </li>
-                                    
-                                    <li><a href="#">櫃位管理</a>
-                                        <ul class="dropdown">
-                                            <li><a href="#">櫃位管理專區</a></li>
-                                            <li><a href="#">櫃位商城開設審核</a></li>
-
-                                        </ul>
-                                    </li>
-                                    
-                                    <li><a href="#">商城系統</a>
-                                        <ul class="dropdown">
-                                            <li><a href="#">首頁輪播圖管理</a></li>
-                                            <li><a th:href="@{/goodstype/listAllGoodsType}">商品分類管理</a></li>
-                                        </ul>
-                                    </li>
-                                    
-                                    <li><a href="#">商品審核系統</a>
-                                        <ul class="dropdown">
-                                            <li><a th:href="@{/goods/listAllCheckStatus}">一般商品審核</a></li>
-                                            <li><a href="#">二手商品審核</a></li>
-                                        </ul>
-                                    </li>
-                                    
-                                    <li><a href="#">管理員資料</a>
-                                        <ul class="dropdown">
-                                          <li>
-   										 <a th:href="@{'/manager/manager?managerNo=' + ${session.managerNo}}">管理員資料管理</a>
-										</li>
-
-                                        </ul>
-                                    </li>
-
-                                    <li><a href="#">優惠管理</a>
-                                        <ul class="dropdown">
-                                            <li><a href="#">平台優惠活動管理</a></li>
-                                            <li><a href="#">廠商優惠券管理</a></li>
-                                            <li><a href="#">優惠訊息通知</a></li>
-                                        </ul>
-                                    </li>
-
-                                    <li><a href="#">客服系統</a>
-                                        <ul class="dropdown">
-                                            <li><a href="#">FAQ專案管理</a></li>
-                                            <li><a href="#">客服訊息回覆</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-
-                                <!-- Search Form  -->
-<!--                                 <div id="search-wrapper"> -->
-<!--                                     <form action="#"> -->
-<!--                                         <input type="text" id="search" placeholder="Search something..."> -->
-<!--                                         <div id="close-icon"></div> -->
-<!--                                         <input class="d-none" type="submit" value=""> -->
-<!--                                     </form> -->
-<!--                                 </div> -->
-                            </div>
-                            <!-- Nav End -->
-                        </div>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </header>
+    </div>
 <!-- <nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center"> -->
 <!-- 	<div align="center"> -->
 <!-- 		<h2>商品審核 - listAllCheckStatus.html</h2> -->
