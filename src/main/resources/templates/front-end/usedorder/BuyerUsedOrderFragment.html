@@ -83,7 +83,9 @@ textarea {
                     onclick="showReceiverOrderDetails(this)" title="查看詳細信息">
                     <i class="fas fa-search"></i>
                  </a>           
-            <td th:text="${usedOrderVO.sellerSatisfication}"></td>                     
+            <td>            <span class="star-display" th:attr="data-rating=${usedOrderVO.sellerSatisfication}"></span>
+            
+            </td>                     
         </tr>
     </th:block>
 </tbody>
@@ -111,13 +113,21 @@ textarea {
     <p>收件人電話: <span id="receiverPhone"></span></p>
     <p>收件人地址: <span id="receiverAdr"></span></p>
     <p><strong>滿意度:</strong>
-        <select id="sellerSatisfication">
-            <option value="1">1 - 非常不滿意</option>
-            <option value="2">2 - 不滿意</option>
-            <option value="3">3 - 一般</option>
-            <option value="4">4 - 滿意</option>
-            <option value="5">5 - 非常滿意</option>
-        </select>
+<!--         <select id="sellerSatisfication"> -->
+<!--             <option value="1">1 - 非常不滿意</option> -->
+<!--             <option value="2">2 - 不滿意</option> -->
+<!--             <option value="3">3 - 一般</option> -->
+<!--             <option value="4">4 - 滿意</option> -->
+<!--             <option value="5">5 - 非常滿意</option> -->
+<!--         </select> -->
+        <span id="starRating">
+            <i class="fas fa-star" data-value="1"></i>
+            <i class="fas fa-star" data-value="2"></i>
+            <i class="fas fa-star" data-value="3"></i>
+            <i class="fas fa-star" data-value="4"></i>
+            <i class="fas fa-star" data-value="5"></i>
+        </span>
+        <input type="hidden" id="sellerSatisfication" value="0">
     </p>
     <p>評論內文: <textarea id="sellerCommentContent"></textarea></p>
     <p>評論日期: <span id="sellerCommentDate"></span></p>
@@ -148,6 +158,9 @@ textarea {
 
 </body>
 </html>
+
+
+        
 
 
         
