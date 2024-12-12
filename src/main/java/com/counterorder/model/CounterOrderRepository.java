@@ -55,5 +55,10 @@ public interface CounterOrderRepository extends JpaRepository<CounterOrderVO, In
  // 新增：根據買家會員編號查詢訂單-Gary
     @Query(value ="SELECT * FROM counterorder WHERE memNo = memNo AND orderStatus != 4", nativeQuery = true)
     List<CounterOrderVO> findByMemNoAndStatusNot4( Integer memNo);
+    
+    
+//  任國櫃位管理訂單訂單
+    @Query(value ="SELECT * FROM counterorder WHERE counterNo = ?1 ORDER BY counterOrderNo DESC" , nativeQuery = true)
+    List<CounterOrderVO> findBycounterNo( Integer counterNo);
 	
 }

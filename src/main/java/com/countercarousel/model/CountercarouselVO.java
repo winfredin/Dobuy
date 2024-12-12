@@ -33,8 +33,8 @@ public class CountercarouselVO {
 	
 	
 	//-----------------定紘----------------
-		@Column(name = "goodsNo")
-		private Integer goodsNo;
+	@Column(name = "goodsNo")
+	private Integer goodsNo;
 		
 	public Integer getGoodsNo() {
 		return goodsNo;

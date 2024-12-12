@@ -30,6 +30,7 @@ import com.followers.model.FollowersVO;
 import com.goods.model.GoodsVO;
 import com.monthsettlement.model.MonthSettlementService;
 import com.monthsettlement.model.MonthSettlementVO;
+import com.msg.model.MsgService;
 
 
 
@@ -42,6 +43,9 @@ public class MonthSettlementController {
 
     @Autowired
     MonthSettlementService counterService;
+    
+    @Autowired
+    MsgService msgSvc;
 
     // 進入新增頁面
     @GetMapping("/vendor-end/monthsettlement/addMonthSettlement")
@@ -105,6 +109,7 @@ public class MonthSettlementController {
         List<MonthSettlementVO> list = monthSettlementService.getByCounterNo(counter.getCounterNo());
         model.addAttribute("monthSettlementListData", list);
         model.addAttribute("counter", counter); // 這裡確保counter被添加到模型中
+        model.addAttribute("msgSvc", msgSvc);
         return "vendor-end/monthsettlement/listAllMonthSettlement";
     }
     

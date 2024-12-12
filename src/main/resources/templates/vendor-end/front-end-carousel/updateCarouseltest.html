@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>修改輪播資訊</title>
+    
+    <div th:insert="~{/vendor-end/front-end-carousel/included-fragment}"></div>
+    
+    <style type="text/css">
+        .form-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .preview-image {
+            max-width: 200px;
+            margin: 10px 0;
+        }
+        
+        .btn-group {
+            margin-top: 20px;
+        }
+        
+        .error-message {
+            color: red;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
+        <div align="center"> 
+            <h2>修改輪播資訊</h2>
+            <h3>
+                <a class="navbar-brand" th:href="@{/countercarousel/ALLCarousel}">
+                    <img th:src="@{/images/back1.gif}">返回列表
+                </a>
+            </h3>
+        </div>
+    </nav>
+    
+    <div class="container mt-5">
+        <div class="form-container">
+            <form th:action="@{/front-end-carousel/update}" 
+                  th:object="${countercarouselVO}" 
+                  method="post" 
+                  enctype="multipart/form-data">
+                
+                <input type="hidden" th:field="*{id}" />
+                
+                <div class="form-group">
+                    <label>櫃位編號：</label>
+                    <input type="text" th:field="*{counterNo}" class="form-control" readonly />
+                </div>
+                
+                <div class="form-group">
+                    <label>商品編號：</label>
+                    <input type="text" th:field="*{goodsNo}" class="form-control" required />
+                    <div class="error-message" th:if="${#fields.hasErrors('goodsNo')}" th:errors="*{goodsNo}"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label>目前圖片：</label>
+                    <div>
+                        <img th:if="${countercarouselVO.base64Image}" 
+                             th:src="'data:image/jpeg;base64,' + ${countercarouselVO.base64Image}" 
+                             alt="當前圖片"
+                             class="preview-image" />
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>更新圖片：</label>
+                    <input type="file" name="upFile" class="form-control" />
+                </div>
+                
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary">更新</button>
+                    <a th:href="@{/front-end-carousel/ALLCarousel}" class="btn btn-secondary ml-2">取消</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
