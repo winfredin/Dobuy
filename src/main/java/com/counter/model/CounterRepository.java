@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface CounterRepository extends JpaRepository<CounterVO, Integer> {
-    // 這裡可以根據需求定義額外的方法，例如根據櫃位帳號查找
+    // 櫃位帳號查找
     CounterVO findByCounterAccount(String counterAccount);
     
     // 檢查帳號是否重複
@@ -29,7 +29,6 @@ public interface CounterRepository extends JpaRepository<CounterVO, Integer> {
     CounterVO findByCounterAccountAndCounterPassword(String counterAccount, String counterPassword);
     
 
-    //修改櫃位狀態
 
    
     

@@ -3,6 +3,8 @@ package com.counterorder.countertroller;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -11,8 +13,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.counter.model.CounterVO;
 import com.counterorder.model.CounterOrderService;
 import com.counterorder.model.CounterOrderVO;
+import com.msg.model.MsgService;
 
 
 
@@ -24,6 +28,9 @@ public class CounterIndexController {
 	// 目前自動裝配了EmpService --> 供第66使用
 	@Autowired
 	CounterOrderService counterOrderSvc;
+	
+    @Autowired
+    MsgService msgSvc;
 	
 
 	
@@ -55,9 +62,16 @@ public class CounterIndexController {
 	}
     
     @GetMapping("/counter/listAllCounterOrder")
-	public String listAllEmp(Model model) {
-    	List<CounterOrderVO> alist = counterOrderSvc.getAll();
+	public String listAllEmp(HttpSession session,Model model) {
+    	//任國櫃位管理
+    	CounterVO counter = (CounterVO) session.getAttribute("counter");
+        if (counter == null) {
+            return "redirect:/counter/login";
+        }
+    	List<CounterOrderVO> alist = counterOrderSvc.getAllOrdersByCounter(counter.getCounterNo());
 		model.addAttribute("alist",alist);
+        model.addAttribute("counter", counter);
+        model.addAttribute("msgSvc", msgSvc);
 		return "vendor-end/counterorder/listAllCounterOrder";
 	}
     

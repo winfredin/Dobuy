@@ -178,6 +178,7 @@ public class MsgController {
         CounterVO counter = (CounterVO) session.getAttribute("counter");
         List<MsgVO> list =  msgSvc.getOneCounterMsg(counter.getCounterNo());
         model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
+        model.addAttribute("msgSvc", msgSvc);
         model.addAttribute("counterMsgListData", list); 
         model.addAttribute("success", "- (刪除成功)");
         return "vendor-end/msg/listAllMsg"; // 刪除完成後轉交listAllMsg.html
