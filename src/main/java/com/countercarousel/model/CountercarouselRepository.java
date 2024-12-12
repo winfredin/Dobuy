@@ -19,7 +19,7 @@ public interface CountercarouselRepository extends JpaRepository<Countercarousel
 	
 	
 	@Query("SELECT c FROM CountercarouselVO c WHERE c.counterNo = :counterNo ORDER BY c.carouselTime DESC")
-	List<CountercarouselVO> findByCounterNo1(@Param("counterNo") Integer counterNo);
+	List<CountercarouselVO> findByCounterNo(@Param("counterNo") Integer counterNo);
 
 	
 //	    // 刪除指定輪播資訊編號

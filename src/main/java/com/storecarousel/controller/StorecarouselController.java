@@ -102,14 +102,14 @@ public class StorecarouselController {
     public String getOneForUpdate(@RequestParam("storeCarouselNo") Integer storeCarouselNo, ModelMap model) {
     	StoreCarouselVO storeCarouselVO = storeCarouselService.getOneStoreCarousel(storeCarouselNo);
         model.addAttribute("storeCarouselVO", storeCarouselVO);
-        return "back-end/storecarousel/update-StoreCarousel-Input";
+        return "back-end/storecarousel/addStorecarousel";
     }
 
     // 更新資料處理
     @PostMapping("update")
     public String update(@Valid StoreCarouselVO storeCarouselVO, BindingResult result, ModelMap model) {
         if (result.hasErrors()) {
-            return "back-end/storecarousel/update-StoreCarousel-Input";
+            return "back-end/storecarousel/addStorecarousel";
         }
         
         if (storeCarouselVO.getCarouselTime() == null) {
@@ -119,7 +119,7 @@ public class StorecarouselController {
         storeCarouselService.setDefaultCarouselTime(storeCarouselVO);
         storeCarouselService.updateStoreCarousel(storeCarouselVO);
         model.addAttribute("success", "- (更新成功)");
-        return "redirect:/storecarousel/listAllStorecarouseltest";
+        return "redirect:/storecarousel/addStorecarousel";
     }
 
 
