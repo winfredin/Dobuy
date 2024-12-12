@@ -80,16 +80,26 @@ public class FrontEndController {
 		 			return "front-end/normalpage/member";
 		 		}
 		 		List<CounterOrderVO> newlist = new ArrayList<>();
+		 		List<GoodsVO> goodsNamelist = new ArrayList<>();
 		 		for(CounterOrderVO counterOrderVO:membersbuyorder) {
 		 			Integer eachOrderNo = counterOrderVO.getCounterOrderNo();
 		 			List<CounterOrderDetailVO> detailList= counterOrderDetailSvc.getDetailsByOrderNo(eachOrderNo);
 //		 			System.out.println(detailList.size());
+		 			
+		 			for(CounterOrderDetailVO counterOrderDetailVO:detailList) {
+		 				GoodsVO goodsVO=goodsSvc.getOneGoods(counterOrderDetailVO.getGoodsNo());
+		 				goodsNamelist.add(goodsVO);
+		 			}
+		 			
+		 			
 		 			counterOrderVO.setCounterOrderDatailVO(detailList);
 		 			newlist.add(counterOrderVO);		 		
 		 		}
 		 		
 		 		List<CouponVO> couponList=couponSvc.getAll();	 	
-		 		List<CounterVO> counterList=counterSvc.getAll();		 	
+		 		List<CounterVO> counterList=counterSvc.getAll();	
+		 		
+		 		model.addAttribute("goodsNamelist",goodsNamelist);
 		 		model.addAttribute("couponList",couponList);
 		 		model.addAttribute("counterList",counterList);
 		 		model.addAttribute("orders",newlist);
