@@ -205,6 +205,12 @@ public class CounterOrderService {
     }
     
     
+    //任國櫃位管理訂單
+    public List<CounterOrderVO> getAllOrdersByCounter(Integer counterNo) {
+        return repository.findBycounterNo(counterNo);
+    }
+    
+    
 }
     
     
