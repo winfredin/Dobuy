@@ -1,7 +1,6 @@
 package com.counterHome.cartTest.controller;
 
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +32,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class CartControllerTest {
 
 	@Autowired
+	@Qualifier("redisTemplateDb8")
 	private RedisTemplate<String, Object> redisTemplate;
 	
 	@Autowired

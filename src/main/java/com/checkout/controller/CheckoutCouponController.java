@@ -16,6 +16,8 @@ import com.ShoppingCartList.model.ShoppingCartListVO;
 import com.counter.model.CounterVO;
 import com.counterorder.model.CounterOrderService;
 import com.counterorder.model.CounterOrderVO;
+import com.counterorderdetail.model.CounterOrderDetailService;
+import com.counterorderdetail.model.CounterOrderDetailVO;
 import com.coupon.model.CouponService;
 import com.coupon.model.CouponVO;
 import com.coupondetail.model.CouponDetailService;
@@ -53,12 +55,17 @@ public class CheckoutCouponController {
     @Autowired
     CounterOrderService counterOrderService;
     
+
+    @Autowired
+    CounterOrderDetailService counterOrderDetailService;
+    
+    
     @Autowired
     GoodsService goodsService;
 	
     
     
-    // 優惠車顯示結帳頁面
+    //購物車預覽優惠顯示結帳頁面
     @GetMapping("/shoppingcartlist/ShoppingCartListCheckout49")
     public String showCheckoutPage(HttpSession session, Model model) {
         Object memNoObj = session.getAttribute("memNo");
@@ -120,7 +127,7 @@ public class CheckoutCouponController {
     }
 
 
-    // 計算折扣金額
+    // 計算折扣金額  預覽用
     @PostMapping("/shoppingcartlist/calculateDiscount")
     @ResponseBody
     public Map<String, Object> calculateDiscount(
@@ -144,6 +151,12 @@ public class CheckoutCouponController {
             Integer couponNo = Integer.parseInt(couponNoStr);
             Integer counterId = Integer.parseInt(counterIdStr);
 
+            // 獲取優惠券資訊
+            CouponVO coupon = couponService.getOneCouponWithDetails(couponNo);
+            if (coupon == null) {
+                return Map.of("error", "優惠券不存在");
+            }
+
             // 獲取並過濾購物車商品
             List<ShoppingCartListVO> cartItems = shoppingCartListService.getCartItemsByMemNo49(memNo)
                 .stream()
@@ -155,56 +168,71 @@ public class CheckoutCouponController {
                 })
                 .collect(Collectors.toList());
 
-            // 計算原始總金額
-            double originalTotal = cartItems.stream()
-                    .mapToDouble(item -> item.getGoodsPrice() * item.getGoodsNum())
-                    .sum();
-
-            CouponVO coupon = couponService.getOneCouponWithDetails(couponNo);
-            if (coupon == null) {
-                return Map.of("error", "優惠券不存在");
+            // 計算每個商品的總金額
+            Map<Integer, Double> goodsTotalMap = new HashMap<>();
+            double totalBeforeDiscount = 0;
+            
+            for (ShoppingCartListVO item : cartItems) {
+                double itemTotal = item.getGoodsPrice() * item.getGoodsNum();
+                goodsTotalMap.put(item.getGoodsNo(), itemTotal);
+                totalBeforeDiscount += itemTotal;
+                System.out.println("商品 " + item.getGoodsNo() + " 總金額: " + itemTotal);
             }
 
-            // 檢查是否達到優惠門檻
-            double discount = 0.0;
-            boolean thresholdMet = false;
-            
-            // 計算該櫃位的折扣
-            for (CouponDetailVO detail : coupon.getCouponDetails()) {
-                try {
-                    double threshold = Double.parseDouble(detail.getCounterContext());
-                    if (originalTotal >= threshold) {
-                        discount = originalTotal * (1 - detail.getDisRate());
-                        thresholdMet = true;
+            // 計算折扣
+            double totalDiscount = 0;
+            boolean hasAnyDiscount = false;
+
+            for (ShoppingCartListVO item : cartItems) {
+                // 檢查商品是否有對應的優惠券明細
+                for (CouponDetailVO detail : coupon.getCouponDetails()) {
+                    if (detail.getGoodsNo().equals(item.getGoodsNo())) {
+                        double threshold = Double.parseDouble(detail.getCounterContext());
+                        double goodsTotal = goodsTotalMap.get(item.getGoodsNo());
+                        
+                        System.out.println("商品 " + item.getGoodsNo() + 
+                                         " 門檻: " + threshold + 
+                                         " 實際金額: " + goodsTotal);
+                        
+                        if (goodsTotal >= threshold) {
+                            double discountRate = detail.getDisRate();
+                            double itemDiscount = goodsTotal * (1 - discountRate);
+                            totalDiscount += itemDiscount;
+                            hasAnyDiscount = true;
+                            
+                            System.out.println("商品 " + item.getGoodsNo() + 
+                                             " 達到門檻，折扣金額: " + itemDiscount);
+                        }
                         break;
                     }
-                } catch (NumberFormatException e) {
-                    System.err.println("解析折扣門檻錯誤: " + detail.getCounterContext());
                 }
             }
 
-            if (!thresholdMet) {
+            // 如果沒有任何商品符合優惠條件
+            if (!hasAnyDiscount) {
                 return Map.of(
-                    "error", "未達到優惠門檻",
+                    "error", "無符合優惠條件的商品",
                     "discount", 0,
-                    "newTotal", originalTotal
+                    "newTotal", totalBeforeDiscount
                 );
             }
 
             // 計算最終金額
-            double newTotal = Math.max(0, originalTotal - discount);
+            double newTotal = Math.max(0, totalBeforeDiscount - totalDiscount);
 
-            // 輸出計算過程，方便調試
-            System.out.println("原始金額: " + originalTotal);
-            System.out.println("折扣金額: " + discount);
+            System.out.println("計算結果:");
+            System.out.println("原始金額: " + totalBeforeDiscount);
+            System.out.println("折扣金額: " + totalDiscount);
             System.out.println("最終金額: " + newTotal);
 
-            return Map.of(
-                "discount", discount,
-                "newTotal", newTotal,
-                "description", coupon.getCouponContext() != null ? coupon.getCouponContext() : "",
-                "originalTotal", originalTotal
-            );
+            Map<String, Object> result = new HashMap<>();
+            result.put("discount", totalDiscount);
+            result.put("newTotal", newTotal);
+            result.put("description", coupon.getCouponContext() != null ? 
+                                    coupon.getCouponContext() : "");
+            result.put("originalTotal", totalBeforeDiscount);
+            
+            return result;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -213,106 +241,73 @@ public class CheckoutCouponController {
     }
     
     //套用優惠在訂單上
-    @PostMapping("/shoppingcartlist/applyDiscount")
-    @ResponseBody
-    public Map<String, Object> applyOrderDiscount(
-            @RequestParam Integer counterOrderNo,
-            @RequestParam Integer memCouponNo,
-            HttpSession session) {
-        
-        Map<String, Object> response = new HashMap<>();
-        
-        try {
-            // 獲取訂單資訊
-            CounterOrderVO order = counterOrderService.getOneCounterOrder(counterOrderNo);
-            if (order == null) {
-                return Map.of("error", "找不到指定訂單");
-            }
-
-            // 驗證會員權限 - 確保訂單屬於當前登入會員
-            Object memNoObj = session.getAttribute("memNo");
-            if (memNoObj == null || !order.getMemNo().equals(
-                memNoObj instanceof Integer ? (Integer) memNoObj : 
-                Integer.parseInt((String) memNoObj))) {
-                return Map.of("error", "沒有權限操作此訂單");
-            }
-
-            // 檢查訂單狀態 - 只有未付款的訂單可以套用優惠券
-            if (order.getOrderStatus() != 0) { // 0 表示未付款
-                return Map.of("error", "只有未付款的訂單可以套用優惠券");
-            }
-
-            // 獲取會員優惠券資訊
-            MemCouponVO memCoupon = memCouponService.getOneMemCoupon(memCouponNo);
-            if (memCoupon == null || memCoupon.getStatus() == 1) { // 1 表示已使用
-                return Map.of("error", "優惠券不可用");
-            }
-
-            // 獲取優惠券詳細資訊
-            CouponVO coupon = memCoupon.getCoupon();
-            if (coupon == null) {
-                return Map.of("error", "優惠券資訊不完整");
-            }
-
-            // 計算優惠前總金額 - 使用正確的getter方法
-            double originalTotal = order.getOrderTotalBefore();
-
-            // 計算優惠金額
-            double discount = 0.0;
-            String discountDescription = "";
-
-            // 檢查優惠券條件並計算折扣
-            for (CouponDetailVO detail : coupon.getCouponDetails()) {
-                try {
-                    // 解析門檻金額
-                    double threshold = Double.parseDouble(detail.getCounterContext());
-                    
-                    // 檢查商品所屬櫃位是否符合條件
-                    if (originalTotal >= threshold && 
-                        detail.getGoodsVO() != null && 
-                        detail.getGoodsVO().getCounterVO().getCounterNo().equals(order.getCounterNo())) {
-                        
-                        // 計算折扣金額 - 使用 disRate
-                        discount = originalTotal * detail.getDisRate();
-                        discountDescription = coupon.getCouponContext();
-                        break;
-                    }
-                } catch (NumberFormatException e) {
-                    System.err.println("解析優惠券門檻發生錯誤: " + e.getMessage());
-                    continue;
-                }
-            }
-
-            if (discount == 0) {
-                return Map.of("error", "此訂單不符合優惠券使用條件");
-            }
-
-            // 計算優惠後金額
-            int finalTotal = (int) Math.max(0, originalTotal - discount);
-
-            // 更新訂單資訊 - 使用正確的setter方法
-            order.setOrderTotalAfter(finalTotal);
-            order.setMemCouponNo(memCouponNo); // 使用新增的 memCouponNo 欄位
-            counterOrderService.updateCounterOrder(order);
-
-            // 更新優惠券使用狀態
-            memCoupon.setStatus(1); // 標記為已使用
-            memCouponService.updateMemCoupon(memCoupon);
-
-            // 構建回應
-            response.put("success", true);
-            response.put("originalTotal", originalTotal);
-            response.put("discount", (int) discount); // 轉換為整數
-            response.put("finalTotal", finalTotal);
-            response.put("discountDescription", discountDescription);
-            
-            return response;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Map.of("error", "套用優惠券時發生錯誤: " + e.getMessage());
-        }
-    }
-    
+//    @PostMapping("/shoppingcartlist/applyDiscount")
+//    @ResponseBody
+//    public Map<String, Object> applyOrderDiscount(
+//            @RequestParam Integer counterOrderNo,
+//            @RequestParam Integer memCouponNo,
+//            HttpSession session) {
+//        
+//        Map<String, Object> response = new HashMap<>();
+//        
+//        try {
+//            // 獲取訂單資訊
+//            CounterOrderVO order = counterOrderService.getOneCounterOrder(counterOrderNo);
+//            if (order == null) {
+//                return Map.of("error", "找不到指定訂單");
+//            }
+//
+//            // 驗證會員權限 - 確保訂單屬於當前登入會員
+//            Object memNoObj = session.getAttribute("memNo");
+//            if (memNoObj == null || !order.getMemNo().equals(
+//                memNoObj instanceof Integer ? (Integer) memNoObj : 
+//                Integer.parseInt((String) memNoObj))) {
+//                return Map.of("error", "沒有權限操作此訂單");
+//            }
+//
+//            // 檢查訂單狀態 - 只有未付款的訂單可以套用優惠券
+//            if (order.getOrderStatus() != 0) { // 0 表示未付款
+//                return Map.of("error", "只有未付款的訂單可以套用優惠券");
+//            }
+//
+//            // 獲取會員優惠券資訊
+//            MemCouponVO memCoupon = memCouponService.getOneMemCoupon(memCouponNo);
+//            if (memCoupon == null || memCoupon.getStatus() == 1) { // 1 表示已使用
+//                return Map.of("error", "優惠券不可用");
+//            }
+//
+//            // 獲取優惠券詳細資訊
+//            CouponVO coupon = memCoupon.getCoupon();
+//            if (coupon == null) {
+//                return Map.of("error", "優惠券資訊不完整");
+//            }
+//
+//            List<CounterOrderDetailVO> details = counterOrderDetailService.getDetailsByOrderNo(counterOrderNo);
+//            double finalTotal = details.stream()
+//                    .mapToDouble(detail -> detail.getProductDisPrice() * detail.getGoodsNum())
+//                    .sum();
+//
+//            // 更新訂單資訊
+//            order.setOrderTotalAfter((int)finalTotal);
+//            order.setMemCouponNo(memCouponNo);
+//            counterOrderService.updateCounterOrder(order);
+//
+//            // 更新優惠券狀態
+//            memCoupon.setStatus(1);
+//            memCouponService.updateMemCoupon(memCoupon);
+//
+//            // 構建回應
+//            response.put("success", true);
+//            response.put("originalTotal", order.getOrderTotalBefore());
+//            response.put("finalTotal", (int)finalTotal);
+//            
+//            return response;
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return Map.of("error", "套用優惠券時發生錯誤: " + e.getMessage());
+//        }
+//    }
+//    
 
 }

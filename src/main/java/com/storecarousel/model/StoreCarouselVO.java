@@ -11,7 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.springframework.format.annotation.DateTimeFormat;
 
+//import org.hibernate.annotations.CreationTimestamp;
 
 //import org.hibernate.annotations.CreationTimestamp;
 
@@ -31,11 +33,10 @@ public class StoreCarouselVO {
 
     @Column(name = "disNo", nullable = false)
     private Integer disNo; // 平台優惠編號
-
-    @Column(name = "carouselTime", nullable = false, updatable = false)
-
+    
 //    @CreationTimestamp // 自動生成時間戳
-
+    @Column(name = "carouselTime", insertable = false, updatable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") // 指定轉換格式
     private Timestamp carouselTime; // 輪播時間
 
     @Transient // 標記為非持久化字段

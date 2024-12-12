@@ -16,6 +16,8 @@ import com.ShoppingCartList.model.ShoppingCartListVO;
 import com.counter.model.CounterVO;
 import com.counterorder.model.CounterOrderService;
 import com.counterorder.model.CounterOrderVO;
+import com.counterorderdetail.model.CounterOrderDetailService;
+import com.counterorderdetail.model.CounterOrderDetailVO;
 import com.coupon.model.CouponService;
 import com.coupon.model.CouponVO;
 import com.coupondetail.model.CouponDetailService;
@@ -36,32 +38,30 @@ import java.util.stream.Collectors;
 
 @Controller
 public class CheckoutCouponDetailController {
-	
-    @Autowired
-    ShoppingCartListService shoppingCartListService;
-
-    @Autowired
-    CouponService couponService;
     
     @Autowired
-    CouponDetailService couponDetailService;
-
+    private ShoppingCartListService shoppingCartListService;
     @Autowired
-    MemCouponService memCouponService;
-    
+    private CouponService couponService;
     @Autowired
-    CounterOrderService counterOrderService;
-    
+    private CouponDetailService couponDetailService;
     @Autowired
-    GoodsService goodsService;
+    private MemCouponService memCouponService;
+    @Autowired
+    private CounterOrderService counterOrderService;
+    @Autowired
+    private CounterOrderDetailService counterOrderDetailService;
+    @Autowired
+    private GoodsService goodsService;
     
     @PostMapping("/shoppingcartlist/checkout")
     @ResponseBody
+    @Transactional
     public Map<String, Object> processCheckout(@RequestBody CheckoutRequest checkoutRequest, HttpSession session) {
         Map<String, Object> response = new HashMap<>();
         
         try {
-            // 驗證會員權限
+            // 1. 驗證會員權限
             Object memNoObj = session.getAttribute("memNo");
             if (memNoObj == null) {
                 response.put("success", false);
@@ -69,10 +69,15 @@ public class CheckoutCouponDetailController {
                 return response;
             }
             
-            Integer memNo = (memNoObj instanceof Integer) ? (Integer) memNoObj : 
-                    Integer.parseInt((String) memNoObj);
+            // 安全地處理 memNo 的轉換
+            Integer memNo = convertMemNo(memNoObj);
+            if (memNo == null) {
+                response.put("success", false);
+                response.put("error", "會員編號格式不正確");
+                return response;
+            }
 
-            // 檢查訂單資料
+            // 2. 檢查訂單資料
             Map<Integer, Integer> counterCoupons = checkoutRequest.getCounterCoupons();
             if (counterCoupons == null || counterCoupons.isEmpty()) {
                 response.put("success", false);
@@ -80,25 +85,21 @@ public class CheckoutCouponDetailController {
                 return response;
             }
 
-            // 重要：處理每個櫃位的訂單優惠
+            // 3. 處理每個櫃位的訂單
             for (Map.Entry<Integer, Integer> entry : counterCoupons.entrySet()) {
                 Integer counterNo = entry.getKey();
                 Integer couponNo = entry.getValue();
-
-                // 根據櫃位號碼和會員編號查找訂單
-                CounterOrderVO order = counterOrderService.findByCounterNoAndMemNo(counterNo, memNo);
                 
-                if (order != null && couponNo != null) {
-                    // 獲取會員優惠券
+                // 找到對應的訂單
+                CounterOrderVO order = counterOrderService.findByCounterNoAndMemNo(counterNo, memNo);
+                if (order == null) continue;
+
+                // 如果有選擇優惠券
+                if (couponNo != null) {
                     MemCouponVO memCoupon = memCouponService.getOneMemCoupon(couponNo);
-                    
                     if (memCoupon != null && memCoupon.getStatus() != 1) {
-                        // 使用優惠券更新訂單金額
-                        updateOrderWithDiscount(order, memCoupon);
-                        
-                        // 更新訂單狀態
-                        order.setOrderStatus(0); // 設置為0 後續綠界付款完改狀態
-                        counterOrderService.updateCounterOrder(order);
+                        // 處理優惠券折扣
+                        processOrderDiscount(order, memCoupon);
                     }
                 }
             }
@@ -115,49 +116,94 @@ public class CheckoutCouponDetailController {
         }
     }
 
+    private Integer convertMemNo(Object memNoObj) {
+        try {
+            if (memNoObj instanceof Integer) {
+                return (Integer) memNoObj;
+            } else if (memNoObj instanceof String) {
+                return Integer.parseInt((String) memNoObj);
+            }
+        } catch (NumberFormatException e) {
+            return null;
+        }
+        return null;
+    }
 
-
-    // 輔助方法：更新訂單優惠金額
-    private void updateOrderWithDiscount(CounterOrderVO order, MemCouponVO memCoupon) {
+    private void processOrderDiscount(CounterOrderVO order, MemCouponVO memCoupon) {
         try {
             CouponVO coupon = memCoupon.getCoupon();
-            double originalTotal = order.getOrderTotalBefore();
-            double discount = 0.0;
-
-            // 計算折扣金額
-            for (CouponDetailVO detail : coupon.getCouponDetails()) {
-                double threshold = Double.parseDouble(detail.getCounterContext());
-                if (originalTotal >= threshold) {
-                    double discountRate = detail.getDisRate();
-                    discount = originalTotal * (1 - discountRate);
-                    break;
-                }
+            List<CounterOrderDetailVO> orderDetails = counterOrderDetailService.getDetailsByOrderNo(order.getCounterOrderNo());
+            
+            System.out.println("\n開始處理訂單號: " + order.getCounterOrderNo() + " 的折扣計算");
+            
+            // 建立優惠券商品映射
+            Map<Integer, CouponDetailVO> couponDetailMap = new HashMap<>();
+            for (CouponDetailVO couponDetail : coupon.getCouponDetails()) {
+                couponDetailMap.put(couponDetail.getGoodsNo(), couponDetail);
+                System.out.println("商品 " + couponDetail.getGoodsNo() + " 有優惠券設定");
             }
-
-            // 更新訂單金額
-            int finalTotal = (int) Math.max(0, originalTotal - discount);
             
+            // 處理每個明細的折扣
+            for (CounterOrderDetailVO detail : orderDetails) {
+                int goodsNo = detail.getGoodsNo();
+                int originalPrice = detail.getProductPrice();
+                int discountedPrice = originalPrice;
+                
+                CouponDetailVO couponDetail = couponDetailMap.get(goodsNo);
+                if (couponDetail != null) {
+                    double threshold = Double.parseDouble(couponDetail.getCounterContext());
+                    double itemTotal = originalPrice * detail.getGoodsNum();  // 該商品總金額
+                    
+                    System.out.println("商品 " + goodsNo + 
+                                     " 單價: " + originalPrice + 
+                                     " 數量: " + detail.getGoodsNum() +
+                                     " 小計: " + itemTotal + 
+                                     " 門檻: " + threshold);
+                    
+                    if (itemTotal >= threshold) {
+                        double discountRate = couponDetail.getDisRate();
+                        discountedPrice = (int) Math.round(originalPrice * discountRate);
+                        System.out.println("商品 " + goodsNo + 
+                                         " 達到門檻，原價 " + originalPrice + 
+                                         " 打" + (discountRate * 100) + "折後 = " + discountedPrice);
+                    } else {
+                        System.out.println("商品 " + goodsNo + " 未達門檻，維持原價");
+                    }
+                } else {
+                    System.out.println("商品 " + goodsNo + " 無優惠設定，維持原價");
+                }
+                
+                detail.setProductDisPrice(discountedPrice);
+                detail.setMemCouponNo(memCoupon.getMemCouponNo());
+                counterOrderDetailService.updateCounterOrderDetail(detail);
+            }
+            
+            // 計算總金額
+            int finalTotal = 0;
+            System.out.println("\n最終金額計算：");
+            for (CounterOrderDetailVO detail : orderDetails) {
+                int subtotal = detail.getProductDisPrice() * detail.getGoodsNum();
+                finalTotal += subtotal;
+                System.out.println("商品 " + detail.getGoodsNo() + 
+                                 " 單價: " + detail.getProductDisPrice() + 
+                                 " × 數量: " + detail.getGoodsNum() + 
+                                 " = " + subtotal);
+            }
+            System.out.println("訂單總金額: " + finalTotal);
+            
+            // 更新主訂單
             order.setOrderTotalAfter(finalTotal);
-            
             order.setMemCouponNo(memCoupon.getMemCouponNo());
-
-            counterOrderService.updateCounterOrder(order);
-
+            counterOrderService.updateCounterOrder49(order);
+            
             // 更新優惠券狀態
             memCoupon.setStatus(1);
             memCouponService.updateMemCoupon(memCoupon);
-
-            // 記錄更新結果
-            System.out.println("訂單更新成功 - 訂單號: " + order.getCounterOrderNo() + 
-                             ", 優惠前金額: " + (int)originalTotal +
-                             ", 折扣金額: " + (int)discount +
-                             ", 優惠後金額: " + finalTotal);
+            
         } catch (Exception e) {
-            System.err.println("更新訂單優惠金額時發生錯誤: " + e.getMessage());
+            System.err.println("處理訂單折扣時發生錯誤: " + e.getMessage());
+            e.printStackTrace();
             throw e;
         }
     }
-    
-	
-
 }

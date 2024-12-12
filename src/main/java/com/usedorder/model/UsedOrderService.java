@@ -1,15 +1,12 @@
 package com.usedorder.model;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.msg.model.MsgVO;
 
 //import hibernate.util.CompositeQuery.HibernateUtil_CompositeQuery_Emp3;
 
@@ -54,7 +51,7 @@ public class UsedOrderService {
     public void save(UsedOrderVO usedOrderVO) {
         repository.save(usedOrderVO);
     }
-    
+//===================        garylee添加方法forUsedOrder display        ============  
     //訂單更改狀態用   gary lee
     public int changeStatusByUsedOrderNo(Byte deliveryStatus,Integer usedOrderNo) {
     	try {
@@ -72,6 +69,24 @@ public class UsedOrderService {
     	 usedOrderVO = repository.save(usedOrderVO);
     	 
         return usedOrderVO.getUsedOrderNo();
+    }
+    
+    //找尋會員身為買家的訂單 
+    public List<UsedOrderVO> selectBuyerOrderByMemNo(Integer memNo){
+    	
+    	
+		return repository.selectBuyerOrderByMemNo(memNo);
+    }
+    
+    //找尋會員身為賣家的訂單(透過賣的商品編號)
+    public List<UsedOrderVO> selectSellerOrderBySellerUsedNo(List<Integer> list){
+    	List<UsedOrderVO> result = new ArrayList<>();
+    	for(Integer usedNo:list) {
+    	 List<UsedOrderVO> order= repository.selectSellerOrderBySellerUsedNo(usedNo);
+    	result.addAll(order);
+    	}
+    	
+		return result;
     }
 
     

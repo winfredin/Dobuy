@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>BuyerUsedOrderFragment</title>
+<head th:insert="~{/front-end/usedorder/included-fragment}"></head>
+
+
+<!-- jQuery DataTables 设置 -->
+<style type="text/css">
+body {
+    margin: 1rem 12rem 2rem 12rem;
+}
+.table-cell-center {
+    text-align: center;
+    vertical-align: middle;
+}
+textarea {
+    text-align: left;
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    box-sizing: border-box;
+    resize: none;
+}
+#starRating i {
+            font-size: 24px;
+            color: gray;
+            cursor: pointer;
+            margin: 0 2px;
+        }
+#starRating i.selected, #starRating i.hover {
+            color: gold;
+        }
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
+         <div align="center"> <h2>買家二手訂單管理</h2></div>
+</nav>
+<div  th:fragment="usedOrderFragment">  
+<table id="example" class="display" style="width: 100%">
+  <thead>
+    <tr style="background-color:rgb(224, 166, 86)">
+        <th>訂單編號</th>
+        <th>成立時間</th>
+        <th>宅配狀態</th>
+        <th>金額</th>
+        <th>訂單詳情</th>
+        <th>滿意度</th>
+    </tr>
+  </thead>    
+  <tbody>
+    <th:block th:each="usedOrderVO : ${usedorderListData}">
+        <tr>
+            <td th:text="${usedOrderVO.usedOrderNo}"></td>
+            <td th:text="${usedOrderVO.usedOrderTime}"></td>
+            <td>
+                <span th:switch="${usedOrderVO.deliveryStatus}">
+                    <span th:case="0">未出貨</span>
+                    <span th:case="1">已出貨</span>
+                    <span th:case="2">待領件</span>
+                    <span th:case="3">已領貨</span>
+                    <span th:case="4">已取消</span>
+                </span>
+            </td>
+            <td th:text="${usedOrderVO.usedTotalPrice}"></td>
+            <td>
+                <a href="javascript:void(0);" 
+                   th:attr="data-orderNo=${usedOrderVO.usedOrderNo}, 
+                    data-usedNo=${usedOrderVO.usedNo}, 
+                    data-usedPrice=${usedOrderVO.usedPrice}, 
+                    data-usedCount=${usedOrderVO.usedCount}, 
+                    data-usedTotalPrice=${usedOrderVO.usedTotalPrice}, 
+                    data-receiverName=${usedOrderVO.receiverName}, 
+                    data-receiverPhone=${usedOrderVO.receiverPhone}, 
+                    data-receiverAdr=${usedOrderVO.receiverAdr}, 
+                    data-sellerSatisfication=${usedOrderVO.sellerSatisfication}, 
+                    data-sellerCommentContent=${usedOrderVO.sellerCommentContent},
+                    data-sellerCommentDate=${usedOrderVO.sellerCommentDate}"
+                    onclick="showReceiverOrderDetails(this)" title="查看詳細信息">
+                    <i class="fas fa-search"></i>
+                 </a>           
+            <td th:text="${usedOrderVO.sellerSatisfication}"></td>                     
+        </tr>
+    </th:block>
+</tbody>
+</table>
+
+
+<!-- 模態框 -->
+<div class="modal fade" id="orderDetailModal" tabindex="-1" role="dialog" aria-labelledby="orderDetailModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="orderDetailModalLabel">訂單詳情</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="false">&times;</span>
+        </button>
+      </div>
+       <div class="modal-body">
+    <!-- 詳情內容會動態生成並插入到這裡 -->
+    <p>訂單編號: <span id="orderNo"></span></p>
+    <p>商品編號: <span id="usedNo"></span></p>
+    <p>二手商品單價: <span id="usedPrice"></span></p>
+    <p>購買數量: <span id="usedCount"></span></p>
+    <p>訂單總價: <span id="usedTotalPrice"></span></p>
+    <p>收件人姓名: <span id="receiverName"></span></p>
+    <p>收件人電話: <span id="receiverPhone"></span></p>
+    <p>收件人地址: <span id="receiverAdr"></span></p>
+    <p><strong>滿意度:</strong>
+        <select id="sellerSatisfication">
+            <option value="1">1 - 非常不滿意</option>
+            <option value="2">2 - 不滿意</option>
+            <option value="3">3 - 一般</option>
+            <option value="4">4 - 滿意</option>
+            <option value="5">5 - 非常滿意</option>
+        </select>
+    </p>
+    <p>評論內文: <textarea id="sellerCommentContent"></textarea></p>
+    <p>評論日期: <span id="sellerCommentDate"></span></p>
+    <hr>
+    <h5>發送申訴郵件</h5>
+    <form id="complaintForm">
+        <div class="form-group">
+            <label for="complaintSubject">郵件主題:</label>
+            <input type="text" class="form-control" id="complaintSubject">
+        </div>
+        <div class="form-group">
+            <label for="complaintContent">郵件內容:</label>
+            <textarea class="form-control" id="complaintContent" rows="4"></textarea>
+        </div>
+        <button type="button" class="btn btn-primary" onclick="sendComplaintEmail()">發送郵件</button>
+    </form>
+</div>
+     
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="saveComment()">保存</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+        
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+</body>
+</html>
+
+
+        

@@ -38,7 +38,7 @@ public class CounterDBGifReaderController {
 			out.write(counterSvc.getOneCounter(Integer.valueOf(counterNo)).getCounterPic());
 		} catch (Exception e) {
 			// 指定圖片的路徑
-            String imagePath = "src/main/resources/static/images/noHand.png"; // 請替換為你的圖片路徑
+			String imagePath = this.getClass().getClassLoader().getResource("static/images/noHand.png").getPath(); // 請替換為你的圖片路徑
             File imageFile = new File(imagePath);
 
             // 讀取圖片的位元組數據

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.countercarousel.model.CountercarouselRepository;
 import com.countercarousel.model.CountercarouselService;
@@ -39,7 +40,7 @@ public class CountercarouselController {
 	CountercarouselService countercarouselService;
 	//----------------定紘--------------------------------
 	
-	@GetMapping("/add")
+	@GetMapping("/addCarousel")
 	public String showRegisterPage(Model model) {
 		model.addAttribute("countercarouselVO", new CountercarouselVO());
 		return "vendor-end/front-end-carousel/addCarousel";
@@ -57,8 +58,26 @@ public class CountercarouselController {
 			e.printStackTrace();
 			return "error";
 		}
-		return "vendor-end/front-end-carousel/addSuccess";
+		return "vendor-end//front-end-carousel/ALLCarousel";
 	}
+	//-----------------------------------------------------------------
+	
+//	    @GetMapping("/uploadSuccess")
+//	    public String uploadSuccess(Model model) {
+//	        // 模擬圖片的動態 URL（實際中這可能是用戶上傳後的圖片 URL）
+//	        String uploadedImageUrl = "/uploads/user1/image1.jpg";
+//	        
+//	        // 把這個變數傳遞到前端的 Thymeleaf 頁面
+//	        model.addAttribute("uploadedImageUrl", uploadedImageUrl);
+//	        
+//	        // 返回視圖名，對應的 Thymeleaf 模板路徑
+//	        return "carousel/addSuccess";
+//	    }
+	
+
+	
+	//----------------------------------------------------------------------------
+
 
 	// 顯示圖片列表
 	@GetMapping("/ALLCarousel")
@@ -67,6 +86,7 @@ public class CountercarouselController {
 		for (CountercarouselVO i : carouselList) {
 			i.convertToBase64();
 		}
+		System.out.println("櫃位輪播");
 
 		model.addAttribute("carouselList", carouselList);
 		return "vendor-end/front-end-carousel/ALLCarousel";
@@ -75,35 +95,35 @@ public class CountercarouselController {
 	// --------------------定紘---------------------------------
 	
 	    // 更新資料頁面
-	    @PostMapping("getOneForUpdate")
+	    @PostMapping("/getOneForUpdate")
 	    public String getOneForUpdate(@RequestParam("counterCarouselNo") Integer counterCarouselNo, ModelMap model) {
 	    	CountercarouselVO counterCarouselVO = countercarouselService.getOneCounterCarousel(counterCarouselNo);
 	        model.addAttribute("counterCarouselVO", counterCarouselVO);
-	        return "vendor-end/countercarousel/update-CounterCarousel-Input";
+	        return "vendor-end/countercarousel/update-CounterStorecarousel-Input";
 	    }
 
 	    // 更新資料處理
-	    @PostMapping("update")
+	    @PostMapping("/update")
 	    public String update(@Valid CountercarouselVO counterCarouselVO, BindingResult result, ModelMap model) {
 	        if (result.hasErrors()) {
-	            return "vendor-end/countercarousel/update-CounterCarousel-Input";
+	            return "vendor-end/countercarousel/update-CounterStorecarousel-Input";
 	        }
 
 	        countercarouselService.updateCounterCarousel(counterCarouselVO);
 	        model.addAttribute("success", "- (更新成功)");
-	        return "redirect:/countercarousel/listAllCountercarousel";
+	        return "redirect:/countercarousel/ALLCarousel";
 	    }
 
 	    // 刪除資料處理
-	    @PostMapping("delete")
+	    @PostMapping("/delete")
 	    public String delete(@RequestParam("counterCarouselNo") Integer counterCarouselNo, ModelMap model) {
 	    	countercarouselService.deleteCounterCarousel(counterCarouselNo);
 	        model.addAttribute("success", "- (刪除成功)");
-	        return "redirect:/countercarousel/listAllCountercarousel";
+	        return "redirect:/countercarousel/ALLCarousel";
 	    }
 
 	    // 下拉選單資料
-	    @ModelAttribute("counterCarouselMapData")
+	    @ModelAttribute("/counterCarouselMapData")
 	    protected List<Map<String, Object>> referenceMapData() {
 	        List<Map<String, Object>> list = new ArrayList<>();
 	        Map<String, Object> option1 = new HashMap<>();
@@ -125,6 +145,20 @@ public class CountercarouselController {
 	        }
 	        return result;
 	    }
+	    
+	    @GetMapping("/selectPage")
+	    public String selectPage(Model model) {
+	        // 取得所有追蹤清單資料供下拉式選單使用
+	        List<CountercarouselVO> list = countercarouselService.getAll();
+	        model.addAttribute("counterCarouselData", list);
+	        
+	        // 新增一個空的 CounterCarouselVO 物件供表單綁定使用
+	        CountercarouselVO counterCarouselVO = new CountercarouselVO();
+	        model.addAttribute("counterCarouselVO", counterCarouselVO);
+	        
+	        return "vendor-end/front-end-carousel/selectPage";
+	    }
+
 	
 
 

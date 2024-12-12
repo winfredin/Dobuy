@@ -97,8 +97,13 @@ public class CounterOrderService {
         repository.save(order);
     }
     
-    @Scheduled(fixedRate = 60000) // 每 100 秒執行一次
+    public List<CounterOrderVO> findExpiredOrders() {
+        return repository.findExpiredOrders();
+    }
+    
+    
     @Transactional
+
     public void restoreInventoryForExpiredOrders() {
         System.out.println("Running scheduled task...");
 
@@ -135,6 +140,76 @@ public class CounterOrderService {
             
         }
     }
+
+    public void restore() {
+    	 System.out.println("Running scheduled task...");
+
+         // 找出所有過期且未處理的訂單
+         List<CounterOrderVO> expiredOrders = repository.findExpiredOrders();
+
+         // 處理每一筆過期訂單
+         for (CounterOrderVO order : expiredOrders) {
+             
+                 // 從訂單明細中獲取商品資訊
+                 List<CounterOrderDetailVO> details = order.getCounterOrderDatailVO();
+
+                 for (CounterOrderDetailVO detail : details) {
+                     Integer goodsNo = detail.getGoodsNo();
+                     Integer reservedGoodsAmount = detail.getGoodsNum();
+
+                     // 恢復商品庫存
+                     GoodsVO goods = goodsService.getOneGoods(goodsNo);
+                     if (goods != null) {
+                         Integer updatedAmount = goods.getGoodsAmount() + reservedGoodsAmount;
+                         System.out.println("Updating goods ID: " + goodsNo + " from amount: " 
+                                             + goods.getGoodsAmount() + " to: " + updatedAmount);
+                         goods.setGoodsAmount(updatedAmount);
+                         goodsService.updateGoodsAmount(goodsNo, updatedAmount);
+                     } else {
+                         System.out.println("Goods not found with ID: " + goodsNo);
+                     }
+                    
+                 }
+                 repository.delete(order);
+         }
+     }
+    
+    
+    
+//    柏翔
+    @Transactional
+    public void updateCounterOrder49(CounterOrderVO order) {
+        // 加入日誌
+        System.out.println("準備更新訂單 " + order.getCounterOrderNo());
+        System.out.println("更新金額為: " + order.getOrderTotalAfter());
+        
+        try {
+            repository.save(order);
+            // 確認更新後的結果
+            CounterOrderVO updated = repository.findById(order.getCounterOrderNo()).orElse(null);
+            if (updated != null) {
+                System.out.println("更新後金額為: " + updated.getOrderTotalAfter());
+            }
+        } catch (Exception e) {
+            System.err.println("更新訂單時發生錯誤: " + e.getMessage());
+            throw e;
+        }
+    }
+    
+    //gary
+    public List<CounterOrderVO> ListfindByMemNoAndStatusNot4(Integer memNo) {
+    	
+    	List<CounterOrderVO> buyerOrderList	= repository.findByMemNoAndStatusNot4(memNo);
+    	
+    	return buyerOrderList;
+    }
+    
+    
+}
+    
+    
+    
+
 
 
 

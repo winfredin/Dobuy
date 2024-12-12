@@ -185,19 +185,39 @@ public class MsgController {
    
     
 //	櫃位通知管理(任國)
+//    @GetMapping("listAllMsg")
+//    public String listAllmsg(HttpSession session, Model model) {
+//    	//櫃位優惠券登錄確認
+//        CounterVO counter = (CounterVO) session.getAttribute("counter");
+//        if (counter == null) {
+//            return "redirect:/counter/login";
+//        } else {
+//            // 其他邏輯
+//            model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
+//            model.addAttribute("counterMsgListData", msgSvc.getOneCounterMsg(counter.getCounterNo()));
+//            return "vendor-end/msg/listAllMsg";
+//        }
+//    }
+    
     @GetMapping("listAllMsg")
     public String listAllmsg(HttpSession session, Model model) {
-    	//櫃位優惠券登錄確認
         CounterVO counter = (CounterVO) session.getAttribute("counter");
         if (counter == null) {
             return "redirect:/counter/login";
         } else {
-            // 其他邏輯
+            List<MsgVO> list = msgSvc.getOneCounterMsg(counter.getCounterNo());
+            // 將所有訊息設置為已讀
+            for (MsgVO msg : list) {
+                msg.setInformRead((byte)1);
+                msgSvc.updateMsg(msg); // 假設你有這樣的更新方法
+            }
             model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
-            model.addAttribute("counterMsgListData", msgSvc.getOneCounterMsg(counter.getCounterNo()));
+            model.addAttribute("counterMsgListData", list);
+            model.addAttribute("msgSvc", msgSvc);
             return "vendor-end/msg/listAllMsg";
         }
     }
+    
     
     @ModelAttribute("counterMsgListData")
     protected List<MsgVO> CounterReferenceListData(HttpSession session, Model model) {

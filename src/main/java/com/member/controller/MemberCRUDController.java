@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.mailCheck.model.MailService;
 import com.member.model.MemberService;
 import com.member.model.MemberVO;
 import com.member.model.MemberVO.RegisterGroup;
@@ -26,6 +27,9 @@ import com.memcoupon.model.MemCouponVO;
 public class MemberCRUDController {
 	@Autowired
 	MemberService memberSvc;
+	
+	@Autowired
+	MailService mailSvc;
 	
 //	winfred
     @Autowired
@@ -48,7 +52,6 @@ public class MemberCRUDController {
 	public String insert(@Validated(RegisterGroup.class) @ModelAttribute MemberVO memberVO, BindingResult result,
 			Model model) {
 		List<String> errorMsgs = new LinkedList<String>();
-
 		if (result.hasErrors()) {
 			model.addAttribute("memberVO", memberVO);
 			return "front-end/member/register"; // 返回注册页面，并显示错误信息
@@ -74,7 +77,14 @@ public class MemberCRUDController {
 			model.addAttribute("memberVO", memberVO);
 			return "front-end/member/register";
 		}
-
+		
+		if( mailSvc.getTheNewest(memberVO.getMemEmail()) == null || mailSvc.getTheNewest(memberVO.getMemEmail()).getIsVerified() == 0) {
+			errorMsgs.add("信箱尚未驗證");
+			model.addAttribute("errorMsgs", errorMsgs);
+			model.addAttribute("memberVO", memberVO);
+			return "front-end/member/register";
+		}
+		memberVO.setMemEmailChecked((byte)1);
 		// 保存会员信息
 		memberSvc.addMem(memberVO);
 		return "front-end/member/registerSuccess"; // 重定向到成功页面

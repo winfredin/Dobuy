@@ -131,8 +131,8 @@ public class CounterVO implements Serializable {
 
     @Column(name = "COUNTERSTATUS", nullable = false )
     @NotNull(message = "櫃位狀態: 請勿空白")
-    @Min(value = 0, message = "櫃位狀態: 必須為0、1或2")
-    @Max(value = 2, message = "櫃位狀態: 必須為0、1或2")
+    @Min(value = 0, message = "櫃位狀態: 必須為0、1、2、3")
+    @Max(value = 3, message = "櫃位狀態: 必須為0、1、2、3")
     private Integer counterStatus = 1;
 
     //柏翔新增以下

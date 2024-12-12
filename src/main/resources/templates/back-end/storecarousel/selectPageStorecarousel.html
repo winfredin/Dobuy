@@ -81,17 +81,17 @@
 <div class="errorblock" th:utext="${errorMessage}">${errorMessage}</div><br>
 <div class="a">
   <ul>
-    <li><h5><a th:href="@{/storecarousel/listAllStorecarousel}">List</a> all Counter Carousels. <br><br></h5></li>
+    <li><h5><a th:href="@{/storecarousel/listAllStorecarouseltest}">List</a> all Counter Carousels. <br><br></h5></li>
 
     <li>
-        <form method="post" th:action="@{/storecarousel/getOneForDisplay}">
+        <form method="post" th:action="@{/storecarousel/getOneForUpdate}">
             輸入輪播資訊編號:
             <input type="text" name="storeCarouselNo" th:value="${param.id}" > 
             <input type="submit" value="送出"> (輸入如1)
         </form><br>
     </li>
 
-    <li><form method="post" th:action="@{/storecarousel/getOneForDisplay}">
+    <li><form method="post" th:action="@{/storecarousel/getOneForUpdate}">
             選擇輪播資訊編號:
             <select name="storeCarouselNo">
                 <option th:each="storeCarouselVO : ${storeCarouselList}" th:value="${storeCarouselVO.id}" th:text="${storeCarouselVO.id}" />
@@ -100,7 +100,7 @@
         </form><br>
     </li>
 
-    <li><form method="post" th:action="@{/storecarousel/getOneForDisplay}">
+    <li><form method="post" th:action="@{/storecarousel/getOneForUpdate}">
             選擇櫃位編號:
             <select name="counterNo">
                 <option th:each="storeCarouselVO : ${storeCarouselList}" th:value="${storeCarouselVO.counterNo}" th:text="${storeCarouselVO.counterNo}" />
@@ -110,21 +110,21 @@
     </li>
     
 <!--  萬用複合查詢-以下欄位-可隨意增減 -->
-  <li>   
-    <form method="post" th:action="@{/storecarousel/listByCompositeQuery}">
-        <font color=blue>萬用複合查詢:</font><br>
-        輸入輪播資訊編號: 
-        <input type="text" name="storeCarouselNo" value=""><br>
+<!--   <li>    -->
+<!--     <form method="post" th:action="@{/storecarousel/listByCompositeQuery}"> -->
+<!--         <font color=blue>萬用複合查詢:</font><br> -->
+<!--         輸入輪播資訊編號:  -->
+<!--         <input type="text" name="storeCarouselNo" value=""><br> -->
            
-        輸入櫃位編號: 
-        <input type="text" name="counterNo" value=""><br>
+<!--         輸入櫃位編號:  -->
+<!--         <input type="text" name="counterNo" value=""><br> -->
        
-<!--         輸入商品編號:  -->
-<!--         <input type="text" name="goodsNo" value=""><br> -->
+<!-- <!--         輸入商品編號:  -->
+<!-- <!--         <input type="text" name="goodsNo" value=""><br> -->
 
-        <input type="submit" value="送出">
-     </form>
-  </li>
+<!--         <input type="submit" value="送出"> -->
+<!--      </form> -->
+<!--   </li> -->
 </ul>   
 
 <h4><span>櫃位輪播資訊管理</span></h4>
@@ -134,7 +134,7 @@
 </div>
     
 <!-- 旗標getOne_For_Display見CounterCarouselController.java的相關邏輯 -->
-<div class="b" th:if="${getOneForDisplay}">
+<div class="b" th:if="${getOneForUpdate}">
     <!-- 使用listOneCounterCarousel.html網頁的listOneCounterCarousel-div片段 --> 
     <div th:insert="~{/back-end/storecarousel/listOneStorecarousel :: listOneStorecarousel-div}"></div>
 </div>

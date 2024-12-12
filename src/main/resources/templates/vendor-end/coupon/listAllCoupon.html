@@ -50,9 +50,129 @@
 
 
 <style type="text/css">
+/* 整體容器 */
 .container49 {
-	padding: 1rem 12rem 2rem 12rem;
+    padding: 2rem;
+    max-width: 100%;
+    margin: 2rem 10rem;
+    background: rgba(255, 255, 255, 0.85); /* 半透明白色背景 */
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* 增加陰影 */
 }
+
+/* 表格樣式 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    background: rgba(255, 255, 255, 0.95); /* 更加透明的表格背景 */
+}
+
+thead {
+    background: linear-gradient(to right, #6A5ACD, #8470FF); /* 漸變藍紫色 */
+    color: #ffffff;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+thead th {
+    padding: 12px;
+    font-size: 14px;
+}
+
+tbody tr:nth-child(even) {
+    background-color: rgba(240, 248, 255, 0.6); /* 偶數行淡藍色 */
+}
+
+tbody tr:nth-child(odd) {
+    background-color: rgba(255, 255, 255, 0.8); /* 奇數行純白透明背景 */
+}
+
+tbody tr:hover {
+    background-color: rgba(173, 216, 230, 0.8); /* 懸停時的淺藍色背景 */
+    transition: background-color 0.3s ease;
+}
+
+td {
+    text-align: center;
+    padding: 10px;
+    color: #333333;
+    font-size: 14px;
+    border-bottom: 1px solid rgba(200, 200, 200, 0.3);
+}
+
+/* 按鈕樣式 */
+button, input[type="submit"] {
+    padding: 6px 12px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #87CEFA; /* 淺藍色按鈕 */
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+button:hover, input[type="submit"]:hover {
+    background-color: #4682B4; /* 深藍色懸停效果 */
+}
+
+a {
+    color: #4682B4;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* 分頁器及搜尋框樣式 */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    background-color: #87CEFA;
+    color: white;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin: 2px;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background-color: #4682B4;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+    border: 1px solid #87CEFA;
+    border-radius: 5px;
+    padding: 5px;
+    outline: none;
+}
+
+/* 新增優惠券按鈕樣式 */
+.add-coupon-btn {
+    display: inline-block;
+    background: #4A90E2; /* 藍色背景 */
+    color: white;
+    padding: 8px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.add-coupon-btn:hover {
+    background-color: #6A5ACD; /* 懸停變為藍紫色 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+}
+
+
 </style>
 
 </head>
@@ -127,13 +247,14 @@
 				</th:block>
 			</tbody>
 		</table>
+
+<div style="text-align: center; margin-top: 1rem;">
+    <a th:href="@{/coupon/addCoupon}" class="btn add-coupon-btn">新增優惠券</a>
+</div>
+		
+		
 	</div>
 	
-
-	  <ul>
-		  <li><h5><a th:href="@{/coupon/addCoupon}">Add1</a> a new Coupon.</h5></li>
-		  
-	  </ul>
 
 
 

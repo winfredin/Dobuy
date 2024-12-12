@@ -19,12 +19,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.counter.model.CounterService;
 import com.counter.model.CounterVO;
 import com.counter.model.CounterVO.LoginGroup;
+import com.msg.model.MsgService;
 
 @Controller
 @RequestMapping("/counter")
 public class CounterLoginController {
     @Autowired
     CounterService counterService;
+    
+    @Autowired
+    MsgService msgSvc;
     
     
     @PostMapping("/loginERO")
@@ -70,6 +74,7 @@ public class CounterLoginController {
     	CounterVO counter = (CounterVO) session.getAttribute("counter"); // 在這裡從 Session 中獲取櫃位信息 
         if (counter != null) {
             model.addAttribute("counter", counter);
+            model.addAttribute("msgSvc", msgSvc); 
         }else {
         	// 處理未登入的情況
             return "redirect:/counter/login";

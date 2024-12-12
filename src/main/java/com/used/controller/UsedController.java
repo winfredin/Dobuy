@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.goods.model.GoodsService;
+import com.goods.model.GoodsVO;
 import com.goodstype.model.GoodsTypeService;
 import com.goodstype.model.GoodsTypeVO;
 import com.used.model.UsedService;
@@ -60,11 +61,26 @@ public class UsedController {
 	 */
 	//用於一鍵轉售
 	@PostMapping("/oneButtontoSellUsed")
-	public String addUsed(ModelMap model,HttpSession session) {
+	public String addUsed(
+			@RequestParam("goodsNo") String goodsNo,
+			ModelMap model,
+			HttpSession session) {
 		UsedVO usedVO = new UsedVO();
+		 Integer goodsNoWantsSell= Integer.valueOf(goodsNo); //goodsNo
+		 
+		 GoodsVO goodsVO=goodsService.getOneGoods(goodsNoWantsSell);
+		 usedVO.setUsedName(goodsVO.getGoodsName());
+		 usedVO.setUsedProDesc(goodsVO.getGoodsDescription());
+		 usedVO.setUsedPrice(goodsVO.getGoodsPrice());
+		 
+		 
+		 
+		 
 		//session提取memNo為sellerNo
 		 Integer sellerNo = Integer.valueOf((String)session.getAttribute("memNo"));
 		usedVO.setSellerNo(sellerNo);
+		
+		model.addAttribute("goodsVO", goodsVO);
 		model.addAttribute("usedVO", usedVO);
 		List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();
 		model.addAttribute("goodsTypeList", goodsTypeList);
@@ -102,7 +118,7 @@ public class UsedController {
 
         if (memNo == null) {
             // 如果沒有 memNo，處理錯誤情況，這裡可以返回空片段或錯誤信息
-            return "fragments/usedListFragment :: usedListFragment";
+            return "front-end/used/memberAllUsed :: usedListFragment";
         }
 
 
@@ -294,17 +310,7 @@ public class UsedController {
 	    return response;
 	}
 	
-	@GetMapping("/back") //for update頁面轉移用
-	public String back(HttpSession session, ModelMap model) {
-		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
-		/*************************** 2.確認身分,準備轉交(Send the Success view) **************/
-		if(session.getAttribute("memNo")!=null) {
-			return "front-end/used/member";
-		}else {
-			return "front-end/used/managertest"; // 刪除完成後轉交listAllUsed.html
-		}
 	
-	}
 	
 	
 	// 去除BindingResult中某個欄位的FieldError紀錄

@@ -41,7 +41,7 @@ public class UsedBuyController {
 		
 		 
 		if (session.getAttribute("memNo") == null) {// 若沒有登入 返回登入頁面
-			return "front-end/member/login";
+			return "front-end/mem/login";
 		}
 		if (Integer.valueOf((String)session.getAttribute("memNo")) == usedVO.getSellerNo()) {// 若沒有登入 返回登入頁面
 			model.addAttribute("errorMessage", "不能購買自己的商品！");

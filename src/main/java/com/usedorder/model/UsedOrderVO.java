@@ -201,6 +201,18 @@ public class UsedOrderVO {
     public void setUsedTotalPrice(Integer usedTotalPrice) {
         this.usedTotalPrice = usedTotalPrice;
     }
+
+	@Override
+	public String toString() {
+		return "UsedOrderVO [usedOrderNo=" + usedOrderNo + ", usedNo=" + usedNo + ", buyerNo=" + buyerNo
+				+ ", usedOrderTime=" + usedOrderTime + ", usedPrice=" + usedPrice + ", usedCount=" + usedCount
+				+ ", deliveryStatus=" + deliveryStatus + ", receiverName=" + receiverName + ", receiverAdr="
+				+ receiverAdr + ", receiverPhone=" + receiverPhone + ", sellerSatisfication=" + sellerSatisfication
+				+ ", sellerCommentContent=" + sellerCommentContent + ", sellerCommentDate=" + sellerCommentDate
+				+ ", usedTotalPrice=" + usedTotalPrice + "]";
+	}
+    
+    
 }
 
    

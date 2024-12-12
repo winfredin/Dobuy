@@ -24,8 +24,7 @@ public class CounterService {
     @Autowired
     private SessionFactory sessionFactory;
     
-    @Autowired
-    private JavaMailSender mailSender;
+
 
     public void addCounter(CounterVO counterVO) {
         if (repository.existsByCounterAccount(counterVO.getCounterAccount())) {
@@ -73,33 +72,10 @@ public class CounterService {
             counter.setCounterStatus(counterStatus);
             repository.save(counter);
 
-            // 檢查是否是停權狀態
-            if (counterStatus == 0) {
-                sendEmail(counter);
-            }
-        } else {
-            // 處理錯誤情況
-            throw new RuntimeException("櫃位不存在");
         }
     }
 
-    private void sendEmail(CounterVO counter) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(counter.getCounterEmail());
-        message.setSubject("您的櫃位已被停權");
-        message.setText("親愛的 " + counter.getCounterName() + "，\n\n" +
-                        "我們很遺憾地通知您，您的櫃位 " + counter.getCounterCName() + " 已被停權。請盡快與我們聯繫以解決問題。\n\n" +
-                        "感謝您的理解。\n" +
-                        "您的客服團隊");
 
-        try {
-            mailSender.send(message);
-        } catch (MailException e) {
-            // 處理發送郵件失敗的情況
-            e.printStackTrace();
-            // 這裡可以選擇記錄錯誤日志或拋出異常，但不要讓發送郵件的錯誤影響主業務邏輯
-        }
-    }
 
     
     //以下昱夆新增

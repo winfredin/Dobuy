@@ -11,24 +11,163 @@
     <!-- Title -->
     <title>DoBuy - Lifestyle</title>
 
+	<!-- 套入fontawesome -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css" /> <!-- ●●css for jquery datatables 用 -->
+    
     <!-- Favicon -->
     <link rel="icon" href="back-end-home/img/core-img/logo noback.png">
 
     <!-- Style CSS -->
     <link rel="stylesheet" href="back-end-home/css/style.css">
 
-	<!-- 套入fontawesome -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 
 	<link rel="stylesheet" href="back-end-home/css/login.css">
 
 
-	<style>
+<style type="text/css">
+/* 父容器 */
+/* 表格設置 */
+table {
+    width: 100%; /* 表格占滿父容器 */
+    table-layout: fixed; /* 固定表格佈局，讓欄位等寬 */
+    border-collapse: collapse; /* 合併邊框 */
+    background-color: white; /* 可選，表格背景色 */
+    opacity: 0.9;
+}
 
+/* 表頭和內容設置 */
+th, td {
+     position: relative; /* Slick 的定位基於此 */
+    border: 1px solid #ddd; /* 表格單元格邊框 */
+    padding: 10px; /* 單元格內邊距 */
+    text-align: center; /* 文字置中 */
+    overflow: hidden; /* 隱藏超出內容 */
+    text-overflow: ellipsis; /* 顯示省略號 */
+    vertical-align: middle; /* 垂直置中對齊 */
+    height: 100px; /* 設定每個欄位的預設高度 */
+    
+}
+
+/* 表頭設置 */
+th {
+    background-color: #f8f8f8; /* 表頭背景色 */
+    font-weight: bold; /* 表頭文字加粗 */
+}
+th.col-sellerNo, td.col-sellerNo {
+    width: 3%; /* 商品編號欄寬度 */
+}
+/* 各個欄位的寬度設置 */
+th.col-usedNo, td.col-usedNo {
+    width: 3%; /* 商品編號欄寬度 */
+}
+
+th.col-usedName, td.col-usedName {
+    width: 5%; /* 商品名稱欄寬度 */
+    max-height: 100px; /* 限制最大高度 */
+    overflow: hidden; /* 隱藏超出內容 */
+    text-overflow: ellipsis; /* 顯示省略號 */
+    white-space: nowrap; /* 不換行 */
+}
+
+th.col-classNo, td.col-classNo {
+    width: 5%; /* 商品類別欄寬度 */
+}
+
+th.col-usedPrice, td.col-usedPrice {
+    width: 5%; /* 價格欄寬度 */
+}
+
+th.col-usedStocks, td.col-usedStocks {
+    width: 3%; /* 庫存量欄寬度 */
+}
+
+th.col-usedPics, td.col-usedPics {
+    width: 8%; /* 照片欄寬度 */
+}
+
+th.col-usedProDesc, td.col-usedProDesc {
+     width: 6%; /* 二手商品描述欄寬度 */
+    max-height: 100px; /* 限制最大高度 */
+    overflow: hidden; /* 隱藏超出內容 */
+    text-overflow: ellipsis; /* 顯示省略號 */
+    white-space: nowrap; /* 不換行 */
+}
+
+th.col-usedNewness, td.col-usedNewness {
+    width: 6%; /* 新舊程度欄寬度 */
+}
+
+th.col-usedLaunchedTime, td.col-usedLaunchedTime {
+    width: 6%; /* 上架時間欄寬度 */
+}
+
+th.col-soldTime, td.col-soldTime {
+    width: 6%; /* 下架時間欄寬度 */
+}
+
+th.col-usedState, td.col-usedState {
+    width: 3%; /* 商品狀態欄寬度 */
+}
+
+th.col-modify, td.col-modify {
+    width: 3%; /* 修改欄寬度 */
+}
+
+th.col-delete, td.col-delete {
+    width: 3%; /* 刪除欄寬度 */
+}
+
+/* 限制圖片大小 */
+td img {
+    max-width: 100px; /* 最大寬度限制為 100px */
+    max-height: 100px; /* 最大高度限制為 100px */
+    min-width: 100px;
+    min-height: 100px;
+    width: auto; /* 確保圖片寬高比一致 */
+    height: auto; /* 確保圖片寬高比一致 */
+}
+
+
+
+/* 按鈕設置 */
+button {
+    width: 90%; /* 按鈕寬度與表格單元格一致，並略小一點以有些間距 */
+    box-sizing: border-box; /* 包含邊框和內邊距 */
+    padding: 5px; /* 增加內邊距 */
+    cursor: pointer; /* 滑鼠移過按鈕時顯示手型 */
+}
+
+button:hover {
+    background-color: #e0e0e0; /* 按鈕 hover 效果 */
+}
+
+.photo-slider {
+    width: 100%; /* 確保滑動區域寬度填滿父容器 */
+    overflow: hidden; /* 隱藏超出範圍的內容 */
+}
+
+.photo-slider .slick-track {
+    display: flex; /* 使滑動項目水平排列 */
+    overflow: hidden; /* 隱藏超出範圍的內容 */
+}
+
+.photo-slider .slick-slide {
+    width: 100%; /* 每張圖片寬度填滿滑動容器 */
+    display: flex;
+    justify-content: center; /* 圖片水平居中 */
+    align-items: center; /* 圖片垂直居中 */
+    overflow: hidden; /* 確保每張圖片以外的部分不可見 */
+}
+
+.photo-slider img {
+    max-width: 100%; /* 圖片寬度不超過滑動容器 */
+    max-height: 100%; /* 限制圖片高度 */
+    object-fit: cover; /* 保持圖片比例並填滿容器 */
+}
 	
 	</style>
-
 
 </head>
 
@@ -127,12 +266,8 @@
                                         </ul>
                                     </li>
                                     
-                                    <li><a href="#">櫃位管理</a>
-                                        <ul class="dropdown">
-                                            <li><a href="#">櫃位管理專區</a></li>
-                                            <li><a href="#">櫃位商城開設審核</a></li>
-
-                                        </ul>
+                                    <li>
+                                    <a th:href="@{/back-end/counter}">櫃位管理專區</a>
                                     </li>
                                     
                                     <li><a href="#">商城系統</a>
@@ -145,7 +280,7 @@
                                     <li><a href="#">商品審核系統</a>
                                         <ul class="dropdown">
                                             <li><a th:href="@{/goods/listAllCheckStatus}">一般商品審核</a></li>
-                                            <li><a href="#">二手商品審核</a></li>
+                                            <li><a id="used-check">二手商品審核</a></li>
                                         </ul>
                                     </li>
                                     
@@ -154,15 +289,13 @@
                                           <li>
    										 <a th:href="@{'/manager/manager?managerNo=' + ${session.managerNo}}">管理員資料管理</a>
 										</li>
-
                                         </ul>
                                     </li>
 
                                     <li><a href="#">優惠管理</a>
                                         <ul class="dropdown">
-                                            <li><a href="#">平台優惠活動管理</a></li>
+                                            <li><a th:href="@{/discount/listAllDiscount}">平台優惠活動管理</a></li>
                                             <li><a th:href="@{/coupon/approve}">廠商優惠券管理</a></li>
-                                            <li><a href="#">優惠訊息通知</a></li>
                                         </ul>
                                     </li>
 
@@ -193,6 +326,7 @@
 
     <!-- ##### Blog Wrapper Start ##### -->
     <div class="blog-wrapper section-padding-100 clearfix">
+    <div class="usedcheckarea">
         <div class="container">
             <div class="row align-items-end">
                 <!-- Single Blog Area -->
@@ -383,7 +517,7 @@
                 </div>
             </div>
         </div>
-
+</div>
         <!-- ##### Footer Area Start ##### -->
         <footer class="footer-area text-center">
             <div class="container">
@@ -399,17 +533,23 @@
 
         </footer>
         <!-- ##### Footer Area End ##### -->
+<!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> -->
+        <script src="back-end-home/js/jquery/jquery-2.2.4.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+
+
 
         <!-- jQuery (Necessary for All JavaScript Plugins) -->
-        <script src="back-end-home/js/jquery/jquery-2.2.4.min.js"></script>
         <!-- Popper js -->
         <script src="back-end-home/js/popper.min.js"></script>
-        <!-- Bootstrap js -->
+<!--         Bootstrap js -->
         <script src="back-end-home/js/bootstrap.min.js"></script>
-        <!-- Plugins js -->
+<!--         Plugins js -->
         <script src="back-end-home/js/plugins.js"></script>
-        <!-- Active js -->
+<!--         Active js -->
         <script src="back-end-home/js/active.js"></script>
+        
 
         <script>
             // 當頁面完全載入後執行
@@ -457,6 +597,157 @@
 		            alert('審核失敗：' + error.message);
 		        });
 		    }
+		    
+		   
+		
+		    
+		  //=====================二手商品管理事件====================================
+		    $(document).ready(function() {
+		        // 当 span id 为 a1 的元素被点击时，触发 AJAX 事件
+		        $('#used-check').click(function() {
+		            // 使用AJAX从后端以POST方式获取数据
+		            $.ajax({
+		                url: '/used/getAllSellerUsedListFragment', // 服务器端 API，返回 Thymeleaf 片段
+		                type: 'POST',
+		                success: function(response) {
+		                    console.log("Fragment HTML:", response); // 打印返回的 HTML，便于调试
+
+		                    // 使用 fragment 替换 <div class="use_1">
+		                    $('.usedcheckarea').html(response);
+		                    initializeSlick();
+		                    
+		                    // 检查并销毁已有 DataTables 实例
+		                    if ($.fn.DataTable.isDataTable('#UsedList')) {
+		                        $('#UsedList').DataTable().destroy();
+		                    }
+
+		                 // 初始化 DataTables
+		                    var table = $('#UsedList').DataTable({
+		                        "lengthMenu": [3, 5, 10, 20, 50, 100],
+		                        "searching": true,
+		                        "paging": true,
+		                        "ordering": true,
+		                        "language": {
+		                            "processing": "處理中...",
+		                            "loadingRecords": "載入中...",
+		                            "lengthMenu": "顯示 _MENU_ 筆結果",
+		                            "zeroRecords": "沒有符合的結果",
+		                            "info": "顯示第 _START_ 至 _END_ 筆結果，共<font color=red> _TOTAL_ </font>筆",
+		                            "infoEmpty": "顯示第 0 至 0 筆結果，共 0 筆",
+		                            "infoFiltered": "(從 _MAX_ 筆結果中過濾)",
+		                            "paginate": {
+		                                "first": "第一頁",
+		                                "previous": "上一頁",
+		                                "next": "下一頁",
+		                                "last": "最後一頁"
+		                            }
+		                        }
+		                    });
+
+		                    // 初始化 Slick 特效
+		                    function initializeSlick() {
+							    $('.photo-slider').not('.slick-initialized').slick({
+							    	dots: false, // 禁用點狀導航
+							        infinite: true, // 禁用無限滾動
+							        speed: 300, // 滑動速度
+							        slidesToShow: 1, // 每次只顯示一張圖片
+							        slidesToScroll: 1, // 每次滑動一張圖片
+							        adaptiveHeight: true, // 自適應高度
+							        arrows: false, // 禁用 previous 和 next 按鈕
+							        centerMode: false, // 禁用居中模式
+							        variableWidth: false // 禁用可變寬度，讓所有圖片固定尺寸
+							        
+							    });
+							    
+							}
+
+
+		                    // 初次载入时初始化 Slick
+		                    initializeSlick();
+
+		                    // 监听 DataTables 分页切换事件，重新初始化 Slick
+		                    $('#UsedList').on('draw.dt', function () {
+		                        initializeSlick();
+		                    });
+		                },
+		                error: function(xhr, status, error) {
+		                    console.error('Error fetching used list data:', error);
+		                }
+		            });
+		        });
+		    });
+
+		    //====================二手商品刪除事件======================
+
+		    document.addEventListener("DOMContentLoaded", function () {
+		        // 初始化外部 DataTable
+		        let dataTable;
+
+		        // 动态绑定嵌入 DataTable 的删除按钮事件
+		        document.body.addEventListener('click', function (event) {
+		            if (event.target.classList.contains('deleteUsed')) {
+		                const button = event.target;
+
+		                // 获取绑定的商品编号 (usedNo)
+		                const usedNo = button.getAttribute('data-usedNo');
+
+		                // 确认删除操作
+		                if (!confirm(`確定要刪除商品編號 ${usedNo} 嗎？`)) return;
+
+		                // 发送删除请求
+		                fetch(`/used/deleteUsed`, {
+		                    method: 'POST',
+		                    headers: {
+		                        'Content-Type': 'application/json'
+		                    },
+		                    body: JSON.stringify({ usedNo: usedNo }) // 将 usedNo 发送到后端
+		                })
+		                    .then(response => response.json()) // 将响应解析为 JSON
+		                    .then(data => {
+		                        if (data.success) {
+		                            alert(data.message); // 显示成功消息
+
+		                            
+		    						$('#used-check').click();// 重新觸發一次click事件取得 fragment
+		                        } else {
+		                            alert(`刪除失敗：${data.message}`);
+		                        }
+		                    })
+		                    .catch(error => {
+		                        console.error('刪除過程中發生錯誤:', error);
+		                        alert('刪除過程中發生錯誤');
+		                    });
+		            }
+		        });
+
+		        // 当页面动态嵌入 DataTable 后，重新初始化 DataTable
+		        function initializeDataTable() {
+		            if (dataTable) {
+		                dataTable.destroy(); // 如果 DataTable 已初始化，先销毁
+		            }
+
+		            // 重新初始化 DataTable
+		            dataTable = $('#UsedList').DataTable({
+		                paging: true,
+		                searching: true,
+		                ordering: true
+		            });
+		        }
+
+		        // 假设触发嵌入 DataTable 的点击事件
+		        document.getElementById('loadDataTableButton').addEventListener('click', function () {
+		            // 模拟嵌入新表格（根据你的需求可能是 AJAX 或其他加载方式）
+		            // 这里假设 DataTable 已嵌入 DOM 中
+
+		            // 初始化新的 DataTable
+		            initializeDataTable();
+		        });
+		    });
+		    
+		    
+		    
+		    
+		    
 		</script>
         
 </body>

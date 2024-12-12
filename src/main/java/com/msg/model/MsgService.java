@@ -48,17 +48,17 @@ public class MsgService {
     public List<MsgVO> getOneCounterMsg(Integer counterNo) {
         return repository.findByCounterNo(counterNo); // 如果不存在，返回 null
     }
-}
-
-
-
-
     
+    public int countUnread(Integer counterNo) {
+        return repository.counterReader(counterNo, (byte)0);
+    }
+    
+    public void addCounterInform(Integer counterNo, String informMsg) {
+        MsgVO counterInformVO = new MsgVO();
+        counterInformVO.setCounterNo(counterNo);
+        counterInformVO.setInformMsg(informMsg);
+        counterInformVO.setInformRead((byte) 0); // 預設通知未讀 (0 表示未讀)
+        repository.save(counterInformVO); // 保存到資料庫
+    }
 
-
-   
-
-
-   
-  
-
+}

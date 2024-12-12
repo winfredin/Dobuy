@@ -38,43 +38,62 @@ public class CouponService {
     }
     
 //    同時新增優惠券與明細
-    @Transactional(rollbackOn = Exception.class)  
+    @Transactional(rollbackOn = Exception.class)
     public CouponVO addCouponWithDetails(CouponVO couponVO) {
         try {
-            // 1. 設置基本數據
+            // 1. 參數驗證
+            if (couponVO == null) {
+                throw new IllegalArgumentException("優惠券對象不能為空");
+            }
+
+            // 2. 設置基本數據
+            Date now = new Date();  // 創建一個時間實例重複使用
             if (couponVO.getCouponStart() == null) {
-                couponVO.setCouponStart(new Date());
+                couponVO.setCouponStart(now);
             }
             
-            // 2. 備份明細列表並清空原有關聯
-            List<CouponDetailVO> details = new ArrayList<>(couponVO.getCouponDetails());
+            // 設置優惠券狀態（如果需要）
+            if (couponVO.getCouponStatus() == null) {
+                couponVO.setCouponStatus(1);  // 假設 1 代表有效
+            }
+
+            // 3. 處理明細
+            List<CouponDetailVO> details = new ArrayList<>();
+            if (couponVO.getCouponDetails() != null) {
+                details.addAll(couponVO.getCouponDetails());
+            }
             couponVO.getCouponDetails().clear();
-            
-            // 3. 先保存優惠券主體
+
+            // 4. 保存優惠券主體
             CouponVO savedCoupon = repository.save(couponVO);
-            
-            // 4. 為每個明細設置關聯並添加到優惠券
+
+            // 5. 處理明細
             for (CouponDetailVO detail : details) {
+                // 驗證明細數據
+                if (detail.getDisRate() == null || detail.getDisRate() <= 0) {
+                    throw new IllegalArgumentException("折扣率必須大於0");
+                }
+
                 detail.setCoupon(savedCoupon);
-                detail.setCreatedAt(new Date());
-                detail.setUpdatedAt(new Date());
+                detail.setCreatedAt(now);  // 使用同一個時間實例
+                detail.setUpdatedAt(now);
                 savedCoupon.getCouponDetails().add(detail);
             }
-            
-            // 5. 再次保存以更新關聯
+
+            // 6. 最終保存
             return repository.save(savedCoupon);
-            
+
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("保存優惠券和明細失敗：" + e.getMessage());
+            throw new RuntimeException("保存優惠券和明細失敗：" + e.getMessage(), e);  // 加入原始異常
         }
     }
     
     // 前台領取櫃位優惠券頁面點查看詳情可以看到明細
+    @Transactional
     public CouponVO getOneCouponWithDetails(Integer couponNo) {
         try {
-            // 從資料庫獲取優惠券
-            Optional<CouponVO> couponOpt = repository.findById(couponNo);
+            Optional<CouponVO> couponOpt = repository.findByIdWithDetails(couponNo);
             
             if (!couponOpt.isPresent()) {
                 throw new RuntimeException("找不到優惠券編號：" + couponNo);
@@ -82,14 +101,20 @@ public class CouponService {
             
             CouponVO coupon = couponOpt.get();
             
-            // 確保明細列表已初始化
+            // 檢查明細是否存在
             if (coupon.getCouponDetails() == null) {
                 coupon.setCouponDetails(new ArrayList<>());
             }
             
-            return coupon;
+            // 調試日誌
+            System.out.println("明細數量: " + coupon.getCouponDetails().size());
+            for (CouponDetailVO detail : coupon.getCouponDetails()) {
+                System.out.println("明細ID: " + detail.getGoodsNo());
+            }
             
+            return coupon;
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException("獲取優惠券數據時發生錯誤：" + e.getMessage());
         }
     }
@@ -169,11 +194,12 @@ public class CouponService {
     }
 
     // 删除
+    @Transactional
     public void deleteCoupon(Integer couponNo) {
-        if (repository.existsById(couponNo))
-            repository.deleteByCouponNo(couponNo);
+        // 先刪除所有關聯的明細記錄
+        couponDetailRepository.deleteByCouponNo(couponNo);
+        repository.deleteById(couponNo);
     }
-
     // 查询單筆
     public CouponVO getOneCoupon(Integer couponNo) {
         Optional<CouponVO> optional = repository.findById(couponNo);
@@ -217,6 +243,20 @@ public class CouponService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+    // 减少優惠券可領取次數
+    @Transactional
+    public void decreaseUsageLimit(Integer couponNo) {
+        CouponVO coupon = repository.findById(couponNo)
+            .orElseThrow(() -> new RuntimeException("找不到優惠券：" + couponNo));
+            
+        if (coupon.getUsageLimit() > 0) {
+            coupon.setUsageLimit(coupon.getUsageLimit() - 1);
+            repository.save(coupon);
+        } else {
+            throw new RuntimeException("此優惠券已達領取上限");
+        }
+    }
     
     
     

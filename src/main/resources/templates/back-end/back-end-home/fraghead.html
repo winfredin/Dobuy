@@ -1,222 +1,229 @@
-    <th:block th:fragment="head">
-      
-    <meta charset="UTF-8">
-    <meta name="description" content="">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <!-- Title -->
-    <title>DoBuy - Lifestyle</title>
+<th:block th:fragment="head">
 
-    <!-- Favicon -->
-    <link rel="icon" th:href="@{/back-end-home/img/core-img/logo noback.png}">
+	<meta charset="UTF-8">
+	<meta name="description" content="">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <!-- Style CSS -->
-    <link rel="stylesheet" th:href="@{/back-end-home/css/style.css}">
+	<!-- Title -->
+	<title>DoBuy - Lifestyle</title>
+
+	<!-- Favicon -->
+	<link rel="icon"
+		th:href="@{/back-end-home/img/core-img/logo noback.png}">
+
+	<!-- Style CSS -->
+	<link rel="stylesheet" th:href="@{/back-end-home/css/style.css}">
 
 	<!-- 套入fontawesome -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-	
-	
-	<link rel="stylesheet"  th:href="@{/back-end-home/css/login.css}">
-	
-	
-	</th:block>
-	
-	
-	
-	
-	
-    <th:block th:fragment="header">
-    
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 
-<!-- 登入及顯示管理員姓名 -->
-<div class="admin-controls">
-<div class="admin-name">
-    <i class="fas fa-user-circle"></i>
-    <span th:text="${session.managerAccount != null ? session.managerAccount : '管理員'}">管理員</span>
-</div>
-    
-    <form th:action="@{/logout}" method="get" style="margin: 0;">
-        <button type="submit" class="logout-btn">
-            <i class="fas fa-sign-out-alt"></i>
-            登出
-        </button>
-    </form>
-</div>
+	<link rel="stylesheet" th:href="@{/back-end-home/css/login.css}">
 
 
-<!-- ##### Header Area Start ##### -->
-    <header class="header-area">
-
-        <!-- Top Header Area -->
-        <div class="top-header">
-            <div class="container h-100">
-                <div class="row h-100 align-items-center">
-                    <!-- Breaking News Area -->
-                    <div class="col-12 col-sm-8">
-                        <div class="breaking-news-area">
-                            <div id="breakingNewsTicker" class="ticker">
-                                <ul>
-                                    <li><a th:href="@{/back-end-homepage}">Hello Staff!</a></li>
-                                    <li><a th:href="@{/back-end-homepage}">Hello Universe!</a></li>
-                                    <li><a th:href="@{/back-end-homepage}">Hello Earth!</a></li>
-                                    <li><a th:href="@{/back-end-homepage}">Hello DoBuy!</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-         <!-- Logo Area -->
-        <div class="logo-area text-center">
-            <div class="container h-100">
-                <div class="row h-100 align-items-center">
-                    <div class="col-12">
-                        <a th:href="@{/back-end-homepage}" class="original-logo"><img th:src="@{/back-end-home/img/core-img/logo noback.png}" alt=""></a>
-                    </div>
-                </div>
-            </div>
-        </div>
+</th:block>
 
 
-        <!-- Nav Area -->
-        <div class="original-nav-area" id="stickyNav">
-            <div class="classy-nav-container breakpoint-off">
-                <div class="container">
-                    <!-- Classy Menu -->
-                    <nav class="classy-navbar justify-content-between">
 
-                        <!-- Navbar Toggler -->
-                        <div class="classy-navbar-toggler">
-                            <span class="navbarToggler"><span></span><span></span><span></span></span>
-                        </div>
 
-                        <!-- Menu -->
-                        <div class="classy-menu" id="originalNav">
-                            <!-- close btn -->
-                            <div class="classycloseIcon">
-                                <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
-                            </div>
 
-                            <!-- Nav Start -->
-                            <div class="classynav">
-                                <ul>
-                                    <li><a class="dropdown-font" th:href="@{/back-end-homepage}">首頁</a></li>
-                                    <li><a href="#">會員管理</a>
-                                        <ul class="dropdown">
-                                            <li><a href="#">會員管理</a></li>
-                                            <li><a href="#">會員管理訂單管理</a></li>
-                                            <li><a href="/goods/listAllCheckStatus">商品審核</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="#">櫃位管理</a>
-                                        <ul class="dropdown">
-                                            <li><a href="#">櫃位管理專區</a></li>
-                                            <li><a href="#">櫃位商城開設審核</a></li>
+<th:block th:fragment="header">
 
-                                        </ul>
-                                    </li>
-                                    <li><a href="#">商城系統</a>
-                                        <ul class="dropdown">
-                                            <li><a href="#">首頁輪播圖管理</a></li>
-                                            <li><a href="http://localhost:8080/goodstype/listAllGoodsType">商品分類管理</a></li>
-                                        </ul>
-                                    </li>
+
+
+	<!-- 登入及顯示管理員姓名 -->
+	<div class="admin-controls">
+		<div class="admin-name">
+			<i class="fas fa-user-circle"></i> <span
+				th:text="${session.managerAccount != null ? session.managerAccount : '管理員'}">管理員</span>
+		</div>
+
+		<form th:action="@{/logout}" method="get" style="margin: 0;">
+			<button type="submit" class="logout-btn">
+				<i class="fas fa-sign-out-alt"></i> 登出
+			</button>
+		</form>
+	</div>
+
+
+	<!-- ##### Header Area Start ##### -->
+	<header class="header-area">
+
+		<!-- Top Header Area -->
+		<div class="top-header">
+			<div class="container h-100">
+				<div class="row h-100 align-items-center">
+					<!-- Breaking News Area -->
+					<div class="col-12 col-sm-8">
+						<div class="breaking-news-area">
+							<div id="breakingNewsTicker" class="ticker">
+								<ul>
+									<li><a th:href="@{/back-end-homepage}">Hello Staff!</a></li>
+									<li><a th:href="@{/back-end-homepage}">Hello Universe!</a></li>
+									<li><a th:href="@{/back-end-homepage}">Hello Earth!</a></li>
+									<li><a th:href="@{/back-end-homepage}">Hello DoBuy!</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Logo Area -->
+		<div class="logo-area text-center">
+			<div class="container h-100">
+				<div class="row h-100 align-items-center">
+					<div class="col-12">
+						<a th:href="@{/back-end-homepage}" class="original-logo"><img
+							th:src="@{/back-end-home/img/core-img/logo noback.png}" alt=""></a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- Nav Area -->
+		<div class="original-nav-area" id="stickyNav">
+			<div class="classy-nav-container breakpoint-off">
+				<div class="container">
+					<!-- Classy Menu -->
+					<nav class="classy-navbar justify-content-between">
+
+						<!-- Navbar Toggler -->
+						<div class="classy-navbar-toggler">
+							<span class="navbarToggler"><span></span><span></span><span></span></span>
+						</div>
+
+						<!-- Menu -->
+						<div class="classy-menu" id="originalNav">
+							<!-- close btn -->
+							<div class="classycloseIcon">
+								<div class="cross-wrap">
+									<span class="top"></span><span class="bottom"></span>
+								</div>
+							</div>
+
+							<!-- Nav Start -->
+							<div class="classynav">
+								<ul>
+									<li><a class="dropdown-font"
+										th:href="@{/back-end-homepage}">首頁</a></li>
+									<li><a href="#">會員管理</a>
+										<ul class="dropdown">
+											<li><a href="/back-end/member">會員管理</a></li>
+											<li><a href="/back-end/memberorder">會員管理訂單管理</a></li>
+										</ul></li>
+
+									<li><a th:href="@{/back-end/counter}">櫃位管理專區</a></li>
+
+									<li><a href="#">商城系統</a>
+										<ul class="dropdown">
+											<li><a
+												th:href="@{/storecarousel/listAllStorecarouseltest}">首頁輪播圖管理</a></li>
+											<li><a th:href="@{/goodstype/listAllGoodsType}">商品分類管理</a></li>
+										</ul></li>
+
+									<li><a href="#">商品審核系統</a>
+										<ul class="dropdown">
+											<li><a th:href="@{/goods/listAllCheckStatus}">一般商品審核</a></li>
+											<li><a href="#">二手商品審核</a></li>
+										</ul></li>
 
                                     <li><a href="#">管理員資料</a>
                                         <ul class="dropdown">
-                                            <li><a href="#">管理員資料管理</a></li>
+                                          <li>
+   										 <a th:href="@{'/manager/manager?managerNo=' + ${session.managerNo}}">管理員資料管理</a>
+										</li>
                                         </ul>
                                     </li>
 
                                     <li><a href="#">優惠管理</a>
                                         <ul class="dropdown">
-                                            <li><a href="#">平台優惠活動管理</a></li>
-                                            <li><a href="#">廠商優惠券管理</a></li>
-                                            <li><a href="#">優惠訊息通知</a></li>
+                                            <li><a th:href="@{/discount/listAllDiscount}">平台優惠活動管理</a></li>
+                                            <li><a th:href="@{/coupon/approve}">廠商優惠券管理</a></li>
                                         </ul>
                                     </li>
 
-                                    <li><a href="#">客服系統</a>
-                                        <ul class="dropdown">
-                                            <li><a href="#">FAQ專案管理</a></li>
-                                            <li><a href="#">客服訊息回覆</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
+									<li><a href="#">客服系統</a>
+										<ul class="dropdown">
+											<li><a href="#">FAQ專案管理</a></li>
+											<li><a href="#">客服訊息回覆</a></li>
+										</ul></li>
+								</ul>
 
-                                <!-- Search Form  -->
-<!--                                 <div id="search-wrapper"> -->
-<!--                                     <form action="#"> -->
-<!--                                         <input type="text" id="search" placeholder="Search something..."> -->
-<!--                                         <div id="close-icon"></div> -->
-<!--                                         <input class="d-none" type="submit" value=""> -->
-<!--                                     </form> -->
-<!--                                 </div> -->
-                            </div>
-                            <!-- Nav End -->
-                        </div>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </header>
-   	</th:block>
-	    
-	    
-	    
-	    
-	    
-    <th:block th:fragment="footer">	    
-        <!-- ##### Footer Area Start ##### -->
-        <footer class="footer-area text-center">
-            <div class="container">
-                <div class="row">
+								<!-- Search Form  -->
+								<!--                                 <div id="search-wrapper"> -->
+								<!--                                     <form action="#"> -->
+								<!--                                         <input type="text" id="search" placeholder="Search something..."> -->
+								<!--                                         <div id="close-icon"></div> -->
+								<!--                                         <input class="d-none" type="submit" value=""> -->
+								<!--                                     </form> -->
+								<!--                                 </div> -->
+							</div>
+							<!-- Nav End -->
+						</div>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</header>
+</th:block>
 
-                </div>
-            </div>
 
-            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            Copyright &copy;
-            <script>document.write(new Date().getFullYear());</script>
-             All rights reserved | <i class="fa-regular fa-heart fa-bounce"></i> by <a href="#" target="_blank">DOBUY</a>
 
-        </footer>
-    
-   	</th:block>
 
-	
-	
-    <th:block th:fragment="js">	    
-<!-- jQuery (Necessary for All JavaScript Plugins) -->
-<script th:src="@{/back-end-home/js/jquery/jquery-2.2.4.min.js}"></script>
-<!-- Popper js -->
-<script th:src="@{/back-end-home/js/popper.min.js}"></script>
-<!-- Bootstrap js -->
-<script th:src="@{/back-end-home/js/bootstrap.min.js}"></script>
-<!-- Plugins js -->
-<script th:src="@{/back-end-home/js/plugins.js}"></script>
-<!-- Active js -->
-<script th:src="@{/back-end-home/js/active.js}"></script>      
-   	</th:block>
-   	
-   	
-   	    <th:block th:fragment="js351">	    
-<!-- jQuery (Necessary for All JavaScript Plugins) -->
-<!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> -->
-<!-- Popper js -->
-<script th:src="@{/back-end-home/js/popper.min.js}"></script>
-<!-- Bootstrap js -->
-<script th:src="@{/back-end-home/js/bootstrap.min.js}"></script>
-<!-- Plugins js -->
-<script th:src="@{/back-end-home/js/plugins.js}"></script>
-<!-- Active js -->
-<script th:src="@{/back-end-home/js/active.js}"></script>      
-   	</th:block>
-   	
- 
+
+<th:block th:fragment="footer">
+	<!-- ##### Footer Area Start ##### -->
+	<footer class="footer-area text-center">
+		<div class="container">
+			<div class="row"></div>
+		</div>
+
+		<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+		Copyright &copy;
+		<script>
+			document.write(new Date().getFullYear());
+		</script>
+		All rights reserved | <i class="fa-regular fa-heart fa-bounce"></i> by
+		<a href="#" target="_blank">DOBUY</a>
+
+	</footer>
+
+</th:block>
+
+
+
+<th:block th:fragment="js">
+	<!-- jQuery (Necessary for All JavaScript Plugins) -->
+	<script th:src="@{/back-end-home/js/jquery/jquery-2.2.4.min.js}"></script>
+	<!-- Popper js -->
+	<script th:src="@{/back-end-home/js/popper.min.js}"></script>
+	<!-- Bootstrap js -->
+	<script th:src="@{/back-end-home/js/bootstrap.min.js}"></script>
+	<!-- Plugins js -->
+	<script th:src="@{/back-end-home/js/plugins.js}"></script>
+	<!-- Active js -->
+	<script th:src="@{/back-end-home/js/active.js}"></script>
+</th:block>
+
+
+<th:block th:fragment="js351">
+	<!-- jQuery (Necessary for All JavaScript Plugins) -->
+	<!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> -->
+	<!-- Popper js -->
+	<script th:src="@{/back-end-home/js/popper.min.js}"></script>
+	<!-- Bootstrap js -->
+	<script th:src="@{/back-end-home/js/bootstrap.min.js}"></script>
+	<!-- Plugins js -->
+	<script th:src="@{/back-end-home/js/plugins.js}"></script>
+	<!-- Active js -->
+	<script th:src="@{/back-end-home/js/active.js}"></script>
+</th:block>
+

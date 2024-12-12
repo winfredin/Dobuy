@@ -35,14 +35,13 @@
 		<form th:action="@{/mem/insert}" method="post" th:object="${memberVO}"
 			class="register-form">
 			<label for="memAccount" class="form-label">*會員帳號:</label> 
-			<input type="text" id="memAccount" th:field="*{memAccount}"
-				class="form-input" /> <span
-				th:if="${#fields.hasErrors('memAccount')}" th:errors="*{memAccount}"
-				class="error"></span> <br> 
+			<input type="text" id="memAccount" th:field="*{memAccount}" class="form-input" /> 
+			<span th:if="${#fields.hasErrors('memAccount')}" th:errors="*{memAccount}" class="error"></span> 
+			<br> 
 			<label for="memPassword" class="form-label">*會員密碼:</label> 
-			<input type="password" id="memPassword" th:field="*{memPassword}" class="form-input" /> <span
-				th:if="${#fields.hasErrors('memPassword')}"
-				th:errors="*{memPassword}" class="error"></span> <br> 
+			<input type="password" id="memPassword" th:field="*{memPassword}" class="form-input" /> 
+			<span th:if="${#fields.hasErrors('memPassword')}" th:errors="*{memPassword}" class="error"></span> 
+			<br> 
 			<label for="confirmPassword" class="form-label">*確認密碼:</label> 
 			<input type="password" id="confirmPassword" name="confirmPassword" class="form-input" /> <span
 				th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}" class="error"></span> <br> <label
@@ -57,24 +56,40 @@
 				for="memPhone" class="form-label">電話:</label> <input type="text"
 				id="memPhone" th:field="*{memPhone}" class="form-input" /> <br>
 
-			<label for="memUID" class="form-label">身分證字號:</label> <input
-				type="text" id="memUID" th:field="*{memUID}" class="form-input" />
-			<br> <label for="memEmail" class="form-label">信箱:</label> <input
-				type="email" id="memEmail" th:field="*{memEmail}" class="form-input" />
-			<br> <label class="form-label">性別:</label> <input type="radio"
-				id="male" name="memSex" th:field="*{memSex}" value="1"
-				class="form-radio" /> <label for="male" class="form-label-inline">男</label>
-			<input type="radio" id="female" name="memSex" th:field="*{memSex}"
-				value="0" class="form-radio" /> <label for="female"
-				class="form-label-inline">女</label> <br> <label for="memBirth"
-				class="form-label">生日:</label> <input type="date" id="memBirth"
-				th:field="*{memBirth}" class="form-input" /> <br> <label
-				for="memPasswordHint" class="form-label">密碼提示問題:</label> <input
-				type="text" id="memPasswordHint" th:field="*{memPasswordHint}"
-				class="form-input" /> <br> <label for="memPasswordHintAnswer"
-				class="form-label">密碼提示答案:</label> <input type="text"
-				id="memPasswordHintAnswer" th:field="*{memPasswordHintAnswer}"
-				class="form-input" /> <br>
+			<label for="memUID" class="form-label">身分證字號:</label> 
+			<input type="text" id="memUID" th:field="*{memUID}" class="form-input" />
+			<br> 
+			
+			<div class="mail-container">
+			    <label for="memEmail">*信箱:</label>
+			    <input type="email" id="memEmail" th:field="*{memEmail}" placeholder="請輸入信箱" />
+			    <button type="button" id="firstButton" class="email-button" onclick="sendVerificationCode()">發送驗證碼</button>
+			    
+			    <!-- 驗證碼輸入區域，初始為隱藏 -->
+			    <div id="verification-section" style="display: none; margin-top: 10px;">
+			        <input type="text" id="memEmailConfirm" placeholder="請輸入驗證碼" />
+			        <button type="button" id="sendCodeButton" class="email-button" onclick="verifyCode()">驗證</button>
+			    </div>
+			</div>
+			<span th:if="${#fields.hasErrors('memEmail')}" th:errors="*{memEmail}" class="error"></span>
+			<br> 
+			
+			<label class="form-label">性別:</label> 
+			<input type="radio" id="male" name="memSex" th:field="*{memSex}" value="1" class="form-radio" /> 
+				
+			<label for="male" class="form-label-inline">男</label>
+			<input type="radio" id="female" name="memSex" th:field="*{memSex}" value="0" class="form-radio" /> 
+			<label for="female" class="form-label-inline">女</label> 
+			<br> 
+			<label for="memBirth" class="form-label">生日:</label> 
+			<input type="date" id="memBirth" th:field="*{memBirth}" class="form-input" /> 
+			<br> 
+			<label for="memPasswordHint" class="form-label">密碼提示問題:</label> 
+			<input type="text" id="memPasswordHint" th:field="*{memPasswordHint}" class="form-input" /> 
+			<br> 
+			<label for="memPasswordHintAnswer" class="form-label">密碼提示答案:</label> 
+			<input type="text" id="memPasswordHintAnswer" th:field="*{memPasswordHintAnswer}" class="form-input" /> 
+			<br>
 
 			<button type="submit" class="form-button">提交</button>
 		</form>

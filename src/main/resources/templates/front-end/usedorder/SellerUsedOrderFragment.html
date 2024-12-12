@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>SellerUsedOrderFragment</title>
+
+<style type="text/css">
+body {
+    margin: 1rem 12rem 2rem 12rem;
+}
+
+#starRating i {
+            font-size: 24px;
+            color: gray;
+            cursor: pointer;
+            margin: 0 2px;
+        }
+#starRating i.selected, #starRating i.hover {
+            color: gold;
+        }
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
+
+         <div align="center"> <h2>SellerUsedOrderFragment</h2></div>
+
+
+</nav>
+<div  th:fragment="usedOrderFragment">
+<table id="exampleSeller" class="display" style="width: 100%">
+  <thead >
+    <tr style="background-color:rgb(224, 166, 86)">
+        <th>訂單編號</th>
+        <th>成立時間</th>
+        <th>訂單狀態</th>
+        <th>買家編號</th>
+        <th>金額</th>
+        <th>收件人</th>
+        <th>電話</th>
+        <th>地址</th>
+        <th>訂單詳情</th>
+        <th>更新狀態</th>
+    </tr>
+  </thead>
+    
+  <tbody>
+        <th:block th:each="usedOrderVO : ${usedorderListData}">
+            <tr>
+                <td th:text="${usedOrderVO.usedOrderNo}"></td>
+                <td th:text="${usedOrderVO.usedOrderTime}"></td>
+                <td>
+                    <select th:id="'deliveryStatus-' + ${usedOrderVO.usedOrderNo}" th:name="deliveryStatus">
+                        <option value="0" th:selected="${usedOrderVO.deliveryStatus == 0}">未出貨</option>
+                        <option value="1" th:selected="${usedOrderVO.deliveryStatus == 1}">已出貨</option>
+                        <option value="2" th:selected="${usedOrderVO.deliveryStatus == 2}">待領件</option>
+                        <option value="3" th:selected="${usedOrderVO.deliveryStatus == 3}">已領貨</option>
+                        <option value="4" th:selected="${usedOrderVO.deliveryStatus == 4}">已取消</option>
+                        <option value="5" th:selected="${usedOrderVO.deliveryStatus == 5}">已付款</option>
+                        <option value="6" th:selected="${usedOrderVO.deliveryStatus == 6}">未付款</option>
+                    </select>
+                </td>
+                <td th:text="${usedOrderVO.buyerNo}"></td>
+                <td th:text="${usedOrderVO.usedTotalPrice}"></td>
+                <td th:text="${usedOrderVO.receiverName}"></td>
+                <td th:text="${usedOrderVO.receiverPhone}"></td>
+                <td th:text="${usedOrderVO.receiverAdr}"></td>
+                <td>
+                <a href="javascript:void(0);" 
+                   th:attr=" data-buyerNo=${usedOrderVO.buyerNo},
+                             data-orderNo=${usedOrderVO.usedOrderNo}, 
+                             data-usedNo=${usedOrderVO.usedNo}, 
+                             data-usedPrice=${usedOrderVO.usedPrice}, 
+                             data-usedCount=${usedOrderVO.usedCount}, 
+                             data-usedTotalPrice=${usedOrderVO.usedTotalPrice}, 
+                             data-sellerSatisfication=${usedOrderVO.sellerSatisfication}, 
+                             data-sellerCommentContent=${usedOrderVO.sellerCommentContent},
+                             data-sellerCommentDate=${usedOrderVO.sellerCommentDate}"
+                   onclick="showOrderDetails(this)" title="查看詳細信息">
+                    <i class="fas fa-search"></i>
+                </a>
+            
+                </td>
+                <td>
+                    <button type="button" th:onclick="'updateDeliveryStatus(' + ${usedOrderVO.usedOrderNo} + ')'">更新</button>
+                </td>
+            </tr>
+        </th:block>
+  </tbody>
+</table>
+
+<!-- 模態框 -->
+<div class="modal fade" id="orderDetailModal" tabindex="-1" role="dialog" aria-labelledby="orderDetailModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="orderDetailModalLabel">訂單詳情</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>買家編號: <span id="buyerNo"></span></p>
+        <p>訂單編號: <span id="orderNo"></span></p>
+        <p>商品編號: <span id="usedNo"></span></p>
+        <p>二手商品單價: <span id="usedPrice"></span></p>
+        <p>購買數量: <span id="usedCount"></span></p>
+        <p>訂單總價: <span id="usedTotalPrice"></span></p>
+        <p><strong>滿意度:</strong>
+          <span id="starRating">
+            <i class="fas fa-star" data-value="1"></i>
+            <i class="fas fa-star" data-value="2"></i>
+            <i class="fas fa-star" data-value="3"></i>
+            <i class="fas fa-star" data-value="4"></i>
+            <i class="fas fa-star" data-value="5"></i>
+          </span>
+        </p>
+        <p>評論內文: <span id="sellerCommentContent"></span></p>
+        <p>評論日期: <span id="sellerCommentDate"></span></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>
