@@ -1,7 +1,9 @@
 package com.usedorder.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -10,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.used.model.UsedService;
 import com.used.model.UsedVO;
@@ -68,6 +72,8 @@ public class UsedOrderFragController {
 		Integer memNo = Integer.valueOf((String)session.getAttribute("memNo"));
 		
 		 List<UsedOrderVO> filteredList = usedOrderSvc.selectBuyerOrderByMemNo(memNo);
+		 
+		 
 		// 將數據放到模型中
 		model.addAttribute("usedorderListData", filteredList);
 		// 返回Fragment所在的模板，並指定Fragment名稱
@@ -128,9 +134,42 @@ public class UsedOrderFragController {
 			return "front-end/usedorder/BuyerUsedOrderFragment";
 		}
 	
-	
-	
-	
+		
+		@PostMapping("/updateFragComment")
+		@ResponseBody
+		public Map<String, Object> updateComment(@RequestParam("usedOrderNo") Integer usedOrderNo,
+		                                         @RequestParam("sellerCommentContent") String sellerCommentContent,
+		                                         @RequestParam("sellerSatisfication") byte sellerSatisfication) {
+		    Map<String, Object> response = new HashMap<>();
+		    try {
+		        UsedOrderVO usedOrder = usedOrderSvc.getOrderById(usedOrderNo);
+
+		        if (usedOrder != null) {
+		            usedOrder.setSellerCommentContent(sellerCommentContent);
+		            usedOrder.setSellerSatisfication(sellerSatisfication);
+		            System.out.println("===================================");
+		            System.out.println(sellerCommentContent);
+		            System.out.println(sellerSatisfication);
+		            System.out.println("===================================");
+		            usedOrderSvc.updateOrder(usedOrder);
+
+		            response.put("success", true);
+		            // 假設您有一些邏輯來返回更新後的圖片 URL
+		            response.put("imageUrl", "path/to/updated/image.jpg"); // 這裡填寫更新後的圖片 URL
+		        } else {
+		            response.put("success", false);
+		            response.put("error", "訂單未找到");
+		        }
+		    } catch (Exception e) {
+		    	e.printStackTrace();
+		        response.put("success", false);
+		        response.put("error", e.getMessage());
+		    }
+
+		    return response;
+		}
+
+
 	
 	
 	
