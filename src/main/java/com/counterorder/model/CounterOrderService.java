@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import org.hibernate.Session;
@@ -28,6 +29,7 @@ public class CounterOrderService {
 	
 	@Autowired
     private SessionFactory sessionFactory;
+	
 	
 	@Autowired
     private GoodsService goodsService;
@@ -141,6 +143,7 @@ public class CounterOrderService {
         }
     
 
+
     public void restore() {
     	 System.out.println("Running scheduled task...");
 
@@ -164,7 +167,8 @@ public class CounterOrderService {
                          System.out.println("Updating goods ID: " + goodsNo + " from amount: " 
                                              + goods.getGoodsAmount() + " to: " + updatedAmount);
                          goods.setGoodsAmount(updatedAmount);
-                         goodsService.updateGoodsAmount(goodsNo, updatedAmount);
+                         goodsService.updateGoodsAmount(goods);
+                         
                      } else {
                          System.out.println("Goods not found with ID: " + goodsNo);
                      }
