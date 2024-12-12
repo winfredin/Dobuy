@@ -667,4 +667,24 @@ function showReceiverOrderDetails(element) {
 
  
 	   
+//==========================訂單蒐尋器==================
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('orderSearchInput'); // 搜索輸入框
+    const orders = document.querySelectorAll('.order'); // 所有訂單的外層 div
+
+    searchInput.addEventListener('input', function () {
+        const filter = searchInput.value.toLowerCase(); // 將輸入的值轉為小寫
+        orders.forEach(order => {
+            // 獲取每個訂單內的文字內容
+            const text = order.textContent.toLowerCase();
+
+            // 判斷文字是否包含關鍵字，控制是否顯示
+            if (text.includes(filter)) {
+                order.style.display = ''; // 顯示匹配的訂單
+            } else {
+                order.style.display = 'none'; // 隱藏不匹配的訂單
+            }
+        });
+    });
+});
 

@@ -142,7 +142,10 @@
                     <div class="use_1">
                         <div class="goods" >
                         <div>
-  <h3>購買訂單</h3>
+  <div>
+  <h3>購買訂單</h3> <input type="text" id="orderSearchInput" placeholder="搜尋訂單">
+</div>
+  
   <!-- 使用訂單編號跑 foreach -->
   <div class="order" th:each="order : ${orders}">
     <div>
@@ -178,6 +181,7 @@
       <thead>
         <tr>
           <th>商品編號</th>
+          <th>商品名稱</th>
           <th>商品數量</th>
           <th>商品單價</th>
           <th>商品單價(折價)</th>
@@ -189,6 +193,12 @@
         <!-- 使用訂單明細跑 foreach -->
         <tr th:each="counterOrderDetailVO : ${order.counterOrderDatailVO}">
           <td th:text="${counterOrderDetailVO.goodsNo}"></td>
+          <td 
+          th:each="goodsVO : ${goodsNamelist}" 
+          th:if="${goodsVO.goodsNo == counterOrderDetailVO.goodsNo}" 
+          th:text="${goodsVO.goodsName}">
+    
+          </td>
           <td th:text="${counterOrderDetailVO.goodsNum}"></td>
           <td th:text="${counterOrderDetailVO.productPrice}"></td>
           <td th:text="${counterOrderDetailVO.productDisPrice}"></td>
