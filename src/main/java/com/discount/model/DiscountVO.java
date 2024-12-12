@@ -6,27 +6,27 @@ import javax.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name = "Discount") // 对应数据库中的表名
+@Table(name = "Discount") 
 public class DiscountVO implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
 
-    private Integer disNo;         // 平台优惠编号 (主键)
-    private String disTitle;       // 平台优惠名称
-    private String disContext;     // 平台优惠内容
-    private Double disRate;        // 折扣率
-    private Integer disStatus;     // 优惠状态
-    private String descLimit;      // 使用条件描述
-    private Date createdAt;        // 创建时间
-    private Date updatedAt;        // 更新时间
-    private Date disStart;         // 优惠起始日
-    private Date disEnd;           // 优惠结束日
+    private Integer disNo;         
+    private String disTitle;       
+    private String disContext;     
+    private Double disRate;        
+    private Integer disStatus;     
+    private String descLimit;      
+    private Date createdAt;        
+    private Date updatedAt;        
+    private Date disStart;         
+    private Date disEnd;           
 
     public DiscountVO() {
     }
 
     @Id
     @Column(name = "disNo")
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // 自增主键
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     public Integer getDisNo() {
         return this.disNo;
     }
@@ -74,7 +74,7 @@ public class DiscountVO implements java.io.Serializable {
     @Min(value = 0, message = "優惠狀態: 必須是0或以上")
     @Max(value = 2, message = "優惠狀態: 必須是2或以下")
     public Integer getDisStatus() {
-        return this.disStatus;
+        return this.disStatus = 1;
     }
 
     public void setDisStatus(Integer disStatus) {
@@ -82,7 +82,7 @@ public class DiscountVO implements java.io.Serializable {
     }
 
     @Column(name = "descLimit")
-    @NotEmpty(message = "使用條件描述: 請勿空白")
+    @NotEmpty(message = "使用描述: 請勿空白")
     @Size(max = 255, message = "使用條件描述: 長度不能超過{max}")
     public String getDescLimit() {
         return this.descLimit;
@@ -92,8 +92,21 @@ public class DiscountVO implements java.io.Serializable {
         this.descLimit = descLimit;
     }
 
+    
+    @PrePersist
+    protected void onCreate() {
+        createdAt = new Date(); // 當記錄第一次被保存時，設置 createdAt
+        updatedAt = new Date(); // 同時設置 updatedAt
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = new Date(); // 當記錄被更新時，自動更新 updatedAt
+    }
+    
+    
     @Column(name = "createdAt")
-    @NotNull(message = "建立時間: 請勿空白")
+//    @NotNull(message = "建立時間: 請勿空白")
     @PastOrPresent(message = "建立時間: 必須是過去或現在的時間")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     public Date getCreatedAt() {
@@ -105,7 +118,7 @@ public class DiscountVO implements java.io.Serializable {
     }
 
     @Column(name = "updatedAt")
-    @NotNull(message = "更新時間: 請勿空白")
+//    @NotNull(message = "更新時間: 請勿空白")
     @PastOrPresent(message = "更新時間: 必須是過去或現在的時間")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     public Date getUpdatedAt() {
