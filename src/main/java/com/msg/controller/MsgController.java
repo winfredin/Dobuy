@@ -209,7 +209,7 @@ public class MsgController {
             List<MsgVO> list = msgSvc.getOneCounterMsg(counter.getCounterNo());
             // 將所有訊息設置為已讀
             for (MsgVO msg : list) {
-                msg.setInformRead((byte)1);
+                msg.setInformRead((byte)0);
                 msgSvc.updateMsg(msg); // 假設你有這樣的更新方法
             }
             model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
@@ -218,6 +218,9 @@ public class MsgController {
             return "vendor-end/msg/listAllMsg";
         }
     }
+    
+    
+    
     
     
     @ModelAttribute("counterMsgListData")
