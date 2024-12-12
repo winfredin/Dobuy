@@ -161,6 +161,41 @@ table#example input[type="submit"]:hover {
     margin-top: 10px;
 }
 
+/* 數量控制按鈕樣式 */
+.quantity-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.quantity-container button {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    font-size: 20px;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.quantity-container input[type="number"] {
+    width: 60px;
+    text-align: center;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+/* 隱藏原本的數量增減按鈕 */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+}
+
 </style>
 
 
@@ -222,11 +257,11 @@ table#example input[type="submit"]:hover {
 		            <tr style="background-color:#CCCCFF">
 		                <th>圖片</th>
 		                <th>商品名稱</th>
-		                <th>價格</th>
+		                <th>單價</th>
 		                <th>數量</th>
-		                <th>小計</th>
+		                <th>總計</th>
 <!-- 		                <th>修改</th> -->
-		                <th>刪除</th>
+		                <th>操作</th>
 		            </tr>
 		        </thead>
 		
@@ -239,10 +274,15 @@ table#example input[type="submit"]:hover {
 		                    <td th:text="${shoppingCartListVO.goodsName}"></td>
 		                    <td th:text="${shoppingCartListVO.goodsPrice}"></td>
                            	<td>
-	                            <form method="post" th:action="@{/shoppingcartlist/updateQuantity}">
-	                                <input type="number" name="goodsNum" th:value="${shoppingCartListVO.goodsNum}" min="1" required>
-	                                <input type="hidden" name="shoppingcartListNo" th:value="${shoppingCartListVO.shoppingcartListNo}">
-	                            </form>
+							    <form method="post" th:action="@{/shoppingcartlist/updateQuantity}">
+							        <!-- 數量調整區域 -->
+							        <div class="quantity-container">
+							            <button type="button" class="btn-minus" onclick="changeQuantity(this, -1)">-</button>
+							            <input type="number" name="goodsNum" th:value="${shoppingCartListVO.goodsNum}" min="1" required>
+							            <button type="button" class="btn-plus" onclick="changeQuantity(this, 1)">+</button>
+							        </div>
+							        <input type="hidden" name="shoppingcartListNo" th:value="${shoppingCartListVO.shoppingcartListNo}">
+							    </form>
 	                        </td>
 		                    <td th:text="${shoppingCartListVO.orderTotalprice}"></td>
 <!-- 		                    <td> -->
@@ -327,6 +367,22 @@ table#example input[type="submit"]:hover {
                 // 提交表單 (刪除商品)
                 event.target.submit();
             }, 2000); // 2秒後隱藏視窗
+        }
+     // 改變數量的函數
+        function changeQuantity(button, change) {
+            var input = button.parentElement.querySelector('input[type="number"]');
+            var currentValue = parseInt(input.value);
+
+            // 根據點擊的按鈕來增加或減少數量
+            var newValue = currentValue + change;
+
+            // 確保數量不能小於 1
+            if (newValue >= 1) {
+                input.value = newValue;
+
+                // 提交表單以更新數量
+                button.closest('form').submit();
+            }
         }
 
     </script>
