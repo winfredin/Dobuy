@@ -48,7 +48,7 @@
     </header>
     <div class="goods_body">
         <div class="goods_list">
-            <p><b>品牌分類</b></p>
+            <p><b>商品分類</b></p>
             <ul>
                 <li th:each="gg : ${glist}">
                     <p th:attr="data-goodstNo=${gg.goodstNo}" onclick="filterGoods(this)" th:text="${gg.goodstName}"></p>
@@ -56,16 +56,19 @@
             </ul>
         </div>
        <div class="bestsell_goods" id="goodsContainer">
-    <div class="goods" th:each="used : ${list}">
-        <div th:each="usedgoods,iterStat : ${used.usedPics}">
-            <div  th:if="${iterStat.index == 0}"class="image-container">
+   <div class="goods" th:each="used : ${list}">
+    <div th:each="usedgoods,iterStat : ${used.usedPics}">
+        <div th:if="${iterStat.index == 0}" class="image-container">
+            <a th:href="@{/used/getOneUsedOnDetail(usedNo=${used.usedNo})}">
                 <img th:src="@{/usedpic/UsedDBGifReader} + '?usedPicNo=' + ${usedgoods.usedPicNo}" alt="goods-image" />
-            </div>
-        </div>
-        <div class="goods-name">
-            <label th:text="${used.usedName}"></label>
+            </a>
         </div>
     </div>
+    <div class="goods-name">
+        <label th:text="${used.usedName}"></label>
+    </div>
+</div>
+
 </div>
 
     </div>

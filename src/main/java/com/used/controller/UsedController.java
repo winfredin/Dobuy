@@ -104,6 +104,7 @@ public class UsedController {
 
 		List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();
 		
+		
 		model.addAttribute("usedVO", usedVO);
 		model.addAttribute("goodsTypeList", goodsTypeList);
 

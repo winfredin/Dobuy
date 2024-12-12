@@ -248,6 +248,143 @@ table th, table td {
 
 <!-- JavaScript part -->
 <script type="text/javascript">
+// document.addEventListener("DOMContentLoaded", () => {
+//     const maxPhotos = 5; // 照片總數限制
+//     const addPictureBtn = document.getElementById("addPicture");
+//     const upfilesInput = document.getElementById("upfiles");
+//     const photoTable = document.getElementById("photoTable");
+//     const usedPicsContainer = document.getElementById("usedPicsContainer");
+
+//     function updateAddButtonState() {
+//         const totalPhotos = photoTable.querySelectorAll(".photoRow").length + 
+//                             usedPicsContainer.querySelectorAll(".usedPics").length;
+//         const totalUsedPhotos = photoTable.querySelectorAll(".photoRow").length;
+        
+//         if (totalPhotos >= maxPhotos) {
+//             addPictureBtn.style.display = "none";
+//         }
+//         if (totalUsedPhotos >= maxPhotos) {
+//             addPictureBtn.style.display = "none";
+//             upfilesInput.style.display = "none";
+//         } else {
+//             addPictureBtn.disabled = false;
+//         }
+//     }
+
+//     // 初始檢查按鈕狀態
+//     updateAddButtonState();
+
+//     // 新增圖片上傳區塊
+//     addPictureBtn.addEventListener("click", () => {
+//         const currentUploads = usedPicsContainer.querySelectorAll(".usedPics").length;
+//         const totalPhotos = photoTable.querySelectorAll(".photoRow").length + currentUploads;
+
+//         if (totalPhotos < maxPhotos) {
+//             const newDiv = document.createElement("div");
+//             newDiv.classList.add("usedPics");
+//             newDiv.innerHTML = `
+//                 <input type="file" name="upfiles" accept="image/*" />
+//                 <img class="preview-image" style="display: none; max-width: 100px; max-height: 100px; margin-top: 5px;" />
+//             `;
+//             usedPicsContainer.appendChild(newDiv);
+//             updateAddButtonState();
+//         }
+//     });
+
+//     // 刪除已存在的照片，並發送後端請求
+//     photoTable.addEventListener("click", (e) => {
+//         if (e.target.classList.contains("deletePhoto")) {
+//             const usedPicNo = e.target.getAttribute("value");
+//             if (usedPicNo) {
+//                 fetch(`/usedpic/deleteOneUsedPic`, {
+//                     method: "POST",
+//                     headers: {
+//                         "Content-Type": "application/x-www-form-urlencoded",
+//                     },
+//                     body: `usedPicNo=${usedPicNo}`,
+//                 })
+//                     .then((response) => response.text().then((message) => ({ message, ok: response.ok })))
+//                     .then(({ message, ok }) => {
+//                         if (ok) {
+//                             alert("刪除成功！");
+//                             const row = e.target.closest("tr");
+//                             if (row) row.remove();
+//                             updateAddButtonState();
+//                             location.reload();
+//                         } else {
+//                             alert(message);
+//                             updateAddButtonState();
+//                             location.reload();
+//                         }
+//                     })
+//                     .catch((error) => {
+//                         alert("刪除失敗，請稍後再試！");
+//                         console.error("Error:", error);
+//                         updateAddButtonState();
+//                         location.reload();
+//                     });
+//             }
+//         }
+//     });
+    
+//     // 檔案上限控制
+//     const MAX_FILE_SIZE = 5 * 1024 * 1024; // 最大檔案大小 5MB
+//     const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif'];
+//     const MAX_FILENAME_LENGTH = 30;
+//     const FILENAME_REGEX = /^[\u4e00-\u9fffA-Za-z0-9\s\p{P}\p{S}\u3100-\u312F\u31A0-\u31BF\u3040-\u309F\u30A0-\u30FF]{1,30}$/u;
+
+//     document.addEventListener("change", (event) => {
+//         if (event.target && event.target.name === "upfiles") {
+//             const files = event.target.files;
+//             const errorMessages = [];
+//             const previewImage = event.target.nextElementSibling; // 取得對應的預覽圖片標籤
+
+//             Array.from(files).forEach((file) => {
+//                 const fileName = file.name;
+//                 const fileSize = file.size;
+//                 const fileType = file.type;
+
+//                 // 檢查檔案大小
+//                 if (fileSize > MAX_FILE_SIZE) {
+//                     errorMessages.push(`${fileName} 超過檔案大小限制 (${(fileSize / 1024 / 1024).toFixed(2)} MB)。`);
+//                 }
+
+//                 // 檢查檔案類型
+//                 if (!ALLOWED_TYPES.includes(fileType)) {
+//                     errorMessages.push(`${fileName} 類型不被允許 (${fileType})。`);
+//                 }
+
+//                 // 檢查檔名長度
+//                 if (fileName.length > MAX_FILENAME_LENGTH) {
+//                     errorMessages.push(`${fileName} 檔名過長 (最大 ${MAX_FILENAME_LENGTH} 個字元)。`);
+//                 }
+
+//                 // 檢查檔名格式
+//                 if (!FILENAME_REGEX.test(fileName)) {
+//                     errorMessages.push(`${fileName} 檔名含有非法字元 (僅允許中、英、日文、數字和特殊符號 , 且長度最多30個字)。`);
+//                 }
+
+//                 // 預覽圖片
+//                 if (errorMessages.length === 0 && previewImage) {
+//                     const reader = new FileReader();
+//                     reader.onload = (e) => {
+//                         previewImage.src = e.target.result;
+//                         previewImage.style.display = "block";
+//                     };
+//                     reader.readAsDataURL(file);
+//                 }
+//             });
+
+//             if (errorMessages.length > 0) {
+//                 alert(errorMessages.join("\n"));
+//                 event.target.value = ""; // 清空檔案選擇
+//                 if (previewImage) {
+//                     previewImage.style.display = "none";
+//                 }
+//             }
+//         }
+//     });
+// });
 document.addEventListener("DOMContentLoaded", () => {
     const maxPhotos = 5; // 照片總數限制
     const addPictureBtn = document.getElementById("addPicture");
@@ -258,21 +395,46 @@ document.addEventListener("DOMContentLoaded", () => {
     function updateAddButtonState() {
         const totalPhotos = photoTable.querySelectorAll(".photoRow").length + 
                             usedPicsContainer.querySelectorAll(".usedPics").length;
-        const totalUsedPhotos = photoTable.querySelectorAll(".photoRow").length;
-        
+
         if (totalPhotos >= maxPhotos) {
             addPictureBtn.style.display = "none";
-        }
-        if (totalUsedPhotos >= maxPhotos) {
-            addPictureBtn.style.display = "none";
-            upfilesInput.style.display = "none";
         } else {
+            addPictureBtn.style.display = ""; // 顯示新增按鈕
             addPictureBtn.disabled = false;
         }
     }
 
+    function updateDeleteButtonState() {
+        const photoRows = photoTable.querySelectorAll(".photoRow");
+        const deleteButtons = photoTable.querySelectorAll(".deletePhoto");
+
+        deleteButtons.forEach((button) => {
+            if (photoRows.length === 1) {
+                button.disabled = true; // 停用按鈕
+                button.style.pointerEvents = "auto"; // 允許指標事件
+                button.addEventListener("click", handleAlertClick); // 添加點擊提示事件
+                button.addEventListener("mouseenter", handleHoverAlert); // 添加 hover 提示
+            } else {
+                button.disabled = false; // 啟用按鈕
+                button.style.pointerEvents = ""; // 恢復正常指標事件
+                button.removeEventListener("click", handleAlertClick); // 移除點擊提示事件
+                button.removeEventListener("mouseenter", handleHoverAlert); // 移除 hover 提示
+            }
+        });
+    }
+
+    function handleAlertClick(e) {
+        e.preventDefault();
+        alert("請至少保留一張照片或更新其他照片後再刪除");
+    }
+
+    function handleHoverAlert() {
+        alert("請至少保留一張照片或更新其他照片後再刪除");
+    }
+
     // 初始檢查按鈕狀態
     updateAddButtonState();
+    updateDeleteButtonState();
 
     // 新增圖片上傳區塊
     addPictureBtn.addEventListener("click", () => {
@@ -293,7 +455,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 刪除已存在的照片，並發送後端請求
     photoTable.addEventListener("click", (e) => {
-        if (e.target.classList.contains("deletePhoto")) {
+        if (e.target.classList.contains("deletePhoto") && !e.target.disabled) {
+            const photoRows = photoTable.querySelectorAll(".photoRow");
+
+            // 彈出刪除確認對話框
+            const confirmation = confirm("確定要刪除這張照片嗎？");
+            if (!confirmation) {
+                return; // 如果用戶取消刪除操作，則不執行後續代碼
+            }
+
+            // 確定刪除後發送請求
             const usedPicNo = e.target.getAttribute("value");
             if (usedPicNo) {
                 fetch(`/usedpic/deleteOneUsedPic`, {
@@ -310,23 +481,27 @@ document.addEventListener("DOMContentLoaded", () => {
                             const row = e.target.closest("tr");
                             if (row) row.remove();
                             updateAddButtonState();
-                            location.reload();
+                            updateDeleteButtonState(); // 更新按鈕狀態
                         } else {
                             alert(message);
                             updateAddButtonState();
-                            location.reload();
+                            updateDeleteButtonState();
                         }
                     })
                     .catch((error) => {
                         alert("刪除失敗，請稍後再試！");
                         console.error("Error:", error);
                         updateAddButtonState();
-                        location.reload();
+                        updateDeleteButtonState();
                     });
             }
         }
     });
-    
+
+    // 動態監測刪除按鈕狀態
+    const observer = new MutationObserver(updateDeleteButtonState);
+    observer.observe(photoTable, { childList: true });
+
     // 檔案上限控制
     const MAX_FILE_SIZE = 5 * 1024 * 1024; // 最大檔案大小 5MB
     const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif'];
@@ -385,6 +560,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
+
+
 
 </script>
 
