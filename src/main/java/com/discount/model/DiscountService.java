@@ -24,7 +24,14 @@ public class DiscountService {
 
     // 新增平台优惠
     public void addDiscount(DiscountVO discountVO) {
-        repository.save(discountVO);
+        try {
+            System.out.println("準備新增優惠: " + discountVO.getDisTitle());
+            DiscountVO saved = repository.save(discountVO);
+            System.out.println("新增成功, ID: " + saved.getDisNo());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     // 更新平台优惠
