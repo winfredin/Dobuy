@@ -1,5 +1,3 @@
-
-
 let items = document.querySelectorAll('.goods .item');
 let itemsToShow = 4; // 初始顯示的商品數量
 
@@ -719,6 +717,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+
     // 顯示訂單詳細資訊
     window.showOrderDetails = function (element) {
         const orderNo = element.getAttribute('data-orderNo');
@@ -853,4 +852,3 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
-

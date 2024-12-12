@@ -685,5 +685,21 @@ body {
             color: gold;
         }
 
+.star-rating {
+    display: inline-block;
+    font-size: 0;
+}
+
+.star-rating span {
+    font-size: 20px; /* 控制星星大小 */
+    color: gray; /* 默認灰色星星 */
+    margin: 0 2px; /* 星星之間的間距 */
+    cursor: default;
+}
+
+.star-rating span.active {
+    color: gold; /* 亮的星星 */
+}
+
 
 
