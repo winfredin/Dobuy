@@ -189,6 +189,42 @@
   .table-container > div {
 	  height: 40px; /* 控制空白區域的高度 */
   }
+    /* 彈出式視窗樣式 */
+  #popup {
+  position: fixed;  /* 固定位置 */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* 保持彈出視窗居中 */
+  width: 300px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: none; /* 初始隱藏 */
+  text-align: center;
+  z-index: 9999; /* 確保它顯示在最上層 *
+	}
+
+.lottie-container {
+  margin: 0 auto;
+  width: 80px;   /* 動畫容器寬度 */
+  height: 150px;  /* 動畫容器高度 */
+}
+  #popup .popup-content {
+    margin-bottom: 10px;
+  }
+
+  #popup .popup-text {
+    font-size: 16px;
+    color: #333;
+    margin: 10px 0;
+  }
+
+  #popup .lottie-container {
+    margin: 0 auto;
+    width: 80px;
+    height: 80px;
+  }
   </style>
 </head>
 
@@ -262,7 +298,18 @@
   </table>
 	  <div></div>
   </div>
+  <!-- 彈出式視窗 -->
+<div id="popup">
+  <div class="popup-content">
+    <!-- Lottie 動畫容器 -->
+    <div id="popup-animation" class="lottie-container"></div>
+    <!-- 彈出訊息 -->
+    <div class="popup-text">商品狀態已更新！</div>
+  </div>
+</div>
   		
+  <!-- 引入 Lottie 動畫庫 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.7.14/lottie.min.js"></script>
   		
   
   <script>
@@ -288,7 +335,8 @@
 	            var statusCell = button.closest('tr').find('td:nth-child(7)');
 	            statusCell.text(newStatus === 0 ? '下架' : '上架');
 
-	            alert("商品狀態已更新！");
+	            // 顯示自定義的彈出式視窗
+	            showPopup();
 	        },
 	        error: function(xhr, status, error) {
 	            console.error("Error details:", xhr.responseText);
@@ -296,7 +344,27 @@
 	        }
 	    });
 	});
+  function showPopup() {
+	    // 顯示彈出式視窗
+	    $("#popup").fadeIn();
 
+	    // 清除舊的動畫實例
+	    $('#popup-animation').html('');
+
+	    // 初始化 Lottie 動畫
+	    var animation = lottie.loadAnimation({
+	      container: document.getElementById('popup-animation'),
+	      renderer: 'svg',
+	      loop: false,
+	      autoplay: true,
+	      path: 'https://lottie.host/5d8f1529-9e56-4227-8d17-41c9a68a6259/E36tEsNrIr.json'
+	    });
+
+	    // 顯示 2 秒後隱藏彈出視窗
+	    setTimeout(function() {
+	      $("#popup").fadeOut();
+	    }, 2000);
+	}
   </script>
 
 </body>
