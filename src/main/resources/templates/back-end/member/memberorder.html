@@ -44,101 +44,125 @@
 </script>
 
 <style>
-    .admin-feature-bar {
-   
-  /* background-color: rgba(173, 137, 100, 0.65); 深棕色背景，具有透明感 */
-  border-radius: 10px;
- 
+/* 表格區域增加間距 */
+body {
+    margin: 0 6rem 0 6rem !important; /* 設定整個頁面的邊界間隔 */
+    padding: 0 !important;
+    background-color: #f8f9fa !important; /* 淡灰色背景 */
 }
 
 #example {
-    margin-left: 20px; /* 調整左邊距離 */
-}
-
-.admin-feature-list {
-    display: flex;
-    justify-content: center; /* 水平置中 */
-    list-style: none;
-   
-    
-    border-bottom: 1px solid #ddd; /* 下方邊框 */
-    background: linear-gradient(to bottom,rgba(173, 129, 85, 0.9), rgba(128, 95, 63, 0.99), rgba(128, 95, 63, 0.99));    margin-top: 0;
-  border-radius: 10px; /* 圓角 */
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15); /* 添加陰影 */
-  padding: 10px 0;
-    
-}
-
-.admin-feature-list li {
-    margin: 0 100px; /* 每個項目間距 */
-   margin-left: 20px;
-    
-}
-
-.admin-feature-list li a {
-    color: #130f0f; /* 字體設為白色 */
-  /* padding: 10px 15px; */
-  transition: background-color 0.3s;
-  border-radius: 6px;
-  /* padding-right: 20px; */
-  padding: 10px;
-}
-
-.admin-feature-list li a:hover {
-    text-decoration: underline;
-    background-color: rgba(141, 129, 115, 0.65);
-}
-
-    .profile-container {
-    width: 60%;
-    margin: 10px 10%;
-    font-family: Arial, sans-serif;
-}
-
-h2 {
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.profile-form {
-    display: flex;
-    flex-direction: column;
-}
-
-label {
-    font-weight: bold;
-    margin-top: 10px;
-}
-
-.profile-info {
-    margin-bottom: 10px;
-}
-
-input[type="text"] {
-    padding: 8px;
-    width: 100%;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
-
-.profile-gender input {
-    margin-right: 5px;
-}
-
-.profile-birthday select {
-    padding: 8px;
-    margin-right: 5px;
-}
-
-.save-btn {
-    margin-top: 20px;
+    margin: 20px auto; /* 四周留白 */
     padding: 10px;
-    background-color: #ff4500;
+    border-collapse: separate; /* 分離單元格，避免貼合 */
+    border-spacing: 5px; /* 單元格間距 */
+    background: rgba(255, 255, 255, 0.85); /* 半透明背景 */
+    backdrop-filter: blur(5px); /* 背景模糊 */
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    overflow: hidden; /* 去除溢出 */
+}
+
+/* 表格標題樣式 */
+#example thead th {
+    background: rgba(173, 129, 85, 0.95);
+    color: #fff;
+    padding: 12px 25px 12px 12px; /* 右側增加padding */
+    text-align: center;
+    border-radius: 6px;
+}
+
+/* 表格列樣式 */
+#example tbody tr {
+    transition: all 0.3s ease-in-out;
+}
+
+#example tbody tr:hover {
+    background-color: rgba(173, 129, 85, 0.2); /* 懸浮透明背景 */
+    transform: translateY(-3px); /* 浮動效果 */
+}
+
+/* DataTables 的輸入框樣式 */
+.dataTables_filter input {
+    padding: 8px;
+    border: none;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.dataTables_filter input:focus {
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* DataTables 的按鈕樣式 */
+button, .btn, .dataTables_wrapper .dataTables_paginate .paginate_button {
+    background: rgba(173, 129, 85, 0.5); /* 降低不透明度為 0.5 */
     color: #fff;
     border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin: 5px;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+}
+
+/* 按鈕懸浮效果 */
+button:hover, .btn:hover, .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background: rgba(173, 129, 85, 0.8);
+    color: #fff;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* DataTables 分頁按鈕效果 */
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background: rgba(173, 129, 85, 0.7);
+    color: #fff;
+    border-radius: 6px;
+}
+
+/* DataTables Info 和 Length 選單樣式 */
+.dataTables_wrapper .dataTables_info,
+.dataTables_wrapper .dataTables_length label {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+/* Preloader 樣式 */
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.preload-content {
+    text-align: center;
+}
+
+#original-load {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #ccc;
+    border-top-color: #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 </style>
@@ -159,7 +183,6 @@ input[type="text"] {
     </div>
 	<!-- fragment引入 -->
 	<header th:block th:replace="~{back-end/back-end-home/fraghead :: header}"></header>
-
 
 
      
@@ -202,17 +225,12 @@ input[type="text"] {
 
 </table>
       
-
 </body>
     <script src="/js/jquery3.7.1.js"></script>
 <script	src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>    
-        Popper js
         <script src="/back-end-home/js/popper.min.js"></script>
-        Bootstrap js
         <script src="/back-end-home/js/bootstrap.min.js"></script>
-        Plugins js
         <script src="/back-end-home/js/plugins.js"></script>
-        Active js
         <script src="/back-end-home/js/active.js"></script>
 <script>
 
