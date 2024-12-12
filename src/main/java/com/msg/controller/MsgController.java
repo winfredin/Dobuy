@@ -213,6 +213,7 @@ public class MsgController {
             }
             model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
             model.addAttribute("counterMsgListData", list);
+            model.addAttribute("msgSvc", msgSvc);
             return "vendor-end/msg/listAllMsg";
         }
     }

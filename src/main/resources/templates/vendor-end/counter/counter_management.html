@@ -133,13 +133,8 @@
             </tr>
         </table>
     </div>
-    <div th:if="${counter == null}">
-        <p>
-            您尚未登入，請先<a th:href="@{/counter/login}">登入</a>。
-        </p>
-    </div>
     <footer th:block th:replace="~{back-end/back-end-home/fraghead :: footer}"></footer>
-    <!-- xxx -->
+
     
     <div id="messageHolder" th:if="${message}" th:text="${message}" style="display:none;"></div>
 

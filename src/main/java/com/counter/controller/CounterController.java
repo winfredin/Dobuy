@@ -36,6 +36,7 @@ import com.counter.model.CounterVO.RegisterGroup;
 import com.counter.model.CounterVO.UpdateGroup;
 import com.counterType.model.CounterTypeService;
 import com.counterType.model.CounterTypeVO;
+import com.msg.model.MsgService;
 
 
 
@@ -50,6 +51,9 @@ public class CounterController {
 //
     @Autowired
     CounterTypeService counterTypeSvc;
+    
+    @Autowired
+    MsgService msgSvc;
     
     
     //註冊成功後發信
@@ -158,6 +162,7 @@ public class CounterController {
         CounterVO counter = (CounterVO) session.getAttribute("counter");
         if (counter != null) {
         	 model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
+        	 model.addAttribute("msgSvc", msgSvc);
             return "vendor-end/counter/counter_management";
         } else {
             // 處理未登入的情況
@@ -169,6 +174,7 @@ public class CounterController {
     public String getOne_For_Counter_Update(HttpSession session ,@RequestParam("counterNo") Integer counterNo, ModelMap model) {
     	CounterVO counter = (CounterVO) session.getAttribute("counter");
     	model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
+    	model.addAttribute("msgSvc", msgSvc);
         /*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
         /*************************** 2.開始查詢資料 *****************************************/
         CounterVO counterVO = counterSvc.getOneCounter(counterNo);
@@ -189,6 +195,7 @@ public class CounterController {
     	
     	CounterVO counter = (CounterVO) session.getAttribute("counter");
     	model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
+    	model.addAttribute("msgSvc", msgSvc);
         // 移除圖片相關字段的錯誤
         result = removeFieldError(counterVO, result, "counterPic");
 

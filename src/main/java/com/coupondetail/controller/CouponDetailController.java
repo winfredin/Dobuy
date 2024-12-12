@@ -22,6 +22,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import com.coupondetail.model.CouponDetailVO;
+import com.msg.model.MsgService;
 import com.counter.model.CounterVO;
 import com.coupon.model.CouponService;
 import com.coupon.model.CouponVO;
@@ -37,6 +38,9 @@ public class CouponDetailController {
     
     @Autowired
     CouponDetailService couponDetailSvc;
+    
+    @Autowired
+    MsgService msgSvc;
 
     
 
@@ -78,6 +82,7 @@ public class CouponDetailController {
     		List<CouponDetailVO> details = couponDetailSvc.getByCouponNo(couponNo);
     		model.addAttribute("couponDetails", details);
     		model.addAttribute("counter", counter);  // 提供給header使用
+    		model.addAttribute("msgSvc", msgSvc);
     		return "vendor-end/coupondetail/listCouponDetail";
     	} catch (Exception e) {
     		e.printStackTrace();
