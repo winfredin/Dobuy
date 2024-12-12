@@ -176,7 +176,47 @@ button:hover, .btn:hover, .dataTables_wrapper .dataTables_paginate .paginate_but
     100% { transform: rotate(360deg); }
 }
 
+/* 下拉選單樣式 */
+select {
+    padding: 6px 12px;
+    border: 1px solid rgba(173, 129, 85, 0.3);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #2c3e50;
+    transition: all 0.3s ease;
+    margin-right: 8px;
+}
 
+select:hover, select:focus {
+    border-color: rgba(173, 129, 85, 0.6);
+    box-shadow: 0 2px 8px rgba(173, 129, 85, 0.1);
+}
+
+/* 修改按鈕樣式 */
+.btn-primary, button[type="submit"] {
+    background: rgba(173, 129, 85, 0.5) !important;  /* 使用棕色系 */
+    color: #fff !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 8px 16px !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1) !important;
+    backdrop-filter: blur(5px) !important;
+}
+
+.btn-primary:hover, button[type="submit"]:hover {
+    background: rgba(173, 129, 85, 0.8) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(173, 129, 85, 0.3) !important;
+}
+
+/* 狀態選擇區域樣式 */
+form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
 </style>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -190,12 +230,7 @@ button:hover, .btn:hover, .dataTables_wrapper .dataTables_paginate .paginate_but
 	<!-- fragment引入 -->
 	<header th:block th:replace="~{back-end/back-end-home/fraghead :: header}"></header>
 	
-   <!-- Preloader -->
-    <div id="preloader">
-        <div class="preload-content">
-            <div id="original-load"></div>
-        </div>
-    </div>
+  
 
 
 <div class="container49">
