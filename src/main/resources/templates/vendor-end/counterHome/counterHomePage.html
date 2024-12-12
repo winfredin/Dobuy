@@ -17,7 +17,7 @@
 
 <!-- Style CSS -->
 <link rel="stylesheet" th:href="@{/counterPage/css/bootstrap.min.css}">
-<link rel="stylesheet" th:href="@{/counterPage/css/style.css}">
+<link rel="stylesheet" th:href="@{/counterPage/css/counterHomePage.css}">
 <!-- Slick CSS -->
 <link rel="stylesheet" type="text/css"
 	th:href="@{https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css}" />
@@ -49,12 +49,16 @@
 				class="container h-30 d-flex justify-content-between align-items-center">
 				<!-- 左邊的文字 -->
 				<div class="left-text">
-					<a th:href="@{/myhome}" class="nav-link">首頁</a> 
+					<a th:href="@{/home}" class="nav-link">首頁</a> 
 					<a th:href="@{/counter/Counterindex}" class="nav-link">我的賣場</a>
 					<a th:href="@{/counter/getFaq(counterNo=${counterVO.counterNo})}" class="nav-link">FAQ常見問題</a>
 					<span th:if="${session.memAccount != null}"> 
 						<a th:href="@{/front-end/coupon/member/list35}" class="nav-link">我的優惠券</a>
 					</span>
+					<span th:if="${session.memAccount != null}"> 
+						<a th:href="@{/goodsTrack/getFavorites}" class="nav-link">我的追蹤清單</a>
+					</span>
+						 
 				</div>
 
 				<!-- 右邊按鈕 -->
@@ -230,21 +234,26 @@
 								<!-- 單個商品的表單 -->
 								<form th:action="@{/counter/getOneGoods}" method="get">
 									<!-- 隱藏字段，傳遞商品編號 -->
-									<input type="hidden" name="goodsNo" th:value="${goodsVO.goodsNo}">
+									<input type="hidden" name="goodsNo" th:value="${goodsVO.goodsNo}" >
 									<!-- 商品區塊作為按鈕 -->
-									<button type="submit" style="width: 100%; background: none; border: none; padding: 0; text-align: left;">
-										<div class="single-blog-content" style="cursor: pointer;">
-											<div class="line"></div>
+									<div class="single-blog-content" style="cursor: pointer;">
+										<button type="submit" class="product-button">
 											<div class="product-img-container">
 												<img th:src="'data:image/png;base64,' + ${goodsVO.base64Image}" th:alt="${goodsVO.goodsNo}">
 											</div>
 											<div class="product-detail">
-												<p><strong th:text="${goodsVO.goodsName}"></strong></p>
+												<div class="product-title">
+												    <strong th:text="${goodsVO.goodsName}"></strong>
+												</div>
 												<p>價格：<span th:text="${goodsVO.goodsPrice}"></span></p>
 												<p>庫存：<span th:text="${goodsVO.goodsAmount}"></span></p>
 											</div>
-										</div>
-									</button>
+										</button>
+										 <!-- 添加爱心按钮 -->
+										  <div class="heart-icon-container">
+											  <i class="fas fa-heart" th:attr="data-goodsNo=${goodsVO.goodsNo}, data-memAccount=${session.memAccount}" onclick="toggleHeart(this)" style="color: #ccc; font-size: 24px;"></i>
+										  </div>
+									</div>										
 								</form>
 							</div>
 						</div>
@@ -273,6 +282,10 @@
 
 	</footer>
 	<!-- ##### Footer Area End ##### -->
+	<script th:inline="javascript">
+	    window.favoriteGoodsSet = /*[[${goodsSet}]]*/ [];
+	</script>
+
 
 	<!-- jQuery -->
 	<script th:src="@{/counterPage/js/jquery/jquery-2.2.4.min.js}"></script>
@@ -282,7 +295,7 @@
 	<script th:src="@{/counterPage/js/bootstrap.min.js}"></script>
 	<!-- Active js -->
 	<script th:src="@{/counterPage/js/active.js}"></script>
-	<script th:src="@{/counterPage/js/product.js}"></script>
+	<script th:src="@{/counterPage/js/counterHomePage.js}"></script>
 	<!-- Slick JS -->
 	<script type="text/javascript"
 		th:src="@{https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js}"></script>

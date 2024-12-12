@@ -129,7 +129,72 @@ table#example input[type="submit"]:hover {
 .total-container .btn-checkout:hover {
     background-color: #ff6600;
 }
+/* 彈出視窗樣式 */
+#popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    display: none;
+    z-index: 9999;  /* 確保彈出視窗在最上層 */
+}
 
+/* 動畫容器居中 */
+#popup .lottie-container {
+    margin: 20px auto;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* 確保動畫在容器內居中 */
+}
+
+/* 訊息文字 */
+#popup .message {
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+/* 數量控制按鈕樣式 */
+.quantity-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.quantity-container button {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    font-size: 20px;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.quantity-container input[type="number"] {
+    width: 60px;
+    text-align: center;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+/* 隱藏原本的數量增減按鈕 */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+}
 
 </style>
 
@@ -138,35 +203,43 @@ table#example input[type="submit"]:hover {
 <body>
     <header>
         <div class="header">
-            <!-- Logo -->
+			<!-- Logo -->
             <div class="logo">
                 <img src="/shop-detail/images/logo-noback.png" alt="logo" class="logo">
             </div>
-
+            
             <!-- 搜尋欄 -->
             <div class="header_bar">
                 <div class="search">
-                    <input type="text" placeholder="Search..." class="search" action="">
-                    <button class="search_button" name="search"></button>
-                    <img src="/shop-detail/images/magnifying-glass-dollar-solid.svg" alt="Search">
+                        <input type="text" placeholder="Search..." class="search" action="">
+                        <button class="search_button" name="search"></button>
+                        <img src="/shop-detail/images/magnifying-glass-dollar-solid.svg" alt="Search">
                 </div>
-
+                
                 <!-- 導覽列 -->
                 <div class="nav_bar">
-                    <div class="head">
-                        <a href="#home">Home</a> <a href="#about">一般商城</a> <a href="#services">二手商城</a> <a href="#contact">品牌</a> <a href="#class">商品分類</a> <a href="#hot">熱銷商品</a> <a href="#coupongoods">優惠商品</a> <a href="#couponget">優惠券領取</a>
+                    <div class="head"> 
+                        <a href="/home">Home</a>
+                        <a href="/goodspage">一般商城</a>
+                        <a href="/usedgoodspage">二手商城</a>
+                        <a href="#contact">品牌</a>
                     </div>
+
                 </div>
+
             </div>
 
-            <!-- 圖示區域 -->
-            <div class="icon_area">
+            <div class="icon_area">    
                 <div class="icons">
-                    <a class="icons" href="#"><img src="/shop-detail/images/會員中心.png" alt="User"></a> 
-                    <a class="icons" href="login.html"><img src="/shop-detail/images/log-in.png" alt="Login"></a> 
+                    
+                    <a class="icons" href="/mem/login"><img src="/shop-detail/images/會員中心.png" alt="User"></a>
+                    <a class="icons" href="/mem/login"><img src="/shop-detail/images/log-in.png" alt="Login"></a>
                     <a class="icons" href="#"><img src="/shop-detail/images/聊天室(FAQ 客服).png" alt="Chat"></a>
-                    <a class="icons" href="#"><img src="/shop-detail/images/購物車.png" alt="Cart"></a>
+					<a class="icons" href="/shoppingcartlist/listAllShoppingCartList">
+					    <img src="/shop-detail/images/購物車.png" alt="Cart" class="cart-icon">
+					</a>
                 </div>
+                
                 <div class="coupon_area">
                     <a class="coupon" href="#"><img src="/shop-detail/images/優惠卷領取頁面圖示.png" alt="coupon"></a>
                 </div>
@@ -184,11 +257,11 @@ table#example input[type="submit"]:hover {
 		            <tr style="background-color:#CCCCFF">
 		                <th>圖片</th>
 		                <th>商品名稱</th>
-		                <th>價格</th>
+		                <th>單價</th>
 		                <th>數量</th>
-		                <th>小計</th>
+		                <th>總計</th>
 <!-- 		                <th>修改</th> -->
-		                <th>刪除</th>
+		                <th>操作</th>
 		            </tr>
 		        </thead>
 		
@@ -201,10 +274,15 @@ table#example input[type="submit"]:hover {
 		                    <td th:text="${shoppingCartListVO.goodsName}"></td>
 		                    <td th:text="${shoppingCartListVO.goodsPrice}"></td>
                            	<td>
-	                            <form method="post" th:action="@{/shoppingcartlist/updateQuantity}">
-	                                <input type="number" name="goodsNum" th:value="${shoppingCartListVO.goodsNum}" min="1" required>
-	                                <input type="hidden" name="shoppingcartListNo" th:value="${shoppingCartListVO.shoppingcartListNo}">
-	                            </form>
+							    <form method="post" th:action="@{/shoppingcartlist/updateQuantity}">
+							        <!-- 數量調整區域 -->
+							        <div class="quantity-container">
+							            <button type="button" class="btn-minus" onclick="changeQuantity(this, -1)">-</button>
+							            <input type="number" name="goodsNum" th:value="${shoppingCartListVO.goodsNum}" min="1" required>
+							            <button type="button" class="btn-plus" onclick="changeQuantity(this, 1)">+</button>
+							        </div>
+							        <input type="hidden" name="shoppingcartListNo" th:value="${shoppingCartListVO.shoppingcartListNo}">
+							    </form>
 	                        </td>
 		                    <td th:text="${shoppingCartListVO.orderTotalprice}"></td>
 <!-- 		                    <td> -->
@@ -214,7 +292,7 @@ table#example input[type="submit"]:hover {
 <!-- 		                        </form> -->
 <!-- 		                    </td> -->
 		                    <td>
-		                        <form method="post" th:action="@{/shoppingcartlist/delete}" style="margin-bottom: 0px;">
+		                        <form method="post" th:action="@{/shoppingcartlist/delete}" style="margin-bottom: 0px;" onsubmit="showPopup(event)">
 		                            <input type="submit" value="刪除">
 		                            <input type="hidden" name="shoppingcartListNo" th:value="${shoppingCartListVO.shoppingcartListNo}">
 		                        </form>
@@ -232,10 +310,17 @@ table#example input[type="submit"]:hover {
 		        <button class="btn-checkout" onclick="goToCheckout()">去買單</button>
 		    </div>
 	</section>
-	
+	<!-- 彈出視窗 -->
+    <div id="popup">
+        <div class="lottie-container" id="lottie"></div>
+        <div class="message">商品已從購物車內移除！</div>
+    </div>
+    
     <footer>
         <div>© 2024 DO BUY. All Rights Reserved.</div>
     </footer>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.6/lottie.min.js"></script>
     
     <script>
         // 假設每個小計是存在該欄位的
@@ -256,6 +341,48 @@ table#example input[type="submit"]:hover {
 
 // 測試用 柏翔
             window.location.href = '/shoppingcartlist/ShoppingCartListCheckout49';  
+        }
+        
+        // 顯示彈出視窗並播放動畫
+        function showPopup(event) {
+            event.preventDefault(); // 防止表單提交
+            const popup = document.getElementById('popup');
+            const lottieContainer = document.getElementById('lottie');
+
+            // 加載 Lottie 動畫
+            const animation = lottie.loadAnimation({
+                container: lottieContainer, 
+                path: 'https://lottie.host/bcf977fe-a2c8-4754-bea3-cf415a3b9121/rOkAuE6z9O.json', 
+                renderer: 'svg',
+                loop: false,
+                autoplay: true,
+            });
+
+            // 顯示彈出視窗
+            popup.style.display = 'block';
+
+            // 設置動畫完成後自動隱藏彈出視窗
+            setTimeout(function() {
+                popup.style.display = 'none';
+                // 提交表單 (刪除商品)
+                event.target.submit();
+            }, 2000); // 2秒後隱藏視窗
+        }
+     // 改變數量的函數
+        function changeQuantity(button, change) {
+            var input = button.parentElement.querySelector('input[type="number"]');
+            var currentValue = parseInt(input.value);
+
+            // 根據點擊的按鈕來增加或減少數量
+            var newValue = currentValue + change;
+
+            // 確保數量不能小於 1
+            if (newValue >= 1) {
+                input.value = newValue;
+
+                // 提交表單以更新數量
+                button.closest('form').submit();
+            }
         }
 
     </script>

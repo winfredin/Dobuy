@@ -209,8 +209,7 @@
   <footer class="footer">
     <div>© 2024 DO BUY. All Rights Reserved.</div>
   </footer>
-  
-<!-- 訂單明細測試用 -->
+
 
 
 
@@ -281,7 +280,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             try {
-                // 呼叫預覽 API 計算折扣（此API只計算不更新資料庫）
+                // 計算折扣金額  預覽用 呼叫預覽 API 計算折扣（此API只計算不更新資料庫）
                 const previewResponse = await fetch('/shoppingcartlist/calculateDiscount', {
                     method: 'POST',
                     headers: {
@@ -397,22 +396,5 @@ document.addEventListener('DOMContentLoaded', function() {
 });
   </script>
   
-  
-  <script>
-  
-    // 表單驗證提示顯示
-//     document.getElementById('firstName').addEventListener('focus', function() {
-//       document.getElementById('fullNameError').innerText = '姓名必須是2-10位的中文或英文，不能有特殊符號';
-//     });
-
-//     document.getElementById('address').addEventListener('focus', function() {
-//       document.getElementById('addressError').innerText = '地址只能包含中文、英文和數字，且長度為2-20位';
-//     });
-
-//     document.getElementById('email').addEventListener('focus', function() {
-//       document.getElementById('emailError').innerText = '電子郵件格式不正確，必須包含 @ 並以 .com 結尾';
-//     });
-
-  </script>
 </body>
 </html>

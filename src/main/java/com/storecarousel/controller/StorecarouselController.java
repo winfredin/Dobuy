@@ -65,24 +65,24 @@ public class StorecarouselController {
 //        return "redirect:/storecarousel/listAllStorecarouseltest";
 //    }
     
-    @PostMapping("insert")
-    public String insert(@ModelAttribute StoreCarouselVO storeCarouselVO) {
-        try {
-        	
-        	if (storeCarouselVO.getCarouselTime() == null) {
-                storeCarouselVO.setCarouselTime(new Timestamp(System.currentTimeMillis()));
-            }
-        	storeCarouselService.setDefaultCarouselTime(storeCarouselVO);
-            MultipartFile file = storeCarouselVO.getUpFile();
-            storeCarouselVO.setCarouselPic(file.getBytes()); // 將字節數據存儲到持久化字段
-            storeCarouselService.addStoreCarousel(storeCarouselVO);
-            System.out.println("File uploaded successfully!");
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "error";
-        }
-        return "back-end/storecarousel/listAllStorecarouseltest";
-    }
+//    @PostMapping("insert")
+//    public String insert(@ModelAttribute StoreCarouselVO storeCarouselVO) {
+//        try {
+//        	
+//        	if (storeCarouselVO.getCarouselTime() == null) {
+//                storeCarouselVO.setCarouselTime(new Timestamp(System.currentTimeMillis()));
+//            }
+//        	storeCarouselService.setDefaultCarouselTime(storeCarouselVO);
+//            MultipartFile file = storeCarouselVO.getUpFile();
+//            storeCarouselVO.setCarouselPic(file.getBytes()); // 將字節數據存儲到持久化字段
+//            storeCarouselService.addStoreCarousel(storeCarouselVO);
+//            System.out.println("File uploaded successfully!");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            return "error";
+//        }
+//        return "back-end/storecarousel/listAllStorecarouseltest";
+//    }
 
 
     // 查詢所有輪播資訊
@@ -102,14 +102,14 @@ public class StorecarouselController {
     public String getOneForUpdate(@RequestParam("storeCarouselNo") Integer storeCarouselNo, ModelMap model) {
     	StoreCarouselVO storeCarouselVO = storeCarouselService.getOneStoreCarousel(storeCarouselNo);
         model.addAttribute("storeCarouselVO", storeCarouselVO);
-        return "back-end/storecarousel/update-StoreCarousel-Input";
+        return "back-end/storecarousel/listAllStorecarouseltest";
     }
 
     // 更新資料處理
     @PostMapping("update")
     public String update(@Valid StoreCarouselVO storeCarouselVO, BindingResult result, ModelMap model) {
         if (result.hasErrors()) {
-            return "back-end/storecarousel/update-StoreCarousel-Input";
+            return "back-end/storecarousel/addStorecarousel";
         }
         
         if (storeCarouselVO.getCarouselTime() == null) {
@@ -119,7 +119,7 @@ public class StorecarouselController {
         storeCarouselService.setDefaultCarouselTime(storeCarouselVO);
         storeCarouselService.updateStoreCarousel(storeCarouselVO);
         model.addAttribute("success", "- (更新成功)");
-        return "redirect:/storecarousel/listAllStorecarouseltest";
+        return "redirect:/storecarousel/addStorecarousel";
     }
 
 
@@ -176,5 +176,37 @@ public class StorecarouselController {
         
         return "back-end/storecarousel/selectPageStorecarousel";
     }
+    //--------------------定紘以下為insert方法測試----------------------
+    @PostMapping("/insert")
+    public String insert(@ModelAttribute StoreCarouselVO storeCarouselVO) {
+        try {
+            // 1. 如果未設定 carouselTime，則預設當前系統時間
+            if (storeCarouselVO.getCarouselTime() == null) {
+                storeCarouselVO.setCarouselTime(new Timestamp(System.currentTimeMillis()));
+            }
+            
+            // 2. 呼叫 service 設定默認的 carouselTime
+            storeCarouselService.setDefaultCarouselTime(storeCarouselVO);
+            
+            // 3. 獲取文件並轉換為 byte[]
+            MultipartFile file = storeCarouselVO.getUpFile();
+            if (file != null && !file.isEmpty()) {
+                storeCarouselVO.setCarouselPic(file.getBytes()); // 將文件內容轉換為 byte[]
+            } else {
+                System.out.println("未選擇文件上傳");
+            }
+            
+            // 4. 呼叫 service 保存 StoreCarouselVO
+            storeCarouselService.addStoreCarousel(storeCarouselVO);
+            System.out.println("文件上傳成功！");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "error"; // 發生錯誤時返回錯誤頁面
+        }
+
+        return "redirect:/storecarousel/listAllStorecarouseltest"; 
+    }
+  //--------------------定紘以上為insert方法測試----------------------
 
 }

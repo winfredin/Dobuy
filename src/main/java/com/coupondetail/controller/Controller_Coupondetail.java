@@ -14,23 +14,29 @@ import com.coupon.model.CouponService;
 import com.coupon.model.CouponVO;
 import com.coupondetail.model.CouponDetailService;
 import com.coupondetail.model.CouponDetailVO;
+import com.manager.model.ManagerService;
 //import com.dept.model.DeptVO;
+import com.manager.model.ManagerVO;
 
 import java.util.*;
+
+import javax.servlet.http.HttpSession;
 
 @Controller // ch2-p65 ch3-77 ch8-139
 //@RequestMapping("/coupondetail")
 //@RequestMapping("/")
 public class Controller_Coupondetail {
 
-	// 自動裝配CouponDetailService
 	@Autowired
 	CouponDetailService couponDetailSvc;
 
-//  // 自动装配 CouponService
 	@Autowired
 	CouponService couponSvc;
 	
+	@Autowired
+	ManagerService managerService;
+    
+
 	
 	// inject(注入資料) via application.properties
 	@Value("${welcome.message}")
@@ -89,9 +95,28 @@ public class Controller_Coupondetail {
 	}
 
 //	後台首頁
-	@GetMapping("/back-end-homepage") // ch2-p65 ch3-77 ch8-139
-	public String index3() {
-		return "back-end/back-end-home/back-end-homepage";
+	@GetMapping("/back-end-homepage")
+	public String adminHome(HttpSession session, Model model) {
+	    // 從 Session 中獲取 managerNo
+	    Integer managerNo = (Integer) session.getAttribute("managerNo");
+	    
+	    if (managerNo != null) {
+	        // 使用 getOneManager 方法來獲取 ManagerVO
+	        ManagerVO manager = managerService.getOneManager(managerNo);
+	        if (manager != null) {
+	            session.setAttribute("managerName", manager.getManagerName()); // 設置到 session
+	            model.addAttribute("managerName", manager.getManagerName());   // 設置到 model
+	        } else {
+	            // 如果查詢不到管理員，則清除 session 並重導向登入頁面
+	            session.invalidate();
+	            return "redirect:/login/Login";
+	        }
+	    } else {
+	        // managerNo 不存在於 session 中，重導向登入頁面
+	        return "redirect:/login/Login";
+	    }
+
+	    return "back-end/back-end-home/back-end-homepage"; // 返回 Thymeleaf 模板名稱
 	}
 
 //	後台樣板原檔

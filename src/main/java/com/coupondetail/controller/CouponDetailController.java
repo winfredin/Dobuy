@@ -22,6 +22,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import com.coupondetail.model.CouponDetailVO;
+import com.msg.model.MsgService;
 import com.counter.model.CounterVO;
 import com.coupon.model.CouponService;
 import com.coupon.model.CouponVO;
@@ -37,32 +38,14 @@ public class CouponDetailController {
     
     @Autowired
     CouponDetailService couponDetailSvc;
+    
+    @Autowired
+    MsgService msgSvc;
 
     
-//    @PostMapping("/addCoupon")
-//    public String addCoupon(@ModelAttribute CouponVO coupon, Model model) {
-//        try {
-//        	couponSvc.addCouponWithDetails(coupon);
-//            model.addAttribute("successMessage", "Coupon added successfully!");
-//        } catch (Exception e) {
-//            model.addAttribute("errorMessage", "Failed to add coupon: " + e.getMessage());
-//        }
-//        return "couponForm";
-//    }
-    
-    
-    
-    /*
-     * This method will serve as addCouponDetail.html handler.
-     */
-    
-//    @GetMapping("addCouponDetail")
-//    public String addCouponDetail(ModelMap model) {
-//        CouponDetailVO couponDetailVO = new CouponDetailVO();
-//        model.addAttribute("couponDetailVO", couponDetailVO);
-//        return "vendor-end/coupondetail/addCouponDetail";
-//    }
 
+    
+    
     //靜態用
 //    @GetMapping("/coupondetail/addCouponDetail")
 //    public String addCouponDetail(Model model) {
@@ -70,6 +53,43 @@ public class CouponDetailController {
 //    }
     
     
+    @PostMapping("delete")
+    public String delete(@RequestParam("couponDetailNo") String couponDetailNo, ModelMap model) {
+    	/*************************** 2.開始刪除資料 *****************************************/
+    	couponDetailSvc.deleteCouponDetail(Integer.valueOf(couponDetailNo));
+    	
+    	/*************************** 3.刪除完成,準備轉交(Send the Success view) **************/
+    	List<CouponDetailVO> list = couponDetailSvc.getAll();
+    	model.addAttribute("couponDetailListData", list);
+    	model.addAttribute("success", "- (刪除成功)");
+    	return "vendor-end/coupondetail/listAllCouponDetail";
+    }
+    
+    
+    
+    // 櫃位列出自己的優惠券點詳情 可以查看優惠商品明細
+    @GetMapping("/listByCouponNo") 
+    public String listByCouponNo(@RequestParam("couponNo") Integer couponNo, 
+    		HttpSession session, 
+    		Model model) {
+    	// 檢查櫃位登入狀態
+    	CounterVO counter = (CounterVO) session.getAttribute("counter");
+    	if (counter == null) {
+    		return "redirect:/counter/login";
+    	}
+    	
+    	try {
+    		List<CouponDetailVO> details = couponDetailSvc.getByCouponNo(couponNo);
+    		model.addAttribute("couponDetails", details);
+    		model.addAttribute("counter", counter);  // 提供給header使用
+    		model.addAttribute("msgSvc", msgSvc);
+    		return "vendor-end/coupondetail/listCouponDetail";
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    		model.addAttribute("error", "查詢明細失敗：" + e.getMessage());
+    		return "error";
+    	}
+    }
     
     /*
      * This method will be called on addCouponDetail.html form submission, handling POST request
@@ -134,66 +154,5 @@ public class CouponDetailController {
     /*
      * This method will be called on listAllCouponDetails.html form submission, handling POST request
      */
-    @PostMapping("delete")
-    public String delete(@RequestParam("couponDetailNo") String couponDetailNo, ModelMap model) {
-        /*************************** 2.開始刪除資料 *****************************************/
-        couponDetailSvc.deleteCouponDetail(Integer.valueOf(couponDetailNo));
-
-        /*************************** 3.刪除完成,準備轉交(Send the Success view) **************/
-        List<CouponDetailVO> list = couponDetailSvc.getAll();
-        model.addAttribute("couponDetailListData", list);
-        model.addAttribute("success", "- (刪除成功)");
-        return "vendor-end/coupondetail/listAllCouponDetail";
-    }
-
-    
-    
-    
-    
-    /*
-     * This method will be called on select_page.html form submission, handling POST request
-     */
-//    @PostMapping("listCouponDetail_ByCompositeQuery")
-//    public String listAllCouponDetail(HttpServletRequest req, Model model) {
-//        Map<String, String[]> map = req.getParameterMap();
-//        List<CouponDetailVO> list = couponDetailSvc.getAll(map);
-//        model.addAttribute("couponDetailListData", list);
-//        return "vendor-end/coupondetail/listAllCouponDetail";
-//    }
-
-    // 去除BindingResult中某個欄位的FieldError紀錄
-//    public BindingResult removeFieldError(CouponDetailVO couponDetailVO, BindingResult result, String removedFieldname) {
-//        List<FieldError> errorsListToKeep = result.getFieldErrors().stream()
-//                .filter(fieldname -> !fieldname.getField().equals(removedFieldname))
-//                .collect(Collectors.toList());
-//        result = new BeanPropertyBindingResult(couponDetailVO, "couponDetailVO");
-//        for (FieldError fieldError : errorsListToKeep) {
-//            result.addError(fieldError);
-//        }
-//        return result;
-//    }
-    
-    // 櫃位列出自己的優惠券點詳情 可以查看優惠商品明細
-    @GetMapping("/listByCouponNo") 
-    public String listByCouponNo(@RequestParam("couponNo") Integer couponNo, 
-                               HttpSession session, 
-                               Model model) {
-       // 檢查櫃位登入狀態
-       CounterVO counter = (CounterVO) session.getAttribute("counter");
-       if (counter == null) {
-           return "redirect:/counter/login";
-       }
-       
-       try {
-           List<CouponDetailVO> details = couponDetailSvc.getByCouponNo(couponNo);
-           model.addAttribute("couponDetails", details);
-           model.addAttribute("counter", counter);  // 提供給header使用
-           return "vendor-end/coupondetail/listCouponDetail";
-       } catch (Exception e) {
-           e.printStackTrace();
-           model.addAttribute("error", "查詢明細失敗：" + e.getMessage());
-           return "error";
-       }
-    }
 
 }

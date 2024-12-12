@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>平台優惠資料 - listOneDiscount.html</title>
+<!-- fragment引入 -->
+<th:block th:replace="~{back-end/back-end-home/fraghead :: head}"></th:block>
 
-<head th:insert="~{/back-end/discount/included-fragment}"></head>
 <style type="text/css">
     span {
 		display: inline-block;
@@ -16,11 +14,10 @@
 </style>
 </head>
 <body>
+	<!-- fragment引入 -->
+	<header th:block th:replace="~{back-end/back-end-home/fraghead :: header}"></header>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
-		 <div align="center"> <h2>平台優惠資料 - listOneDiscount.html</h2>
-		 <h3><a class="navbar-brand" th:href="@{/discount/select_page}"><img th:src="@{/images/back1.gif}">回查詢頁<label th:text="${success}"></label></a></h3></div>
-</nav>
+
 
 	<div align="center" th:fragment="listOneDiscount-div"> <!-- 此div可供其他頁面insert用 -->
 		<h3><span>查詢結果 :</span></h3>
@@ -36,6 +33,12 @@
 		<span>起始日:</span><span th:text="${#dates.format(discountVO.disStart, 'yyyy-MM-dd')}"></span><br/>
 		<span>到期日:</span><span th:text="${#dates.format(discountVO.disEnd, 'yyyy-MM-dd')}"></span><br/>
 	</div>
+
+	<!-- fragment引入 -->
+	<footer th:block th:replace="~{back-end/back-end-home/fraghead :: footer}"></footer>
+
+	<!-- fragment引入 -->
+	<th:block th:replace="~{back-end/back-end-home/fraghead :: js}"></th:block>
 
 </body>
 </html>

@@ -11,7 +11,7 @@ class PhotoWrite {
         Connection con = null;
         PreparedStatement pstmt = null;
         InputStream fin = null;
-        String url = "jdbc:mysql://localhost:3306/dobuy?serverTimezone=Asia/Taipei";
+        String url = "jdbc:mysql://localhost:3306/dobuytest?serverTimezone=Asia/Taipei";
         String userid = "root";
 
         String passwd = "123456789";

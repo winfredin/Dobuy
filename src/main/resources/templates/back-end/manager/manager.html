@@ -2,332 +2,219 @@
 <html lang="en">
 
 <head>
-<meta charset="UTF-8">
-<meta name="description" content="">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <!-- fragment引入 -->
+    <th:block th:replace="~{back-end/back-end-home/fraghead :: head}"></th:block>
 
-<!-- Title -->
-<title>DoBuy - Lifestyle</title>
+    <style>
+/* 全局樣式 */
+body {
+    margin: 0 6rem !important;
+    padding: 0 !important;
+    background-color: #f8f9fa !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-
-
-
-<style>
+/* 功能區塊 */
 .admin-feature-bar {
-	/* background-color: rgba(173, 137, 100, 0.65); 深棕色背景，具有透明感 */
-	border-radius: 10px;
+    margin: 30px auto;
+    padding: 20px 0;
+    /* 移除背景色和陰影 */
+    background: transparent;
+    box-shadow: none;
 }
 
 .admin-feature-list {
-	display: flex;
-	justify-content: center; /* 水平置中 */
-	list-style: none;
-	border-bottom: 1px solid #ddd; /* 下方邊框 */
-	background: linear-gradient(to bottom, rgba(173, 129, 85, 0.9),
-		rgba(128, 95, 63, 0.99), rgba(128, 95, 63, 0.99));
-	margin-top: 0;
-	border-radius: 10px; /* 圓角 */
-	box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15); /* 添加陰影 */
-	padding: 10px 0;
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 .admin-feature-list li {
-	margin: 0 100px; /* 每個項目間距 */
-	margin-left: 20px;
+    margin: 0 15px;
 }
 
 .admin-feature-list li a {
-	color: #130f0f; /* 字體設為白色 */
-	/* padding: 10px 15px; */
-	transition: background-color 0.3s;
-	border-radius: 6px;
-	/* padding-right: 20px; */
-	padding: 10px;
+    padding: 12px 25px;
+    background: rgba(173, 129, 85, 0.5);  /* 保留按鈕的半透明背景 */
+    color: #fff;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    display: inline-block;
 }
 
 .admin-feature-list li a:hover {
-	text-decoration: underline;
-	background-color: rgba(141, 129, 115, 0.65);
-	cursor: pointer;
+    background: rgba(173, 129, 85, 0.8);  /* 懸浮時加深背景色 */
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
+/* 管理員資料卡片 */
 .profile-container {
-	width: 60%;
-	margin: 20px auto;
-	font-family: Arial, sans-serif;
+    width: 85%;
+    margin: 40px auto;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
 }
 
 h2 {
-	font-size: 24px;
-	font-weight: bold;
-}
-
-.profile-form {
-	display: flex;
-	flex-direction: column;
-}
-
-label {
-	font-weight: bold;
-	margin-top: 10px;
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    font-size: 2rem;
+    font-weight: 600;
 }
 
 .profile-info {
-	margin-bottom: 10px;
+    background: rgba(173, 129, 85, 0.1);
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 30px;
 }
 
-input[type="text"] {
-	padding: 8px;
-	width: 100%;
-	margin-bottom: 10px;
-	border: 1px solid #ddd;
-	border-radius: 5px;
+.profile-info p {
+    margin: 15px 0;
+    color: #34495e;
+    font-size: 1.1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid rgba(173, 129, 85, 0.2);
 }
 
-.profile-gender input {
-	margin-right: 5px;
+.profile-info p:last-child {
+    border-bottom: none;
 }
 
-.profile-birthday select {
-	padding: 8px;
-	margin-right: 5px;
+/* 權限表格樣式 */
+table {
+    width: 100%;
+    margin: 20px 0;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 }
 
-.save-btn {
-	margin-top: 20px;
-	padding: 10px;
-	background-color: #ff4500;
-	color: #fff;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
+table th {
+    background: rgba(173, 129, 85, 0.95);
+    color: #fff;
+    padding: 15px;
+    font-size: 1.1rem;
+    font-weight: 500;
 }
-</style>
 
+table td {
+    padding: 15px;
+    text-align: center;
+    color: #2c3e50;
+    border-bottom: 1px solid rgba(173, 129, 85, 0.1);
+    transition: all 0.3s ease;
+}
 
-<!-- Favicon -->
-<link rel="icon" href="img/core-img/favicon.ico">
+table tr:hover td {
+    background: rgba(173, 129, 85, 0.1);
+    transform: scale(1.01);
+}
 
-<!-- Style CSS -->
-<link rel="stylesheet" href="/back-end-home/css/style.css">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+/* 表格標題 */
+h3 {
+    color: #2c3e50;
+    margin: 30px 0 20px 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+/* 無權限資料提示 */
+p:empty {
+    padding: 20px;
+    text-align: center;
+    color: #7f8c8d;
+    font-style: italic;
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+    body {
+        margin: 0 2rem !important;
+    }
+    
+    .profile-container {
+        width: 95%;
+        padding: 20px;
+    }
+    
+    .admin-feature-list li a {
+        padding: 10px 15px;
+        margin: 0 8px;
+    }
+}
+    </style>
 </head>
 
 <body>
-	<!-- Preloader -->
-	<div id="preloader">
-		<div class="preload-content">
-			<div id="original-load"></div>
-		</div>
-	</div>
+    <!-- Header Fragment -->
+    <header th:block th:replace="~{back-end/back-end-home/fraghead :: header}"></header>
 
+    <!-- 功能列表 -->
+    <div class="admin-feature-bar">
+        <ul class="admin-feature-list">
+            <li><a href="listAllManager" id="admin-data">管理員資料管理</a></li>
+            <li><a href="listAllAuth" id="admin-permissions">權限列表設定</a></li>
+        </ul>
+    </div>
 
+    <!-- 管理員資料 -->
+    <div class="profile-container">
+        <h2>管理員資料</h2>
+        <div class="profile-info">
+            <p>管理員編號: <span th:text="${managerVO.managerNo}"></span></p>
+            <p>管理員名稱: <span th:text="${managerVO.managerName}"></span></p>
+            <p>管理員帳號: <span th:text="${managerVO.managerAccount}"></span></p>
+            <p>管理員密碼: <span th:text="${managerVO.managerPassword}"></span></p>
+            <p>管理員狀態: <span th:text="${managerVO.managerstatusDisplay}"></span></p>
+        </div>
 
-	<!-- ##### Header Area Start ##### -->
-	<header class="header-area">
+        <!-- 權限表格 -->
+        <div>
+            <h3>管理員權限資料</h3>
+            <div th:if="${#lists.isEmpty(one)}">
+                <p>該管理員無權限資料。</p>
+            </div>
+            <div th:unless="${#lists.isEmpty(one)}">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>權限名稱</th>
+                            <th>權限描述</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="auth : ${one}">
+                            <td th:text="${auth.authNo.authTitle}"></td>
+                            <td th:text="${auth.authNo.authContext}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
-		<!-- Top Header Area -->
-		<div class="top-header">
-			<div class="container h-100">
-				<div class="row h-100 align-items-center">
-					<!-- Breaking News Area -->
-					<div class="col-12 col-sm-8">
-						<div class="breaking-news-area">
-							<div id="breakingNewsTicker" class="ticker">
-								<ul>
-									<li><a href="#">Hello Staff!</a></li>
-									<li><a href="#">Hello Universe!</a></li>
-									<li><a href="#">Hello Earth!</a></li>
-									<li><a href="#">Hello DoBuy!</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+    <!-- Footer Fragment -->
+    <footer th:block th:replace="~{back-end/back-end-home/fraghead :: footer}"></footer>
 
-		<!-- Logo Area -->
-		<div class="logo-area text-center">
-			<div class="container h-100">
-				<div class="row h-100 align-items-center">
-					<div class="col-12">
-						<a href="#" class="original-logo"><img
-							src="img/core-img/logo noback.png" alt=""></a>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<!-- Nav Area -->
-		<div class="original-nav-area" id="stickyNav">
-			<div class="classy-nav-container breakpoint-off">
-				<div class="container">
-					<!-- Classy Menu -->
-					<nav class="classy-navbar justify-content-between">
-
-						<!-- Navbar Toggler -->
-						<div class="classy-navbar-toggler">
-							<span class="navbarToggler"><span></span><span></span><span></span></span>
-						</div>
-
-						<!-- Menu -->
-						<div class="classy-menu" id="originalNav">
-							<!-- close btn -->
-							<div class="classycloseIcon">
-								<div class="cross-wrap">
-									<span class="top"></span><span class="bottom"></span>
-								</div>
-							</div>
-
-							<!-- Nav Start -->
-							<div class="classynav">
-								<ul>
-									<li><a class="dropdown-font" href="/back-end-homepage">首頁</a></li>
-									<li><a href="#">會員管理</a>
-										<ul class="dropdown">
-											<li><a href="#">會員管理</a></li>
-											<li><a href="#">會員管理訂單管理</a></li>
-											<li><a href="#">商品審核</a></li>
-										</ul></li>
-									<li><a href="#">櫃位管理</a>
-										<ul class="dropdown">
-											<li><a href="#">櫃位管理專區</a></li>
-											<li><a href="#">櫃位商城開設審核</a></li>
-
-										</ul></li>
-									<li><a href="#">商城系統</a>
-										<ul class="dropdown">
-											<li><a href="#">首頁輪播圖管理</a></li>
-											<li><a href="#">商品分類管理</a></li>
-										</ul></li>
-
-									<li><a href="#">管理員資料</a>
-										<ul class="dropdown">
-											<li><a href="#" id="1">管理員資料管理</a></li>
-										</ul></li>
-
-									<li><a href="#">優惠管理</a>
-										<ul class="dropdown">
-											<li><a href="#">平台優惠活動管理</a></li>
-											<li><a href="#">廠商優惠券管理</a></li>
-											<li><a href="#">優惠訊息通知</a></li>
-										</ul></li>
-
-									<li><a href="#">客服系統</a>
-										<ul class="dropdown">
-											<li><a href="#">FAQ專案管理</a></li>
-											<li><a href="#">客服訊息回覆</a></li>
-										</ul></li>
-								</ul>
-
-								<!-- Search Form  -->
-								<div id="search-wrapper">
-									<form action="#">
-										<input type="text" id="search"
-											placeholder="Search something...">
-										<div id="close-icon"></div>
-										<input class="d-none" type="submit" value="">
-									</form>
-								</div>
-							</div>
-							<!-- Nav End -->
-						</div>
-					</nav>
-				</div>
-			</div>
-		</div>
-	</header>
-
-	<div class="admin-feature-bar">
-		<div class="container">
-			<ul class="admin-feature-list">
-				<li><a href="listAllManager" id="admin-data">管理員資料管理</a></li>
-				<li><a href="listAllAuth"id="admin-permissions">權限列表設定</a></li>
-			</ul>
-		</div>
-	</div>
-
-
-
-
-
-	<div class="profile-container">
-		<h2>管理員資料</h2>
-
-
-		<form class="profile-form">
-
-			<br>
-			<div>
-				<span>管理員編號:<span th:text="${managerVO.managerNo}"></span></span><br>
-				<span>管理員名稱:<span th:text="${managerVO.managerName}"></span></span><br>
-				<span>管理員帳號:<span th:text="${managerVO.managerAccount}"></span></span><br>
-				<span>管理員密碼:<span th:text="${managerVO.managerPassword}"></span></span><br>
-				<span>管理員狀態:<span th:text="${managerVO.managerstatusDisplay}"></span><span><br>
-			</div>
-
-			<span style="display:flex; border:3px solid red">
-
-				<h3>管理員權限資料 :</h3> 
-				<span th:if="${#lists.isEmpty(one)}"> <span>該管理員無權限資料。</span>
-				</span>
-
-				<div align="center" th:unless="${#lists.isEmpty(one)}" style="margin-left:30px;">
-					<table>
-						<thead>
-							<tr>
-								<th>權限名稱:</th>
-								<th>權限描述:</th>
-							</tr>
-						</thead>
-						<th:block th:each="auth : ${one}">
-							<tr>
-
-								<td style="padding-right: 50px;"><span class="a"
-									th:text="${auth.authNo.authTitle}"></span><br></td>
-								<td><span class="a" th:text="${auth.authNo.authContext}"></span>
-								</td>
-							</tr>
-						</th:block>
-
-					</table>
-					<form method="post" th:action="@{getOne_For_Display}">
-						<b>選擇管理員編號:</b> <select name="managerNo">
-							<option th:each="managerVO : ${managerListData}"
-								th:value="${managerVO.managerNo}"
-								th:text="${managerVO.managerNo}" />
-						</select> <input type="submit" value="送出">
-					</form>
-					<form method="post" th:action="@{/auth/getAuth_For_Display}">
-						<b>選擇權限編號:</b> <select name="authNo">
-							<option th:each="authVO : ${alist}"
-								th:value="${authVO.authNo}" th:text="${authVO.authNo}" />
-						</select> <input type="submit" value="送出">
-					</form>
-
-
-				</div>
-			</span>
-			</form>
-			</div>
+    <!-- JS Fragment -->
+    <th:block th:replace="~{back-end/back-end-home/fraghead :: js}"></th:block>
 </body>
 
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<!-- Popper js -->
-<script src="/back-end-home/js/popper.min.js"></script>
-<!-- Bootstrap js -->
-<script src="/back-end-home/js/bootstrap.min.js"></script>
-<!-- Plugins js -->
-<script src="/back-end-home/js/plugins.js"></script>
-<!-- Active js -->
-<script src="/back-end-home/js/active.js"></script>
-
-<script>
-	
-</script>
 </html>

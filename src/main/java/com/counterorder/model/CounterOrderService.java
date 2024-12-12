@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import org.hibernate.Session;
@@ -13,13 +14,14 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.counterorderdetail.model.CounterOrderDetailVO;
+import com.goods.model.GoodsRepository;
 import com.goods.model.GoodsService;
 import com.goods.model.GoodsVO;
 import com.memcoupon.model.MemCouponVO;
 
 
 
-
+@Transactional
 @Service("CounterOrderService")
 public class CounterOrderService {
 
@@ -28,7 +30,8 @@ public class CounterOrderService {
 	
 	@Autowired
     private SessionFactory sessionFactory;
-	
+	@Autowired
+	GoodsRepository goodsreporistory;
 	@Autowired
     private GoodsService goodsService;
 
@@ -97,8 +100,13 @@ public class CounterOrderService {
         repository.save(order);
     }
     
-    @Scheduled(fixedRate = 60000) // 每 100 秒執行一次
+    public List<CounterOrderVO> findExpiredOrders() {
+        return repository.findExpiredOrders();
+    }
+    
+    
     @Transactional
+
     public void restoreInventoryForExpiredOrders() {
         System.out.println("Running scheduled task...");
 
@@ -107,11 +115,9 @@ public class CounterOrderService {
 
         // 處理每一筆過期訂單
         for (CounterOrderVO order : expiredOrders) {
-            Integer reservedAmount = order.getReservedAmount();
-            if (reservedAmount != null && reservedAmount > 0) {
                 // 從訂單明細中獲取商品資訊
                 List<CounterOrderDetailVO> details = order.getCounterOrderDatailVO();
-
+                	
                 for (CounterOrderDetailVO detail : details) {
                     Integer goodsNo = detail.getGoodsNo();
                     Integer reservedGoodsAmount = detail.getGoodsNum();
@@ -122,21 +128,59 @@ public class CounterOrderService {
                         Integer updatedAmount = goods.getGoodsAmount() + reservedGoodsAmount;
                         System.out.println("Updating goods ID: " + goodsNo + " from amount: " 
                                             + goods.getGoodsAmount() + " to: " + updatedAmount);
-                        goods.setGoodsAmount(updatedAmount);
+//                        goods.setGoodsAmount(updatedAmount);
                         goodsService.updateGoodsAmount(goodsNo, updatedAmount);
                     } else {
                         System.out.println("Goods not found with ID: " + goodsNo);
                     }
+                    
                 }
 
-                // 將訂單的預扣數量設為 0，表示恢復完成
-                order.setReservedAmount(0);
-                repository.save(order); // 更新訂單狀態
-            } else {
-                System.out.println("Order with ID " + order.getCounterOrderNo() + " has no reserved amount.");
-            }
+           
+                
+            } 
+              
+            
         }
-    }
+    
+
+    @Transactional
+    public void restore() {
+    	 System.out.println("Running scheduled task...");
+
+         // 找出所有過期且未處理的訂單
+         List<CounterOrderVO> expiredOrders = repository.findExpiredOrders();
+
+         // 處理每一筆過期訂單
+         for (CounterOrderVO order : expiredOrders) {
+             
+                 // 從訂單明細中獲取商品資訊
+                 List<CounterOrderDetailVO> details = order.getCounterOrderDatailVO();
+
+                 for (CounterOrderDetailVO detail : details) {
+                     Integer goodsNo = detail.getGoodsNo();
+                     Integer reservedGoodsAmount = detail.getGoodsNum();
+
+                     // 恢復商品庫存
+                     GoodsVO goods = goodsService.getOneGoods(goodsNo);
+                     if (goods != null) {
+                    	 Integer currentAmount = goods.getGoodsAmount() != null ? goods.getGoodsAmount() : 0;
+                         Integer updatedAmount = currentAmount + reservedGoodsAmount;
+                         System.out.println("Updating goods ID: " + goodsNo + " from amount: " 
+                                             + goods.getGoodsAmount() + " to: " + updatedAmount);
+//                         goods.setGoodsAmount(updatedAmount);
+//                         goodsreporistory.save(goods);
+                        goodsreporistory.upGoodsAmount(updatedAmount, goodsNo);
+                         
+                     } else {
+                         System.out.println("Goods not found with ID: " + goodsNo);
+                     }
+                    
+                 }
+                 repository.delete(order);
+         }
+     }
+    
     
     
 //    柏翔
@@ -158,6 +202,27 @@ public class CounterOrderService {
             throw e;
         }
     }
-
+    
+    //gary
+    public List<CounterOrderVO> ListfindByMemNoAndStatusNot4(Integer memNo) {
+    	
+    	List<CounterOrderVO> buyerOrderList	= repository.findByMemNoAndStatusNot4(memNo);
+    	
+    	return buyerOrderList;
+    }
+    
+    
+    //任國櫃位管理訂單
+    public List<CounterOrderVO> getAllOrdersByCounter(Integer counterNo) {
+        return repository.findBycounterNo(counterNo);
+    }
+    
+    
 }
+    
+    
+    
+
+
+
 

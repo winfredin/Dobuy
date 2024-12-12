@@ -717,6 +717,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+
     // 顯示訂單詳細資訊
     window.showOrderDetails = function (element) {
         const orderNo = element.getAttribute('data-orderNo');

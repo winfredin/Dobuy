@@ -102,6 +102,7 @@ public class CouponController {
         
         model.addAttribute("couponVO", couponVO);
         model.addAttribute("counter", counter);  // 加入這行，提供給 header 使用
+        model.addAttribute("msgSvc", msgService);
         
         return "vendor-end/coupon/addCoupon";
     }
@@ -117,6 +118,7 @@ public class CouponController {
             RedirectAttributes redirectAttributes) {
 
         CounterVO counter = (CounterVO) session.getAttribute("counter");
+        model.addAttribute("msgSvc", msgService);
         if (counter == null) {
             redirectAttributes.addFlashAttribute("error", "請先登入櫃位");
             return "redirect:/counter/login";
@@ -171,6 +173,7 @@ public class CouponController {
                 return "redirect:/counter/login"; // 如果沒有登入，重定向到登入頁面
             }
             model.addAttribute("counter", counter);
+            model.addAttribute("msgSvc", msgService);
 
             // 獲取優惠券數據
             CouponVO couponVO = couponSvc.getOneCouponWithDetails(Integer.valueOf(couponNo));
@@ -184,6 +187,10 @@ public class CouponController {
             if (couponVO.getCouponDetails() == null) {
                 couponVO.setCouponDetails(new ArrayList<>());
             }
+            // 加載商品列表
+            List<GoodsVO> goodsList = goodsSvc.findByCounterVO_CounterNo(counter.getCounterNo());
+            model.addAttribute("goodsList", goodsList);
+            
             
             // 將數據添加到模型
             model.addAttribute("couponVO", couponVO);
@@ -199,39 +206,32 @@ public class CouponController {
     }
 
 //    櫃位修改優惠券 可以同時修改優惠商品明細--送出
-    @PostMapping("update")
-    public String update(@Valid CouponVO couponVO, 
-                         BindingResult result, 
+    @PostMapping("/update")
+    public String update(@Valid @ModelAttribute("couponVO") CouponVO couponVO,
+                         BindingResult result,
                          Model model,
                          HttpSession session) {
         System.out.println("Received update request for coupon: " + couponVO.getCouponNo());
 
-        // 從 session 取得 counter 並添加到 model
-        CounterVO counter = (CounterVO) session.getAttribute("counter");
-        if (counter == null) {
-            return "redirect:/counter/login"; // 如果未登入，重定向到登入頁面
-        }
-        model.addAttribute("counter", counter);
-
-        // 確保 couponVO 的 counter 也正確設置
-        if (couponVO.getCounter() == null) {
-            couponVO.setCounter(counter);
-        }
-
+        // 印出驗證錯誤資訊
         if (result.hasErrors()) {
             System.out.println("Validation errors found:");
+            for (FieldError error : result.getFieldErrors()) {
+                System.out.println("Field: " + error.getField() + ", Error: " + error.getDefaultMessage());
+            }
+
+            // 返回原頁面並顯示錯誤
             model.addAttribute("couponVO", couponVO);
+            model.addAttribute("msgSvc", msgService);
             return "vendor-end/coupon/updateCoupon";
         }
 
         try {
-            // 更新優惠券和明細
-            CouponVO updatedCoupon = couponSvc.updateCouponWithDetails(couponVO);
+            // 實際執行修改邏輯
+            couponSvc.updateCouponWithDetails(couponVO);
             model.addAttribute("success", "修改成功！");
-            model.addAttribute("couponVO", updatedCoupon);
             return "vendor-end/coupon/listOneCoupon";
-        } catch (Exception e) {
-            System.out.println("Error updating coupon: " + e.getMessage());
+            } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("error", "修改失敗：" + e.getMessage());
             model.addAttribute("couponVO", couponVO);
@@ -239,43 +239,67 @@ public class CouponController {
         }
     }
 
-
-//    @GetMapping("update")
-//    public String handleUpdateGet(@RequestParam(required = false) Integer couponNo, Model model) {
-//        // 如果有 couponNo，重定向到修改頁面
-//        if (couponNo != null) {
-//            return "redirect:/coupon/getOne_For_Update?couponNo=" + couponNo;
+//    @PostMapping("update")
+//    public String update(@Valid CouponVO couponVO, 
+//                         BindingResult result, 
+//                         Model model,
+//                         HttpSession session) {
+//        System.out.println("Received update request for coupon: " + couponVO.getCouponNo());
+//
+//        // 從 session 取得 counter 並添加到 model
+//        CounterVO counter = (CounterVO) session.getAttribute("counter");
+//        if (counter == null) {
+//            return "redirect:/counter/login"; // 如果未登入，重定向到登入頁面
 //        }
-//        // 否則重定向到列表頁面
-//        return "redirect:/coupon/listAllCoupon";
+//        model.addAttribute("counter", counter);
+//
+//        // 確保 couponVO 的 counter 也正確設置
+//        if (couponVO.getCounter() == null) {
+//            couponVO.setCounter(counter);
+//        }
+//
+//        if (result.hasErrors()) {
+//            System.out.println("Validation errors found:");
+//            model.addAttribute("couponVO", couponVO);
+//            return "vendor-end/coupon/updateCoupon";
+//        }
+//
+//        try {
+//            // 更新優惠券和明細
+//            CouponVO updatedCoupon = couponSvc.updateCouponWithDetails(couponVO);
+//            model.addAttribute("success", "修改成功！");
+//            model.addAttribute("couponVO", updatedCoupon);
+//            return "vendor-end/coupon/listOneCoupon";
+//        } catch (Exception e) {
+//            System.out.println("Error updating coupon: " + e.getMessage());
+//            e.printStackTrace();
+//            model.addAttribute("error", "修改失敗：" + e.getMessage());
+//            model.addAttribute("couponVO", couponVO);
+//            return "vendor-end/coupon/updateCoupon";
+//        }
 //    }
-    
+
+
+
     
     /*
      * This method will be called on listAllCoupons.html form submission, handling POST request
      */
     @PostMapping("delete")
     public String delete(@RequestParam("couponNo") String couponNo, ModelMap model) {
+    	
         /*************************** 2.開始刪除資料 *****************************************/
         couponSvc.deleteCoupon(Integer.valueOf(couponNo));
 
+        
+        
         /*************************** 3.刪除完成,準備轉交(Send the Success view) **************/
         List<CouponVO> list = couponSvc.getAll();
         model.addAttribute("couponListData", list);
         model.addAttribute("success", "- (刪除成功)");
-        return "vendor-end/coupon/listAllCoupon";
+        return "redirect:/coupon/listAllCoupon";
     }
 
-    /*
-     * This method will be called on listAllCoupons.html form submission, handling POST request
-     */
-//    @PostMapping("listCoupon_ByCompositeQuery")
-//    public String listAllCoupon(HttpServletRequest req, Model model) {
-//        Map<String, String[]> map = req.getParameterMap();
-//        List<CouponVO> list = couponSvc.getAll(map);
-//        model.addAttribute("couponListData", list);
-//        return "vendor-end/coupon/listAllCoupon";
-//    }
     
   //任國櫃位優惠券管理 櫃位列出自己的優惠券 
     @PostMapping("listCounterCoupons_ByCompositeQuery")
@@ -288,7 +312,7 @@ public class CouponController {
     
     
     
- // 後台審核優惠券的 GET 方法---顯是頁面
+ // 後台審核優惠券的 GET 方法---顯示頁面
     @GetMapping("/approve")
     public String showApprovePage(Model model) {
         // 獲取所有優惠券列表

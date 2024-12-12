@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>我的最愛清單</title>
+<link rel="stylesheet" th:href="@{/member/css/myFavoriteList.css}">
+
+</head>
+<body>
+	<!-- Logo -->
+	<img th:src="@{/counterPage/img/core-img/logo-noback.png}" alt="Logo"
+		class="logo">
+
+	<!-- 容器 -->
+	<div class="container">
+		<!-- 標題 -->
+		<h3 class="title">我的最愛清單</h3>
+
+		<!-- 欄位名稱 -->
+		<div class="product-row"
+			style="font-weight: bold; border-bottom: 2px solid #ccc;">
+			<div style="flex: 1;">商品圖片</div>
+			<div style="flex: 3;">商品名稱</div>
+			<div style="flex: 1;">商品價格</div>
+		</div>
+
+		<!-- 商品內容 -->
+	
+				
+		<div class="product-row" th:each="goodsLightVO : ${goodsLightVO}">
+		    <form th:action="@{/counter/getOneGoods}" method="get" class="product-form">
+		        <input type="hidden" name="goodsNo" th:value="${goodsLightVO.goodsNo}">
+		        <button type="submit" class="product-link">
+		            <!-- 商品图片 -->
+		            <span class="product-image">
+		                <img th:src="'data:image/png;base64,' + ${goodsLightVO.base64Image}" alt="商品图片" />
+		            </span>
+		            <!-- 商品名称 -->
+		            <span class="product-name" th:text="${goodsLightVO.goodsName}"></span>
+		            <!-- 商品价格 -->
+		            <span class="product-price" th:text="'$' + ${goodsLightVO.goodsPrice}"></span>
+		        </button>
+		    </form>
+		</div>
+	</div>
+	<script th:src="@{/member/js/myFavoriteList.js}"></script>
+</body>
+</html>

@@ -7,6 +7,7 @@ import com.used.model.UsedRepository;
 import com.used.model.UsedVO;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -21,9 +22,11 @@ public class SearchService {
 
     private static final String REDIS_PREFIX = "search:";
 
-    @Resource
+    @Autowired
+    @Qualifier("redisTemplateDb7")
     private RedisTemplate<String, List<GoodsVO>> redisTemplate;  // 使用 String 序列化類型，因為儲存的是 JSON 字串
-    @Resource
+    @Autowired
+    @Qualifier("redisTemplateDb6")
     private RedisTemplate<String, List<UsedVO>> redisTemplate1;
     
     @Autowired

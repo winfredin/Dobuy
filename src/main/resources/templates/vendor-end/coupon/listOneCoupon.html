@@ -1,44 +1,153 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>優惠券資料 - listOneCoupon.html</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>優惠券資料 - listOneCoupon</title>
 
-<head th:insert="~{/vendor-end/coupon/included-fragment}"></head>
-<style type="text/css">
-    span {
-		display: inline-block;
-		width: 150px;
-		text-align: left;
-		font-weight: bold;
-	}
-</style>
-<link rel="stylesheet" href="/counter/style.css">
+    <!-- 引入 Counterincldue CSS -->
+    <div th:replace="~{/vendor-end/counter/Counterincldue :: head}"></div>
 
+    <!-- 自定義 CSS (不會覆蓋原有 CSS) -->
+    <style>
+        /* 整體容器 */
+        .coupon-container {
+            width: 90%;
+            margin: 50px auto;
+            background-color: rgba(255, 255, 255, 0.9); /* 半透明背景 */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+        }
+
+        h2, h3 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        table.coupon-table, table.detail-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #f8f8ff;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        table.coupon-table th, table.coupon-table td,
+        table.detail-table th, table.detail-table td {
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        table.coupon-table th, table.detail-table th {
+            background-color: #C4B7F2; /* 表頭背景色 */
+            color: #333;
+            font-weight: bold;
+        }
+
+        table.coupon-table tr:nth-child(even),
+        table.detail-table tr:nth-child(even) {
+            background-color: #F3E9FF;
+        }
+
+        table.coupon-table tr:hover,
+        table.detail-table tr:hover {
+            background-color: #E1D7FA;
+        }
+
+        /* 返回按鈕 */
+        .back-button {
+            display: inline-block;
+            margin: 20px 0;
+            padding: 10px 20px;
+            background-color: #6C63FF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #5548C8;
+        }
+    </style>
 </head>
 <body>
-	<!-- fragment引入 -->
-<!-- 	<header th:block th:replace="~{back-end/back-end-home/fraghead :: header}"></header>		 -->
-	<div th:insert=="vendor-end/counter/Counterincldue :: header"></div>
+    <!-- 保留 Header -->
+    <div th:replace="~{/vendor-end/counter/Counterincldue :: header}"></div>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
-		 <div align="center"> <h2>優惠券資料 - listOneCoupon.html</h2>
-		 <h3><a class="navbar-brand" th:href="@{/coupon/listAllCoupon}"><img th:src="@{/images/back1.gif}">回查詢頁<label th:text="${success}"></label></a></h3></div>
-</nav>
+    <!-- 容器 -->
+    <div class="coupon-container">
+        <h2>優惠券資料</h2>
 
-	<div align="center" th:fragment="listOneCoupon-div"> <!-- 此div可供其他頁面insert用 -->
-		<h3><span>查詢結果 :</span></h3>
-		<span>優惠券編號:</span><span th:text="${couponVO.couponNo}"></span><br/>
-<span>櫃位編號:</span><span th:text="${couponVO.counter?.counterNo}"></span><br/>
-		<span>優惠券名稱:</span><span th:text="${couponVO.couponTitle}"></span><br/>
-		<span>優惠券內容:</span><span th:text="${couponVO.couponContext}"></span><br/>
-		<span>起始日期:</span><span th:text="${#dates.format(couponVO.couponStart, 'yyyy-MM-dd')}"></span><br/>
-		<span>到期日期:</span><span th:text="${#dates.format(couponVO.couponEnd, 'yyyy-MM-dd')}"></span><br/>
-		<span>優惠券狀態:</span><span th:text="${couponVO.couponStatus == 0 ? '未開放' : (couponVO.couponStatus == 1 ? '時效內' : '過期')}"></span><br/>
-		<span>領取次數:</span><span th:text="${couponVO.usageLimit}"></span><br/>
-		<span>審核狀態:</span><span th:text="${couponVO.checkStatus == 0 ? '未審核' : '已審核'}"></span><br/>
-	</div>
+        <!-- 基本資料 -->
+        <table class="coupon-table">
+            <tr>
+                <th>欄位</th>
+                <th>內容</th>
+            </tr>
+            <tr>
+                <td>優惠券編號</td>
+                <td th:text="${couponVO.couponNo}"></td>
+            </tr>
+            <tr>
+                <td>櫃位編號</td>
+                <td th:text="${couponVO.counter?.counterNo}"></td>
+            </tr>
+            <tr>
+                <td>優惠券名稱</td>
+                <td th:text="${couponVO.couponTitle}"></td>
+            </tr>
+            <tr>
+                <td>優惠券內容</td>
+                <td th:text="${couponVO.couponContext}"></td>
+            </tr>
+            <tr>
+                <td>起始日期</td>
+                <td th:text="${#dates.format(couponVO.couponStart, 'yyyy-MM-dd')}"></td>
+            </tr>
+            <tr>
+                <td>到期日期</td>
+                <td th:text="${#dates.format(couponVO.couponEnd, 'yyyy-MM-dd')}"></td>
+            </tr>
+            <tr>
+                <td>優惠券狀態</td>
+                <td th:text="${couponVO.couponStatus == 0 ? '未開放' : (couponVO.couponStatus == 1 ? '時效內' : '過期')}"></td>
+            </tr>
+            <tr>
+                <td>領取次數</td>
+                <td th:text="${couponVO.usageLimit}"></td>
+            </tr>
+        </table>
 
+        <!-- 明細資料 -->
+        <h3>優惠商品明細</h3>
+        <table class="detail-table">
+            <thead>
+                <tr>
+                    <th>商品編號</th>
+                    <th>優惠條件</th>
+                    <th>折扣率</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="detail : ${couponVO.couponDetails}">
+                    <td th:text="${detail.goodsNo}"></td>
+                    <td th:text="${detail.counterContext}"></td>
+                    <td th:text="${detail.disRate}"></td>
+                </tr>
+                <!-- 無明細時顯示提示 -->
+                <tr th:if="${couponVO.couponDetails == null or couponVO.couponDetails.isEmpty()}">
+                    <td colspan="3">尚無優惠商品明細資料</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- 返回按鈕 -->
+        <a th:href="@{/coupon/listAllCoupon}" class="back-button">返回</a>
+    </div>
 </body>
 </html>

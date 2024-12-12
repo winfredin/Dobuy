@@ -76,7 +76,7 @@ public class IndexController_inSpringBoot_ShoppingCartList {
     // 購物車結帳畫面
     @GetMapping("/shoppingcartlist/ShoppingCartListCheckout")
     public String ShoppingCartListCheckout(Model model, HttpSession session) {
-        List<ShoppingCartListVO> cartItems = shoppingCartListSvc.getAll();
+        List<ShoppingCartListVO> cartItems = shoppingCartListSvc.getCartItemsByMemNo(Integer.valueOf((String) session.getAttribute("memNo")));
         List<GoodsVO> insufficientStockItems = new ArrayList<>();
         
         for (ShoppingCartListVO cartItem : cartItems) {
@@ -89,6 +89,7 @@ public class IndexController_inSpringBoot_ShoppingCartList {
                 // 扣除庫存
                 goods.setGoodsAmount(goods.getGoodsAmount() - cartItem.getGoodsNum());
                 goodsSvc.updateGoodsAmount(cartItem.getGoodsNo(), goods.getGoodsAmount());
+            
             }
         }
 

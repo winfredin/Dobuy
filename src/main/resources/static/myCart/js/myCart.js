@@ -26,7 +26,6 @@ function updateCart(button, delta) {
 			if (data.success) {
 				if (data.newQuantity === 0) {
 					document.getElementById(`item-${goodsNo}`).remove();
-					const counterDiv = document.querySelector(`[data-counter="${counterCname}"]`);
 					alert("商品已移除");
 					// 检查櫃位内是否还有商品
 					if (!counterDiv.querySelector("[data-goods-no]")) {

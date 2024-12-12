@@ -1,54 +1,152 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>新增商城輪播資訊</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>商城輪播資訊新增</title>
+<!-- Style CSS -->
+<link rel="stylesheet" href="/back-end-home/css/style.css"> 	
+<head th:insert="~{/back-end/storecarousel/included-fragment}"></head>
+<style type="text/css">
+    /* 讓整體區塊有圓角和陰影 */
+    .addStoreCarousel {
+        background-color: #ffffff; /* 設置背景顏色為白色 */
+        border-radius: 15px; /* 設置圓角為15px */
+        padding: 20px; /* 設置內邊距為20px，讓內容不會貼邊 */
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1); /* 添加陰影效果，使區塊看起來立體 */
+        max-width: 800px; /* 設置區塊最大寬度為800px */
+        margin: 20px auto; /* 使區塊垂直居中並上下留有20px的間距 */
+    }
+
+    /* 表單容器樣式 */
+    form {
+        display: flex; /* 設置為flex布局 */
+        flex-direction: column; /* 垂直排列項目 */
+        align-items: flex-start; /* 左對齊表單項目 */
+        margin-top: 10px; /* 設置表單頂部的間距為10px */
+    }
+
+    /* 每一個表單項目的間距 */
+    form div {
+        margin-bottom: 20px; /* 設置每個表單項目底部的間距為20px */
+        width: 100%; /* 設置每個表單項目的寬度為100% */
+    }
+
+    /* label 標籤的樣式 */
+    form div label {
+        display: block; /* 將label顯示為區塊級元素 */
+        margin-bottom: 5px; /* 設置label底部的間距為5px */
+        text-align: left; /* 讓label文字左對齊 */
+    }
+
+    /* 輸入框與選擇框的樣式 */
+    input[type="text"], select, input[type="file"] {
+        width: 100%; /* 設置輸入框和選擇框寬度為100% */
+        padding: 8px; /* 設置內邊距為8px */
+        margin: 5px 0; /* 設置上下間距為5px */
+        border: 1px solid #ccc; /* 設置邊框為1px寬，顏色為灰色 */
+        border-radius: 5px; /* 設置圓角為5px */
+        background-color: #f9f9f9; /* 設置背景顏色為淺灰色 */
+        box-sizing: border-box; /* 設置為border-box，保證padding不會影響元素寬度 */
+    }
+
+    /* 輸入框與選擇框聚焦時的邊框顏色變化 */
+    input[type="text"]:focus, select:focus {
+        outline: none;         /* 去掉聚焦時的藍色外圍邊框 */
+        border-color: #ffd165; /* 聚焦時邊框顏色變為藍色 */
+    }
+
+    /* 顯示錯誤訊息的樣式 */
+    .error {
+        color: red; /* 錯誤訊息顯示為紅色 */
+        font-size: 12px; /* 設置字體大小為12px */
+        margin-top: 5px; /* 設置錯誤訊息與上方元素的間距為5px */
+    }
+
+    /* 送出按鈕的樣式 */
+    button#submit {
+        padding: 10px 20px; /* 設置內邊距，10px上下，20px左右 */
+        background-color: #ffd165; /* 橘色背景 */
+        color: white; /* 設置文字顏色為白色 */
+        border: none; /* 去除按鈕的邊框 */
+        border-radius: 5px; /* 設置圓角為5px */
+        cursor: pointer; /* 當滑鼠懸停時顯示為指標 */
+        font-size: 16px; /* 設置字體大小為16px */
+        margin-top: 10px; /* 設置按鈕與上方元素的間距為10px */
+    }
+
+    /* 送出按鈕的懸停效果 */
+    button#submit:hover {
+        background-color: #fec031;  /* 當滑鼠懸停時變成稍深的橘色 */
+    }
+
+    /* 取消按鈕的樣式 */
+    button#cancel {
+        padding: 10px 20px; /* 設置內邊距，10px上下，20px左右 */
+        background-color: #ccc; /* 設置背景顏色為灰色 */
+        color: white; /* 設置文字顏色為白色 */
+        border: none; /* 去除按鈕的邊框 */
+        border-radius: 5px; /* 設置圓角為5px */
+        cursor: pointer; /* 當滑鼠懸停時顯示為指標 */
+        font-size: 16px; /* 設置字體大小為16px */
+        margin-right: 10px; /* 設置右邊距為10px */
+    }
+
+    /* 取消按鈕的懸停效果 */
+    button#cancel:hover {
+        background-color: #b3b3b3; /* 當滑鼠懸停時，背景顏色變為較深的灰色 */
+    }
+</style>
 </head>
 <body>
 
-<form th:action="@{/storecarousel/insert}" method="post" th:object="${storeCarouselVO}" enctype="multipart/form-data">
-    <!-- 輪播資訊編號 (自動生成，隱藏) -->
-    <input type="hidden" th:field="*{id}" />
+<div align="center">
+  <section class="addStoreCarousel"> 
+    <h3><b>商城輪播資訊新增</b></h3>
+    <form th:action="@{insert}" method="post" th:object="${storeCarouselVO}" enctype="multipart/form-data">
+    <div>
+        <label>輪播資訊編號:</label>
+        <input type="text" th:field="*{id}" readonly/><br/>
+        <span th:if="${#fields.hasErrors('id')}" th:errors="*{id}" class="error"></span>
+    </div>
 
-    <!-- 櫃位編號 -->
-    <label for="counterNo">櫃位編號:</label>
-    <input type="number" th:field="*{counterNo}" required />
-    <br /><br />
+    <div>
+        <label>櫃位編號:</label>
+        <input type="text" th:field="*{counterNo}" /><br/>
+        <span th:if="${#fields.hasErrors('counterNo')}" th:errors="*{counterNo}" class="error"></span>
+    </div>
 
-    <!-- 平台優惠編號 -->
-    <label for="disNo">平台優惠編號:</label>
-    <input type="number" th:field="*{disNo}" required />
-    <br /><br />
+    <div>
+        <label>平台優惠編號:</label>
+        <input type="text" th:field="*{disNo}" /><br/>
+        <span th:if="${#fields.hasErrors('disNo')}" th:errors="*{disNo}" class="error"></span>
+    </div>
 
-    <!-- 輪播圖片 -->
-    <label for="upFiles">輪播圖片:</label>
-    <input type="file" th:field="*{upFile}" accept="image/*" required />
-    <br /><br />
+    <div>
+        <label>輪播時間:</label>
+        <input type="text" th:field="*{carouselTime}" /><br/>
+        <span th:if="${#fields.hasErrors('carouselTime')}" th:errors="*{carouselTime}" class="error"></span>
+    </div>
 
-    <!-- 輪播時間 (自動生成，隱藏) -->
-<!--     <input type="hidden" th:field="*{carouselTime}" /> -->
-    
-    <form action="/storecarousel/insert" method="post">
-    <input type="datetime-local" name="carouselTime" required value="${new java.text.SimpleDateFormat('yyyy-MM-dd\'T\'HH:mm').format(new java.util.Date())}">
-    <button type="submit">提交</button>
+    <div>
+        <label>輪播圖片:</label>
+        <input type="file" th:field="*{upFile}" /><br/>
+        <span th:if="${#fields.hasErrors('upFile')}" th:errors="*{upFile}" class="error"></span>
+    </div>
+
+    <div>
+        <button type="button" id="cancel" onclick="history.back();">取消</button>
+        <button type="submit" id="submit">送出</button>
+    </div>
 </form>
-    
 
-<!--     <button type="submit">提交</button> -->
-    <br /><br />
 
-    <!-- 返回列表 -->
-    <h5>
-        <a th:href="@{/storecarousel/all}">顯示所有輪播資訊</a>
-        <br><br />
-    </h5>
-
-    <!-- 返回首頁 -->
-    <h5>
-        <a th:href="@{/}">返回首頁</a>
-        <br><br />
-    </h5>
-</form>
+<script type="text/javascript">
+// 清除提示信息
+function hideContent(d) {
+    document.getElementById(d).style.display = "none";
+}
+</script>
 
 </body>
 </html>

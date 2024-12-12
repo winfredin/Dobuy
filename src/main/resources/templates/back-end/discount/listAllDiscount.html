@@ -1,109 +1,199 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>所有優惠資料 - listAllDiscount.html</title>
+    <!-- fragment引入 -->
+    <th:block th:replace="~{back-end/back-end-home/fraghead :: head}"></th:block>
 
-<head th:insert="~{/back-end/discount/included-fragment}"></head>
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>                                    <!-- ●●js  for jquery datatables 用 -->
-<script	src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>              <!-- ●●js  for jquery datatables 用 -->
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css" /> <!-- ●●css for jquery datatables 用 -->
+    <style>
+        body {
+            margin: 1rem 12rem 2rem 12rem;
+            background-color: #f8f9fa;
+        }
+        
+        /* 表格樣式 */
+        #example {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-collapse: separate;
+            border-spacing: 0;
+            overflow: hidden;
+        }
 
-<!-- ●● jquery datatables 設定 -->
-<script>
-	$(document).ready(function() {
-		$('#example').DataTable({
-			"lengthMenu": [5, 10, 20, 50, 100],
-			"searching": true,  //搜尋功能, 預設是開啟
-		    "paging": true,     //分頁功能, 預設是開啟
-		    "ordering": true,   //排序功能, 預設是開啟
-		    "language": {
-		        "processing": "處理中...",
-		        "loadingRecords": "載入中...",
-		        "lengthMenu": "顯示 _MENU_ 筆結果",
-		        "zeroRecords": "沒有符合的結果",
-		        "info": "顯示第 _START_ 至 _END_ 筆結果，共<font color=red> _TOTAL_ </font>筆",
-		        "infoEmpty": "顯示第 0 至 0 筆結果，共 0 筆",
-		        "infoFiltered": "(從 _MAX_ 筆結果中過濾)",
-		        "infoPostFix": "",
-		        "search": "搜尋:",
-		        "paginate": {
-		            "first": "第一頁",
-		            "previous": "上一頁",
-		            "next": "下一頁",
-		            "last": "最後一頁"
-		        },
-		        "aria": {
-		            "sortAscending":  ": 升冪排列",
-		            "sortDescending": ": 降冪排列"
-		        }
-		    }
-		});
-	});
-</script>
-<style type="text/css">
-body {
-	margin: 1rem 12rem 2rem 12rem;
-}
-</style>
+        #example thead th {
+            background: rgba(173, 129, 85, 0.95);
+            color: white;
+            padding: 15px;
+            font-weight: 500;
+            text-align: center;
+            border: none;
+        }
+
+        #example tbody td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid rgba(173, 129, 85, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        #example tbody tr:hover td {
+            background-color: rgba(173, 129, 85, 0.1);
+        }
+
+        /* 狀態標籤樣式 */
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background-color: #ffd700;
+            color: #000;
+        }
+
+        .status-active {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .status-expired {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        /* 按鈕樣式 */
+        .btn-edit {
+            background: rgba(173, 129, 85, 0.7);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-edit:hover {
+            background: rgba(173, 129, 85, 0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(173, 129, 85, 0.2);
+        }
+
+        /* 新增按鈕樣式 */
+        .add-btn {
+            display: inline-block;
+            background: rgba(173, 129, 85, 0.7);
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .add-btn:hover {
+            background: rgba(173, 129, 85, 0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(173, 129, 85, 0.2);
+            text-decoration: none;
+            color: white;
+        }
+
+        /* 移除列表樣式 */
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        /* DataTables 客製化樣式 */
+        .dataTables_wrapper .dataTables_length select {
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid rgba(173, 129, 85, 0.3);
+        }
+
+        .dataTables_wrapper .dataTables_filter input {
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: 1px solid rgba(173, 129, 85, 0.3);
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            background: rgba(173, 129, 85, 0.7);
+            color: white !important;
+            border: none;
+            border-radius: 5px;
+            margin: 0 2px;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background: rgba(173, 129, 85, 0.9) !important;
+            border: none;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+            background: rgba(173, 129, 85, 0.9) !important;
+            border: none;
+        }
+    </style>
 </head>
 <body>
+    <!-- fragment引入 -->
+    <header th:block th:replace="~{back-end/back-end-home/fraghead :: header}"></header>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
-		 <div align="center"> <h2>所有優惠資料 - listAllDiscount.html</h2>
-		 <h3><a class="navbar-brand" th:href="@{/discount/select_page}"><img th:src="@{/images/back1.gif}">回查詢頁<label th:text="${success}"></label></a></h3></div>
-</nav>
+    <table id="example" class="display">
+        <thead>
+            <tr>
+                <th>編號</th>
+                <th>優惠名稱</th>
+                <th>優惠內容</th>
+                <th>折扣比率</th>
+                <th>優惠狀態</th>
+                <th>使用敘述</th>
+                <th>建立時間</th>
+                <th>更新時間</th>
+                <th>起始日</th>
+                <th>到期日</th>
+                <th>操作</th>
+            </tr>
+        </thead>
 
-<table id="example" class="display" style="width: 100%">
-  <thead >
-	<tr style="background-color:#CCCCFF">
-		<th>計數</th>
-		<th>平台優惠編號</th>
-		<th>優惠名稱</th>
-		<th>優惠內容</th>
-		<th>折扣比率</th>
-		<th>優惠狀態</th>
-		<th>使用條件</th>
-		<th>建立時間</th>
-		<th>更新時間</th>
-		<th>起始日</th>
-		<th>到期日</th>
-		<th>修改</th>
-		<th>刪除</th>
-	</tr>
-  </thead>
-	
-  <tbody>
-		<th:block th:each="discountVO : ${discountListData}">
-			<tr>
-				<td th:text="${discountVOStat.count}"></td>
-				<td th:text="${discountVO.disNo}"></td>
-				<td th:text="${discountVO.disTitle}"></td>
-				<td th:text="${discountVO.disContext}"></td>
-				<td th:text="${discountVO.disRate}"></td>
-				<td th:text="${discountVO.disStatus == 0 ? '尚未開放' : (discountVO.disStatus == 1 ? '使用中' : '過期')}"></td>
-				<td th:text="${discountVO.descLimit}"></td>
-				<td th:text="${#dates.format(discountVO.createdAt, 'yyyy-MM-dd')}"></td>
-				<td th:text="${#dates.format(discountVO.updatedAt, 'yyyy-MM-dd')}"></td>
-				<td th:text="${#dates.format(discountVO.disStart, 'yyyy-MM-dd')}"></td>
-				<td th:text="${#dates.format(discountVO.disEnd, 'yyyy-MM-dd')}"></td>
+        <tbody>
+            <tr th:each="discountVO : ${discountListData}">
+                <td th:text="${discountVO.disNo}"></td>
+                <td th:text="${discountVO.disTitle}"></td>
+                <td th:text="${discountVO.disContext}"></td>
+                <td th:text="${#numbers.formatDecimal(discountVO.disRate * 100, 0, 0) + '%'}"></td>
+                <td>
+                    <span th:class="'status-badge ' + ${discountVO.disStatus == 0 ? 'status-pending' : (discountVO.disStatus == 1 ? 'status-active' : 'status-expired')}"
+                          th:text="${discountVO.disStatus == 0 ? '尚未開放' : (discountVO.disStatus == 1 ? '使用中' : '過期')}">
+                    </span>
+                </td>
+                <td th:text="${discountVO.descLimit}"></td>
+                <td th:text="${#dates.format(discountVO.createdAt, 'yyyy-MM-dd')}"></td>
+                <td th:text="${#dates.format(discountVO.updatedAt, 'yyyy-MM-dd')}"></td>
+                <td th:text="${#dates.format(discountVO.disStart, 'yyyy-MM-dd')}"></td>
+                <td th:text="${#dates.format(discountVO.disEnd, 'yyyy-MM-dd')}"></td>
+                <td>
+                    <form method="post" th:action="@{/discount/getOne_For_Update}" style="margin: 0;">
+                        <input type="hidden" name="disNo" th:value="${discountVO.disNo}">
+                        <button type="submit" class="btn-edit">修改</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
-				<td>
-				  <form method="post" th:action="@{/discount/getOne_For_Update}" style="margin-bottom: 0px;">
-				     <input type="submit" value="修改">
-				     <input type="hidden" name="disNo" th:value="${discountVO.disNo}"></form>			
-				</td>
-				<td>
-				  <form method="post" th:action="@{/discount/delete}" style="margin-bottom: 0px;">
-				     <input type="submit" value="刪除">
-				     <input type="hidden" name="disNo" th:value="${discountVO.disNo}"></form>
-				
-				</td>
-			</tr>
-		</th:block>
-  </tbody>
-</table>
+    <div style="text-align: center;">
+        <a th:href="@{/discount/addDiscount}" class="add-btn">新增優惠</a>
+    </div>
 
+    <!-- fragment引入 -->
+    <footer th:block th:replace="~{back-end/back-end-home/fraghead :: footer}"></footer>
+    <!-- fragment引入 -->
+    <th:block th:replace="~{back-end/back-end-home/fraghead :: js}"></th:block>
 </body>
 </html>

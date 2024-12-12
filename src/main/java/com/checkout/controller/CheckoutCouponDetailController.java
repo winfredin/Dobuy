@@ -54,6 +54,8 @@ public class CheckoutCouponDetailController {
     @Autowired
     private GoodsService goodsService;
     
+    
+//    ===============================結帳流程
     @PostMapping("/shoppingcartlist/checkout")
     @ResponseBody
     @Transactional
@@ -128,7 +130,7 @@ public class CheckoutCouponDetailController {
         }
         return null;
     }
-
+//    套用(修改)訂單與訂單明細金額 ===============折扣計算
     private void processOrderDiscount(CounterOrderVO order, MemCouponVO memCoupon) {
         try {
             CouponVO coupon = memCoupon.getCoupon();

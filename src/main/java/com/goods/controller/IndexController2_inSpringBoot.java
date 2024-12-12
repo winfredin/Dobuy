@@ -19,6 +19,7 @@ import com.counter.model.CounterService;
 import com.counter.model.CounterVO;
 import com.goods.model.GoodsService;
 import com.goods.model.GoodsVO;
+import com.msg.model.MsgService;
 
 //@PropertySource("classpath:application.properties") // 於https://start.spring.io建立Spring Boot專案時, application.properties文件預設已經放在我們的src/main/resources 目錄中，它會被自動檢測到
 @Controller
@@ -30,6 +31,8 @@ public class IndexController2_inSpringBoot {
 	GoodsService goodsSvc;
 	@Autowired
 	CounterService counterSvc;
+    @Autowired
+    MsgService msgSvc;
 
 	// inject(注入資料) via application.properties
 	@Value("${welcome.message}")
@@ -80,6 +83,7 @@ public class IndexController2_inSpringBoot {
 		 CounterVO counter = (CounterVO) session.getAttribute("counter");
 	        if (counter != null) {
 	        	 model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
+	        	 model.addAttribute("msgSvc", msgSvc);
 	        	return "vendor-end/goods/listAllCounterGoods";
 	        } else {
 	            return "redirect:/counter/login";

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -90,17 +90,22 @@
             
         </div>
 
-     <div class="bestsell_goods" id="goodsContainer">
-  <div class="goods" th:each="goodsVO : ${list}">
-      
-         <div class="image-container">
-            <img th:src="@{/goods/DBGifReader} + '?goodsNo=' + ${goodsVO.goodsNo}" alt="goods-image">
-         </div>
-         <div class="goods-name">
-            <label th:text="${goodsVO.goodsName}"></label>
-            
-         </div>
-      </div>
+ <div class="bestsell_goods" id="goodsContainer">
+	  <div class="goods" th:each="goodsVO : ${list}">
+	      <!-- 單個商品的表單 -->
+		<form th:action="@{/counter/getOneGoods}" method="get">
+		<!-- 隱藏字段，傳遞商品編號 -->
+			<input type="hidden" name="goodsNo" th:value="${goodsVO.goodsNo}" >
+			<button type="submit" class="product-button">	
+			         <div class="image-container">
+			            <img th:src="@{/goods/DBGifReader} + '?goodsNo=' + ${goodsVO.goodsNo}" alt="goods-image">
+			         </div>
+			         <div class="goods-name">
+			            <span th:text="${goodsVO.goodsName}"></span>
+			         </div>
+		     </button>    
+	    </form>
+	  </div>
    
 </div>
 
@@ -142,16 +147,45 @@
                     goodsContainer.innerHTML = '<p>沒有找到符合的商品</p>';
                 } else {
                     data.forEach(goods => {
-                        const goodsElement = document.createElement('div');
-                        goodsElement.className = 'goods';
-                        goodsElement.innerHTML = `
+                    	
+                    	 // 創建包含商品的外層 div
+                        const goodsDiv = document.createElement('div');
+                        goodsDiv.className = 'goods';
+
+                    	
+                    	// 創建 form 元素
+                        const formElement = document.createElement('form');
+                        formElement.action = '/counter/getOneGoods';
+                        formElement.method = 'get';
+                        
+                     // 隱藏字段，傳遞商品編號
+                        const hiddenInput = document.createElement('input');
+                        hiddenInput.type = 'hidden';
+                        hiddenInput.name = 'goodsNo';
+                        hiddenInput.value = goods.goodsNo;
+                     // 創建按鈕
+                        const buttonElement = document.createElement('button');
+                        buttonElement.type = 'submit';
+                        buttonElement.className = 'product-button';
+                        
+                     // 添加商品內容到按鈕內
+                        buttonElement.innerHTML = `
                             <div class="image-container">
                                 <img src="/goods/DBGifReader?goodsNo=${goods.goodsNo}" alt="goods-image">
                             </div>
                             <div class="goods-name">
                                 <label>${goods.goodsName}</label>
                             </div>`;
-                        goodsContainer.appendChild(goodsElement);
+
+                        // 將隱藏字段和按鈕加入表單
+                        formElement.appendChild(hiddenInput);
+                        formElement.appendChild(buttonElement);
+						
+                        // 將表單加入商品的外層 div
+                        goodsDiv.appendChild(formElement);
+                        
+                        // 將表單加入到 goodsContainer 中
+                        goodsContainer.appendChild(goodsDiv);
                     });
                 }
             })

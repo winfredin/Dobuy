@@ -51,26 +51,29 @@
 
 /* 表格本體樣式，添加透明感 */
 table#example {
-	width: 100%;
-	border-collapse: collapse;
-	background-color: rgba(255, 248, 240, 0.9); /* 淺橘色帶透明度 */
-	font-family: Arial, sans-serif;
-	color: #333;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加陰影效果 */
-	border-radius: 10px; /* 圓角邊框 */
-	overflow: hidden; /* 避免圓角被內容影響 */
+    width: 100%;
+    border-collapse: collapse;
+    background-color: rgba(255, 248, 240, 0.9);
+    font-family: Arial, sans-serif;
+    color: #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
 }
 
-/* 表頭樣式，添加透明感與漸變背景 */
 table#example thead tr {
-	background: linear-gradient(to right, #FFDEAD, #FFA07A); /* 淺棕至橘色漸變 */
-	color: #fff; /* 白色文字 */
-	text-align: center;
-	font-weight: bold;
-	text-transform: uppercase; /* 大寫字母 */
-	height: 50px;
-	font-size: 16px;
-	letter-spacing: 1px;
+    background: linear-gradient(to right, 
+        rgba(173, 129, 85, 0.95),  /* 起始色：深棕色 */
+        rgba(128, 95, 63, 0.95)    /* 結束色：更深的棕色 */
+    );
+    color: #fff;
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    height: 50px;
+    font-size: 16px;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* 添加文字陰影增加可讀性 */
 }
 
 /* 表格列樣式 */
@@ -80,19 +83,18 @@ table#example tbody tr {
 	height: 45px;
 }
 
-/* 偶數行和奇數行添加透明感背景 */
 table#example tbody tr:nth-child(even) {
-	background-color: rgba(255, 255, 255, 0.6); /* 偶數行背景 */
+    background-color: rgba(255, 255, 255, 0.7);
 }
 
 table#example tbody tr:nth-child(odd) {
-	background-color: rgba(255, 239, 213, 0.5); /* 奇數行背景 */
+    background-color: rgba(245, 245, 245, 0.7);
 }
 
-/* 滑過效果，帶有透明變化 */
+/* 調整hover效果 */
 table#example tbody tr:hover {
-	background-color: rgba(255, 218, 185, 0.8); /* 橘色帶透明感 */
-	transition: background-color 0.3s ease;
+    background-color: rgba(173, 129, 85, 0.2);
+    transition: background-color 0.3s ease;
 }
 
 /* 表格按鈕樣式 */

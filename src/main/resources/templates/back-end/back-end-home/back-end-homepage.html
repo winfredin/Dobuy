@@ -190,13 +190,12 @@ button:hover {
 <div class="admin-controls">
 <div class="admin-name">
     <i class="fas fa-user-circle"></i>
-    <span th:text="${session.managerAccount != null ? session.managerAccount : '管理員'}">管理員</span>
+<span th:text="${session.managerName != null ? session.managerName : '管理員'}">管理員</span>
 </div>
     
     <form th:action="@{/logout}" method="get" style="margin: 0;">
         <button type="submit" class="logout-btn">
             <i class="fas fa-sign-out-alt"></i>
-            登出
         </button>
     </form>
 </div>
@@ -266,8 +265,10 @@ button:hover {
                                         </ul>
                                     </li>
                                     
-                                    <li><a th:href="@{/back-end/counter}">櫃位管理專區</a>
-                                    </li>
+									<li><a href="#">櫃位系統</a>
+										<ul class="dropdown">
+											<li><a th:href="@{/back-end/counter}">櫃位管理專區</a></li>
+										</ul></li>
                                     
                                     <li><a href="#">商城系統</a>
                                         <ul class="dropdown">
@@ -288,21 +289,18 @@ button:hover {
                                           <li>
    										 <a th:href="@{'/manager/manager?managerNo=' + ${session.managerNo}}">管理員資料管理</a>
 										</li>
-
                                         </ul>
                                     </li>
 
                                     <li><a href="#">優惠管理</a>
                                         <ul class="dropdown">
-                                            <li><a href="#">平台優惠活動管理</a></li>
+                                            <li><a th:href="@{/discount/listAllDiscount}">平台優惠活動管理</a></li>
                                             <li><a th:href="@{/coupon/approve}">廠商優惠券管理</a></li>
-                                            <li><a href="#">優惠訊息通知</a></li>
                                         </ul>
                                     </li>
 
                                     <li><a href="#">客服系統</a>
                                         <ul class="dropdown">
-                                            <li><a href="#">FAQ專案管理</a></li>
                                             <li><a href="#">客服訊息回覆</a></li>
                                         </ul>
                                     </li>
@@ -530,7 +528,7 @@ button:hover {
             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             Copyright &copy;
             <script>document.write(new Date().getFullYear());</script>
-             All rights reserved | <i class="fa-regular fa-heart fa-bounce"></i> by <a href="#" target="_blank">DOBUY</a>
+             All rights reserved | <i class="fa-regular fa-heart fa-bounce"></i> by <a th:href="@{/back-end-homepage}" target="_blank">DOBUY</a>
 
         </footer>
         <!-- ##### Footer Area End ##### -->

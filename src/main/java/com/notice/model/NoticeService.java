@@ -34,7 +34,7 @@ public class NoticeService {
     }
     
   //抓會員通知
-    public List<NoticeVO> getOneMemberNotice(Integer memNo) {
+    public List<NoticeVO> getOneMemberNotice(Integer memNo) {// 取得指定會員的通知
         return repository.findByMemNo(memNo); // 如果不存在，返回 null
     }
     
@@ -48,7 +48,10 @@ public class NoticeService {
 
 
 
-
+    public void deleteAllByMemNo(Integer memNo) { // 刪除指定會員的所有通知
+	}            
+    public void markAllAsReadByMemNo(Integer memNo) {// 標記指定會員的所有通知為已讀
+	}         
 
 
     

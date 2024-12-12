@@ -67,6 +67,7 @@ public class GoodsController {
             return "redirect:/counter/login";
         }else {
         	model.addAttribute("counter", counterSvc.getOneCounter(loginCounter.getCounterNo()));
+        	model.addAttribute("msgSvc", msgSvc);
         }
 
         // 預設將櫃位資訊設定到 goodsVO 中
@@ -216,7 +217,7 @@ public class GoodsController {
         List<GoodsVO> list = goodsSvc.getAll();
         model.addAttribute("goodsListData", list);
         model.addAttribute("success", "- (新增成功)");
-        return "redirect:/counter/Counterindex";  // 新增成功後導至櫃位首頁
+        return "redirect:/goods/listAllCounterGoods";  // 新增成功後導至櫃位首頁
     }
 
 	/*
@@ -228,6 +229,7 @@ public class GoodsController {
         //任國櫃位
     	CounterVO counter = (CounterVO) session.getAttribute("counter");
     	model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
+    	model.addAttribute("msgSvc", msgSvc);
     	//任國櫃位
 		/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
 		/*************************** 2.開始查詢資料 *****************************************/

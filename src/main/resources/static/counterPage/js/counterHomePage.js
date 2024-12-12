@@ -157,24 +157,62 @@ document.addEventListener("DOMContentLoaded", function() {
 
 /* ===============輪播圖============= */
 
-/* ===============商品搜尋============= */
 
-//document.getElementById('searchButton').addEventListener('click', function () {
-//    // 获取搜索框中的值
-//    const searchValue = document.getElementById('searchInput').value.trim().toLowerCase();
-//
-//    // 获取所有商品的元素
-//    const items = document.querySelectorAll('.product-item');
-//
-//    // 遍历所有商品，显示或隐藏基于搜索结果的商品
-//    items.forEach(item => {
-//        const itemName = item.getAttribute('data-name').toLowerCase();
-//        if (itemName.includes(searchValue)) {
-//            item.style.display = 'block'; // 显示匹配的商品
-//        } else {
-//            item.style.display = 'none'; // 隐藏不匹配的商品
-//        }
-//    });
-//});
+/* ===============商品收藏愛心============= */
+function toggleHeart(element) {
+	
+	
+    // 切换爱心颜色
+	const memAccount = element.getAttribute('data-memAccount');
+	if (!memAccount) { // 判斷 null, undefined, 空字串
+	       alert("請先登入");
+	       return;
+	   }
+    element.classList.toggle('heart-active');
+	const goodsNo = element.getAttribute('data-goodsNo');
+    // 判断当前爱心状态
+    const isActive = element.classList.contains('heart-active');
+    const apiUrl = isActive ? '/goodsTrack/add' : '/goodsTrack/remove'; // 根據狀態选择API
 
-/* ===============商品搜尋============= */
+    // 调用后端 API
+    fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ goodsNo: goodsNo }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success === 'true') {
+            } else {
+                // 如果失败，可以回滚状态
+                element.classList.toggle('heart-active');
+            }
+        })
+        .catch(error => {
+            console.error('请求出错:', error);
+            // 如果请求失败，可以回滚状态
+            element.classList.toggle('heart-active');
+        });
+}
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+	
+	// 使用全局變量 window.favoriteGoodsSet
+//	   console.log(window.favoriteGoodsSet); // 確保全局變量正確加載
+       // 遍历所有的爱心图标
+       document.querySelectorAll('.heart-icon-container .fas.fa-heart').forEach(icon => {
+           const goodsNo = icon.getAttribute('data-goodsNo'); // 获取商品编号
+           if (favoriteGoodsSet.includes(goodsNo)) {
+               // 如果该商品编号在 favoriteGoodsSet 中，将爱心标记为选中
+               icon.classList.add('heart-active');
+           }
+       });
+   });
+/* ===============商品收藏愛心============= */
+
+
+

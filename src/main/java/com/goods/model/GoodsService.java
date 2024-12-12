@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import javax.validation.constraints.NotNull;
+import javax.persistence.EntityManager;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +16,14 @@ import com.goods.controller.HibernateUtil_CompositeQuery_Goods;
 
 @Service("goodsService")
 public class GoodsService {
-
+	
+	
     @Autowired
     GoodsRepository repository;
 
     @Autowired
     private SessionFactory sessionFactory;
+
 
 //	新增商品
     public void addGoods(GoodsVO goodsVO) {
@@ -128,10 +130,21 @@ public class GoodsService {
     	 return photoList;
 
     }
+    
     @Transactional
     public void updateGoodsAmount(Integer goodsNo,Integer goodsAmount) {
-        repository.upGoodsAmount(goodsNo,goodsAmount);
+    	 Optional<GoodsVO> optional = repository.findById(goodsNo);
+//
+//         // 如果商品存在，更新商品狀態
+         if (optional.isPresent()) {
+             GoodsVO goodsVO = optional.get();
+             goodsVO.setGoodsAmount(goodsAmount); // 設定新的商品狀態
+
+             repository.save(goodsVO); // 儲存更新後的商品資料
+         }
+    	
     }
+
     
     
     
