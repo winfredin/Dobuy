@@ -14,6 +14,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.counterorderdetail.model.CounterOrderDetailVO;
+import com.goods.model.GoodsRepository;
 import com.goods.model.GoodsService;
 import com.goods.model.GoodsVO;
 import com.memcoupon.model.MemCouponVO;
@@ -29,8 +30,8 @@ public class CounterOrderService {
 	
 	@Autowired
     private SessionFactory sessionFactory;
-	
-	
+	@Autowired
+	GoodsRepository goodsreporistory;
 	@Autowired
     private GoodsService goodsService;
 
@@ -143,7 +144,7 @@ public class CounterOrderService {
         }
     
 
-
+    @Transactional
     public void restore() {
     	 System.out.println("Running scheduled task...");
 
@@ -163,11 +164,13 @@ public class CounterOrderService {
                      // 恢復商品庫存
                      GoodsVO goods = goodsService.getOneGoods(goodsNo);
                      if (goods != null) {
-                         Integer updatedAmount = goods.getGoodsAmount() + reservedGoodsAmount;
+                    	 Integer currentAmount = goods.getGoodsAmount() != null ? goods.getGoodsAmount() : 0;
+                         Integer updatedAmount = currentAmount + reservedGoodsAmount;
                          System.out.println("Updating goods ID: " + goodsNo + " from amount: " 
                                              + goods.getGoodsAmount() + " to: " + updatedAmount);
-                         goods.setGoodsAmount(updatedAmount);
-                         goodsService.updateGoodsAmount(goods);
+//                         goods.setGoodsAmount(updatedAmount);
+//                         goodsreporistory.save(goods);
+                        goodsreporistory.upGoodsAmount(updatedAmount, goodsNo);
                          
                      } else {
                          System.out.println("Goods not found with ID: " + goodsNo);
