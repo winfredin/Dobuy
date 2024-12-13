@@ -701,5 +701,213 @@ body {
     color: gold; /* 亮的星星 */
 }
 
+/*============追蹤商品=============*/
+
+/* 通用样式 */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: url('/counterPage/img/core-img/sand.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+
+/* Logo样式 */
+.logo {
+    display: block;
+    margin: 30px auto;
+    width: 200px; /* 调整大小 */
+    height: auto;
+}
+
+/* 容器样式 */
+.container {
+    width: 50%;
+    margin: 50px auto;
+    padding: 20px 40px;
+    background: rgba(255, 255, 255, 0.9); /* 半透明背景 */
+    border-radius: 15px; /* 圆角 */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* 阴影效果 */
+    text-align: center; /* 文字居中 */
+    display: flex;
+    flex-direction: column; /* 垂直排列 */
+    align-items: center; /* 子元素水平居中 */
+    justify-content: center; /* 子元素垂直居中 */
+}
+
+/* 欄位名稱样式 */
+.product-row:first-child {
+    font-weight: bold;
+    border-bottom: 2px solid #ccc; /* 底部边框 */
+    padding: 10px 0;
+}
+
+/* 單個商品行樣式 */
+.product-row {
+    display: flex; /* 使用 flex 排版 */
+    width: 100%; /* 宽度占满父容器 */
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* 淡边框 */
+    align-items: center; /* 垂直居中 */
+    justify-content: space-between; /* 子元素左右分布 */
+    margin-right: 20px;
+}
+
+.product-row:last-child {
+    border-bottom: none; /* 最后一行不需要边框 */
+}
+
+/* 商品链接样式 */
+
+.product-form {
+    width: 100%; /* 确保 form 占满父级宽度 */
+    margin: 0; /* 去除默认 margin */
+    padding: 0; /* 去除默认 padding */
+}
+.product-link {
+    display: flex; /* 使用 flex 排版 */
+    width: 100%; /* 链接宽度占满父容器 */
+    height: 100%; /* 链接高度占满父容器 */
+    text-decoration: none; /* 去掉下划线 */
+    color: inherit; /* 保持文字颜色与父级一致 */
+    background: none; /* 移除背景 */
+    border: none; /* 移除边框 */
+    padding: 0; /* 移除 padding */
+    cursor: pointer;
+    justify-content: flex-start; /* 内容靠左对齐 */
+    align-items: center; /* 垂直居中 */
+}
+
+.product-link:hover {
+    background-color: rgba(0, 0, 0, 0.05); /* 增加 hover 效果 */
+    cursor: pointer;
+
+}
+
+/* 商品圖片样式 */
+.product-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.product-image img {
+    max-width: 100px; /* 图片最大宽度 */
+    max-height: 100px; /* 图片最大高度 */
+    object-fit: contain; /* 确保图片保持比例 */
+    margin-left: 30%;
+    display: block;
+}
+
+/* 商品名稱样式 */
+.product-name {
+    flex: 3; /* 名称部分占较大空间 */
+    padding-left: 15%;
+    display: flex;
+    align-items: center;
+    text-align: left;
+    font-size: 1.2rem;
+    margin-right:8%;
+    word-wrap: break-word; /* 强制在单词中断行 */
+    white-space: normal; /* 允许换行 */
+}
+
+/* 商品價格样式 */
+.product-price {
+    flex: 1; /* 价格部分占较小空间 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    margin-left: 8%;
+}
+
+
+.t35-1 {
+	flex: 1; /* 保持弹性布局 */
+    margin-left: auto; /* 自动填充左侧空间 */
+    margin-right: auto; /* 自动填充右侧空间 */
+    text-align: center; /* 居中文本内容 */
+
+}
+
+.t35-2 {
+	flex: 1; /* 保持弹性布局 */
+    margin-left: auto; /* 自动填充左侧空间 */
+    margin-right: auto; /* 自动填充右侧空间 */
+    text-align: center; /* 居中文本内容 */
+}
+
+.t35-3 {
+	flex: 1; /* 保持弹性布局 */
+    margin-left: auto; /* 自动填充左侧空间 */
+    margin-right: auto; /* 自动填充右侧空间 */
+    text-align: center; /* 居中文本内容 */
+    padding-right:5%;
+}
+
+.trash{
+	margin-right: 35px;
+}
+
+/* 整个下拉容器 */
+.dropdown {
+    position: relative; /* 确保下拉内容相对于容器定位 */
+    display: inline-block;
+    
+}
+
+/* 下拉按钮样式 */
+.dropdown-btn {
+    display: inline-block;
+    color: white; /* 按钮文字颜色 */
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+
+/* 下拉内容容器 */
+.dropdown-content {
+    display: none; /* 初始隐藏 */
+    position: absolute;
+    top: 100%; /* 按钮下方开始 */
+    background-color: rgba(180, 168, 168, 0.9);
+    min-width: 200px; /* 设置下拉菜单的最小宽度 */
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); /* 添加阴影 */
+    border-radius: 5px; /* 圆角 */
+    z-index: 9999; /* 提升层级 */
+    left: -50px; /* 调整为负值向左移动 */
+    
+
+}
+
+/* 下拉选项样式 */
+.dropdown-content a {
+    color: black;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1; /* 鼠标悬停时背景色 */
+}
+
+/* 显示下拉菜单 */
+.dropdown:hover .dropdown-content {
+    display: block; /* 鼠标悬停时显示内容 */
+}
+
+header .dropdown {
+    height: auto; /* 重置为自动高度 */
+}
+
 
 

@@ -81,5 +81,22 @@ public class GoodsTrackController {
 		model.addAttribute("goodsLightVO", goodsLightVO);
 		return "front-end/member/myFavorite";
 	}
-
+	
+	@GetMapping("/getFavoritesfragment")
+	public String getMyFavoriteListfragment(HttpSession session, Model model) {
+		String memNo = (String) session.getAttribute("memNo"); // 从 session 获取用户 ID
+		String myListKey = "myList:" + memNo; // 组合成 key
+		
+		// 从 Redis 中获取集合
+		Set<String> goodsSet = redisTemplate.opsForSet().members(myListKey);
+		List<GoodsLightVO> goodsLightVO = new ArrayList<GoodsLightVO>();
+		for (String goodsNo : goodsSet) {
+			goodsLightVO.add(new GoodsLightVO(goodsSvc.getOneGoods(Integer.parseInt(goodsNo))));
+		}
+		
+		model.addAttribute("goodsLightVO", goodsLightVO);
+		return "front-end/member/myFavorite :: myFavoriteFragment";
+	}
+	
+	
 }

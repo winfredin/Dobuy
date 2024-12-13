@@ -195,7 +195,65 @@ input[type="number"]::-webkit-inner-spin-button {
 input[type="number"] {
     -moz-appearance: textfield; /* Firefox */
 }
+/* 整个下拉容器 */
+.dropdown {
+    position: relative; /* 确保下拉内容相对于容器定位 */
+    display: inline-block;
+    
+}
 
+/* 下拉按钮样式 */
+.dropdown-btn {
+    display: inline-block;
+    color: white; /* 按钮文字颜色 */
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+
+/* 下拉内容容器 */
+.dropdown-content {
+    display: none; /* 初始隐藏 */
+    position: absolute;
+    top: 100%; /* 按钮下方开始 */
+    background-color: rgba(180, 168, 168, 0.9);
+    min-width: 200px; /* 设置下拉菜单的最小宽度 */
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); /* 添加阴影 */
+    border-radius: 5px; /* 圆角 */
+    z-index: 9999; /* 提升层级 */
+    left: -50px; /* 调整为负值向左移动 */
+    
+}
+
+
+/* 下拉选项样式 */
+.dropdown-content a {
+    color: black;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1; /* 鼠标悬停时背景色 */
+}
+
+/* 显示下拉菜单 */
+.dropdown:hover .dropdown-content {
+    display: block; /* 鼠标悬停时显示内容 */
+}
+
+header .dropdown {
+    height: auto; /* 重置为自动高度 */
+}
+
+        
 </style>
 
 
@@ -222,7 +280,15 @@ input[type="number"] {
                         <a href="/home">Home</a>
                         <a href="/goodspage">一般商城</a>
                         <a href="/usedgoodspage">二手商城</a>
-                        <a href="#contact">品牌</a>
+                        <div class="dropdown">
+						    <a href="#" class="dropdown-btn">櫃位專區</a>
+						    <div class="dropdown-content">
+						        <a th:each="counterVO : ${counterVOList}"
+						           th:href="@{/counter/getOneCounter_For_Display(counterNo=${counterVO.counterNo})}"
+						           th:text="${counterVO.counterCName}">
+						        </a>
+						    </div>
+						</div>
                     </div>
 
                 </div>
