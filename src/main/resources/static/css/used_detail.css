@@ -122,11 +122,18 @@ div.icon_area{
 }
 div.icons a.icons{
     display: flex; /* 調整圖標之間的間距 */
-    margin-left: 0%; /*將 icons 區塊推到右側*/
+    margin-left: 3%; /*將 icons 區塊推到右側*/
     margin-right: 0%;
     align-items: center;
 }
-
+div.icons a.icons.login-only {
+    margin-left: 130%; /* 自動推到右側 */
+    margin-right: 0; /* 靠近右側邊框 */
+    display: flex; /* 確保水平對齊 */
+    justify-content: flex-end; /* 圖標靠右 */
+    align-items: center; /* 垂直置中 */
+    width: 100%; /* 撐滿父級容器寬度 */
+}
 div a[class="coupon"]{
     /* border: 1px solid purple; */
    display: flex;           /* 使用 flex 排版 */
@@ -154,7 +161,7 @@ div.goods_body{
     width: 95%;
     height: 60%;
     display: flex;
-    margin-left: 2%;
+    margin-left: 10%;
     margin-right: 3%;
     box-sizing: border-box;
     position: relative;
@@ -225,7 +232,7 @@ img[alt="star"]{
 
 
 footer {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     width: 100%;
     height: 3%;

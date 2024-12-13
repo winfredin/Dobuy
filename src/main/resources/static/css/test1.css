@@ -9,13 +9,20 @@
     background-image: url("/images/ruben-bagues-vPQfc4niDh0-unsplash.jpg");
 } */
 body {
+<<<<<<< Upstream, based on branch 'master' of https://github.com/he01314905/Dobuy.git
+    width: 100%;
+    min-height: 100vh; /* 確保初始頁面覆蓋瀏覽器高度 */
+    height: auto; /* 讓高度自動隨內容延伸 */
+=======
     width: 100%; /* 使用100%讓body全螢幕 */
-    height: 0; /* 設定高度為整個螢幕高度 */
+    height: 100%; /* 設定高度為整個螢幕高度 */
+>>>>>>> f34a9d9 櫃位+首頁輪播圖板面更新
     background-image: url("/images/ruben-bagues-vPQfc4niDh0-unsplash.jpg");
-    background-size: cover; /* 背景圖片會完全覆蓋，並保持比例 */
-    background-repeat: no-repeat; 
-    background-position: center center; /* 讓圖片置中 */
-    min-height: 100vh; /* 保證最小高度為瀏覽器視窗的高度 */
+    background-size: cover; /* 背景圖完全覆蓋並保持比例 */
+    background-position: center center; /* 圖片置中 */
+    background-repeat: no-repeat; /* 防止圖片重複 */
+    background-attachment: fixed; /* 背景固定，不隨滾動 */
+    display: flex; /* 若需要，可用於排版 */
     flex-direction: column;
 }
 /*=========================================HEADER======================================*/
@@ -124,11 +131,18 @@ div.icon_area{
 }
 div.icons a.icons{
     display: flex; /* 調整圖標之間的間距 */
-    margin-left: 0%; /*將 icons 區塊推到右側*/
+    margin-left: 3%; /*將 icons 區塊推到右側*/
     margin-right: 0%;
     align-items: center;
 }
-
+div.icons a.icons.login-only {
+    margin-left: 100%; /* 自動推到右側 */
+    margin-right: 0; /* 靠近右側邊框 */
+    display: flex; /* 確保水平對齊 */
+    justify-content: flex-end; /* 圖標靠右 */
+    align-items: center; /* 垂直置中 */
+    width: 100%; /* 撐滿父級容器寬度 */
+}
 div a[class="coupon"]{
     /* border: 1px solid purple; */
    display: flex;           /* 使用 flex 排版 */
@@ -138,27 +152,45 @@ div a[class="coupon"]{
    margin-left: 20%;
    
 }
-div.slider{
-    width: 95%;
-    height: auto;
-    flex-shrink: 0;
-    border-radius: 2px;
-    margin-left: 30px;
+
+div.slider {
+    width: 1000px;                 /* 設定輪播寬度為 95% */
+    height: 300px;              /* 固定高度，您可以根據需求調整 */
+    overflow: hidden;           /* 隱藏超出部分 */
+    border-radius: 10px;        /* 圓角效果 */
+    margin-left: 190px;          /* 左邊距離 */
+    display: flex;              /* 使用彈性佈局 */
+    justify-content: center;    /* 水平居中 */
+    align-items: center;        /* 垂直居中 */
+    margin-top: -10px;
 }
-div.slider img{
-    width: 100%;
-    /* border: 1px solid black; */
-    height: auto;
+
+div.slider img {
+    width: 800px;                 /* 圖片寬度設為 100%，自動適應容器 */
+    height: 300px;                /* 圖片高度設為 100%，保持容器的高度 */
+    object-fit: contain;         /* 保持圖片比例，並且完整呈現，圖片不會被裁切 */
+    object-position: 50% -100;     /* 圖片在容器內居中 */
+    border-radius: 20px;         /* 圓角效果 */
+    background-color: rgba(224, 224, 224, 0.5);;
+    align-items: flex-start;   /* 如果圖片未完全佔滿，背景顏色會補充 */
 }
 
 div.goods_body{
-    /* border: 1px solid black; */
+    /* border: 1px solid black; */	
     width: 95%;
-    height: 50%;
+    height: 50%;	
     display: flex;
     margin-left: 2%;
     margin-right: 3%;
     box-sizing: border-box;
+}
+
+.slick-slide {
+    margin: 0;                   /* 移除圖片間的間距 */
+}
+
+.slick-track {
+    display: flex;               /* 使用彈性布局以確保圖片可以平鋪 */
 }
 
 div.goods_body div.goods_list{ 
@@ -260,3 +292,64 @@ footer {
         .suggestion:hover {
             background-color: #f0f0f0;
         }
+        
+        
+ /* 整个下拉容器 */
+.dropdown {
+    position: relative; /* 确保下拉内容相对于容器定位 */
+    display: inline-block;
+    
+}
+
+/* 下拉按钮样式 */
+.dropdown-btn {
+    display: inline-block;
+    color: white; /* 按钮文字颜色 */
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+
+/* 下拉内容容器 */
+.dropdown-content {
+    display: none; /* 初始隐藏 */
+    position: absolute;
+    top: 100%; /* 按钮下方开始 */
+    background-color: rgba(180, 168, 168, 0.9);
+    min-width: 200px; /* 设置下拉菜单的最小宽度 */
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); /* 添加阴影 */
+    border-radius: 5px; /* 圆角 */
+    z-index: 9999; /* 提升层级 */
+    left: -50px; /* 调整为负值向左移动 */
+    
+
+}
+
+/* 下拉选项样式 */
+.dropdown-content a {
+    color: black;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1; /* 鼠标悬停时背景色 */
+}
+
+/* 显示下拉菜单 */
+.dropdown:hover .dropdown-content {
+    display: block; /* 鼠标悬停时显示内容 */
+}
+
+header .dropdown {
+    height: auto; /* 重置为自动高度 */
+}
+
+        

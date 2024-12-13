@@ -928,4 +928,8 @@ public class AioCheckOutALL {
 				+ InstallmentAmount + ", PeriodAmount=" + PeriodAmount + ", PeriodType=" + PeriodType + ", Frequency="
 				+ Frequency + ", ExecTimes=" + ExecTimes + ", PeriodReturnURL=" + PeriodReturnURL + "]";
 	}
+	public String getRedirectHtml() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

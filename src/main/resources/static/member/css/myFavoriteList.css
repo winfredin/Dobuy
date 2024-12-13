@@ -110,3 +110,16 @@ body {
     align-items: center;
     font-size: 1.2rem;
 }
+
+.t35-1 {
+	flex: 1;
+}
+
+.t35-2 {
+	flex: 3;
+}
+
+.t35-3 {
+	flex: 1;
+	margin-right:45px;
+}

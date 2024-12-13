@@ -46,7 +46,15 @@
                         <a href="home">Home</a>
                         <a href="goodspage">一般商城</a>
                         <a href="usedgoodspage">二手商城</a>
-                        <a href="#contact">品牌</a>
+                        <div class="dropdown">
+						    <a href="#" class="dropdown-btn">櫃位專區</a>
+						    <div class="dropdown-content">
+						        <a th:each="counterVO : ${counterVOList}"
+						           th:href="@{/counter/getOneCounter_For_Display(counterNo=${counterVO.counterNo})}"
+						           th:text="${counterVO.counterCName}">
+						        </a>
+						    </div>
+						</div>
                     </div>
                 </div>
             </div>
@@ -54,10 +62,31 @@
             <div class="icon_area">    
                 <div class="icons">
                     
-                    <a class="icons" href="member"><img src="images/會員中心.png" alt="User"></a>
-                    <a class="icons" href="/mem/login"><img src="images/log-in.png" alt="Login"></a>
-                    <a class="icons" href="#"><img src="images/聊天室(FAQ 客服).png" alt="Chat"></a>
-                    <a class="icons" href="#"><img src="images/購物車.png" alt="Cart"></a>
+                    <div>
+   
+    <div class="icons">
+    <!-- 當 session.memNo 為 null，添加 login-only 類 -->
+    <a class="icons login-only" href="/mem/login" th:if="${session.memNo == null}">
+        <img src="images/login.png" alt="Login">
+    </a>
+
+    <!-- 當 session.memNo 不為 null，顯示其他按鈕 -->
+    <a class="icons" href="member" th:if="${session.memNo != null}">
+        <img src="images/會員中心.png" alt="User">
+    </a>
+    <a class="icons" href="/mem/logout" th:if="${session.memNo != null}">
+        <img src="images/log-out.png" alt="Logout">
+    </a>
+    <a class="icons" href="/shoppingcartlist/listAllShoppingCartList" th:if="${session.memNo != null}">
+        <img src="images/購物車.png" alt="Cart">
+    </a>
+    <a class="icons" href="#" th:if="${session.memNo != null}">
+        <img src="images/report.png" alt="Report">
+    </a>
+</div>
+
+</div>
+
                     
                 </div>
                 
@@ -113,7 +142,6 @@
                 </div>
                 <div class="notice title">通知總覽</div>
                 <div class="coupon title">我的優惠券</div>
-                <div class="store title">櫃位收藏</div>
                 <div class="goodsfollow title">追蹤商品</div>
 
             </div>
@@ -190,43 +218,35 @@
           <th>一鍵轉售</th>
         </tr>
       </thead>
-      <tbody>
-        <!-- 使用訂單明細跑 foreach -->
-        <tr th:each="counterOrderDetailVO : ${order.counterOrderDatailVO}">
-          <td th:text="${counterOrderDetailVO.goodsNo}"></td>
-          <td 
-          th:each="goodsVO : ${goodsNamelist}" 
-          th:if="${goodsVO.goodsNo == counterOrderDetailVO.goodsNo}" 
-          th:text="${goodsVO.goodsName}">
-    
-          </td>
-          <td th:text="${counterOrderDetailVO.goodsNum}"></td>
-          <td th:text="${counterOrderDetailVO.productPrice}"></td>
-          <td th:text="${counterOrderDetailVO.productDisPrice}"></td>
-          
-		 <td>
-		        <span th:each="coupon : ${couponList}" 
-		              th:if="${coupon.couponNo == counterOrderDetailVO.memCouponNo}" 
-		              th:text="${coupon.couponTitle}">
-		        </span>
-				<span th:if="${counterOrderDetailVO.memCouponNo == null}">
-				    沒有使用
-				</span>
-
-		</td>
-
-
-
-
-
-          <td>
-            <form method="post" th:action="@{/used/oneButtontoSellUsed}">
-            <input type="submit" value="轉售"/>
-              <input type="hidden" name="goodsNo" th:value="${counterOrderDetailVO.goodsNo}" />
-            </form>
-          </td>
-        </tr>
-      </tbody>
+<tbody>
+  <tr th:each="counterOrderDetailVO : ${order.counterOrderDatailVO}">
+    <td th:text="${counterOrderDetailVO.goodsNo}"></td>
+    <!-- 簡化商品名稱顯示邏輯 -->
+    <td>
+      <span th:each="goods : ${goodsNamelist}" 
+            th:if="${goods.goodsNo == counterOrderDetailVO.goodsNo}" 
+            th:text="${goods.goodsName}">
+      </span>
+    </td>
+    <td th:text="${counterOrderDetailVO.goodsNum}"></td>
+    <td th:text="${counterOrderDetailVO.productPrice}"></td>
+    <td th:text="${counterOrderDetailVO.productDisPrice}"></td>
+    <td>
+      <!-- 優惠券顯示也使用相同模式 -->
+      <span th:if="${counterOrderDetailVO.memCouponNo == null}">沒有使用</span>
+      <span th:each="coupon : ${couponList}" 
+            th:if="${coupon.couponNo == counterOrderDetailVO.memCouponNo}" 
+            th:text="${coupon.couponTitle}">
+      </span>
+    </td>
+    <td>
+      <form method="post" th:action="@{/used/oneButtontoSellUsed}">
+        <input type="submit" value="轉售"/>
+        <input type="hidden" name="goodsNo" th:value="${counterOrderDetailVO.goodsNo}" />
+      </form>
+    </td>
+  </tr>
+</tbody>
     </table>
   </div>
 </div>

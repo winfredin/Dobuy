@@ -386,12 +386,12 @@ $(document).ready(function() {
                 $('.use_1').html(response);
 
                 // 检查并销毁已有 DataTables 实例
-                if ($.fn.DataTable.isDataTable('#exampleBuyer')) {
-                    $('#exampleBuyer').DataTable().destroy();
+                if ($.fn.DataTable.isDataTable('#example')) {
+                    $('#example').DataTable().destroy();
                 }
 
                 // 重新初始化 DataTables
-                $('#exampleBuyer').DataTable({
+                $('#example').DataTable({
                     "lengthMenu": [3, 5, 10, 20, 50, 100],
                     "searching": true,
                     "paging": true,
@@ -850,5 +850,22 @@ document.addEventListener("DOMContentLoaded", () => {
             const rating = $(this).data('rating');
             renderStars(this, rating);
         });
+    });
+});
+//=======================追蹤商品===================
+// 当 class 为 goodsfollow 的 div 被点击时，触发 AJAX 请求
+$('.goodsfollow').click(function() {
+    // 使用 AJAX 从后端以 POST 方式获取数据
+    $.ajax({
+        url: '/goodsTrack/getFavoritesfragment', // 服务器端 API，返回 Thymeleaf 片段
+        type: 'GET',
+        success: function(response) {
+            // 使用 fragment 替换 <div class="use_1">
+            $('.use_1').html(response);
+
+        },
+        error: function(xhr, status, error) {
+            console.error('Error fetching favorites fragment:', error);
+        }
     });
 });

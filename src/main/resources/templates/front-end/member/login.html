@@ -9,13 +9,27 @@
 </head>
 <body>
     <!-- Logo -->
-    <img th:src="@{/counterPage/img/core-img/logo-noback.png}" alt="Logo" class="logo">
+<<<<<<< HEAD
+   <img th:src="@{/counterPage/img/core-img/logo-noback.png}" alt="Logo" class="logo">
 
+=======
+    <a th:href="@{/home}" title="點擊跳轉">
+    	<img th:src="@{/counterPage/img/core-img/logo-noback.png}" alt="Logo" class="logo">
+	</a>
+>>>>>>> Ethan01
     <!-- 容器 -->
     <div class="container">
-        <!-- 標題 -->
-        <h3 class="title">會員登入</h3>
-
+    
+        <div style="text-align: center; margin-bottom: 30px;">
+		    <!-- 標題置中且放大 -->
+		    <h3 style="margin: 0; font-size: 36px;">會員登入</h3>
+		</div>
+		
+		<!-- 左右文字分開行，左對齊和右對齊 -->
+		<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+		    <a th:href="@{/counter/addCounter}">註冊成為櫃位夥伴</a>
+		</div>
+		
         <!-- 錯誤訊息區域 -->
         <div th:if="${errorMsgs}" class="error-container">
             <!-- 遍歷錯誤信息並顯示 -->
@@ -42,10 +56,6 @@
         <!-- 註冊和忘記密碼鏈接 -->
         <div style="margin-top: 20px; text-align: center;">
             <a th:href="@{/mem/register}" style="margin-right: 15px;">註冊</a>
-
-            <a th:href="@{/front-end/member/reserch}"  style="margin-right: 15px;">忘記密碼</a>
-            <a th:href="@{/counter/addCounter}">註冊成為櫃位夥伴</a>
-
             <a th:href="@{/mem/toForgetPassword}">忘記密碼</a>
         </div>
     </div>

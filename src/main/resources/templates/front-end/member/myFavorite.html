@@ -9,20 +9,25 @@
 </head>
 <body>
 	<!-- Logo -->
-	<img th:src="@{/counterPage/img/core-img/logo-noback.png}" alt="Logo"
-		class="logo">
-
+	<a th:href="@{/home}" title="點擊跳轉">
+    	<img th:src="@{/counterPage/img/core-img/logo-noback.png}" alt="Logo" class="logo">
+	</a>
+	
 	<!-- 容器 -->
 	<div class="container">
 		<!-- 標題 -->
 		<h3 class="title">我的最愛清單</h3>
-
+		
+		<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; font-size:18px">
+		    <a th:href="@{/home}" title="點擊跳轉">返回首頁</a>
+		</div>
+		<div th:fragment="myFavoriteFragment">
 		<!-- 欄位名稱 -->
 		<div class="product-row"
 			style="font-weight: bold; border-bottom: 2px solid #ccc;">
-			<div style="flex: 1;">商品圖片</div>
-			<div style="flex: 3;">商品名稱</div>
-			<div style="flex: 1;">商品價格</div>
+			<div class="t35-1">商品圖片</div>
+			<div class="t35-2">商品名稱</div>
+			<div class="t35-3">商品價格</div>
 		</div>
 
 		<!-- 商品內容 -->
@@ -42,8 +47,15 @@
 		            <span class="product-price" th:text="'$' + ${goodsLightVO.goodsPrice}"></span>
 		        </button>
 		    </form>
+		    <span>
+			     <img th:src="@{/counterPage/img/pic/trash.png}" 
+			     onclick="removeGoods(this)" th:attr="data-goodsNo=${goodsLightVO.goodsNo}"
+			     class="trash" alt="trash" style="max-width: 150px;">	            
+			     
+            </span>
 		</div>
 	</div>
-	<script th:src="@{/member/js/myFavoriteList.js}"></script>
+</div>
+	<script th:src="@{/member/js/myFavorite.js}"></script>
 </body>
 </html>

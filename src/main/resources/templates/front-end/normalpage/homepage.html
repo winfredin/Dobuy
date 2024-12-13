@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<<<<<<< HEAD
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+=======
+<html xmlns:th="http://www.thymeleaf.org">
+>>>>>>> Ethan01
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,11 +13,6 @@
 
 <link rel="stylesheet" href="/css/test1.css">
 
-<!-- ------------------------以下為定紘輪播圖test------------------------ -->
-	<script src="https://unpkg.com/react@17/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-<!-- ------------------------以上為定紘輪播圖test------------------------ -->
 
 </head>
 <body>
@@ -42,8 +41,18 @@
 				<div class="nav_bar">
 
 					<div class="head">
-						<a href="home">Home</a> <a href="goodspage">一般商城</a> <a
-							href="usedgoodspage">二手商城</a> <a href="#contact">品牌</a>
+						<a href="home">Home</a> 
+						<a href="goodspage">一般商城</a> 
+						<a href="usedgoodspage">二手商城</a> 
+						<div class="dropdown">
+						    <a href="#" class="dropdown-btn">櫃位專區</a>
+						    <div class="dropdown-content">
+						        <a th:each="counterVO : ${counterVOList}"
+						           th:href="@{/counter/getOneCounter_For_Display(counterNo=${counterVO.counterNo})}"
+						           th:text="${counterVO.counterCName}">
+						        </a>
+						    </div>
+						</div>
 					</div>
 
 				</div>
@@ -53,11 +62,24 @@
 			<div class="icon_area">
 				<div class="icons">
 
-					<a class="icons" href="member"><img src="/images/會員中心.png"
-						alt="User"></a> <a class="icons" href="/mem/login"><img
-						src="/images/log-in.png" alt="Login"></a> <a class="icons"
-						href="#"><img src="/images/聊天室(FAQ 客服).png" alt="Chat"></a>
-					<a class="icons" href="#"><img src="/images/購物車.png" alt="Cart"></a>
+					<!-- 當 session.memNo 為 null，添加 login-only 類 -->
+    <a class="icons login-only" href="/mem/login" th:if="${session.memNo == null}">
+        <img th:src="@{/images/login.png}" alt="Login">
+    </a>
+
+    <!-- 當 session.memNo 不為 null，顯示其他按鈕 -->
+    <a class="icons" href="member" th:if="${session.memNo != null}">
+        <img th:src="@{/images/會員中心.png}" alt="User">
+    </a>
+    <a class="icons" href="/mem/logout" th:if="${session.memNo != null}">
+        <img th:src="@{/images/log-out.png}" alt="Logout">
+    </a>
+    <a class="icons" href="/shoppingcartlist/listAllShoppingCartList" th:if="${session.memNo != null}">
+        <img th:src="@{/images/購物車.png}" alt="Cart">
+    </a>
+    <a class="icons" href="#" th:if="${session.memNo != null}">
+        <img th:src="@{/images/report.png}" alt="Report">
+    </a>
 
 				</div>
 
@@ -78,76 +100,34 @@
 
 
 
-	<div class="slider">
-		<img src="/images/banner sample.png" alt=""> <img
-			src="/images/banner sample.png" alt=""> <img
-			src="/images/banner sample.png" alt=""> <img
-			src="/images/banner sample.png" alt=""> <img
-			src="/images/banner sample.png" alt="">
+<div class="slider">
 
-	</div>
+    <th:block th:each="goodsVO : ${carousellist}">
+        <a th:href="@{/counter/getOneGoods(goodsNo=${goodsVO.goodsNo})}">
+            <img th:src="@{/goods/DBGifReader} + '?goodsNo=' + ${goodsVO.goodsNo}" alt="goods-image">
+        </a>
+    </th:block>
 
+
+</div>
+
+	
+	
 	<div class="goods_body">
 
-		<div class="goods_list">
-			<p>商品分類</p>
-			<ul>
-				<li>11111111</li>
-				<li>22222222</li>
-				<li>33333333</li>
-				<li>44444444</li>
-				<li>55555555</li>
-				<li>66666666</li>
-				<li>77777777</li>
-				<li>88888888</li>
-				<li>77777777</li>
-				<li>77777777</li>
-			</ul>
-
-		</div>
+		
 
 		<div class="bestsell_goods">
+				
+<!-- 			<div class="goods" th:each="goodsVO, iterStat : ${#arrays.arraySlice(goodslist, 0, 10)}" th:id="${iterStat.index + 1}"> -->
+<!-- 			    <a th:href="@{/counter/getOneGoods(goodsNo=${goodsVO.goodsNo})}"> -->
+<!-- 			        <img th:src="@{/goods/DBGifReader(goodsNo=${goodsVO.goodsNo})}" alt="goods-image"> -->
+<!-- 			        <img src="/images/Star 6.png" alt="star"> -->
+<!-- 			    </a> -->
+<!-- 			</div> -->
 
-			<div class="goods" id="1">
-				<img src="/images/Star 6.png" alt="star"> <img
-					src="/images/Designer.jpeg" alt="goods">
-			</div>
-			<div class="goods" id="2">
-				<img src="/images/Star 6.png" alt="star"> <img
-					src="/images/Designer.jpeg" alt="goods">
-			</div>
-			<div class="goods" id="3">
-				<img src="/images/Star 6.png" alt="star"> <img
-					src="/images/Designer.jpeg" alt="goods">
-			</div>
-			<div class="goods" id="4">
-				<img src="/images/Star 6.png" alt="star"> <img
-					src="/images/Designer.jpeg" alt="goods">
-			</div>
-			<div class="goods" id="5">
-				<img src="/images/Star 6.png" alt="star"> <img
-					src="/images/Designer.jpeg" alt="goods">
-			</div>
-			<div class="goods" id="6">
-				<img src="/images/Star 6.png" alt="star"> <img
-					src="/images/Designer.jpeg" alt="goods">
-			</div>
-			<div class="goods" id="7">
-				<img src="/images/Star 6.png" alt="star"> <img
-					src="/images/Designer.jpeg" alt="goods">
-			</div>
-			<div class="goods" id="8">
-				<img src="/images/Star 6.png" alt="star"> <img
-					src="/images/Designer.jpeg" alt="goods">
-			</div>
-			<div class="goods" id="9">
-				<img src="/images/Star 6.png" alt="star"> <img
-					src="/images/Designer.jpeg" alt="goods">
-			</div>
-			<div class="goods" id="10">
-				<img src="/images/Star 6.png" alt="star"> <img
-					src="/images/Designer.jpeg" alt="goods">
-			</div>
+    
+    
 		</div>
 	</div>
 
@@ -168,17 +148,18 @@
 
 
 	<script>
-        $('.slider').slick({
-            centerMode:true,
-           
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            infinite:true,
-            autoplay:true,
-            autoplaySpeed: 5000,  
-            dots: false,
-            arrows: false,
-        });
+	$('.slider').slick({
+	    centerMode: false,      // 關閉 centerMode，讓圖片居左顯示
+	    slidesToShow: 1,        // 一次顯示一張圖片	
+	    slidesToScroll: 1,      // 每次滑動顯示一張圖片
+	    infinite: true,         // 開啟無限輪播
+	    autoplay: true,         // 啟動自動播放
+	    autoplaySpeed: 5000,    // 每張圖片的顯示時間
+	    dots: false,            // 關閉底部小圓點
+	    arrows: false,          // 隱藏左右箭頭
+	    variableWidth: false,   // 關閉可變寬度，避免圖片大小不一致
+	    focusOnSelect: true     // 當選擇一張圖片時，將其聚焦顯示
+	});
        
     
         function debounce(func, delay) {

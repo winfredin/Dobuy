@@ -43,6 +43,11 @@ public interface GoodsRepository extends JpaRepository<GoodsVO, Integer> {
     
   //=============以上昱夆新增===============//
     
+    //=============以下gary新增===============//
+    //搜尋所有上架商品
+    @Query(value = "SELECT * FROM goods WHERE goodsstatus = 1 ", nativeQuery = true)
+    List<GoodsVO> getAllGoodsStatus1();
+    //=============以上GARY新增===============//
     
 //=============以下柏翔新增===============//
 

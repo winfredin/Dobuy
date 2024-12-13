@@ -102,7 +102,7 @@ public class StorecarouselController {
     public String getOneForUpdate(@RequestParam("storeCarouselNo") Integer storeCarouselNo, ModelMap model) {
     	StoreCarouselVO storeCarouselVO = storeCarouselService.getOneStoreCarousel(storeCarouselNo);
         model.addAttribute("storeCarouselVO", storeCarouselVO);
-        return "back-end/storecarousel/listAllStorecarouseltest";
+        return "back-end/storecarousel/update-Storecarousel-Input";
     }
 
     // 更新資料處理
