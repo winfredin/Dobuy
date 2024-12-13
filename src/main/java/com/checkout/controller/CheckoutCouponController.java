@@ -72,7 +72,7 @@ public class CheckoutCouponController {
 //        model.addAttribute("memNo",memNo);
         try {
             if (memNoObj == null) {
-                return "redirect:/login";
+                return "redirect:/mem/login";
             }
             
             Integer memNo = (memNoObj instanceof Integer) ? (Integer) memNoObj : 

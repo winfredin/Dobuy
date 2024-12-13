@@ -1,223 +1,236 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <title>購物車清單</title>
-  <link rel="stylesheet" th:href="@{/shoppingcartlist/css/bootstrap.min.css}">
-  <link rel="stylesheet" th:href="@{/shoppingcartlist/css/checkout.css}">
-  <style type="text/css">
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f8f9fa;
-    }
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<title>購物車清單</title>
+<link rel="stylesheet"
+	th:href="@{/shoppingcartlist/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/shoppingcartlist/css/checkout.css}">
+<style type="text/css">
+body {
+	font-family: 'Arial', sans-serif;
+	background-color: #f8f9fa;
+}
 
-    .container {
-      max-width: 1000px;
-      margin: 30px auto;
-      padding: 30px;
-      background-color: #fff;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-      border-radius: 10px;
-    }
+.container {
+	max-width: 1000px;
+	margin: 30px auto;
+	padding: 30px;
+	background-color: #fff;
+	box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+	border-radius: 10px;
+}
 
-    h4 {
-      font-size: 1.5rem;
-      font-weight: bold;
-      margin-bottom: 20px;
-    }
+h4 {
+	font-size: 1.5rem;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
 
-    .form-label {
-      font-weight: bold;
-      color: #333;
-    }
+.form-label {
+	font-weight: bold;
+	color: #333;
+}
 
-    .form-control {
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      padding: 12px;
-      margin-bottom: 15px;
-    }
+.form-control {
+	border-radius: 8px;
+	border: 1px solid #ccc;
+	padding: 12px;
+	margin-bottom: 15px;
+}
 
-    .form-control:focus {
-      border-color: #007bff;
-      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-    }
+.form-control:focus {
+	border-color: #007bff;
+	box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
 
-    .btn-primary {
-      background-color: #007bff;
-      border: none;
-      padding: 12px 20px;
-      width: 100%;
-      border-radius: 8px;
-      font-size: 1.1rem;
-      font-weight: bold;
-    }
+.btn-primary {
+	background-color: #007bff;
+	border: none;
+	padding: 12px 20px;
+	width: 100%;
+	border-radius: 8px;
+	font-size: 1.1rem;
+	font-weight: bold;
+}
 
-    .btn-primary:hover {
-      background-color: #0056b3;
-    }
+.btn-primary:hover {
+	background-color: #0056b3;
+}
 
-    .footer {
-      text-align: center;
-      font-size: 0.9rem;
-      color: #666;
-      margin-top: 50px;
-      padding: 10px;
-      background-color: #f1f1f1;
-      border-radius: 5px;
-    }
+.footer {
+	text-align: center;
+	font-size: 0.9rem;
+	color: #666;
+	margin-top: 50px;
+	padding: 10px;
+	background-color: #f1f1f1;
+	border-radius: 5px;
+}
 
-    .error {
-      color: red;
-      font-size: 0.9rem;
-    }
-  </style>
+.error {
+	color: red;
+	font-size: 0.9rem;
+}
+</style>
 </head>
+<body>
 
-      <!-- 其他結帳表單內容 -->
-      <div class="col-md-7 col-lg-8">
-        <h4 class="mb-3">帳單地址</h4>
-        <!-- 設定表單 -->
-        <form class="needs-validation" method="post" action="/necpayCheckout" novalidate>
-          <div class="row g-3">
-            <!-- 使用者資料輸入 -->
-            <div class="col-sm-6">
-              <label for="firstName" class="form-label">名</label>
-              <input type="text" class="form-control" id="firstName" placeholder="" name="name" required>
-              <div class="error" id="firstNameError">                需要有效的名字。              </div>
-            </div>
+	<!-- 其他結帳表單內容 -->
+	<div class="col-md-7 col-lg-8">
+		<h4 class="mb-3">帳單地址</h4>
+		<!-- 設定表單 -->
+		<form class="needs-validation" method="post" action="/necpayCheckout"
+			novalidate>
+			<div class="row g-3">
+				<!-- 使用者資料輸入 -->
+				<div class="col-sm-6">
+					<label for="firstName" class="form-label">名</label> <input
+						type="text" class="form-control" id="firstName" placeholder=""
+						name="name" required>
+					<div class="error" id="firstNameError">需要有效的名字。</div>
+				</div>
 
-          <!-- 地址欄位 -->
-          <div class="mb-3">
-            <label for="address" class="form-label">地址</label>
-            <input type="text" class="form-control" id="address" name="address" placeholder="請輸入送貨地址" 
-              pattern="^[A-Za-z0-9\u4e00-\u9fa5]{2,20}$" title="地址只能包含中文、英文和數字，且長度為2-20位" required>
-            <div class="error" id="addressError"></div>
-          </div>
-
-         
-		<div class="mb-3">
-            <label for="phone" class="form-label">手機號碼</label>
-            <input type="text" class="form-control" id="phone" name="phone" placeholder="請輸入您的手機" 
-              pattern="^09\d{8}$" title="手機格式不正確，必須包含 09開頭總共要10位數" required>
-            <div class="error" id="phoneError"></div>
-          </div>
+				<!-- 地址欄位 -->
+				<div class="mb-3">
+					<label for="address" class="form-label">地址</label> <input
+						type="text" class="form-control" id="address" name="address"
+						placeholder="請輸入送貨地址" pattern="^[A-Za-z0-9\u4e00-\u9fa5]{2,20}$"
+						title="地址只能包含中文、英文和數字，且長度為2-20位" required>
+					<div class="error" id="addressError"></div>
+				</div>
 
 
-
-   <div class="row g-5">
-    <!-- 購物車商品列表，按櫃位分組 -->
-    <div th:each="entry : ${cartItemsByCounter}" class="mb-4">
-        <h5 th:text="|櫃位 ${entry.key} 商品|">櫃位商品</h5>
-        <ul class="list-group mb-3">
-            <!-- 該櫃位的商品列表 -->
-            <li class="list-group-item" th:each="item : ${entry.value}">
-                <div class="d-flex justify-content-between">
-                    <div>
-                        <h6 class="my-0" th:text="|商品名稱: ${item.goodsName}|">商品名稱</h6>
-                        <small class="text-muted" th:text="|數量: ${item.goodsNum}|">數量</small>
-                    </div>
-                    <span th:text="|$${item.orderTotalprice}|">價格</span>
-                </div>
-            </li>
-						<th:block th:each="a:${carlist}">
-          
-            <input type="hidden" name="orderTotalprice" th:value="${a.orderTotalprice}">
-            <input type="hidden" name="goodsName" th:value="${a.goodsName}">
-            <input type="hidden" name="goodsNum" th:value="${a.goodsNum}">
-            <input type="hidden" name="goodsNo" th:value="${a.goodsNo}">
-            <input type="hidden" name="memNo" th:value="${a.memNo}">
-          </th:block>
-        <input type="hidden" name="counterNo" th:value="${counterNo}"></span>
-            <!-- 該櫃位的優惠券選擇 -->
-            <li class="list-group-item">
-                <div class="form-group">
-                    <label th:for="|couponSelect-${entry.key}|">選擇優惠券</label>
-                    <select th:id="|couponSelect-${entry.key}|" 
-                            class="form-control coupon-select" 
-                            th:data-counter="${entry.key}">
-                        <option value="">請選擇優惠券</option>
-						<option th:each="coupon : ${availableCoupons}"
-						        th:if="${coupon.coupon.counter?.counterNo == entry.key}"
-						        th:value="${coupon.coupon.couponNo}"
-						        th:text="|${coupon.coupon.couponTitle} - ${coupon.coupon.couponContext}|">
-						</option>
-                    </select>
-                </div>
-            </li>
-
-            <!-- 該櫃位的折扣金額 -->
-            <li class="list-group-item d-flex justify-content-between bg-light">
-                <div class="text-success">
-                    <h6 class="my-0">優惠折扣</h6>
-                    <small th:id="|couponDesc-${entry.key}|"></small>
-                </div>
-                <span class="text-success">-$<span th:id="|discountAmount-${entry.key}|">0</span></span>
-            </li>
-
-			<!-- 該櫃位的小計 -->
-			<li class="list-group-item d-flex justify-content-between">
-			    <span>櫃位小計</span>
-			    <strong>$<span th:id="|counterTotal-${entry.key}|" 
-			                  th:text="${counterTotals.get(entry.key)}"
-			                  th:data-original="${counterTotals.get(entry.key)}">0</span></strong>
-			</li>
-        </ul>
-    </div>
-
-    <!-- 總計金額 -->
-    <div class="list-group-item d-flex justify-content-between bg-primary text-white">
-        <span><strong>總計金額</strong></span>
-        <strong>$<span id="finalTotal" th:text="${totalAmount}">0</span></strong>
-    </div>
-</div>
+				<div class="mb-3">
+					<label for="phone" class="form-label">手機號碼</label> <input
+						type="text" class="form-control" id="phone" name="phone"
+						placeholder="請輸入您的手機" pattern="^09\d{8}$"
+						title="手機格式不正確，必須包含 09開頭總共要10位數" required>
+					<div class="error" id="phoneError"></div>
+				</div>
 
 
-<!-- 在總計金額下方添加 -->
-<div class="discount-summary mt-3">
-    <h5>優惠摘要</h5>
-    <div class="card">
-        <div class="card-body">
-            <div th:each="entry : ${cartItemsByCounter}" class="mb-2">
-                <div class="d-flex justify-content-between">
-                    <span th:text="|櫃位 ${entry.key} 優惠:|">櫃位優惠</span>
-                    <span class="text-danger" th:id="|discountSummary-${entry.key}|">
-                        尚未選擇優惠券
-                    </span>
-                </div>
-            </div>
-            <hr>
-            <div class="d-flex justify-content-between font-weight-bold">
-                <span>優惠後總金額：</span>
-                <span class="text-primary" id="finalTotalAfterDiscount" 
-                      th:text="|$${totalAmount}|">
-                     
-                    $0
-                </span>
-                 <input type="hidden" name="afterAmount" th:value="|$${totalAmount}|">
-            </div>
-        </div>
-    </div>
-</div>
-          <hr class="my-4">
+
+				<div class="row g-5">
+					<!-- 購物車商品列表，按櫃位分組 -->
+					<div th:each="entry : ${cartItemsByCounter}" class="mb-4">
+						<h5 th:text="|櫃位 ${entry.key} 商品|">櫃位商品</h5>
+						<ul class="list-group mb-3">
+							<!-- 該櫃位的商品列表 -->
+							<li class="list-group-item" th:each="item : ${entry.value}">
+								<div class="d-flex justify-content-between">
+									<div>
+										<h6 class="my-0" th:text="|商品名稱: ${item.goodsName}|">商品名稱</h6>
+										<small class="text-muted" th:text="|數量: ${item.goodsNum}|">數量</small>
+									</div>
+									<span th:text="|$${item.orderTotalprice}|">價格</span>
+								</div>
+							</li>
+							<th:block th:each="a:${carlist}">
+
+								<input type="hidden" name="orderTotalprice"
+									th:value="${a.orderTotalprice}">
+								<input type="hidden" name="goodsName" th:value="${a.goodsName}">
+								<input type="hidden" name="goodsNum" th:value="${a.goodsNum}">
+								<input type="hidden" name="goodsNo" th:value="${a.goodsNo}">
+								<input type="hidden" name="memNo" th:value="${a.memNo}">
+							</th:block>
+							<input type="hidden" name="counterNo" th:value="${counterNo}">
+							</span>
+							<!-- 該櫃位的優惠券選擇 -->
+							<input type="hidden" name="couponNo" th:value="${couponNo}">
 
 
-          <button class="w-100 btn btn-primary btn-lg" type="submit">結帳</button>
-        </form>
-      </div>
-      
-      <!-- 除錯區域 -->
-<div id="debug-info" style="display: none;">
-    <pre></pre>
-</div>
-      
+							<li class="list-group-item">
+								<div class="form-group">
+									<label th:for="|couponSelect-${entry.key}|">選擇優惠券</label> <select
+										th:id="|couponSelect-${entry.key}|"
+										class="form-control coupon-select"
+										th:data-counter="${entry.key}">
+										<option value="">請選擇優惠券</option>
+										<option th:each="coupon : ${availableCoupons}"
+											th:if="${coupon.coupon.counter?.counterNo == entry.key}"
+											th:value="${coupon.coupon.couponNo}"
+											th:text="|${coupon.coupon.couponTitle} - ${coupon.coupon.couponContext}|">
+										</option>
+									</select>
+								</div>
+							</li>
+
+							<!-- 該櫃位的折扣金額 -->
+							<li
+								class="list-group-item d-flex justify-content-between bg-light">
+								<div class="text-success">
+									<h6 class="my-0">優惠折扣</h6>
+									<small th:id="|couponDesc-${entry.key}|"></small>
+								</div> <span class="text-success">-$<span
+									th:id="|discountAmount-${entry.key}|">0</span></span>
+							</li>
+
+							<!-- 該櫃位的小計 -->
+							<li class="list-group-item d-flex justify-content-between">
+								<span>櫃位小計</span> <strong>$<span
+									th:id="|counterTotal-${entry.key}|"
+									th:text="${counterTotals.get(entry.key)}"
+									th:data-original="${counterTotals.get(entry.key)}">0</span></strong>
+							</li>
+						</ul>
+					</div>
+
+					<!-- 總計金額 -->
+					<div
+						class="list-group-item d-flex justify-content-between bg-primary text-white">
+						<span><strong>總計金額</strong></span> <input type="hidden"
+							name="afterAmount" th:value="${totalAmount}"> <strong>$<span
+							id="finalTotal" th:text="${totalAmount}">0</span></strong>
+					</div>
+				</div>
 
 
-  <footer class="footer">
-    <div>© 2024 DO BUY. All Rights Reserved.</div>
-  </footer>
+				<!-- 在總計金額下方添加 -->
+				<div class="discount-summary mt-3">
+					<h5>優惠摘要</h5>
+					<div class="card">
+						<div class="card-body">
+							<div th:each="entry : ${cartItemsByCounter}" class="mb-2">
+								<div class="d-flex justify-content-between">
+									<span th:text="|櫃位 ${entry.key} 優惠:|">櫃位優惠</span> <span
+										class="text-danger" th:id="|discountSummary-${entry.key}|">
+										尚未選擇優惠券 </span>
+								</div>
+							</div>
+							<hr>
+							<div class="d-flex justify-content-between font-weight-bold">
+								<span>優惠後總金額：</span> <span class="text-primary"
+									id="finalTotalAfterDiscount" th:text="|${totalAmount}|">
+
+
+								</span> 
+							</div>
+						</div>
+					</div>
+				</div>
+				<hr class="my-4">
+
+
+				<button class="w-100 btn btn-primary btn-lg" type="submit">結帳</button>
+		</form>
+	</div>
+
+	<!-- 除錯區域 -->
+	<div id="debug-info" style="display: none;">
+		<pre></pre>
+	</div>
+
+
+</body>
+
+<footer class="footer">
+	<div>© 2024 DO BUY. All Rights Reserved.</div>
+</footer>
 
 
 
@@ -292,41 +305,8 @@ document.addEventListener('DOMContentLoaded', function() {
 //         }
 //     });
 
-        console.log('準備送出的優惠券資料:', couponSelections);
 
-        try {
-        	console.log('準備送出的優惠券資料:', couponSelections);
 
-            const response = await fetch('/shoppingcartlist/checkout', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    counterCoupons: couponSelections
-                })
-                
-            });
-
-            const result = await response.json();
-            console.log('處理結果:', result);
-
-            if (result.error) {
-                alert(result.error);
-                return;
-            }
-
-            if (result.success) {
-                // 成功後轉到下一步 =================================================後面給綠界用
-                const baseUrl = window.location.protocol + '//' + window.location.host;
-                window.location.href = baseUrl + '/home';
-            }
-
-        } catch (error) {
-            console.error('結帳發生錯誤:', error);
-            alert('結帳過程發生錯誤，請稍後再試');
-        }
-    });
 
 
     // 優惠券選擇變更時只做預覽
@@ -343,16 +323,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
             try {
                 // 計算折扣金額  預覽用 呼叫預覽 API 計算折扣（此API只計算不更新資料庫）
-                const previewResponse = await fetch('/shoppingcartlist/calculateDiscount', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: new URLSearchParams({
-                        couponNo: couponNo,
-                        counterId: counterId
-                    })
-                });
+const previewResponse = await fetch('/shoppingcartlist/calculateDiscount', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: new URLSearchParams({
+        couponNo: couponNo,
+        counterId: counterId
+    })
+});
 
                 if (!previewResponse.ok) {
                     throw new Error('網路錯誤');
@@ -457,9 +437,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
-
-   
+    
+    
   </script>
-  
-</body>
 </html>

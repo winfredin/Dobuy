@@ -57,7 +57,8 @@ public class EcpayController {
         // 創建訂單
         CounterOrderVO counterOrderVO = new CounterOrderVO();
         counterOrderVO.setReceiverAdr(address);
-        counterOrderVO.setOrderTotalAfter(Integer.valueOf(afterNo));
+        String cleanedAfterNo = afterNo.replaceAll("[^\\d]", "");
+        counterOrderVO.setOrderTotalAfter(Integer.valueOf(cleanedAfterNo));
         counterOrderVO.setOrderTotalBefore(totalPrice);
         counterOrderVO.setReceiverName(name);
         counterOrderVO.setReceiverPhone(phone);
