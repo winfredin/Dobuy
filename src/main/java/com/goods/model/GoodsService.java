@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -171,7 +172,14 @@ public class GoodsService {
     }
     //==================以上柏翔新增=====================//
 
-	
+  //=============以下gary新增===============//
+    //搜尋所有上架商品
+    public List<GoodsVO> getAllGoodsStatus1(){
+		 	
+    	return repository.getAllGoodsStatus1();
+    	
+    }
+    //=============以上GARY新增===============//
 
     
     

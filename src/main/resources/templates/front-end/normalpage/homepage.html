@@ -105,12 +105,13 @@
 
 		<div class="bestsell_goods">
 				
-			<div class="goods" th:each="goodsVO, iterStat : ${#lists.slice(goodslist, 0, 10)}" th:id="${iterStat.index + 1}">
-        <a th:href="@{/counter/getOneGoods(goodsNo=${goodsVO.goodsNo})}">
-            <img th:src="@{/goods/DBGifReader(goodsNo=${goodsVO.goodsNo})}" alt="goods-image">
-        	<img src="/images/Star 6.png" alt="star">
-        </a>
-    </div>
+<!-- 			<div class="goods" th:each="goodsVO, iterStat : ${#arrays.arraySlice(goodslist, 0, 10)}" th:id="${iterStat.index + 1}"> -->
+<!-- 			    <a th:href="@{/counter/getOneGoods(goodsNo=${goodsVO.goodsNo})}"> -->
+<!-- 			        <img th:src="@{/goods/DBGifReader(goodsNo=${goodsVO.goodsNo})}" alt="goods-image"> -->
+<!-- 			        <img src="/images/Star 6.png" alt="star"> -->
+<!-- 			    </a> -->
+<!-- 			</div> -->
+
     
     
 		</div>
