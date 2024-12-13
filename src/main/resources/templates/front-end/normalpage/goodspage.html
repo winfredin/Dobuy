@@ -6,323 +6,287 @@
     <title>Document</title>
     <link rel="stylesheet" href="/css/slick.css" />
     <link rel="stylesheet" href="/css/slick-theme.css" />
-
     <link rel="stylesheet" href="/css/goodspage.css">
-      
-
 </head>
 <body>
     <header>
         <div class="header">
-
             <div class="logo">
-                
-                <img src="images/logo noback.png"   alt="logo" class="logo">
-
-                
+                <img src="images/logo noback.png" alt="logo" class="logo">
             </div>
             
             <div class="header_bar">
-
                 <div class="search">
-				<div id="suggestions" ></div>
-					<input type="text" id="search" placeholder="Search..."
-						class="search" action="">
-					
-
-					<button class="search_button" name="search"></button>
-					<img src="/images/magnifying-glass-dollar-solid.svg" alt="Search">
-				</div>
+                    <div id="suggestions"></div>
+                    <input type="text" id="search" placeholder="Search..." class="search">
+                    <button class="search_button" name="search"></button>
+                    <img src="/images/magnifying-glass-dollar-solid.svg" alt="Search">
+                </div>
                 
                 <div class="nav_bar">
-
                     <div class="head"> 
                         <a href="home">Home</a>
                         <a href="goodspage">一般商城</a>
                         <a href="usedgoodspage">二手商城</a>
                         <a href="#contact">品牌</a>
                     </div>
-
                 </div>
-
             </div>
 
             <div class="icon_area">    
                 <div class="icons">
-                    
                     <a class="icons" href="member"><img src="images/會員中心.png" alt="User"></a>
                     <a class="icons" href="/mem/login"><img src="images/log-in.png" alt="Login"></a>
                     <a class="icons" href="#"><img src="images/聊天室(FAQ 客服).png" alt="Chat"></a>
                     <a class="icons" href="/shoppingcartlist/listAllShoppingCartList"><img src="images/購物車.png" alt="Cart"></a>
-                    
                 </div>
                 
                 <div class="coupon_area">
-                    
-                    <a class="coupon"href="#"><img src="images/優惠卷領取頁面圖示.png" alt="coupon"></a>
-                    
+                    <a class="coupon" href="#"><img src="images/優惠卷領取頁面圖示.png" alt="coupon"></a>
                 </div>
-                
             </div>
-            
-            
-            
         </div>
     </header>
 
-    <div class="goods_body"  >
-
-        <div class="goods_list" >
-        
+    <div class="goods_body">
+        <div class="goods_list">
             <p><b>品牌分類</b></p>
-            <ul >
-            
-      <li th:each="gg : ${glist}">
-    <p  th:attr="data-goodstNo=${gg.goodstNo}" onclick="filterGoods(this)" th:text="${gg.goodstName}"></p>
-    
-	</li>
-
-               
+            <ul>
+                <li th:each="gg : ${glist}">
+                    <p th:attr="data-goodstNo=${gg.goodstNo}" onclick="filterGoods(this)" th:text="${gg.goodstName}"></p>
+                </li>
             </ul>
-            
         </div>
 
- <div class="bestsell_goods" id="goodsContainer">
-	  <div class="goods" th:each="goodsVO : ${list}">
-	      <!-- 單個商品的表單 -->
-		<form th:action="@{/counter/getOneGoods}" method="get">
-		<!-- 隱藏字段，傳遞商品編號 -->
-			<input type="hidden" name="goodsNo" th:value="${goodsVO.goodsNo}" >
-			<button type="submit" class="product-button">	
-			         <div class="image-container">
-			            <img th:src="@{/goods/DBGifReader} + '?goodsNo=' + ${goodsVO.goodsNo}" alt="goods-image">
-			         </div>
-			         <div class="goods-name">
-			            <span th:text="${goodsVO.goodsName}"></span>
-			         </div>
-		     </button>    
-	    </form>
-	  </div>
-   
-</div>
-
-         
+        <div class="bestsell_goods" id="goodsContainer">
+            <div class="goods" th:each="goodsVO : ${list}">
+                <!-- 單個商品的表單 -->
+                <form th:action="@{/counter/getOneGoods}" method="get">
+                    <input type="hidden" name="goodsNo" th:value="${goodsVO.goodsNo}">
+                    <button type="submit" class="product-button">
+                        <div class="image-container">
+                            <img th:src="@{/goods/DBGifReader} + '?goodsNo=' + ${goodsVO.goodsNo}" alt="goods-image">
+                        </div>
+                        <div class="goods-name">
+                            <span th:text="${goodsVO.goodsName}"></span>
+                        </div>
+                    </button>    
+                </form>
+            </div>
+        </div>
     </div>
 
     <footer>
         <div>© 2024 DO BUY. All Rights Reserved.</div>
     </footer> 
 
-
-
-
-
     <script type="text/javascript" src="/js/jquery3.7.1.js"></script>
     <script src="/js/slick.js"></script>
     <script src="/js/goodsJS.js"></script>
-<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.8/axios.min.js"
-		integrity="sha512-v8+bPcpk4Sj7CKB11+gK/FnsbgQ15jTwZamnBf/xDmiQDcgOIYufBo6Acu1y30vrk8gg5su4x0CG3zfPaq5Fcg=="
-		crossorigin="anonymous"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.8/axios.min.js" integrity="sha512-v8+bPcpk4Sj7CKB11+gK/FnsbgQ15jTwZamnBf/xDmiQDcgOIYufBo6Acu1y30vrk8gg5su4x0CG3zfPaq5Fcg==" crossorigin="anonymous"></script>
 
     <script>
-
-    function debounce(func, delay) {
-        let timeoutId;
-        return function (...args) {
-            clearTimeout(timeoutId);
-            timeoutId = setTimeout(() => {
-                func(...args);
-            }, delay);
-        };
-    }
-
-    // 獲取 DOM 元素
-    const searchBar = document.getElementById('search');
-    const suggestionsBox = document.getElementById('suggestions');
-    const resultsContainer = document.getElementById('goodsContainer'); // 用來顯示搜尋結果的容器
-
-    // 防抖動處理的搜尋函數
-    async function handleSearch() {
-        const query = searchBar.value.trim();
-        if (query.length < 1) {
-            suggestionsBox.innerHTML = '';  // 清空建議
-            suggestionsBox.style.display = 'none';  // 隱藏建議框
-            return;
+        // 防抖動函數
+        function debounce(func, delay) {
+            let timeoutId;
+            return function (...args) {
+                clearTimeout(timeoutId);
+                timeoutId = setTimeout(() => {
+                    func(...args);
+                }, delay);
+            };
         }
 
-        try {
-            const response = await axios.get(`/search`, { params: { query } });
-            let products = response.data;
+        // 獲取 DOM 元素
+        const searchBar = document.getElementById('search');
+        const suggestionsBox = document.getElementById('suggestions');
+        const resultsContainer = document.getElementById('goodsContainer'); // 用來顯示搜尋結果的容器
 
-            // 檢查產品是否為空
-            if (!Array.isArray(products) || products.length === 0) {
-                suggestionsBox.innerHTML = '<div>沒有找到相關商品</div>';
-                suggestionsBox.style.display = 'block';
-                return;
-            }
-
-            // 根據商品名稱中搜尋字詞的匹配度來排序
-            products = products.sort((a, b) => {
-                const queryLower = query.toLowerCase();
-                const aIndex = a.goodsName.toLowerCase().indexOf(queryLower);
-                const bIndex = b.goodsName.toLowerCase().indexOf(queryLower);
-                if (aIndex === 0 && bIndex !== 0) return -1;
-                if (bIndex === 0 && aIndex !== 0) return 1;
-                return aIndex - bIndex;
-            });
-
-            suggestionsBox.innerHTML = '';
-            suggestionsBox.style.display = products.length > 0 ? 'block' : 'none';
-
-            // 顯示建議項
-            products.forEach(product => {
-                const div = document.createElement('div');
-                div.classList.add('suggestion');
-                div.textContent = product.goodsName;
-                div.addEventListener('click', () => {
-                    searchBar.value = product.goodsName;
-                    suggestionsBox.innerHTML = '';
-                    suggestionsBox.style.display = 'none';
-                    const targetUrl = `/counter/getOneGoods?goodsNo=${encodeURIComponent(product.goodsNo)}`;
-                    window.location.href = targetUrl;
-                });
-                suggestionsBox.appendChild(div);
-            });
-        } catch (error) {
-            console.error('獲取建議時發生錯誤:', error);
-            suggestionsBox.innerHTML = '<div>發生錯誤，請稍後重試。</div>';
-            suggestionsBox.style.display = 'block';
-        }
-    }
-
-    // 將搜尋函數應用防抖動，並設置延遲（例如：300 毫秒）
-    const debouncedSearch = debounce(handleSearch, 300);
-    searchBar.addEventListener('input', debouncedSearch);
-
-    // 根據 URL 查詢參數顯示搜尋結果
-    const urlParams = new URLSearchParams(window.location.search);
-    const searchQuery = urlParams.get('search');  // 獲取 search 參數
-
-    if (searchQuery) {
-        displaySearchResults(searchQuery);
-    }
-
-    // 顯示搜尋結果的函數
-    async function displaySearchResults(query) {
-        try {
-            const response = await axios.get(`/search`, { params: { query } });
-            const products = response.data;
-
-            // 清空舊的搜尋結果
-            resultsContainer.innerHTML = ''; 
-
-            // 如果沒有找到商品，顯示提示信息
-            if (!products || products.length === 0) {
-                resultsContainer.innerHTML = '<p>找不到相關商品。</p>';
-                return;
-            }
-
-            // 顯示商品
-            products.forEach(product => {
-                const productDiv = document.createElement('div');
-                productDiv.classList.add('goods');
-                productDiv.innerHTML = `
-                    <div class="image-container">
-                        <img src="/goods/DBGifReader?goodsNo=${product.goodsNo}" alt="goods-image">
-                    </div>
-                    <div class="goods-name">
-                        <label>${product.goodsName}</label>
-                    </div>`;
-                resultsContainer.appendChild(productDiv);
-            });
-        } catch (error) {
-            console.error('搜尋失敗:', error);
-            resultsContainer.innerHTML = '<p>發生錯誤，請稍後再試。</p>';
-        }
-    }
-
-    // 監聽鍵盤按下事件（用來處理 Enter 鍵）
-    searchBar.addEventListener('keydown', function(event) {
-        if (event.key === 'Enter') {
-            event.preventDefault();  // 防止 Enter 觸發表單提交
+        // 防抖動處理的搜尋函數
+        async function handleSearch() {
             const query = searchBar.value.trim();
-            if (query.length > 0) {
-                displaySearchResults(query);
+            if (query.length < 1) {
+                suggestionsBox.innerHTML = '';  // 清空建議
+                suggestionsBox.style.display = 'none';  // 隱藏建議框
+                return;
+            }
+
+            try {
+                const response = await axios.get(`/search`, { params: { query } });
+                let products = response.data;
+
+                // 檢查產品是否為空
+                if (!Array.isArray(products) || products.length === 0) {
+                    suggestionsBox.innerHTML = '<div>沒有找到相關商品</div>';
+                    suggestionsBox.style.display = 'block';
+                    return;
+                }
+
+                // 根據商品名稱中搜尋字詞的匹配度來排序
+                products = products.sort((a, b) => {
+                    const queryLower = query.toLowerCase();
+                    const aIndex = a.goodsName.toLowerCase().indexOf(queryLower);
+                    const bIndex = b.goodsName.toLowerCase().indexOf(queryLower);
+                    if (aIndex === 0 && bIndex !== 0) return -1;
+                    if (bIndex === 0 && aIndex !== 0) return 1;
+                    return aIndex - bIndex;
+                });
+
+                suggestionsBox.innerHTML = '';
+                suggestionsBox.style.display = products.length > 0 ? 'block' : 'none';
+
+                // 顯示建議項
+                products.forEach(product => {
+                    const div = document.createElement('div');
+                    div.classList.add('suggestion');
+                    div.textContent = product.goodsName;
+                    div.addEventListener('click', () => {
+                        searchBar.value = product.goodsName;
+                        suggestionsBox.innerHTML = '';
+                        suggestionsBox.style.display = 'none';
+                        const targetUrl = `/counter/getOneGoods?goodsNo=${encodeURIComponent(product.goodsNo)}`;
+                        window.location.href = targetUrl;  // 跳轉到商品頁面
+                    });
+                    suggestionsBox.appendChild(div);
+                });
+            } catch (error) {
+                console.error('獲取建議時發生錯誤:', error);
+                suggestionsBox.innerHTML = '<div>發生錯誤，請稍後重試。</div>';
+                suggestionsBox.style.display = 'block';
             }
         }
-    });
 
+        // 將搜尋函數應用防抖動，並設置延遲（例如：300 毫秒）
+        const debouncedSearch = debounce(handleSearch, 300);
+        searchBar.addEventListener('input', debouncedSearch);
 
-// 篩選商品的函數 (可能用於其他過濾)
-function filterGoods(element) {
-    const goodstNo = element.getAttribute('data-goodstNo');  
+        // 根據 URL 查詢參數顯示搜尋結果
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchQuery = urlParams.get('search');  // 獲取 search 參數
 
-    if (!goodstNo) {
-        console.error('goodstNo is missing or invalid');
-        return;  // 防止繼續執行
-    }
+        if (searchQuery) {
+            displaySearchResults(searchQuery);
+        }
 
-    // 發送 AJAX 請求，並將 `goodstNo` 作為參數
-    fetch(`/goods/filter?goodstNo=${goodstNo}`)
-        .then(response => response.json())
-        .then(data => {
-            const goodsContainer = document.getElementById('goodsContainer');
-            goodsContainer.innerHTML = '';  // 清空現有商品
+        // 顯示搜尋結果的函數
+        async function displaySearchResults(query) {
+            try {
+                const response = await axios.get(`/search`, { params: { query } });
+                const products = response.data;
 
-            // 根據返回的資料動態更新商品顯示
-            if (data.length === 0) {
-                goodsContainer.innerHTML = '<p>沒有找到符合的商品</p>';
-            } else {
-                data.forEach(goods => {
-                    const goodsDiv = document.createElement('div');
-                    goodsDiv.className = 'goods';
+                // 清空舊的搜尋結果
+                resultsContainer.innerHTML = ''; 
 
-                    // 創建 form 元素
-                    const formElement = document.createElement('form');
-                    formElement.action = '/counter/getOneGoods';
-                    formElement.method = 'get';
+                // 如果沒有找到商品，顯示提示信息
+                if (!products || products.length === 0) {
+                    resultsContainer.innerHTML = '<p>找不到相關商品。</p>';
+                    return;
+                }
 
-                    // 隱藏字段，傳遞商品編號
-                    const hiddenInput = document.createElement('input');
-                    hiddenInput.type = 'hidden';
-                    hiddenInput.name = 'goodsNo';
-                    hiddenInput.value = goods.goodsNo;
-
-                    // 創建按鈕
-                    const buttonElement = document.createElement('button');
-                    buttonElement.type = 'submit';
-                    buttonElement.className = 'product-button';
-
-                    // 添加商品內容到按鈕內
-                    buttonElement.innerHTML = `
-                        <div class="image-container">
-                            <img src="/goods/DBGifReader?goodsNo=${goods.goodsNo}" alt="goods-image">
-                        </div>
-                        <div class="goods-name">
-                            <label>${goods.goodsName}</label>
-                        </div>`;
-
-                    // 將隱藏字段和按鈕加入表單
-                    formElement.appendChild(hiddenInput);
-                    formElement.appendChild(buttonElement);
-
-                    // 將表單加入商品的外層 div
-                    goodsDiv.appendChild(formElement);
-
-                    // 將表單加入到 goodsContainer 中
-                    goodsContainer.appendChild(goodsDiv);
+                // 顯示商品
+                products.forEach(product => {
+                    const productDiv = document.createElement('div');
+                    productDiv.classList.add('goods');
+                    productDiv.innerHTML = `
+                        <form action="/counter/getOneGoods" method="get">
+                            <input type="hidden" name="goodsNo" value="${product.goodsNo}">
+                            <button type="submit" class="product-button">
+                                <div class="image-container">
+                                    <img src="/goods/DBGifReader?goodsNo=${product.goodsNo}" alt="goods-image">
+                                </div>
+                                <div class="goods-name">
+                                    <label>${product.goodsName}</label>
+                                </div>
+                            </button>
+                        </form>`;
+                    resultsContainer.appendChild(productDiv);
                 });
+            } catch (error) {
+                console.error('搜尋失敗:', error);
+                resultsContainer.innerHTML = '<p>發生錯誤，請稍後再試。</p>';
             }
-        })
-        .catch(error => console.error('Error fetching goods:', error));
-}
+        }
 
+        // 監聽鍵盤按下事件（用來處理 Enter 鍵）
+        searchBar.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();  // 防止 Enter 觸發表單提交
+                const query = searchBar.value.trim();
+                 
+                if (query.length > 0) {
+                    displaySearchResults(query); // 顯示搜尋結果
+                    filterGoodsBySearch(query); // 同時過濾商品
+                }
+                searchBar.value = '';           // 清空搜尋框
+                suggestionsBox.innerHTML = '';  // 清空建議框
+                suggestionsBox.style.display = 'none';
+            }
+        });
+
+        // 根據搜尋條件過濾商品顯示
+        function filterGoodsBySearch(query) {
+            const goodsElements = document.querySelectorAll('.goods');
+            goodsElements.forEach(goodsElement => {
+                const productName = goodsElement.querySelector('.goods-name label').textContent.trim().toLowerCase();
+                if (!productName.includes(query.toLowerCase())) {
+                    goodsElement.style.display = 'none';
+                } else {
+                    goodsElement.style.display = 'block';
+                }
+            });
+        }
+
+        // 篩選商品的函數
+        function filterGoods(element) {
+            const goodstNo = element.getAttribute('data-goodstNo');  
+
+            if (!goodstNo) {
+                console.error('goodstNo is missing or invalid');
+                return;
+            }
+
+            fetch(`/goods/filter?goodstNo=${goodstNo}`)
+                .then(response => response.json())
+                .then(data => {
+                    const goodsContainer = document.getElementById('goodsContainer');
+                    goodsContainer.innerHTML = '';
+
+                    if (data.length === 0) {
+                        goodsContainer.innerHTML = '<p>沒有找到符合的商品</p>';
+                    } else {
+                        data.forEach(goods => {
+                            const goodsDiv = document.createElement('div');
+                            goodsDiv.className = 'goods';
+                            const formElement = document.createElement('form');
+                            formElement.action = '/counter/getOneGoods';
+                            formElement.method = 'get';
+
+                            const hiddenInput = document.createElement('input');
+                            hiddenInput.type = 'hidden';
+                            hiddenInput.name = 'goodsNo';
+                            hiddenInput.value = goods.goodsNo;
+
+                            const buttonElement = document.createElement('button');
+                            buttonElement.type = 'submit';
+                            buttonElement.className = 'product-button';
+
+                            buttonElement.innerHTML = `
+                                <div class="image-container">
+                                    <img src="/goods/DBGifReader?goodsNo=${goods.goodsNo}" alt="goods-image">
+                                </div>
+                                <div class="goods-name">
+                                    <label>${goods.goodsName}</label>
+                                </div>`;
+
+                            formElement.appendChild(hiddenInput);
+                            formElement.appendChild(buttonElement);
+                            goodsDiv.appendChild(formElement);
+                            goodsContainer.appendChild(goodsDiv);
+                        });
+                    }
+                })
+                .catch(error => console.error('Error fetching goods:', error));
+        }
     </script>
-
-
-
 </body>
 </html>
-
