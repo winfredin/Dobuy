@@ -160,94 +160,143 @@
     }
 
     // 防抖動函數
-    function debounce(func, delay) {
-        let timeoutId;
-        return function (...args) {
-            clearTimeout(timeoutId);
-            timeoutId = setTimeout(() => {
-                func(...args);
-            }, delay);
-        };
-    }
-
-    // 獲取 DOM 元素
-    const searchBar = document.getElementById('search');
-    const suggestionsBox = document.getElementById('suggestions');
-
-    // 防抖動處理的搜尋函數
-    async function handleSearch() {
-        const query = searchBar.value.trim();
-        if (query.length < 1) {
-            suggestionsBox.innerHTML = ''; // 清空建議
-            suggestionsBox.style.display = 'none'; // 隱藏建議框
-            return;
+     function debounce(func, delay) {
+            let timeoutId;
+            return function (...args) {
+                clearTimeout(timeoutId);
+                timeoutId = setTimeout(() => {
+                    func(...args);
+                }, delay);
+            };
         }
 
-        try {
-            const response = await axios.get(`/searchused`, { params: { query } });
-            let products = response.data;
+        // 獲取 DOM 元素
+        const searchBar = document.getElementById('search');
+        const suggestionsBox = document.getElementById('suggestions');
 
-            // 輸出獲取到的產品數據，檢查數據格式
-            console.log('搜尋返回的產品:', products);
-
-            // 檢查產品是否為空
-            if (!Array.isArray(products) || products.length === 0) {
-                console.log('沒有匹配的商品');
-                suggestionsBox.innerHTML = '<div>沒有找到相關商品</div>';
-                suggestionsBox.style.display = 'block';
+        // 防抖動處理的搜尋函數
+        async function handleSearch() {
+            const query = searchBar.value.trim();
+            if (query.length < 1) {
+                suggestionsBox.innerHTML = ''; // 清空建議
+                suggestionsBox.style.display = 'none'; // 隱藏建議框
                 return;
             }
 
-            // 根據商品名稱中搜尋字詞的匹配度來排序
-            products = products.sort((a, b) => {
-                const queryLower = query.toLowerCase();
-                const aIndex = a.usedName.toLowerCase().indexOf(queryLower);
-                const bIndex = b.usedName.toLowerCase().indexOf(queryLower);
+            try {
+                const response = await axios.get(`/searchused`, { params: { query } });
+                let products = response.data;
+              
+                // 檢查產品是否為空
+                if (!Array.isArray(products) || products.length === 0) {
+                    suggestionsBox.innerHTML = '<div>沒有找到相關商品</div>';
+                    suggestionsBox.style.display = 'block';
+                    return;
+                }
 
-                // 如果 A 商品的搜尋字詞出現在開頭，則排在前面
-                if (aIndex === 0 && bIndex !== 0) return -1;
-                if (bIndex === 0 && aIndex !== 0) return 1;
-
-                // 如果兩個商品的搜尋字詞都出現在名稱中，根據字詞位置來排序
-                return aIndex - bIndex;
-            });
-
-            // 顯示建議框
-            suggestionsBox.innerHTML = '';
-            if (products.length > 0) {
-                suggestionsBox.style.display = 'block';
-            } else {
-                suggestionsBox.style.display = 'none'; // 沒有建議則隱藏
-            }
-
-            // 處理產品列表，生成建議項
-            products.forEach(product => {
-                const div = document.createElement('div');
-                div.classList.add('suggestion');
-                div.textContent = product.usedName; // 假設商品有 goodsName 屬性
-                div.addEventListener('click', () => {
-                    searchBar.value = product.usedName; // 選中商品
-                    suggestionsBox.innerHTML = ''; // 清空建議
-                    suggestionsBox.style.display = 'none'; // 隱藏建議框
-                    const targetUrl = `/used/getOneUsedOnDetail?usedNo=${encodeURIComponent(product.usedNo)}`;
-
-                    // 跳轉到商品詳細頁面
-                    window.location.href = targetUrl;
+                // 根據商品名稱中搜尋字詞的匹配度來排序
+                products = products.sort((a, b) => {
+                    const queryLower = query.toLowerCase();
+                    const aIndex = a.usedName.toLowerCase().indexOf(queryLower);
+                    const bIndex = b.usedName.toLowerCase().indexOf(queryLower);
+                    if (aIndex === 0 && bIndex !== 0) return -1;
+                    if (bIndex === 0 && aIndex !== 0) return 1;
+                    return aIndex - bIndex;
                 });
-                suggestionsBox.appendChild(div);	
-            });
-        } catch (error) {
-            console.error('獲取建議時發生錯誤:', error);
-            suggestionsBox.innerHTML = '<div>發生錯誤，請稍後重試。</div>';
-            suggestionsBox.style.display = 'block';
+
+                suggestionsBox.innerHTML = '';
+                if (products.length > 0) {
+                    suggestionsBox.style.display = 'block';
+                } else {
+                    suggestionsBox.style.display = 'none';
+                }
+
+                // 處理產品列表，生成建議項
+                products.forEach(product => {
+                    const div = document.createElement('div');
+                    div.classList.add('suggestion');
+                    div.textContent = product.usedName; // 假設商品有 usedName 屬性
+                    div.addEventListener('click', () => {
+                        searchBar.value = product.usedName; // 選中商品
+                        suggestionsBox.innerHTML = ''; // 清空建議
+                        suggestionsBox.style.display = 'none'; // 隱藏建議框
+                        const targetUrl = `/used/getOneUsedOnDetail?usedNo=${encodeURIComponent(product.usedNo)}`;
+
+                        // 跳轉到商品詳細頁面
+                        window.location.href = targetUrl;
+                    });
+                    suggestionsBox.appendChild(div);    
+                });
+            } catch (error) {
+                console.error('獲取建議時發生錯誤:', error);
+                suggestionsBox.innerHTML = '<div>發生錯誤，請稍後重試。</div>';
+                suggestionsBox.style.display = 'block';
+            }
         }
-    }
 
-    // 將搜尋函數應用防抖動，並設置延遲（例如：300 毫秒）
-    const debouncedSearch = debounce(handleSearch, 300);
+        // 將搜尋函數應用防抖動，並設置延遲（例如：300 毫秒）
+        const debouncedSearch = debounce(handleSearch, 300);
 
-    // 監聽搜尋框的輸入事件
-    searchBar.addEventListener('input', debouncedSearch);
+        // 監聽搜尋框的輸入事件
+        searchBar.addEventListener('input', debouncedSearch);
+
+        // 監聽鍵盤按下事件（處理 Enter 鍵）
+        searchBar.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();  // 防止表單提交
+                const query = searchBar.value.trim();
+                if (query.length > 0) {
+                    // 當按下 Enter 時，跳轉到商品搜尋頁面並顯示搜尋結果
+                    window.location.href = `/usedgoodspage?search=${encodeURIComponent(query)}`;
+                }
+            }
+        });
+
+        // 如果 URL 包含 search 參數，則顯示搜尋結果
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchQuery = urlParams.get('search');
+        if (searchQuery) {
+            displaySearchResults(searchQuery);
+        }
+
+        // 顯示搜尋結果的函數
+        async function displaySearchResults(query) {
+            try {
+                const response = await axios.get(`/searchused`, { params: { query } });
+                const products = response.data;
+                
+                const goodsContainer = document.getElementById('goodsContainer');
+
+                if (products.length === 0) {
+                    goodsContainer.innerHTML = '<p>沒有找到相關商品</p>';
+                } else {
+                    goodsContainer.innerHTML = ''; // 清空現有商品
+                    products.forEach(product => {
+                        const goodsElement = document.createElement('div');
+                        goodsElement.className = 'goods';
+
+                        // 顯示商品圖片
+                        const firstPic = product.usedPics && product.usedPics.length > 0 ? product.usedPics[0]: '';
+                      console.log(firstPic);
+                            goodsElement.innerHTML = `
+                                <div class="image-container">
+                                    <img src="/usedpic/UsedDBGifReader?usedPicNo=${firstPic}" alt="goods-image">
+                                </div>
+                                <div class="goods-name">
+                                    <label>${product.usedName}</label>
+                                </div>
+                            `;
+                        
+
+                        goodsContainer.appendChild(goodsElement);
+                    });
+                    
+                }
+            } catch (error) {
+                console.error('顯示搜尋結果時發生錯誤:', error);
+                document.getElementById('goodsContainer').innerHTML = '<p>搜尋結果顯示錯誤，請稍後再試。</p>';
+            }
+        }
     
     </script>
 </body>

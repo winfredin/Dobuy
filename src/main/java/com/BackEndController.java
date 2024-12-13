@@ -47,5 +47,13 @@ public class BackEndController {
 
 	    return "redirect:/back-end/member"; 
 	}
+	@PostMapping("updateOrder")
+	public String updateOrderStatus(@RequestParam("orderStatus") Integer orderStatus,
+	                                  @RequestParam("memNo") Integer memNo) {
+	
+		counterOrderSvc.updateCounterStatus(memNo, orderStatus);
+		
 
+	    return "redirect:/counter/listOneCounter"; 
+	}
 }

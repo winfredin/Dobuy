@@ -40,7 +40,7 @@ public class OrderService {
 	        obj.setTradeDesc("Order Payment");  // 設定交易描述
 	        obj.setItemName(itemName);  // 設定商品名稱
 	        obj.setCustomField1(Integer.toString(counterOrderNo));  // 自定義欄位存放訂單編號
-	        obj.setReturnURL("https://9c64-111-249-27-13.ngrok-free.app/counterOrderDetail/addCounterOrderDetail");  // ECPay 伺服器通知網址
+	        obj.setReturnURL("https://ba37-111-243-140-9.ngrok-free.app/counterOrderDetail/addCounterOrderDetail");  // ECPay 伺服器通知網址
 	        obj.setClientBackURL("http://localhost:8080/member"); // 用戶返回網址
 	        obj.setNeedExtraPaidInfo("N");  // 是否需要額外付費資訊
 

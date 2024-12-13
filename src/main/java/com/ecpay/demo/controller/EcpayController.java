@@ -39,7 +39,7 @@ public class EcpayController {
             @RequestParam("phone") String phone,
             @RequestParam("memNo") Integer memNo,
             @RequestParam("counterNo") Integer counterNo,
-            @RequestParam("afterAmount") String afterNo,
+            
             HttpSession session) {
         
        
@@ -57,7 +57,7 @@ public class EcpayController {
         // 創建訂單
         CounterOrderVO counterOrderVO = new CounterOrderVO();
         counterOrderVO.setReceiverAdr(address);
-        counterOrderVO.setOrderTotalAfter(Integer.valueOf(afterNo));
+        counterOrderVO.setOrderTotalAfter(totalPrice);
         counterOrderVO.setOrderTotalBefore(totalPrice);
         counterOrderVO.setReceiverName(name);
         counterOrderVO.setReceiverPhone(phone);

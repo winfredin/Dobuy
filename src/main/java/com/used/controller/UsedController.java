@@ -202,7 +202,7 @@ public class UsedController {
 	    return "front-end/used/listOneUsed";
 	}
 
-
+	
 	
 	
 
