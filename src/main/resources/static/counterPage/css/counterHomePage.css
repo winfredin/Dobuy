@@ -1352,8 +1352,9 @@ img {
 .top-container .left-text {
 	display: flex;
 	/* 使用 Flexbox 讓項目水平排列 */
-	gap: 30px;
+	gap: 10px;
 	/* 控制項目之間的間距 */
+	margin-left: 5%;
 }
 
 .top-container .right-actions {
@@ -1361,6 +1362,7 @@ img {
 	align-items: center;
 	gap: 10px;
 	/* 控制按鈕間距 */
+	margin-right: 8%;
 }
 
 /* 登入/註冊連結樣式 */
