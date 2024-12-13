@@ -116,6 +116,7 @@ public class FrontEndController {
 		 List <CountercarouselVO> carousellist = countercarouselSvc.getAll();
 		 List<GoodsVO> goodslist = goodsSvc.getAllGoodsStatus1();
 		 
+		 
 		 model.addAttribute("goodslist", goodslist);
 		 model.addAttribute("carousellist", carousellist);
 		 return "front-end/normalpage/homepage"; 
