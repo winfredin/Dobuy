@@ -83,11 +83,12 @@
                     <td>
                     <form action="/back-end/updateOrder" method="post">
                    <select name="orderStatus" th:value="${order.orderStatus}" >
-                   <option  th:if="${order.orderStatus == 0}" th:text="未付款"></option>
-                   <option  th:if="${order.orderStatus == 1}" th:text="已付款"></option>
-                     <option th:value="2" th:selected="${order.orderStatus == 2}" th:text="已出貨"></option>
-            <option th:value="3" th:selected="${order.orderStatus == 3}" th:text="已完成"></option>
-            <option th:value="4" th:selected="${order.orderStatus == 4}" th:text="已取消"></option>
+                   <option th:value="0" th:selected="${order.orderStatus == 0}" th:text="未出貨"></option>
+                   <option th:value="1" th:selected="${order.orderStatus == 1}" th:text="已出貨"></option>
+                     <option th:value="2" th:selected="${order.orderStatus == 2}" th:text="已完成"></option>
+            <option th:value="3" th:selected="${order.orderStatus == 3}" th:text="退貨"></option>
+            <option th:value="4" th:selected="${order.orderStatus == 4}" th:text="作廢"></option>
+            <option th:if="${order.orderStatus == 5}" th:text="未付款"></option>
         </select>
          <input type="hidden" name="memNo" th:value="${order.memNo}" /> <!-- 會員編號，用於識別要更新的會員 -->
         <button type="submit" class="btn btn-primary">修改</button>

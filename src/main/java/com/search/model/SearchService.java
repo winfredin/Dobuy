@@ -87,8 +87,8 @@ public class SearchService {
             System.out.println("從資料庫查詢數據，查詢結果: ");
             used.forEach(g -> System.out.println("商品編號: " + g.getUsedNo() + ", 商品名稱: " + g.getUsedName()));
 
-            simplifiedGoods = used.stream()
-                .map(g -> new UsedVO(g.getUsedNo(), g.getUsedName()))  // 只保留需要的資料
+              simplifiedGoods = used.stream()
+                .map(g -> new UsedVO(g.getUsedNo(), g.getUsedName(),g.getUsedPics())) // 只保留需要的資料
                 .collect(Collectors.toList());
             redisTemplate1.opsForValue().set(redisKey, simplifiedGoods, Duration.ofMinutes(5));  // 儲存簡化資料到 Redis
             System.out.println("儲存到 Redis 成功: " + redisKey);

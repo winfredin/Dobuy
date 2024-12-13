@@ -63,7 +63,7 @@ public class EcpayController {
         counterOrderVO.setReceiverPhone(phone);
         counterOrderVO.setCounterNo(counterNo);
         counterOrderVO.setMemNo(memNo);
-        counterOrderVO.setOrderStatus(0);
+        counterOrderVO.setOrderStatus(5);
         
         counterOrderSvc.addCounterOrder(counterOrderVO);
 
