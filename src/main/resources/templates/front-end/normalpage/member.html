@@ -189,43 +189,35 @@
           <th>一鍵轉售</th>
         </tr>
       </thead>
-      <tbody>
-        <!-- 使用訂單明細跑 foreach -->
-        <tr th:each="counterOrderDetailVO : ${order.counterOrderDatailVO}">
-          <td th:text="${counterOrderDetailVO.goodsNo}"></td>
-          <td 
-          th:each="goodsVO : ${goodsNamelist}" 
-          th:if="${goodsVO.goodsNo == counterOrderDetailVO.goodsNo}" 
-          th:text="${goodsVO.goodsName}">
-    
-          </td>
-          <td th:text="${counterOrderDetailVO.goodsNum}"></td>
-          <td th:text="${counterOrderDetailVO.productPrice}"></td>
-          <td th:text="${counterOrderDetailVO.productDisPrice}"></td>
-          
-		 <td>
-		        <span th:each="coupon : ${couponList}" 
-		              th:if="${coupon.couponNo == counterOrderDetailVO.memCouponNo}" 
-		              th:text="${coupon.couponTitle}">
-		        </span>
-				<span th:if="${counterOrderDetailVO.memCouponNo == null}">
-				    沒有使用
-				</span>
-
-		</td>
-
-
-
-
-
-          <td>
-            <form method="post" th:action="@{/used/oneButtontoSellUsed}">
-            <input type="submit" value="轉售"/>
-              <input type="hidden" name="goodsNo" th:value="${counterOrderDetailVO.goodsNo}" />
-            </form>
-          </td>
-        </tr>
-      </tbody>
+<tbody>
+  <tr th:each="counterOrderDetailVO : ${order.counterOrderDatailVO}">
+    <td th:text="${counterOrderDetailVO.goodsNo}"></td>
+    <!-- 簡化商品名稱顯示邏輯 -->
+    <td>
+      <span th:each="goods : ${goodsNamelist}" 
+            th:if="${goods.goodsNo == counterOrderDetailVO.goodsNo}" 
+            th:text="${goods.goodsName}">
+      </span>
+    </td>
+    <td th:text="${counterOrderDetailVO.goodsNum}"></td>
+    <td th:text="${counterOrderDetailVO.productPrice}"></td>
+    <td th:text="${counterOrderDetailVO.productDisPrice}"></td>
+    <td>
+      <!-- 優惠券顯示也使用相同模式 -->
+      <span th:if="${counterOrderDetailVO.memCouponNo == null}">沒有使用</span>
+      <span th:each="coupon : ${couponList}" 
+            th:if="${coupon.couponNo == counterOrderDetailVO.memCouponNo}" 
+            th:text="${coupon.couponTitle}">
+      </span>
+    </td>
+    <td>
+      <form method="post" th:action="@{/used/oneButtontoSellUsed}">
+        <input type="submit" value="轉售"/>
+        <input type="hidden" name="goodsNo" th:value="${counterOrderDetailVO.goodsNo}" />
+      </form>
+    </td>
+  </tr>
+</tbody>
     </table>
   </div>
 </div>
