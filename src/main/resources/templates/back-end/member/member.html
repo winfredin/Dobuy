@@ -45,177 +45,138 @@
 
 
 <style>
- /* 表格區域增加間距 */
- body {
-    margin: 0 6rem 0 6rem !important; /* 設定整個頁面的邊界間隔 */
+/* 移除重複的樣式，整合成一個完整的CSS */
+/* 基本樣式 */
+body {
+    margin: 0 1rem !important;
     padding: 0 !important;
-    background-color: #f8f9fa !important; /* 淡灰色背景，讓表格更顯眼 */
-}
- 
- 
-#example {
-    margin: 20px auto; /* 四周留白 */
-    padding: 10px;
-    border-collapse: separate; /* 分離單元格，避免貼合 */
-    border-spacing: 5px; /* 單元格間距 */
-    background: rgba(255, 255, 255, 0.85); /* 半透明背景 */
-    backdrop-filter: blur(5px); /* 背景模糊 */
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    overflow: hidden; /* 去除溢出 */
+    background-color: #f8f9fa !important;
 }
 
+/* 表格容器 */
+.container49 {
+    padding: 1rem;
+    width: 100%;
+}
+
+/* 表格主體 */
+#example {
+    width: 100%;
+    margin: 20px auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    table-layout: fixed;
+}
+
+/* 表頭樣式 */
 #example thead th {
-    background: rgba(173, 129, 85, 0.95);
+    background: rgba(173, 129, 85, 0.85);
     color: #fff;
-    padding: 12px 25px 12px 12px; /* 右側增加更多padding */
+    padding: 12px 25px 12px 12px !important;
     text-align: center;
     border-radius: 6px;
+    font-size: 19px;
+    line-height: 1.3;
+    position: relative;
 }
 
-/* 表格列樣式 */
+/* 表頭分隔線 */
+#example thead th:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 20%;
+    height: 60%;
+    width: 1.5px;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+/* 表格內容欄位 */
+#example td {
+    padding: 12px 8px;
+    font-size: 14px;
+    line-height: 1.4;
+    vertical-align: middle; /* 垂直置中 */
+    white-space: normal;
+    word-wrap: break-word;
+    max-width: 150px;
+    height: 60px; /* 設定固定高度 */
+    display: table-cell; /* 確保垂直置中效果 */
+}
+
+/* 表格行效果 */
 #example tbody tr {
     transition: all 0.3s ease-in-out;
 }
 
 #example tbody tr:hover {
-    background-color: rgba(173, 129, 85, 0.2); /* 懸浮透明背景 */
-    transform: translateY(-3px); /* 浮動效果 */
+    background-color: rgba(173, 129, 85, 0.2);
+    transform: translateY(-3px);
 }
 
-/* DataTables 的輸入框樣式 */
+/* 狀態選擇容器 */
+.status-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* 下拉選單 */
+td select {
+    width: 100%;
+    padding: 6px;
+    border-radius: 4px;
+    border: 1px solid rgba(173, 129, 85, 0.3);
+    margin-bottom: 6px;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+/* 修改按鈕 */
+.btn-modify {
+    width: 100%;
+    padding: 6px;
+    background: rgba(173, 129, 85, 0.5);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-modify:hover {
+    background: rgba(173, 129, 85, 0.8);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(173, 129, 85, 0.3);
+}
+
+/* DataTables 相關樣式 */
 .dataTables_filter input {
     padding: 8px;
     border: none;
     border-radius: 6px;
     background: rgba(255, 255, 255, 0.7);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
 }
 
-.dataTables_filter input:focus {
-    background: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
-}
-
-
-
-
-/* DataTables 的按鈕樣式 */
-button, .btn, .dataTables_wrapper .dataTables_paginate .paginate_button {
-    background: rgba(173, 129, 85, 0.5); /* 降低不透明度為 0.5 */
-    color: #fff;
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    background: rgba(173, 129, 85, 0.5);
+    color: #fff !important;
     border: none;
     border-radius: 6px;
-    padding: 8px 12px;
-    margin: 5px;
-    transition: all 0.3s ease-in-out;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* 降低陰影強度 */
-    backdrop-filter: blur(5px); /* 添加模糊效果 */
-}
-/* 按鈕懸浮效果 */
-button:hover, .btn:hover, .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-    background: rgba(173, 129, 85, 0.8); /* 懸浮時略微提高不透明度 */
-    color: #fff;
-    transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-/* DataTables 分頁按鈕效果 */
-.dataTables_wrapper .dataTables_paginate .paginate_button.current {
-    background: rgba(173, 129, 85, 0.7); /* 當前頁面按鈕略微深一點 */
-    color: #fff;
-    border-radius: 6px;
-}
-
-/* DataTables Info 和 Length 選單樣式 */
-.dataTables_wrapper .dataTables_info,
-.dataTables_wrapper .dataTables_length label {
-    font-size: 14px;
-    color: #555;
-    margin-bottom: 10px;
-}
-
-/* 調整邊界 */
-.container {
-    margin: 10px auto;
-}
-
-
-/* 全螢幕覆蓋樣式 */
-#preloader {
-    position: fixed; /* 固定位置，覆蓋整個視窗 */
-    top: 0;
-    left: 0;
-    width: 100%; /* 寬度 100% */
-    height: 100%; /* 高度 100% */
-    background-color: rgba(255, 255, 255, 0.9); /* 半透明白色背景 */
-    z-index: 9999; /* 高層級，確保顯示在所有內容上方 */
-    display: flex;
-    justify-content: center; /* 水平置中 */
-    align-items: center; /* 垂直置中 */
-}
-
-/* Preloader 內容樣式 */
-.preload-content {
-    text-align: center;
-}
-
-#original-load {
-    width: 50px;
-    height: 50px;
-    border: 5px solid #ccc;
-    border-top-color: #007bff; /* 藍色頂部邊框 */
-    border-radius: 50%; /* 圓形 */
-    animation: spin 1s linear infinite; /* 旋轉動畫 */
-}
-
-/* 旋轉動畫 */
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* 下拉選單樣式 */
-select {
     padding: 6px 12px;
-    border: 1px solid rgba(173, 129, 85, 0.3);
-    border-radius: 6px;
-    background: rgba(255, 255, 255, 0.9);
-    color: #2c3e50;
-    transition: all 0.3s ease;
-    margin-right: 8px;
+    margin: 0 3px;
 }
 
-select:hover, select:focus {
-    border-color: rgba(173, 129, 85, 0.6);
-    box-shadow: 0 2px 8px rgba(173, 129, 85, 0.1);
-}
-
-/* 修改按鈕樣式 */
-.btn-primary, button[type="submit"] {
-    background: rgba(173, 129, 85, 0.5) !important;  /* 使用棕色系 */
-    color: #fff !important;
-    border: none !important;
-    border-radius: 8px !important;
-    padding: 8px 16px !important;
-    transition: all 0.3s ease !important;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1) !important;
-    backdrop-filter: blur(5px) !important;
-}
-
-.btn-primary:hover, button[type="submit"]:hover {
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
     background: rgba(173, 129, 85, 0.8) !important;
-    transform: translateY(-2px) !important;
-    box-shadow: 0 4px 12px rgba(173, 129, 85, 0.3) !important;
 }
 
-/* 狀態選擇區域樣式 */
-form {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background: rgba(173, 129, 85, 0.7);
 }
 </style>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css" />
@@ -279,13 +240,14 @@ form {
        <td>
     <form action="/back-end/updateStatus" method="post">
     
+    <div class="status-container">
         <select name="memStatus" th:value="${memVO.memStatus}">
             <option th:value="0" th:selected="${memVO.memStatus == 0}" th:text="'停權'"></option>
             <option th:value="1" th:selected="${memVO.memStatus == 1}" th:text="'正常'"></option>
             <option th:value="2" th:selected="${memVO.memStatus == 2}" th:text="'禁止販賣'"></option>
         </select>
-        <input type="hidden" name="memNo" th:value="${memVO.memNo}" /> <!-- 會員編號，用於識別要更新的會員 -->
-        <button type="submit" class="btn btn-primary">修改</button>
+        <button type="submit" class="btn-modify">修改</button>
+    </div>
     </form>
 </td>
 

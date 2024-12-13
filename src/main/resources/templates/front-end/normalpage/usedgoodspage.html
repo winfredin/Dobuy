@@ -212,12 +212,12 @@
                     searchBar.value = product.usedName; // 選中商品
                     suggestionsBox.innerHTML = ''; // 清空建議
                     suggestionsBox.style.display = 'none'; // 隱藏建議框
-//                     const targetUrl = `/used/getOneUsed?usedNo=${encodeURIComponent(product.usedNo)}`;
+                    const targetUrl = `/used/getOneUsedOnDetail?usedNo=${encodeURIComponent(product.usedNo)}`;
 
                     // 跳轉到商品詳細頁面
-//                     window.location.href = targetUrl;
+                    window.location.href = targetUrl;
                 });
-                suggestionsBox.appendChild(div);
+                suggestionsBox.appendChild(div);	
             });
         } catch (error) {
             console.error('獲取建議時發生錯誤:', error);

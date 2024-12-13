@@ -44,7 +44,6 @@ public class OrderService {
 	        obj.setClientBackURL("http://localhost:8080/member"); // 用戶返回網址
 	        obj.setNeedExtraPaidInfo("N");  // 是否需要額外付費資訊
 
-	        // 生成付款表單
 	        return all.aioCheckOut(obj, null);
 	    }
 }

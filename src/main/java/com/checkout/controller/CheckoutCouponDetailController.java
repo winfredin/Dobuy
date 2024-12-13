@@ -105,6 +105,7 @@ public class CheckoutCouponDetailController {
                     }
                 }
             }
+            System.out.println("收到的櫃位與優惠券資料：" + checkoutRequest.getCounterCoupons());
 
             response.put("success", true);
             response.put("message", "結帳成功");
