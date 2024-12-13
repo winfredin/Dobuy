@@ -138,17 +138,23 @@ div a[class="coupon"]{
    margin-left: 20%;
    
 }
-div.slider{
-    width: 95%;
-    height: auto;
-    flex-shrink: 0;
-    border-radius: 2px;
-    margin-left: 30px;
+
+div.slider img {
+    width: 100%;                  /* 保持 100% 的寬度 */
+    height: 100%;                 /* 設為 100% 確保圖片不超出容器 */
+    object-fit: contain;          /* 保持圖片比例，並在容器內完整呈現 */
+    object-position: center;      /* 確保圖片在容器中居中對齊 */
+    border-radius: 20px;          /* 讓圖片的四角變得圓滑 */
+    background-color: #f5f5f5;    /* 如果圖片未完全佔滿，背景顏色會補充 */
 }
-div.slider img{
-    width: 100%;
-    /* border: 1px solid black; */
-    height: auto;
+
+div.slider img {
+    width: 100%;                 /* 圖片寬度設為 100%，以適應父容器 */
+    height: 185px;                /* 保持圖片的原始比例，防止拉伸 */
+    object-fit: contain;         /* 讓圖片在容器內完整呈現，並保留多餘的空間 */
+    object-position: center;     /* 讓圖片在容器中居中顯示 */
+    border-radius: 20px;         /* 讓圖片的四角變得圓滑 */
+    background-color: #f5f5f5;   /* 如果圖片未完全佔滿，背景顏色會補充 */
 }
 
 div.goods_body{
