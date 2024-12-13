@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>商品詳細頁</title>
     <link rel="stylesheet" th:href="@{/slick-1.8.1/slick/slick.css}" />
     <link rel="stylesheet" th:href="@{/slick-1.8.1/slick/slick-theme.css}" />
     <link rel="stylesheet" th:href="@{/shop-detail/css/test1.css}">
@@ -57,7 +57,7 @@
                 </div>
                 
                 <div class="coupon_area">
-                    <a class="coupon" href="#"><img src="/shop-detail/images/優惠卷領取頁面圖示.png" alt="coupon"></a>
+                    <a class="coupon" th:href="@{/front-end/coupon/list}"><img src="/shop-detail/images/優惠卷領取頁面圖示.png" alt="coupon"></a>
                 </div>
             </div>
         </div>
