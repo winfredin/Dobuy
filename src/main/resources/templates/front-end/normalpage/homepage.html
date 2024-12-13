@@ -157,7 +157,8 @@
         });
        
     
-     // 防抖動函數
+     
+        // 防抖動函數
         function debounce(func, delay) {
             let timeoutId;
             return function (...args) {
@@ -176,8 +177,8 @@
         async function handleSearch() {
             const query = searchBar.value.trim();
             if (query.length < 1) {
-                suggestionsBox.innerHTML = ''; // 清空建議
-                suggestionsBox.style.display = 'none'; // 隱藏建議框
+                suggestionsBox.innerHTML = '';  // 清空建議
+                suggestionsBox.style.display = 'none';  // 隱藏建議框
                 return;
             }
 
@@ -185,12 +186,8 @@
                 const response = await axios.get(`/search`, { params: { query } });
                 let products = response.data;
 
-                // 輸出獲取到的產品數據，檢查數據格式
-                console.log('搜尋返回的產品:', products);
-
                 // 檢查產品是否為空
                 if (!Array.isArray(products) || products.length === 0) {
-                    console.log('沒有匹配的商品');
                     suggestionsBox.innerHTML = '<div>沒有找到相關商品</div>';
                     suggestionsBox.style.display = 'block';
                     return;
@@ -201,35 +198,24 @@
                     const queryLower = query.toLowerCase();
                     const aIndex = a.goodsName.toLowerCase().indexOf(queryLower);
                     const bIndex = b.goodsName.toLowerCase().indexOf(queryLower);
-
-                    // 如果 A 商品的搜尋字詞出現在開頭，則排在前面
                     if (aIndex === 0 && bIndex !== 0) return -1;
                     if (bIndex === 0 && aIndex !== 0) return 1;
-
-                    // 如果兩個商品的搜尋字詞都出現在名稱中，根據字詞位置來排序
                     return aIndex - bIndex;
                 });
 
-                // 顯示建議框
                 suggestionsBox.innerHTML = '';
-                if (products.length > 0) {
-                    suggestionsBox.style.display = 'block';
-                } else {
-                    suggestionsBox.style.display = 'none'; // 沒有建議則隱藏
-                }
+                suggestionsBox.style.display = products.length > 0 ? 'block' : 'none';
 
-                // 處理產品列表，生成建議項
+                // 顯示建議項
                 products.forEach(product => {
                     const div = document.createElement('div');
                     div.classList.add('suggestion');
-                    div.textContent = product.goodsName; // 假設商品有 goodsName 屬性
+                    div.textContent = product.goodsName;
                     div.addEventListener('click', () => {
-                        searchBar.value = product.goodsName; // 選中商品
-                        suggestionsBox.innerHTML = ''; // 清空建議
-                        suggestionsBox.style.display = 'none'; // 隱藏建議框
+                        searchBar.value = product.goodsName;
+                        suggestionsBox.innerHTML = '';
+                        suggestionsBox.style.display = 'none';
                         const targetUrl = `/counter/getOneGoods?goodsNo=${encodeURIComponent(product.goodsNo)}`;
-
-                        // 跳轉到商品詳細頁面
                         window.location.href = targetUrl;
                     });
                     suggestionsBox.appendChild(div);
@@ -243,10 +229,22 @@
 
         // 將搜尋函數應用防抖動，並設置延遲（例如：300 毫秒）
         const debouncedSearch = debounce(handleSearch, 300);
-
-        // 監聽搜尋框的輸入事件
         searchBar.addEventListener('input', debouncedSearch);
 
+        // 監聽鍵盤按下事件（用來處理 Enter 鍵）
+        searchBar.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();  // 防止 Enter 觸發表單提交
+
+                const query = searchBar.value.trim(); // 獲取輸入框內容
+                if (query.length < 1) return; // 如果沒有輸入，則不處理
+
+                // 觸發搜尋並跳轉到 goodspage，並將搜尋字串作為 URL 參數
+                window.location.href = `/goodspage?search=${encodeURIComponent(query)}`;
+            }
+        });
+
+        
     </script>
 
 
