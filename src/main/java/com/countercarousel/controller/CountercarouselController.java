@@ -107,7 +107,7 @@ public class CountercarouselController {
 	    model.addAttribute("counterCarouselListData", carouselList);
 	    model.addAttribute("counter", counter); // 確保 Counter 資訊被添加到模型中
 	    
-	    return "vendor-end/front-end-carousel/ALLCarousel";
+	    return "/vendor-end/front-end-carousel/ALLCarousel";
 	}
 	
 	//-----------------------以上顯示特定櫃位輪播資訊--------------------
