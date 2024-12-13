@@ -15,35 +15,39 @@ import java.util.UUID;
 
 @Service
 public class OrderService {
+    
+    @Transactional
+    public String generateEcpayNum(Integer total, List<String> itemNames, Integer counterOrderNo) {
+        AllInOne all = new AllInOne("");
 
+        try {
+            String uuId = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 20);
+            String itemName = String.join("#", itemNames);
 
-	   @Transactional
-	    public String generateEcpayNum(Integer total, List<String> itemNames, Integer counterOrderNo) {
-	        // 初始化 AllInOne
-	        AllInOne all = new AllInOne("");
-
-	        // 使用 UUID 生成唯一訂單號
-	        String uuId = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 20);
-
-	        // 整合商品資訊（名稱與數量）
-	        StringBuilder itemNameBuilder = new StringBuilder();
-	        for (String itemName : itemNames) {
-	            itemNameBuilder.append(itemName).append("#"); // 多件商品用 `#` 分隔
-	        }
-	        String itemName = itemNameBuilder.toString();
-
-	        // 設定 ECPay 結帳物件
-	        AioCheckOutOneTime obj = new AioCheckOutOneTime();
-	        obj.setMerchantTradeNo(uuId);  // 訂單編號
-	        obj.setMerchantTradeDate(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date())); // 訂單日期
-	        obj.setTotalAmount(Integer.toString(total));  // 設定總金額
-	        obj.setTradeDesc("Order Payment");  // 設定交易描述
-	        obj.setItemName(itemName);  // 設定商品名稱
-	        obj.setCustomField1(Integer.toString(counterOrderNo));  // 自定義欄位存放訂單編號
-	        obj.setReturnURL("https://9c64-111-249-27-13.ngrok-free.app/counterOrderDetail/addCounterOrderDetail");  // ECPay 伺服器通知網址
-	        obj.setClientBackURL("http://localhost:8080/member"); // 用戶返回網址
-	        obj.setNeedExtraPaidInfo("N");  // 是否需要額外付費資訊
-
-	        return all.aioCheckOut(obj, null);
-	    }
+            // 使用 AioCheckOutALL
+            AioCheckOutALL obj = new AioCheckOutALL();
+            
+            // 設定基本必要參數
+            obj.setMerchantID("3002607");
+            obj.setMerchantTradeNo(uuId);
+            obj.setMerchantTradeDate(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date()));
+            obj.setTotalAmount(total.toString());
+            obj.setTradeDesc("DO BUY商品訂單");
+            obj.setItemName(itemName);
+            
+            // 設定付款結果通知參數
+            obj.setReturnURL("https://9c64-111-249-27-13.ngrok-free.app/ecpay/callback");
+            obj.setOrderResultURL("http://localhost:8080/member");
+            obj.setClientBackURL("http://localhost:8080/member");
+            // 設定其他必要參數
+            obj.setNeedExtraPaidInfo("N");
+            
+            // 直接使用 aioCheckOut 方法，不要呼叫 getRedirectHtml
+            return all.aioCheckOut(obj, null);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("生成綠界支付表單時發生錯誤: " + e.getMessage());
+        }
+    }
 }
