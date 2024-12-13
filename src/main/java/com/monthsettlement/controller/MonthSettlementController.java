@@ -24,8 +24,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.counter.model.CounterVO;
+import com.counterorder.model.CounterOrderService;
 import com.followers.model.FollowersVO;
 import com.goods.model.GoodsVO;
 import com.monthsettlement.model.MonthSettlementService;
@@ -46,6 +48,22 @@ public class MonthSettlementController {
     
     @Autowired
     MsgService msgSvc;
+    
+	@Autowired
+	CounterOrderService counterOrderSvc;
+	
+    @GetMapping("/getTotalOrderAmount")
+    @ResponseBody
+    public Map<String, Object> getTotalOrderAmount(@RequestParam Integer counterNo, @RequestParam String month) {
+        Map<String, Object> response = new HashMap<>();
+        Integer orderStatus = 1; // 暫時設1
+        String orderTime = month + "%"; // 確認選擇的月份
+        
+        Integer totalAmount = counterOrderSvc.getTotalOrderAmount(counterNo, orderStatus, orderTime);
+        response.put("totalAmount", totalAmount != null ? totalAmount : 0);
+        return response;
+    }
+
 
     // 進入新增頁面
     @GetMapping("/vendor-end/monthsettlement/addMonthSettlement")
@@ -63,6 +81,12 @@ public class MonthSettlementController {
     	System.out.println("呼叫");
         /*************************** 1. 接收請求參數 - 格式驗證 ************************/
     	
+    	String monthString = monthsettlementVO.getMonth();
+    	if (!monthString.matches("\\d{4}-\\d{2}")) {
+    	    result.rejectValue("month", "error.month", "月份格式不正确，请使用 YYYY-MM 格式");
+    	    return "vendor-end/monthsettlement/addMonthSettlement";
+    	}
+    	
         if (result.hasErrors()) {
         	System.out.println(monthsettlementVO.getCounterNo());
             return "vendor-end/monthsettlement/addMonthSettlement";
@@ -76,7 +100,7 @@ public class MonthSettlementController {
         model.addAttribute("monthsettlementData", list);
         model.addAttribute("success", "- (新增成功)");
         System.out.println(monthsettlementVO.getMonth());
-        return "vendor-end/monthsettlement/listAllMonthSettlement";
+        return  "redirect:/back-end-homepage";
     }
     
 //    @GetMapping("listAllMonthSettlement")
@@ -105,6 +129,12 @@ public class MonthSettlementController {
         if (counter == null) {
             return "redirect:/counter/login";
         }
+//        Integer counterNo = counter.getCounterNo();
+//        Integer orderStatus = 1; // 假设已付款的订单状态为1
+//        String orderTime = "2024-11%"; // 匹配2024年11月的订单
+//        
+//        Integer totalAmount = counterOrderSvc.getTotalOrderAmount(counterNo, orderStatus, orderTime);
+//        model.addAttribute("totalAmount", totalAmount);
         
         List<MonthSettlementVO> list = monthSettlementService.getByCounterNo(counter.getCounterNo());
         model.addAttribute("monthSettlementListData", list);

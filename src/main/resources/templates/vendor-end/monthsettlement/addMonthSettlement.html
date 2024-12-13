@@ -50,23 +50,29 @@
         <form th:action="@{/monthsettlement/insert}" method="post" th:object="${monthSettlementVO}" enctype="multipart/form-data">
             
             <div>
-            <label>櫃位編號:</label>
-            <input type="text" th:field="*{counterNo}" onclick="hideContent('counterNo.errors');" /><br/>
-            <span th:if="${#fields.hasErrors('counterNo')}" th:errors="*{counterNo}" class="error" id="counterNo.errors"></span>
+                <label>櫃位編號:</label>
+                <select th:field="*{counterNo}" id="counterNo">
+                    <option th:each="i : ${#numbers.sequence(1, 9)}" th:value="${i}" th:text="${i}"></option>
+                </select>
+                <span th:if="${#fields.hasErrors('counterNo')}" th:errors="*{counterNo}" class="error" id="counterNo.errors"></span>
             </div>
             
-            <div>
-            <label>月份:</label>
-            <input type="text" th:field="*{month}" onclick="hideContent('month.errors');" /><br/>
-            <span th:if="${#fields.hasErrors('month')}" th:errors="*{month}" class="error" id="month.errors"></span>
+       		 <div>
+                <label>月份:</label>
+                <select th:field="*{month}" id="month">
+                    <!-- 月份透過JavaScript動態選擇 -->
+                </select>
+                <span th:if="${#fields.hasErrors('month')}" th:errors="*{month}" class="error" id="month.errors"></span>
             </div>
             
-            <div>
-            <label>總金額:</label>
-            <input type="text" th:field="*{comm}" onclick="hideContent('comm.errors');" /><br/>
-            <span th:if="${#fields.hasErrors('comm')}" th:errors="*{comm}" class="error" id="comm.errors"></span>
-            </div>
-            
+			<div id="totalAmountDisplay">總金額: <span id="totalAmount">0</span></div>
+
+			<div>
+			    <label>抽成後:</label>
+			    <input type="text" th:field="*{comm}" id="commInput" onclick="hideContent('comm.errors');" readonly/><br/>
+			    <span th:if="${#fields.hasErrors('comm')}" th:errors="*{comm}" class="error" id="comm.errors"></span>
+			</div>
+      
             <div>
                 <div></div>
                 <div><button type="submit" id="submit">送出新增</button></div>
@@ -83,6 +89,51 @@
 function hideContent(d) {
      document.getElementById(d).style.display = "none";
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    var currentYear = new Date().getFullYear();
+    var monthSelect = document.getElementById("month");
+    
+    
+    for (var year = currentYear - 2; year <= currentYear; year++) {
+        for (var month = 1; month <= 12; month++) {
+            var option = document.createElement("option");
+            // 确保格式为 YYYY-MM
+            var formattedMonth = month < 10 ? "0" + month : month;
+            option.value = year + "-" + formattedMonth;
+            option.text = year + "年 " + month + "月";
+            monthSelect.appendChild(option);
+        }
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    var counterNoSelect = document.getElementById("counterNo");
+    var monthSelect = document.getElementById("month");
+    var totalAmountDisplay = document.getElementById("totalAmount");
+    var commInput = document.getElementById("commInput"); // 取得 "抽成後" 的輸入框
+
+    // 確認櫃位跟月份
+    [counterNoSelect, monthSelect].forEach(function(select) {
+        select.addEventListener("change", function() {
+            var counterNo = counterNoSelect.value;
+            var month = monthSelect.value;
+            if (counterNo && month) {
+                fetch('/monthsettlement/getTotalOrderAmount?counterNo=' + counterNo + '&month=' + month)
+                .then(response => response.json())
+                .then(data => {
+                    // 更新總金額顯示
+                    totalAmountDisplay.textContent = data.totalAmount;
+                    
+                    var commAmount = Math.floor(data.totalAmount * 0.8);
+                    // 同時更新 "抽成後" 輸入框的值
+                    commInput.value = commAmount;
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        });
+    });
+});
 </script>
 
 </body>
