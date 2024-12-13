@@ -98,24 +98,46 @@
                 goodsContainer.innerHTML = '<p>沒有找到符合的商品</p>';
             } else {
                 data.forEach(goods => {
-                    const goodsElement = document.createElement('div');
-                    goodsElement.className = 'goods';
-                    
-                    // 顯示第一張圖片
-                    const firstPic = goods.usedPics && goods.usedPics.length > 0 ? goods.usedPics[0] : ''; // 取第一張圖片編號
-                    goodsElement.innerHTML = `
-                        <div class="image-container">
-                            <img src="/usedpic/UsedDBGifReader?usedPicNo=${firstPic}" alt="goods-image">
-                        </div>
-                        <div class="goods-name">
-                            <label>${goods.usedName}</label>
-                        </div>
-                    `;
+                	 const goodsDiv = document.createElement('div');
+                     goodsDiv.className = 'goods';
 
-                    goodsContainer.appendChild(goodsElement);
-                });
-            }
-        })
+                 	
+                 	// 創建 form 元素
+                     const formElement = document.createElement('form');
+                     formElement.action = '/used/getOneUsedOnDetail';
+                     formElement.method = 'get';
+                     
+                  // 隱藏字段，傳遞商品編號
+                     const hiddenInput = document.createElement('input');
+                     hiddenInput.type = 'hidden';
+                     hiddenInput.name = 'usedNo';
+                     hiddenInput.value = goods.usedNo;
+                  // 創建按鈕
+                     const buttonElement = document.createElement('button');
+                     buttonElement.type = 'submit';
+                     buttonElement.className = 'product-button';
+                     const firstPic = goods.usedPics && goods.usedPics.length > 0 ? goods.usedPics[0] : '';
+                  // 添加商品內容到按鈕內
+                     buttonElement.innerHTML = `
+                         <div class="image-container">
+                             <img src="/usedpic/UsedDBGifReader?usedPicNo=${firstPic}" alt="goods-image">
+                         </div>
+                         <div class="goods-name">
+                             <label>${goods.usedName}</label>
+                         </div>`;
+
+                     // 將隱藏字段和按鈕加入表單
+                     formElement.appendChild(hiddenInput);
+                     formElement.appendChild(buttonElement);
+						
+                     // 將表單加入商品的外層 div
+                     goodsDiv.appendChild(formElement);
+                     
+                     // 將表單加入到 goodsContainer 中
+                     goodsContainer.appendChild(goodsDiv);
+                 });
+             }
+         })
         .catch(error => console.error('Error fetching goods:', error));
 
     }
@@ -190,12 +212,12 @@
                     searchBar.value = product.usedName; // 選中商品
                     suggestionsBox.innerHTML = ''; // 清空建議
                     suggestionsBox.style.display = 'none'; // 隱藏建議框
-//                     const targetUrl = `/used/getOneUsed?usedNo=${encodeURIComponent(product.usedNo)}`;
+                    const targetUrl = `/used/getOneUsedOnDetail?usedNo=${encodeURIComponent(product.usedNo)}`;
 
                     // 跳轉到商品詳細頁面
-//                     window.location.href = targetUrl;
+                    window.location.href = targetUrl;
                 });
-                suggestionsBox.appendChild(div);
+                suggestionsBox.appendChild(div);	
             });
         } catch (error) {
             console.error('獲取建議時發生錯誤:', error);

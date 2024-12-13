@@ -173,15 +173,7 @@
           </div>
           
           
-          <th:block th:each="a:${carlist}">
-          <div th:text="${a.orderTotalprice}"></div>
-            <input type="hidden" name="orderTotalprice" th:value="${a.orderTotalprice}">
-            <input type="hidden" name="goodsName" th:value="${a.goodsName}">
-            <input type="hidden" name="goodsNum" th:value="${a.goodsNum}">
-            <input type="hidden" name="goodsNo" th:value="${a.goodsNo}">
-            <input type="hidden" name="memNo" th:value="${a.memNo}">
-          </th:block>
-        <input type="hidden" name="counterNo" th:value="${counterNo}"></span>
+          
       
           <button class="btn btn-primary" id="ecpayCheckoutBtn" type="submit">立即結帳</button>
         </form>

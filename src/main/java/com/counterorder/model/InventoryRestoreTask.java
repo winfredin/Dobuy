@@ -17,13 +17,15 @@ public class InventoryRestoreTask {
 
     @Autowired
     private CounterOrderService counterOrderService;
-    
-    @Autowired
-    GoodsService goodsService;
+ 
     
     @Scheduled(fixedRate = 60000)
     public void runScheduledTask() {
     	counterOrderService.restore();
+    	
+    	
+    	
+    	
     }
     
     

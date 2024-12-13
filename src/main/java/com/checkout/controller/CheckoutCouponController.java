@@ -68,7 +68,8 @@ public class CheckoutCouponController {
     @GetMapping("/shoppingcartlist/ShoppingCartListCheckout49")
     public String showCheckoutPage(HttpSession session, Model model) {
         Object memNoObj = session.getAttribute("memNo");
-        
+//        Integer memNo = (Integer) session.getAttribute("memNo");
+//        model.addAttribute("memNo",memNo);
         try {
             if (memNoObj == null) {
                 return "redirect:/login";
@@ -86,12 +87,32 @@ public class CheckoutCouponController {
          // 為每個購物車項目獲取對應的商品資訊並分組
             for (ShoppingCartListVO cartItem : cartItems) {
                 GoodsVO goods = goodsService.getOneGoods(cartItem.getGoodsNo());
+                List<GoodsVO> insufficientStockItems = new ArrayList<>();
                 if (goods != null && goods.getCounterVO() != null) {
                     Integer counterNo = goods.getCounterVO().getCounterNo(); // 從 CounterVO 取得櫃位編號
                     cartItemsByCounter
                         .computeIfAbsent(counterNo, k -> new ArrayList<>())
                         .add(cartItem);
+                    model.addAttribute("counterNo",counterNo);
                 }
+                if (goods.getGoodsAmount() < cartItem.getGoodsNum()) {
+                    insufficientStockItems.add(goods);
+                } else {
+                    // 扣除庫存
+                    goods.setGoodsAmount(goods.getGoodsAmount() - cartItem.getGoodsNum());
+                    goodsService.updateGoodsAmount(cartItem.getGoodsNo(), goods.getGoodsAmount());
+                
+                }
+                if (!insufficientStockItems.isEmpty()) {
+                	for(GoodsVO a:insufficientStockItems) {
+                		model.addAttribute("error", "以下商品庫存不足："+a.getGoodsName());
+                	}
+                    
+                    return "front-end/shoppingcartlist/listAllShoppingCartList";
+                }
+                session.setAttribute("cartItems", cartItems);
+               
+                model.addAttribute("carlist", cartItems);
             }
             
             // 計算每個櫃位的小計
