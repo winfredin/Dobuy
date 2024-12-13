@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -48,11 +48,24 @@
 			<div class="icon_area">
 				<div class="icons">
 
-					<a class="icons" href="member"><img src="/images/會員中心.png"
-						alt="User"></a> <a class="icons" href="/mem/login"><img
-						src="/images/log-in.png" alt="Login"></a> <a class="icons"
-						href="#"><img src="/images/聊天室(FAQ 客服).png" alt="Chat"></a>
-					<a class="icons" href="/shoppingcartlist/listAllShoppingCartList"><img src="/images/購物車.png" alt="Cart"></a>
+					<!-- 當 session.memNo 為 null，添加 login-only 類 -->
+    <a class="icons login-only" href="/mem/login" th:if="${session.memNo == null}">
+        <img th:src="@{/images/login.png}" alt="Login">
+    </a>
+
+    <!-- 當 session.memNo 不為 null，顯示其他按鈕 -->
+    <a class="icons" href="member" th:if="${session.memNo != null}">
+        <img th:src="@{/images/會員中心.png}" alt="User">
+    </a>
+    <a class="icons" href="/mem/logout" th:if="${session.memNo != null}">
+        <img th:src="@{/images/log-out.png}" alt="Logout">
+    </a>
+    <a class="icons" href="/shoppingcartlist/listAllShoppingCartList" th:if="${session.memNo != null}">
+        <img th:src="@{/images/購物車.png}" alt="Cart">
+    </a>
+    <a class="icons" href="#" th:if="${session.memNo != null}">
+        <img th:src="@{/images/report.png}" alt="Report">
+    </a>
 
 				</div>
 
@@ -91,43 +104,15 @@
 		
 
 		<div class="bestsell_goods">
-		
-			<div class="goods" id="1">
-				 <img src="/images/Designer.jpeg" alt="goods">
-			</div>
-			<div class="goods" id="2">
-				 <img src="/images/Designer.jpeg" alt="goods">
-			</div>
-			<div class="goods" id="3">
-			<img src="/images/Designer.jpeg" alt="goods">
-			</div>
-			<div class="goods" id="4">
-						<img src="/images/Designer.jpeg" alt="goods">
-			</div>
-			<div class="goods" id="5">
-						<img src="/images/Designer.jpeg" alt="goods">
-
-			</div>
-			<div class="goods" id="6">
-				<img src="/images/Star 6.png" alt="star"> <img
-					src="/images/Designer.jpeg" alt="goods">
-			</div>
-			<div class="goods" id="7">
-							<img src="/images/Designer.jpeg" alt="goods">
-
-			</div>
-			<div class="goods" id="8">
-							<img src="/images/Designer.jpeg" alt="goods">
-
-			</div>
-			<div class="goods" id="9">
-							<img src="/images/Designer.jpeg" alt="goods">
-
-			</div>
-			<div class="goods" id="10">
-							<img src="/images/Designer.jpeg" alt="goods">
-
-			</div>
+				
+			<div class="goods" th:each="goodsVO, iterStat : ${#lists.slice(goodslist, 0, 10)}" th:id="${iterStat.index + 1}">
+        <a th:href="@{/counter/getOneGoods(goodsNo=${goodsVO.goodsNo})}">
+            <img th:src="@{/goods/DBGifReader(goodsNo=${goodsVO.goodsNo})}" alt="goods-image">
+        	<img src="/images/Star 6.png" alt="star">
+        </a>
+    </div>
+    
+    
 		</div>
 	</div>
 

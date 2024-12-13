@@ -15,7 +15,7 @@
   <header>
     <div class="header">
         <div class="logo">
-            <img src="/images/logo noback.png"   alt="logo" class="logo">
+             <img src="/images/logo noback.png"   alt="logo" class="logo">
         </div>
         <div class="header_bar">
           <div class="search">
@@ -36,10 +36,23 @@
 
         <div class="icon_area"> 
           <div class="icons">
-            <a class="icons" href="#"><img src="/images/會員中心.png" alt="User"></a>
-            <a class="icons" href="login.html"><img src="/images/log-in.png" alt="Login"></a>
-            <a class="icons" href="#"><img src="/images/聊天室(FAQ 客服).png" alt="Chat"></a>
-            <a class="icons" href="#"><img src="/images/購物車.png" alt="Cart"></a>
+          <a class="icons login-only" href="/mem/login" th:if="${session.memNo == null}">
+        <img th:src="@{/images/login.png}" alt="Login">
+    </a>
+
+    <!-- 當 session.memNo 不為 null，顯示其他按鈕 -->
+    <a class="icons" href="member" th:if="${session.memNo != null}">
+        <img th:src="@{/images/會員中心.png}" alt="User">
+    </a>
+    <a class="icons" href="/mem/logout" th:if="${session.memNo != null}">
+        <img th:src="@{/images/log-out.png}" alt="Logout">
+    </a>
+    <a class="icons" href="/shoppingcartlist/listAllShoppingCartList" th:if="${session.memNo != null}">
+        <img th:src="@{/images/購物車.png}" alt="Cart">
+    </a>
+    <a class="icons" href="#" th:if="${session.memNo != null}">
+        <img th:src="@{/images/report.png}" alt="Report">
+    </a>
           </div>
           <div class="coupon_area">
             <a class="coupon"href="#"><img src="/images/優惠卷領取頁面圖示.png" alt="coupon"></a>
@@ -49,15 +62,15 @@
 </header>
 
 <div class="goods_body">
-<div class="goods_list">
-  <p>商品分類</p>
-  <ul>
-      <li th:each="gg : ${glist}">
-                    <p th:attr="data-goodstNo=${gg.goodstNo}" onclick="filterGoods(this)" th:text="${gg.goodstName}"></p>
-        </li>
-  </ul>
+<!-- <div class="goods_list"> -->
+<!--   <p>商品分類</p> -->
+<!--   <ul> -->
+<!--       <li th:each="gg : ${glist}"> -->
+<!--                     <p th:attr="data-goodstNo=${gg.goodstNo}" onclick="filterGoods(this)" th:text="${gg.goodstName}"></p> -->
+<!--         </li> -->
+<!--   </ul> -->
   
-</div>
+<!-- </div> -->
 
     <section class="sec1">
     <div class="flex_container">
@@ -112,6 +125,16 @@
                 <tr class="Goods_Description">
                     <td class="Goods_Description_0">商品敘述</td>
                     <td class="Goods_Description_1" th:text="${usedVO.usedProDesc}"></td>
+                </tr>
+                <tr class="Goods_Description">
+                    <td class="Goods_Description_0">新舊程度</td>
+                    <td class="col-usedNewness" th:switch="${usedVO.usedNewness}">
+                            <span th:case="0">全新未拆封</span>
+                            <span th:case="1">9成新</span>
+                            <span th:case="2">7成新</span>
+                            <span th:case="3">5成新</span>
+                            <span th:case="4">3成新</span>
+                        </td>
                 </tr>
                 <tr>
                
