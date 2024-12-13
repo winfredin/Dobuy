@@ -50,6 +50,10 @@ public class UsedPicVO implements Serializable  {
         this.usedPics = usedPics;
         this.usedPicName = usedPicName;
     }
+    public UsedPicVO(Integer usedPicNo,String usedPicName) {
+    	this.usedPicNo = usedPicNo;
+    	this.usedPicName = usedPicName;
+    }
 
     public String getUsedPicName() {
     	return usedPicName;

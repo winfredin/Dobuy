@@ -16,14 +16,11 @@
             </div>
             <div class="header_bar">
                 <div class="search">
-				<div id="suggestions" ></div>
-					<input type="text" id="search" placeholder="Search..."
-						class="search" action="">
-					
-
-					<button class="search_button" name="search"></button>
-					<img src="/images/magnifying-glass-dollar-solid.svg" alt="Search">
-				</div>
+                    <div id="suggestions"></div>
+                    <input type="text" id="search" placeholder="Search..." class="search">
+                    <button class="search_button" name="search"></button>
+                    <img src="/images/magnifying-glass-dollar-solid.svg" alt="Search">
+                </div>
                 <div class="nav_bar">
                     <div class="head">
                         <a href="home">Home</a>
@@ -46,6 +43,7 @@
             </div>
         </div>
     </header>
+    
     <div class="goods_body">
         <div class="goods_list">
             <p><b>商品分類</b></p>
@@ -55,210 +53,151 @@
                 </li>
             </ul>
         </div>
-       <div class="bestsell_goods" id="goodsContainer">
-   <div class="goods" th:each="used : ${list}">
-    <div th:each="usedgoods,iterStat : ${used.usedPics}">
-        <div th:if="${iterStat.index == 0}" class="image-container">
-            <a th:href="@{/used/getOneUsedOnDetail(usedNo=${used.usedNo})}">
-                <img th:src="@{/usedpic/UsedDBGifReader} + '?usedPicNo=' + ${usedgoods.usedPicNo}" alt="goods-image" />
-            </a>
+
+        <!-- 商品顯示區域 -->
+        <div class="bestsell_goods" id="goodsContainer">
+            <div class="goods" th:each="used : ${list}" data-goodstNo="${used.usedNo}">
+                <div th:each="usedgoods,iterStat : ${used.usedPics}">
+                    <div th:if="${iterStat.index == 0}" class="image-container">
+                        <a th:href="@{/used/getOneUsedOnDetail(usedNo=${used.usedNo})}">
+                            <img th:src="@{/usedpic/UsedDBGifReader} + '?usedPicNo=' + ${usedgoods.usedPicNo}" alt="goods-image" />
+                        </a>
+                    </div>
+                </div>
+                <div class="goods-name">
+                    <label th:text="${used.usedName}"></label>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="goods-name">
-        <label th:text="${used.usedName}"></label>
-    </div>
-</div>
 
-</div>
-
-    </div>
     <footer>
         <div>© 2024 DO BUY. All Rights Reserved.</div>
     </footer>
+
     <script src="/js/jquery3.7.1.js"></script>
     <script src="/js/slick.js"></script>
     <script
-		src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.8/axios.min.js"
-		integrity="sha512-v8+bPcpk4Sj7CKB11+gK/FnsbgQ15jTwZamnBf/xDmiQDcgOIYufBo6Acu1y30vrk8gg5su4x0CG3zfPaq5Fcg=="
-		crossorigin="anonymous"></script>
+        src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.8/axios.min.js"
+        integrity="sha512-v8+bPcpk4Sj7CKB11+gK/FnsbgQ15jTwZamnBf/xDmiQDcgOIYufBo6Acu1y30vrk8gg5su4x0CG3zfPaq5Fcg=="
+        crossorigin="anonymous"></script>
+
     <script>
-    function filterGoods(element) {
-        const goodstNo = element.getAttribute('data-goodstNo');
-        if (!goodstNo) {
-            console.error('goodstNo is missing or invalid');
-            return;
-        }
 
-        fetch(`/usedgoods/filter?goodstNo=${goodstNo}`)
-        .then(response => response.json())
-        .then(data => {
-            const goodsContainer = document.getElementById('goodsContainer');
-            goodsContainer.innerHTML = '';  // 清空現有商品
-            if (data.length === 0) {
-                goodsContainer.innerHTML = '<p>沒有找到符合的商品</p>';
-            } else {
-                data.forEach(goods => {
-                    const goodsElement = document.createElement('div');
-                    goodsElement.className = 'goods';
-                    
-                    // 顯示第一張圖片
-                    const firstPic = goods.usedPics && goods.usedPics.length > 0 ? goods.usedPics[0] : ''; // 取第一張圖片編號
-                    goodsElement.innerHTML = `
-                        <div class="image-container">
-                            <img src="/usedpic/UsedDBGifReader?usedPicNo=${firstPic}" alt="goods-image">
-                        </div>
-                        <div class="goods-name">
-                            <label>${goods.usedName}</label>
-                        </div>
-                    `;
+    // 獲取搜尋框（searchBar）和建議框（suggestionsBox）
+    const searchBar = document.getElementById('search');
+    const suggestionsBox = document.getElementById('suggestions');
 
-                    goodsContainer.appendChild(goodsElement);
-                });
+    // 監聽搜尋框的鍵盤事件
+    searchBar.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();  // 防止表單提交
+            const query = searchBar.value.trim();
+            if (query.length > 0) {
+                // 根據搜尋條件顯示匹配的商品
+                filterGoodsBySearch(query);
             }
-        })
-        .catch(error => console.error('Error fetching goods:', error));
+            searchBar.value = '';           // 清空搜尋框
+            suggestionsBox.innerHTML = '';  // 清空建議框
+            suggestionsBox.style.display = 'none';
+        }
+    });
 
+    // 根據搜尋條件過濾商品
+    function filterGoodsBySearch(query) {
+        const goodsContainer = document.getElementById('goodsContainer');
+        const goodsElements = goodsContainer.getElementsByClassName('goods');
+
+        // 遍歷所有商品，根據名稱或編號進行比對
+        Array.from(goodsElements).forEach(goodsElement => {
+            const productName = goodsElement.querySelector('.goods-name label').textContent.trim().toLowerCase();
+            const productNo = goodsElement.getAttribute('data-goodstNo');  // 假設商品編號放在 data-goodstNo 屬性中
+
+            // 根據名稱或編號進行比對
+            if (productName.includes(query.toLowerCase()) || productNo.includes(query)) {
+                goodsElement.style.display = 'block';  // 顯示匹配的商品
+            } else {
+                goodsElement.style.display = 'none';   // 隱藏不匹配的商品
+            }
+        });
     }
 
     // 防抖動函數
-     function debounce(func, delay) {
-            let timeoutId;
-            return function (...args) {
-                clearTimeout(timeoutId);
-                timeoutId = setTimeout(() => {
-                    func(...args);
-                }, delay);
-            };
+    function debounce(func, delay) {
+        let timeoutId;
+        return function (...args) {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => {
+                func(...args);
+            }, delay);
+        };
+    }
+
+    // 搜尋建議處理函數
+    async function handleSearch() {
+        const query = searchBar.value.trim();
+        if (query.length < 1) {
+            suggestionsBox.innerHTML = ''; // 清空建議
+            suggestionsBox.style.display = 'none'; // 隱藏建議框
+            return;
         }
 
-        // 獲取 DOM 元素
-        const searchBar = document.getElementById('search');
-        const suggestionsBox = document.getElementById('suggestions');
+        try {
+            const response = await axios.get(`/searchused`, { params: { query } });
+            let products = response.data;
 
-        // 防抖動處理的搜尋函數
-        async function handleSearch() {
-            const query = searchBar.value.trim();
-            if (query.length < 1) {
-                suggestionsBox.innerHTML = ''; // 清空建議
-                suggestionsBox.style.display = 'none'; // 隱藏建議框
+            // 檢查產品是否為空
+            if (!Array.isArray(products) || products.length === 0) {
+                suggestionsBox.innerHTML = '<div>沒有找到相關商品</div>';
+                suggestionsBox.style.display = 'block';
                 return;
             }
 
-            try {
-                const response = await axios.get(`/searchused`, { params: { query } });
-                let products = response.data;
-              
-                // 檢查產品是否為空
-                if (!Array.isArray(products) || products.length === 0) {
-                    suggestionsBox.innerHTML = '<div>沒有找到相關商品</div>';
-                    suggestionsBox.style.display = 'block';
-                    return;
-                }
+            // 根據商品名稱中搜尋字詞的匹配度來排序
+            products = products.sort((a, b) => {
+                const queryLower = query.toLowerCase();
+                const aIndex = a.usedName.toLowerCase().indexOf(queryLower);
+                const bIndex = b.usedName.toLowerCase().indexOf(queryLower);
+                if (aIndex === 0 && bIndex !== 0) return -1;
+                if (bIndex === 0 && aIndex !== 0) return 1;
+                return aIndex - bIndex;
+            });
 
-                // 根據商品名稱中搜尋字詞的匹配度來排序
-                products = products.sort((a, b) => {
-                    const queryLower = query.toLowerCase();
-                    const aIndex = a.usedName.toLowerCase().indexOf(queryLower);
-                    const bIndex = b.usedName.toLowerCase().indexOf(queryLower);
-                    if (aIndex === 0 && bIndex !== 0) return -1;
-                    if (bIndex === 0 && aIndex !== 0) return 1;
-                    return aIndex - bIndex;
-                });
-
-                suggestionsBox.innerHTML = '';
-                if (products.length > 0) {
-                    suggestionsBox.style.display = 'block';
-                } else {
-                    suggestionsBox.style.display = 'none';
-                }
-
-                // 處理產品列表，生成建議項
-                products.forEach(product => {
-                    const div = document.createElement('div');
-                    div.classList.add('suggestion');
-                    div.textContent = product.usedName; // 假設商品有 usedName 屬性
-                    div.addEventListener('click', () => {
-                        searchBar.value = product.usedName; // 選中商品
-                        suggestionsBox.innerHTML = ''; // 清空建議
-                        suggestionsBox.style.display = 'none'; // 隱藏建議框
-                        const targetUrl = `/used/getOneUsedOnDetail?usedNo=${encodeURIComponent(product.usedNo)}`;
-
-                        // 跳轉到商品詳細頁面
-                        window.location.href = targetUrl;
-                    });
-                    suggestionsBox.appendChild(div);    
-                });
-            } catch (error) {
-                console.error('獲取建議時發生錯誤:', error);
-                suggestionsBox.innerHTML = '<div>發生錯誤，請稍後重試。</div>';
+            suggestionsBox.innerHTML = '';
+            if (products.length > 0) {
                 suggestionsBox.style.display = 'block';
+            } else {
+                suggestionsBox.style.display = 'none';
             }
+
+            // 處理產品列表，生成建議項
+            products.forEach(product => {
+                const div = document.createElement('div');
+                div.classList.add('suggestion');
+                div.textContent = product.usedName; // 假設商品有 usedName 屬性
+                div.addEventListener('click', () => {
+                    searchBar.value = product.usedName; // 選中商品
+                    suggestionsBox.innerHTML = ''; // 清空建議
+                    suggestionsBox.style.display = 'none'; // 隱藏建議框
+                    const targetUrl = `/used/getOneUsedOnDetail?usedNo=${encodeURIComponent(product.usedNo)}`;
+
+                    // 跳轉到商品詳細頁面
+                    window.location.href = targetUrl;
+                });
+                suggestionsBox.appendChild(div);    
+            });
+        } catch (error) {
+            console.error('獲取建議時發生錯誤:', error);
+            suggestionsBox.innerHTML = '<div>發生錯誤，請稍後重試。</div>';
+            suggestionsBox.style.display = 'block';
         }
+    }
 
-        // 將搜尋函數應用防抖動，並設置延遲（例如：300 毫秒）
-        const debouncedSearch = debounce(handleSearch, 300);
+    // 將搜尋函數應用防抖動，並設置延遲（例如：300 毫秒）
+    const debouncedSearch = debounce(handleSearch, 300);
 
-        // 監聽搜尋框的輸入事件
-        searchBar.addEventListener('input', debouncedSearch);
-
-        // 監聽鍵盤按下事件（處理 Enter 鍵）
-        searchBar.addEventListener('keydown', function(event) {
-            if (event.key === 'Enter') {
-                event.preventDefault();  // 防止表單提交
-                const query = searchBar.value.trim();
-                if (query.length > 0) {
-                    // 當按下 Enter 時，跳轉到商品搜尋頁面並顯示搜尋結果
-                    window.location.href = `/usedgoodspage?search=${encodeURIComponent(query)}`;
-                }
-            }
-        });
-
-        // 如果 URL 包含 search 參數，則顯示搜尋結果
-        const urlParams = new URLSearchParams(window.location.search);
-        const searchQuery = urlParams.get('search');
-        if (searchQuery) {
-            displaySearchResults(searchQuery);
-        }
-
-        // 顯示搜尋結果的函數
-        async function displaySearchResults(query) {
-            try {
-                const response = await axios.get(`/searchused`, { params: { query } });
-                const products = response.data;
-                
-                const goodsContainer = document.getElementById('goodsContainer');
-
-                if (products.length === 0) {
-                    goodsContainer.innerHTML = '<p>沒有找到相關商品</p>';
-                } else {
-                    goodsContainer.innerHTML = ''; // 清空現有商品
-                    products.forEach(product => {
-                        const goodsElement = document.createElement('div');
-                        goodsElement.className = 'goods';
-
-                        // 顯示商品圖片
-                        const firstPic = product.usedPics && product.usedPics.length > 0 ? product.usedPics[0]: '';
-                      console.log(firstPic);
-                            goodsElement.innerHTML = `
-                                <div class="image-container">
-                                    <img src="/usedpic/UsedDBGifReader?usedPicNo=${firstPic}" alt="goods-image">
-                                </div>
-                                <div class="goods-name">
-                                    <label>${product.usedName}</label>
-                                </div>
-                            `;
-                        
-
-                        goodsContainer.appendChild(goodsElement);
-                    });
-                    
-                }
-            } catch (error) {
-                console.error('顯示搜尋結果時發生錯誤:', error);
-                document.getElementById('goodsContainer').innerHTML = '<p>搜尋結果顯示錯誤，請稍後再試。</p>';
-            }
-        }
-    
+    // 監聽搜尋框的輸入事件
+    searchBar.addEventListener('input', debouncedSearch);
     </script>
 </body>
 </html>

@@ -181,8 +181,6 @@
         });
        
     
-     
-        // 防抖動函數
         function debounce(func, delay) {
             let timeoutId;
             return function (...args) {
@@ -267,6 +265,29 @@
                 window.location.href = `/goodspage?search=${encodeURIComponent(query)}`;
             }
         });
+
+        // 在 goodspage 上根據搜索字串隱藏不符合條件的商品
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchQuery = urlParams.get('search');  // 獲取 URL 中的 search 參數
+
+            if (searchQuery) {
+                filterGoodsBySearchQuery(searchQuery);
+            }
+        };
+
+        // 根據搜索字串過濾商品
+        function filterGoodsBySearchQuery(query) {
+            const goodsElements = document.querySelectorAll('.goods');
+            goodsElements.forEach(function (goodsElement) {
+                const goodsName = goodsElement.querySelector('.goods-name').textContent.trim().toLowerCase();
+                if (goodsName.includes(query.toLowerCase())) {
+                    goodsElement.style.display = 'block';  // 顯示符合條件的商品
+                } else {
+                    goodsElement.style.display = 'none';   // 隱藏不符合條件的商品
+                }
+            });
+        }
 
         
     </script>

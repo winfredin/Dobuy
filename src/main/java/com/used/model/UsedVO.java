@@ -107,7 +107,7 @@ public class UsedVO implements Serializable {
     public UsedVO(Integer usedNo,String usedName) {
         this.usedNo=usedNo;
         this.usedName=usedName;
-     
+      
         
     }
 
