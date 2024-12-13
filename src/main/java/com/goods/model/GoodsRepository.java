@@ -33,10 +33,9 @@ public interface GoodsRepository extends JpaRepository<GoodsVO, Integer> {
     List<GoodsVO> getOneCounter35(Integer counterNo);
 
 
-    @Transactional
     @Modifying
-    @Query("UPDATE GoodsVO g SET g.goodsAmount = :goodsAmount WHERE g.goodsNo = :goodsNo")
-    void upGoodsAmount(@Param("goodsAmount")Integer goodsAmount,@Param("goodsNo")Integer goodsNo);
+    @Query(value="UPDATE goods  SET goodsAmount = ?1 WHERE goodsNo =?2",nativeQuery = true)
+    void upGoodsAmount(Integer goodsAmount,Integer goodsNo);
 
 
     

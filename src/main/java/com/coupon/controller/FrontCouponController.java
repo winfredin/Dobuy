@@ -276,10 +276,8 @@ public class FrontCouponController {
         try {
             memCouponService.claimCoupon(membNo, couponNo);
             redirectAttributes.addFlashAttribute("message", "領取成功！");
-            System.out.println("領取成功");
             return "redirect:/memcoupon/memListAllCoupon"; 
         } catch (Exception e) {
-        	System.out.println("領取失敗");
             redirectAttributes.addFlashAttribute("error", e.getMessage());
             return "redirect:/memcoupon/memListAllCoupon"; 
         }

@@ -29,6 +29,7 @@ import com.counter.model.CounterVO;
 import com.countercarousel.model.CountercarouselRepository;
 import com.countercarousel.model.CountercarouselService;
 import com.countercarousel.model.CountercarouselVO;
+import com.msg.model.MsgService;
 
 @Controller
 @RequestMapping("/front-end-carousel")
@@ -41,6 +42,9 @@ public class CountercarouselController {
 	@Autowired
 	CountercarouselService countercarouselService;
 	//----------------定紘--------------------------------
+	
+    @Autowired
+    MsgService msgSvc;
 	
 	@GetMapping("/addCarousel")
 	public String showRegisterPage(Model model) {
@@ -106,6 +110,7 @@ public class CountercarouselController {
 	    // 將數據添加到 Model 中，供前端檢視使用
 	    model.addAttribute("counterCarouselListData", carouselList);
 	    model.addAttribute("counter", counter); // 確保 Counter 資訊被添加到模型中
+	    model.addAttribute("msgSvc", msgSvc);
 	    
 	    return "/vendor-end/front-end-carousel/ALLCarousel";
 	}

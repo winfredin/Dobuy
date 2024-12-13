@@ -100,6 +100,7 @@ public class MsgController {
         List<MsgVO> list = msgSvc.getOneCounterMsg(counter.getCounterNo());
         model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
         model.addAttribute("counterMsgListData", list);
+        model.addAttribute("msgSvc", msgSvc);
         model.addAttribute("success", "- (新增成功)");
         return "vendor-end/msg/listAllMsg"; // 新增成功後重導至顯示所有訊息的頁面
     }
@@ -207,10 +208,10 @@ public class MsgController {
             return "redirect:/counter/login";
         } else {
             List<MsgVO> list = msgSvc.getOneCounterMsg(counter.getCounterNo());
-            // 將所有訊息設置為已讀
+            // 將點進訊息通知後所有訊息設置為已讀
             for (MsgVO msg : list) {
-                msg.setInformRead((byte)0);
-                msgSvc.updateMsg(msg); // 假設你有這樣的更新方法
+                msg.setInformRead((byte)1);
+                msgSvc.updateMsg(msg); 
             }
             model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
             model.addAttribute("counterMsgListData", list);

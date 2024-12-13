@@ -80,31 +80,30 @@
       <div class="col-md-7 col-lg-8">
         <h4 class="mb-3">帳單地址</h4>
         <!-- 設定表單 -->
-        <form class="needs-validation" novalidate>
+        <form class="needs-validation" method="post" action="/necpayCheckout" novalidate>
           <div class="row g-3">
             <!-- 使用者資料輸入 -->
             <div class="col-sm-6">
               <label for="firstName" class="form-label">名</label>
-              <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
-              <div class="invalid-feedback">                需要有效的名字。              </div>
+              <input type="text" class="form-control" id="firstName" placeholder="" name="name" required>
+              <div class="error" id="firstNameError">                需要有效的名字。              </div>
             </div>
 
           <!-- 地址欄位 -->
           <div class="mb-3">
             <label for="address" class="form-label">地址</label>
-            <input type="text" class="form-control" id="address" placeholder="請輸入送貨地址" 
+            <input type="text" class="form-control" id="address" name="address" placeholder="請輸入送貨地址" 
               pattern="^[A-Za-z0-9\u4e00-\u9fa5]{2,20}$" title="地址只能包含中文、英文和數字，且長度為2-20位" required>
             <div class="error" id="addressError"></div>
           </div>
 
-          <!-- 新增 Email 欄位 -->
-          <div class="mb-3">
-            <label for="email" class="form-label">電子郵件</label>
-            <input type="email" class="form-control" id="email" placeholder="請輸入您的電子郵件" 
-              pattern="^[\w-]+(\.[\w-]+)*@[\w-]+\.[a-z]{2,6}$" title="電子郵件格式不正確，必須包含 '@' 並以 .com 結尾" required>
-            <div class="error" id="emailError"></div>
+         
+		<div class="mb-3">
+            <label for="phone" class="form-label">手機號碼</label>
+            <input type="text" class="form-control" id="phone" name="phone" placeholder="請輸入您的手機" 
+              pattern="^09\d{8}$" title="手機格式不正確，必須包含 09開頭總共要10位數" required>
+            <div class="error" id="phoneError"></div>
           </div>
-
 
 
 
@@ -123,7 +122,15 @@
                     <span th:text="|$${item.orderTotalprice}|">價格</span>
                 </div>
             </li>
-
+						<th:block th:each="a:${carlist}">
+          
+            <input type="hidden" name="orderTotalprice" th:value="${a.orderTotalprice}">
+            <input type="hidden" name="goodsName" th:value="${a.goodsName}">
+            <input type="hidden" name="goodsNum" th:value="${a.goodsNum}">
+            <input type="hidden" name="goodsNo" th:value="${a.goodsNo}">
+            <input type="hidden" name="memNo" th:value="${a.memNo}">
+          </th:block>
+        <input type="hidden" name="counterNo" th:value="${counterNo}"></span>
             <!-- 該櫃位的優惠券選擇 -->
             <li class="list-group-item">
                 <div class="form-group">
@@ -186,8 +193,10 @@
                 <span>優惠後總金額：</span>
                 <span class="text-primary" id="finalTotalAfterDiscount" 
                       th:text="|$${totalAmount}|">
+                     
                     $0
                 </span>
+                 <input type="hidden" name="afterAmount" th:value="|$${totalAmount}|">
             </div>
         </div>
     </div>
@@ -218,25 +227,76 @@
 <script th:inline="javascript">
 
 document.addEventListener('DOMContentLoaded', function() {
+	
+	 document.getElementById('firstName').addEventListener('focus', function() {
+	        document.getElementById('firstNameError').innerText = '姓名必須是2-10位的中文或英文，不能有特殊符號';
+	      });
+	      document.getElementById('phone').addEventListener('focus', function() {
+	          document.getElementById('phoneError').innerText = '手機必須09開頭且要10位數字';
+	        });
+
+	      document.getElementById('address').addEventListener('focus', function() {
+	        document.getElementById('addressError').innerText = '地址只能包含中文、英文和數字，且長度為2-20位';
+	      });
+	
+	
+	
     const checkoutForm = document.querySelector('form.needs-validation');
+   
     
     // 結帳表單提交
-    checkoutForm.addEventListener('submit', async function(event) {
-        event.preventDefault();
+//     checkoutForm.addEventListener('submit', async function(event) {
+//         event.preventDefault();
         
-        // 收集優惠券選擇
-        const couponSelections = {};
-        document.querySelectorAll('.coupon-select').forEach(select => {
-            const counterId = select.getAttribute('data-counter');
-            const couponValue = select.value;
-            if (couponValue) {
-                couponSelections[counterId] = parseInt(couponValue);
-            }
-        });
+//         // 收集優惠券選擇
+//         const couponSelections = {};
+//         document.querySelectorAll('.coupon-select').forEach(select => {
+//             const counterId = select.getAttribute('data-counter');
+//             const couponValue = select.value;
+//             if (couponValue) {
+//                 couponSelections[counterId] = parseInt(couponValue);
+//             }
+//         });
         
+
+//         console.log('準備送出的優惠券資料:', couponSelections);
+
+//         try {
+//             const response = await fetch('/shoppingcartlist/checkout', {
+//                 method: 'POST',
+//                 headers: {
+//                     'Content-Type': 'application/json'
+//                 },
+//                 body: JSON.stringify({
+//                     counterCoupons: couponSelections
+//                 })
+//             });
+
+//             const result = await response.json();
+//             console.log('處理結果:', result);
+
+//             if (result.error) {
+//                 alert(result.error);
+//                 return;
+//             }
+
+//             if (result.success) {
+//                 // 成功後轉到下一步 =================================================後面給綠界用
+//                 const baseUrl = window.location.protocol + '//' + window.location.host;
+//                 window.location.href = baseUrl + '/home';
+//             }
+
+//         } catch (error) {
+//             console.error('結帳發生錯誤:', error);
+//             alert('結帳過程發生錯誤，請稍後再試');
+//         }
+//     });
+
         console.log('準備送出的優惠券資料:', couponSelections);
 
         try {
+        	console.log('準備送出的優惠券資料:', couponSelections);
+
             const response = await fetch('/shoppingcartlist/checkout', {
                 method: 'POST',
                 headers: {
@@ -245,6 +305,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: JSON.stringify({
                     counterCoupons: couponSelections
                 })
+                
             });
 
             const result = await response.json();
@@ -266,6 +327,7 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('結帳過程發生錯誤，請稍後再試');
         }
     });
+
 
     // 優惠券選擇變更時只做預覽
     const couponSelects = document.querySelectorAll('.coupon-select');
@@ -354,6 +416,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    
     function updateDiscountSummary(counterId, data) {
         const summaryElement = document.querySelector(`#discountSummary-${counterId}`);
         const finalTotalElement = document.getElementById('finalTotalAfterDiscount');
@@ -394,6 +457,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
+
+   
   </script>
   
 </body>
