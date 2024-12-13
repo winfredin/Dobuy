@@ -48,7 +48,7 @@ public interface CounterOrderRepository extends JpaRepository<CounterOrderVO, In
         @Param("status") Integer status
     );
 	
-    @Query("SELECT co FROM CounterOrderVO co WHERE co.orderStatus = 0 AND TIMESTAMPDIFF(MINUTE, co.ordertime, CURRENT_TIMESTAMP) > 1")
+    @Query("SELECT co FROM CounterOrderVO co WHERE co.orderStatus = 5 AND TIMESTAMPDIFF(MINUTE, co.ordertime, CURRENT_TIMESTAMP) > 1")
     List<CounterOrderVO> findExpiredOrders();
     
     @Transactional
