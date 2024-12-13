@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ShoppingCartList.model.ShoppingCartListService;
 import com.ShoppingCartList.model.ShoppingCartListVO;
+import com.counter.model.CounterService;
+import com.counter.model.CounterVO;
 import com.goods.model.GoodsService;
 import com.goods.model.GoodsVO;
 
@@ -24,7 +26,9 @@ import com.goods.model.GoodsVO;
 
 @Controller
 public class IndexController_inSpringBoot_ShoppingCartList {
-
+	
+	@Autowired
+	CounterService counterSvc;
     // 注入 ShoppingCartListService 用來查詢購物車資料
     @Autowired
     ShoppingCartListService shoppingCartListSvc;
@@ -70,6 +74,8 @@ public class IndexController_inSpringBoot_ShoppingCartList {
     // 顯示所有購物車列表
     @GetMapping("/shoppingcartlist/listAllShoppingCartList")
     public String listAllShoppingCart(Model model) {
+    	List<CounterVO> counterVOList = counterSvc.getAll();
+		model.addAttribute("counterVOList", counterVOList);
         return "front-end/shoppingcartlist/listAllShoppingCartList"; // 返回顯示所有購物車的頁面
     }
     

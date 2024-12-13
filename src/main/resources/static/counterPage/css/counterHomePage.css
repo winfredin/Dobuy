@@ -1279,7 +1279,7 @@ img {
 
 /* ===============Header 搜尋============= */
 .custom-container {
-	height: 50px;
+	height: 60px;
 	/* 固定高度 */
 	border-bottom: none;
 	/* 移除子元素的底部分隔線 */
@@ -1337,7 +1337,7 @@ img {
 
 /* ===============Header 登入============= */
 .top-container {
-	height: 30px;
+	height: 45px;
 	/* 固定高度 */
 	border-bottom: none;
 	/* 移除底部分隔線 */

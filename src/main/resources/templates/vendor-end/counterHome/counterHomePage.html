@@ -50,9 +50,10 @@
 				<div class="left-text">
 					<a th:href="@{/home}" class="nav-link">首頁</a> 
 					<a th:href="@{/counter/Counterindex}" class="nav-link">我的賣場</a>
+					<a th:href="@{/goodspage}" class="nav-link">一般商城</a>
 					<a th:href="@{/counter/getFaq(counterNo=${counterVO.counterNo})}" class="nav-link">FAQ常見問題</a>
 					<span th:if="${session.memAccount != null}"> 
-						<a th:href="@{/front-end/coupon/member/list}" class="nav-link">我的優惠券</a>
+						<a th:href="@{/memcoupon/memListAllCoupon}" class="nav-link">我的優惠券</a>
 					</span>
 					<span th:if="${session.memAccount != null}"> 
 						<a th:href="@{/goodsTrack/getFavorites}" class="nav-link">我的收藏清單</a>
@@ -66,11 +67,12 @@
 					<span th:if="${session.memAccount == null}"> 
 						<a th:href="@{/mem/register}" class="login-link">註冊</a> 
 					<span class="divider">|</span> 
-						<a th:href="@{/mem/login}" class="login-link">登入</a>
+						<a class="icons" th:href="@{/mem/login}"><img th:src="@{/images/log-in.png}" alt="Login"></a>
 					</span>
 
 					<!-- 已登入時顯示用戶名稱和登出 -->
 					<span th:if="${session.memAccount != null}"> 
+					<a class="icons" th:href="@{/member}"><img th:src="@{/images/會員中心.png}" alt="User"></a>
 					<span class="user-name" th:text="'Welcome&nbsp;&nbsp;&nbsp;'+ ${session.memAccount}"></span>
 						<a th:href="@{/mem/logout}" class="login-link">登出</a>
 					</span>
@@ -94,10 +96,7 @@
 						<!-- 搜尋圖標 -->
 					</button>
 					<!-- 購物車圖標 -->
-					<a href="#" class="cart"> <img
-						th:src="@{/counterPage/img/pic/shopping-cart01.png}" alt="cart"
-						style="width: 40px; height: 40px;">
-					</a>
+					<a class="icons" th:href="@{/shoppingcartlist/listShoppingCartLists_ByCompositeQuery}" style="width: 40px; height: 40px;"><img th:src="@{/images/購物車.png}" alt="Cart"></a>
 				</div>
 			</div>
 		</div>
@@ -117,8 +116,9 @@
 				</div>
 				<!-- 中间的 logo -->
 				<div class="col-4 text-center">
-					<img th:src="@{/counterPage/img/core-img/logo-noback.png}"
-						alt="Logo" style="max-width: 150px;">
+					<a th:href="@{/home}" title="點擊跳轉">
+				        <img th:src="@{/counterPage/img/core-img/logo-noback.png}" alt="Logo" style="max-width: 150px;">
+				    </a>
 				</div>
 				<!-- 右侧图片或文字 -->
 				<div class="col-4 text-right">
@@ -151,9 +151,9 @@
 			    <div th:each="coupons : ${coupons}" class="col-12 col-md-6 col-lg-4" style="margin-bottom: 20px;">
 			        <!-- 文字框 -->
 			        
-			        <form th:action="@{/coupondetail/listByCouponNo}" method="get">
+			        <form th:action="@{/front-end/coupon/detail/{couponNo}(couponNo=${coupons.couponNo})}" method="get">
 					<!-- 隱藏字段，傳遞商品編號 -->
-						<input type="hidden" name="couponNo" th:value="${coupons.couponNo}">
+<!-- 						<input type="hidden" name="couponNo" th:value="${coupons.couponNo}"> -->
 						<!-- 商品區塊作為按鈕 -->
 						<button type="submit" style="width: 100%; background: none; border: none; padding: 0; text-align: left;">
 				        <div class="custom-single-blog-area-coupons clearfix mb-100" style="padding: 20px; border: 1px solid #ccc; border-radius: 5px; background-color: #f5deb3; text-align: center;">
@@ -183,7 +183,7 @@
 				<div class="left-menu">
 					<a href="#" class="menu-a">篩選</a>
 					<button class="menu-button" id="randomSortButton">綜合排名</button>
-					<button class="menu-button">最新</button>
+					<button class="menu-button" id="theNewest">最新</button>
 					<button class="menu-button" id="sortByStock">最熱銷</button>
 					<div class="dropdown">
 						<button class="menu-button">價格 ▼</button>
@@ -191,7 +191,6 @@
 						    <a href="#" class="sort-link">價格由低到高</a>
 						    <a href="#" class="sort-link">價格由高到低</a>
 						</div>
-
 					</div>
 				</div>
 
@@ -254,6 +253,7 @@
 										  <div class="heart-icon-container">
 											  <i class="fas fa-heart" th:attr="data-goodsNo=${goodsVO.goodsNo}, data-memAccount=${session.memAccount}" onclick="toggleHeart(this)" style="color: #ccc; font-size: 24px;"></i>
 										  </div>
+										  <span style="display: none;" class="product-time" th:attr="data-time=${goodsVO.goodsDate}" th:text="${goodsVO.goodsDate}"></span>
 									</div>										
 								</form>
 							</div>

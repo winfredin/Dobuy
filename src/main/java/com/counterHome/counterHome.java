@@ -63,7 +63,6 @@ public class counterHome {
 		List<GoodsLightVO> goodsLightVO = new ArrayList<GoodsLightVO>(); // 建一個輕量級的VO，把抓到的資料轉成前端要的格式(base64)
 		for (GoodsVO goods : goodsVO) {
 			goodsLightVO.add(new GoodsLightVO(goods));
-			System.out.println(goods.getGoodsDate());
 		}
 
 		// 其他

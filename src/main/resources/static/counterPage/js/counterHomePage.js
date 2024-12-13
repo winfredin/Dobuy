@@ -44,7 +44,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const sortLowToHighButton = document.querySelector(".dropdown-content a:nth-child(1)");
     const sortHighToLowButton = document.querySelector(".dropdown-content a:nth-child(2)");
 	const randomSortButton = document.getElementById("randomSortButton");
-	
+	const theNewest = document.getElementById("theNewest"); // 搜索按钮
+	const productsContainer = document.getElementById("productContainer");
+	const productItems = Array.from(productsContainer.querySelectorAll(".product-item"));
 	
 	
     let filteredProducts = Array.from(products); // 当前筛选的商品列表
@@ -94,6 +96,42 @@ document.addEventListener("DOMContentLoaded", () => {
         // 清除分类高亮状态
         categoryLinks.forEach(link => link.classList.remove("highlighted"));
     }
+	
+	//最新排行
+	theNewest.addEventListener("click", function () {
+	    // 对商品排序
+	    productItems.sort(function (a, b) {
+	        const timeA = new Date(a.querySelector(".product-time").getAttribute("data-time"));
+	        const timeB = new Date(b.querySelector(".product-time").getAttribute("data-time"));
+	        return timeB - timeA; // 按时间降序排序
+	    });
+
+	    // 重置当前页为第一页
+	    currentPage = 0;
+
+	    // 更新全局变量 filteredProducts，保存排序后的商品
+	    filteredProducts = productItems;
+
+	    // 调用分页渲染函数
+	    renderProducts();
+	});
+
+	// 分页渲染函数
+	function renderProducts() {
+	    // 清空容器
+	    productsContainer.innerHTML = "";
+
+	    // 按分页逻辑获取当前页商品
+	    const startIndex = currentPage * itemsPerPage;
+	    const endIndex = startIndex + itemsPerPage;
+	    const pageItems = filteredProducts.slice(startIndex, endIndex);
+
+	    // 将当前页商品添加到容器中
+	    pageItems.forEach(function (item) {
+	        productsContainer.appendChild(item);
+	    });
+	}
+
 	
 	// 绑定随机排列事件
 	    randomSortButton.addEventListener("click", () => {
@@ -176,7 +214,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	    // 为 "最熱銷" 按钮添加 active 类
 	    sortByStockButton.classList.add('active');
-
+		
+		currentPage = 0;
 	    // 重新渲染商品
 	    renderProducts();
 	}
