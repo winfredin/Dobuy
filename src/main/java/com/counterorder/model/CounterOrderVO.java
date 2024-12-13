@@ -120,16 +120,18 @@ public class CounterOrderVO implements java.io.Serializable {
 		if (orderStatus != null) {
 			switch (orderStatus) {
 			case 0:
-				return "未付款";
+				return "未出貨";
 			case 1:
-				return "已付款";
+				return "已出貨";
 
 			case 2:
-				return "已取消";
-			case 3:
-				return "已發貨";
-			case 4:
 				return "已完成";
+			case 3:
+				return "退貨";
+			case 4:
+				return "作廢";
+			case 5:
+				return "未付款";
 			}
 
 		}

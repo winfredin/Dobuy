@@ -46,7 +46,7 @@ public class CounterOrderDetailController {
        
        // 更新訂單狀態為已付款
        CounterOrderVO order = counterOrderSvc.getOneCounterOrder(Integer.parseInt(counterOrderNo));
-       order.setOrderStatus(1);
+       order.setOrderStatus(0);
        counterOrderSvc.updateCounterOrder(order);
 
        return "redirect:/member"; // 結帳完成後重定向到會員中心或其他頁面
