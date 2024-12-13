@@ -237,6 +237,8 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('準備送出的優惠券資料:', couponSelections);
 
         try {
+        	console.log('準備送出的優惠券資料:', couponSelections);
+
             const response = await fetch('/shoppingcartlist/checkout', {
                 method: 'POST',
                 headers: {
@@ -245,6 +247,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: JSON.stringify({
                     counterCoupons: couponSelections
                 })
+                
             });
 
             const result = await response.json();
