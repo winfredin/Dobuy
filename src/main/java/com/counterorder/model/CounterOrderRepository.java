@@ -48,9 +48,13 @@ public interface CounterOrderRepository extends JpaRepository<CounterOrderVO, In
         @Param("status") Integer status
     );
 	
-    @Query("SELECT co FROM CounterOrderVO co WHERE co.orderStatus = 0 AND TIMESTAMPDIFF(MINUTE, co.ordertime, CURRENT_TIMESTAMP) > 1")
+    @Query("SELECT co FROM CounterOrderVO co WHERE co.orderStatus = 5 AND TIMESTAMPDIFF(MINUTE, co.ordertime, CURRENT_TIMESTAMP) > 1")
     List<CounterOrderVO> findExpiredOrders();
     
+    @Transactional
+    @Modifying
+    @Query(value="update counterorder set orderStatus = ?1 where memNo= ?2",nativeQuery = true)
+    void updateCounterStatus(Integer orderStatus,Integer memNo);
     
  // 新增：根據買家會員編號查詢訂單-Gary
     @Query(value ="SELECT * FROM counterorder WHERE memNo = memNo AND orderStatus != 4", nativeQuery = true)

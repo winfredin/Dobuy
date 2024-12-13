@@ -15,6 +15,7 @@ import java.util.UUID;
 
 @Service
 public class OrderService {
+
     
     @Transactional
     public String generateEcpayNum(Integer total, List<String> itemNames, Integer counterOrderNo) {
@@ -51,3 +52,4 @@ public class OrderService {
         }
     }
 }
+

@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.counter.model.CounterService;
 import com.counter.model.CounterVO;
+import com.countercarousel.model.CountercarouselService;
+import com.countercarousel.model.CountercarouselVO;
 import com.counterorder.model.CounterOrderService;
 import com.counterorder.model.CounterOrderVO;
 import com.counterorderdetail.model.CounterOrderDetailService;
@@ -52,6 +54,8 @@ public class FrontEndController {
 	CounterOrderDetailService counterOrderDetailSvc;
 	@Autowired
 	CouponService couponSvc;
+	@Autowired
+	CountercarouselService countercarouselSvc;
 	
 	
 	@Autowired
@@ -107,8 +111,15 @@ public class FrontEndController {
 	        return "front-end/normalpage/member"; 
 	    }
 	 @GetMapping("home")
-	    public String getHomePage() {
-	        return "front-end/normalpage/homepage"; 
+	    public String getHomePage(Model model) {
+		 
+		 List <CountercarouselVO> carousellist = countercarouselSvc.getAll();
+		 List<GoodsVO> goodslist = goodsSvc.getAllGoodsStatus1();
+		 
+		 
+		 model.addAttribute("goodslist", goodslist);
+		 model.addAttribute("carousellist", carousellist);
+		 return "front-end/normalpage/homepage"; 
 	    }
 	 @GetMapping("goodspage")
 	    public String getgoodspagePage(Model model) {

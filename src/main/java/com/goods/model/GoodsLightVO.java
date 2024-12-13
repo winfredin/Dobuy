@@ -1,5 +1,6 @@
 package com.goods.model;
 
+import java.sql.Timestamp;
 import java.util.Base64;
 
 import com.counter.model.CounterVO;
@@ -13,6 +14,7 @@ public class GoodsLightVO {
 	private String base64Image;
 	private GoodsTypeVO goodsTypeVO;
 	private CounterVO counterVO;
+	private Timestamp goodsDate; // 商品上架日期
 	
 	  public GoodsLightVO(GoodsVO goodsVO) {
 	        if (goodsVO != null) {
@@ -25,9 +27,18 @@ public class GoodsLightVO {
 	            }
 	            this.setGoodsTypeVO(goodsVO.getGoodsTypeVO());
 	            this.setCounterVO(goodsVO.getCounterVO());
+	            this.setGoodsDate(goodsVO.getGoodsDate());
 	        }
 	    }
 	
+	public Timestamp getGoodsDate() {
+		return goodsDate;
+	}
+
+	public void setGoodsDate(Timestamp goodsDate) {
+		this.goodsDate = goodsDate;
+	}
+
 	public Integer getGoodsNo() {
 		return goodsNo;
 	}

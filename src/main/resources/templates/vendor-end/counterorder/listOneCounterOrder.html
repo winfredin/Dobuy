@@ -1,53 +1,108 @@
-
-
-
-
-
-
-
-
-
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>員工資料 - listOneCounterOrder.html</title>
+<html lang="zh-TW" xmlns:th="http://www.thymeleaf.org">
 
-<head th:insert="~{/vendor-end/counterorder/included-fragment}"></head>
-<style type="text/css">
-	
-    span {
-		display: inline-block;
-		width: 150px;
-		text-align: left;
-		font-weight: bold;
-	}
-</style>
+<head>
+ <th:block th:replace="~{/vendor-end/counter/Counterincldue :: head}"></th:block>
+
+    <title>櫃位訂單管理</title>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+<script
+	src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css" />
+    
+    <script>
+	var dataTablesJQ = $.noConflict(true); // 使用獨立的 jQuery 實例
+	dataTablesJQ(document).ready(function() {
+		dataTablesJQ('#example').DataTable({
+			"lengthMenu" : [20, 50, 100 ],
+			"searching" : true,
+			"paging" : true,
+			"ordering" : true,
+			"language" : {
+				"processing" : "處理中...",
+				"loadingRecords" : "載入中...",
+				"lengthMenu" : "顯示 _MENU_ 筆結果",
+				"zeroRecords" : "沒有符合的結果",
+				"info" : "顯示第 _START_ 至 _END_ 筆結果，共 _TOTAL_ 筆",
+				"infoEmpty" : "顯示第 0 至 0 筆結果，共 0 筆",
+				"infoFiltered" : "(從 _MAX_ 筆結果中過濾)",
+				"search" : "搜尋:",
+				"paginate" : {
+					"first" : "第一頁",
+					"previous" : "上一頁",
+					"next" : "下一頁",
+					"last" : "最後一頁"
+				},
+				"aria" : {
+					"sortAscending" : ": 升冪排列",
+					"sortDescending" : ": 降冪排列"
+				}
+			}
+		});
+	});
+	</script>
 </head>
+
 <body>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
-		 <div align="center"> <h2>單筆訂單資料 - listOneCounterOrder.html</h2>
-		 <h3><a class="navbar-brand" th:href="@{select_page}"><img th:src="@{/images/back1.gif}">回查詢頁<label th:text="${success}"></label></a></h3></div>
-</nav>
+	<div th:insert== "vendor-end/counter/Counterincldue ::header"></div>
 
-	<div align="center" th:fragment="listOneCounterOrder-div"> <!-- 此div被select_page.html第158行insert用 -->
-		<h3><span>查詢結果 :</span></h3>
-		<span>訂單編號:</span><span th:text="${counterOrderVO.counterOrderNo}"></span><br/>
-		<span>櫃位編號:</span><span th:text="${counterOrderVO.CounterNo}"></span><br/>
-		<span>會員編號:</span><span th:text="${counterOrderVO.memNo}"></span><br/>
-		<span>原價格:</span><span th:text="${counterOrderVO.orderTotalBefore}"></span><br/>
-		<span>折價後價格:</span><span th:text="${counterOrderVO.orderTotalAfter}"></span><br/>
-		<span>收件人姓名:</span><span th:text="${counterOrderVO.receiverName}"></span><br/>
-		<span>收件人地址:</span><span th:text="${counterOrderVO.receiverAdr}"></span><br/>
-		<span>收件人電話:</span><span th:text="${counterOrderVO.receiverPhone}"></span><br/>
-		<span>下單日期:</span><span th:text="${counterOrderVO.ordertime}"></span><br/>
-		<span>優惠券編號:</span><span th:text="${counterOrderVO.disno}"></span><br/>
-		<span>訂單狀態:</span><span th:text="${counterOrderVO.orderStatus}"></span><br/>
-		
-	</div>
+    <!-- Header and Navigation (same as original) -->
 
+    <!-- Table Start -->
+    <table id="example">
+        <thead>
+            <tr style="background-color: #CCCCFF">
+                <th>訂單編號</th>
+                <th>櫃位編號</th>
+                <th>會員編號</th>
+                <th>折扣前金額</th>
+                <th>折扣後金額</th>
+                <th>收件人名稱</th>
+                <th>收件人地址</th>
+                <th>收件人手機</th>
+                <th>折扣券編號</th>
+                <th>訂單狀態</th>
+                <th>下單時間</th>
+            </tr>
+        </thead>
+        <tbody>
+            <th:block th:each="order : ${alist}">
+                <tr>
+                    <td th:text="${order.counterOrderNo}"></td>
+                    <td th:text="${order.counterNo}"></td>
+                    <td th:text="${order.memNo}"></td>
+                    <td th:text="${order.orderTotalBefore}"></td>
+                    <td th:text="${order.orderTotalAfter}"></td>
+                    <td th:text="${order.receiverName}"></td>
+                    <td th:text="${order.receiverAdr}"></td>
+                    <td th:text="${order.receiverPhone}"></td>
+                    <td th:text="${order.memCouponNo}"></td>
+                    <td>
+                    <form action="/back-end/updateOrder" method="post">
+                   <select name="orderStatus" th:value="${order.orderStatus}" >
+                   <option th:value="0" th:selected="${order.orderStatus == 0}" th:text="未出貨"></option>
+                   <option th:value="1" th:selected="${order.orderStatus == 1}" th:text="已出貨"></option>
+                     <option th:value="2" th:selected="${order.orderStatus == 2}" th:text="已完成"></option>
+            <option th:value="3" th:selected="${order.orderStatus == 3}" th:text="退貨"></option>
+            <option th:value="4" th:selected="${order.orderStatus == 4}" th:text="作廢"></option>
+            <option th:if="${order.orderStatus == 5}" th:text="未付款"></option>
+        </select>
+         <input type="hidden" name="memNo" th:value="${order.memNo}" /> <!-- 會員編號，用於識別要更新的會員 -->
+        <button type="submit" class="btn btn-primary">修改</button>
+        </form>
+                    </td>
+                    <td th:text="${#dates.format(order.ordertime, 'yyyy-MM-dd')}"></td>
+                </tr>
+            </th:block>
+        </tbody>
+    </table>
+
+	<!-- fragment引入 -->
+	<footer th:block
+		th:replace="~{back-end/back-end-home/fraghead :: footer}"></footer>
 
 </body>
 </html>

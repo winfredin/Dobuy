@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.counter.model.CounterService;
 import com.counter.model.CounterVO;
 import com.counterorder.model.CounterOrderService;
 import com.followers.model.FollowersVO;
@@ -44,13 +45,16 @@ public class MonthSettlementController {
     MonthSettlementService monthSettlementService;
 
     @Autowired
-    MonthSettlementService counterService;
+    CounterService counterService;
     
     @Autowired
     MsgService msgSvc;
     
 	@Autowired
 	CounterOrderService counterOrderSvc;
+	
+	@Autowired
+	CounterService counterSvc;
 	
     @GetMapping("/getTotalOrderAmount")
     @ResponseBody
@@ -69,6 +73,8 @@ public class MonthSettlementController {
     @GetMapping("/vendor-end/monthsettlement/addMonthSettlement")
     public String addMonthSettlement(ModelMap model) {
         MonthSettlementVO monthSettlementVO = new MonthSettlementVO();
+        List<CounterVO> counters = counterService.getAll();
+        model.addAttribute("counters", counters);
         System.out.println("=====");
         model.addAttribute("monthSettlementVO", monthSettlementVO);
         return "vendor-end/monthsettlement/addMonthSettlement";
@@ -379,7 +385,13 @@ public class MonthSettlementController {
         return "vendor-end/monthsettlement/listAllMonthSettlement";
     }
 
+	@ModelAttribute("counterNoListData")
+	protected List<CounterVO> CreferenceListData() {
+		// DeptService deptSvc = new DeptService();
+		List<CounterVO> list = counterSvc.getAll();
+		return list;
+	}
+	
 
-    
    
 }
