@@ -386,12 +386,12 @@ $(document).ready(function() {
                 $('.use_1').html(response);
 
                 // 检查并销毁已有 DataTables 实例
-                if ($.fn.DataTable.isDataTable('#exampleBuyer')) {
-                    $('#exampleBuyer').DataTable().destroy();
+                if ($.fn.DataTable.isDataTable('#example')) {
+                    $('#example').DataTable().destroy();
                 }
 
                 // 重新初始化 DataTables
-                $('#exampleBuyer').DataTable({
+                $('#example').DataTable({
                     "lengthMenu": [3, 5, 10, 20, 50, 100],
                     "searching": true,
                     "paging": true,

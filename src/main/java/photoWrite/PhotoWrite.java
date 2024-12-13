@@ -14,6 +14,7 @@ class PhotoWrite {
         String url = "jdbc:mysql://localhost:3306/dobuy?serverTimezone=Asia/Taipei";
         String userid = "root";
 
+
         String passwd = "25503605226";
 
         String photos = "src/main/resources/static/Gp_Photos"; // 測試用圖片資料夾
