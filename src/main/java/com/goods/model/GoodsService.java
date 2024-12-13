@@ -51,7 +51,9 @@ public class GoodsService {
     public List<GoodsVO> getAll() {
         return repository.findAll();
     }
-
+    public List<GoodsVO> getgoods() {
+        return repository.findAllUP();
+    }
 //  使用條件查詢取得商品
     public List<GoodsVO> getAll(Map<String, String[]> map) {
         return HibernateUtil_CompositeQuery_Goods.getAllC(map, sessionFactory.openSession());

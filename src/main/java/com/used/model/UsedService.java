@@ -44,7 +44,9 @@ public class UsedService {
 		 return savedUsed;
 	}
 	
-	
+	public List<UsedVO> getUsed(){
+		return repository.getUsed();
+	}
 	
 	//改
 	@Transactional

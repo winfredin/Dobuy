@@ -112,7 +112,7 @@ public class FrontEndController {
 	    }
 	 @GetMapping("goodspage")
 	    public String getgoodspagePage(Model model) {
-		 List<GoodsVO> list = goodsSvc.getAll();
+		 List<GoodsVO> list = goodsSvc.getgoods();
 		 List<GoodsTypeVO> glist = goodstSvc.getAll();
 		
 		 model.addAttribute("list",list);
@@ -121,7 +121,7 @@ public class FrontEndController {
 	    }
 	 @GetMapping("usedgoodspage")
 	    public String getusedgoodspagePage(Model model) {
-		 List<UsedVO> list = usedSvc.getAll();
+		 List<UsedVO> list = usedSvc.getUsed();
 		 List<GoodsTypeVO> glist = goodstSvc.getAll();
 		
 		 model.addAttribute("list",list);
@@ -135,7 +135,7 @@ public class FrontEndController {
 	 public List<GoodsVO> filterGoodsByType(@RequestParam("goodstNo") String goodstNo,
 	         Model model) {
 		 
-		    List<GoodsVO> alist = goodsSvc.getAll();
+		    List<GoodsVO> alist = goodsSvc.getgoods();
 		    int goodstNoInt ;
 		    
 		    try {
@@ -160,7 +160,7 @@ public class FrontEndController {
 	 @GetMapping("/usedgoods/filter")
 	 @ResponseBody
 	 public List<Map<String, Object>> usedfilterGoodsByType(@RequestParam("goodstNo") String goodstNo) {
-	     List<UsedVO> alist = usedSvc.getAll();
+	     List<UsedVO> alist = usedSvc.getUsed();
 	     int goodstNoInt;
 	     try {
 	         goodstNoInt = Integer.parseInt(goodstNo); 

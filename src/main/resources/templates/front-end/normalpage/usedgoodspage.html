@@ -83,6 +83,66 @@
         crossorigin="anonymous"></script>
 
     <script>
+    function filterGoods(element) {
+        const goodstNo = element.getAttribute('data-goodstNo');
+        if (!goodstNo) {
+            console.error('goodstNo is missing or invalid');
+            return;
+        }
+
+        fetch(`/usedgoods/filter?goodstNo=${goodstNo}`)
+            .then(response => response.json())
+            .then(data => {
+                const goodsContainer = document.getElementById('goodsContainer');
+                goodsContainer.innerHTML = '';  // 清空現有商品
+                if (data.length === 0) {
+                    goodsContainer.innerHTML = '<p>沒有找到符合的商品</p>';
+                } else {
+                    data.forEach(goods => {
+                        const goodsElement = document.createElement('div');
+                        goodsElement.className = 'goods';
+
+                        // 創建表單並設置 action
+                        const formElement = document.createElement('form');
+                        formElement.action = '/used/getOneUsedOnDetail'; // 商品詳細頁面
+                        formElement.method = 'get';
+
+                        // 創建 hidden input，包含商品編號
+                        const hiddenInput = document.createElement('input');
+                        hiddenInput.type = 'hidden';
+                        hiddenInput.name = 'usedNo'; // 使用商品的 usedNo
+                        hiddenInput.value = goods.usedNo;
+
+                        // 創建提交按鈕
+                        const buttonElement = document.createElement('button');
+                        buttonElement.type = 'submit';
+                        buttonElement.className = 'product-button';
+
+                        // 顯示商品的圖片和名稱
+                        const firstPic = goods.usedPics && goods.usedPics.length > 0 ? goods.usedPics[0] : '';
+                        buttonElement.innerHTML = `
+                            <div class="image-container">
+                                <img src="/usedpic/UsedDBGifReader?usedPicNo=${firstPic}" alt="goods-image">
+                            </div>
+                            <div class="goods-name">
+                                <label>${goods.usedName}</label>
+                            </div>
+                        `;
+
+                        // 將 hidden input 和按鈕加入表單
+                        formElement.appendChild(hiddenInput);
+                        formElement.appendChild(buttonElement);
+
+                        // 將表單加入商品元素
+                        goodsElement.appendChild(formElement);
+
+                        // 將商品元素加入商品容器
+                        goodsContainer.appendChild(goodsElement);
+                    });
+                }
+            })
+            .catch(error => console.error('Error fetching goods:', error));
+    }
 
     // 獲取搜尋框（searchBar）和建議框（suggestionsBox）
     const searchBar = document.getElementById('search');
@@ -94,7 +154,7 @@
             event.preventDefault();  // 防止表單提交
             const query = searchBar.value.trim();
             if (query.length > 0) {
-                // 根據搜尋條件顯示匹配的商品
+                // 根據搜尋條件過濾商品
                 filterGoodsBySearch(query);
             }
             searchBar.value = '';           // 清空搜尋框

@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.goods.model.GoodsVO;
 
+import io.lettuce.core.dynamic.annotation.Param;
+
 public interface UsedRepository extends JpaRepository<UsedVO, Integer>{
 
 //會員使用額外方法
@@ -47,5 +49,10 @@ public interface UsedRepository extends JpaRepository<UsedVO, Integer>{
 	@Query(value = "UPDATE used SET usedStocks = ?1 WHERE usedNo = ?2 ", nativeQuery = true)
 	void withholdingStock(Integer usedStocks,Integer usedNo);
 	
-	List<UsedVO> findByUsedNameContaining(String usedName);
+	@Query("SELECT g FROM UsedVO g WHERE g.usedName LIKE %:usedName% AND g.usedState = 1")
+	List<UsedVO> findByGoodsNameContainingAndStatus(@Param("usedName") String usedName);
+
+	@Query(value="SELECT * FROM used  WHERE usedState = 1",nativeQuery = true)
+	List<UsedVO> getUsed();
+	
 }
