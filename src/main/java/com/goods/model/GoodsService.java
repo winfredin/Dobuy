@@ -1,14 +1,15 @@
 package com.goods.model;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import javax.persistence.EntityManager;
-
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -70,16 +71,32 @@ public class GoodsService {
             repository.save(goodsVO); // 儲存更新後的商品資料
         }
     }
- // 更新商品狀態的方法
-    public void updateGoodsStatus(String goodsNo, Byte goodsStatus) {
+    // 更新商品狀態的方法
+    public void updateGoodsStatus(String goodsNo, Byte goodsStatus, LocalDateTime now) {
         // 根據商品編號找到商品
         Optional<GoodsVO> optional = repository.findById(Integer.parseInt(goodsNo));
 
         // 如果商品存在，更新商品狀態
         if (optional.isPresent()) {
             GoodsVO goodsVO = optional.get();
-            goodsVO.setGoodsStatus(goodsStatus); // 設定新的商品狀態
-            repository.save(goodsVO); // 儲存更新後的商品資料
+            
+            // 設定新的商品狀態
+            goodsVO.setGoodsStatus(goodsStatus);
+
+            // 將 LocalDateTime 轉換為 Timestamp
+            Timestamp timestamp = Timestamp.valueOf(now);
+
+            // 根據商品的狀態更新時間欄位
+            if (goodsStatus == 1) {
+                // 上架時，設定 GoodsDate 為當前時間
+                goodsVO.setGoodsDate(timestamp);
+            } else if (goodsStatus == 0) {
+                // 下架時，設定 GoodsEnddate 為當前時間
+                goodsVO.setGoodsEnddate(timestamp);
+            }
+            
+            // 儲存更新後的商品資料
+            repository.save(goodsVO);
         }
     }
 
@@ -155,7 +172,14 @@ public class GoodsService {
     }
     //==================以上柏翔新增=====================//
 
-	
+  //=============以下gary新增===============//
+    //搜尋所有上架商品
+    public List<GoodsVO> getAllGoodsStatus1(){
+		 	
+    	return repository.getAllGoodsStatus1();
+    	
+    }
+    //=============以上GARY新增===============//
 
     
     

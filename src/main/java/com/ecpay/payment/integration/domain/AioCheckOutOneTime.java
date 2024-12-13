@@ -622,4 +622,12 @@ public class AioCheckOutOneTime {
 				+ ", CustomField2=" + CustomField2 + ", CustomField3=" + CustomField3 + ", CustomField4=" + CustomField4
 				+ ", BidingCard=" + BidingCard + ", MerchantMemberID=" + MerchantMemberID + "]";
 	}
+	public void setEncryptType(String string) {
+		// TODO Auto-generated method stub
+		
+	}
+	public void setChoosePayment(String string) {
+		// TODO Auto-generated method stub
+		
+	}
 }

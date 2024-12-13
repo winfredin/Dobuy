@@ -9,13 +9,15 @@
     background-image: url("/images/ruben-bagues-vPQfc4niDh0-unsplash.jpg");
 } */
 body {
-    width: 100%; /* 使用100%讓body全螢幕 */
-    height: 0; /* 設定高度為整個螢幕高度 */
+    width: 100%;
+    min-height: 100vh; /* 確保初始頁面覆蓋瀏覽器高度 */
+    height: auto; /* 讓高度自動隨內容延伸 */
     background-image: url("/images/ruben-bagues-vPQfc4niDh0-unsplash.jpg");
-    background-size: cover; /* 背景圖片會完全覆蓋，並保持比例 */
-    background-repeat: no-repeat; 
-    background-position: center center; /* 讓圖片置中 */
-    min-height: 100vh; /* 保證最小高度為瀏覽器視窗的高度 */
+    background-size: cover; /* 背景圖完全覆蓋並保持比例 */
+    background-position: center center; /* 圖片置中 */
+    background-repeat: no-repeat; /* 防止圖片重複 */
+    background-attachment: fixed; /* 背景固定，不隨滾動 */
+    display: flex; /* 若需要，可用於排版 */
     flex-direction: column;
 }
 /*=========================================HEADER======================================*/
@@ -125,6 +127,7 @@ div.icons a.icons{
     margin-left: 0%; /*將 icons 區塊推到右側*/
     margin-right: 0%;
     align-items: center;
+    
 }
 
 div a[class="coupon"]{
@@ -160,8 +163,9 @@ div.goods_body{
 }
 
 div.goods_body div.goods_list{ 
+	
     height: 100%;
-    width: 10%;
+    width: 12%;
     /* border: 1px solid rgba(247, 170, 103, 0.558); */
     border-radius: 15px;
     background-color: rgba(229, 199, 177, 0.432);
@@ -172,6 +176,11 @@ div.goods_body div.goods_list{
     margin-left: 15%;
     /* border: 1px solid rgb(0, 0, 0); */
     border-radius: 15px;
+    font-size: 20px;
+}
+ div.goods_list li{ 
+ 	list-style: none; /* 確保單獨的 li 標籤也無樣式 */
+    margin-left: 0;
     font-size: 20px;
 }
 
@@ -193,7 +202,7 @@ grid-template-columns: repeat(3, 1fr);  /* 每行顯示 3 個商品 */
     background-color: rgba(229, 199, 177, 0.432);
     padding: 0;
     overflow-y: auto;
-    max-height: 80vh;
+    max-height: 115vh;
 }
 
 
@@ -209,13 +218,16 @@ div.goods {
     align-items: center;
     width: 100%; 
     max-width: 300px; 
+    max-height: 300px; 
+    
     height:75%;
     border-radius: 15px;
     background-color: rgba(229, 199, 177, 0.432);
     box-sizing: border-box;
-    margin: 5% 20%;  
+    margin: 5% 5%;  
     padding:3%;
 /*   border:2px solid red; */
+
 }
 
 
@@ -235,17 +247,21 @@ div.image-container:hover {
 	}
 
  img[alt="goods-image"] {
-    width: 100%;  
-    height:100%;  
+  justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+    width: auto;  
+    height:80%;  
     object-fit: cover;
 }
 
 /* 商品名稱 */
 div.goods-name {
-    margin-top: 10px;  
+	padding:0;
+    margin-top: 0;  
     font-size: 14px;
     text-align: center;
 }
+
 img[alt="star"] {
     position: absolute;
     top: 5px;

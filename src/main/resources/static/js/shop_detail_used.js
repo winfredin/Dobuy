@@ -1,6 +1,13 @@
 
 document.addEventListener("DOMContentLoaded", function() {
 	    console.log("DOM 加載完畢！");
+		document.querySelector('.buy_count').addEventListener('keydown', function (event) {
+		    if (event.key === 'Enter') {
+		        event.preventDefault(); // 阻止默認行為（提交表單）
+//		        alert('請使用購買按鈕提交，而非 Enter 鍵');
+		    }
+		});
+
 	    // 你的指令寫在這裡
 		// ================================== 實現圖片前進和後退小圖片的效果 ==================================
 		let prev = document.querySelector('.prev');

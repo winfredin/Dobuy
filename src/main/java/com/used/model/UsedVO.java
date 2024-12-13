@@ -104,11 +104,11 @@ public class UsedVO implements Serializable {
     public UsedVO() {
         super();
     }
+
     public UsedVO(Integer usedNo,String usedName) {
         this.usedNo=usedNo;
         this.usedName=usedName;
-      
-        
+   
     }
 
     // Getter 和 Setter
