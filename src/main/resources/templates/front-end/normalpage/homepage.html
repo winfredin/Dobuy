@@ -73,14 +73,18 @@
 
 
 
-	<div class="slider">
-		<img src="/Gp_Photos/1001.jpg" alt=""> <img
-			src="/Gp_Photos/1002.jpg" alt=""> <img
-			src="/Gp_Photos/1003.jpg" alt=""> <img
-			src="/Gp_Photos/1004.jpg" alt=""> <img
-			src="/Gp_Photos/1005.jpg" alt="">
+<div class="slider">
 
-	</div>
+    <th:block th:each="goodsVO : ${carousellist}">
+        <a th:href="@{/counter/getOneGoods(goodsNo=${goodsVO.goodsNo})}">
+            <img th:src="@{/goods/DBGifReader} + '?goodsNo=' + ${goodsVO.goodsNo}" alt="goods-image">
+        </a>
+    </th:block>
+
+
+</div>
+
+	
 	
 	<div class="goods_body">
 
@@ -144,17 +148,18 @@
 
 
 	<script>
-        $('.slider').slick({
-            centerMode:true,
-           
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            infinite:true,
-            autoplay:true,
-            autoplaySpeed: 5000,  
-            dots: false,
-            arrows: false,
-        });
+	$('.slider').slick({
+	    centerMode: false,      // 關閉 centerMode，讓圖片居左顯示
+	    slidesToShow: 1,        // 一次顯示一張圖片	
+	    slidesToScroll: 1,      // 每次滑動顯示一張圖片
+	    infinite: true,         // 開啟無限輪播
+	    autoplay: true,         // 啟動自動播放
+	    autoplaySpeed: 5000,    // 每張圖片的顯示時間
+	    dots: false,            // 關閉底部小圓點
+	    arrows: false,          // 隱藏左右箭頭
+	    variableWidth: false,   // 關閉可變寬度，避免圖片大小不一致
+	    focusOnSelect: true     // 當選擇一張圖片時，將其聚焦顯示
+	});
        
     
      
