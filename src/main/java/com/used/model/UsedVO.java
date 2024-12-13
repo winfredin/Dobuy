@@ -104,9 +104,11 @@ public class UsedVO implements Serializable {
     public UsedVO() {
         super();
     }
-    public UsedVO(Integer usedNo,String usedName) {
+    public UsedVO(Integer usedNo,String usedName,List<UsedPicVO> usedPics ) {
         this.usedNo=usedNo;
         this.usedName=usedName;
+        this.usedPics=usedPics;
+        
     }
 
     // Getter 和 Setter

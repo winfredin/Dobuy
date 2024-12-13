@@ -62,7 +62,7 @@ public class CounterIndexController {
 	}
     
     @GetMapping("/counter/listAllCounterOrder")
-	public String listAllEmp(HttpSession session,Model model) {
+	public String listAllCounter(HttpSession session,Model model) {
     	//任國櫃位管理
     	CounterVO counter = (CounterVO) session.getAttribute("counter");
         if (counter == null) {
@@ -74,6 +74,17 @@ public class CounterIndexController {
         model.addAttribute("msgSvc", msgSvc);
 		return "vendor-end/counterorder/listAllCounterOrder";
 	}
+    @GetMapping("/counter/listOneCounter")
+    public String listOneCounter(HttpSession session,Model model) {
+    	CounterVO counter = (CounterVO) session.getAttribute("counter");
+        if (counter == null) {
+            return "redirect:/counter/login";
+        }
+        List<CounterOrderVO> alist=counterOrderSvc.getAllOrdersByCounter((Integer) session.getAttribute("counterNo"));
+        model.addAttribute("alist",alist);
+        model.addAttribute("counter", counter);
+        return "vendor-end/counterorder/listOneCounterOrder";
+    }
     
     @ModelAttribute("counterOrderListData")  // for select_page.html 第97 109行用 // for listAllEmp.html 第85行用
 	protected List<CounterOrderVO> referenceListData(Model model) {

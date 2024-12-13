@@ -57,6 +57,7 @@ public class CounterLoginController {
 
         // 登入成功，設置 session
         session.setAttribute("counter", authenticatedCounter);
+        session.setAttribute("counterNo", authenticatedCounter.getCounterNo());
 
         // 檢查是否有原始請求
         String originalRequest = (String) session.getAttribute("originalRequest");

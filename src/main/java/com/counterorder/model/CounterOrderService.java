@@ -49,6 +49,12 @@ public class CounterOrderService {
 //		    repository.deleteById(empno);
 	}
 
+	public void updateCounterStatus(Integer memno,Integer orderStatus) {
+		repository.updateCounterStatus(orderStatus,memno);
+	}
+	
+	
+	
 	public CounterOrderVO getOneCounterOrder(Integer counterOrderNo) {
 		Optional<CounterOrderVO> optional = repository.findById(counterOrderNo);
 //		return optional.get();
@@ -103,45 +109,6 @@ public class CounterOrderService {
     public List<CounterOrderVO> findExpiredOrders() {
         return repository.findExpiredOrders();
     }
-    
-    
-    @Transactional
-
-    public void restoreInventoryForExpiredOrders() {
-        System.out.println("Running scheduled task...");
-
-        // 找出所有過期且未處理的訂單
-        List<CounterOrderVO> expiredOrders = repository.findExpiredOrders();
-
-        // 處理每一筆過期訂單
-        for (CounterOrderVO order : expiredOrders) {
-                // 從訂單明細中獲取商品資訊
-                List<CounterOrderDetailVO> details = order.getCounterOrderDatailVO();
-                	
-                for (CounterOrderDetailVO detail : details) {
-                    Integer goodsNo = detail.getGoodsNo();
-                    Integer reservedGoodsAmount = detail.getGoodsNum();
-
-                    // 恢復商品庫存
-                    GoodsVO goods = goodsService.getOneGoods(goodsNo);
-                    if (goods != null) {
-                        Integer updatedAmount = goods.getGoodsAmount() + reservedGoodsAmount;
-                        System.out.println("Updating goods ID: " + goodsNo + " from amount: " 
-                                            + goods.getGoodsAmount() + " to: " + updatedAmount);
-//                        goods.setGoodsAmount(updatedAmount);
-                        goodsService.updateGoodsAmount(goodsNo, updatedAmount);
-                    } else {
-                        System.out.println("Goods not found with ID: " + goodsNo);
-                    }
-                    
-                }
-
-           
-                
-            } 
-              
-            
-        }
     
 
     @Transactional
