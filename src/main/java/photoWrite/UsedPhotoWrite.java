@@ -12,7 +12,7 @@ public class UsedPhotoWrite {
 	// 資料庫連接配置
     private static final String DB_URL = "jdbc:mysql://localhost:3306/dobuy";
     private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "";
+    private static final String DB_PASSWORD = "Xcds36970*";
 
     public static void main(String[] args) {
         String baseFolder = "C:\\CIA103_WebAPP\\Dobuy\\src\\main\\resources\\static\\UsedPictures"; // 根目錄
