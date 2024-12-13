@@ -1,6 +1,7 @@
 package com.goods.controller;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -34,7 +35,6 @@ import com.goods.model.GoodsVO;
 import com.goodstype.model.GoodsTypeService;
 import com.goodstype.model.GoodsTypeVO;
 import com.msg.model.MsgService;
-import com.msg.model.MsgVO;
 
 @Controller
 @Validated
@@ -472,16 +472,21 @@ public class GoodsController {
     }
     
     @PostMapping("/updateGoodsStatus")
-    @ResponseBody  // 新增此註解
+    @ResponseBody
     public ResponseEntity<?> updateGoodsStatus(
         @RequestParam("goodsNo") String goodsNo, 
         @RequestParam("goodsStatus") Byte goodsStatus) {
         try {
-            goodsSvc.updateGoodsStatus(goodsNo, goodsStatus);
+            // 取得當前時間
+            LocalDateTime now = LocalDateTime.now();
+            
+            // 更新商品狀態並根據狀態更新時間欄位
+            goodsSvc.updateGoodsStatus(goodsNo, goodsStatus, now);
             return ResponseEntity.ok().body("商品狀態更新成功");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                                  .body("更新商品狀態失敗：" + e.getMessage());
         }
     }
+
 }

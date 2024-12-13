@@ -258,6 +258,7 @@ document.addEventListener('DOMContentLoaded', function() {
 //             }
 //         });
         
+
 //         console.log('準備送出的優惠券資料:', couponSelections);
 
 //         try {
@@ -290,6 +291,43 @@ document.addEventListener('DOMContentLoaded', function() {
 //             alert('結帳過程發生錯誤，請稍後再試');
 //         }
 //     });
+
+        console.log('準備送出的優惠券資料:', couponSelections);
+
+        try {
+        	console.log('準備送出的優惠券資料:', couponSelections);
+
+            const response = await fetch('/shoppingcartlist/checkout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    counterCoupons: couponSelections
+                })
+                
+            });
+
+            const result = await response.json();
+            console.log('處理結果:', result);
+
+            if (result.error) {
+                alert(result.error);
+                return;
+            }
+
+            if (result.success) {
+                // 成功後轉到下一步 =================================================後面給綠界用
+                const baseUrl = window.location.protocol + '//' + window.location.host;
+                window.location.href = baseUrl + '/home';
+            }
+
+        } catch (error) {
+            console.error('結帳發生錯誤:', error);
+            alert('結帳過程發生錯誤，請稍後再試');
+        }
+    });
+
 
     // 優惠券選擇變更時只做預覽
     const couponSelects = document.querySelectorAll('.coupon-select');
