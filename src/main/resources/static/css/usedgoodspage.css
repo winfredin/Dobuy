@@ -260,7 +260,19 @@ div.goods-name:hover {
     cursor: pointer;
     color: brown;
 }
-
+.product-button {
+	top: 10%;
+	width: 100%; /*宽度占满父容器*/
+	height: 95%; /*高度是父元素的80%*/
+	background: none;
+	border: none;
+	padding: 0;
+	text-align: left;
+	/*   cursor: pointer; */
+}
+.product-button:hover{
+	cursor:pointer;
+}
   #suggestions {
     border: 1px solid #ccc;
     background-color: #fff;

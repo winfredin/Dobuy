@@ -92,6 +92,131 @@ public class FrontEndController {
 				List<CounterOrderDetailVO> detailList = counterOrderDetailSvc.getDetailsByOrderNo(eachOrderNo);
 //		 			System.out.println(detailList.size());
 
+		 			
+		 			for(CounterOrderDetailVO counterOrderDetailVO:detailList) {
+		 				GoodsVO goodsVO=goodsSvc.getOneGoods(counterOrderDetailVO.getGoodsNo());
+		 				goodsNamelist.add(goodsVO);
+		 			}
+		 			
+		 			
+		 			counterOrderVO.setCounterOrderDatailVO(detailList);
+		 			newlist.add(counterOrderVO);		 		
+		 		}
+		 		
+		 		List<CouponVO> couponList=couponSvc.getAll();	 	
+		 		List<CounterVO> counterList=counterSvc.getAll();	
+		 		
+		 		model.addAttribute("goodsNamelist",goodsNamelist);
+		 		model.addAttribute("couponList",couponList);
+		 		model.addAttribute("counterList",counterList);
+		 		model.addAttribute("orders",newlist);
+		 	}
+	        return "front-end/normalpage/member"; 
+	    }
+	 @GetMapping("home")
+	    public String getHomePage() {
+	        return "front-end/normalpage/homepage"; 
+	    }
+	 @GetMapping("goodspage")
+	    public String getgoodspagePage(Model model) {
+		 List<GoodsVO> list = goodsSvc.getgoods();
+		 List<GoodsTypeVO> glist = goodstSvc.getAll();
+		
+		 model.addAttribute("list",list);
+		 model.addAttribute("glist",glist);
+	        return "front-end/normalpage/goodspage"; 
+	    }
+	 @GetMapping("usedgoodspage")
+	    public String getusedgoodspagePage(Model model) {
+		 List<UsedVO> list = usedSvc.getUsed();
+		 List<GoodsTypeVO> glist = goodstSvc.getAll();
+		
+		 model.addAttribute("list",list);
+		 model.addAttribute("glist",glist);
+	        return "front-end/normalpage/usedgoodspage"; 
+	    }
+
+	 
+	 @GetMapping("/goods/filter")
+	 @ResponseBody
+	 public List<GoodsVO> filterGoodsByType(@RequestParam("goodstNo") String goodstNo,
+	         Model model) {
+		 
+		    List<GoodsVO> alist = goodsSvc.getgoods();
+		    int goodstNoInt ;
+		    
+		    try {
+		    	goodstNoInt = Integer.parseInt(goodstNo); 
+		    } catch (NumberFormatException e) {
+    
+		        return new ArrayList<>();
+		    }   
+		    List<GoodsVO> filteredgoodst = new ArrayList<>();
+		    for (GoodsVO goods : alist) {
+		        
+		        if (goods.getGoodsTypeVO() != null && goods.getGoodsTypeVO().getGoodstNo() != null) {
+		           
+		            if (goods.getGoodsTypeVO().getGoodstNo() == goodstNoInt) {
+		            	filteredgoodst.add(goods);
+		            }
+		        }
+		    }
+		    return filteredgoodst; 
+		}
+	 
+	 @GetMapping("/usedgoods/filter")
+	 @ResponseBody
+	 public List<Map<String, Object>> usedfilterGoodsByType(@RequestParam("goodstNo") String goodstNo) {
+	     List<UsedVO> alist = usedSvc.getUsed();
+	     int goodstNoInt;
+	     try {
+	         goodstNoInt = Integer.parseInt(goodstNo); 
+	     } catch (NumberFormatException e) {
+	         return new ArrayList<>();
+	     }   
+
+	     List<Map<String, Object>> filteredGoods = new ArrayList<>();
+	     for (UsedVO goods : alist) {
+	         if (goods.getClassNo() != null && goods.getClassNo() == goodstNoInt) {
+	             Map<String, Object> goodsMap = new HashMap<>();
+	             goodsMap.put("usedNo", goods.getUsedNo());
+	             goodsMap.put("usedName", goods.getUsedName());
+	             goodsMap.put("usedProDesc", goods.getUsedProDesc());
+	             goodsMap.put("usedPrice", goods.getUsedPrice());
+
+	             // 提取圖片資料，將圖片編號獨立存儲
+	             List<Integer> usedPics = new ArrayList<>();
+	             for (UsedPicVO pic : goods.getUsedPics()) {
+	                 usedPics.add(pic.getUsedPicNo());
+	             }
+	             goodsMap.put("usedPics", usedPics);  // 傳遞圖片編號資料
+
+	             filteredGoods.add(goodsMap);
+	         }
+	     }
+	     return filteredGoods;
+	 }
+
+
+	 
+	 
+	 
+	 
+	 
+	 
+	 @PostMapping("updatemem")
+	   public String updatemem(@Valid MemberVO memberVO, BindingResult result, ModelMap model,HttpSession session) 
+				throws IOException {
+				 Object memNoObj = session.getAttribute("memNo");
+				    	Integer memNo = Integer.parseInt( memNoObj.toString());
+			    	    memSvc.findOne(memNo) ;
+			    	    memberVO.setMemNo(memNo);
+			    	    memSvc.updateMem(memberVO);
+					memberVO = memSvc.findOne(memNo) ;
+					
+					model.addAttribute("memberVO",memberVO);
+
+
 				for (CounterOrderDetailVO counterOrderDetailVO : detailList) {
 					GoodsVO goodsVO = goodsSvc.getOneGoods(counterOrderDetailVO.getGoodsNo());
 					goodsNamelist.add(goodsVO);
@@ -109,6 +234,7 @@ public class FrontEndController {
 			model.addAttribute("counterList", counterList);
 			model.addAttribute("orders", newlist);
 		}
+
 		return "front-end/normalpage/member";
 	}
 
