@@ -65,7 +65,7 @@ public class CounterController {
     	  try {
     	        MimeMessage message = mailSender.createMimeMessage();
     	        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-    	        helper.setFrom("rin020255@gmail.com");
+    	        helper.setFrom("sendforC5566@gmail.com");
     	        helper.setTo(emailTo);
     	        helper.setSubject("DoBuy櫃位註冊成功確認");
     	        helper.setText("<html><body>"
