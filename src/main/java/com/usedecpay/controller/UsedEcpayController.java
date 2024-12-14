@@ -97,7 +97,7 @@ public class UsedEcpayController {
 				    "<body>" +
 				    "    <script>" +
 				    "        alert('結帳時，商品庫存量不足！請稍後再嘗試');" +
-				    "        window.location.href='http://localhost:8080/home';" +
+				    "        window.location.href='http://dobuy.ddns.net/home';" +
 				    "    </script>" +
 				    "</body>" +
 				    "</html>";
@@ -151,7 +151,7 @@ public class UsedEcpayController {
 			        "    if (timeLeft <= 0) {" +
 			        "        clearInterval(timer);" +
 			        "        alert('交易時間已過期，訂單已被系統取消！');" +
-			        "        window.location.href='http://localhost:8080/front-end/used/shop_detail_used';" +
+			        "        window.location.href='http://dobuy.ddns.net/front-end/used/shop_detail_used';" +
 			        "    }" +
 			        "}, 1000);" +
 			        "</script>"+
@@ -179,7 +179,7 @@ public class UsedEcpayController {
 			    "<body>" +
 			    "    <script>" +
 			    "        alert('結帳時，系統發生錯誤！請稍後再嘗試');" +
-			    "        window.location.href='http://localhost:8080/home';" +
+			    "        window.location.href='http://dobuy.ddns.net/home';" +
 			    "    </script>" +
 			    "</body>" +
 			    "</html>";
