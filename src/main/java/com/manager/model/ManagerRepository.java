@@ -23,5 +23,4 @@ public interface ManagerRepository extends JpaRepository<ManagerVO, Integer> {
 	@Query(value = "select * from manager where managerAccount =?1" , nativeQuery = true)
 	ManagerVO findAC(String managerAccount);
 	
-	
 }
