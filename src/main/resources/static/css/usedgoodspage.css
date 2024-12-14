@@ -304,7 +304,7 @@ div.goods-name:hover {
         
         
         
-<<<<<<< HEAD
+
         .product-button {
 	top: 10%;
 	width: 100%; /*宽度占满父容器*/
@@ -315,7 +315,7 @@ div.goods-name:hover {
 	text-align: left;
 	/*   cursor: pointer; */
 }
-=======
+
         
  /* 整个下拉容器 */
 .dropdown {
@@ -375,4 +375,3 @@ header .dropdown {
     height: auto; /* 重置为自动高度 */
 }
         
->>>>>>> Ethan01

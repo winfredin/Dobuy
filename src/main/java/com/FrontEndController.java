@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -119,9 +120,10 @@ public class FrontEndController {
   List<CountercarouselVO> carousellist = countercarouselSvc.getAll();
   List<GoodsVO> goodslist = goodsSvc.getAllGoodsStatus1();
   List<CounterVO> counterVOList = counterSvc.getAll();
+  List<GoodsVO> subGoodslist = goodslist.stream().limit(10).collect(Collectors.toList());
 
   model.addAttribute("counterVOList", counterVOList);
-  model.addAttribute("goodslist", goodslist);
+  model.addAttribute("goodslist", subGoodslist);
   model.addAttribute("carousellist", carousellist);
   return "front-end/normalpage/homepage";
  }

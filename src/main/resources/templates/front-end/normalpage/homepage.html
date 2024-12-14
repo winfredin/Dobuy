@@ -38,9 +38,10 @@
 				<div class="nav_bar">
 
 					<div class="head">
-						<a href="home">Home</a> 
-						<a href="goodspage">一般商城</a> 
-						<a href="usedgoodspage">二手商城</a> 
+						<a th:href="@{/home}">Home</a>
+						<a th:href="@{/goodspage}">一般商城</a>
+						<a th:href="@{/usedgoodspage}">二手商城</a>
+
 						<div class="dropdown">
 						    <a href="#" class="dropdown-btn">櫃位專區</a>
 						    <div class="dropdown-content">
@@ -59,24 +60,24 @@
 			<div class="icon_area">
 				<div class="icons">
 
-					<!-- 當 session.memNo 為 null，添加 login-only 類 -->
-    <a class="icons login-only" href="/mem/login" th:if="${session.memNo == null}">
-        <img th:src="@{/images/login.png}" alt="Login">
-    </a>
+					<a class="icons login-only" th:href="@{/mem/login}" th:if="${session.memNo == null}">
+				    <img th:src="@{/images/login.png}" alt="Login">
+				</a>
+				
+				<!-- 當 session.memNo 不為 null，顯示其他按鈕 -->
+				<a class="icons" th:href="@{/member}" th:if="${session.memNo != null}">
+				    <img th:src="@{/images/會員中心.png}" alt="User">
+				</a>
+				<a class="icons" th:href="@{/mem/logout}" th:if="${session.memNo != null}">
+				    <img th:src="@{/images/log-out.png}" alt="Logout">
+				</a>
+				<a class="icons" th:href="@{/shoppingcartlist/listAllShoppingCartList}" th:if="${session.memNo != null}">
+				    <img th:src="@{/images/購物車.png}" alt="Cart">
+				</a>
+				<a class="icons" th:href="@{/report}" th:if="${session.memNo != null}">
+				    <img th:src="@{/images/report.png}" alt="Report">
+				</a>
 
-    <!-- 當 session.memNo 不為 null，顯示其他按鈕 -->
-    <a class="icons" href="member" th:if="${session.memNo != null}">
-        <img th:src="@{/images/會員中心.png}" alt="User">
-    </a>
-    <a class="icons" href="/mem/logout" th:if="${session.memNo != null}">
-        <img th:src="@{/images/log-out.png}" alt="Logout">
-    </a>
-    <a class="icons" href="/shoppingcartlist/listAllShoppingCartList" th:if="${session.memNo != null}">
-        <img th:src="@{/images/購物車.png}" alt="Cart">
-    </a>
-    <a class="icons" href="#" th:if="${session.memNo != null}">
-        <img th:src="@{/images/report.png}" alt="Report">
-    </a>
 
 				</div>
 
@@ -116,12 +117,16 @@
 
 		<div class="bestsell_goods">
 				
-<!-- 			<div class="goods" th:each="goodsVO, iterStat : ${#arrays.arraySlice(goodslist, 0, 10)}" th:id="${iterStat.index + 1}"> -->
-<!-- 			    <a th:href="@{/counter/getOneGoods(goodsNo=${goodsVO.goodsNo})}"> -->
-<!-- 			        <img th:src="@{/goods/DBGifReader(goodsNo=${goodsVO.goodsNo})}" alt="goods-image"> -->
-<!-- 			        <img src="/images/Star 6.png" alt="star"> -->
-<!-- 			    </a> -->
-<!-- 			</div> -->
+			<div class="goods" th:each="goodsVO : ${goodslist}">
+			    <a th:href="@{/counter/getOneGoods(goodsNo=${goodsVO.goodsNo})}">
+			        <!-- 动态生成图片路径并显示 goodsName 在鼠标悬停时 -->
+			        <img th:src="@{'/goods/DBGifReader?goodsNo=' + ${goodsVO.goodsNo} + '&photoType=gpPhotos1'}" 
+			             th:title="${goodsVO.goodsName}" 
+			             alt="goods-image">
+			        <img src="/images/Star 6.png" alt="star">
+			    </a>
+			</div>
+
 
     
     
