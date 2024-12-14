@@ -36,8 +36,10 @@ public interface GoodsRepository extends JpaRepository<GoodsVO, Integer> {
     @Modifying
     @Query(value="UPDATE goods  SET goodsAmount = ?1 WHERE goodsNo =?2",nativeQuery = true)
     void upGoodsAmount(Integer goodsAmount,Integer goodsNo);
-
-
+    
+    
+    @Query(value = "select * from goods where goodsStatus=1",nativeQuery = true)
+    List<GoodsVO> findAllUP();
     
   //=============以上昱夆新增===============//
     
@@ -53,7 +55,8 @@ public interface GoodsRepository extends JpaRepository<GoodsVO, Integer> {
     @Query(value = "SELECT counterNo  FROM goods WHERE goodsNo = ?1 ", nativeQuery = true)
     GoodsVO getOneCounter(Integer goodsNo);
     
-    List<GoodsVO> findByGoodsNameContaining(String goodsName);
+    @Query("SELECT g FROM GoodsVO g WHERE g.goodsName LIKE %:goodsName% AND g.goodsStatus = 1")
+    List<GoodsVO> findByGoodsNameContainingAndStatus(@Param("goodsName") String goodsName);
   
     List<GoodsVO> findByCounterVO_CounterCName(String counterCName);
 }

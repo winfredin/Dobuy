@@ -68,7 +68,6 @@
   <thead>
     <tr style="background-color:#CCCCFF">
     
-        <th>抽成月結編號</th>
         <th>櫃位編號</th>
         <th>月份</th>
         <th>總金額</th>
@@ -81,7 +80,6 @@
         <th:block th:each="monthSettlementVO : ${monthSettlementListData}">
             <tr>
                
-                <td th:text="${monthSettlementVO.monthSettlementNo}"></td>
                 <td th:text="${monthSettlementVO.counterNo}"></td>
                 <td th:text="${monthSettlementVO.month}"></td>
                 <td th:text="${monthSettlementVO.comm}"></td>

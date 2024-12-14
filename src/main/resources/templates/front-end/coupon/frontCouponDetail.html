@@ -131,14 +131,14 @@
 
     <!-- 領取與返回按鈕 -->
 <div class="button-group">
-    <form th:action="@{/front-end/coupon/claim}" method="post" style="display:inline;">
-        <input type="hidden" name="couponNo" th:value="${coupon.couponNo}" />
-        <button type="submit">領取優惠券</button>
-    </form>
+<!--     <form th:action="@{/front-end/coupon/claim}" method="post" style="display:inline;"> -->
+<!--         <input type="hidden" name="couponNo" th:value="${coupon.couponNo}" /> -->
+<!--         <button type="submit">領取優惠券</button> -->
+<!--     </form> -->
     
     <!-- 根據來源決定返回連結 -->
-    <a th:href="${from == 'memList' ? '/memcoupon/memListAllCoupon' : '/front-end/coupon/list'}" 
-       class="btn">返回列表</a>
+<a href="javascript:void(0);" onclick="history.back();" class="btn">返回上一頁</a>
+
 </div>
 </div>
 </body>

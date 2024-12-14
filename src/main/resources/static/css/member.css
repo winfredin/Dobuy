@@ -706,13 +706,13 @@ body {
 /*============追蹤商品=============*/
 
 /* 通用样式 */
-body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background: url('/counterPage/img/core-img/sand.jpg') no-repeat center center fixed;
-    background-size: cover;
-}
+/* body { */
+/*     margin: 0; */
+/*     padding: 0; */
+/*     font-family: Arial, sans-serif; */
+/*     background: url('/counterPage/img/core-img/sand.jpg') no-repeat center center fixed; */
+/*     background-size: cover; */
+/* } */
 
 /* Logo样式 */
 .logo {
@@ -912,4 +912,174 @@ header .dropdown {
 }
 
 
+/* 柏翔============================== */
 
+.coupon_49_container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.coupon_49_header {
+    background-color: rgba(233, 190, 173, 0.3);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.coupon_49_card {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(233, 190, 173, 0.5);
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.coupon_49_card:hover {
+    transform: translateY(-2px);
+}
+
+.coupon_49_used {
+    background-color: rgba(245, 245, 245, 0.9);
+    opacity: 0.7;
+}
+
+.coupon_49_used:hover {
+    transform: none;
+}
+
+.coupon_49_card h3 {
+    color: #8b4513;
+    margin: 0 0 10px 0;
+    font-size: 1.2em;
+}
+
+.coupon_49_status_badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
+.coupon_49_status_unused {
+    background-color: #e9bead;
+    color: white;
+}
+
+.coupon_49_status_used {
+    background-color: #cccccc;
+    color: #666666;
+}
+
+.coupon_49_btn {
+    background-color: #e9bead;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 3px;
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-block;
+    transition: background-color 0.3s;
+}
+
+.coupon_49_btn:hover {
+    background-color: #d4a79a;
+}
+
+.coupon_49_alert {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+}
+
+.coupon_49_alert_success {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+}
+
+.coupon_49_alert_danger {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+}
+
+.coupon_49_button_group49 {
+    margin-top: 0px;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.coupon_49_pagination {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.coupon_49_pagination button {
+    color: #8b4513;
+    padding: 8px 12px;
+    margin: 0 4px;
+    border: 1px solid #e9bead;
+    background: white;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.coupon_49_pagination button.coupon_49_active {
+    background-color: #e9bead;
+    color: white;
+}
+
+/* .coupon_49_item { */
+/*     display: none; */
+/* } */
+
+.coupon_49_detail_btn {
+    background-color: transparent;
+    color: #8b4513;
+    border: 1px solid #e9bead;
+    padding: 6px 12px;
+    text-decoration: none;
+    border-radius: 3px;
+    font-size: 0.9em;
+    transition: all 0.3s;
+}
+
+.coupon_49_detail_btn:hover {
+    background-color: #e9bead;
+    color: white;
+}
+
+.coupon_49_counter_name {
+    margin-bottom: 10px;
+}
+
+.coupon_49_counter_badge {
+    display: inline-block;
+    padding: 4px 8px;
+    background-color: #f0d4c4;
+    color: #8b4513;
+    border-radius: 3px;
+    font-size: 0.9em;
+    margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+    .coupon_49_header {
+        flex-direction: column;
+        text-align: center;
+    }
+    .coupon_49_header div {
+        margin-top: 10px;
+    }
+    .coupon_49_card {
+        margin: 10px 0;
+    }
+}

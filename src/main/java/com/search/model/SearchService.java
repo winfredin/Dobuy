@@ -47,7 +47,7 @@ public class SearchService {
         }
 
         // 2. 如果 Redis 沒有，查詢資料庫
-        goods = goodsRepository.findByGoodsNameContaining(query);
+        goods = goodsRepository.findByGoodsNameContainingAndStatus(query);
         List<GoodsVO> simplifiedGoods = new ArrayList<>();  // 初始化 simplifiedGoods
 
         if (goods.isEmpty()) {
@@ -78,7 +78,7 @@ public class SearchService {
         }
 
         // 2. 如果 Redis 沒有，查詢資料庫
-        used = usedRepository.findByUsedNameContaining(query);
+        used = usedRepository.findByGoodsNameContainingAndStatus(query);
         List<UsedVO> simplifiedGoods = new ArrayList<>();  // 初始化 simplifiedGoods
 
         if (used.isEmpty()) {

@@ -83,6 +83,7 @@ public class CounterIndexController {
         List<CounterOrderVO> alist=counterOrderSvc.getAllOrdersByCounter((Integer) session.getAttribute("counterNo"));
         model.addAttribute("alist",alist);
         model.addAttribute("counter", counter);
+        model.addAttribute("msgSvc", msgSvc);
         return "vendor-end/counterorder/listOneCounterOrder";
     }
     

@@ -60,12 +60,11 @@ public class FrontEndController {
 
 	@Autowired
 	CountercarouselService countercarouselSvc;
-
 	@Autowired
 	MemberService memSvc;
 	@Autowired
 	UsedService usedSvc;
-	
+
 	@Autowired
 	@Qualifier("redisTemplateDb10")
 	private RedisTemplate<String, String> redisTemplate;
@@ -77,9 +76,9 @@ public class FrontEndController {
 	}
 
 	@GetMapping("member")
-	public String getMemberPage(HttpSession session, Model model) {
+ public String getMemberPage(HttpSession session, Model model) {
 
-		if (session.getAttribute("memNo") == null) {
+  if (session.getAttribute("memNo") == null) {
 
 			return "redirect:/mem/login";
 		} else {
@@ -97,27 +96,45 @@ public class FrontEndController {
 			for (CounterOrderVO counterOrderVO : membersbuyorder) {
 				Integer eachOrderNo = counterOrderVO.getCounterOrderNo();
 				List<CounterOrderDetailVO> detailList = counterOrderDetailSvc.getDetailsByOrderNo(eachOrderNo);
+			}
+   return "redirect:/mem/login";
+  } else {
+   String memNo = (String) session.getAttribute("memNo");
+   List<CounterOrderVO> membersbuyorder = counterOrderSvc.ListfindByMemNoAndStatusNot4(Integer.valueOf(memNo));
+//     System.out.println(membersbuyorder.size());
+   if (membersbuyorder.size() == 0) {
+    List<CounterVO> counterVOList = counterSvc.getAll();
+
+    model.addAttribute("counterVOList", counterVOList);
+    return "front-end/normalpage/member";
+   }
+   List<CounterOrderVO> newlist = new ArrayList<>();
+   List<GoodsVO> goodsNamelist = new ArrayList<>();
+   for (CounterOrderVO counterOrderVO : membersbuyorder) {
+    Integer eachOrderNo = counterOrderVO.getCounterOrderNo();
+    List<CounterOrderDetailVO> detailList = counterOrderDetailSvc.getDetailsByOrderNo(eachOrderNo);
+
 //      System.out.println(detailList.size());
 
-				for (CounterOrderDetailVO counterOrderDetailVO : detailList) {
-					GoodsVO goodsVO = goodsSvc.getOneGoods(counterOrderDetailVO.getGoodsNo());
-					goodsNamelist.add(goodsVO);
-				}
+    for (CounterOrderDetailVO counterOrderDetailVO : detailList) {
+     GoodsVO goodsVO = goodsSvc.getOneGoods(counterOrderDetailVO.getGoodsNo());
+     goodsNamelist.add(goodsVO);
+    }
 
-				counterOrderVO.setCounterOrderDatailVO(detailList);
-				newlist.add(counterOrderVO);
-			}
+    counterOrderVO.setCounterOrderDatailVO(detailList);
+    newlist.add(counterOrderVO);
+   }
 
-			List<CouponVO> couponList = couponSvc.getAll();
-			List<CounterVO> counterList = counterSvc.getAll();
+   List<CouponVO> couponList = couponSvc.getAll();
+   List<CounterVO> counterList = counterSvc.getAll();
 
-			model.addAttribute("goodsNamelist", goodsNamelist);
-			model.addAttribute("couponList", couponList);
-			model.addAttribute("counterList", counterList);
-			model.addAttribute("orders", newlist);
-		}
-		return "front-end/normalpage/member";
-	}
+   model.addAttribute("goodsNamelist", goodsNamelist);
+   model.addAttribute("couponList", couponList);
+   model.addAttribute("counterList", counterList);
+   model.addAttribute("orders", newlist);
+  }
+  return "front-end/normalpage/member";
+ }
 
 	@GetMapping("home")
 	public String getHomePage(Model model) {
@@ -160,7 +177,7 @@ public class FrontEndController {
 // }return"front-end/normalpage/member";}
 
 	@GetMapping("goodspage")
-	public String getgoodspagePage( HttpSession session, Model model) {
+	public String getgoodspagePage(HttpSession session, Model model) {
 		// 找愛心
 		String memNo = (String) session.getAttribute("memNo"); // 从 session 获取用户 ID
 		String myListKey = "myList:" + memNo; // 组合成 key
@@ -307,6 +324,63 @@ public class FrontEndController {
 		return "front-end/normalpage/member";
 
 	}
+
+//	@GetMapping("content/credit")
+//	public String getcreditPage() {
+//		return "content/credit"; // 對應 templates/content/profile.html
+//	}
+
+//	@GetMapping("content/changeps")
+//	public String getchangepsPage(HttpSession session, Model model) {
+//		Object memNoObj = session.getAttribute("memNo");
+//		Integer memNo = Integer.parseInt(memNoObj.toString());
+//		MemberVO memberVO;
+//		memberVO = memSvc.findOne(memNo);
+//		memberVO.setMemPassword("");
+//		model.addAttribute("memberVO", memberVO);
+//		return "content/changeps"; // 對應 templates/content/profile.html
+//	}
+
+//	@GetMapping("content/delete")
+//	public String getdeletePage(Model model, HttpSession session) {
+//		Object memNoObj = session.getAttribute("memNo");
+//		Integer memNo = Integer.parseInt(memNoObj.toString());
+//		MemberVO memberVO;
+//		memberVO = memSvc.findOne(memNo);
+//		model.addAttribute("memberVO", memberVO);
+//		return "content/delete"; // 對應 templates/content/profile.html
+//	}
+
+//	@GetMapping("content/add")
+//	public String getaddPage(HttpSession session, Model model) {
+//		Object memNoObj = session.getAttribute("memNo");
+//		Integer memNo = Integer.parseInt(memNoObj.toString());
+//		MemberVO memberVO;
+//		memberVO = memSvc.findOne(memNo);
+//		model.addAttribute("memberVO", memberVO);
+//		return "content/add"; // 對應 templates/content/profile.html
+//	}
+
+//	@GetMapping("content/profileup")
+//	public String getprofileupPage(Model model, HttpSession session) {
+//		Object memNoObj = session.getAttribute("memNo");
+//		Integer memNo = Integer.parseInt(memNoObj.toString());
+//		MemberVO memberVO;
+//		memberVO = memSvc.findOne(memNo);
+//		model.addAttribute("memberVO", memberVO);
+//		return "content/profileup"; // 對應 templates/content/profile.html
+//	}
+
+//	@GetMapping("content/profile")
+//	public String getProfilePage(Model model, HttpSession session) {
+//		Object memNoObj = session.getAttribute("memNo");
+//		Integer memNo = Integer.parseInt(memNoObj.toString());
+//		MemberVO memberVO;
+//		memberVO = memSvc.findOne(memNo);
+//		model.addAttribute("memberVO", memberVO);
+//		return "content/profile";
+//	}
+
 
 	@GetMapping("content/credit")
 	public String getcreditPage() {

@@ -80,14 +80,18 @@ public class IndexController2_inSpringBoot {
 	@GetMapping("/goods/listAllCounterGoods")
 	public String listAllCounterGoods(HttpSession session ,Model model) {
 		//登錄時檢查counter
-		 CounterVO counter = (CounterVO) session.getAttribute("counter");
+         CounterVO counter = (CounterVO) session.getAttribute("counter");
 	        if (counter != null) {
+	        	 if (counter.getCounterStatus() == 2) {
+	                 return "redirect:/counter/Counterindex"; // 如果 counterStatus 為 2，則重定向
+	             }
 	        	 model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
 	        	 model.addAttribute("msgSvc", msgSvc);
 	        	return "vendor-end/goods/listAllCounterGoods";
 	        } else {
 	            return "redirect:/counter/login";
 	        }	
+
 	}
 
 	@ModelAttribute("goodsListData") // for select_page.html 第97 109行用 // for listAllEmp.html 第85行用
