@@ -125,9 +125,10 @@ public class FrontEndController {
   return "front-end/normalpage/member";
  }
 
- 
- @GetMapping("home")
- public String getHomePage(Model model) {
+
+	
+	@GetMapping("home")
+	public String getHomePage(Model model) {
 
 
   List<CountercarouselVO> carousellist = countercarouselSvc.getAll();
