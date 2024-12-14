@@ -8,9 +8,6 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 
-
-
-
 @SpringBootApplication
 @ServletComponentScan
 @EnableScheduling
