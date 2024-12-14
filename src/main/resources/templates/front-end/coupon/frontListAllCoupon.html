@@ -128,17 +128,17 @@ body {
 }
 
 .counter-name {
-    margin-bottom: 10px;
+	margin-bottom: 10px;
 }
 
 .counter-badge {
-    display: inline-block;
-    padding: 4px 8px;
-    background-color: #f0d4c4;
-    color: #8b4513;
-    border-radius: 3px;
-    font-size: 0.9em;
-    margin-bottom: 10px;
+	display: inline-block;
+	padding: 4px 8px;
+	background-color: #f0d4c4;
+	color: #8b4513;
+	border-radius: 3px;
+	font-size: 0.9em;
+	margin-bottom: 10px;
 }
 </style>
 </head>
@@ -160,13 +160,11 @@ body {
 		<div id="couponContainer">
 			<div th:each="coupon : ${coupons}" class="coupon-card item">
 
-        <!-- 添加櫃位名稱顯示 -->
-        <div class="counter-name">
-            <span class="counter-badge" 
-                  th:if="${coupon.counter != null}" 
-                  th:text="'櫃位名稱: ' + ${coupon.counter.counterCName}">
-            </span>
-        </div>
+				<!-- 添加櫃位名稱顯示 -->
+				<div class="counter-name">
+					<span class="counter-badge" th:if="${coupon.counter != null}"
+						th:text="'櫃位名稱: ' + ${coupon.counter.counterCName}"> </span>
+				</div>
 				<h3 th:text="${coupon.couponTitle}"></h3>
 				<p th:text="${coupon.couponContext}"></p>
 				<p>
@@ -174,10 +172,9 @@ body {
 						th:text="${#dates.format(coupon.couponStart, 'yyyy-MM-dd')}"></span>
 					至 <span th:text="${#dates.format(coupon.couponEnd, 'yyyy-MM-dd')}"></span>
 				</p>
-<p>
-    剩餘可領取次數：
-    <span th:text="${coupon.usageLimit}"></span>
-</p>
+				<p>
+					剩餘可領取次數： <span th:text="${coupon.usageLimit}"></span>
+				</p>
 				<div style="margin-top: 15px;">
 					<form th:action="@{/front-end/coupon/claim}" method="post"
 						style="display: inline;">
@@ -198,6 +195,10 @@ body {
 		<div style="margin-top: 20px; text-align: center;">
 			<a th:href="@{/memcoupon/memListAllCoupon}" class="btn">查看我的優惠券</a>
 		</div>
+		<div style="margin-top: 20px; text-align: center;">
+			<a th:href="@{/home}" class="btn">回首頁</a>
+		</div>
+
 	</div>
 
 	<script>
