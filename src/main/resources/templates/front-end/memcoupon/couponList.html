@@ -1,0 +1,71 @@
+
+
+
+
+
+
+
+<div id="coupon_49_section" th:fragment="couponSection">
+
+
+	<div class="coupon_49_header">
+		<h2 style="margin: 0;">我的優惠券</h2>
+	</div>
+
+
+	<!-- 優惠券區塊的程式碼放這裡 -->
+
+
+
+	<div th:if="${message}" class="coupon_49_alert coupon_49_alert_success"
+		th:text="${message}"></div>
+	<div th:if="${error}" class="coupon_49_alert coupon_49_alert_danger"
+		th:text="${error}"></div>
+
+	<div id="coupon_49_container">
+		<div th:each="memCoupon : ${memCoupons}"
+			th:class="'coupon_49_card coupon_49_item' + (${memCoupon.status == 1 ? ' coupon_49_used' : ''})">
+
+			<div class="coupon_49_counter_name">
+				<span class="coupon_49_counter_badge"
+					th:if="${memCoupon.coupon.counter != null}"
+					th:text="'櫃位名稱: ' + ${memCoupon.coupon.counter.counterCName}">
+				</span>
+			</div>
+
+			<h3 th:text="${memCoupon.coupon.couponTitle}"></h3>
+			<p th:text="${memCoupon.coupon.couponContext}"></p>
+			<p>
+				有效期間： <span
+					th:text="${#dates.format(memCoupon.coupon.couponStart, 'yyyy-MM-dd')}"></span>
+				至 <span
+					th:text="${#dates.format(memCoupon.coupon.couponEnd, 'yyyy-MM-dd')}"></span>
+			</p>
+			<p>
+				狀態： <span
+					th:class="'coupon_49_status_badge ' + (${memCoupon.status == 0 ? 'coupon_49_status_unused' : 'coupon_49_status_used'})"
+					th:text="${memCoupon.status == 0 ? '未使用' : '已使用'}"> </span>
+			</p>
+
+			<div class="coupon_49_button_group">
+				<a
+					th:href="@{'/front-end/coupon/detail/' + ${memCoupon.coupon.couponNo} + '?from=memList'}"
+					class="coupon_49_btn">查看明細</a>
+			</div>
+		</div>
+	</div>
+
+	<div id="coupon_49_pagination" class="coupon_49_pagination"></div>
+
+	<div class="coupon_49_button_group49">
+		<a th:href="@{/front-end/coupon/list}" class="coupon_49_btn">優惠券列表</a>
+	</div>
+
+</div>
+
+
+
+
+
+
+
