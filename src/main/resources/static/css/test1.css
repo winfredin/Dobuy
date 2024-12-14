@@ -9,14 +9,12 @@
     background-image: url("/images/ruben-bagues-vPQfc4niDh0-unsplash.jpg");
 } */
 body {
-<<<<<<< Upstream, based on branch 'master' of https://github.com/he01314905/Dobuy.git
     width: 100%;
     min-height: 100vh; /* 確保初始頁面覆蓋瀏覽器高度 */
     height: auto; /* 讓高度自動隨內容延伸 */
-=======
     width: 100%; /* 使用100%讓body全螢幕 */
     height: 100%; /* 設定高度為整個螢幕高度 */
->>>>>>> f34a9d9 櫃位+首頁輪播圖板面更新
+/* f34a9d9 櫃位+首頁輪播圖板面更新 */
     background-image: url("/images/ruben-bagues-vPQfc4niDh0-unsplash.jpg");
     background-size: cover; /* 背景圖完全覆蓋並保持比例 */
     background-position: center center; /* 圖片置中 */

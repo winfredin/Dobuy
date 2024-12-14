@@ -226,6 +226,7 @@ div.goods {
     box-sizing: border-box;
     margin: 5% 5%;  
     padding:3%;
+    position: relative; /* 讓 goods 容器作為定位基準 */
 /*   border:2px solid red; */
 
 }
@@ -299,9 +300,9 @@ footer {
 	border: none;
 	padding: 0;
 	text-align: left;
+	position: relative; /* 讓 heart-icon-container 的絕對定位基於 product-button */
 	/*   cursor: pointer; */
 }
-<<<<<<< HEAD
 #suggestions {
     border: 1px solid #ccc;
     background-color: #fff;
@@ -330,7 +331,6 @@ footer {
         .suggestion:hover {
             background-color: #f0f0f0;
         }
-=======
 
 /* 整个下拉容器 */
 .dropdown {
@@ -390,4 +390,21 @@ header .dropdown {
     height: auto; /* 重置为自动高度 */
 }
 
->>>>>>> Ethan01
+/* ===============我的收藏愛心============= */
+/* 爱心容器，定位到右上角 */
+.heart-icon-container {
+  position: absolute;
+  top:  10px;
+  right:  20px;
+  cursor: pointer;
+  z-index: 9999; /* 確保它顯示在圖片上方 */
+}
+
+.heart-icon-container .fas.fa-heart {
+  color: #ccc;
+}
+
+.heart-active {
+  color: #ff0000 !important; /* 切换为红色 */
+}
+/* ===============我的收藏愛心============= */

@@ -5,11 +5,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -62,6 +65,10 @@ public class FrontEndController {
 	MemberService memSvc;
 	@Autowired
 	UsedService usedSvc;
+	
+	@Autowired
+	@Qualifier("redisTemplateDb10")
+	private RedisTemplate<String, String> redisTemplate;
 
 	@GetMapping("")
 	public String index() {
@@ -78,7 +85,7 @@ public class FrontEndController {
 		} else {
 			String memNo = (String) session.getAttribute("memNo");
 			List<CounterOrderVO> membersbuyorder = counterOrderSvc.ListfindByMemNoAndStatusNot4(Integer.valueOf(memNo));
-//		 		System.out.println(membersbuyorder.size());
+//     System.out.println(membersbuyorder.size());
 			if (membersbuyorder.size() == 0) {
 				List<CounterVO> counterVOList = counterSvc.getAll();
 
@@ -90,7 +97,7 @@ public class FrontEndController {
 			for (CounterOrderVO counterOrderVO : membersbuyorder) {
 				Integer eachOrderNo = counterOrderVO.getCounterOrderNo();
 				List<CounterOrderDetailVO> detailList = counterOrderDetailSvc.getDetailsByOrderNo(eachOrderNo);
-//		 			System.out.println(detailList.size());
+//      System.out.println(detailList.size());
 
 				for (CounterOrderDetailVO counterOrderDetailVO : detailList) {
 					GoodsVO goodsVO = goodsSvc.getOneGoods(counterOrderDetailVO.getGoodsNo());
@@ -112,7 +119,6 @@ public class FrontEndController {
 		return "front-end/normalpage/member";
 	}
 
-	
 	@GetMapping("home")
 	public String getHomePage(Model model) {
 
@@ -126,49 +132,52 @@ public class FrontEndController {
 		return "front-end/normalpage/homepage";
 	}
 
-	
-
-//	@GetMapping("usedgoodspage")
-//	    public String getusedgoodspagePage(Model model) {
-//		 List<UsedVO> list = usedSvc.getAll();
-//		 List<GoodsTypeVO> glist = goodstSvc.getAll();
-//		
-//		 model.addAttribute("list",list);
-//		 model.addAttribute("glist",glist);
-//	        return "front-end/normalpage/usedgoodspage"; 
-//	    }
+// @GetMapping("usedgoodspage")
+//     public String getusedgoodspagePage(Model model) {
+//   List<UsedVO> list = usedSvc.getAll();
+//   List<GoodsTypeVO> glist = goodstSvc.getAll();
+//  
+//   model.addAttribute("list",list);
+//   model.addAttribute("glist",glist);
+//         return "front-end/normalpage/usedgoodspage"; 
+//     }
 //
-//	for(
+// for(
 //
-//	CounterOrderDetailVO counterOrderDetailVO:detailList)
-//	{
-//		GoodsVO goodsVO = goodsSvc.getOneGoods(counterOrderDetailVO.getGoodsNo());
-//		goodsNamelist.add(goodsVO);
-//	}
+// CounterOrderDetailVO counterOrderDetailVO:detailList)
+// {
+//  GoodsVO goodsVO = goodsSvc.getOneGoods(counterOrderDetailVO.getGoodsNo());
+//  goodsNamelist.add(goodsVO);
+// }
 //
-//	counterOrderVO.setCounterOrderDatailVO(detailList);newlist.add(counterOrderVO);}
+// counterOrderVO.setCounterOrderDatailVO(detailList);newlist.add(counterOrderVO);}
 //
-//	List<CouponVO> couponList = couponSvc.getAll();
-//	List<CounterVO> counterList = counterSvc.getAll();
-//	List<CounterVO> counterVOList = counterSvc.getAll();
+// List<CouponVO> couponList = couponSvc.getAll();
+// List<CounterVO> counterList = counterSvc.getAll();
+// List<CounterVO> counterVOList = counterSvc.getAll();
 //
-//	model.addAttribute("counterVOList",counterVOList);model.addAttribute("goodsNamelist",goodsNamelist);model.addAttribute("couponList",couponList);model.addAttribute("counterList",counterList);model.addAttribute("orders",newlist);
-//	}return"front-end/normalpage/member";}
-
+// model.addAttribute("counterVOList",counterVOList);model.addAttribute("goodsNamelist",goodsNamelist);model.addAttribute("couponList",couponList);model.addAttribute("counterList",counterList);model.addAttribute("orders",newlist);
+// }return"front-end/normalpage/member";}
 
 	@GetMapping("goodspage")
-	public String getgoodspagePage(Model model) {
+	public String getgoodspagePage( HttpSession session, Model model) {
+		// 找愛心
+		String memNo = (String) session.getAttribute("memNo"); // 从 session 获取用户 ID
+		String myListKey = "myList:" + memNo; // 组合成 key
+		Set<String> goodsSet = redisTemplate.opsForSet().members(myListKey);// goodsNo的
+
 		List<GoodsVO> list = goodsSvc.getAll();
 		List<GoodsTypeVO> glist = goodstSvc.getAll();
 		List<CounterVO> counterVOList = counterSvc.getAll();
 
+		model.addAttribute("goodsSet", goodsSet);
 		model.addAttribute("counterVOList", counterVOList);
 		model.addAttribute("list", list);
 		model.addAttribute("glist", glist);
 		return "front-end/normalpage/goodspage";
 	}
 
-	@GetMapping("usedgoodspage1")
+	@GetMapping("usedgoodspage")
 	public String getusedgoodspagePage1(Model model) {
 		List<UsedVO> list = usedSvc.getAll();
 		List<GoodsTypeVO> glist = goodstSvc.getAll();
