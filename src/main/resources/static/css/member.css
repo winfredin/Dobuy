@@ -29,9 +29,13 @@ header div{
 
 }
 div.logo{
+	margin: 0;
+    padding: 0;
     width: 11%;
 }
 div img[alt="logo"] {
+	margin: 0;
+    padding: 0;
     position: relative;
     width: 100%;
     height: auto;

@@ -9,12 +9,13 @@
     background-image: url("/images/ruben-bagues-vPQfc4niDh0-unsplash.jpg");
 } */
 body {
+
     width: 100%;
     min-height: 100vh; /* 確保初始頁面覆蓋瀏覽器高度 */
     height: auto; /* 讓高度自動隨內容延伸 */
     width: 100%; /* 使用100%讓body全螢幕 */
     height: 100%; /* 設定高度為整個螢幕高度 */
-/* f34a9d9 櫃位+首頁輪播圖板面更新 */
+
     background-image: url("/images/ruben-bagues-vPQfc4niDh0-unsplash.jpg");
     background-size: cover; /* 背景圖完全覆蓋並保持比例 */
     background-position: center center; /* 圖片置中 */
@@ -176,7 +177,7 @@ div.slider img {
 div.goods_body{
     /* border: 1px solid black; */	
     width: 95%;
-    height: 50%;	
+    height: auto;	
     display: flex;
     margin-left: 2%;
     margin-right: 3%;
@@ -192,12 +193,13 @@ div.goods_body{
 }
 
 div.goods_body div.goods_list{ 
-    height: 100%;
-    width: 10%;
-    /* border: 1px solid rgba(247, 170, 103, 0.558); */
+    height: auto;                /* 自动调整高度 */
+    width: 20%;                  /* 每列占据的宽度，调整为适合的比例 */
+    box-sizing: border-box;      /* 包括边框和内边距 */
     border-radius: 15px;
     background-color: rgba(229, 199, 177, 0.432);
     opacity: 0.8;
+    margin-bottom: 10px;         /* 增加子元素之间的间距 */
 }
 
 div.goods_body div.goods_list ul{ 
@@ -208,17 +210,16 @@ div.goods_body div.goods_list ul{
 }
 
 div.goods_body div.bestsell_goods{
-    width: 100%;
-    height: auto;
+     width: 100%;
+    max-height: 25%;            /* 自动调整高度以适应内容 */
+    height: 400px;
     margin-left: 1%;
-    /* border: 1px solid black; */
     border-radius: 15px;
-    display: flex;
     box-sizing: border-box;
     background-color: rgba(229, 199, 177, 0.432);
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /* 每行 5 個區塊 */    
-    gap: 3px;                     /* 可調整外邊距 */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* 自适应列数 */
+    gap: 10px;                   /* 调整外边距 */           /* 可調整外邊距 */
 }
 
 div.goods{
@@ -237,6 +238,14 @@ img[alt="goods"]{
 width:100%;
 height: 100%;
 
+}
+
+img[alt="goods-image"] {
+    width: 100%;  
+    height: 100%;  
+    object-fit: cover;  /* 保持圖片比例，並覆蓋容器 */
+    justify-content: center;  /* 水平居中 */
+    align-items: center;  /* 垂直居中 */	
 }
 
 img[alt="star"]{

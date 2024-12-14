@@ -42,7 +42,7 @@ div img[alt="logo"] {
 div.header_bar{
     display: block;
     position: relative; /* 使 .head 可以相對於這個容器定位 */
-    width: 100%;
+    width: 80%;
 }
 div.header_bar div[class="search"]{
     display: flex;
@@ -129,14 +129,21 @@ div.icons a.icons{
     align-items: center;
     
 }
-
+div.icons a.icons.login-only {
+    margin-left: 50%; /* 自動推到右側 */
+    margin-right: 0; /* 靠近右側邊框 */
+    display: flex; /* 確保水平對齊 */
+    justify-content: flex-end; /* 圖標靠右 */
+    align-items: center; /* 垂直置中 */
+    width: 100%; /* 撐滿父級容器寬度 */
+}
 div a[class="coupon"]{
     /* border: 1px solid purple; */
    display: flex;           /* 使用 flex 排版 */
    width: 100px;
    height: 100px;
    margin-top: 10%;
-   margin-left: 20%;
+   margin-left: 15%;
    
 }
 div.slider{
@@ -303,6 +310,7 @@ footer {
 	position: relative; /* 讓 heart-icon-container 的絕對定位基於 product-button */
 	/*   cursor: pointer; */
 }
+
 #suggestions {
     border: 1px solid #ccc;
     background-color: #fff;
@@ -390,6 +398,7 @@ header .dropdown {
     height: auto; /* 重置为自动高度 */
 }
 
+
 /* ===============我的收藏愛心============= */
 /* 爱心容器，定位到右上角 */
 .heart-icon-container {
@@ -408,3 +417,4 @@ header .dropdown {
   color: #ff0000 !important; /* 切换为红色 */
 }
 /* ===============我的收藏愛心============= */
+
