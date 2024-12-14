@@ -183,7 +183,7 @@ body {
 									<li><a href="#">商品審核系統</a>
 										<ul class="dropdown">
 											<li><a th:href="@{/goods/listAllCheckStatus}">一般商品審核</a></li>
-											<li><a href="#">二手商品審核</a></li>
+											<li><a th:href="@{/goods/listAllCheckStatus}">二手商品審核</a></li>
 										</ul></li>
 
                                     <li><a href="#">管理員資料</a>
@@ -261,6 +261,197 @@ body {
 	<script th:src="@{/back-end-home/js/plugins.js}"></script>
 	<!-- Active js -->
 	<script th:src="@{/back-end-home/js/active.js}"></script>
+	
+	
+			<script>
+		    function submitApproval(goodsNo) {
+		        if (!goodsNo) {
+		            window.location.href = '/goods/listAllCheckStatus';
+		            return;
+		        }
+		
+		        const checkStatus = 1;
+		        fetch('/goods/updateCheckStatus2', {
+		            method: 'POST',
+		            headers: {
+		                'Content-Type': 'application/x-www-form-urlencoded',
+		            },
+		            body: 'goodsNo=' + goodsNo + '&checkStatus=' + checkStatus
+		        })
+		        .then(response => {
+		            if (!response.ok) {
+		                throw new Error('Network response was not ok');
+		            }
+		            return response.text();
+		        })
+		        .then(result => {
+		            alert(result);
+		            // 可能需要重新加載頁面或更新UI
+		            window.location.reload();
+		        })
+		        .catch(error => {
+		            console.error('Error:', error);
+		            alert('審核失敗：' + error.message);
+		        });
+		    }
+		    
+		   
+		
+		    
+		  //=====================二手商品管理事件====================================
+		    $(document).ready(function() {
+		        // 当 span id 为 a1 的元素被点击时，触发 AJAX 事件
+		        $('#used-check').click(function() {
+		            // 使用AJAX从后端以POST方式获取数据
+		            $.ajax({
+		                url: '/used/getAllSellerUsedListFragment', // 服务器端 API，返回 Thymeleaf 片段
+		                type: 'POST',
+		                success: function(response) {
+		                    console.log("Fragment HTML:", response); // 打印返回的 HTML，便于调试
+
+		                    // 使用 fragment 替换 <div class="use_1">
+		                    $('.usedcheckarea').html(response);
+		                    initializeSlick();
+		                    
+		                    // 检查并销毁已有 DataTables 实例
+		                    if ($.fn.DataTable.isDataTable('#UsedList')) {
+		                        $('#UsedList').DataTable().destroy();
+		                    }
+
+		                 // 初始化 DataTables
+		                    var table = $('#UsedList').DataTable({
+		                        "lengthMenu": [3, 5, 10, 20, 50, 100],
+		                        "searching": true,
+		                        "paging": true,
+		                        "ordering": true,
+		                        "language": {
+		                            "processing": "處理中...",
+		                            "loadingRecords": "載入中...",
+		                            "lengthMenu": "顯示 _MENU_ 筆結果",
+		                            "zeroRecords": "沒有符合的結果",
+		                            "info": "顯示第 _START_ 至 _END_ 筆結果，共<font color=red> _TOTAL_ </font>筆",
+		                            "infoEmpty": "顯示第 0 至 0 筆結果，共 0 筆",
+		                            "infoFiltered": "(從 _MAX_ 筆結果中過濾)",
+		                            "paginate": {
+		                                "first": "第一頁",
+		                                "previous": "上一頁",
+		                                "next": "下一頁",
+		                                "last": "最後一頁"
+		                            }
+		                        }
+		                    });
+
+		                    // 初始化 Slick 特效
+		                    function initializeSlick() {
+							    $('.photo-slider').not('.slick-initialized').slick({
+							    	dots: false, // 禁用點狀導航
+							        infinite: true, // 禁用無限滾動
+							        speed: 300, // 滑動速度
+							        slidesToShow: 1, // 每次只顯示一張圖片
+							        slidesToScroll: 1, // 每次滑動一張圖片
+							        adaptiveHeight: true, // 自適應高度
+							        arrows: false, // 禁用 previous 和 next 按鈕
+							        centerMode: false, // 禁用居中模式
+							        variableWidth: false // 禁用可變寬度，讓所有圖片固定尺寸
+							        
+							    });
+							    
+							}
+
+
+		                    // 初次载入时初始化 Slick
+		                    initializeSlick();
+
+		                    // 监听 DataTables 分页切换事件，重新初始化 Slick
+		                    $('#UsedList').on('draw.dt', function () {
+		                        initializeSlick();
+		                    });
+		                },
+		                error: function(xhr, status, error) {
+		                    console.error('Error fetching used list data:', error);
+		                }
+		            });
+		        });
+		    });
+
+		    //====================二手商品刪除事件======================
+
+		    document.addEventListener("DOMContentLoaded", function () {
+		        // 初始化外部 DataTable
+		        let dataTable;
+
+		        // 动态绑定嵌入 DataTable 的删除按钮事件
+		        document.body.addEventListener('click', function (event) {
+		            if (event.target.classList.contains('deleteUsed')) {
+		                const button = event.target;
+
+		                // 获取绑定的商品编号 (usedNo)
+		                const usedNo = button.getAttribute('data-usedNo');
+
+		                // 确认删除操作
+		                if (!confirm(`確定要刪除商品編號 ${usedNo} 嗎？`)) return;
+
+		                // 发送删除请求
+		                fetch(`/used/deleteUsed`, {
+		                    method: 'POST',
+		                    headers: {
+		                        'Content-Type': 'application/json'
+		                    },
+		                    body: JSON.stringify({ usedNo: usedNo }) // 将 usedNo 发送到后端
+		                })
+		                    .then(response => response.json()) // 将响应解析为 JSON
+		                    .then(data => {
+		                        if (data.success) {
+		                            alert(data.message); // 显示成功消息
+
+		                            
+		    						$('#used-check').click();// 重新觸發一次click事件取得 fragment
+		                        } else {
+		                            alert(`刪除失敗：${data.message}`);
+		                        }
+		                    })
+		                    .catch(error => {
+		                        console.error('刪除過程中發生錯誤:', error);
+		                        alert('刪除過程中發生錯誤');
+		                    });
+		            }
+		        });
+
+		        // 当页面动态嵌入 DataTable 后，重新初始化 DataTable
+		        function initializeDataTable() {
+		            if (dataTable) {
+		                dataTable.destroy(); // 如果 DataTable 已初始化，先销毁
+		            }
+
+		            // 重新初始化 DataTable
+		            dataTable = $('#UsedList').DataTable({
+		                paging: true,
+		                searching: true,
+		                ordering: true
+		            });
+		        }
+
+		        // 假设触发嵌入 DataTable 的点击事件
+		        document.getElementById('loadDataTableButton').addEventListener('click', function () {
+		            // 模拟嵌入新表格（根据你的需求可能是 AJAX 或其他加载方式）
+		            // 这里假设 DataTable 已嵌入 DOM 中
+
+		            // 初始化新的 DataTable
+		            initializeDataTable();
+		        });
+		    });
+		    
+
+		</script>
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </th:block>
 
 

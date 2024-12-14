@@ -706,13 +706,13 @@ body {
 /*============追蹤商品=============*/
 
 /* 通用样式 */
-body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background: url('/counterPage/img/core-img/sand.jpg') no-repeat center center fixed;
-    background-size: cover;
-}
+/* body { */
+/*     margin: 0; */
+/*     padding: 0; */
+/*     font-family: Arial, sans-serif; */
+/*     background: url('/counterPage/img/core-img/sand.jpg') no-repeat center center fixed; */
+/*     background-size: cover; */
+/* } */
 
 /* Logo样式 */
 .logo {
@@ -1012,7 +1012,7 @@ header .dropdown {
 
 .coupon_49_button_group49 {
     margin-top: 0px;
-    margin-buttom: 40px;
+    margin-bottom: 50px;
     text-align: center;
 }
 

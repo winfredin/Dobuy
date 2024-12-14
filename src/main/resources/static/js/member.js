@@ -871,26 +871,36 @@ $('.goodsfollow').click(function() {
 });
 
 //=======================我的優惠券===================
-$(".coupon").on("click", function () {
+$(".coupon").on("click", function() {
     $.ajax({
-        url: "/memcoupon/listFragment", // 伺服器 API，返回優惠券 HTML 片段
+        url: "/memcoupon/listFragment",
         method: "GET",
-        success: function (response) {
-            $(".use_1").html(response); // 插入到目標區塊
+        success: function(response) {
+            // 插入返回的 HTML 內容
+            $(".use_1").html(response);
+            
+            // 初始化分頁功能
+            initPagination();
         },
-		error: function (xhr, status, error) {
-		    console.error("Error loading coupons:", xhr.responseText); // 查看錯誤詳情
-		    alert("無法載入優惠券，錯誤: " + error);
-		},
+        error: function(xhr, status, error) {
+            console.error("Error loading coupons:", xhr.responseText);
+            alert("無法載入優惠券，錯誤: " + error);
+        },
     });
 });
 
-document.addEventListener('DOMContentLoaded', function() {
+// 分頁功能初始化函數
+function initPagination() {
     const itemsPerPage = 5;
     const items = document.querySelectorAll('.coupon_49_item');
     const totalPages = Math.ceil(items.length / itemsPerPage);
     const pagination = document.getElementById('coupon_49_pagination');
     let currentPage = 1;
+
+    // 重置分頁容器
+    if (pagination) {
+        pagination.innerHTML = '';
+    }
 
     function generatePagination() {
         const prevButton = document.createElement('button');
@@ -940,9 +950,18 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // 如果有項目才初始化分頁
     if (items.length > 0) {
         generatePagination();
         showPage(1);
+    }
+}
+
+// 頁面載入時初始化（如果已經有優惠券內容的話）
+$(document).ready(function() {
+    const items = document.querySelectorAll('.coupon_49_item');
+    if (items.length > 0) {
+        initPagination();
     }
 });
 
