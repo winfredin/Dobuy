@@ -295,32 +295,6 @@ public class FrontEndController {
  }
 
  @PostMapping("changepas")
- public String changepas(@RequestParam("memPassword")String memPassword, @RequestParam("confirmPassword")String confirmPassword,ModelMap model,HttpSession session) 
-
-			throws IOException {
-
-
-			 Object memNoObj = session.getAttribute("memNo");
-		    	    Integer memNo = Integer.parseInt( memNoObj.toString()); 
-		    	    if(!memPassword.equals(confirmPassword) ) {
-		    	    	model.addAttribute("error","確認密碼輸入錯誤");
-
-		    	    }
-		    	    memSvc.updatePass(memNo,memPassword);
-		    MemberVO memberVO = memSvc.findOne(memNo) ;
-				model.addAttribute("memberVO",memberVO);
-	return "front-end/normalpage/member";
-
-<<<<<<< Upstream, based on branch 'master' of https://github.com/he01314905/Dobuy.git
- }
-=======
-		session.removeAttribute("memAccount");
-		session.removeAttribute("memNo"); // 用memAccount去找memNo
-		session.removeAttribute("memStatus");
-		return "front-end/normalpage/member";
-	}
-
-	@PostMapping("changepas")
 	public String changepas(@RequestParam("memPassword") String memPassword,
 			@RequestParam("confirmPassword") String confirmPassword, ModelMap model, HttpSession session)
 			throws IOException {
@@ -337,7 +311,6 @@ public class FrontEndController {
 		return "front-end/normalpage/member";
 
 	}
->>>>>>> db52ecd front end push
 
 
   @GetMapping("content/credit")
