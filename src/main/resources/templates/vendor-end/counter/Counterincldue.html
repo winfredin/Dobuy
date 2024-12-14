@@ -61,7 +61,7 @@
             </div>
         </div>
 
-        <!-- Nav Area -->
+               <!-- Nav Area -->
         <div class="original-nav-area" id="stickyNav">
             <div class="classy-nav-container breakpoint-off">
                 <div class="container">
@@ -80,19 +80,19 @@
                                 <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
                             </div>
 
-                              <!-- Nav Start -->
+                            <!-- Nav Start -->
                             <div class="classynav">
                                 <ul>
                                     <li><a  class="dropdown-font" th:href="@{/counter/Counterindex}">首頁</a></li>
                                     <li><a href="#">商城系統</a>
                                         <ul  class="dropdown">
-                                            <li><a href="/counter/listAllCounterOrder">櫃位訂單管理</a></li>
-                                            <li><a id="goodsManagement" th:href="@{/goods/listAllCounterGoods}">商品管理</a></li>
+                                            <li><a href="/counter/listOneCounter">櫃位訂單管理</a></li>
+                                            <li><a id="check" th:href="@{/goods/listAllCounterGoods}">商品管理</a></li>
                                         </ul>
                                     </li>
                                     <li><a href="#">櫃位前台設置</a>
                                         <ul  class="dropdown">
-                                            <li><a th:href="@{/front-end-carousel/selectPage}">櫃位輪播管理</a></li>
+                                            <li><a th:href="@{/front-end-carousel/ALLCarousel}">櫃位輪播管理</a></li>
                                             <li><a th:href="@{/faq/listCounterFaq}">FAQ常見問題管理</a></li>
                                         </ul>
                                     </li>
@@ -102,13 +102,13 @@
                                             <li><a th:href="@{/faq/add}">FAQ常見問題設定</a></li>
                                             <li><a th:href="@{/monthsettlement/listAllMonthSettlement}">營收查詢</a></li>
                                             <li><a th:href="@{/followers/listAllFollowers}">追蹤管理</a></li>
-                                            <li><a th:href="@{/coupon/listAllCoupon}">優惠券設定</a></li>
+                                            <li><a id="check" th:href="@{/coupon/listAllCoupon}">優惠券設定</a></li>
                                         </ul>
 										<li>
 										    <a th:href="@{/msg/listAllMsg}" 
 										       th:classappend="${msgSvc.countUnread(counter.counterNo) > 0} ? 'unread-dot'">
-										        櫃位訊息中心管理 
-										    </a> 
+										        櫃位訊息中心管理
+										    </a>
 										</li>
                                     <li><a href="#">訊息回覆</a>
                                     </li>
@@ -159,9 +159,9 @@ function logout() {
 
 
 document.addEventListener("DOMContentLoaded", function() {
-    var goodsManagementLink = document.getElementById("goodsManagement");
-    if (goodsManagementLink) {
-        goodsManagementLink.addEventListener("click", function(event) {
+    var statusCheck = document.querySelectorAll("[id='check']");
+    statusCheck.forEach(function(link) {
+        link.addEventListener("click", function(event) {
             var counterStatusHolder = document.getElementById("counterStatusHolder");
             var counterStatus = parseInt(counterStatusHolder.textContent); // 將文本轉為整數
             if (counterStatus <= 2) {
@@ -169,7 +169,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 alert("對不起，您的帳號暫時無法使用此功能，如有問題敬請聯絡客服。");
             }
         });
-    }
+    });
 });
 </script>
 </header>
