@@ -42,180 +42,314 @@ import com.usedpic.model.UsedPicVO;
 @Controller
 public class FrontEndController {
 
-    @Autowired
-    GoodsService goodsSvc;
-    @Autowired
-    GoodsTypeService goodstSvc;
-    @Autowired
-    CounterService counterSvc;
-    @Autowired
-    CounterOrderService counterOrderSvc;
-    @Autowired
-    CounterOrderDetailService counterOrderDetailSvc;
-    @Autowired
-    CouponService couponSvc;
-    @Autowired
-    CountercarouselService countercarouselSvc;
-    @Autowired
-    MemberService memSvc;
+ @Autowired
+ GoodsService goodsSvc;
+ @Autowired
+ GoodsTypeService goodstSvc;
+ @Autowired
+ CounterService counterSvc;
+ @Autowired
+ CounterOrderService counterOrderSvc;
+ @Autowired
+ CounterOrderDetailService counterOrderDetailSvc;
+ @Autowired
+ CouponService couponSvc;
 
-    @GetMapping("")
-    public String index() {
-        return "loading";
+ @Autowired
+ CountercarouselService countercarouselSvc;
+
+ @Autowired
+ MemberService memSvc;
+ @Autowired
+ UsedService usedSvc;
+
+ @GetMapping("")
+ public String index() {
+
+  return "loading";
+ }
+
+ @GetMapping("member")
+ public String getMemberPage(HttpSession session, Model model) {
+
+  if (session.getAttribute("memNo") == null) {
+
+   return "redirect:/mem/login";
+  } else {
+   String memNo = (String) session.getAttribute("memNo");
+   List<CounterOrderVO> membersbuyorder = counterOrderSvc.ListfindByMemNoAndStatusNot4(Integer.valueOf(memNo));
+//     System.out.println(membersbuyorder.size());
+   if (membersbuyorder.size() == 0) {
+    List<CounterVO> counterVOList = counterSvc.getAll();
+
+    model.addAttribute("counterVOList", counterVOList);
+    return "front-end/normalpage/member";
+   }
+   List<CounterOrderVO> newlist = new ArrayList<>();
+   List<GoodsVO> goodsNamelist = new ArrayList<>();
+   for (CounterOrderVO counterOrderVO : membersbuyorder) {
+    Integer eachOrderNo = counterOrderVO.getCounterOrderNo();
+    List<CounterOrderDetailVO> detailList = counterOrderDetailSvc.getDetailsByOrderNo(eachOrderNo);
+//      System.out.println(detailList.size());
+
+    for (CounterOrderDetailVO counterOrderDetailVO : detailList) {
+     GoodsVO goodsVO = goodsSvc.getOneGoods(counterOrderDetailVO.getGoodsNo());
+     goodsNamelist.add(goodsVO);
     }
 
-    @GetMapping("member")
-    public String getMemberPage(HttpSession session, Model model) {
-        if (session.getAttribute("memNo") == null) {
-            return "redirect:/mem/login";
-        }
+    counterOrderVO.setCounterOrderDatailVO(detailList);
+    newlist.add(counterOrderVO);
+   }
 
-        Integer memNo = Integer.valueOf(session.getAttribute("memNo").toString());
-        List<CounterOrderVO> orders = counterOrderSvc.ListfindByMemNoAndStatusNot4(memNo);
+   List<CouponVO> couponList = couponSvc.getAll();
+   List<CounterVO> counterList = counterSvc.getAll();
 
-        List<GoodsVO> goodsList = new ArrayList<>();
-        List<CounterOrderVO> newList = new ArrayList<>();
+   model.addAttribute("goodsNamelist", goodsNamelist);
+   model.addAttribute("couponList", couponList);
+   model.addAttribute("counterList", counterList);
+   model.addAttribute("orders", newlist);
+  }
+  return "front-end/normalpage/member";
+ }
 
-        for (CounterOrderVO order : orders) {
-            List<CounterOrderDetailVO> details = counterOrderDetailSvc.getDetailsByOrderNo(order.getCounterOrderNo());
-            for (CounterOrderDetailVO detail : details) {
-                GoodsVO goods = goodsSvc.getOneGoods(detail.getGoodsNo());
-                goodsList.add(goods);
-            }
-            order.setCounterOrderDatailVO(details);
-            newList.add(order);
-        }
+ 
+ @GetMapping("home")
+ public String getHomePage(Model model) {
 
-        model.addAttribute("goodsNamelist", goodsList);
-        model.addAttribute("couponList", couponSvc.getAll());
-        model.addAttribute("counterList", counterSvc.getAll());
-        model.addAttribute("orders", newList);
+  List<CountercarouselVO> carousellist = countercarouselSvc.getAll();
+  List<GoodsVO> goodslist = goodsSvc.getAllGoodsStatus1();
+  List<CounterVO> counterVOList = counterSvc.getAll();
 
-        return "front-end/normalpage/member";
+  model.addAttribute("counterVOList", counterVOList);
+  model.addAttribute("goodslist", goodslist);
+  model.addAttribute("carousellist", carousellist);
+  return "front-end/normalpage/homepage";
+ }
+
+ 
+
+// @GetMapping("usedgoodspage")
+//     public String getusedgoodspagePage(Model model) {
+//   List<UsedVO> list = usedSvc.getAll();
+//   List<GoodsTypeVO> glist = goodstSvc.getAll();
+//  
+//   model.addAttribute("list",list);
+//   model.addAttribute("glist",glist);
+//         return "front-end/normalpage/usedgoodspage"; 
+//     }
+//
+// for(
+//
+// CounterOrderDetailVO counterOrderDetailVO:detailList)
+// {
+//  GoodsVO goodsVO = goodsSvc.getOneGoods(counterOrderDetailVO.getGoodsNo());
+//  goodsNamelist.add(goodsVO);
+// }
+//
+// counterOrderVO.setCounterOrderDatailVO(detailList);newlist.add(counterOrderVO);}
+//
+// List<CouponVO> couponList = couponSvc.getAll();
+// List<CounterVO> counterList = counterSvc.getAll();
+// List<CounterVO> counterVOList = counterSvc.getAll();
+//
+// model.addAttribute("counterVOList",counterVOList);model.addAttribute("goodsNamelist",goodsNamelist);model.addAttribute("couponList",couponList);model.addAttribute("counterList",counterList);model.addAttribute("orders",newlist);
+// }return"front-end/normalpage/member";}
+
+
+ @GetMapping("goodspage")
+ public String getgoodspagePage(Model model) {
+  List<GoodsVO> list = goodsSvc.getAll();
+  List<GoodsTypeVO> glist = goodstSvc.getAll();
+  List<CounterVO> counterVOList = counterSvc.getAll();
+
+  model.addAttribute("counterVOList", counterVOList);
+  model.addAttribute("list", list);
+  model.addAttribute("glist", glist);
+  return "front-end/normalpage/goodspage";
+ }
+
+ @GetMapping("usedgoodspage")
+ public String getusedgoodspagePage1(Model model) {
+  List<UsedVO> list = usedSvc.getAll();
+  List<GoodsTypeVO> glist = goodstSvc.getAll();
+  List<CounterVO> counterVOList = counterSvc.getAll();
+
+  model.addAttribute("counterVOList", counterVOList);
+  model.addAttribute("list", list);
+  model.addAttribute("glist", glist);
+  return "front-end/normalpage/usedgoodspage";
+ }
+
+ @GetMapping("/goods/filter")
+ @ResponseBody
+ public List<GoodsVO> filterGoodsByType(@RequestParam("goodstNo") String goodstNo, Model model) {
+
+  List<GoodsVO> alist = goodsSvc.getAll();
+  int goodstNoInt;
+
+  try {
+   goodstNoInt = Integer.parseInt(goodstNo);
+  } catch (NumberFormatException e) {
+
+   return new ArrayList<>();
+  }
+  List<GoodsVO> filteredgoodst = new ArrayList<>();
+  for (GoodsVO goods : alist) {
+
+   if (goods.getGoodsTypeVO() != null && goods.getGoodsTypeVO().getGoodstNo() != null) {
+
+    if (goods.getGoodsTypeVO().getGoodstNo() == goodstNoInt) {
+     filteredgoodst.add(goods);
     }
+   }
+  }
+  return filteredgoodst;
+ }
 
-    @GetMapping("home")
-    public String getHomePage(Model model) {
-        model.addAttribute("counterVOList", counterSvc.getAll());
-        model.addAttribute("goodslist", goodsSvc.getAllGoodsStatus1());
-        model.addAttribute("carousellist", countercarouselSvc.getAll());
-        return "front-end/normalpage/homepage";
+ @GetMapping("/usedgoods/filter")
+ @ResponseBody
+ public List<Map<String, Object>> usedfilterGoodsByType(@RequestParam("goodstNo") String goodstNo) {
+  List<UsedVO> alist = usedSvc.getAll();
+  int goodstNoInt;
+  try {
+   goodstNoInt = Integer.parseInt(goodstNo);
+  } catch (NumberFormatException e) {
+   return new ArrayList<>();
+  }
+
+  List<Map<String, Object>> filteredGoods = new ArrayList<>();
+  for (UsedVO goods : alist) {
+   if (goods.getClassNo() != null && goods.getClassNo() == goodstNoInt) {
+    Map<String, Object> goodsMap = new HashMap<>();
+    goodsMap.put("usedNo", goods.getUsedNo());
+    goodsMap.put("usedName", goods.getUsedName());
+    goodsMap.put("usedProDesc", goods.getUsedProDesc());
+    goodsMap.put("usedPrice", goods.getUsedPrice());
+
+    // 提取圖片資料，將圖片編號獨立存儲
+    List<Integer> usedPics = new ArrayList<>();
+    for (UsedPicVO pic : goods.getUsedPics()) {
+     usedPics.add(pic.getUsedPicNo());
     }
+    goodsMap.put("usedPics", usedPics); // 傳遞圖片編號資料
 
-    @GetMapping("goodspage")
-    public String getGoodsPage(Model model) {
-        model.addAttribute("list", goodsSvc.getgoods());
-        model.addAttribute("glist", goodstSvc.getAll());
-        return "front-end/normalpage/goodspage";
-    }
+    filteredGoods.add(goodsMap);
+   }
+  }
+  return filteredGoods;
+ }
 
-    @GetMapping("/goods/filter")
-    public List<GoodsVO> filterGoodsByType(@RequestParam("goodstNo") String goodstNo) {
-        List<GoodsVO> goodsList = goodsSvc.getgoods();
-        int typeNo = Integer.parseInt(goodstNo);
-        List<GoodsVO> filteredList = new ArrayList<>();
-        for (GoodsVO goods : goodsList) {
-            if (goods.getGoodsTypeVO() != null && goods.getGoodsTypeVO().getGoodstNo() == typeNo) {
-                filteredList.add(goods);
-            }
-        }
-        return filteredList;
-    }
+ @PostMapping("updatemem")
+ public String updatemem(@Valid MemberVO memberVO, BindingResult result, ModelMap model, HttpSession session)
+   throws IOException {
+  Object memNoObj = session.getAttribute("memNo");
+  Integer memNo = Integer.parseInt(memNoObj.toString());
+  memSvc.findOne(memNo);
+  memberVO.setMemNo(memNo);
+  memSvc.updateMem(memberVO);
+  memberVO = memSvc.findOne(memNo);
 
-    @PostMapping("updatemem")
-    public String updateMember(@Valid MemberVO memberVO, BindingResult result, ModelMap model, HttpSession session)
-            throws IOException {
-        Integer memNo = Integer.parseInt(session.getAttribute("memNo").toString());
-        memSvc.updateMem(memberVO);
-        memberVO = memSvc.findOne(memNo);
-        model.addAttribute("memberVO", memberVO);
-        return "front-end/normalpage/member";
-    }
+  model.addAttribute("memberVO", memberVO);
+  return "front-end/normalpage/member";
 
-    @PostMapping("deleteac")
-    public String deleteAccount(ModelMap model, HttpSession session) {
-        Integer memNo = Integer.parseInt(session.getAttribute("memNo").toString());
-        MemberVO memberVO = memSvc.findOne(memNo);
-        memberVO.setMemStatus(0);
-        memSvc.updateMem(memberVO);
+ }
 
-        session.invalidate();
-        return "front-end/normalpage/member";
-    }
-
-
- @PostMapping("changepas")
- public String changepas(@RequestParam("memPassword") String memPassword,
-   @RequestParam("confirmPassword") String confirmPassword, ModelMap model, HttpSession session)
+ @PostMapping("address")
+ public String changeadd(@RequestParam("memAddress") String memAddress, ModelMap model, HttpSession session)
    throws IOException {
 
   Object memNoObj = session.getAttribute("memNo");
   Integer memNo = Integer.parseInt(memNoObj.toString());
-  if (!memPassword.equals(confirmPassword)) {
-   model.addAttribute("error", "確認密碼輸入錯誤");
-
-  }
-  memSvc.updatePass(memNo, memPassword);
+  memSvc.upAdd(memNo, memAddress);
   MemberVO memberVO = memSvc.findOne(memNo);
   model.addAttribute("memberVO", memberVO);
   return "front-end/normalpage/member";
 
  }
 
- @GetMapping("content/credit")
- public String getcreditPage() {
-  return "content/credit"; // 對應 templates/content/profile.html
- }
-
- @GetMapping("content/changeps")
- public String getchangepsPage(HttpSession session, Model model) {
+ @PostMapping("deleteac")
+ public String deleteac(ModelMap model, HttpSession session) throws IOException {
   Object memNoObj = session.getAttribute("memNo");
   Integer memNo = Integer.parseInt(memNoObj.toString());
-  MemberVO memberVO;
-  memberVO = memSvc.findOne(memNo);
-  memberVO.setMemPassword("");
-  model.addAttribute("memberVO", memberVO);
-  return "content/changeps"; // 對應 templates/content/profile.html
+  MemberVO memberVO = memSvc.findOne(memNo);
+  memberVO.setMemStatus(0);
+  memSvc.updateMem(memberVO);
+
+  session.removeAttribute("memAccount");
+  session.removeAttribute("memNo"); // 用memAccount去找memNo
+  session.removeAttribute("memStatus");
+  return "front-end/normalpage/member";
  }
 
- @GetMapping("content/delete")
- public String getdeletePage(Model model, HttpSession session) {
-  Object memNoObj = session.getAttribute("memNo");
-  Integer memNo = Integer.parseInt(memNoObj.toString());
-  MemberVO memberVO;
-  memberVO = memSvc.findOne(memNo);
-  model.addAttribute("memberVO", memberVO);
-  return "content/delete"; // 對應 templates/content/profile.html
+ @PostMapping("changepas")
+ public String changepas(@RequestParam("memPassword")String memPassword, @RequestParam("confirmPassword")String confirmPassword,ModelMap model,HttpSession session) 
+			throws IOException {
+
+			 Object memNoObj = session.getAttribute("memNo");
+		    	    Integer memNo = Integer.parseInt( memNoObj.toString()); 
+		    	    if(!memPassword.equals(confirmPassword) ) {
+		    	    	model.addAttribute("error","確認密碼輸入錯誤");
+
+		    	    }
+		    	    memSvc.updatePass(memNo,memPassword);
+		    MemberVO memberVO = memSvc.findOne(memNo) ;
+				model.addAttribute("memberVO",memberVO);
+	return "front-end/normalpage/member";
+
  }
 
- @GetMapping("content/add")
- public String getaddPage(HttpSession session, Model model) {
-  Object memNoObj = session.getAttribute("memNo");
-  Integer memNo = Integer.parseInt(memNoObj.toString());
-  MemberVO memberVO;
-  memberVO = memSvc.findOne(memNo);
-  model.addAttribute("memberVO", memberVO);
-  return "content/add"; // 對應 templates/content/profile.html
- }
 
- @GetMapping("content/profileup")
- public String getprofileupPage(Model model, HttpSession session) {
-  Object memNoObj = session.getAttribute("memNo");
-  Integer memNo = Integer.parseInt(memNoObj.toString());
-  MemberVO memberVO;
-  memberVO = memSvc.findOne(memNo);
-  model.addAttribute("memberVO", memberVO);
-  return "content/profileup"; // 對應 templates/content/profile.html
- }
+  @GetMapping("content/credit")
+  public String getcreditPage() {
+      return "content/credit"; // 對應 templates/content/profile.html
+  }
+  @GetMapping("content/changeps")
+  public String getchangepsPage(HttpSession session,Model model) {
+  	Object memNoObj = session.getAttribute("memNo");
+	    Integer memNo = Integer.parseInt( memNoObj.toString());	    
+	MemberVO memberVO;
+	memberVO = memSvc.findOne(memNo);
+	memberVO.setMemPassword("");
+	model.addAttribute("memberVO",memberVO);
+      return "content/changeps"; // 對應 templates/content/profile.html
+  }
+  @GetMapping("content/delete")
+  public String getdeletePage(Model model,HttpSession session) {
+  	Object memNoObj = session.getAttribute("memNo");
+  	Integer memNo = Integer.parseInt( memNoObj.toString());	   
+  	MemberVO memberVO;
+  	memberVO = memSvc.findOne(memNo);
+  	model.addAttribute("memberVO",memberVO);
+      return "content/delete"; // 對應 templates/content/profile.html
+  }
 
- @GetMapping("content/profile")
- public String getProfilePage(Model model, HttpSession session) {
+  @GetMapping("content/add")
+  public String getaddPage(HttpSession session,Model model) {
   Object memNoObj = session.getAttribute("memNo");
-  Integer memNo = Integer.parseInt(memNoObj.toString());
-  MemberVO memberVO;
-  memberVO = memSvc.findOne(memNo);
-  model.addAttribute("memberVO", memberVO);
-  return "content/profile";
- }
+	Integer memNo = Integer.parseInt( memNoObj.toString());	    
+	MemberVO memberVO;
+	memberVO = memSvc.findOne(memNo);
+	model.addAttribute("memberVO",memberVO);
+      return "content/add"; // 對應 templates/content/profile.html
+  }
+  @GetMapping("content/profileup")
+  public String getprofileupPage(Model model,HttpSession session) {
+  	Object memNoObj = session.getAttribute("memNo");
+	    Integer memNo = Integer.parseInt( memNoObj.toString());	    
+	MemberVO memberVO;
+	memberVO = memSvc.findOne(memNo);
+	model.addAttribute("memberVO",memberVO);
+      return "content/profileup"; // 對應 templates/content/profile.html
+  }
+  @GetMapping("content/profile")
+  public String getProfilePage(Model model,HttpSession session) {
+  	Object memNoObj = session.getAttribute("memNo");
+  	    Integer memNo = Integer.parseInt( memNoObj.toString());	    
+  	MemberVO memberVO;
+  	memberVO = memSvc.findOne(memNo);
+  	model.addAttribute("memberVO",memberVO);
+   	return "content/profile"; 
+  }
+
 
 }
