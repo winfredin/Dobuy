@@ -71,7 +71,11 @@ public class MonthSettlementController {
 
     // 進入新增頁面
     @GetMapping("addMonthSettlement")
-    public String addMonthSettlement(ModelMap model) {
+    public String addMonthSettlement(ModelMap model,HttpSession session) {
+    	if(session.getAttribute("managerNo")==null) {
+			return "redirect:/login/Login";
+		}
+	
         MonthSettlementVO monthSettlementVO = new MonthSettlementVO();
         List<CounterVO> counters = counterService.getAll();
         model.addAttribute("counters", counters);

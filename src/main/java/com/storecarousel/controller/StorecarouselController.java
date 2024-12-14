@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,7 +88,11 @@ public class StorecarouselController {
 
     // 查詢所有輪播資訊
     @GetMapping("/listAllStorecarouseltest")
-    public String listAll(ModelMap model) {
+    public String listAll(ModelMap model, HttpSession session) {
+    	if(session.getAttribute("managerNo")==null) {
+			return "redirect:/login/Login";
+		}
+	
         List<StoreCarouselVO> list = StorecarouselRepository.findAll();
         for (StoreCarouselVO i : list) {
 			i.convertToBase64();
