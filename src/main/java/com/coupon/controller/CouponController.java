@@ -318,7 +318,11 @@ public class CouponController {
     
  // 後台審核優惠券的 GET 方法---顯示頁面
     @GetMapping("/approve")
-    public String showApprovePage(Model model) {
+    public String showApprovePage(Model model,HttpSession session) {
+    	if(session.getAttribute("managerNo")==null) {
+			return "redirect:/login/Login";
+		}
+	
         // 獲取所有優惠券列表
         List<CouponVO> list = couponSvc.getAll();
         // 將數據添加到模型中，注意這裡的屬性名要跟視圖中使用的一致

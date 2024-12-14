@@ -60,6 +60,7 @@ public class LoginController {
     public String logout(HttpSession session) {
         session.removeAttribute("managerNo"); 
         session.removeAttribute("managerAccount");
+        session.removeAttribute("managerName");
         session.removeAttribute("auth");
         return "redirect:/login/Login";  // 登出後，重新導向到登入頁面
     }

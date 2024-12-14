@@ -73,7 +73,11 @@ public class IndexController2_inSpringBoot {
 	}
 	
 	@GetMapping("/goods/listAllCheckStatus")
-	public String listAllCheckStatus(Model model) {
+	public String listAllCheckStatus(Model model,HttpSession session) {
+		if(session.getAttribute("managerNo")==null) {
+			return "redirect:/login/Login";
+		}
+	
 		return "vendor-end/goods/listAllCheckStatus";
 	}
 	

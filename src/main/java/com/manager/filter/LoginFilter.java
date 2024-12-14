@@ -30,14 +30,14 @@ public class LoginFilter implements Filter {
         String uri = httpRequest.getRequestURI();
    
         // 設定不需要驗證登入的頁面，例如登入頁面和登出頁面
-        if (uri.endsWith("/login/Login")  || uri.endsWith("/logout")) {
+        if (uri.endsWith("/login/Login")) {
             chain.doFilter(request, response);  // 直接放行
             return;
         }
 
         // 取得 session 並檢查是否已登入
         HttpSession session = httpRequest.getSession(false);
-        if (session == null) {
+        if (session.getAttribute("managerAccount") == null) {
             // 如果沒有登入，重定向到登入頁面
             httpResponse.sendRedirect(httpRequest.getContextPath() + "/login/Login");
         } else {

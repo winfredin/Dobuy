@@ -2,6 +2,8 @@ package com.goodstype.controller;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -56,7 +58,11 @@ public class IndexController_inSpringBoot_Goodstype {
     
     // 顯示所有商品類別資料的頁面
     @GetMapping("/goodstype/listAllGoodsType")
-    public String listAllGoodsType(Model model) {
+    public String listAllGoodsType(Model model,HttpSession session) {
+    	if(session.getAttribute("managerNo")==null) {
+			return "redirect:/login/Login";
+		}
+	
     	return "back-end/goodstype/listAllGoodsType"; // 返回所有商品類別列表頁
     }
 
