@@ -24,55 +24,49 @@
 
 
 	<link rel="stylesheet" th:href="@{/back-end-home/css/login.css}">
-	
+
 	<style>
 /* 加入以下樣式來讓 Nav Area 自適應寬度 */
-
-
-.original-nav-area{
-    width: 100% !important;
- }
-
-
+.original-nav-area {
+	width: 100% !important;
+}
 
 .top-header {
-    width: 100%;
-    padding: 0 6rem; /* 配合body的邊距 */
+	width: 100%;
+	padding: 0 6rem; /* 配合body的邊距 */
 }
 
 .container {
-    width: 100%;
-    max-width: none; /* 移除固定寬度限制 */
-    padding: 0 15px; /* 保持內容兩側留白 */
+	width: 100%;
+	max-width: none; /* 移除固定寬度限制 */
+	padding: 0 15px; /* 保持內容兩側留白 */
 }
 
 body {
-    margin: 0 6rem !important;
-    padding: 0 !important;
-    background-color: #f8f9fa !important;
-    overflow-x: hidden; /* 防止水平滾動 */
-    min-width: 1200px; /* 設置最小寬度 */
+	margin: 0 6rem !important;
+	padding: 0 !important;
+	background-color: #f8f9fa !important;
+	overflow-x: hidden; /* 防止水平滾動 */
+	min-width: 1200px; /* 設置最小寬度 */
 }
 
 /* 確保頁面內容與導航欄對齊 */
-.blog-wrapper, 
-.instagram-feed-area,
-.footer-area {
-    margin: 0 -6rem; /* 抵消body的margin */
-    padding: 0 6rem;  /* 加回相同的padding */
+.blog-wrapper, .instagram-feed-area, .footer-area {
+	margin: 0 -6rem; /* 抵消body的margin */
+	padding: 0 6rem; /* 加回相同的padding */
 }
 
 .logo-area {
-    width: 100%;
-    max-width: none;
-    padding: 0 6rem;
+	width: 100%;
+	max-width: none;
+	padding: 0 6rem;
 }
 
 .original-nav-area .classy-navbar {
-    width: 100%;
-    max-width: none;
+	width: 100%;
+	max-width: none;
 }
-	</style>
+</style>
 
 </th:block>
 
@@ -87,8 +81,8 @@ body {
 	<!-- 登入及顯示管理員姓名 -->
 	<div class="admin-controls">
 		<div class="admin-name">
-			<i class="fas fa-user-circle"></i> 
-<span th:text="${session.managerName != null ? session.managerName : '管理員'}">管理員</span>
+			<i class="fas fa-user-circle"></i> <span
+				th:text="${session.managerName != null ? session.managerName : '管理員'}">管理員</span>
 		</div>
 
 		<form th:action="@{/logout}" method="get" style="margin: 0;">
@@ -183,23 +177,21 @@ body {
 									<li><a href="#">商品審核系統</a>
 										<ul class="dropdown">
 											<li><a th:href="@{/goods/listAllCheckStatus}">一般商品審核</a></li>
-											<li><a th:href="@{/goods/listAllCheckStatus}">二手商品審核</a></li>
+											<li><a th:href="@{/used/listAllUsed49}" id="used-check">二手商品審核</a></li>
 										</ul></li>
 
-                                    <li><a href="#">管理員資料</a>
-                                        <ul class="dropdown">
-                                          <li>
-   										 <a th:href="@{'/manager/manager?managerNo=' + ${session.managerNo}}">管理員資料管理</a>
-										</li>
-                                        </ul>
-                                    </li>
+									<li><a href="#">管理員資料</a>
+										<ul class="dropdown">
+											<li><a
+												th:href="@{'/manager/manager?managerNo=' + ${session.managerNo}}">管理員資料管理</a>
+											</li>
+										</ul></li>
 
-                                    <li><a href="#">優惠管理</a>
-                                        <ul class="dropdown">
-                                            <li><a th:href="@{/discount/listAllDiscount}">平台優惠活動管理</a></li>
-                                            <li><a th:href="@{/coupon/approve}">廠商優惠券管理</a></li>
-                                        </ul>
-                                    </li>
+									<li><a href="#">優惠管理</a>
+										<ul class="dropdown">
+											<li><a th:href="@{/discount/listAllDiscount}">平台優惠活動管理</a></li>
+											<li><a th:href="@{/coupon/approve}">廠商優惠券管理</a></li>
+										</ul></li>
 
 									<li><a href="#">客服系統</a>
 										<ul class="dropdown">
@@ -261,9 +253,9 @@ body {
 	<script th:src="@{/back-end-home/js/plugins.js}"></script>
 	<!-- Active js -->
 	<script th:src="@{/back-end-home/js/active.js}"></script>
-	
-	
-			<script>
+
+
+	<script>
 		    function submitApproval(goodsNo) {
 		        if (!goodsNo) {
 		            window.location.href = '/goods/listAllCheckStatus';
@@ -299,6 +291,82 @@ body {
 		
 		    
 		  //=====================二手商品管理事件====================================
+		    $(document).ready(function() {
+		        // 当 span id 为 a1 的元素被点击时，触发 AJAX 事件
+		        $('#used-check').click(function() {
+		            // 使用AJAX从后端以POST方式获取数据
+		            $.ajax({
+		                url: '/used/getAllSellerUsedListFragment', // 服务器端 API，返回 Thymeleaf 片段
+		                type: 'POST',
+		                success: function(response) {
+		                    console.log("Fragment HTML:", response); // 打印返回的 HTML，便于调试
+
+		                    // 使用 fragment 替换 <div class="use_1">
+		                    $('.usedcheckarea').html(response);
+		                    initializeSlick();
+		                    
+		                    // 检查并销毁已有 DataTables 实例
+		                    if ($.fn.DataTable.isDataTable('#UsedList')) {
+		                        $('#UsedList').DataTable().destroy();
+		                    }
+
+		                 // 初始化 DataTables
+		                    var table = $('#UsedList').DataTable({
+		                        "lengthMenu": [3, 5, 10, 20, 50, 100],
+		                        "searching": true,
+		                        "paging": true,
+		                        "ordering": true,
+		                        "language": {
+		                            "processing": "處理中...",
+		                            "loadingRecords": "載入中...",
+		                            "lengthMenu": "顯示 _MENU_ 筆結果",
+		                            "zeroRecords": "沒有符合的結果",
+		                            "info": "顯示第 _START_ 至 _END_ 筆結果，共<font color=red> _TOTAL_ </font>筆",
+		                            "infoEmpty": "顯示第 0 至 0 筆結果，共 0 筆",
+		                            "infoFiltered": "(從 _MAX_ 筆結果中過濾)",
+		                            "paginate": {
+		                                "first": "第一頁",
+		                                "previous": "上一頁",
+		                                "next": "下一頁",
+		                                "last": "最後一頁"
+		                            }
+		                        }
+		                    });
+
+		                    // 初始化 Slick 特效
+		                    function initializeSlick() {
+							    $('.photo-slider').not('.slick-initialized').slick({
+							    	dots: false, // 禁用點狀導航
+							        infinite: true, // 禁用無限滾動
+							        speed: 300, // 滑動速度
+							        slidesToShow: 1, // 每次只顯示一張圖片
+							        slidesToScroll: 1, // 每次滑動一張圖片
+							        adaptiveHeight: true, // 自適應高度
+							        arrows: false, // 禁用 previous 和 next 按鈕
+							        centerMode: false, // 禁用居中模式
+							        variableWidth: false // 禁用可變寬度，讓所有圖片固定尺寸
+							        
+							    });
+							    
+							}
+
+
+		                    // 初次载入时初始化 Slick
+		                    initializeSlick();
+
+		                    // 监听 DataTables 分页切换事件，重新初始化 Slick
+		                    $('#UsedList').on('draw.dt', function () {
+		                        initializeSlick();
+		                    });
+		                },
+		                error: function(xhr, status, error) {
+		                    console.error('Error fetching used list data:', error);
+		                }
+		            });
+		        });
+		    });
+
+		    //=====================二手商品管理事件====================================
 		    $(document).ready(function() {
 		        // 当 span id 为 a1 的元素被点击时，触发 AJAX 事件
 		        $('#used-check').click(function() {
@@ -440,18 +508,17 @@ body {
 		            initializeDataTable();
 		        });
 		    });
-		    
 
 		</script>
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
 </th:block>
 
 
