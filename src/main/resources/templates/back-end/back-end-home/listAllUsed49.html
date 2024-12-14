@@ -13,7 +13,7 @@
 	var dataTablesJQ = $.noConflict(true); // 使用獨立的 jQuery 實例
 	dataTablesJQ(document).ready(function() {
 		dataTablesJQ('#UsedList').DataTable({
-			"lengthMenu" : [ 20, 50, 100 ],
+			"lengthMenu" : [ 3, 5, 10, 20, 50, 100 ],
 			"searching" : true,
 			"paging" : true,
 			"ordering" : true,
@@ -44,113 +44,134 @@
 
 
 <style type="text/css">
-/* 父容器 */
-/* 表格設置 */
-table {
-    width: 80% !important; /* 表格占滿父容器 */
-    table-layout: fixed !important; /* 固定表格佈局，讓欄位等寬 */
-    border-collapse: collapse !important; /* 合併邊框 */
-    background-color: white !important; /* 可選，表格背景色 */
-    opacity: 0.9 !important;
+
+
+/* 整體表格容器設置 */
+.UsedListContainer {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
-/* 表頭和內容設置 */
-th, td {
-    position: relative !important; /* Slick 的定位基於此 */
-    border: 1px solid #ddd !important; /* 表格單元格邊框 */
-    padding: 10px !important; /* 單元格內邊距 */
-    text-align: center !important; /* 文字置中 */
-    overflow: hidden !important; /* 隱藏超出內容 */
-    text-overflow: ellipsis !important; /* 顯示省略號 */
-    vertical-align: middle !important; /* 垂直置中對齊 */
-    height: 100px !important; /* 設定每個欄位的預設高度 */
+/* 表格基本設置 */
+#UsedList {
+    width: 100% !important;
+    margin: 0 !important;
+    border-collapse: collapse !important;
+    background-color: white !important;
+    table-layout: fixed !important;
 }
 
 /* 表頭設置 */
-th {
-    background-color: #f8f8f8 !important; /* 表頭背景色 */
-    font-weight: bold !important; /* 表頭文字加粗 */
+#UsedList thead th {
+    background-color: #f8f9fa !important;
+    color: #333 !important;
+    font-weight: normal !important;
+    padding: 12px 8px !important;
+    border: 1px solid #dee2e6 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
 }
 
-/* 各個欄位的寬度設置 */
-th.col-usedNo, td.col-usedNo {
-    width: 1% !important; /* 商品編號欄寬度 */
+/* 表格內容設置 */
+#UsedList tbody td {
+    padding: 8px !important;
+    border: 1px solid #dee2e6 !important;
+    vertical-align: middle !important;
+    font-size: 14px !important;
 }
 
-th.col-usedName, td.col-usedName {
-    width: 5% !important; /* 商品名稱欄寬度 */
-    max-height: 100px !important; /* 限制最大高度 */
-    overflow: hidden !important; /* 隱藏超出內容 */
-    text-overflow: ellipsis !important; /* 顯示省略號 */
-    white-space: nowrap !important; /* 不換行 */
+/* 調整各列寬度 */
+.col-sellerNo { width: 5% !important; }
+.col-usedNo { width: 5% !important; }
+.col-usedName { width: 10% !important; }
+.col-classNo { width: 8% !important; }
+.col-usedPrice { width: 5% !important; }
+.col-usedStocks { width: 5% !important; }
+.col-usedPics { width: 15% !important; }
+.col-usedProDesc { width: 15% !important; }
+.col-usedNewness { width: 7% !important; }
+.col-usedLaunchedTime { width: 8% !important; }
+.col-soldTime { width: 8% !important; }
+.col-usedState { width: 5% !important; }
+.col-modify { width: 4% !important; }
+.col-delete { width: 4% !important; }
+
+/* 按鈕樣式 */
+#UsedList button,
+#UsedList input[type="submit"] {
+    width: 100% !important;
+    padding: 4px 8px !important;
+    border: 1px solid #ddd !important;
+    background-color: #f8f9fa !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
 }
 
-th.col-classNo, td.col-classNo {
-    width: 5% !important; /* 商品類別欄寬度 */
+#UsedList button:hover,
+#UsedList input[type="submit"]:hover {
+    background-color: #e9ecef !important;
 }
 
-th.col-usedPrice, td.col-usedPrice {
-    width: 5% !important; /* 價格欄寬度 */
+/* DataTables 分頁樣式調整 */
+.dataTables_wrapper .dataTables_paginate {
+    padding-top: 10px !important;
 }
 
-th.col-usedStocks, td.col-usedStocks {
-    width: 3% !important; /* 庫存量欄寬度 */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 5px 10px !important;
+    margin: 0 2px !important;
+    border: 1px solid #ddd !important;
+    border-radius: 4px !important;
 }
 
-th.col-usedPics, td.col-usedPics {
-    width: 12% !important; /* 照片欄寬度 */
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background-color: #e9ecef !important;
 }
 
-th.col-usedProDesc, td.col-usedProDesc {
-    width: 10% !important; /* 二手商品描述欄寬度 */
-    max-height: 100px !important; /* 限制最大高度 */
-    overflow: hidden !important; /* 隱藏超出內容 */
-    text-overflow: ellipsis !important; /* 顯示省略號 */
-    white-space: nowrap !important; /* 不換行 */
+/* 確保表格橫向填滿 */
+.dataTables_wrapper {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
-th.col-usedNewness, td.col-usedNewness {
-    width: 6% !important; /* 新舊程度欄寬度 */
+/* 隱藏多餘的間距 */
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-x: hidden !important;
 }
 
-th.col-usedLaunchedTime, td.col-usedLaunchedTime {
-    width: 6% !important; /* 上架時間欄寬度 */
+/* 圖片大小控制 */
+#UsedList td img {
+    max-width: 100px !important;
+    max-height: 100px !important;
+    object-fit: contain !important;
 }
 
-th.col-soldTime, td.col-soldTime {
-    width: 6% !important; /* 下架時間欄寬度 */
+/* 分頁和搜索框樣式 */
+.dataTables_length,
+.dataTables_filter {
+    margin: 10px 0 !important;
 }
 
-th.col-usedState, td.col-usedState {
-    width: 3% !important; /* 商品狀態欄寬度 */
+/* 奇偶行顏色 */
+#UsedList tbody tr:nth-child(even) {
+    background-color: #f9f9f9 !important;
 }
 
-th.col-modify, td.col-modify {
-    width: 2% !important; /* 修改欄寬度 */
+#UsedList tbody tr:hover {
+    background-color: #f5f5f5 !important;
 }
 
-th.col-delete, td.col-delete {
-    width: 2% !important; /* 刪除欄寬度 */
+/* 表格內文字溢出處理 */
+#UsedList td {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
 }
-
-/* 限制圖片大小 */
-td img {
-    max-width: 100px !important; /* 最大寬度限制為 100px */
-    max-height: 100px !important; /* 最大高度限制為 100px */
-    min-width: 100% !important;
-    min-height: 100% !important;
-    width: auto !important; /* 確保圖片寬高比一致 */
-    height: auto !important; /* 確保圖片寬高比一致 */
-}
-
-/* 按鈕設置 */
-button {
-    width: 90% !important; /* 按鈕寬度與表格單元格一致，並略小一點以有些間距 */
-    box-sizing: border-box !important; /* 包含邊框和內邊距 */
-    padding: 5px !important; /* 增加內邊距 */
-    cursor: pointer !important; /* 滑鼠移過按鈕時顯示手型 */
-}
-
 button:hover {
     background-color: #e0e0e0 !important; /* 按鈕 hover 效果 */
 }
