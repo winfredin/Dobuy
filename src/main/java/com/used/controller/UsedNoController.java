@@ -78,7 +78,7 @@ public class UsedNoController {
 	 
 		String message = strBuilder.toString();
         	
-	    return new ModelAndView("front-end/used/select_page", "errorMessage", "請修正以下錯誤:<br>"+message);
+	    return new ModelAndView("front-end/normalpage/homepage", "errorMessage", "請修正以下錯誤:<br>"+message);
         
 	}
 
