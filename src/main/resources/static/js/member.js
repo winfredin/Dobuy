@@ -869,3 +869,137 @@ $('.goodsfollow').click(function() {
         }
     });
 });
+
+
+/* ===============商品收藏移除============= */
+
+
+function removeGoods(element) {
+    // 获取商品编号
+    const goodsNo = element.getAttribute('data-goodsNo');
+
+    if (!goodsNo) {
+        alert('無法移除，商品不存在！');
+        return;
+    }
+
+    fetch('/goodsTrack/remove', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ goodsNo })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success === "true") {
+            alert(data.message);
+            element.closest('div').remove();
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(error => {
+        console.error('移除失敗:', error);
+        alert('移除失敗，請稍後再試！');
+    });
+}
+
+/* ===============商品收藏移除============= */
+
+//=======================我的優惠券===================
+$(".coupon").on("click", function() {
+    $.ajax({
+        url: "/memcoupon/listFragment",
+        method: "GET",
+        success: function(response) {
+            // 插入返回的 HTML 內容
+            $(".use_1").html(response);
+            
+            // 初始化分頁功能
+            initPagination();
+        },
+        error: function(xhr, status, error) {
+            console.error("Error loading coupons:", xhr.responseText);
+            alert("無法載入優惠券，錯誤: " + error);
+        },
+    });
+});
+
+// 分頁功能初始化函數
+function initPagination() {
+    const itemsPerPage = 5;
+    const items = document.querySelectorAll('.coupon_49_item');
+    const totalPages = Math.ceil(items.length / itemsPerPage);
+    const pagination = document.getElementById('coupon_49_pagination');
+    let currentPage = 1;
+
+    // 重置分頁容器
+    if (pagination) {
+        pagination.innerHTML = '';
+    }
+
+    function generatePagination() {
+        const prevButton = document.createElement('button');
+        prevButton.innerHTML = '&laquo;';
+        prevButton.onclick = () => showPage(currentPage - 1);
+        pagination.appendChild(prevButton);
+
+        for (let i = 1; i <= totalPages; i++) {
+            const button = document.createElement('button');
+            button.textContent = i;
+            button.onclick = () => showPage(i);
+            pagination.appendChild(button);
+        }
+
+        const nextButton = document.createElement('button');
+        nextButton.innerHTML = '&raquo;';
+        nextButton.onclick = () => showPage(currentPage + 1);
+        pagination.appendChild(nextButton);
+    }
+
+    function showPage(pageNum) {
+        if (pageNum < 1 || pageNum > totalPages) return;
+        
+        currentPage = pageNum;
+        const start = (pageNum - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+
+        items.forEach(item => item.style.display = 'none');
+
+        for (let i = start; i < end && i < items.length; i++) {
+            items[i].style.display = 'block';
+        }
+
+        updatePaginationButtons();
+    }
+
+    function updatePaginationButtons() {
+        const buttons = pagination.querySelectorAll('button');
+        buttons.forEach((button, index) => {
+            if (index === 0) {
+                button.disabled = currentPage === 1;
+            } else if (index === buttons.length - 1) {
+                button.disabled = currentPage === totalPages;
+            } else {
+                button.classList.toggle('coupon_49_active', index === currentPage);
+            }
+        });
+    }
+
+    // 如果有項目才初始化分頁
+    if (items.length > 0) {
+        generatePagination();
+        showPage(1);
+    }
+}
+
+// 頁面載入時初始化（如果已經有優惠券內容的話）
+$(document).ready(function() {
+    const items = document.querySelectorAll('.coupon_49_item');
+    if (items.length > 0) {
+        initPagination();
+    }
+});
+
+

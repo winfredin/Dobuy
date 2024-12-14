@@ -78,6 +78,13 @@ public class MemberCRUDController {
 			return "front-end/member/register";
 		}
 		
+		if(memberSvc.findByMemEmail(memberVO.getMemEmail()) != null) {
+			errorMsgs.add("信箱已被註冊");
+			model.addAttribute("errorMsgs", errorMsgs);
+			model.addAttribute("memberVO", memberVO);
+			return "front-end/member/register";
+		}
+		
 		if( mailSvc.getTheNewest(memberVO.getMemEmail()) == null || mailSvc.getTheNewest(memberVO.getMemEmail()).getIsVerified() == 0) {
 			errorMsgs.add("信箱尚未驗證");
 			model.addAttribute("errorMsgs", errorMsgs);

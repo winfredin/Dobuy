@@ -5,152 +5,139 @@
 <title>我的優惠券列表</title>
 <style>
 body {
-	background-color: #fff5f2;
-	margin: 0;
-	font-family: Arial, sans-serif;
-	padding: 20px;
+    background-color: #fff5f2;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    padding: 20px;
 }
 
-.container {
-	max-width: 1200px;
-	margin: 0 auto;
+.coupon_49_container {
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.header {
-	background-color: rgba(233, 190, 173, 0.3);
-	padding: 15px 20px;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	border-radius: 4px;
-	margin-bottom: 20px;
+.coupon_49_header {
+    background-color: rgba(233, 190, 173, 0.3);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 4px;
+    margin-bottom: 20px;
 }
 
-.coupon-card {
-	background-color: rgba(255, 255, 255, 0.9);
-	border: 1px solid rgba(233, 190, 173, 0.5);
-	padding: 15px;
-	margin: 10px 0;
-	border-radius: 4px;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-	transition: transform 0.2s;
+.coupon_49_card {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(233, 190, 173, 0.5);
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
 }
 
-.coupon-card:hover {
-	transform: translateY(-2px);
+.coupon_49_card:hover {
+    transform: translateY(-2px);
 }
 
-.used {
-	background-color: rgba(245, 245, 245, 0.9);
-	opacity: 0.7;
+.coupon_49_used {
+    background-color: rgba(245, 245, 245, 0.9);
+    opacity: 0.7;
 }
 
-.used:hover {
-	transform: none;
+.coupon_49_used:hover {
+    transform: none;
 }
 
-.coupon-card h3 {
-	color: #8b4513;
-	margin: 0 0 10px 0;
-	font-size: 1.2em;
+.coupon_49_card h3 {
+    color: #8b4513;
+    margin: 0 0 10px 0;
+    font-size: 1.2em;
 }
 
-.status-badge {
-	display: inline-block;
-	padding: 4px 8px;
-	border-radius: 3px;
-	font-size: 0.9em;
-	margin-top: 5px;
+.coupon_49_status_badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 0.9em;
+    margin-top: 5px;
 }
 
-.status-unused {
-	background-color: #e9bead;
-	color: white;
+.coupon_49_status_unused {
+    background-color: #e9bead;
+    color: white;
 }
 
-.status-used {
-	background-color: #cccccc;
-	color: #666666;
+.coupon_49_status_used {
+    background-color: #cccccc;
+    color: #666666;
 }
 
-.btn {
-	background-color: #e9bead;
-	color: white;
-	padding: 8px 15px;
-	border: none;
-	border-radius: 3px;
-	text-decoration: none;
-	cursor: pointer;
-	display: inline-block;
-	transition: background-color 0.3s;
+.coupon_49_btn {
+    background-color: #e9bead;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 3px;
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-block;
+    transition: background-color 0.3s;
 }
 
-.btn:hover {
-	background-color: #d4a79a;
+.coupon_49_btn:hover {
+    background-color: #d4a79a;
 }
 
-.alert {
-	padding: 10px;
-	margin: 10px 0;
-	border-radius: 4px;
+.coupon_49_alert {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
 }
 
-.alert-success {
-	background-color: #d4edda;
-	border: 1px solid #c3e6cb;
-	color: #155724;
+.coupon_49_alert_success {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
 }
 
-.alert-danger {
-	background-color: #f8d7da;
-	border: 1px solid #f5c6cb;
-	color: #721c24;
+.coupon_49_alert_danger {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
 }
 
-.button-group {
-	margin-top: 20px;
-	text-align: center;
+.coupon_49_button_group {
+    margin-top: 20px;
+    text-align: center;
 }
 
-/* 分頁樣式 */
-.pagination {
-	display: flex;
-	justify-content: center;
-	margin: 20px 0;
+.coupon_49_pagination {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
 }
 
-.pagination button {
-	color: #8b4513;
-	padding: 8px 12px;
-	margin: 0 4px;
-	border: 1px solid #e9bead;
-	background: white;
-	cursor: pointer;
-	border-radius: 3px;
+.coupon_49_pagination button {
+    color: #8b4513;
+    padding: 8px 12px;
+    margin: 0 4px;
+    border: 1px solid #e9bead;
+    background: white;
+    cursor: pointer;
+    border-radius: 3px;
 }
 
-.pagination button.active {
-	background-color: #e9bead;
-	color: white;
+.coupon_49_pagination button.coupon_49_active {
+    background-color: #e9bead;
+    color: white;
 }
 
-.item {
-	display: none;
+.coupon_49_item {
+    display: none;
 }
 
-@media ( max-width : 768px) {
-	.header {
-		flex-direction: column;
-		text-align: center;
-	}
-	.header div {
-		margin-top: 10px;
-	}
-	.coupon-card {
-		margin: 10px 0;
-	}
-}
-.detail-btn {
+.coupon_49_detail_btn {
     background-color: transparent;
     color: #8b4513;
     border: 1px solid #e9bead;
@@ -161,16 +148,16 @@ body {
     transition: all 0.3s;
 }
 
-.detail-btn:hover {
+.coupon_49_detail_btn:hover {
     background-color: #e9bead;
     color: white;
 }
 
-.counter-name {
+.coupon_49_counter_name {
     margin-bottom: 10px;
 }
 
-.counter-badge {
+.coupon_49_counter_badge {
     display: inline-block;
     padding: 4px 8px;
     background-color: #f0d4c4;
@@ -179,78 +166,87 @@ body {
     font-size: 0.9em;
     margin-bottom: 10px;
 }
+
+@media (max-width: 768px) {
+    .coupon_49_header {
+        flex-direction: column;
+        text-align: center;
+    }
+    .coupon_49_header div {
+        margin-top: 10px;
+    }
+    .coupon_49_card {
+        margin: 10px 0;
+    }
+}
 </style>
 </head>
 <body>
-	<div class="container">
-		<div class="header">
-			<h2 style="margin: 0;">我的優惠券</h2>
-			<div>
-				會員帳號：<span th:text="${memAccount != null ? memAccount : '未登入'}"></span>
-				<a th:href="@{/mem/logout}" class="btn" style="margin-left: 15px;">登出</a>
-			</div>
-		</div>
-
-		<div th:if="${message}" class="alert alert-success"
-			th:text="${message}"></div>
-		<div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
-
-		<div id="couponContainer">
-			<div th:each="memCoupon : ${memCoupons}"
-				th:class="'coupon-card item' + (${memCoupon.status == 1 ? ' used' : ''})">
-				
-				        <div class="counter-name">
-            <span class="counter-badge" 
-                  th:if="${memCoupon.coupon.counter != null}" 
-                  th:text="'櫃位名稱: ' + ${memCoupon.coupon.counter.counterCName}">
-            </span>
+    <div class="coupon_49_container">
+        <div class="coupon_49_header">
+            <h2 style="margin: 0;">我的優惠券</h2>
+            <div>
+                會員帳號：<span th:text="${memAccount != null ? memAccount : '未登入'}"></span>
+                <a th:href="@{/mem/logout}" class="coupon_49_btn" style="margin-left: 15px;">登出</a>
+            </div>
         </div>
-				
-				<h3 th:text="${memCoupon.coupon.couponTitle}"></h3>
-				<p th:text="${memCoupon.coupon.couponContext}"></p>
-				<p>
-					有效期間： <span
-						th:text="${#dates.format(memCoupon.coupon.couponStart, 'yyyy-MM-dd')}"></span>
-					至 <span
-						th:text="${#dates.format(memCoupon.coupon.couponEnd, 'yyyy-MM-dd')}"></span>
-				</p>
-				<p>
-					狀態： <span
-						th:class="'status-badge ' + (${memCoupon.status == 0 ? 'status-unused' : 'status-used'})"
-						th:text="${memCoupon.status == 0 ? '未使用' : '已使用'}"> </span>
-				</p>
 
-				<div class="button-group">
-					<a th:href="@{'/front-end/coupon/detail/' + ${memCoupon.coupon.couponNo} + '?from=memList'}" 
-   class="btn">查看明細</a>
-				</div>
-			</div>
-		</div>
+        <div id="coupon_49_section">
+            <div th:if="${message}" class="coupon_49_alert coupon_49_alert_success" th:text="${message}"></div>
+            <div th:if="${error}" class="coupon_49_alert coupon_49_alert_danger" th:text="${error}"></div>
 
-		<!-- 分頁控制器 -->
-		<div id="pagination" class="pagination"></div>
+            <div id="coupon_49_container">
+                <div th:each="memCoupon : ${memCoupons}"
+                    th:class="'coupon_49_card coupon_49_item' + (${memCoupon.status == 1 ? ' coupon_49_used' : ''})">
+                    
+                    <div class="coupon_49_counter_name">
+                        <span class="coupon_49_counter_badge" 
+                              th:if="${memCoupon.coupon.counter != null}" 
+                              th:text="'櫃位名稱: ' + ${memCoupon.coupon.counter.counterCName}">
+                        </span>
+                    </div>
+                    
+                    <h3 th:text="${memCoupon.coupon.couponTitle}"></h3>
+                    <p th:text="${memCoupon.coupon.couponContext}"></p>
+                    <p>
+                        有效期間： <span th:text="${#dates.format(memCoupon.coupon.couponStart, 'yyyy-MM-dd')}"></span>
+                        至 <span th:text="${#dates.format(memCoupon.coupon.couponEnd, 'yyyy-MM-dd')}"></span>
+                    </p>
+                    <p>
+                        狀態： <span th:class="'coupon_49_status_badge ' + (${memCoupon.status == 0 ? 'coupon_49_status_unused' : 'coupon_49_status_used'})"
+                            th:text="${memCoupon.status == 0 ? '未使用' : '已使用'}">
+                        </span>
+                    </p>
 
-		<div class="button-group">
-			<a th:href="@{/front-end/coupon/list}" class="btn">返回優惠券列表</a>
-		</div>
-	</div>
+                    <div class="coupon_49_button_group">
+                        <a th:href="@{'/front-end/coupon/detail/' + ${memCoupon.coupon.couponNo} + '?from=memList'}" 
+                           class="coupon_49_btn">查看明細</a>
+                    </div>
+                </div>
+            </div>
 
-	<script>
+            <div id="coupon_49_pagination" class="coupon_49_pagination"></div>
+
+            <div class="coupon_49_button_group">
+                <a th:href="@{/front-end/coupon/list}" class="coupon_49_btn">優惠券列表</a>
+            </div>
+        </div>
+    </div>
+
+<script>
 document.addEventListener('DOMContentLoaded', function() {
     const itemsPerPage = 5;
-    const items = document.querySelectorAll('.item');
+    const items = document.querySelectorAll('.coupon_49_item');
     const totalPages = Math.ceil(items.length / itemsPerPage);
-    const pagination = document.getElementById('pagination');
+    const pagination = document.getElementById('coupon_49_pagination');
     let currentPage = 1;
 
     function generatePagination() {
-        // 上一頁按鈕
         const prevButton = document.createElement('button');
         prevButton.innerHTML = '&laquo;';
         prevButton.onclick = () => showPage(currentPage - 1);
         pagination.appendChild(prevButton);
 
-        // 頁碼按鈕
         for (let i = 1; i <= totalPages; i++) {
             const button = document.createElement('button');
             button.textContent = i;
@@ -258,7 +254,6 @@ document.addEventListener('DOMContentLoaded', function() {
             pagination.appendChild(button);
         }
 
-        // 下一頁按鈕
         const nextButton = document.createElement('button');
         nextButton.innerHTML = '&raquo;';
         nextButton.onclick = () => showPage(currentPage + 1);
@@ -289,7 +284,7 @@ document.addEventListener('DOMContentLoaded', function() {
             } else if (index === buttons.length - 1) {
                 button.disabled = currentPage === totalPages;
             } else {
-                button.classList.toggle('active', index === currentPage);
+                button.classList.toggle('coupon_49_active', index === currentPage);
             }
         });
     }

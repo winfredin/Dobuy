@@ -46,7 +46,7 @@ public class BackendCounterController {
         message.setTo(counter.getCounterEmail());
         message.setSubject("您的櫃位已被停權");
         message.setText("親愛的 " + counter.getCounterName() + "，\n\n" +
-                        "我們很遺憾地通知您，您的櫃位 " + counter.getCounterCName() + " 已被停權。請盡快與我們聯繫以解決問題。\n\n" +
+                        "我們很遺憾地通知您，您的櫃位 " + counter.getCounterCName() + " 已被停權。如有相關問題請盡速連繫客服。\n\n" +
                         "感謝您的理解。\n" +
                         "您的客服團隊");
 
@@ -94,9 +94,12 @@ public class BackendCounterController {
 	        //櫃位停權
             if (counterStatus == 0) {
                 sendEmail(counterVO);
-            }
-            else if (counterStatus > 0) { 
-	        	String informMsg = counterVO.getCounterCName() + " 你的櫃位狀態已更改，如有疑問請聯繫客服";
+            }else if (counterStatus == 2) { 
+	        	String informMsg = counterVO.getCounterCName() + " 您的櫃位狀態有違規行為，如有疑問請聯繫客服";
+	            Integer counterNo1 = counterVO.getCounterNo();
+	            msgSvc.addCounterInform(counterNo1, informMsg); // 新增通知
+	        }else if (counterStatus == 3) {
+	        	String informMsg = counterVO.getCounterCName() + " 您現在可以正常使用所有功能，祝您生意欣隆";
 	            Integer counterNo1 = counterVO.getCounterNo();
 	            msgSvc.addCounterInform(counterNo1, informMsg); // 新增通知
 	        }

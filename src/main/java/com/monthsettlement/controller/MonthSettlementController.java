@@ -60,7 +60,7 @@ public class MonthSettlementController {
     @ResponseBody
     public Map<String, Object> getTotalOrderAmount(@RequestParam Integer counterNo, @RequestParam String month) {
         Map<String, Object> response = new HashMap<>();
-        Integer orderStatus = 1; // 暫時設1
+        Integer orderStatus = 2; // 訂單完成狀態
         String orderTime = month + "%"; // 確認選擇的月份
         
         Integer totalAmount = counterOrderSvc.getTotalOrderAmount(counterNo, orderStatus, orderTime);
@@ -70,7 +70,7 @@ public class MonthSettlementController {
 
 
     // 進入新增頁面
-    @GetMapping("/vendor-end/monthsettlement/addMonthSettlement")
+    @GetMapping("addMonthSettlement")
     public String addMonthSettlement(ModelMap model) {
         MonthSettlementVO monthSettlementVO = new MonthSettlementVO();
         List<CounterVO> counters = counterService.getAll();
@@ -85,11 +85,13 @@ public class MonthSettlementController {
     public String insert(@Valid MonthSettlementVO monthsettlementVO, BindingResult result, ModelMap model)
      	{
     	System.out.println("呼叫");
+    	Integer counterNo = monthsettlementVO.getCounterNo();
+		CounterVO counterVO = counterSvc.getOneCounter(counterNo);
         /*************************** 1. 接收請求參數 - 格式驗證 ************************/
     	
     	String monthString = monthsettlementVO.getMonth();
     	if (!monthString.matches("\\d{4}-\\d{2}")) {
-    	    result.rejectValue("month", "error.month", "月份格式不正确，请使用 YYYY-MM 格式");
+    	    result.rejectValue("month", "error.month", "月份格式不正確，請使用 YYYY-MM 格式");
     	    return "vendor-end/monthsettlement/addMonthSettlement";
     	}
     	
@@ -106,6 +108,9 @@ public class MonthSettlementController {
         model.addAttribute("monthsettlementData", list);
         model.addAttribute("success", "- (新增成功)");
         System.out.println(monthsettlementVO.getMonth());
+    	String informMsg = counterVO.getCounterCName() + " 您的這個月營收已發出，請到營收查詢確認";
+        Integer counter = counterVO.getCounterNo();
+        msgSvc.addCounterInform(counter, informMsg);
         return  "redirect:/back-end-homepage";
     }
     

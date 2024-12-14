@@ -5,12 +5,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import java.util.stream.Collectors;
+
+import java.util.Set;
+
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -74,7 +80,6 @@ public class FrontEndController {
  public String getMemberPage(HttpSession session, Model model) {
 
   if (session.getAttribute("memNo") == null) {
-
    return "redirect:/mem/login";
   } else {
    String memNo = (String) session.getAttribute("memNo");
@@ -91,6 +96,7 @@ public class FrontEndController {
    for (CounterOrderVO counterOrderVO : membersbuyorder) {
     Integer eachOrderNo = counterOrderVO.getCounterOrderNo();
     List<CounterOrderDetailVO> detailList = counterOrderDetailSvc.getDetailsByOrderNo(eachOrderNo);
+
 //      System.out.println(detailList.size());
 
     for (CounterOrderDetailVO counterOrderDetailVO : detailList) {
@@ -112,6 +118,7 @@ public class FrontEndController {
   }
   return "front-end/normalpage/member";
  }
+
 
  
  @GetMapping("home")
@@ -285,7 +292,9 @@ public class FrontEndController {
 
  @PostMapping("changepas")
  public String changepas(@RequestParam("memPassword")String memPassword, @RequestParam("confirmPassword")String confirmPassword,ModelMap model,HttpSession session) 
+
 			throws IOException {
+
 
 			 Object memNoObj = session.getAttribute("memNo");
 		    	    Integer memNo = Integer.parseInt( memNoObj.toString()); 
@@ -352,6 +361,5 @@ public class FrontEndController {
   	model.addAttribute("memberVO",memberVO);
    	return "content/profile"; 
   }
-
 
 }

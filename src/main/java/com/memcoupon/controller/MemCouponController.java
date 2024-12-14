@@ -20,6 +20,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import com.memcoupon.model.MemCouponVO;
+import com.coupon.model.CouponService;
 import com.member.model.MemberService;
 import com.member.model.MemberVO;
 import com.memcoupon.model.MemCouponService;
@@ -34,7 +35,8 @@ public class MemCouponController {
 	@Autowired
 	MemberService memberSvc;
 
-    
+	@Autowired
+	CouponService couponService;
     
 //  前台點擊連結 查看會員優惠券列表頁面
     @GetMapping("/memListAllCoupon")
@@ -61,6 +63,20 @@ public class MemCouponController {
             return "front-end/memcoupon/memListAllCoupon";
         }
     }
+    
+    
+    @GetMapping("/listFragment")
+    public String getCouponListFragment(Model model, HttpSession session) {
+    	String memAccount = (String) session.getAttribute("memAccount");
+    	if (memAccount == null) {
+    	    throw new RuntimeException("會員尚未登入，無法獲取優惠券。");
+    	}
+        MemberVO member = memberSvc.findByMemAccount(memAccount);
+        List<MemCouponVO> memCoupons = memCouponSvc.getAllByMemNo(member.getMemNo());
+        model.addAttribute("memCoupons", memCoupons);
+        return "front-end/memcoupon/couponList :: couponSection";
+    }
+    
     
         
     /*
