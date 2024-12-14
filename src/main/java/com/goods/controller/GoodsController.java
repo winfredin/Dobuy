@@ -65,10 +65,16 @@ public class GoodsController {
         if (loginCounter == null) {
             // 若未登入，返回登入頁面
             return "redirect:/counter/login";
-        }else {
+            
+        }
+        if (loginCounter.getCounterStatus() <= 2) {
+            return "redirect:/counter/Counterindex"; // 如果 counterStatus 為 2，則重定向
+        }
+
         	model.addAttribute("counter", counterSvc.getOneCounter(loginCounter.getCounterNo()));
         	model.addAttribute("msgSvc", msgSvc);
-        }
+       
+        
 
         // 預設將櫃位資訊設定到 goodsVO 中
         goodsVO.setCounterVO(loginCounter);

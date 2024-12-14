@@ -26,6 +26,7 @@
             max-height: 400px; /* 限制表格的最大高度，可以根據需要調整 */
             overflow: auto; /* 超出部分自動出現滾動條 */
             margin-bottom: 20px; /* 表格下方留一些空間 */
+            background-color: white;
         }
 
         /* 標籤列 */
@@ -104,6 +105,7 @@
                 <td><span class="info-label">櫃位電話:</span></td>
                 <td><span class="info-label">信箱:</span></td>
                 <td><span class="info-label">統一編號:</span></td>
+                <td><span class="info-label">櫃位地址:</span></td>
                 <td><span class="info-label">櫃位資訊:</span></td>
                 <td><span class="info-label">櫃位類別:</span></td>
                 <td><span class="info-label">商標:</span></td>
@@ -117,6 +119,7 @@
                 <td><span th:text="${counter.counterPhone}"></span></td>
                 <td><span th:text="${counter.counterEmail}"></span></td>
                 <td><span th:text="${counter.counterUbn}"></span></td>
+                <td><span th:text="${counter.counterAddress}"></span></td>
                 <td class="counter-info"><span th:text="${counter.counterInform}"></span></td>
                 <td><span th:text="${counter.counterTypeVO.counterTName}"></span></td>
                 <td><img
