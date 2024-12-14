@@ -12,6 +12,8 @@ import java.util.stream.Collectors;
 import java.util.Set;
 
 
+import java.util.stream.Collectors;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -123,10 +125,10 @@ public class FrontEndController {
   return "front-end/normalpage/member";
  }
 
-
  
  @GetMapping("home")
  public String getHomePage(Model model) {
+
 
   List<CountercarouselVO> carousellist = countercarouselSvc.getAll();
   List<GoodsVO> goodslist = goodsSvc.getAllGoodsStatus1();
@@ -140,6 +142,7 @@ public class FrontEndController {
  }
 
  
+
 
 // @GetMapping("usedgoodspage")
 //     public String getusedgoodspagePage(Model model) {

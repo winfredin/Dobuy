@@ -340,6 +340,7 @@ footer {
             background-color: #f0f0f0;
         }
 
+
 /* 整个下拉容器 */
 .dropdown {
     position: relative; /* 确保下拉内容相对于容器定位 */
@@ -416,5 +417,7 @@ header .dropdown {
 .heart-active {
   color: #ff0000 !important; /* 切换为红色 */
 }
+
 /* ===============我的收藏愛心============= */
+
 
