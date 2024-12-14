@@ -125,8 +125,6 @@ public class FrontEndController {
   return "front-end/normalpage/member";
  }
 
-
-	
 	@GetMapping("home")
 	public String getHomePage(Model model) {
 
