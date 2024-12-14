@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<!-- fragment引入 -->
+<th:block th:replace="~{back-end/back-end-home/fraghead :: head}"></th:block>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script	src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet"	href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css" />
+
+<script>
+	var dataTablesJQ = $.noConflict(true); // 使用獨立的 jQuery 實例
+	dataTablesJQ(document).ready(function() {
+		dataTablesJQ('#UsedList').DataTable({
+			"lengthMenu" : [ 20, 50, 100 ],
+			"searching" : true,
+			"paging" : true,
+			"ordering" : true,
+			"language" : {
+				"processing" : "處理中...",
+				"loadingRecords" : "載入中...",
+				"lengthMenu" : "顯示 _MENU_ 筆結果",
+				"zeroRecords" : "沒有符合的結果",
+				"info" : "顯示第 _START_ 至 _END_ 筆結果，共 _TOTAL_ 筆",
+				"infoEmpty" : "顯示第 0 至 0 筆結果，共 0 筆",
+				"infoFiltered" : "(從 _MAX_ 筆結果中過濾)",
+				"search" : "搜尋:",
+				"paginate" : {
+					"first" : "第一頁",
+					"previous" : "上一頁",
+					"next" : "下一頁",
+					"last" : "最後一頁"
+				},
+				"aria" : {
+					"sortAscending" : ": 升冪排列",
+					"sortDescending" : ": 降冪排列"
+				}
+			}
+		});
+	});
+</script>
+
+
+
+<style type="text/css">
+/* 父容器 */
+/* 表格設置 */
+table {
+    width: 80% !important; /* 表格占滿父容器 */
+    table-layout: fixed !important; /* 固定表格佈局，讓欄位等寬 */
+    border-collapse: collapse !important; /* 合併邊框 */
+    background-color: white !important; /* 可選，表格背景色 */
+    opacity: 0.9 !important;
+}
+
+/* 表頭和內容設置 */
+th, td {
+    position: relative !important; /* Slick 的定位基於此 */
+    border: 1px solid #ddd !important; /* 表格單元格邊框 */
+    padding: 10px !important; /* 單元格內邊距 */
+    text-align: center !important; /* 文字置中 */
+    overflow: hidden !important; /* 隱藏超出內容 */
+    text-overflow: ellipsis !important; /* 顯示省略號 */
+    vertical-align: middle !important; /* 垂直置中對齊 */
+    height: 100px !important; /* 設定每個欄位的預設高度 */
+}
+
+/* 表頭設置 */
+th {
+    background-color: #f8f8f8 !important; /* 表頭背景色 */
+    font-weight: bold !important; /* 表頭文字加粗 */
+}
+
+/* 各個欄位的寬度設置 */
+th.col-usedNo, td.col-usedNo {
+    width: 1% !important; /* 商品編號欄寬度 */
+}
+
+th.col-usedName, td.col-usedName {
+    width: 5% !important; /* 商品名稱欄寬度 */
+    max-height: 100px !important; /* 限制最大高度 */
+    overflow: hidden !important; /* 隱藏超出內容 */
+    text-overflow: ellipsis !important; /* 顯示省略號 */
+    white-space: nowrap !important; /* 不換行 */
+}
+
+th.col-classNo, td.col-classNo {
+    width: 5% !important; /* 商品類別欄寬度 */
+}
+
+th.col-usedPrice, td.col-usedPrice {
+    width: 5% !important; /* 價格欄寬度 */
+}
+
+th.col-usedStocks, td.col-usedStocks {
+    width: 3% !important; /* 庫存量欄寬度 */
+}
+
+th.col-usedPics, td.col-usedPics {
+    width: 12% !important; /* 照片欄寬度 */
+}
+
+th.col-usedProDesc, td.col-usedProDesc {
+    width: 10% !important; /* 二手商品描述欄寬度 */
+    max-height: 100px !important; /* 限制最大高度 */
+    overflow: hidden !important; /* 隱藏超出內容 */
+    text-overflow: ellipsis !important; /* 顯示省略號 */
+    white-space: nowrap !important; /* 不換行 */
+}
+
+th.col-usedNewness, td.col-usedNewness {
+    width: 6% !important; /* 新舊程度欄寬度 */
+}
+
+th.col-usedLaunchedTime, td.col-usedLaunchedTime {
+    width: 6% !important; /* 上架時間欄寬度 */
+}
+
+th.col-soldTime, td.col-soldTime {
+    width: 6% !important; /* 下架時間欄寬度 */
+}
+
+th.col-usedState, td.col-usedState {
+    width: 3% !important; /* 商品狀態欄寬度 */
+}
+
+th.col-modify, td.col-modify {
+    width: 2% !important; /* 修改欄寬度 */
+}
+
+th.col-delete, td.col-delete {
+    width: 2% !important; /* 刪除欄寬度 */
+}
+
+/* 限制圖片大小 */
+td img {
+    max-width: 100px !important; /* 最大寬度限制為 100px */
+    max-height: 100px !important; /* 最大高度限制為 100px */
+    min-width: 100% !important;
+    min-height: 100% !important;
+    width: auto !important; /* 確保圖片寬高比一致 */
+    height: auto !important; /* 確保圖片寬高比一致 */
+}
+
+/* 按鈕設置 */
+button {
+    width: 90% !important; /* 按鈕寬度與表格單元格一致，並略小一點以有些間距 */
+    box-sizing: border-box !important; /* 包含邊框和內邊距 */
+    padding: 5px !important; /* 增加內邊距 */
+    cursor: pointer !important; /* 滑鼠移過按鈕時顯示手型 */
+}
+
+button:hover {
+    background-color: #e0e0e0 !important; /* 按鈕 hover 效果 */
+}
+</style>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+ <link rel="stylesheet" href="/back-end-home/css/style.css">
+    <link rel="icon" href="img/core-img/favicon.ico">
+   
+ 
+
+</head>
+<body>
+
+	<!-- fragment引入 -->
+	<header th:block th:replace="~{back-end/back-end-home/fraghead :: header}"></header>
+
+
+
+
+		<div th:fragment="usedListFragment">
+    <div class="UsedListContainer" id="UsedListContainer">
+        <table class="UsedList" id="UsedList" style="width: 100%">
+            <thead>
+                <tr style="background-color:#CCCCFF">
+             
+                    <th class="col-sellerNo">賣家編號</th>
+                    <th class="col-usedNo">商品編號</th>
+                    <th class="col-usedName">商品名稱</th>
+                    <th class="col-classNo">商品類別</th>
+                    <th class="col-usedPrice">價格</th>
+                    <th class="col-usedStocks">庫存量</th>
+                    <th class="col-usedPics">照片</th>
+                    <th class="col-usedProDesc">二手商品描述</th>
+                    <th class="col-usedNewness">新舊程度</th>
+                    <th class="col-usedLaunchedTime">上架時間</th>
+                    <th class="col-soldTime">下架時間</th>
+                    <th class="col-usedState">商品狀態</th>
+                    <th class="col-modify">修改</th>
+                    <th class="col-delete">刪除</th>
+                </tr>
+            </thead>
+            <tbody>
+                <th:block th:each="usedVO : ${usedListData}">
+                    <tr data-used="${usedVO.usedNo}">
+                    <td class="col-sellerNo" th:text="${usedVO.sellerNo}"></td>
+                        <td class="col-usedNo" th:text="${usedVO.usedNo}"></td>
+                        <td class="col-usedName" th:text="${usedVO.usedName}"></td>
+<!--                    <td class="col-classNo" th:text="${usedVO.classNo}"></td> -->
+						<td class="col-classNo">
+						    <span th:each="goodsType : ${goodsTypeList}" 
+						          th:if="${goodsType.goodstNo == usedVO.classNo}" 
+						          th:text="${goodsType.goodstName}">
+						    </span>
+						   
+						</td>
+						
+                        
+                        <td class="col-usedPrice" th:text="${usedVO.usedPrice}"></td>
+                        <td class="col-usedStocks" th:text="${usedVO.usedStocks}"></td>
+                        <td class="col-usedPics" th:if="${usedVO.usedPics == null or usedVO.usedPics.isEmpty()}">
+                            未上傳照片
+                        </td>
+                        <td class="col-usedPics" th:if="${usedVO.usedPics != null and !usedVO.usedPics.isEmpty()}">
+                            <div class="photo-slider">
+                                <div th:each="usedPicVO : ${usedVO.usedPics}">
+                                    <img th:src="@{/usedpic/UsedDBGifReader} + '?usedPicNo=' + ${usedPicVO.usedPicNo}" />
+                                </div>
+                            </div>
+                        </td>
+                        <td class="col-usedProDesc" th:text="${usedVO.usedProDesc}"></td>
+                        <td class="col-usedNewness" th:switch="${usedVO.usedNewness}">
+                            <span th:case="0">全新未拆</span>
+                            <span th:case="1">9成新</span>
+                            <span th:case="2">7成新</span>
+                            <span th:case="3">5成新</span>
+                            <span th:case="4">3成新</span>
+                        </td>
+                        <td class="col-usedLaunchedTime" th:text="${#dates.format(usedVO.usedLaunchedTime, 'yyyy-MM-dd')}"></td>
+                        <td class="col-soldTime" th:text="${#dates.format(usedVO.soldTime, 'yyyy-MM-dd')}"></td>
+                        <td class="col-usedState" th:switch="${usedVO.usedState}">
+                            <span th:case="0">未上架</span>
+                            <span th:case="1">上架</span>
+                            <span th:case="2">已刪除</span>
+                        </td>
+                        <td class="col-modify">
+                            <form method="post" th:action="@{/used/getOne_For_Update}" style="margin-bottom: 0px;">
+                                <input type="submit" value="修改">
+                                <input type="hidden" name="usedNo" th:value="${usedVO.usedNo}">
+                            </form>
+                        </td>
+<!--                         <td class="col-delete"> -->
+<!--                             <form method="post" th:action="@{/used/admindelete}" style="margin-bottom: 0px;"> -->
+<!--                                 <input type="submit" value="刪除"> -->
+<!--                                 <input type="hidden" name="usedNo" th:value="${usedVO.usedNo}"> -->
+<!--                             </form> -->
+<!--                         </td> -->
+						<td class="col-delete">
+						    <button type="button" class="deleteUsed" th:data-usedNo="${usedVO.usedNo}">刪除</button>
+						</td>
+                    </tr>
+                </th:block>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+		
+
+
+</body>
+<script	src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>    
+        <script src="/back-end-home/js/popper.min.js"></script>
+        <script src="/back-end-home/js/bootstrap.min.js"></script>
+        <script src="/back-end-home/js/plugins.js"></script>
+        <script src="/back-end-home/js/active.js"></script>
+
+
+ 
+
+
+	<!-- fragment引入 -->
+	<footer th:block th:replace="~{back-end/back-end-home/fraghead :: footer}"></footer>
+
+	<!-- fragment引入 -->
+	<th:block th:replace="~{back-end/back-end-home/fraghead :: js}"></th:block>
+
+
+</html>
