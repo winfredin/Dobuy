@@ -142,7 +142,6 @@ public class UsedController {
             return "front-end/used/memberAllUsed :: usedListFragment";
         }
 
-
         // 根據 memNo 從資料庫中查詢二手商品列表
         List<UsedVO> usedListData = usedSvc.memberSelectBySellerNo(memNo);//測試使用2
         List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();
