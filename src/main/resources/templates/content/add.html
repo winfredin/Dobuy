@@ -70,7 +70,7 @@ height:30px;
         </div>
         </div>
         
-        <form action="address" method="post" th:object="${memberVO}" class="add-form bb">
+        <form action="address" method="post" th:Object="${memberVO}" class="add-form bb">
         <div>
 			<label>修改地址:</label>
 			<input class="addr" type="text" th:field="*{memAddress}" style="border:0px ; font-weight: bold;" /><br/>
@@ -87,36 +87,43 @@ height:30px;
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
 <script>
-document.querySelector(".add-add-btn").addEventListener("click", function () {
-    const onElement = document.querySelector(".add-form");
-    onElement.classList.toggle("bb");
-    document.querySelector(".ad").classList.toggle("bb");
+$(document).ready(function() {
+    // 初始隱藏修改表單
+    $(".add-form").hide();
+
+    // 監聽 "修改地址" 按鈕的點擊事件
+    $(".add-add-btn").one("click", function () {
+        const form = $(".add-form");
+        const adSection = $(".ad");
+
+        // 顯示表單並隱藏地址顯示區
+        form.toggleClass("bb").slideDown(400);
+        adSection.toggleClass("bb").slideUp(400);
+    });
+
+    // 當點擊 "修改地址" 按鈕時，檢查文本框內容
+    $(".add-address-btn").on("click", function (e) {
+        const address = $(".addr").val().trim();
+
+        // 檢查是否為空
+        if (address === "") {
+            e.preventDefault();
+            alert("地址請勿空白");
+            return;
+        }
+
+        // 檢查是否只包含中文、英文和數字
+        const validPattern = /^[\u4e00-\u9fa5a-zA-Z0-9\s]{1,10}$/;
+        if (!validPattern.test(address)) {
+            e.preventDefault();
+            alert("地址只能包含中文、英文和數字");
+            return;
+        } else {
+            alert("地址修改成功");
+        }
+    });
 });
 
-const addvalue = document.querySelector(".addr");
-const btn = document.querySelector(".add-address-btn");
-
-btn.addEventListener("click", function (e) {
-    const address = addvalue.value.trim();
-
-    // 檢查是否為空
-    if (address === "") {
-        e.preventDefault();
-        alert("地址請勿空白");
-        return;
-    }
-
-    // 檢查是否只包含中文、英文和數字
-    const validPattern = /^[\u4e00-\u9fa5a-zA-Z0-9\s]{1,10}$/;
-
-    if (!validPattern.test(address)) {
-        e.preventDefault();
-        alert("地址只能包含中文、英文和數字");
-        return;
-    }else{
-    	alert("地址修改成功");
-    }
-});
 
 
 </script>
