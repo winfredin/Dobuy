@@ -741,7 +741,7 @@ document.addEventListener("DOMContentLoaded", () => {
         $('#orderDetailModal').find('#receiverPhone').text(receiverPhone);
         $('#orderDetailModal').find('#receiverAdr').text(receiverAdr);
         $('#orderDetailModal').find('#sellerSatisfication').val(sellerSatisfication);
-        $('#orderDetailModal').find('#sellerCommentContent').val(sellerCommentContent);
+        $('#orderDetailModal').find('#sellerCommentContent').text(sellerCommentContent);
         $('#orderDetailModal').find('#sellerCommentDate').text(sellerCommentDate);
 
         $('#orderDetailModal').find('.modal-footer').html(
@@ -1002,4 +1002,97 @@ $(document).ready(function() {
     }
 });
 
+//=========================通知總覽===========================
+$(document).ready(function() {
+    // 點擊通知標題加載通知列表
+    $('.notice.title').click(function() {
+        $.ajax({
+            url: '/notice/listAllNoticeFragment', // 服务器端 API，返回 Thymeleaf 片段
+            type: 'POST',
+            success: function(response) {
+                console.log("Fragment HTML:", response); // 打印返回的 HTML，便于调试
 
+                // 使用 fragment 替换 <div class="use_1">
+                $('.use_1').html(response);
+
+                // 检查并销毁已有 DataTables 实例
+                if ($.fn.DataTable.isDataTable('#notice')) {
+                    $('#notice').DataTable().destroy();
+                }
+
+                // 初始化 DataTables
+                var table = $('#notice').DataTable({
+                    "lengthMenu": [10, 20, 50, 100],
+                    "searching": true,
+                    "paging": true,
+                    "ordering": true,
+                    "language": {
+                        "processing": "處理中...",
+                        "loadingRecords": "載入中...",
+                        "lengthMenu": "顯示 _MENU_ 筆結果",
+                        "zeroRecords": "沒有符合的結果",
+                        "info": "顯示第 _START_ 至 _END_ 筆結果，共<font color=red> _TOTAL_ </font>筆",
+                        "infoEmpty": "顯示第 0 至 0 筆結果，共 0 筆",
+                        "infoFiltered": "(從 _MAX_ 筆結果中過濾)",
+                        "search": "搜尋:",
+                        "paginate": {
+                            "first": "第一頁",
+                            "previous": "上一頁",
+                            "next": "下一頁",
+                            "last": "最後一頁"
+                        },
+                        "aria": {
+                            "sortAscending": ": 升冪排列",
+                            "sortDescending": ": 降冪排列"
+                        }
+                    },
+                    "drawCallback": function(settings) {
+                        $('#notice tbody tr').each(function() {
+                            var noticeRead = $(this).find('td').eq(2).text(); // 確認 noticeRead 是在第幾個 td
+                            if (noticeRead == '1') {
+                                $(this).css('background-color', '#dff1f7');
+                            }
+                        });
+                    }
+                });
+
+                // 在lengthMenu旁新增清空通知和標記所有為已讀按鈕
+                $('#notice_length').append('<button id="clearAllBtn" class="btn btn-danger ml-2">清空通知</button>');
+                $('#notice_length').append('<button id="markAllReadBtn" class="btn btn-primary ml-2">標記所有為已讀</button>');
+
+                // 清空通知按鈕事件
+                $('#clearAllBtn').on('click', function() {
+                    if (confirm('確定要清空所有通知嗎？')) {
+                        $.post('/notice/clearAll', {
+                            memNo: $('input[name="memNo"]').val() // 假設有一個隱藏的輸入框包含 memNo
+                        }, function(response) {
+                            location.reload();
+                        }).fail(function() {
+                            console.log('清空通知的請求失敗');
+                        });
+                    }
+                });
+
+                // 標記所有為已讀按鈕事件
+                $('#markAllReadBtn').on('click', function() {
+                    $.post('/notice/markAllRead', {
+                        memNo: $('input[name="memNo"]').val() // 假設有一個隱藏的輸入框包含 memNo
+                    }, function(response) {
+                        // 將通知行背景色改為淺藍色
+                        $('#notice tbody tr').css('background-color', '#dff1f7');
+                    }).fail(function() {
+                        console.log('標記所有為已讀的請求失敗');
+                    });
+                });
+
+                // 點擊事件，將行背景色改為淺藍色
+                $('#notice tbody').on('click', 'tr', function() {
+                    $(this).css('background-color', '#dff1f7');
+                });
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log("AJAX request failed: " + textStatus + ', ' + errorThrown);
+            }
+        });
+    });
+});

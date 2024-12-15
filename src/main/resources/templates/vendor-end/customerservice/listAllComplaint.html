@@ -49,6 +49,7 @@
 
     function submitReply() {
         var counterComplaintNo = $('#counterComplaintNo').val();
+        
         var complaintReply = $('#complaintReply').val();
 
         $.ajax({
@@ -56,6 +57,7 @@
             type: "POST",
             data: {
                 counterComplaintNo: counterComplaintNo,
+                
                 complaintReply: complaintReply
             },
             success: function(response) {
@@ -89,9 +91,8 @@ body {
 </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
-    <div align="center"><h2>客訴回覆</h2></div>
-</nav>
+
+
 <table id="example" class="display" style="width: 100%">
   <thead>
     <tr style="background-color:rgb(224, 166, 86)">
@@ -150,3 +151,4 @@ body {
     </div>
   </div>
 </div>
+
