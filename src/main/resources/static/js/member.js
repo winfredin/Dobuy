@@ -211,10 +211,10 @@ $("span#2").on("click",function(){
         });
 });
 
-$("span#3").on("click",function(){
+$(".pro span#3").on("click",function(){
     $(".proac").removeClass("aaa");
     $(".pro span#1").removeClass("aaa");
-    $("span#3").addClass("aaa");
+    $(".pro span#3").addClass("aaa");
     $(".pro span#2").removeClass("aaa");
     $(".pro span#4").removeClass("aaa");
     $(".pro span#5").removeClass("aaa");

@@ -135,7 +135,8 @@ public class UsedController {
 	@PostMapping("/getSellerUsedListFragment")
     public String getUsedListFragment(HttpSession session, Model model) {
 		
-        // 從 session 中取得 memNo
+
+
         Integer memNo = Integer.valueOf((String)session.getAttribute("memNo"));
 
         if (memNo == null) {
@@ -156,9 +157,11 @@ public class UsedController {
 
 	//管理員搜尋所有二手商品
 	@PostMapping("/getAllSellerUsedListFragment")
-    public String getAllUsedListFragment( Model model) {
+    public String getAllUsedListFragment(HttpSession session, Model model) {
         
-        
+		if(session.getAttribute("managerNo")==null) {
+			return "redirect:/back-end-homepage";
+		}
         List<UsedVO> usedListData = usedSvc.getAll();
         List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();
 		
