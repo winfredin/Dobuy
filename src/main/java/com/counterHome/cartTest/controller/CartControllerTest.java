@@ -50,13 +50,10 @@ public class CartControllerTest {
 	public ResponseEntity<String> addToCart(@RequestBody Map<String, Object> requestBody, HttpSession session) {
 
 		String goodsNo = (String) requestBody.get("goodsNo");
-		// 從 Map 中取出 "goodsNo" 的值
-		// 這裡的 goodsNo 對應到前端 JSON 中的鍵值對 { "goodsNo": "12345" }
-		// 這裡的 requestBody.get("goodsNo")會返回"12345"
 		String goodsName = (String) requestBody.get("goodsName");
 		String goodsPriceStr = (String)requestBody.get("goodsPrice");
 		String counterNoStr =(String) requestBody.get("counterNo");
-		String base64Image = (String) requestBody.get("base64Image");
+//		String base64Image = (String) requestBody.get("base64Image");
 
 		if (goodsName == null || goodsNo == null || counterNoStr == null || goodsPriceStr == null) {
 			return ResponseEntity.badRequest().body("請求參數缺失");
@@ -111,7 +108,7 @@ public class CartControllerTest {
 
 			cartList.add(cartVO);
 			
-			redisTemplate.opsForHash().put(imgKey, goodsNo, base64Image);//沒有找到商品才存圖片，要存會員編號?
+//			redisTemplate.opsForHash().put(imgKey, goodsNo, base64Image);//沒有找到商品才存圖片，要存會員編號?
 		}
 
 		// 將商品的list轉成json格式

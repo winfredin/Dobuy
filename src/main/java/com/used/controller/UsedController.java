@@ -27,10 +27,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.counter.model.CounterService;
+import com.counter.model.CounterVO;
 import com.goods.model.GoodsService;
 import com.goods.model.GoodsVO;
 import com.goodstype.model.GoodsTypeService;
 import com.goodstype.model.GoodsTypeVO;
+import com.member.model.MemberVO;
 import com.used.model.UsedService;
 import com.used.model.UsedVO;
 import com.usedpic.model.UsedPicService;
@@ -40,6 +43,9 @@ import com.usedpic.model.UsedPicVO;
 @Controller
 @RequestMapping("/used")
 public class UsedController {
+	
+	@Autowired
+	CounterService counterSvc;
 	
 	@Autowired
 	private UsedService usedSvc;
@@ -65,6 +71,20 @@ public class UsedController {
 			@RequestParam("goodsNo") String goodsNo,
 			ModelMap model,
 			HttpSession session) {
+		Integer memStatus=(Integer)session.getAttribute("memStatus");
+		
+//		System.out.println("memStatus: " + memStatus);
+		if(session.getAttribute("memNo")== null) {
+			model.addAttribute("memberVO", new MemberVO()); // 確保模型中有 memberVO
+
+			return "front-end/member/login";
+		}
+
+		if( memStatus != null && memStatus==2) {
+			System.out.println("memStatus: " + memStatus);
+			return "front-end/normalpage/member";
+		}else {
+		
 		UsedVO usedVO = new UsedVO();
 		 Integer goodsNoWantsSell= Integer.valueOf(goodsNo); //goodsNo
 		 
@@ -73,8 +93,7 @@ public class UsedController {
 		 usedVO.setUsedProDesc(goodsVO.getGoodsDescription());
 		 usedVO.setUsedPrice(goodsVO.getGoodsPrice());
 		 
-		 
-		 
+	 
 		 
 		//session提取memNo為sellerNo
 		 Integer sellerNo = Integer.valueOf((String)session.getAttribute("memNo"));
@@ -85,6 +104,7 @@ public class UsedController {
 		List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();
 		model.addAttribute("goodsTypeList", goodsTypeList);
 		return "front-end/used/addUsed";
+		}
 	}
 	
 	@PostMapping("/getOneUsed")
@@ -103,27 +123,26 @@ public class UsedController {
 		UsedVO usedVO = usedSvc.getOneUsed(Integer.valueOf(usedNo));
 
 		List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();
-		
+		List<CounterVO> counterVOList = counterSvc.getAll();
 		
 		model.addAttribute("usedVO", usedVO);
 		model.addAttribute("goodsTypeList", goodsTypeList);
-
+		model.addAttribute("counterVOList", counterVOList);
+		
 		return "front-end/used/shop_detail_used";
 	}
 
 	@PostMapping("/getSellerUsedListFragment")
     public String getUsedListFragment(HttpSession session, Model model) {
-        // 從 session 中取得 memNo
-		if(session.getAttribute("managerNo")==null) {
-			return "redirect:/back-end-homepage";
-		}
+		
+
+
         Integer memNo = Integer.valueOf((String)session.getAttribute("memNo"));
 
         if (memNo == null) {
             // 如果沒有 memNo，處理錯誤情況，這裡可以返回空片段或錯誤信息
             return "front-end/used/memberAllUsed :: usedListFragment";
         }
-
 
         // 根據 memNo 從資料庫中查詢二手商品列表
         List<UsedVO> usedListData = usedSvc.memberSelectBySellerNo(memNo);//測試使用2
@@ -138,9 +157,11 @@ public class UsedController {
 
 	//管理員搜尋所有二手商品
 	@PostMapping("/getAllSellerUsedListFragment")
-    public String getAllUsedListFragment( Model model) {
+    public String getAllUsedListFragment(HttpSession session, Model model) {
         
-        
+		if(session.getAttribute("managerNo")==null) {
+			return "redirect:/back-end-homepage";
+		}
         List<UsedVO> usedListData = usedSvc.getAll();
         List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();
 		
@@ -151,9 +172,6 @@ public class UsedController {
         // 返回Fragment所在的模板，並指定Fragment名稱
         return "front-end/used/listAllUsed :: usedListFragment";
     }
-
-	
-	
 
 	/*
 	 * This method will be called on addUsed.html form submission, handling POST request It also validates the user input

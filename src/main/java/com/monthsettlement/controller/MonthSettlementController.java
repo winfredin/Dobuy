@@ -112,7 +112,7 @@ public class MonthSettlementController {
         model.addAttribute("monthsettlementData", list);
         model.addAttribute("success", "- (新增成功)");
         System.out.println(monthsettlementVO.getMonth());
-    	String informMsg = counterVO.getCounterCName() + " 您的這個月營收已發出，請到營收查詢確認";
+    	String informMsg = counterVO.getCounterCName() + " 您的月營收已發出，請到營收查詢確認";
         Integer counter = counterVO.getCounterNo();
         msgSvc.addCounterInform(counter, informMsg);
         return  "redirect:/back-end-homepage";

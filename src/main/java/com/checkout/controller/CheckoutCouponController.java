@@ -70,6 +70,7 @@ public class CheckoutCouponController {
         Object memNoObj = session.getAttribute("memNo");
 //        Integer memNo = (Integer) session.getAttribute("memNo");
 //        model.addAttribute("memNo",memNo);
+        
         try {
             if (memNoObj == null) {
                 return "redirect:/mem/login";
@@ -83,37 +84,40 @@ public class CheckoutCouponController {
             
             // 按櫃位分組商品
             Map<Integer, List<ShoppingCartListVO>> cartItemsByCounter = new HashMap<>();
-            
+            List<String> error = new ArrayList();
+            List<GoodsVO> insufficientStockItems = new ArrayList<>();
          // 為每個購物車項目獲取對應的商品資訊並分組
             for (ShoppingCartListVO cartItem : cartItems) {
                 GoodsVO goods = goodsService.getOneGoods(cartItem.getGoodsNo());
-                List<GoodsVO> insufficientStockItems = new ArrayList<>();
+
+                // 檢查商品是否存在並取得櫃位編號
                 if (goods != null && goods.getCounterVO() != null) {
                     Integer counterNo = goods.getCounterVO().getCounterNo(); // 從 CounterVO 取得櫃位編號
                     cartItemsByCounter
                         .computeIfAbsent(counterNo, k -> new ArrayList<>())
                         .add(cartItem);
-                    model.addAttribute("counterNo",counterNo);
                 }
-                if (goods.getGoodsAmount() < cartItem.getGoodsNum()) {
+
+                // 檢查商品庫存是否足夠
+                if (goods != null && goods.getGoodsAmount() < cartItem.getGoodsNum()) {
                     insufficientStockItems.add(goods);
-                } else {
-                    // 扣除庫存
-                    goods.setGoodsAmount(goods.getGoodsAmount() - cartItem.getGoodsNum());
-                    goodsService.updateGoodsAmount(cartItem.getGoodsNo(), goods.getGoodsAmount());
-                
                 }
-                if (!insufficientStockItems.isEmpty()) {
-                	for(GoodsVO a:insufficientStockItems) {
-                		model.addAttribute("error", "以下商品庫存不足："+a.getGoodsName());
-                	}
-                    
-                    return "front-end/shoppingcartlist/listAllShoppingCartList";
-                }
-                session.setAttribute("cartItems", cartItems);
-               
-                model.addAttribute("carlist", cartItems);
             }
+
+            // 當有庫存不足的商品時，添加錯誤信息並返回錯誤頁面
+            if (!insufficientStockItems.isEmpty()) {
+                for (GoodsVO a : insufficientStockItems) {
+                    error.add(a.getGoodsName());
+                }
+                model.addAttribute("error", error); 
+               
+                return "front-end/shoppingcartlist/listAllShoppingCartList"; 
+            }
+            
+        
+            // 沒有庫存不足的商品時，繼續處理其他邏輯
+            model.addAttribute("carlist", cartItems); // 更新購物車商品列表
+            model.addAttribute("counterNo", cartItemsByCounter.keySet()); // 將櫃位編號加入模型中
             
             // 計算每個櫃位的小計
             Map<Integer, Integer> counterTotals = new HashMap<>();

@@ -106,7 +106,6 @@
                                             <li><a th:href="@{/counter/vendor-end/manage}">櫃位資料管理</a></li>
                                             <li><a th:href="@{/faq/add}">FAQ常見問題設定</a></li>
                                             <li><a th:href="@{/monthsettlement/listAllMonthSettlement}">營收查詢</a></li>
-                                            <li><a th:href="@{/followers/listAllFollowers}">追蹤管理</a></li>
                                             <li><a id="check" th:href="@{/coupon/listAllCoupon}">優惠券設定</a></li>
                                         </ul>
 										<li>
@@ -114,10 +113,11 @@
 										       th:classappend="${msgSvc.countUnread(counter.counterNo) > 0} ? 'unread-dot'">
 										        櫃位訊息中心管理
 										    </a>
+
 										</li>
                                     <li><a href="@{/customerservice/listAllComplaint}">客訴回覆</a>
                                     </li>
-                                </ul>
+                             </ul>
 
                             </div>
                             <!-- Nav End -->

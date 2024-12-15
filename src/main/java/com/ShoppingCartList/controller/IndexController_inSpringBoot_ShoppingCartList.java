@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ShoppingCartList.model.ShoppingCartListService;
@@ -23,8 +23,8 @@ import com.goods.model.GoodsService;
 import com.goods.model.GoodsVO;
 
 
-
 @Controller
+@RequestMapping("/index111")
 public class IndexController_inSpringBoot_ShoppingCartList {
 	
 	@Autowired
@@ -73,7 +73,7 @@ public class IndexController_inSpringBoot_ShoppingCartList {
 
     // 顯示所有購物車列表
     @GetMapping("/shoppingcartlist/listAllShoppingCartList")
-    public String listAllShoppingCart(Model model) {
+    public String listAllShoppingCart(Model model,HttpSession session) {
     	List<CounterVO> counterVOList = counterSvc.getAll();
 		model.addAttribute("counterVOList", counterVOList);
         return "front-end/shoppingcartlist/listAllShoppingCartList"; // 返回顯示所有購物車的頁面

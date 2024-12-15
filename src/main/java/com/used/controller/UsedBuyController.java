@@ -44,6 +44,7 @@ public class UsedBuyController {
 			model.addAttribute("memberVO", new MemberVO()); // 確保模型中有 memberVO
 			return "front-end/member/login";
 		}
+		
 		if (Integer.valueOf((String)session.getAttribute("memNo")) == usedVO.getSellerNo()) {// 若沒有登入 返回登入頁面
 			model.addAttribute("errorMessage", "不能購買自己的商品！");
 			List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();
@@ -52,6 +53,13 @@ public class UsedBuyController {
 			return "front-end/used/shop_detail_used";
 		}
 		
+		if (usedVO.getUsedState() != 1) {// 若沒有未上架 返回
+			model.addAttribute("errorMessage", "此商品未上架！，無法購買");
+			List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();
+			model.addAttribute("goodsTypeList", goodsTypeList);
+			model.addAttribute("usedVO", usedVO);
+			return "front-end/used/shop_detail_used";
+		}
 		
 		if (Integer.valueOf(usedCount) > stocks) { // 檢查庫存量 若不足夠則返回前頁
 //			System.out.println(usedVO.getUsedPics().size());	
@@ -68,8 +76,6 @@ public class UsedBuyController {
 			String receiverName = mem.getMemName();// 預設 receiverName
 			String receiverPhone = mem.getMemPhone();// 預設 receiverPhone
 
-			
-			
 			
 			model.addAttribute("usedVO",usedVO);
 			model.addAttribute("usedCount", Integer.valueOf(usedCount));

@@ -693,6 +693,8 @@ CREATE TABLE Auth (
     authContext VARCHAR(255) NOT NULL                    -- 權限內容
 );
 
+insert into auth(authTitle,authContext)  values("超級管理員","管理所有人"), ("前台管理員","管理前台"), ("後台管理員","管理後台"), ("櫃位管理員","管理櫃位"), ("客訴管理員","管理客訴") ;
+
 CREATE TABLE ManagerAuth (
     managerNo INT NOT NULL  ,   -- 管理員編號 FK
     authNo INT NOT NULL  ,    -- 權限編號 FK
@@ -700,7 +702,8 @@ CREATE TABLE ManagerAuth (
   
 );
 
-
+insert into managerAuth(managerNo,authNo) values(1,1),(2,2),(3,3),(4,4),(5,5);
+    
 CREATE TABLE CounterCarousel (
     counterCarouselNo INT NOT NULL AUTO_INCREMENT PRIMARY KEY,  -- 輪播資訊編號
     counterNo INT NOT NULL,                                     -- 櫃位編號 FK
@@ -1045,5 +1048,33 @@ CREATE TABLE emailverification (
     sentTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP -- 發送驗證碼的時間，預設為當前時間
 );
 
+CREATE TABLE newcounterorder (
+    cOrderNo INT NOT NULL AUTO_INCREMENT,         -- 櫃位訂單編號 (主鍵)
+    counterNo INT NOT NULL,                       -- 櫃位編號 (外鍵)
+    memNo INT NOT NULL,                           -- 會員編號 (外鍵)
+    orderTotalPriceBefore INT NOT NULL CHECK (orderTotalPriceBefore > 0), -- 訂單總金額(折前)
+    orderTotalPriceAfter INT NOT NULL CHECK (orderTotalPriceAfter > 0),   -- 訂單總金額(折後)
+    receiverName VARCHAR(10) NOT NULL,           -- 收件人姓名
+    receiverAdr VARCHAR(100) NOT NULL,           -- 收件人地址
+    receiverPhone VARCHAR(10) NOT NULL,          -- 收件人電話
+	couponNo INT(10),                   -- 會員優惠券編號 (FK)
+    orderTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- 訂單成立時間
+    orderStatus TINYINT(1) NOT NULL,             -- 訂單狀態 (0:未出貨, 1:已出貨, 2:完成訂單, 3:退貨, 4:作廢),
+    PRIMARY KEY (cOrderNo),
+    FOREIGN KEY (counterNo) REFERENCES counter(counterNo), -- 外鍵約束
+    FOREIGN KEY (memNo) REFERENCES member(memNo)           -- 外鍵約束
+);
 
+
+CREATE TABLE newcounterorderdetail (
+    counterOrderDetailNo INT(10) NOT NULL AUTO_INCREMENT, -- 明細主鍵 (PK)
+    cOrderNo INT(10) NOT NULL,          -- 櫃位訂單編號
+    goodsNo INT(10) NOT NULL,           -- 商品編號 (FK)
+    goodsNum INT(5) NOT NULL CHECK (goodsNum > 0),       -- 商品數量 (必須大於0)
+    goodsPrice INT(5) NOT NULL CHECK (goodsPrice > 0),   -- 商品單價 (必須大於0)
+
+    PRIMARY KEY (counterOrderDetailNo), -- 主鍵: counterOrderDetailNo
+    FOREIGN KEY (cOrderNo) REFERENCES newcounterorder(cOrderNo), -- 外鍵關聯至 Counter_Order
+    FOREIGN KEY (goodsNo) REFERENCES goods(goodsNo)           -- 外鍵關聯至 Goods
+);
 -- 以上昱夆新增 練習用

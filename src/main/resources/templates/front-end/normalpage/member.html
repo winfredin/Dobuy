@@ -124,7 +124,6 @@
                         <span id="1" data-id="1">個人檔案</span>
                         <span id="2"data-id="2">更改密碼</span>
                         <span id="3"data-id="3">地址</span>
-                        <span id="4"data-id="4">信用卡資訊</span>
                         <span id="5"data-id="5">隱私設定</span>
                     </div>
                 </div>
@@ -237,10 +236,15 @@
       </span>
     </td>
     <td>
-      <form method="post" th:action="@{/used/oneButtontoSellUsed}">
-        <input type="submit" value="轉售"/>
-        <input type="hidden" name="goodsNo" th:value="${counterOrderDetailVO.goodsNo}" />
-      </form>
+      <th:block th:if="${session.memStatus eq 1}">
+	  <form method="post" th:action="@{/used/oneButtontoSellUsed}">
+	    <input type="submit" value="轉售"/>
+	    <input type="hidden" name="goodsNo" th:value="${counterOrderDetailVO.goodsNo}" />
+	  </form>
+	</th:block>
+	<th:block th:if="${session.memStatus eq 2}">
+	  <span>被停止賣權，請聯繫客服</span>
+	</th:block>
     </td>
   </tr>
 </tbody>
