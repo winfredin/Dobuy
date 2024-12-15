@@ -22,7 +22,7 @@ public class DiscountService {
     @Autowired
     private SessionFactory sessionFactory;
 
-    // 新增平台优惠
+    // 新增
     public void addDiscount(DiscountVO discountVO) {
         try {
             System.out.println("準備新增優惠: " + discountVO.getDisTitle());
@@ -34,30 +34,27 @@ public class DiscountService {
         }
     }
 
-    // 更新平台优惠
+    // 更新
     public void updateDiscount(DiscountVO discountVO) {
         repository.save(discountVO);
     }
 
-    // 删除平台优惠
+    // 删除
     public void deleteDiscount(Integer disNo) {
         if (repository.existsById(disNo))
             repository.deleteByDisNo(disNo);
     }
 
-    // 查询单个平台优惠
+    // 查询
     public DiscountVO getOneDiscount(Integer disNo) {
         Optional<DiscountVO> optional = repository.findById(disNo);
         return optional.orElse(null);
     }
 
-    // 查询所有平台优惠
+    // 查询所有
     public List<DiscountVO> getAll() {
         return repository.findAll();
     }
 
-    // 根据条件查询平台优惠
-//    public List<DiscountVO> getAll(Map<String, String[]> map) {
-//        return HibernateUtil_CompositeQuery_Discount.getAllD(map, sessionFactory.openSession());
-//    }
+
 }

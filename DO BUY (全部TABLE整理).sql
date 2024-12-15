@@ -713,6 +713,8 @@ CREATE TABLE Auth (
     authContext VARCHAR(255) NOT NULL                    -- 權限內容
 );
 
+insert into auth(authTitle,authContext)  values("超級管理員","管理所有人"), ("前台管理員","管理前台"), ("後台管理員","管理後台"), ("櫃位管理員","管理櫃位"), ("客訴管理員","管理客訴") ;
+
 CREATE TABLE ManagerAuth (
     managerNo INT NOT NULL  ,   -- 管理員編號 FK
     authNo INT NOT NULL  ,    -- 權限編號 FK
@@ -720,7 +722,8 @@ CREATE TABLE ManagerAuth (
   
 );
 
-
+insert into managerAuth(managerNo,authNo) values(1,1),(2,2),(3,3),(4,4),(5,5);
+    
 CREATE TABLE CounterCarousel (
     counterCarouselNo INT NOT NULL AUTO_INCREMENT PRIMARY KEY,  -- 輪播資訊編號
     counterNo INT NOT NULL,                                     -- 櫃位編號 FK
