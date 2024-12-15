@@ -134,6 +134,7 @@ public class UsedController {
 
 	@PostMapping("/getSellerUsedListFragment")
     public String getUsedListFragment(HttpSession session, Model model) {
+		
         // 從 session 中取得 memNo
         Integer memNo = Integer.valueOf((String)session.getAttribute("memNo"));
 
