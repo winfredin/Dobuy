@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>櫃位訊息新增 - addMsg.html</title>
-
+    <th:block th:replace="~{/vendor-end/counter/Counterincldue :: head}"></th:block>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -26,13 +26,20 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             background-color: #ffffff;
         }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: normal;
+            text-align: center; /* Ensure the label is centered */
+        }
 
-        .card-header {
-            background-color: #007bff;
-            color: #fff;
+        .header-text {
             text-align: center;
             font-size: 1.25rem;
             padding: 10px;
+            font-weight: bold;
+            color: #343a40; /* Dark gray, same as default card header text color */
         }
 
         .form-control {
@@ -51,14 +58,35 @@
             margin: 5px;
             width: 120px;
         }
+        
+        .btn-primary {
+        background-color: #8b4513; /* 深棕色 */
+        border-color: #8b4513;
+        color: white;
+    }
+    .btn-primary:hover {
+        background-color: #9c5631; /* 略淺的深棕色 */
+        border-color: #9c5631;
+    }
+    
+    .btn-secondary {
+        background-color: #d2b48c; /* 淺棕色 */
+        border-color: #d2b48c;
+        color: white;
+       
+    }
+    .btn-secondary:hover {
+        background-color: #c4a77b; /* 略深的淺棕色 */
+        border-color: #c4a77b;
+    }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="card">
-        <div class="card-header">
-            <h5 class="modal-title">新增訊息</h5>
+        <div class="header-text">
+            新增訊息
         </div>
         <div class="card-body">
             <form th:action="@{insert}" method="post" th:object="${msgVO}" enctype="multipart/form-data">
@@ -102,8 +130,3 @@
 
 </body>
 </html>
-
-
-
-
-

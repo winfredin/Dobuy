@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>櫃位訊息修改 - update_msg_input.html</title>
-
+    <th:block th:replace="~{/vendor-end/counter/Counterincldue :: head}"></th:block>
     <!-- 引入 Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -18,22 +18,65 @@
 
         .container {
             margin-top: 50px;
+            max-width: 500px;
         }
 
-        .frame {
-            border: 2px solid #000;
+        .card {
+            border: 1px solid #ddd;
             border-radius: 15px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 30px;
             background-color: #ffffff;
-            max-width: 600px;
-            margin: auto;
         }
 
-        h2 {
-            margin-bottom: 20px;
+        .header-text {
+            text-align: center;
+            font-size: 1.25rem;
+            padding: 10px;
+            font-weight: bold;
+            color: #343a40; /* Dark gray, same as default card header text color */
         }
 
+        .form-control {
+            margin: 10px auto;
+            width: 70%;
+            text-align: center;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: center;
+            padding: 15px;
+        }
+
+        .btn {
+            margin: 5px;
+            width: 120px;
+        }
+
+        /* 修改按鈕顏色 */
+        .btn-primary {
+            background-color: #8b4513; /* 深棕色 */
+            border-color: #8b4513;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #9c5631; /* 略淺的深棕色 */
+            border-color: #9c5631;
+        }
+
+        /* 取消按鈕顏色 */
+        .btn-secondary {
+            background-color: #d2b48c; /* 淺棕色 */
+            border-color: #d2b48c;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #c4a77b; /* 略深的淺棕色 */
+            border-color: #c4a77b;
+        }
+        
         .form-group {
             text-align: center;
         }
@@ -41,45 +84,47 @@
         label {
             display: block;
             margin-bottom: 5px;
+            font-weight: normal;
+            text-align: center; /* Ensure the label is centered */
         }
 
-        input[type="text"], .form-control-plaintext {
-            width: 70%;
-            text-align: center;
-            margin: auto;
+       input[type="text"], .form-control-plaintext {
+             width: 70%;
+             text-align: center;
+             margin: auto; /* Center input field */
         }
-
-        .btn {
-            width: 150px;
-            margin: 10px 5px;
-        }
+        
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="frame">
-        <h2 class="text-center">修改櫃位訊息</h2>
-        <form th:action="@{update}" method="post" th:object="${msgVO}" enctype="multipart/form-data">
-            <!-- 櫃位訊息編號 -->
-            <div class="form-group">
-                <label for="counterInformNo">櫃位訊息編號:</label>
-                <input type="text" class="form-control-plaintext" id="counterInformNo" th:field="*{counterInformNo}" readonly />
-            </div>
+    <div class="card">
+        <div class="header-text">
+            修改櫃位訊息
+        </div>
+        <div class="card-body">
+            <form th:action="@{update}" method="post" th:object="${msgVO}" enctype="multipart/form-data">
+                <!-- 櫃位訊息編號 -->
+                <div class="form-group">
+                    <label for="counterInformNo">櫃位訊息編號:</label>
+                    <input type="text" class="form-control-plaintext" id="counterInformNo" th:field="*{counterInformNo}" readonly />
+                </div>
 
-            <!-- 內文 -->
-            <div class="form-group">
-                <label for="informMsg">內文:</label>
-                <input type="text" class="form-control" id="informMsg" th:field="*{informMsg}" onclick="hideContent('informMsg.errors');" />
-                <span th:if="${#fields.hasErrors('informMsg')}" th:errors="*{informMsg}" class="error" id="informMsg.errors"></span>
-            </div>
+                <!-- 內文 -->
+                <div class="form-group">
+                    <label for="informMsg">內文:</label>
+                    <input type="text" class="form-control" id="informMsg" th:field="*{informMsg}" onclick="hideContent('informMsg.errors');" />
+                    <span th:if="${#fields.hasErrors('informMsg')}" th:errors="*{informMsg}" class="error" id="informMsg.errors"></span>
+                </div>
 
-            <!-- 按鈕 -->
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">送出修改</button>
-                <a class="btn btn-secondary" th:href="@{/msg/listAllMsg}">取消</a>
-            </div>
-        </form>
+                <!-- 按鈕 -->
+                <div class="modal-footer">
+                    <a class="btn btn-secondary" th:href="@{/msg/listAllMsg}">取消</a>
+                    <button type="submit" class="btn btn-primary">送出修改</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 

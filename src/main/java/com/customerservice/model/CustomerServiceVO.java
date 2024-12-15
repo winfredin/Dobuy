@@ -12,56 +12,66 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 
-
 @Entity
-@Table(name = "usedComplaint")
+@Table(name = "goodComplaint")
 public class CustomerServiceVO {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "usedComplaintNo")
-    private Integer usedComplaintNo;
-        
-    @Column(name = "usedOrderNo", nullable = false)
-    private Integer usedOrderNo;
-    
+    @Column(name = "counterComplaintNo")
+    private Integer counterComplaintNo;
+
+    @Column(name = "counterNo")
+    private Integer counterNo;
+
+    @NotNull
+    @Column(name = "counterOrderNo", nullable = false)
+    private Integer counterOrderNo;  // 修正拼寫
+
     @Column(name = "memNo")
     private Integer memNo;
 
     @NotNull
     @NotEmpty(message = "客訴內容請勿空白。")
     @Size(max = 500)
-    @Column(name = "usedComplaintReason")
-    private String usedComplaintReason;
-    
-    @Column(name = "usedComplaintPhotos")
-    private byte[] usedComplaintPhotos;
+    @Column(name = "complaintReason")
+    private String complaintReason;
+
+    @Column(name = "complaintPhotos")
+    private byte[] complaintPhotos;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Column(name = "usedComplaintDate") 
-    private Timestamp usedComplaintDate;
-    
-    @Column(name = "usedComplaintStatus")
-    private Byte usedComplaintStatus;
-    
-    @Column(name = "usedComplaintMSG")
-    private String usedComplaintMSG;
-    
-    // Getters and Setters
-    public Integer getUsedComplaintNo() {
-        return usedComplaintNo;
+    @Column(name = "complaintDate")
+    private Timestamp complaintDate;
+
+    @Column(name = "complaintStatus")
+    private Byte complaintStatus;
+
+    @Column(name = "complaintMSG")
+    private String complaintMSG;
+
+    public Integer getCounterComplaintNo() {
+        return counterComplaintNo;
     }
 
-    public void setUsedComplaintNo(Integer usedComplaintNo) {
-        this.usedComplaintNo = usedComplaintNo;
+    public void setCounterComplaintNo(Integer counterComplaintNo) {
+        this.counterComplaintNo = counterComplaintNo;
     }
 
-    public Integer getUsedOrderNo() {
-        return usedOrderNo;
+    public Integer getCounterNo() {
+        return counterNo;
     }
 
-    public void setUsedOrderNo(Integer usedOrderNo) {
-        this.usedOrderNo = usedOrderNo;
+    public void setCounterNo(Integer counterNo) {
+        this.counterNo = counterNo;
+    }
+
+    public Integer getCounterOrderNo() {
+        return counterOrderNo;
+    }
+
+    public void setCounterOrderNo(Integer counterOrderNo) {
+        this.counterOrderNo = counterOrderNo;
     }
 
     public Integer getMemNo() {
@@ -72,43 +82,56 @@ public class CustomerServiceVO {
         this.memNo = memNo;
     }
 
-    public String getUsedComplaintReason() {
-        return usedComplaintReason;
+    public String getComplaintReason() {
+        return complaintReason;
     }
 
-    public void setUsedComplaintReason(String usedComplaintReason) {
-        this.usedComplaintReason = usedComplaintReason;
+    public void setComplaintReason(String complaintReason) {
+        this.complaintReason = complaintReason;
     }
 
-    public byte[] getUsedComplaintPhotos() {
-        return usedComplaintPhotos;
+    public byte[] getComplaintPhotos() {
+        return complaintPhotos;
     }
 
-    public void setUsedComplaintPhotos(byte[] usedComplaintPhotos) {
-        this.usedComplaintPhotos = usedComplaintPhotos;
+    public void setComplaintPhotos(byte[] complaintPhotos) {
+        this.complaintPhotos = complaintPhotos;
     }
 
-    public Timestamp getUsedComplaintDate() {
-        return usedComplaintDate;
+    public Timestamp getComplaintDate() {
+        return complaintDate;
     }
 
-    public void setUsedComplaintDate(Timestamp usedComplaintDate) {
-        this.usedComplaintDate = usedComplaintDate;
+    public void setComplaintDate(Timestamp complaintDate) {
+        this.complaintDate = complaintDate;
     }
 
-    public Byte getUsedComplaintStatus() {
-        return usedComplaintStatus;
+    public Byte getComplaintStatus() {
+        return complaintStatus;
     }
 
-    public void setUsedComplaintStatus(Byte usedComplaintStatus) {
-        this.usedComplaintStatus = usedComplaintStatus;
+    public void setComplaintStatus(Byte complaintStatus) {
+        this.complaintStatus = complaintStatus;
     }
 
-    public String getUsedComplaintMSG() {
-        return usedComplaintMSG;
+    public String getComplaintMSG() {
+        return complaintMSG;
     }
 
-    public void setUsedComplaintMSG(String usedComplaintMSG) {
-        this.usedComplaintMSG = usedComplaintMSG;
+    public void setComplaintMSG(String complaintMSG) {
+        this.complaintMSG = complaintMSG;
+    }
+
+    // 新增的描述方法
+    public String getComplaintStatusDescription() {
+        switch (complaintStatus) {
+            case 0:
+                return "待處理";
+            case 1:
+                return "處理完畢";
+            default:
+                return "待處理";
+        }
     }
 }
+
