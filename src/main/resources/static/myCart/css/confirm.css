@@ -20,7 +20,7 @@ body {
     margin-right: 10%;
     border-bottom: 1px solid #ddd;
     text-align: center;
-    background-color: #cdc3c3; /* 添加淡灰色背景 */
+    background-color: rgba(200, 200, 200, 0.5); /* 灰色，透明度 50% */
 }
 
 .header-row {
@@ -71,9 +71,9 @@ body {
     margin: 20px auto;
     padding: 20px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 10px;
     width: 50%; /* 可根据需求调整宽度 */
-    background-color: #e4e0e0; /* 添加淡灰色背景 */
+    background-color: rgba(200, 200, 200, 0.7); /* 灰色，透明度 50% */
     font-size: 1.2rem;
     line-height: 1.8; /* 行高，确保段落间距 */
 }
@@ -81,9 +81,18 @@ body {
 /* 收件人信息容器 */
 .recipient-info p {
     margin: 10px 0;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     font-weight: bold;
     text-align: center;
+}
+
+.recipient-info input {
+    width: 50%; /* 輸入框寬度為容器寬度 */
+    padding: 10px; /* 內邊距增加 */
+    font-size: 1.1rem; /* 輸入文字放大 */
+    border: 1px solid #ccc; /* 邊框顏色 */
+    border-radius: 5px; /* 輕微圓角 */
+    box-sizing: border-box; /* 確保寬度不受 padding 影響 */
 }
 
 /* 優惠內容 */
@@ -167,6 +176,9 @@ body {
 .counterCname-container {
     text-align: center; /* 文字置中 */
     margin: 20px 0; /* 上下留白 */
+    background-color: #86512d;
+    width:80%;
+    margin-left:10%;
 }
 
 .counterCname {
@@ -188,5 +200,19 @@ body {
 .logo {
     max-width: 200px; /* 控制圖片寬度，可根據需要調整 */
     height: auto; /* 保持圖片比例 */
+}
+
+.error-container {
+    text-align: center; /* 文字居中 */
+    margin: 20px 0; /* 增加間距 */
+}
+
+.error {
+    color: red; /* 紅字 */
+    font-size: 1.5rem; /* 字體放大 */
+    font-weight: bold; /* 加粗 */
+    display: block; /* 每個錯誤訊息換行顯示 */
+    line-height: 1.8; /* 增加行高 */
+    white-space: pre-line; /* 保留換行符 */
 }
 

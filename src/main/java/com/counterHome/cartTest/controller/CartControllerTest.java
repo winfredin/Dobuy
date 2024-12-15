@@ -53,7 +53,7 @@ public class CartControllerTest {
 		String goodsName = (String) requestBody.get("goodsName");
 		String goodsPriceStr = (String)requestBody.get("goodsPrice");
 		String counterNoStr =(String) requestBody.get("counterNo");
-//		String base64Image = (String) requestBody.get("base64Image");
+		String base64Image = (String) requestBody.get("base64Image");
 
 		if (goodsName == null || goodsNo == null || counterNoStr == null || goodsPriceStr == null) {
 			return ResponseEntity.badRequest().body("請求參數缺失");
@@ -108,7 +108,7 @@ public class CartControllerTest {
 
 			cartList.add(cartVO);
 			
-//			redisTemplate.opsForHash().put(imgKey, goodsNo, base64Image);//沒有找到商品才存圖片，要存會員編號?
+			redisTemplate.opsForHash().put(imgKey, goodsNo, base64Image);//沒有找到商品才存圖片，要存會員編號?
 		}
 
 		// 將商品的list轉成json格式

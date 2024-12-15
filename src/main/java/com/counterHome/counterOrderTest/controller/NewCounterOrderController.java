@@ -66,6 +66,10 @@ public class NewCounterOrderController {
 		String memNo = (String) session.getAttribute("memNo");	
 		String counterNo = counterSvc.getCounterNoByCounterCname(counterCname);
 		NewCouponsVO newCouponsVO = newCouponsSvc.findCouponsByCouponNo(couponNo);
+		if (newCouponsVO == null) {
+		    newCouponsVO = new NewCouponsVO();
+		    newCouponsVO.setCouponNo(0); // 设置默认值
+		}
 		String key = "cart:" + memNo;
 		String imgkey = "img:" + memNo;
 		

@@ -1,3 +1,10 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
 /* 通用样式 */
 body {
     margin: 0;
@@ -25,12 +32,12 @@ body {
 
 div {
 	font-family: Arial, sans-serif;
-	font-size: 14px;
+	font-size: 18px;
 }
 
 /* 表格標題樣式 */
 div[style*="font-weight: bold"] {
-	background-color: #f9f9f9;
+/* 	background-color: #f9f9f9; */
 	text-transform: uppercase;
 	color: #333;
 }
@@ -47,7 +54,7 @@ div[style*="align-items: center"]:hover {
 
 /* 按鈕樣式 */
 button {
-	font-size: 12px;
+	font-size: 18px;
 	padding: 5px 10px;
 	border: 1px solid #ccc;
 	cursor: pointer;
@@ -68,6 +75,8 @@ button:hover {
     text-align: center;
     justify-content: center; /* 水平置中 */
     align-items: center; /* 垂直置中 */
+    background-color: rgba(200, 200, 200, 0.5); /* 灰色，透明度 50% */
+   
 }
 
 .header-row > div {
@@ -89,6 +98,8 @@ html, body {
     padding: 0;
     width: 100%;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
 }
 
 .item {
@@ -116,6 +127,7 @@ html, body {
 .coupon-container {
     font-size: 16px; /* 字體放大 */
     margin-top: 20px; /* 上邊距增加 */
+    
 }
 
 .coupon-container label {
@@ -127,3 +139,102 @@ html, body {
     padding: 5px 10px; /* 增加內邊距，讓選單看起來更大 */
 }
 
+.cart-header {
+/*     display: flex; 使用 Flexbox 布局 */
+    align-items: center; /* 垂直居中 */
+    justify-content: space-between; /* 左右分布 */
+    position: relative;
+    background-color: inherit; /* 保留背景色 */
+    padding: 10px 20px; /* 增加內邊距 */
+    box-sizing: border-box; /* 確保寬度不超出父容器 */
+    text-align: center; /* 讓內容居中 */
+}
+
+.logo-container {
+    flex: 1; /* 左側區域自適應 */
+    display: flex;
+    justify-content: center; /* 水平居中圖片 */
+}
+
+.cart-title {
+    font-size: 30px;
+    font-weight: bold;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    right: 20px; /* 與右側有適當距離 */
+    padding: 10px;
+    color: #333;
+    margin-top:60px;
+    margin-right:80px;
+     display: block; /* 確保標題獨占一行 */
+    margin-bottom: 10px; /* 添加與下一個元素的間距 */
+}
+
+/* 清除預設樣式 */
+.product-form {
+    margin: 0;
+    padding: 0;
+    border: none;
+    width: 100%;
+}
+
+.product-form div {
+    width: 100% !important; /* 填滿父容器 */
+    box-sizing: border-box; /* 防止 padding 或 border 影響寬度 */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 10px 0; /* 保留上下內邊距 */
+}
+/* 點擊區塊樣式 */
+.product-form .clickable-container {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    width: 100%; /* 填滿父元素 */
+    box-sizing: border-box; /* 包含 padding 計算寬度 */
+    border: none; /* 移除邊框 */
+    transition: background-color 0.3s;
+}
+
+/* 移除邊框 */
+.product-form .clickable-container:hover {
+    border: none; /* 移除邊框樣式 */
+}
+
+.product-form div:hover {
+    background-color: #f8f8f8; /* 滑鼠移上去時加背景顏色 */
+}
+
+/* 確保圖片、名稱、價格等項目統一寬度 */
+.clickable-container > div {
+    flex: 1; /* 平均分配寬度 */
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.centered-content {
+    display: flex;
+    justify-content: center; /* 水平置中 */
+    align-items: center; /* 垂直置中 */
+    text-align: center; /* 文字置中 */
+    font-size: 1.2rem; /* 字體大小 */
+    flex: 1; /* 平均分配寬度 */
+}
+
+.home-link {
+    display: block; /* 讓它獨占一行 */
+    margin-top: 10px; /* 增加標題與返回首頁之間的間距 */
+}
+
+.back-home-link {
+    color: #007bff; /* 設定連結顏色 */
+    text-decoration: none; /* 移除底線 */
+    font-size: 1.7rem; /* 設定字體大小 */
+}
+
+.back-home-link:hover {
+    text-decoration: underline; /* 滑鼠懸停時加底線 */
+}

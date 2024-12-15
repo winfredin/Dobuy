@@ -113,7 +113,7 @@ function calculateCounterTotal(counterDiv) {
 	// 更新櫃位总金额显示
 	const totalCounterElement = counterDiv.querySelector(`#total-counter-${counterDiv.getAttribute("data-counter")}`); // 直接通过 id 找到
 	totalCounterElement.querySelector("span").textContent = totalAmount;
-	counterDiv.querySelector(".counterPrice").value =totalAmount;
+	counterDiv.querySelector(".counterPrice").value = totalAmount;
 }
 
 
@@ -195,7 +195,13 @@ function applyDiscount(event) {
 	);
 
 	const totalCounterDiv = counterDiv.querySelector(".counterPrice");
-
+	
+	// 如果選擇 "請選擇優惠券" 選項，直接重置金額顯示
+	if (!selectedValue) {
+		totalCounterDiv.classList.remove("total-price"); // 移除刪除線樣式
+		counterDiv.querySelector(".afterPrice").style.display = "none"; // 隱藏折價區域
+		return;
+	}
 	// 模拟发送到后端并获取折扣后的价格
 	fetch(`/cart/test/coupons/applyCoupon`, {
 		method: "POST",
@@ -211,7 +217,7 @@ function applyDiscount(event) {
 			const totalAfterElement = counterDiv.querySelector(".afterPrice span");
 			counterDiv.querySelector(".afterPrice").value = finalPrice;
 			counterDiv.querySelector(".coupon").value = selectedValue;
-			
+
 			totalAfterElement.textContent = finalPrice || "計算失敗";
 			totalCounterDiv.classList.add("total-price"); // 添加刪除線的 class
 			// 顯示折價後金額區域
@@ -260,23 +266,23 @@ function applyDiscount(event) {
 function checkout(button, event) {
 	// 暂停表单提交行为
 	event.preventDefault();
-    const counterDiv = button.closest("[data-counter]");// 找到父元素
+	const counterDiv = button.closest("[data-counter]");// 找到父元素
 
-    // 动态更新隐藏字段的值
-    const totalAmountBefore = counterDiv.querySelector(".counterPrice").value;
+	// 动态更新隐藏字段的值
+	const totalAmountBefore = counterDiv.querySelector(".counterPrice").value;
 	const totalAmountAfter = counterDiv.querySelector(".afterPrice").value || totalAmountBefore;
 	const couponNo = counterDiv.querySelector(".coupon").value || 0;
 
-    console.log("表单提交前检查值：");
-    console.log("總金額（折前）:", totalAmountBefore);
-    console.log("總金額（折後）:", totalAmountAfter);
-    console.log("優惠券:", couponNo);
+	console.log("表单提交前检查值：");
+	console.log("總金額（折前）:", totalAmountBefore);
+	console.log("總金額（折後）:", totalAmountAfter);
+	console.log("優惠券:", couponNo);
 
-    // 手动更新隐藏字段值
-    counterDiv.querySelector("input[name='totalAmountBefore']").value = totalAmountBefore;
-    counterDiv.querySelector("input[name='totalAmountAfter']").value = totalAmountAfter;
-    counterDiv.querySelector("input[name='couponNo']").value = couponNo;
-	
+	// 手动更新隐藏字段值
+	counterDiv.querySelector("input[name='totalAmountBefore']").value = totalAmountBefore;
+	counterDiv.querySelector("input[name='totalAmountAfter']").value = totalAmountAfter;
+	counterDiv.querySelector("input[name='couponNo']").value = couponNo;
+
 	// 测试结束后，手动提交表单
 	button.closest("form").submit();
 };
