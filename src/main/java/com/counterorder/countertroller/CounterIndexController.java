@@ -56,18 +56,18 @@ public class CounterIndexController {
 //    }
     @PostMapping("updateOrder")
 	public String updateOrderStatus(@RequestParam("orderStatus") Integer orderStatus,
-	                                  @RequestParam("memNo") Integer memNo) {
+	                                  @RequestParam("counterOrderNo") Integer counterOrderNo) {
 	
-		counterOrderSvc.updateCounterStatus(memNo, orderStatus);
+		counterOrderSvc.updateCounterStatus(counterOrderNo, orderStatus);
 	    return "redirect:/counter/listOneCounter"; 
 	}
     
     @PostMapping("memOrder")
 	public String memOrderStatus(@RequestParam("counterOrderNo") Integer counterOrderNo,
 	                                  HttpSession session) {
-    	CounterOrderVO counterOrderVO = counterOrderSvc.getOneCounterOrder(counterOrderNo);
     	
-    	counterOrderSvc.updateCounterStatus(Integer.valueOf((String) session.getAttribute("memNo")), 2);
+    	
+    	  counterOrderSvc.updateCounterStatus(counterOrderNo, 2);
 		
 
 	    return "redirect:/member"; 

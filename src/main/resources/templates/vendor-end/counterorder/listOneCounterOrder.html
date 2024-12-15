@@ -90,7 +90,7 @@
             <option th:value="4" th:selected="${order.orderStatus == 4}" th:text="作廢"></option>
             <option th:if="${order.orderStatus == 5}" th:text="未付款"></option>
         </select>
-         <input type="hidden" name="memNo" th:value="${order.memNo}" /> <!-- 會員編號，用於識別要更新的會員 -->
+         <input type="hidden" name="counterOrderNo" th:value="${order.counterOrderNo}" /> <!-- 會員編號，用於識別要更新的會員 -->
         <button type="submit" class="btn btn-primary">修改</button>
         </form>
                     </td>
