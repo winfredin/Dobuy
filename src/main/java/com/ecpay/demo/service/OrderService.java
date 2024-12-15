@@ -37,7 +37,7 @@ public class OrderService {
             obj.setItemName(itemName);
             
             // 設定付款結果通知參數
-            obj.setReturnURL("https://9c64-111-249-27-13.ngrok-free.app/ecpay/callback");
+            obj.setReturnURL("https://f56d-175-181-189-53.ngrok-free.app/ecpay/callback");
             obj.setOrderResultURL("http://localhost:8080/member");
             obj.setClientBackURL("http://localhost:8080/member");
             // 設定其他必要參數
