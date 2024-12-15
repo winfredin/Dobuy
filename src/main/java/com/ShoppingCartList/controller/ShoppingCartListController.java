@@ -48,7 +48,25 @@ public class ShoppingCartListController {
         model.addAttribute("shoppingCartListVO", shoppingCartListVO);
         return "front-end/shoppingcartlist/addShoppingCartList";
     }
-    
+    @GetMapping("/listAllShoppingCartList")
+    public String listAllShoppingCartList(Model model, HttpServletRequest req) {
+        // 從 session 中獲取用戶 ID（memNo）
+        HttpSession session = req.getSession();
+        String memNo = (String) session.getAttribute("memNo");  // 確保 session 中有 memNo
+
+        if (memNo == null) {
+            model.addAttribute("errorMessage", "請先登入才能查看購物車！");
+            return "redirect:/mem/login";  // 如果 memNo 為 null，則轉到登入頁面
+        }
+
+        // 查詢該會員的所有購物車資料
+        List<ShoppingCartListVO> shoppingCartList = shoppingCartListSvc.getCartItemsByMemNo(Integer.valueOf(memNo));
+
+        // 把購物車資料添加到模型中
+        model.addAttribute("shoppingCartListListData", shoppingCartList);
+
+        return "front-end/shoppingcartlist/listAllShoppingCartList";  // 顯示該會員的購物車清單
+    }
     // 購物車
     @PostMapping("/add-to-cart")
     public ResponseEntity<Map<String, Object>> addToCart(
@@ -105,7 +123,6 @@ public class ShoppingCartListController {
 
         return ResponseEntity.ok(response);
     }
- // 更新購物車商品數量
     @PostMapping("updateQuantity")
     public String updateQuantity(@RequestParam("shoppingcartListNo") Integer shoppingcartListNo,
                                   @RequestParam("goodsNum") Integer goodsNum, Model model,
@@ -113,16 +130,16 @@ public class ShoppingCartListController {
 
         // 檢查使用者是否已登入
         HttpSession session = req.getSession();
-        Object memAccount = session.getAttribute("memAccount");
+        String memNo = (String) session.getAttribute("memNo");  // 獲取當前會員的 memNo
 
-        if (memAccount == null) {
+        if (memNo == null) {
             model.addAttribute("errorMessage", "請先登入才能更新購物車數量！");
-            return "front-end/shoppingcartlist/listAllShoppingCartList";  // 返回購物車頁面
+            return "redirect:/mem/login";  // 若未登入，跳轉到登入頁面
         }
-    	
-    	// 根據 shoppingcartListNo 找到對應的購物車商品
+
+        // 根據 shoppingcartListNo 找到對應的購物車商品
         ShoppingCartListVO shoppingCartListVO = shoppingCartListSvc.getOneShoppingCartList(shoppingcartListNo);
-        
+
         // 更新商品數量
         shoppingCartListVO.setGoodsNum(goodsNum);
 
@@ -132,14 +149,14 @@ public class ShoppingCartListController {
 
         // 儲存更新後的資料
         shoppingCartListSvc.updateShoppingCartList(shoppingCartListVO);
-        
-        // 更新後重新取得所有購物車資料
-        List<ShoppingCartListVO> list = shoppingCartListSvc.getAll();
-        model.addAttribute("shoppingCartListListData", list);
-        model.addAttribute("success", "- (數量更新成功)");
 
-        // 返回購物車頁面
-        return "front-end/shoppingcartlist/listAllShoppingCartList";
+        // 查詢該會員的購物車內容
+        List<ShoppingCartListVO> shoppingCartList = shoppingCartListSvc.getCartItemsByMemNo(Integer.valueOf(memNo));
+
+        // 更新模型中的購物車清單資料
+        model.addAttribute("shoppingCartListListData", shoppingCartList);
+
+        return "front-end/shoppingcartlist/listAllShoppingCartList";  // 返回該會員的購物車頁面
     }
 
     
@@ -235,16 +252,27 @@ public class ShoppingCartListController {
      * This method will be called on listAllShoppingCart.html form submission, handling POST request
      */
     @PostMapping("delete")
-    public String delete(@RequestParam("shoppingcartListNo") String shoppingcartListNo, ModelMap model) {
-        /*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
-        /*************************** 2.開始刪除資料 *****************************************/
+    public String delete(@RequestParam("shoppingcartListNo") String shoppingcartListNo, ModelMap model, HttpServletRequest req) {
+        // 檢查用戶是否登入
+        HttpSession session = req.getSession();
+        String memNo = (String) session.getAttribute("memNo");  // 獲取當前會員的 memNo
+
+        if (memNo == null) {
+            model.addAttribute("errorMessage", "請先登入才能刪除商品！");
+            return "redirect:/mem/login";  // 若未登入，跳轉到登入頁面
+        }
+
+        // 刪除對應的商品
         shoppingCartListSvc.deleteShoppingCartList(Integer.valueOf(shoppingcartListNo));
-        
-        /*************************** 3.刪除完成,準備轉交(Send the Success view) **************/
-        List<ShoppingCartListVO> list = shoppingCartListSvc.getAll();
-        model.addAttribute("shoppingCartListListData", list);
-        model.addAttribute("success", "- (刪除成功)");
-        return "front-end/shoppingcartlist/listAllShoppingCartList"; // 刪除完成後轉交listAllShoppingCart.html
+
+        // 查詢該會員的購物車內容
+        List<ShoppingCartListVO> shoppingCartList = shoppingCartListSvc.getCartItemsByMemNo(Integer.valueOf(memNo));
+
+        // 更新模型中的購物車清單資料
+        model.addAttribute("shoppingCartListListData", shoppingCartList);
+
+        // 返回該會員的購物車頁面
+        return "front-end/shoppingcartlist/listAllShoppingCartList";
     }
 
     /*
