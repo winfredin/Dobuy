@@ -29,7 +29,7 @@ function confirmOrder(button, event) {
 	// 通过 dataset 获取值
 	const totalAmountBefore = counterDiv.querySelector(".totalAmountBefore").dataset.value;
 	const totalAmountAfter = counterDiv.querySelector(".totalAmountAfter").dataset.value;
-	const couponNo = counterDiv.querySelector(".newCouponsVO").dataset.value;
+	const couponNo = counterDiv.querySelector(".newCouponsVO").dataset.value || 0;
 
 	console.log("確認提交的數據：");
 	console.log("收件人姓名:", recipientName);
