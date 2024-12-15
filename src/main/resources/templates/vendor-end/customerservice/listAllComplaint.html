@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>listAllComplaint.html</title>
+
+<head th:insert="~{/vendor-end/msg/included-fragment}"></head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<script>
+    $(document).ready(function() {
+        $('#example').DataTable({
+            "lengthMenu": [20, 50, 100],
+            "searching": true,
+            "paging": true,
+            "ordering": true,
+            "language": {
+                "processing": "處理中...",
+                "loadingRecords": "載入中...",
+                "lengthMenu": "顯示 _MENU_ 筆結果",
+                "zeroRecords": "沒有符合的結果",
+                "info": "顯示第 _START_ 至 _END_ 筆結果，共<font color=red> _TOTAL_ </font>筆",
+                "infoEmpty": "顯示第 0 至 0 筆結果，共 0 筆",
+                "infoFiltered": "(從 _MAX_ 筆結果中過濾)",
+                "search": "搜尋:",
+                "paginate": {
+                    "first": "第一頁",
+                    "previous": "上一頁",
+                    "next": "下一頁",
+                    "last": "最後一頁"
+                },
+                "aria": {
+                    "sortAscending": ": 升冪排列",
+                    "sortDescending": ": 降冪排列"
+                }
+            }
+        });
+    });
+
+    function showModal(counterComplaintNo) {
+        $('#complaintModal').modal('show');
+        $('#counterComplaintNo').val(counterComplaintNo);
+    }
+
+    function submitReply() {
+        var counterComplaintNo = $('#counterComplaintNo').val();
+        var complaintReply = $('#complaintReply').val();
+
+        $.ajax({
+            url: "/customerservice/submitReply",
+            type: "POST",
+            data: {
+                counterComplaintNo: counterComplaintNo,
+                complaintReply: complaintReply
+            },
+            success: function(response) {
+                if (response.success) {
+                    alert('回覆成功');
+                    $('#complaintModal').modal('hide');
+                    // 更新客訴狀態下拉選單為處理完畢
+                    $("#complaintSt-" + counterComplaintNo).val("1");
+                } else {
+                    alert('回覆失敗: ' + response.error);
+                }
+            },
+            error: function(xhr, status, error) {
+                alert('回覆過程中出現錯誤: ' + error);
+            }
+        });
+    }
+
+    function cancelReply() {
+        $('#complaintModal').modal('hide');
+    }
+
+    
+</script>
+
+
+<style type="text/css">
+body {
+    margin: 1rem 12rem 2rem 12rem;
+}
+</style>
+</head>
+<body>
+<nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
+    <div align="center"><h2>客訴回覆</h2></div>
+</nav>
+<table id="example" class="display" style="width: 100%">
+  <thead>
+    <tr style="background-color:rgb(224, 166, 86)">
+        <th>客訴編號</th>
+        <th>客訴時間</th>
+        <th>訂單編號</th>
+        <th>客訴內容</th>
+        <th>客訴狀態</th>
+        <th>客訴回覆</th>
+    </tr>
+  </thead>
+  <tbody>
+    <th:block th:each="customerServiceVO : ${customerserviceListData}">
+        <tr>
+            <td th:text="${customerServiceVO.counterComplaintNo}"></td>
+            <td th:text="${customerServiceVO.complaintDate}"></td>
+            <td th:text="${customerServiceVO.counterOrderNo}"></td>
+            <td th:text="${customerServiceVO.complaintReason}"></td>
+            <td>
+                <select th:id="'complaintSt-' + ${customerServiceVO.counterComplaintNo}" th:name="complaintStatus">
+                    <option value="0" th:selected="${customerServiceVO.complaintStatus == 0}">待處理</option>
+                    <option value="1" th:selected="${customerServiceVO.complaintStatus == 1}">處理完畢</option>
+                </select>
+            </td>
+            <td>
+                <button type="button" class="btn btn-primary" th:onclick="'showModal(' + ${customerServiceVO.counterComplaintNo} + ')'">回覆</button>
+            </td>
+        </tr>
+    </th:block>
+  </tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="complaintModal" tabindex="-1" role="dialog" aria-labelledby="complaintModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="complaintModalLabel">客訴回覆</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="replyForm">
+            <input type="hidden" id="counterComplaintNo" name="counterComplaintNo">
+            <div class="form-group">
+                <label for="complaintReply">回覆內容:</label>
+                <textarea class="form-control" id="complaintReply" name="complaintReply" rows="3"></textarea>
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="cancelReply()">取消</button>
+        <button type="button" class="btn btn-primary" onclick="submitReply()">送出</button>
+      </div>
+    </div>
+  </div>
+</div>

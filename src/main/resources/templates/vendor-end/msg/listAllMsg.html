@@ -1,84 +1,151 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<!-- fragment引入 -->
-<th:block th:replace="~{/vendor-end/counter/Counterincldue :: head}"></th:block>
-<title>櫃位訊息管理 - listAllMsg.html</title>
+    <!-- Fragment 引入 -->
+    <th:block th:replace="~{/vendor-end/counter/Counterincldue :: head}"></th:block>
+    <title>櫃位訊息管理 - listAllMsg.html</title>
 
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
 
+    <style type="text/css">
+        .container {
+            padding: 1rem 12rem 2rem 12rem;
+        }
+        /* 表格外框圓角 */
+    table {
+        border-collapse: separate; /* 讓單元格邊框分離，才能實現圓角效果 */
+        border-spacing: 0;         /* 移除分隔間距 */
+        border-radius: 10px;       /* 設定表格整體圓角 */
+        overflow: hidden;          /* 確保內容不會溢出圓角範圍 */
+        
+    }
+        
 
-<script>
-    var dataTablesJQ = $.noConflict(true); // 使用獨立的 jQuery 實例
-    dataTablesJQ(document).ready(function() {
-        dataTablesJQ('#example').DataTable({
-            "lengthMenu" : [20, 50, 100 ],
-            "searching" : true,
-            "paging" : true,
-            "ordering" : true,
-            "language" : {
-                "processing" : "處理中...",
-                "loadingRecords" : "載入中...",
-                "lengthMenu" : "顯示 _MENU_ 筆結果",
-                "zeroRecords" : "沒有符合的結果",
-                "info" : "顯示第 _START_ 至 _END_ 筆結果，共 _TOTAL_ 筆",
-                "infoEmpty" : "顯示第 0 至 0 筆結果，共 0 筆",
-                "infoFiltered" : "(從 _MAX_ 筆結果中過濾)",
-                "search" : "搜尋:",
-                "paginate" : {
-                    "first" : "第一頁",
-                    "previous" : "上一頁",
-                    "next" : "下一頁",
-                    "last" : "最後一頁"
+        /* 通用按鈕樣式 */
+        .btn {
+            padding: 6px 12px;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        /* 特定按鈕樣式 */
+        .btn-primary {
+            background-color: #007bff; /* 藍色 */
+            color: white;
+        }
+
+        .btn-brown {
+            background-color: #8b4513; /* 咖啡色 */
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+        
+         /* 表格標題樣式：禁止換行 */
+    th {
+        white-space: nowrap; /* 禁止換行 */
+        text-align: center;  /* 文字置中（可選） */
+    }
+
+    /* 表格內容樣式：允許自由換行 */
+    td {
+        white-space: normal; /* 預設行為，允許換行 */
+        text-align: center;  /* 文字置中（可選） */
+        word-break: break-word; /* 若內容過長，允許單詞內斷行（適合中文） */
+    }
+
+    /* 設定每一欄的寬度（可根據需求調整） */
+    th:nth-child(1) {
+        width: 15%;
+    }
+    th:nth-child(2) {
+        width: 20%;
+    }
+    th:nth-child(3) {
+        width: 40%;
+    }
+    th:nth-child(4),
+    th:nth-child(5) {
+        width: 12.5%;
+    }
+    
+    #addBtn {
+        background-color: #8c7e6c; /* 淺棕色 (Tan) */
+        color: white;             /* 字體顏色為白色 */
+        border: none;             /* 去掉邊框 */
+        padding: 8px 16px;        /* 按鈕內邊距 */
+        font-size: 14px;          /* 字體大小 */
+        border-radius: 4px;       /* 圓角 */
+        cursor: pointer;          /* 滑鼠移上變成手型 */
+    }
+
+    /* 新增訊息按鈕的滑鼠懸停效果 */
+    #addBtn:hover {
+        background-color: #c19a6b; /* 加深的棕色 (Antique Brass) */
+    }
+    </style>
+
+    <script>
+        var dataTablesJQ = $.noConflict(true); // 使用獨立的 jQuery 實例
+        dataTablesJQ(document).ready(function () {
+            dataTablesJQ('#example').DataTable({
+                "lengthMenu": [20, 50, 100],
+                "searching": true,
+                "paging": true,
+                "ordering": true,
+                "language": {
+                    "processing": "處理中...",
+                    "loadingRecords": "載入中...",
+                    "lengthMenu": "顯示 _MENU_ 筆結果",
+                    "zeroRecords": "沒有符合的結果",
+                    "info": "顯示第 _START_ 至 _END_ 筆結果，共 _TOTAL_ 筆",
+                    "infoEmpty": "顯示第 0 至 0 筆結果，共 0 筆",
+                    "infoFiltered": "(從 _MAX_ 筆結果中過濾)",
+                    "search": "搜尋:",
+                    "paginate": {
+                        "first": "第一頁",
+                        "previous": "上一頁",
+                        "next": "下一頁",
+                        "last": "最後一頁"
+                    },
+                    "aria": {
+                        "sortAscending": ": 升冪排列",
+                        "sortDescending": ": 降冪排列"
+                    }
                 },
-                "aria" : {
-                    "sortAscending" : ": 升冪排列",
-                    "sortDescending" : ": 降冪排列"
-                }
-            },
-            "dom": '<"top"lf>rt<"bottom"ip><"clear">' // 定制DOM元素, "l" 表示 lengthMenu, "f" 表示 filter
+                "dom": '<"top"lf>rt<"bottom"ip><"clear">' // 定制DOM元素, "l" 表示 lengthMenu, "f" 表示 filter
+            });
+
+            // 在顯示筆數選單的左側插入新增按鈕
+            dataTablesJQ("div.dataTables_length").prepend('<button id="addBtn" class="btn btn-primary" style="margin-right: 10px;">新增訊息</button>');
+
+            // 新增按鈕點擊事件
+            dataTablesJQ("#addBtn").click(function () {
+                window.location.href = "addMsg"; // 跳轉到新增訊息頁面
+            });
+
+            
         });
-
-        // 在顯示筆數選單的左側插入新增按鈕
-        dataTablesJQ("div.dataTables_length").prepend('<button id="addBtn" class="btn btn-primary" style="margin-right: 10px;">新增訊息</button>');
-
-        // 新增按鈕點擊事件
-        dataTablesJQ("#addBtn").click(function() {
-            window.location.href = "addMsg"; // 跳轉到新增訊息頁面
-        });
-
-        // 點擊後欄位變成淺藍色
-        dataTablesJQ('#example tbody').on('click', 'tr', function() {
-            dataTablesJQ(this).css('background-color', '#dff1f7'); // 將背景色改為淺藍色
-        });
-    });
-</script>
-<style type="text/css">
-.container {
-    padding: 1rem 12rem 2rem 12rem;
-}
-
-
-</style>
+    </script>
 </head>
 <body>
 <div th:insert="vendor-end/counter/Counterincldue :: header"></div>
 
-    <div align="center">
-        <h2></h2>
-    </div>
 
 <div class="container">
-
-<table id="example" class="display" style="width: 100%">
+    <table id="example" class="display" style="width: 100%">
     <thead>
-        <tr style="background-color:rgb(224, 166, 86)">
-<!--        <th>櫃位訊息編號</th>  -->
+        <tr style="background-color:#c99249">
             <th>櫃位編號</th>
             <th>時間</th>
             <th>內文</th>
@@ -89,35 +156,30 @@
     <tbody>
         <th:block th:each="msgVO : ${counterMsgListData}">
             <tr>
-<!--                 <td th:text="${msgVO.counterInformNo}"></td>  -->
                 <td th:text="${msgVO.counterNo}"></td>
                 <td th:text="${msgVO.informDate}"></td>
                 <td th:text="${msgVO.informMsg}"></td>
                 <td>
                     <form method="post" th:action="@{/msg/getOne_For_Update}" style="margin-bottom: 0px;">
-                        <input type="submit" value="修改">
+                        <input type="submit" class="btn btn-brown" value="修改">
                         <input type="hidden" name="counterInformNo" th:value="${msgVO.counterInformNo}">
                     </form>
                 </td>
                 <td>
                     <form method="post" th:action="@{/msg/delete}" style="margin-bottom: 0px;">
-                        <input type="submit" value="刪除">
+                        <input type="submit" class="btn btn-brown" value="刪除">
                         <input type="hidden" name="counterInformNo" th:value="${msgVO.counterInformNo}">
                     </form>
-                </td>                
+                </td>
             </tr>
         </th:block>
     </tbody>
 </table>
-
+    
 </div>
 
-
-    <!-- fragment引入 -->
-    <footer th:block
-        th:replace="~{back-end/back-end-home/fraghead :: footer}"></footer>
-
+<!-- Fragment 引入 -->
+<footer th:block th:replace="~{back-end/back-end-home/fraghead :: footer}"></footer>
 
 </body>
 </html>
-
