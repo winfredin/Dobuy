@@ -56,12 +56,21 @@ public class CounterIndexController {
 //    }
     @PostMapping("updateOrder")
 	public String updateOrderStatus(@RequestParam("orderStatus") Integer orderStatus,
-	                                  @RequestParam("memNo") Integer memNo) {
+	                                  @RequestParam("counterOrderNo") Integer counterOrderNo) {
 	
-		counterOrderSvc.updateCounterStatus(memNo, orderStatus);
+		counterOrderSvc.updateCounterStatus(counterOrderNo, orderStatus);
+	    return "redirect:/counter/listOneCounter"; 
+	}
+    
+    @PostMapping("memOrder")
+	public String memOrderStatus(@RequestParam("counterOrderNo") Integer counterOrderNo,
+	                                  HttpSession session) {
+    	
+    	
+    	  counterOrderSvc.updateCounterStatus(counterOrderNo, 2);
 		
 
-	    return "redirect:/counter/listOneCounter"; 
+	    return "redirect:/member"; 
 	}
   
     //=========== 以下第63~75行是提供給 /src/main/resources/templates/back-end/emp/select_page.html 與 listAllEmp.html 要使用的資料 ===================   
