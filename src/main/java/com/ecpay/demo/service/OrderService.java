@@ -56,7 +56,8 @@ public class OrderService {
             obj.setTotalAmount(String.valueOf(total));  // 確保轉換為字串
             obj.setTradeDesc("DO BUY商品訂單");
             obj.setItemName(itemName);
-            
+            obj.setCustomField1(String.valueOf(counterOrderNo));
+//            obj.setCustomField1(String.valueOf(counterOrderNo));
 
             // 設定付款結果通知參數
             obj.setReturnURL("https://f56d-175-181-189-53.ngrok-free.app/ecpay/callback");
