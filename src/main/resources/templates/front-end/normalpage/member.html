@@ -199,6 +199,14 @@
       <p><strong>收件人地址:</strong> <span th:text="${order.receiverAdr}"></span></p>
       <p><strong>訂單成立時間:</strong> <span th:text="${order.ordertime}"></span></p>
       <p><strong>訂單狀態:</strong> <span th:text="${order.getOrderDisplay}"></span></p>
+      
+      <!-- 新增的表單部分 -->
+        <div th:if="${order.orderStatus} == 1">
+            <form action="" method="post">
+                <input type="hidden" name="counterOrderNo" th:value="${order.counterOrderNo}" />
+                <button type="submit">通知已收貨</button>
+            </form>
+        </div>
     </div>
 
     <h4>訂單明細</h4>

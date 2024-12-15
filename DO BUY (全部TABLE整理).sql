@@ -525,7 +525,7 @@ CREATE TABLE Used (
     usedProDesc VARCHAR(700) NOT NULL,                -- 二手商品描述
     usedNewness TINYINT(1),                           -- 商品新舊程度 (0:近全新, 1:7成新, 2:5成新, 3:3成新)
     usedPrice INT(6) CHECK (usedPrice > 0),           -- 二手商品單價, 必須大於0
-    usedStocks INT(5) CHECK (usedStocks > 0),         -- 商品庫存數量, 必須大於0
+    usedStocks INT(5) CHECK (usedStocks >= 0),        -- 商品庫存數量, 必須大於0
     usedLaunchedTime DATETIME DEFAULT CURRENT_TIMESTAMP,  -- 二手商品上架時間, 預設為當前時間
     soldTime DATETIME DEFAULT NULL,                   -- 二手商品下架時間, 預設為NULL且允許為空
     usedState TINYINT(2) NOT NULL                    -- 二手商品狀態 (0:未上架, 1:已上架)
