@@ -71,7 +71,6 @@ public class UsedController {
 
 		if( memStatus != null && memStatus==2) {
 			System.out.println("memStatus: " + memStatus);
-
 			return "front-end/normalpage/member";
 		}else {
 		
