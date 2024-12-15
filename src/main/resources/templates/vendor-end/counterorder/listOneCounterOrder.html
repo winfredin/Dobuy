@@ -81,7 +81,7 @@
                     <td th:text="${order.receiverPhone}"></td>
                     <td th:text="${order.memCouponNo}"></td>
                     <td>
-                    <form action="/back-end/updateOrder" method="post">
+                    <form action="/updateOrder" method="post">
                    <select name="orderStatus" th:value="${order.orderStatus}" >
                    <option th:value="0" th:selected="${order.orderStatus == 0}" th:text="未出貨"></option>
                    <option th:value="1" th:selected="${order.orderStatus == 1}" th:text="已出貨"></option>

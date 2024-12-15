@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.counter.model.CounterVO;
@@ -53,7 +54,15 @@ public class CounterIndexController {
 //        model.addAttribute("message", name);
 //        return "index"; //view
 //    }
-    
+    @PostMapping("updateOrder")
+	public String updateOrderStatus(@RequestParam("orderStatus") Integer orderStatus,
+	                                  @RequestParam("memNo") Integer memNo) {
+	
+		counterOrderSvc.updateCounterStatus(memNo, orderStatus);
+		
+
+	    return "redirect:/counter/listOneCounter"; 
+	}
   
     //=========== 以下第63~75行是提供給 /src/main/resources/templates/back-end/emp/select_page.html 與 listAllEmp.html 要使用的資料 ===================   
     @GetMapping("/counterorder/select_page")
