@@ -73,7 +73,11 @@ public class IndexController2_inSpringBoot {
 	}
 	
 	@GetMapping("/goods/listAllCheckStatus")
-	public String listAllCheckStatus(Model model) {
+	public String listAllCheckStatus(Model model,HttpSession session) {
+		if(session.getAttribute("managerNo")==null) {
+			return "redirect:/login/Login";
+		}
+	
 		return "vendor-end/goods/listAllCheckStatus";
 	}
 	
@@ -82,7 +86,7 @@ public class IndexController2_inSpringBoot {
 		//登錄時檢查counter
          CounterVO counter = (CounterVO) session.getAttribute("counter");
 	        if (counter != null) {
-	        	 if (counter.getCounterStatus() == 2) {
+	        	 if (counter.getCounterStatus() <= 2) {
 	                 return "redirect:/counter/Counterindex"; // 如果 counterStatus 為 2，則重定向
 	             }
 	        	 model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));

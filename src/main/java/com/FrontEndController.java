@@ -173,7 +173,7 @@ public class FrontEndController {
 
  @GetMapping("goodspage")
  public String getgoodspagePage(Model model) {
-  List<GoodsVO> list = goodsSvc.getAll();
+  List<GoodsVO> list = goodsSvc.getgoods();
   List<GoodsTypeVO> glist = goodstSvc.getAll();
   List<CounterVO> counterVOList = counterSvc.getAll();
 
@@ -185,7 +185,7 @@ public class FrontEndController {
 
  @GetMapping("usedgoodspage")
  public String getusedgoodspagePage1(Model model) {
-  List<UsedVO> list = usedSvc.getAll();
+  List<UsedVO> list = usedSvc.getUsed();
   List<GoodsTypeVO> glist = goodstSvc.getAll();
   List<CounterVO> counterVOList = counterSvc.getAll();
 
@@ -199,7 +199,7 @@ public class FrontEndController {
  @ResponseBody
  public List<GoodsVO> filterGoodsByType(@RequestParam("goodstNo") String goodstNo, Model model) {
 
-  List<GoodsVO> alist = goodsSvc.getAll();
+  List<GoodsVO> alist = goodsSvc.getgoods();
   int goodstNoInt;
 
   try {
@@ -221,38 +221,7 @@ public class FrontEndController {
   return filteredgoodst;
  }
 
- @GetMapping("/usedgoods/filter")
- @ResponseBody
- public List<Map<String, Object>> usedfilterGoodsByType(@RequestParam("goodstNo") String goodstNo) {
-  List<UsedVO> alist = usedSvc.getAll();
-  int goodstNoInt;
-  try {
-   goodstNoInt = Integer.parseInt(goodstNo);
-  } catch (NumberFormatException e) {
-   return new ArrayList<>();
-  }
-
-  List<Map<String, Object>> filteredGoods = new ArrayList<>();
-  for (UsedVO goods : alist) {
-   if (goods.getClassNo() != null && goods.getClassNo() == goodstNoInt) {
-    Map<String, Object> goodsMap = new HashMap<>();
-    goodsMap.put("usedNo", goods.getUsedNo());
-    goodsMap.put("usedName", goods.getUsedName());
-    goodsMap.put("usedProDesc", goods.getUsedProDesc());
-    goodsMap.put("usedPrice", goods.getUsedPrice());
-
-    // 提取圖片資料，將圖片編號獨立存儲
-    List<Integer> usedPics = new ArrayList<>();
-    for (UsedPicVO pic : goods.getUsedPics()) {
-     usedPics.add(pic.getUsedPicNo());
-    }
-    goodsMap.put("usedPics", usedPics); // 傳遞圖片編號資料
-
-    filteredGoods.add(goodsMap);
-   }
-  }
-  return filteredGoods;
- }
+ 
 
  @PostMapping("updatemem")
  public String updatemem(@Valid MemberVO memberVO, BindingResult result, ModelMap model, HttpSession session)

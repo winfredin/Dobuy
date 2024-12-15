@@ -44,7 +44,7 @@ public class IndexController2_inSpringBoot_Coupon {
          if (counter == null) {
              return "redirect:/counter/login";
          } else {
-        	 if (counter.getCounterStatus() == 2) {
+        	 if (counter.getCounterStatus() <= 2) {
                  return "redirect:/counter/Counterindex"; // 如果 counterStatus 為 2，則重定向
              }
              // 其他邏輯

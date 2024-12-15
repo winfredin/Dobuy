@@ -15,6 +15,8 @@ import com.discount.model.DiscountVO;
 
 import java.util.*;
 
+import javax.servlet.http.HttpSession;
+
 @Controller("discountIndexController") 
 @RequestMapping("/discount")
 public class IndexController3_inSpringBoot_Discount {
@@ -65,7 +67,11 @@ public class IndexController3_inSpringBoot_Discount {
 
     // 提供所有優惠活動列表頁面
     @GetMapping("/listAllDiscount")
-    public String listAllDiscount(Model model) {
+    public String listAllDiscount(Model model,HttpSession session) {
+    	if(session.getAttribute("managerNo")==null) {
+			return "redirect:/login/Login";
+		}
+	
         return "back-end/discount/listAllDiscount";
     }
 
