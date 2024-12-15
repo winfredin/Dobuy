@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <th:block th:replace="~{/vendor-end/counter/Counterincldue :: head}"></th:block>
     <title>櫃位訊息新增 - addMsg.html</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -86,6 +86,10 @@
         </div>
     </div>
 </div>
+
+	<!-- fragment引入 -->
+	<footer th:block
+		th:replace="~{back-end/back-end-home/fraghead :: footer}"></footer>
 
 <!-- JavaScript -->
 <script>

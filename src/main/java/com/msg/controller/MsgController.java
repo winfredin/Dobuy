@@ -58,7 +58,12 @@ public class MsgController {
     
     
     @GetMapping("addMsg")
-    public String addEmp(ModelMap model) {
+    public String addEmp(HttpSession session,ModelMap model) {
+    	 CounterVO counter = (CounterVO) session.getAttribute("counter");
+         if (counter == null) {
+             // 處理沒有 CounterVO 的情況
+             return "redirect:/counter/login"; // 假設有一個登錄頁面
+         }
         MsgVO msgVO = new MsgVO();
         model.addAttribute("memberList", memberSvc.getAll());
         model.addAttribute("msgVO", msgVO);
@@ -97,12 +102,8 @@ public class MsgController {
         noticeSvc.save(noticeVO); // 使用注入的 NoticeService 保存通知信息
 
         /*************************** 3.新增完成,準備轉交(Send the Success view) **************/
-        List<MsgVO> list = msgSvc.getOneCounterMsg(counter.getCounterNo());
-        model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
-        model.addAttribute("counterMsgListData", list);
-        model.addAttribute("msgSvc", msgSvc);
         model.addAttribute("success", "- (新增成功)");
-        return "vendor-end/msg/listAllMsg"; // 新增成功後重導至顯示所有訊息的頁面
+        return "redirect:/msg/listAllMsg"; // 新增成功後重導至顯示所有訊息的頁面
     }
 
 
@@ -176,13 +177,8 @@ public class MsgController {
         /*************************** 2.開始刪除資料 *****************************************/
         msgSvc.deleteMsg(Integer.valueOf(counterInformNo));
         /*************************** 3.刪除完成,準備轉交(Send the Success view) **************/
-        CounterVO counter = (CounterVO) session.getAttribute("counter");
-        List<MsgVO> list =  msgSvc.getOneCounterMsg(counter.getCounterNo());
-        model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
-        model.addAttribute("msgSvc", msgSvc);
-        model.addAttribute("counterMsgListData", list); 
         model.addAttribute("success", "- (刪除成功)");
-        return "vendor-end/msg/listAllMsg"; // 刪除完成後轉交listAllMsg.html
+        return "redirect:/msg/listAllMsg"; // 刪除完成後轉交listAllMsg.html
     }
    
     
