@@ -33,6 +33,7 @@ import com.goods.model.GoodsService;
 import com.goods.model.GoodsVO;
 import com.goodstype.model.GoodsTypeService;
 import com.goodstype.model.GoodsTypeVO;
+import com.member.model.MemberVO;
 import com.used.model.UsedService;
 import com.used.model.UsedVO;
 import com.usedpic.model.UsedPicService;
@@ -73,6 +74,11 @@ public class UsedController {
 		Integer memStatus=(Integer)session.getAttribute("memStatus");
 		
 //		System.out.println("memStatus: " + memStatus);
+		if(session.getAttribute("memNo")== null) {
+			model.addAttribute("memberVO", new MemberVO()); // 確保模型中有 memberVO
+
+			return "front-end/member/login";
+		}
 
 		if( memStatus != null && memStatus==2) {
 			System.out.println("memStatus: " + memStatus);
@@ -128,17 +134,14 @@ public class UsedController {
 
 	@PostMapping("/getSellerUsedListFragment")
     public String getUsedListFragment(HttpSession session, Model model) {
+		
         // 從 session 中取得 memNo
-		if(session.getAttribute("managerNo")==null) {
-			return "redirect:/back-end-homepage";
-		}
         Integer memNo = Integer.valueOf((String)session.getAttribute("memNo"));
 
         if (memNo == null) {
             // 如果沒有 memNo，處理錯誤情況，這裡可以返回空片段或錯誤信息
             return "front-end/used/memberAllUsed :: usedListFragment";
         }
-
 
         // 根據 memNo 從資料庫中查詢二手商品列表
         List<UsedVO> usedListData = usedSvc.memberSelectBySellerNo(memNo);//測試使用2

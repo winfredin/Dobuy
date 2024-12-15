@@ -77,8 +77,6 @@ public class UsedBuyController {
 			String receiverPhone = mem.getMemPhone();// 預設 receiverPhone
 
 			
-			
-			
 			model.addAttribute("usedVO",usedVO);
 			model.addAttribute("usedCount", Integer.valueOf(usedCount));
 			model.addAttribute("receiverPhone", receiverPhone);//@RequestParam("receiverPhone") String receiverPhone
