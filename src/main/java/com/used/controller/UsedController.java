@@ -33,6 +33,7 @@ import com.goods.model.GoodsService;
 import com.goods.model.GoodsVO;
 import com.goodstype.model.GoodsTypeService;
 import com.goodstype.model.GoodsTypeVO;
+import com.member.model.MemberVO;
 import com.used.model.UsedService;
 import com.used.model.UsedVO;
 import com.usedpic.model.UsedPicService;
@@ -73,6 +74,11 @@ public class UsedController {
 		Integer memStatus=(Integer)session.getAttribute("memStatus");
 		
 //		System.out.println("memStatus: " + memStatus);
+		if(session.getAttribute("memNo")== null) {
+			model.addAttribute("memberVO", new MemberVO()); // 確保模型中有 memberVO
+
+			return "front-end/member/login";
+		}
 
 		if( memStatus != null && memStatus==2) {
 			System.out.println("memStatus: " + memStatus);
