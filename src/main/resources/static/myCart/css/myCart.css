@@ -1,3 +1,14 @@
+/* 通用样式 */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: url('/counterPage/img/core-img/sand.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+
+
+
 /* 總金額加刪除線 */
 .total-price {
     text-decoration: line-through; /* 添加刪除線 */
@@ -47,3 +58,72 @@ button:hover {
 	background-color: #007bff;
 	color: white;
 }
+
+.header-row {
+    width: 100%;
+    display: flex;
+    font-weight: bold;
+    padding: 10px 0;
+    border-bottom: 2px solid #ccc;
+    text-align: center;
+    justify-content: center; /* 水平置中 */
+    align-items: center; /* 垂直置中 */
+}
+
+.header-row > div {
+    flex: 1; /* 每個單元格佔用相等的空間 */
+    text-align: center; /* 單元格內部文字置中 */
+}
+
+.header-row > div:nth-child(2) {
+    flex: 3; /* 商品名稱欄位加寬 */
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+.parent-container {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.item {
+    width: 100%;
+    margin: 0;
+    padding: 0 10px; /* 可選：內邊距左右10px */
+    box-sizing: border-box; /* 包含內邊距在寬度內 */
+}
+
+.counterPrice{
+	font-size:18px;
+}
+
+.afterPrice {
+    font-weight: bold;
+    margin-top: 10px;
+    display: none;
+    font-size: 20px;
+}
+
+.afterPrice span {
+    font-size: 20px !important;
+}
+
+.coupon-container {
+    font-size: 16px; /* 字體放大 */
+    margin-top: 20px; /* 上邊距增加 */
+}
+
+.coupon-container label {
+    font-weight: bold; /* 加粗標籤文字 */
+}
+
+.coupon-container select {
+    font-size: 16px; /* 下拉選單字體大小 */
+    padding: 5px 10px; /* 增加內邊距，讓選單看起來更大 */
+}
+
