@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <th:block th:replace="~{/vendor-end/counter/Counterincldue :: head}"></th:block>
     <title>修改輪播資訊</title>
     
-    <div th:insert="~{/vendor-end/front-end-carousel/included-fragment}"></div>
+<!--     <div th:insert="~{/vendor-end/front-end-carousel/included-fragment}"></div> -->
     
     <style type="text/css">
         .form-container {
@@ -37,14 +38,9 @@
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
+
         <div align="center"> 
             <h2>修改輪播資訊</h2>
-            <h3>
-                <a class="navbar-brand" th:href="@{/countercarousel/ALLCarousel}">
-                    <img th:src="@{/images/back1.gif}">返回列表
-                </a>
-            </h3>
         </div>
     </nav>
     
@@ -90,5 +86,7 @@
             </form>
         </div>
     </div>
+    	<footer th:block
+		th:replace="~{back-end/back-end-home/fraghead :: footer}"></footer>
 </body>
 </html>

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <th:block th:replace="~{/vendor-end/counter/Counterincldue :: head}"></th:block>
     <title>櫃位訊息修改 - update_msg_input.html</title>
 
     <!-- 引入 Bootstrap -->
@@ -82,6 +83,10 @@
         </form>
     </div>
 </div>
+
+	<!-- fragment引入 -->
+	<footer th:block
+		th:replace="~{back-end/back-end-home/fraghead :: footer}"></footer>
 
 <!-- JavaScript -->
 <script>
