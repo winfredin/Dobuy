@@ -97,12 +97,7 @@ public class CheckoutCouponController {
                 }
                 if (goods.getGoodsAmount() < cartItem.getGoodsNum()) {
                     insufficientStockItems.add(goods);
-                } else {
-                    // 扣除庫存
-                    goods.setGoodsAmount(goods.getGoodsAmount() - cartItem.getGoodsNum());
-                    goodsService.updateGoodsAmount(cartItem.getGoodsNo(), goods.getGoodsAmount());
-                
-                }
+                } 
                 if (!insufficientStockItems.isEmpty()) {
                 	for(GoodsVO a:insufficientStockItems) {
                 		model.addAttribute("error", "以下商品庫存不足："+a.getGoodsName());

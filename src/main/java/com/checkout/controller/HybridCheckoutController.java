@@ -140,7 +140,7 @@ public class HybridCheckoutController {
             order.setReceiverPhone(request.getPhone());
             order.setCounterNo(request.getCounterNo());
             order.setMemNo(memNo);
-            order.setOrderStatus(0);
+            order.setOrderStatus(5);
 
             counterOrderService.addCounterOrder(order);
 
@@ -156,6 +156,12 @@ public class HybridCheckoutController {
 
     private void createOrderDetails(List<ShoppingCartListVO> cartItems, Integer counterOrderNo) {
         cartItems.forEach(cartItem -> {
+        	
+        		GoodsVO goods=goodsService.getOneGoods(cartItem.getGoodsNo());
+                goods.setGoodsAmount(goods.getGoodsAmount() - cartItem.getGoodsNum());
+                goodsService.updateGoodsAmount(cartItem.getGoodsNo(), goods.getGoodsAmount());
+            
+           
             CounterOrderDetailVO detail = new CounterOrderDetailVO();
             detail.setGoodsNo(cartItem.getGoodsNo());
             detail.setGoodsNum(cartItem.getGoodsNum());
