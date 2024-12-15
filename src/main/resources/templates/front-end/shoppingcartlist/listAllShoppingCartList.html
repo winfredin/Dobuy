@@ -343,10 +343,10 @@ header .dropdown {
 		        </thead>
 		
 		        <tbody>
-		            <th:block th:each="shoppingCartListVO : ${shoppingCartListListData}">
+					<th:block th:each="shoppingCartListVO : ${shoppingCartListListData}">
 		                <tr>
 	                  		<td>
-							    <img th:src="@{'http://localhost:8080/goods/DBGifReader?goodsNo=' + ${shoppingCartListVO.goodsNo}}" width="100px" height="100px" style="object-fit: contain;">
+							    <img th:src="@{'/goods/DBGifReader?goodsNo=' + ${shoppingCartListVO.goodsNo}}" width="100px" height="100px" style="object-fit: contain;">
 							</td>
 		                    <td th:text="${shoppingCartListVO.goodsName}"></td>
 		                    <td th:text="${shoppingCartListVO.goodsPrice}"></td>

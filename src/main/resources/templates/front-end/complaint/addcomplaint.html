@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>櫃位訊息新增 - addMsg.html</title>
+    <title>客訴表單 - addComplaint.html</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -51,6 +51,10 @@
             margin: 5px;
             width: 120px;
         }
+
+        .error {
+            color: red;
+        }
     </style>
 </head>
 <body>
@@ -58,23 +62,29 @@
 <div class="container">
     <div class="card">
         <div class="card-header">
-            <h5 class="modal-title">新增訊息</h5>
+            <h5 class="modal-title">客訴表單</h5>
         </div>
         <div class="card-body">
-            <form th:action="@{insert}" method="post" th:object="${msgVO}" enctype="multipart/form-data">
-                <!-- 內文 -->
+            <form th:action="@{/customerservice/insert}" method="post" th:object="${customerServiceVO}">
+                <!-- 客訴內容 -->
                 <div class="form-group">
-                    <label for="informMsg">內文:</label>
-                    <input type="text" class="form-control" id="informMsg" th:field="*{informMsg}" placeholder="請輸入訊息內容" onclick="hideContent('informMsg.errors');" />
-                    <span th:if="${#fields.hasErrors('informMsg')}" th:errors="*{informMsg}" class="error" id="informMsg.errors"></span>
+                    <label for="complaintReason">客訴內容:</label>
+                    <input type="text" class="form-control" id="complaintReason" th:field="*{complaintReason}" placeholder="請輸入客訴內容" />
+                    <span class="error" th:if="${#fields.hasErrors('complaintReason')}" th:errors="*{complaintReason}"></span>
                 </div>
 
-                <!-- 會員 -->
+                <!-- 櫃位編號 -->
                 <div class="form-group">
-                    <label for="memNo">會員:</label>
-                    <select class="form-control" id="memNo" th:field="*{memNo}">
-                        <option th:each="member : ${memberList}" th:value="${member.memNo}" th:text="${member.memNo}"></option>
+                    <label for="counterNo">櫃位編號:</label>
+                    <select class="form-control" id="counterNo" th:field="*{counterNo}">
+                        <option th:each="counter : ${counterList}" th:value="${counter.counterNo}" th:text="${counter.counterNo}"></option>
                     </select>
+                </div>
+
+                <!-- 櫃位訂單編號 -->
+                <div class="form-group">
+                    <label for="counterOrderNo">櫃位訂單編號:</label>
+                    <input type="text" class="form-control" id="counterOrderNo" th:field="*{counterOrderNo}" placeholder="請輸入訂單編號" />
                 </div>
 
                 <!-- 按鈕 -->
@@ -83,25 +93,26 @@
                     <button type="submit" class="btn btn-primary">送出新增</button>
                 </div>
             </form>
+            <div id="successMessage" class="alert alert-success" style="display: none;">新增成功！</div>
+            <div id="errorMessage" class="alert alert-danger" style="display: none;"></div>
         </div>
     </div>
 </div>
 
 <!-- JavaScript -->
 <script>
-    // 隱藏錯誤訊息
-    function hideContent(id) {
-        document.getElementById(id).style.display = "none";
-    }
-
-    // 取消按鈕跳轉
     function cancelAdd() {
-        window.location.href = "/msg/listAllMsg"; // 導回訊息列表頁面
+        window.location.href = "/customerservice/listAllComplaint";
     }
 </script>
 
 </body>
 </html>
+
+
+
+
+
 
 
 

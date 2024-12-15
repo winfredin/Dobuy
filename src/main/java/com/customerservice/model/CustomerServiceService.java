@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.faq.model.FaqVO;
+
 
 @Service("customerServiceService")
 public class CustomerServiceService {
@@ -14,14 +14,19 @@ public class CustomerServiceService {
     @Autowired
     CustomerServiceRepository repository;
 
-    public void addMsg(CustomerServiceVO customerServiceVO) {
+    public void addComplaint(CustomerServiceVO customerServiceVO) {
         repository.save(customerServiceVO);
     }
 
-    public void updateMsg(CustomerServiceVO customerServiceVO) {
+    public void updateComplaint(CustomerServiceVO customerServiceVO) {
         repository.save(customerServiceVO);
     }
     
+    public CustomerServiceVO getOneComplaint(Integer counterComplaintNo) {
+        return repository.findById(counterComplaintNo).orElse(null);
+    }
+
+  
 
     public List<CustomerServiceVO> getAll() {
         return repository.findAll();
@@ -31,3 +36,4 @@ public class CustomerServiceService {
         repository.save(customerServiceVO);
     }
 }
+
