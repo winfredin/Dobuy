@@ -20,7 +20,7 @@ public class CancelUnpaidOrdersJob implements Job {
     public void execute(JobExecutionContext context) throws JobExecutionException {
         String selectQuery = "SELECT usedOrderNo, usedNo, usedCount " +
                              "FROM UsedOrder " +
-                             "WHERE deliveryStatus = 6 AND TIMESTAMPDIFF(MINUTE, usedOrderTime, NOW()) > 10";
+                             "WHERE deliveryStatus = 6 AND TIMESTAMPDIFF(MINUTE, usedOrderTime, NOW()) > 5";
 
         // 查詢超時未支付的訂單
         List<Map<String, Object>> unpaidOrders = jdbcTemplate.queryForList(selectQuery);
