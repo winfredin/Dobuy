@@ -93,6 +93,7 @@ public class HybridCheckoutController {
             List<String> itemNames = getItemNames(cartItems);
             String aioCheckOutALLForm = orderService.generateEcpayNum(
                 order.getOrderTotalAfter(),
+                
                 itemNames,
                 order.getCounterOrderNo()
             );
@@ -101,15 +102,31 @@ public class HybridCheckoutController {
             // 確保清空購物車在表單生成之後
             session.removeAttribute("cartItems");
             
-            // 直接返回完整的 HTML 表單
-            return aioCheckOutALLForm;
+            // 添加驗證
+            if (order.getOrderTotalAfter() <= 0) {
+                return "訂單金額必須大於0";
+            }
 
+            // 添加日誌
+            System.out.println("處理訂單，總金額：" + order.getOrderTotalAfter());
+            System.out.println("訂單編號：" + order.getCounterOrderNo());
+
+            List<String> itemNames1 = getItemNames(cartItems);
+            String aioCheckOutALLForm1 = orderService.generateEcpayNum(
+                order.getOrderTotalAfter(),
+                itemNames1,
+                order.getCounterOrderNo()
+            );
+
+            session.removeAttribute("cartItems");
+            return aioCheckOutALLForm1;
+            
         } catch (Exception e) {
+            System.err.println("結帳處理發生錯誤：" + e.getMessage());
             e.printStackTrace();
             return "付款過程中發生錯誤：" + e.getMessage();
         }
     }
-
 
     
     private Integer validateMember(HttpSession session) {
