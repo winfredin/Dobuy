@@ -91,7 +91,7 @@ h4 {
 					<label for="firstName" class="form-label">名</label> <input
 						type="text" class="form-control" id="firstName" placeholder=""
 						name="name" required>
-					<div class="error" id="firstNameError">需要有效的名字。</div>
+					<div class="error" id="firstNameError"></div>
 				</div>
 
 				<!-- 地址欄位 -->
@@ -240,18 +240,38 @@ h4 {
 <script th:inline="javascript">
 
 document.addEventListener('DOMContentLoaded', function() {
-	
-	 document.getElementById('firstName').addEventListener('focus', function() {
-	        document.getElementById('firstNameError').innerText = '姓名必須是2-10位的中文或英文，不能有特殊符號';
-	      });
-	      document.getElementById('phone').addEventListener('focus', function() {
-	          document.getElementById('phoneError').innerText = '手機必須09開頭且要10位數字';
-	        });
-
-	      document.getElementById('address').addEventListener('focus', function() {
-	        document.getElementById('addressError').innerText = '地址只能包含中文、英文和數字，且長度為2-20位';
-	      });
-	
+	   document.getElementById('firstName').addEventListener('input', function() {
+	        document.getElementById('firstNameError').innerText = '';  // 清除錯誤訊息
+	    });
+	    document.getElementById('phone').addEventListener('input', function() {
+	        document.getElementById('phoneError').innerText = '';  // 清除錯誤訊息
+	    });
+	    document.getElementById('address').addEventListener('input', function() {
+	        document.getElementById('addressError').innerText = '';  // 清除錯誤訊息
+	    });
+	 document.getElementById('firstName').addEventListener('blur', function() {
+	        const value = this.value.trim();
+	        const regex = /^[A-Za-z\u4e00-\u9fa5]{2,10}$/;  // 驗證2-10位的中文或英文
+	        if (!regex.test(value)) {
+	            document.getElementById('firstNameError').innerText = '姓名必須是2-10位的中文或英文，不能有特殊符號';
+	        }
+	    });
+	    
+	    document.getElementById('phone').addEventListener('blur', function() {
+	        const value = this.value.trim();
+	        const regex = /^09\d{8}$/;  // 驗證09開頭的10位數字
+	        if (!regex.test(value)) {
+	            document.getElementById('phoneError').innerText = '手機必須09開頭且要10位數字';
+	        }
+	    });
+	    
+	    document.getElementById('address').addEventListener('blur', function() {
+	        const value = this.value.trim();
+	        const regex = /^[A-Za-z0-9\u4e00-\u9fa5]{2,20}$/;  // 驗證2-20位的中文、英文、數字
+	        if (!regex.test(value)) {
+	            document.getElementById('addressError').innerText = '地址只能包含中文、英文和數字，且長度為2-20位';
+	        }
+	    });
 	
 // 	      submit邏輯
     const checkoutForm = document.querySelector('form.needs-validation');
