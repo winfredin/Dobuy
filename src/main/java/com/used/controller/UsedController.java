@@ -27,6 +27,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.counter.model.CounterService;
+import com.counter.model.CounterVO;
 import com.goods.model.GoodsService;
 import com.goods.model.GoodsVO;
 import com.goodstype.model.GoodsTypeService;
@@ -40,6 +42,9 @@ import com.usedpic.model.UsedPicVO;
 @Controller
 @RequestMapping("/used")
 public class UsedController {
+	
+	@Autowired
+	CounterService counterSvc;
 	
 	@Autowired
 	private UsedService usedSvc;
@@ -112,11 +117,12 @@ public class UsedController {
 		UsedVO usedVO = usedSvc.getOneUsed(Integer.valueOf(usedNo));
 
 		List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();
-		
+		List<CounterVO> counterVOList = counterSvc.getAll();
 		
 		model.addAttribute("usedVO", usedVO);
 		model.addAttribute("goodsTypeList", goodsTypeList);
-
+		model.addAttribute("counterVOList", counterVOList);
+		
 		return "front-end/used/shop_detail_used";
 	}
 

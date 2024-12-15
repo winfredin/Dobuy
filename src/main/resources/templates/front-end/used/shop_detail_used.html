@@ -18,18 +18,26 @@
              <img src="/images/logo noback.png"   alt="logo" class="logo">
         </div>
         <div class="header_bar">
-          <div class="search">
-            <input type="text" placeholder="Search..." class="search" action="">
-            <button class="search_button" name="search">
-            </button>
-            <img src="/images/magnifying-glass-dollar-solid.svg" alt="Search">
-          </div>
+	          <div class="search">
+		            <input type="text" placeholder="Search..." class="search" action="">
+		            <button class="search_button" name="search">
+		            </button>
+		            <img src="/images/magnifying-glass-dollar-solid.svg" alt="Search">
+	          </div>
           <div class="nav_bar">
             <div class="head"> 
               <a th:href="@{/home}">Home</a>
               <a th:href="@{/goodspage}">一般商城</a>
               <a th:href="@{/usedgoodspage}">二手商城</a>
-              <a th:href="contact">品牌</a>
+              <div class="dropdown">
+				    <a href="#" class="dropdown-btn">櫃位專區</a>
+				    <div class="dropdown-content">
+				        <a th:each="counterVO : ${counterVOList}"
+				           th:href="@{/counter/getOneCounter_For_Display(counterNo=${counterVO.counterNo})}"
+				           th:text="${counterVO.counterCName}">
+				        </a>
+				    </div>
+			 </div>
             </div>
           </div>
         </div>
