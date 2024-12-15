@@ -679,31 +679,11 @@ VALUES
     ('user10', 'password666', 'Jasmine', '107 Redwood Blvd', '0921234567', 'J012345678', 'jasmine@example.com', 2, '2001-04-25', 1, NOW(), NOW(), 'Favorite food?', 'Pizza', NOW(), 1);
 
 
--- 二手商品客訴
 
-CREATE TABLE usedComplaint (
-    usedComplaintNo INT PRIMARY KEY AUTO_INCREMENT,		 -- 二手商品客訴編號 (PK)
-    memNo INT NOT NULL,							 		 -- 會員編號 (FK: Member(memNo))
-    usedOrderNo INT NOT NULL,							 -- 二手商品訂單編號 (FK: UsedOrder(usedOrderNo))
-    usedComplaintDate DATETIME NOT NULL,				 -- 客訴日期
-    usedComplaintReason VARCHAR(500) NOT NUll, 			 -- 客訴原因
-    usedComplaintPhotos LONGBLOB, 						 -- 客訴圖片
-    usedComplaintStatus TINYINT DEFAULT 0 , 			 -- 客訴狀態 (0:待處理, 1:處理完成)
-    usedComplaintMSG VARCHAR(500) 					 	 -- 客訴回覆
-)AUTO_INCREMENT=1;
 
-INSERT INTO usedComplaint (memNo, usedOrderNo, usedComplaintDate, usedComplaintReason, usedComplaintPhotos, usedComplaintStatus, usedComplaintMSG)
-VALUES
-    (1, 1, '2024-10-01 10:30:00', '產品有瑕疵', NULL, 0, '正在處理'),
-    (2, 2, '2024-10-02 11:15:00', '收到與描述不符的商品', NULL, 1, '已完成處理'),
-    (3, 3, '2024-10-03 14:45:00', '商品有異味', NULL, 0, '等待回覆'),
-    (4, 4, '2024-10-04 09:20:00', '產品損壞', NULL, 1, '已補償'),
-    (5, 5, '2024-10-05 16:05:00', '產品顏色錯誤', NULL, 0, '處理中'),
-    (6, 6, '2024-10-06 12:00:00', '商品數量不足', NULL, 1, '已寄送補件'),
-    (7, 7, '2024-10-07 08:50:00', '商品包裝破損', NULL, 0, '等待處理中'),
-    (8, 8, '2024-10-08 17:30:00', '無法開機', NULL, 1, '已完成修理'),
-    (9, 9, '2024-10-09 13:40:00', '商品尺寸不合', NULL, 0, '正在確認'),
-    (10, 10, '2024-10-10 15:10:00', '產品少配件', NULL, 1, '處理完成');
+
+
+
     
 
 
@@ -731,31 +711,41 @@ CREATE TABLE CounterCarousel (
     -- FOREIGN KEY (goodsNo) REFERENCES Goods(goodsNo)           -- 商品外來鍵
 );
 
-CREATE TABLE CounterChat (
-    chatNo INT NOT NULL AUTO_INCREMENT PRIMARY KEY,              -- 聊天資訊編號
-    counterNo INT NOT NULL,                                      -- 櫃位編號 FK
-    memNo INT NOT NULL,                                          -- 會員編號 FK
-    chatContent VARCHAR(255),                                    -- 訊息內容
-    memQuestionPic LongBlob NUll,                                -- 會員問題照片
-    chatTime DateTime,                                           -- 聊天時間
-    chatDirection TINYINT(1) NOT NULL,                           -- 聊天方向
-    chatRead TINYINT(1) NOT NULL                                 -- 已讀未讀
-   --  FOREIGN KEY (couterNo) REFERENCES Counter(couterNo)       -- 櫃位聊天紀錄外來鍵
-   --  FOREIGN KEY (memNo) REFERENCES Member(memNo)              -- 櫃位聊天紀錄外來鍵
-);
-
+-- 創建GoodComplaint表
 CREATE TABLE GoodComplaint (
     counterComplaintNo INT NOT NULL AUTO_INCREMENT PRIMARY KEY,  -- 櫃位客訴編號
-    memNo INT NOT NULL,                                          -- 會員編號  FK
-    counterOrderNo INT NOT NULL,                                 -- 櫃位訂單編號 FK
-    complaintDate DateTime NOT NULL,                             -- 客訴時間
+    memNo INT ,                                                  -- 會員編號  FK
+    counterNo INT ,                                              -- 櫃位編號  FK
+    counterOrderNo INT NOT NULL,                                 -- 櫃位訂單編號 
+    complaintDate timestamp,                             -- 客訴時間
     complaintReason VARCHAR(255) NOT NULL,                       -- 客訴原因
-    usedComplaintPhotos LongBlob NUll,                           -- 客訴商品圖片
-    usedComplaintStatus TINYINT NOT NULL,                        -- 客訴狀態(0: 待處理)(1: 處理中)(2: 處理完畢)
-    usedComplaintMsg VARCHAR(500)                                -- 客訴回覆內容
+	complaintPhotos LongBlob NUll,                           -- 客訴商品圖片
+    complaintStatus TINYINT Default 0,                        -- 客訴狀態(0: 待處理)(1: 處理中)(2: 處理完畢)
+    complaintMsg VARCHAR(500)                                -- 客訴回覆內容
    --  FOREIGN KEY (CouterNo) REFERENCES Counter(CouterNo)       -- 商品客訴外來鍵
    --  FOREIGN KEY (MemNo) REFERENCES Member(MemNo)              -- 商品客訴外來鍵
 );
+
+-- 設置分隔符
+DELIMITER //
+
+-- 創建插入觸發器
+CREATE TRIGGER before_insert_good_complaint
+BEFORE INSERT ON GoodComplaint
+FOR EACH ROW
+BEGIN
+    SET NEW.complaintDate = CURRENT_TIMESTAMP;
+    -- 如果沒有指定 informRead，預設為 0
+    IF NEW.complaintStatus IS NULL THEN
+        SET NEW.complaintStatus = 0;
+    END IF;
+END//
+
+
+
+-- 恢復分隔符
+DELIMITER ;
+
 
 CREATE TABLE UsedOrder (
     usedOrderNo INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -786,18 +776,7 @@ BEGIN
 END $$
 DELIMITER ;
 
-CREATE TABLE UsedChat (
-    usedChatNo INT NOT NULL  AUTO_INCREMENT PRIMARY KEY,      -- 二手商品聊天編號
-    memNo INT NOT NULL,                                       -- 買家編號
-    sellerNo INT NOT NULL,                                    -- 賣家編號
-    chatTime DATETIME NOT NULL,                               -- 二手商品聊天時間
-    chatContent VARCHAR(500) NOT NULL,                        -- 二手商品聊天內容
-    usedQuestionPic LONGBLOB,                                 -- 二手問題照片
-    chatDirection TINYINT NOT NULL,                           -- 聊天方向 (0: 買家對賣家)(1: 賣家對買家)
-    chatRead TINYINT NOT NULL                                 -- 已讀未讀 (0: 未讀)(1: 已讀)
-    -- FOREIGN KEY (memNo) REFERENCES Member(memNo),          -- 二手商品聊天紀錄外來鍵
-    -- FOREIGN KEY (sellerNo) REFERENCES Member(memNo)        -- 二手商品聊天紀錄外來鍵
-);
+
 
 -- 創建Notice表
 CREATE TABLE Notice (
@@ -949,8 +928,7 @@ ALTER TABLE shoppingcartlist
 ADD CONSTRAINT shoppingcartlist_memNo_FK FOREIGN KEY (memNo) REFERENCES member(memNo),
 ADD CONSTRAINT shoppingcartlist_goodsNo_FK FOREIGN KEY (goodsNo) REFERENCES goods(goodsNo);
 
- ALTER TABLE usedComplaint
-ADD CONSTRAINT usedComplaint_memNo_FK FOREIGN KEY (memNo) REFERENCES Member(memNo);
+ 
  
  ALTER TABLE CounterInform
  ADD CONSTRAINT CounterInform_counterNo_FK FOREIGN KEY (counterNo) REFERENCES counter(counterNo);
@@ -973,17 +951,13 @@ ADD CONSTRAINT CounterCarousel_counterNo_FK FOREIGN KEY (counterNo) REFERENCES C
 ALTER TABLE CounterCarousel
 ADD CONSTRAINT CounterCarousel_goodsNo_FK FOREIGN KEY (goodsNo) REFERENCES Goods(goodsNo);
 
-ALTER TABLE CounterChat
-ADD CONSTRAINT CounterChat_counterNo_FK FOREIGN KEY (counterNo) REFERENCES Counter(counterNo);
-
-ALTER TABLE CounterChat
-ADD CONSTRAINT CounterChat_memNo_FK FOREIGN KEY (memNo) REFERENCES Member(memNo);
-
 ALTER TABLE GoodComplaint
-ADD CONSTRAINT GoodComplaint_counterOrderNo_FK FOREIGN KEY (counterOrderNo) REFERENCES CounterOrder(counterOrderNo);
+ADD CONSTRAINT GoodComplaint_counterNo_FK FOREIGN KEY (counterNo) REFERENCES Counter(counterNo);
 
 ALTER TABLE GoodComplaint
 ADD CONSTRAINT GoodComplaint_memNo_FK FOREIGN KEY (memNo) REFERENCES Member(memNo);
+
+
 
 ALTER TABLE UsedOrder
 ADD CONSTRAINT UsedOrder_usedNo_FK FOREIGN KEY (usedNo) REFERENCES Used(usedNo);
@@ -991,11 +965,7 @@ ADD CONSTRAINT UsedOrder_usedNo_FK FOREIGN KEY (usedNo) REFERENCES Used(usedNo);
 ALTER TABLE UsedOrder
 ADD CONSTRAINT UsedOrder_buyerNo_FK FOREIGN KEY (buyerNo) REFERENCES Member(memNo);
 
-ALTER TABLE UsedChat
-ADD CONSTRAINT UsedChat_sellerNo_FK FOREIGN KEY (sellerNo) REFERENCES Member(memNo);
 
-ALTER TABLE UsedChat
-ADD CONSTRAINT UsedChat_memNo_FK FOREIGN KEY (memNo) REFERENCES Member(memNo);
 
 -- 以下昱夆新增 練習用
 CREATE TABLE NewCouponDetails (
