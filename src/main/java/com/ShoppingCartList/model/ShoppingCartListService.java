@@ -55,6 +55,11 @@ public class ShoppingCartListService {
         return HibernateUtil_CompositeQuery_ShoppingCartList.getAllC(map, sessionFactory.openSession());
     }
     
+    public List<ShoppingCartListVO> getCartItemsByMemNo(int memNo) {
+        return repository.findByMemNo(memNo);
+    }
+
+    
 //  結帳用=========================================柏諭
 	public List<ShoppingCartListVO> getCartItemsByMemNo(Integer memNo) {
 		
