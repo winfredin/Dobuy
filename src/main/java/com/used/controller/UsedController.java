@@ -129,9 +129,6 @@ public class UsedController {
 	@PostMapping("/getSellerUsedListFragment")
     public String getUsedListFragment(HttpSession session, Model model) {
         // 從 session 中取得 memNo
-//		if(session.getAttribute("managerNo")==null) {
-//			return "redirect:/back-end-homepage";
-//		}
         Integer memNo = Integer.valueOf((String)session.getAttribute("memNo"));
 
         if (memNo == null) {
