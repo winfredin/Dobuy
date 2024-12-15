@@ -72,38 +72,33 @@ public class NoticeController {
     }
 	
 	
-//	 @PostMapping("clearAll")
-//	    public String clearAllNotices(ModelMap model) {
-//	        noticeSvc.deleteAll();
-//	        model.addAttribute("success", "所有通知已清空！");
-//	        return "redirect:/notice/listAllNotice";
-//	    }
+	
 	 
 	//柏翔新增======================================================
-	    @PostMapping("clearAll")
-	    public String clearAllNotices(HttpSession session, ModelMap model) {
-	        Object memNoObj = session.getAttribute("memNo");
-	        
-	        try {
-	            if (memNoObj == null) {
-	                return "redirect:/mem/login";
-	            }
-	            
-	            Integer memNo = (memNoObj instanceof Integer) ? 
-	                (Integer) memNoObj : Integer.parseInt((String) memNoObj);
-	                
-	            // 清除該會員的所有通知
-	            noticeSvc.deleteAllByMemNo(memNo);
-	            model.addAttribute("success", "所有通知已清空！");
-	            
-	            return "redirect:/notice/listAllNotice";
-	            
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            model.addAttribute("error", "清除通知時發生錯誤");
-	            return "error";
-	        }
-	    }
+//	    @PostMapping("clearAll")
+//	    public String clearAllNotices(HttpSession session, ModelMap model) {
+//	        Object memNoObj = session.getAttribute("memNo");
+//	        
+//	        try {
+//	            if (memNoObj == null) {
+//	                return "redirect:/mem/login";
+//	            }
+//	            
+//	            Integer memNo = (memNoObj instanceof Integer) ? 
+//	                (Integer) memNoObj : Integer.parseInt((String) memNoObj);
+//	                
+//	            // 清除該會員的所有通知
+//	            noticeSvc.deleteAllByMemNo(memNo);
+//	            model.addAttribute("success", "所有通知已清空！");
+//	            
+//	            return "redirect:/notice/listAllNotice";
+//	            
+//	        } catch (Exception e) {
+//	            e.printStackTrace();
+//	            model.addAttribute("error", "清除通知時發生錯誤");
+//	            return "error";
+//	        }
+//	    }
 	 
 	 
 	 
@@ -146,38 +141,34 @@ public class NoticeController {
 	    
 	    
 	    
-//	 @PostMapping("/markAllRead")
-//	 public ResponseEntity<Void> markAllRead() {
-//	     noticeSvc.markAllAsRead();  // Implement this method in your service layer to update the database
-//	     return ResponseEntity.ok().build();
-//	 }
+	 
 
 	 
 		//柏翔新增======================================================
 	    // 標記會員的所有通知為已讀
-	    @PostMapping("/markAllRead") 
-	    @ResponseBody
-	    public ResponseEntity<Void> markAllRead(HttpSession session) {
-	        Object memNoObj = session.getAttribute("memNo");
-	        
-	        try {
-	            if (memNoObj == null) {
-	                return ResponseEntity.status(401).build(); // 未登入
-	            }
-	            
-	            Integer memNo = (memNoObj instanceof Integer) ? 
-	                (Integer) memNoObj : Integer.parseInt((String) memNoObj);
-	                
-	            // 標記該會員的所有通知為已讀
-	            noticeSvc.markAllAsReadByMemNo(memNo);
-	            return ResponseEntity.ok().build();
-	            
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            return ResponseEntity.status(500).build();
-	        }
-	    }
-	 
+//	    @PostMapping("/markAllRead") 
+//	    @ResponseBody
+//	    public ResponseEntity<Void> markAllRead(HttpSession session) {
+//	        Object memNoObj = session.getAttribute("memNo");
+//	        
+//	        try {
+//	            if (memNoObj == null) {
+//	                return ResponseEntity.status(401).build(); // 未登入
+//	            }
+//	            
+//	            Integer memNo = (memNoObj instanceof Integer) ? 
+//	                (Integer) memNoObj : Integer.parseInt((String) memNoObj);
+//	                
+//	            // 標記該會員的所有通知為已讀
+//	            noticeSvc.markAllAsReadByMemNo(memNo);
+//	            return ResponseEntity.ok().build();
+//	            
+//	        } catch (Exception e) {
+//	            e.printStackTrace();
+//	            return ResponseEntity.status(500).build();
+//	        }
+//	    }
+//	 
 	 
 	
 	 
