@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.ShoppingCartList.model.ShoppingCartListVO;
 import com.counterHome.cartTest.model.CartListVO;
 
 @Entity
@@ -38,6 +39,12 @@ public class NewCounterOrderDetailVO{
     	this.goodsNo = cartListVO.getGoodsNo();
     	this.goodsNum = cartListVO.getGoodsNum();
     	this.goodsPrice = cartListVO.getGoodsPrice();
+
+    }
+    public NewCounterOrderDetailVO(ShoppingCartListVO shoppingCartListVO) {
+    	this.goodsNo = shoppingCartListVO.getGoodsNo();
+    	this.goodsNum = shoppingCartListVO.getGoodsNum();
+    	this.goodsPrice = shoppingCartListVO.getGoodsPrice();
     	
     	
     }

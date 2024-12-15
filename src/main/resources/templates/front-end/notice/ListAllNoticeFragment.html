@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>所有訊息 - listAllNotice.html</title>
+
+<head th:insert="~{/vendor-end/msg/included-fragment}"></head>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<body>
+<nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
+    <div align="center"> <h2>通知</h2> </div>
+</nav>
+<div th:fragment="listallnoticeFragment">
+
+<table id="notice" class="display" style="width: 100%">
+  <thead>
+    <tr style="background-color:rgb(224, 166, 86)">
+        <th>時間</th>
+        <th>內文</th>
+        <th style="display: none;">狀態</th> <!-- 隱藏狀態欄 -->
+    </tr>
+  </thead>
+    
+  <tbody>
+    <th:block th:each="noticeVO : ${noticeListData}">
+        <tr>
+            <td th:text="${noticeVO.noticeDate}"></td>
+            <td th:text="${noticeVO.noticeContent}"></td>
+            <td th:text="${noticeVO.noticeRead}" style="display: none;"></td> <!-- 隱藏狀態數值 -->
+        </tr>
+    </th:block>
+  </tbody>
+</table>
+
+</div>
+
+</body>
+</html>

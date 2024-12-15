@@ -45,13 +45,18 @@ public class NoticeService {
         }
         repository.saveAll(notices);
     }
+    
+    
 
 
 
-    public void deleteAllByMemNo(Integer memNo) { // 刪除指定會員的所有通知
-	}            
-    public void markAllAsReadByMemNo(Integer memNo) {// 標記指定會員的所有通知為已讀
-	}         
+ 
+    
+    
+    public List<NoticeVO> getNoticesByMemNo(Integer memNo) { // 根據 memNo 從資料庫中查詢通知
+    	return repository.findByMemNo(memNo); 
+    	}
+    
 
 
     

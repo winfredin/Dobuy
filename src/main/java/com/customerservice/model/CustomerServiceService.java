@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.msg.model.MsgVO;
+
 
 
 @Service("customerServiceService")
@@ -26,8 +28,6 @@ public class CustomerServiceService {
         return repository.findById(counterComplaintNo).orElse(null);
     }
 
-  
-
     public List<CustomerServiceVO> getAll() {
         return repository.findAll();
     }
@@ -35,5 +35,11 @@ public class CustomerServiceService {
     public void save(CustomerServiceVO customerServiceVO) {
         repository.save(customerServiceVO);
     }
+
+    // 新增的方法
+    public List<CustomerServiceVO> getOneCounterCustomerService(Integer counterNo) {
+        return repository.findByCounterNo(counterNo);
+    }
 }
+
 

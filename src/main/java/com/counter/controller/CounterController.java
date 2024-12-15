@@ -72,7 +72,7 @@ public class CounterController {
     	                + "<h1>您好，歡迎加入DoBuy！</h1>"
     	                + "<p>您已經成功註冊成為DoBuy的櫃位。</p>"
     	                + "<p>感謝您成為我們的合作夥伴！</p>"
-    	                + "<p>請<a href='http://dobuy.ddns.net/counter/login'>點擊這裡</a>進行登錄的操作。</p>"
+    	                + "<p>請<a href='http://localhost:8080/counter/login'>點擊這裡</a>進行登錄的操作。</p>"
     	                + "</body></html>", true);
     	        
     	        mailSender.send(message);
