@@ -65,11 +65,15 @@ public class UsedController {
 			@RequestParam("goodsNo") String goodsNo,
 			ModelMap model,
 			HttpSession session) {
+		Integer memStatus=(Integer)session.getAttribute("memStatus");
 		
-		if((String)session.getAttribute("memStatus") == "2") {
-			
+//		System.out.println("memStatus: " + memStatus);
+
+		if( memStatus != null && memStatus==2) {
+			System.out.println("memStatus: " + memStatus);
+
 			return "front-end/normalpage/member";
-		}
+		}else {
 		
 		UsedVO usedVO = new UsedVO();
 		 Integer goodsNoWantsSell= Integer.valueOf(goodsNo); //goodsNo
@@ -90,6 +94,7 @@ public class UsedController {
 		List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();
 		model.addAttribute("goodsTypeList", goodsTypeList);
 		return "front-end/used/addUsed";
+		}
 	}
 	
 	@PostMapping("/getOneUsed")
