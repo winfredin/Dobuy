@@ -45,7 +45,6 @@ public class ManagerService {
 	}
 	
 	
-	
 	public boolean isAccountExist(String managerAccount) {
 	    return repository.findAC(managerAccount) != null;
 	}

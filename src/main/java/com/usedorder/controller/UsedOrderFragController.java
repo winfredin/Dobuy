@@ -169,11 +169,6 @@ public class UsedOrderFragController {
 		    return response;
 		}
 
-
-	
-	
-	
-	
 	
 	
 }

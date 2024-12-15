@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -36,13 +37,16 @@ public class ManagernoController {
 	 * This method will be called on select_page.html form submission, handling POST
 	 * request It also validates the user input
 	 */
+	
 	@GetMapping("manager")
 	public String getManager_For_Display(
 		/***************************1.接收請求參數 - 輸入格式的錯誤處理*************************/
 		@NotEmpty(message="管理員編號: 請勿空白")
 		@RequestParam("managerNo") String managerno,HttpSession session,
 		ModelMap model) {
-		
+		if(session.getAttribute("managerNo")==null) {
+			return "redirect:/login/Login";
+		}
 	
 		List<AuthVO> alist = authSvc.getAll();
 		ManagerVO managerVO = managerSvc.getOneManager(Integer.valueOf(managerno));

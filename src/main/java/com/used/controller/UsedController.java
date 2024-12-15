@@ -65,6 +65,12 @@ public class UsedController {
 			@RequestParam("goodsNo") String goodsNo,
 			ModelMap model,
 			HttpSession session) {
+		
+		if((String)session.getAttribute("memStatus") == "2") {
+			
+			return "front-end/normalpage/member";
+		}
+		
 		UsedVO usedVO = new UsedVO();
 		 Integer goodsNoWantsSell= Integer.valueOf(goodsNo); //goodsNo
 		 
@@ -73,8 +79,7 @@ public class UsedController {
 		 usedVO.setUsedProDesc(goodsVO.getGoodsDescription());
 		 usedVO.setUsedPrice(goodsVO.getGoodsPrice());
 		 
-		 
-		 
+	 
 		 
 		//session提取memNo為sellerNo
 		 Integer sellerNo = Integer.valueOf((String)session.getAttribute("memNo"));
@@ -114,7 +119,9 @@ public class UsedController {
 	@PostMapping("/getSellerUsedListFragment")
     public String getUsedListFragment(HttpSession session, Model model) {
         // 從 session 中取得 memNo
-
+		if(session.getAttribute("managerNo")==null) {
+			return "redirect:/back-end-homepage";
+		}
         Integer memNo = Integer.valueOf((String)session.getAttribute("memNo"));
 
         if (memNo == null) {
@@ -149,9 +156,6 @@ public class UsedController {
         // 返回Fragment所在的模板，並指定Fragment名稱
         return "front-end/used/listAllUsed :: usedListFragment";
     }
-
-	
-	
 
 	/*
 	 * This method will be called on addUsed.html form submission, handling POST request It also validates the user input

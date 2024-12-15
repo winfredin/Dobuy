@@ -2,10 +2,12 @@ package com;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.counterorder.model.CounterOrderService;
 import com.counterorder.model.CounterOrderVO;
+import com.manager.model.ManagerService;
+import com.manager.model.ManagerVO;
 import com.member.model.MemberService;
 import com.member.model.MemberVO;
 
@@ -24,9 +28,11 @@ public class BackEndController {
 	MemberService memberSvc;
 	@Autowired
 	CounterOrderService counterOrderSvc;
+	@Autowired
+	ManagerService managerService;
 	
 	@GetMapping("member")
-	public String member(ModelMap model) {
+	public String member(ModelMap model,HttpSession session) {
 		List<MemberVO> memlist = memberSvc.getAll();
 		model.addAttribute("memlist",memlist);
 		return "back-end/member/member";
@@ -56,4 +62,6 @@ public class BackEndController {
 
 	    return "redirect:/counter/listOneCounter"; 
 	}
+	
+
 }

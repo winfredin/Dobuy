@@ -140,10 +140,10 @@ public class UsedEcpayController {
 				    "</head>" +
 				    "<body>" +
 			        "<div style='text-align:center; color:red; font-weight:bold; margin-bottom:20px;'>" +
-			        "請在 <span id='countdown'>600</span> 秒內完成交易以避免訂單被系統刪除" +
+			        "請在 <span id='countdown'>300</span> 秒內完成交易以避免訂單被系統刪除" +
 			        "</div>" +
 			        "<script>" +
-			        "let timeLeft = 600;" +
+			        "let timeLeft = 300;" +
 			        "const countdownElement = document.getElementById('countdown');" +
 			        "const timer = setInterval(() => {" +
 			        "    timeLeft -= 1;" +
@@ -184,6 +184,7 @@ public class UsedEcpayController {
 			    "</body>" +
 			    "</html>";
 		        
+		
 		        HttpHeaders headers = new HttpHeaders();
 		        headers.setContentType(MediaType.TEXT_HTML);
 		        headers.set("Content-Encoding", "UTF-8"); // 確保編碼

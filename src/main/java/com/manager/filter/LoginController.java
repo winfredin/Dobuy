@@ -34,15 +34,23 @@ public class LoginController {
                         @RequestParam("managerPassword") String managerPassword,
                         HttpSession session, Model model) {
     	
-    	if(managerAccount.trim()=="" || managerPassword=="") {
+    	if(managerAccount.isEmpty() || managerPassword.isEmpty()) {
     		model.addAttribute("error", "帳號或密碼不得為空");
             return "back-end/login/Login";  
     	}
-        
+    	
         ManagerVO managerVO = managerSvc.getAP(managerAccount, managerPassword);
+        
+	   
     if(managerVO!=null) {
+
+    	 if (managerVO.getManagerstatus()==0) {  // 如果狀態為 0
+ 	        model.addAttribute("error", "你已離職，請重新去面試。");
+ 	        return "back-end/login/Login";
+ 	    }
         if (managerAccount.equals(managerVO.getManagerAccount())&& managerPassword.equals(managerVO.getManagerPassword()) ) {
             // 登入成功，將管理者名稱存入 Session
+        	
         	session.setAttribute("managerNo", managerVO.getManagerNo());
             session.setAttribute("managerAccount", managerVO.getManagerAccount());
            session.setAttribute("auth", managerVO.getAuths());
@@ -60,6 +68,7 @@ public class LoginController {
     public String logout(HttpSession session) {
         session.removeAttribute("managerNo"); 
         session.removeAttribute("managerAccount");
+        session.removeAttribute("managerName");
         session.removeAttribute("auth");
         return "redirect:/login/Login";  // 登出後，重新導向到登入頁面
     }

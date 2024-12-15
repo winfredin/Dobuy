@@ -13,7 +13,7 @@ public class UsedPhotoWrite {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/dobuy";
     private static final String DB_USER = "root";
 
-    private static final String DB_PASSWORD = "25503605226";
+    private static final String DB_PASSWORD = "0000";
 
 
     public static void main(String[] args) {
