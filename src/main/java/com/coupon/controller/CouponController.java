@@ -216,6 +216,7 @@ public class CouponController {
                          Model model,
                          HttpSession session) {
         System.out.println("Received update request for coupon: " + couponVO.getCouponNo());
+        model.addAttribute("msgSvc", msgService);
 
         // 印出驗證錯誤資訊
         if (result.hasErrors()) {

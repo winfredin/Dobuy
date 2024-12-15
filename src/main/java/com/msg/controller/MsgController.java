@@ -67,6 +67,8 @@ public class MsgController {
         MsgVO msgVO = new MsgVO();
         model.addAttribute("memberList", memberSvc.getAll());
         model.addAttribute("msgVO", msgVO);
+        model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
+        model.addAttribute("msgSvc", msgSvc);
         return "vendor-end/msg/addMsg";
     }
     
@@ -74,10 +76,11 @@ public class MsgController {
     @PostMapping("insert")
     public String insert(HttpSession session, @Valid MsgVO msgVO, BindingResult result, ModelMap model,
                          @RequestParam("informMsg") String informMsg) {
-
+    	
         /*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
         // 從 session 中獲取 CounterVO
         CounterVO counter = (CounterVO) session.getAttribute("counter");
+        
         if (counter == null) {
             // 處理沒有 CounterVO 的情況
             return "redirect:/counter/login"; // 假設有一個登錄頁面
@@ -86,6 +89,8 @@ public class MsgController {
         msgVO.setInformMsg(informMsg); // 設置訊息內文
 
         if (result.hasErrors()) {
+            model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
+            model.addAttribute("msgSvc", msgSvc);
             model.addAttribute("memberList", memberRepository.findAll());
             return "vendor-end/msg/addMsg";
         }
@@ -109,12 +114,16 @@ public class MsgController {
 
     
     @PostMapping("getOne_For_Update")
-    public String getOne_For_Update(@RequestParam("counterInformNo") String counterInformNo, ModelMap model) {
+    public String getOne_For_Update(HttpSession session,@RequestParam("counterInformNo") String counterInformNo, ModelMap model) {
+    	CounterVO counter = (CounterVO) session.getAttribute("counter");
         /*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
         /*************************** 2.開始查詢資料 *****************************************/
         MsgVO msgVO = msgSvc.getOneMsg(Integer.valueOf(counterInformNo));
 
         /*************************** 3.查詢完成,準備轉交(Send the Success view) **************/
+        model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
+        model.addAttribute("msgSvc", msgSvc);
+        model.addAttribute("memberList", memberRepository.findAll());
         model.addAttribute("msgVO", msgVO);
         return "vendor-end/msg/update_msg_input"; // 查詢完成後轉交update_msg_input.html
     }
@@ -122,13 +131,16 @@ public class MsgController {
     
     
     @PostMapping("update")
-    public String update(@Valid MsgVO msgVO, BindingResult result, ModelMap model,
+    public String update(HttpSession session,@Valid MsgVO msgVO, BindingResult result, ModelMap model,
                          @RequestParam("informMsg") String informMsg) {
-
+    	CounterVO counter = (CounterVO) session.getAttribute("counter");
         /*************************** 1.接收請求參數 - 輸入格式的錯誤處理 ************************/
         msgVO.setInformMsg(informMsg); // 設置訊息內文
 
         if (result.hasErrors()) {
+            model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
+            model.addAttribute("msgSvc", msgSvc);
+            model.addAttribute("memberList", memberRepository.findAll());
             return "vendor-end/msg/update_msg_input";
         }
 

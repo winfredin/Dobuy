@@ -17,7 +17,7 @@
             background-color: #f8f9fa;
         }
 
-        .container {
+        .containers {
             margin-top: 50px;
         }
 
@@ -57,8 +57,8 @@
     </style>
 </head>
 <body>
-
-<div class="container">
+<div th:insert="vendor-end/counter/Counterincldue :: header"></div>
+<div class="containers">
     <div class="frame">
         <h2 class="text-center">修改櫃位訊息</h2>
         <form th:action="@{update}" method="post" th:object="${msgVO}" enctype="multipart/form-data">
