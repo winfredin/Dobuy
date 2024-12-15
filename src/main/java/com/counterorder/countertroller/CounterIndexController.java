@@ -59,9 +59,18 @@ public class CounterIndexController {
 	                                  @RequestParam("memNo") Integer memNo) {
 	
 		counterOrderSvc.updateCounterStatus(memNo, orderStatus);
+	    return "redirect:/counter/listOneCounter"; 
+	}
+    
+    @PostMapping("memOrder")
+	public String memOrderStatus(@RequestParam("counterOrderNo") Integer counterOrderNo,
+	                                  HttpSession session) {
+    	CounterOrderVO counterOrderVO = counterOrderSvc.getOneCounterOrder(counterOrderNo);
+    	
+    	counterOrderSvc.updateCounterStatus(Integer.valueOf((String) session.getAttribute("memNo")), 2);
 		
 
-	    return "redirect:/counter/listOneCounter"; 
+	    return "redirect:/member"; 
 	}
   
     //=========== 以下第63~75行是提供給 /src/main/resources/templates/back-end/emp/select_page.html 與 listAllEmp.html 要使用的資料 ===================   

@@ -202,7 +202,7 @@
       
       <!-- 新增的表單部分 -->
         <div th:if="${order.orderStatus} == 1">
-            <form action="" method="post">
+            <form action="memOrder" method="post">
                 <input type="hidden" name="counterOrderNo" th:value="${order.counterOrderNo}" />
                 <button type="submit">通知已收貨</button>
             </form>
