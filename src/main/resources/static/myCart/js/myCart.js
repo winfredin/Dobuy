@@ -8,7 +8,7 @@ function updateCart(button, delta) {
 	const counterDiv = document.querySelector(`[data-counter="${counterCname}"]`); // 找到櫃位的 DOM
 	const totalAfterElement = counterDiv.querySelector(".afterPrice span");
 	const totalCounterDiv = counterDiv.querySelector(".counterPrice");
-	
+
 	fetch('/cart/update', {
 		method: 'POST',
 		headers: {
@@ -33,8 +33,9 @@ function updateCart(button, delta) {
 					} else {
 						// 更新櫃位總金額和優惠券
 						calculateCounterTotal(counterDiv);
-						loadCouponsForCounter(counterDiv);						
+						loadCouponsForCounter(counterDiv);
 						totalAfterElement.textContent = "";
+						totalCounterDiv.classList.remove("total-price"); // 移除刪除線的 class
 					}
 				} else {
 					document.getElementById(`quantity-${goodsNo}`).innerText = data.newQuantity;
@@ -112,6 +113,7 @@ function calculateCounterTotal(counterDiv) {
 	// 更新櫃位总金额显示
 	const totalCounterElement = counterDiv.querySelector(`#total-counter-${counterDiv.getAttribute("data-counter")}`); // 直接通过 id 找到
 	totalCounterElement.querySelector("span").textContent = totalAmount;
+	counterDiv.querySelector(".counterPrice").value =totalAmount;
 }
 
 
@@ -191,7 +193,7 @@ function applyDiscount(event) {
 	const totalAmount = parseFloat(
 		counterDiv.querySelector(".counterPrice span").textContent
 	);
-	
+
 	const totalCounterDiv = counterDiv.querySelector(".counterPrice");
 
 	// 模拟发送到后端并获取折扣后的价格
@@ -207,12 +209,75 @@ function applyDiscount(event) {
 		.then((finalPrice) => {
 			// 更新折扣后的金额到页面
 			const totalAfterElement = counterDiv.querySelector(".afterPrice span");
+			counterDiv.querySelector(".afterPrice").value = finalPrice;
+			counterDiv.querySelector(".coupon").value = selectedValue;
+			
 			totalAfterElement.textContent = finalPrice || "計算失敗";
 			totalCounterDiv.classList.add("total-price"); // 添加刪除線的 class
+			// 顯示折價後金額區域
+			counterDiv.querySelector(".afterPrice").style.display = "block";
 		})
 		.catch((error) => {
 			console.error("发送失败：", error);
 		});
 }
 
+//結帳按鈕
+
+//function checkout(button) {
+//
+//	const counterDiv = button.closest("[data-counter]");// 找到父元素
+//	const counterCname = counterDiv.querySelector('.counterCname').value;
+//	const totalAmountBefore = counterDiv.querySelector(".counterPrice").value;
+//	const totalAmountAfter = counterDiv.querySelector(".afterPrice").value;
+//	const couponNo = counterDiv.querySelector(".couponSelect").value;
+//	
+//	console.log(counterDiv);
+//	console.log(counterCname);
+//	console.log(totalAmountBefore);
+//	console.log(totalAmountAfter);
+//	console.log(couponNo);
+//	fetch(`/cart/test/toConfirm`, {
+//		method: "POST",
+//		headers: { "Content-Type": "application/json" },
+//		body: JSON.stringify({
+//			counterCname: counterCname,
+//			totalAmountBefore: totalAmountBefore.toString(),
+//			totalAmountAfter: totalAmountAfter.toString(),
+//			couponNo: couponNo.toString()
+//		})
+//	})
+//		.then(response => response.json())
+//		.then(data => {
+//			window.location.href = data.redirectUrl; // 跳转到返回的 URL
+//		})
+//		.catch(error => {
+//			console.error("发送失败：", error);
+//			alert("提交失败，请稍后重试");
+//		});
+//}
+
+function checkout(button, event) {
+	// 暂停表单提交行为
+	event.preventDefault();
+    const counterDiv = button.closest("[data-counter]");// 找到父元素
+
+    // 动态更新隐藏字段的值
+    const totalAmountBefore = counterDiv.querySelector(".counterPrice").value;
+	const totalAmountAfter = counterDiv.querySelector(".afterPrice").value || totalAmountBefore;
+	const couponNo = counterDiv.querySelector(".coupon").value || 0;
+
+    console.log("表单提交前检查值：");
+    console.log("總金額（折前）:", totalAmountBefore);
+    console.log("總金額（折後）:", totalAmountAfter);
+    console.log("優惠券:", couponNo);
+
+    // 手动更新隐藏字段值
+    counterDiv.querySelector("input[name='totalAmountBefore']").value = totalAmountBefore;
+    counterDiv.querySelector("input[name='totalAmountAfter']").value = totalAmountAfter;
+    counterDiv.querySelector("input[name='couponNo']").value = couponNo;
+	
+	// 测试结束后，手动提交表单
+	button.closest("form").submit();
+};
 

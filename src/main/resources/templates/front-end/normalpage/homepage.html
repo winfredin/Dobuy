@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="/css/slick-theme.css" />
 
 <link rel="stylesheet" href="/css/test1.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
 
 </head>
@@ -123,8 +124,15 @@
 			        <img th:src="@{'/goods/DBGifReader?goodsNo=' + ${goodsVO.goodsNo} + '&photoType=gpPhotos1'}" 
 			             th:title="${goodsVO.goodsName}" 
 			             alt="goods-image">
-			        <img src="/images/Star 6.png" alt="star">
 			    </a>
+			    
+			    <div class="heart-icon-container">
+	                <!-- 添加愛心按鈕 -->
+	                <i class="fas fa-heart" 
+	                   th:attr="data-goodsNo=${goodsVO.goodsNo}, data-memAccount=${session.memAccount}" 
+	                   onclick="toggleHeart(this, event)" 
+	                   style="color: #ccc; font-size: 24px;"></i>
+			  	</div>  
 			</div>
 
 
@@ -139,7 +147,7 @@
 
 
 
-
+	
 
 	<script type="text/javascript" src="/js/jquery3.7.1.js"></script>
 	<script src="/js/slick.js"></script>
@@ -147,7 +155,9 @@
 		src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.8/axios.min.js"
 		integrity="sha512-v8+bPcpk4Sj7CKB11+gK/FnsbgQ15jTwZamnBf/xDmiQDcgOIYufBo6Acu1y30vrk8gg5su4x0CG3zfPaq5Fcg=="
 		crossorigin="anonymous"></script>
-
+	<script th:inline="javascript">
+	    window.favoriteGoodsSet = /*[[${goodsSet}]]*/ [];
+	</script>
 
 	<script>
 	$('.slider').slick({
@@ -271,7 +281,67 @@
                 }
             });
         }
+        /* ===============商品收藏愛心============= */
+        function toggleHeart(element, event) {
+        		// 	阻止事件冒泡，避免觸發父級事件
+        		 event.stopPropagation();
 
+        	// 阻止默認行為，例如提交表單
+                 event.preventDefault();
+        	
+        	// 切换爱心颜色
+        	const memAccount = element.getAttribute('data-memAccount');
+        	if (!memAccount) { // 判斷 null, undefined, 空字串
+        		alert("請先登入");
+        		return;
+        	}
+        	element.classList.toggle('heart-active');
+        	const goodsNo = element.getAttribute('data-goodsNo');
+        	// 判断当前爱心状态
+        	const isActive = element.classList.contains('heart-active');
+        	const apiUrl = isActive ? '/goodsTrack/add' : '/goodsTrack/remove'; // 根據狀態选择API
+
+        	// 调用后端 API
+        	fetch(apiUrl, {
+        		method: 'POST',
+        		headers: {
+        			'Content-Type': 'application/json',
+        		},
+        		body: JSON.stringify({ goodsNo: goodsNo }),
+        	})
+        		.then(response => response.json())
+        		.then(data => {
+        			if (data.success === 'true') {
+        			} else {
+        				// 如果失败，可以回滚状态
+        				element.classList.toggle('heart-active');
+        			}
+        		})
+        		.catch(error => {
+        			console.error('請求錯誤:', error);
+        			// 如果请求失败，可以回滚状态
+        			element.classList.toggle('heart-active');
+        		});
+        }
+
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+        	// 使用全局變量 window.favoriteGoodsSet
+        	//	   console.log(window.favoriteGoodsSet); // 確保全局變量正確加載
+        	// 遍历所有的爱心图标
+        	document.querySelectorAll('.heart-icon-container .fas.fa-heart').forEach(icon => {
+        		const goodsNo = icon.getAttribute('data-goodsNo'); // 获取商品编号
+        		if(favoriteGoodsSet != null){
+        			if (favoriteGoodsSet.includes(goodsNo)) {
+        				// 如果该商品编号在 favoriteGoodsSet 中，将爱心标记为选中
+        				icon.classList.add('heart-active');
+        			}
+        		}
+        	});
+        });
+        /* ===============商品收藏愛心============= */
         
     </script>
 

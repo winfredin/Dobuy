@@ -24,4 +24,7 @@ public class OrderCouponInfo {
     public void setCounterNo(Integer counterNo) {
         this.counterNo = counterNo;
     }
+
+
+
 }

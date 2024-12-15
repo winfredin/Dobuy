@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>訂單確認</title>
+<link rel="stylesheet" th:href="@{/myCart/css/confirm.css}">
+</head>
+<body>
+	<!-- 頁面頂部區域 -->
+	<div class="header">
+	    <a th:href="@{/home}" title="點擊跳轉" class="logo-link">
+	        <img th:src="@{/counterPage/img/core-img/logo-noback.png}" style="width:180px; height:180px"alt="Logo" class="logo">
+	    </a>
+	</div>
+
+
+	<!-- 商品列表 -->
+	<div class="counterCname-container">
+	    <span class="counterCname" th:text="${counterCname}"></span>
+	</div>
+
+
+	<div class="product-row header-row">
+		<div>商品圖片</div>
+		<div>商品名稱</div>
+		<div>商品數量</div>
+		<div>商品單價</div>
+		<div>商品總價</div>
+	</div>
+
+	<div class="product-container">
+		<!-- 商品每一行 -->
+		<div class="product-item" th:each="goodsVO : ${cartList}">
+			<!-- 商品圖片 -->
+			<div class="product-column product-image">
+				<img
+				th:src="${'data:image/jpeg;base64,' + base64Map[goodsVO.goodsNo.toString()]}"
+				alt="商品圖片"
+				style="width: 100%; height: auto; max-height: 150px; object-fit: contain; display: block;" />
+			</div>
+			<!-- 商品名稱 -->
+			<div class="product-column product-name">
+				<span th:text="${goodsVO.goodsName}"></span>
+			</div>
+			<!-- 商品數量 -->
+			<div class="product-column">
+				<span th:text="${goodsVO.goodsNum}"></span>
+			</div>
+			<!-- 商品單價 -->
+			<div class="product-column">
+				<span th:text="${goodsVO.goodsPrice}"></span>
+			</div>
+			<!-- 商品總價 -->
+			<div class="product-column">
+				<span th:text="${goodsVO.orderTotalPrice}"></span>
+			</div>
+		</div>
+	</div>
+
+	<!-- 優惠券和總金額 -->
+	<div class="summary-container">
+		 
+		
+		 <!-- 收件人信息 -->
+	    <div class="recipient-info">
+	         <p>收件人姓名: 
+		        <input type="text" name="recipientName" class="recipientName" th:value="${recipientName}" placeholder="請輸入收件人姓名">
+		    </p>
+		    <p>收件人地址: 
+		        <input type="text" name="recipientAddress" class="recipientAddress" th:value="${recipientAddress}" placeholder="請輸入收件人地址">
+		    </p>
+		    <p>收件人電話: 
+		        <input type="text" name="recipientPhone" class="recipientPhone" th:value="${recipientPhone}" placeholder="請輸入收件人電話">
+		    </p>
+	    </div>
+		
+		<div class="newCouponsVO">
+		    <span th:if="${newCouponsVO != null}" th:text="|優惠內容: ${newCouponsVO.couponContext}|"></span>
+		    <span th:if="${newCouponsVO == null}">無使用優惠券</span>
+		</div>
+		<div class="totalAmountBefore" th:text="|總金額: ${totalAmountBefore}|" th:data-value="${totalAmountBefore}"></div>
+		<div class="totalAmountAfter" th:text="|折扣後: ${totalAmountAfter}|" th:data-value="${totalAmountAfter}"></div>
+
+		
+		
+	    <!-- 操作按鈕 -->
+	    <div class="button-group">
+	    	<form action="/cart/list35" method="GET">
+	       		<button type="submit" class="cancel-button">取消訂單</button>
+	    	</form>
+	        <form action="/cart/test/generateOrderAndDetail" method="POST">
+			    <input type="hidden" name="counterCname" class="counterCname" th:value="${counterCname}">
+			    <input type="hidden" name="totalAmountBefore" class="counterPrice" value="">
+			    <input type="hidden" name="totalAmountAfter" class="afterPrice" value="">
+			    <input type="hidden" name="couponNo" class="coupon" value="">
+			    
+			    <!-- 隱藏字段 -->
+			    <input type="hidden" name="recipientName" id="hiddenRecipientName" value="">
+			    <input type="hidden" name="recipientAddress" id="hiddenRecipientAddress" value="">
+			    <input type="hidden" name="recipientPhone" id="hiddenRecipientPhone" value="">
+
+			    <button type="submit" class="confirm-button" onclick="confirmOrder(this, event)">確認訂單</button>
+			</form>
+	        
+	    </div>
+	</div>
+
+
+
+	<script th:src="@{/myCart/js/confirm.js}"></script>
+</body>
+</html>
