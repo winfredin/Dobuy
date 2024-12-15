@@ -65,16 +65,18 @@
 				<div class="right-actions">
 					<!-- 未登入時顯示註冊和登入 -->
 					<span th:if="${session.memAccount == null}"> 
-						<a th:href="@{/mem/register}" class="login-link">註冊</a> 
+						<a th:href="@{/mem/register}" class="login-link"><img th:src="@{/images/userplus.png}" alt="Login"></a> 
 					<span class="divider">|</span> 
 						<a class="icons" th:href="@{/mem/login}"><img th:src="@{/images/login.png}" alt="Login"></a>
 					</span>
 
 					<!-- 已登入時顯示用戶名稱和登出 -->
 					<span th:if="${session.memAccount != null}"> 
-					<a class="icons" th:href="@{/member}"><img th:src="@{/images/會員中心.png}" alt="User"></a>
-					<span class="user-name" th:text="'Welcome&nbsp;&nbsp;&nbsp;'+ ${session.memAccount}"></span>
-						<a th:href="@{/mem/logout}" class="login-link">登出</a>
+						<a class="icons" th:href="@{/member}"><img th:src="@{/images/會員中心.png}" alt="User"></a>
+						<span class="user-name" th:text="'Welcome&nbsp;&nbsp;&nbsp;'+ ${session.memAccount}"></span>
+						<a class="icons" th:href="@{/mem/logout}" th:if="${session.memNo != null}">
+						    <img th:src="@{/images/log-out.png}" alt="Logout">
+						</a>
 					</span>
 				</div>
 <!-- 			</div> -->
@@ -96,7 +98,7 @@
 						<!-- 搜尋圖標 -->
 					</button>
 					<!-- 購物車圖標 -->
-					<a class="icons" th:href="@{/shoppingcartlist/listShoppingCartLists_ByCompositeQuery}" style="width: 40px; height: 40px;"><img th:src="@{/images/購物車.png}" alt="Cart"></a>
+					<a class="icons" th:href="@{/shoppingcartlist/listAllShoppingCartList}" style="width: 40px; height: 40px;"><img th:src="@{/images/購物車.png}" alt="Cart"></a>
 				</div>
 			</div>
 		</div>
