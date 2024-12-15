@@ -57,7 +57,7 @@ public class UsedEcpayService {
 //		obj.setOrderResultURL("http://localhost:8080/used/select_page");
 		obj.setNeedExtraPaidInfo("N");
 		obj.setRedeem("N");
-		obj.setClientBackURL("http://dobuy.ddns.net/member");// 設定付款完成後消費者要看到的網頁(轉網址)
+		obj.setClientBackURL("http://localhost:8080/member");// 設定付款完成後消費者要看到的網頁(轉網址)
 		obj.setCustomField1(usedOrderNo.toString());
 		String form = all.aioCheckOut(obj, null);
 	

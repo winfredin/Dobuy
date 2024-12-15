@@ -237,10 +237,15 @@
       </span>
     </td>
     <td>
-      <form method="post" th:action="@{/used/oneButtontoSellUsed}">
-        <input type="submit" value="轉售"/>
-        <input type="hidden" name="goodsNo" th:value="${counterOrderDetailVO.goodsNo}" />
-      </form>
+      <th:block th:if="${session.memStatus != 2}">
+	  <form method="post" th:action="@{/used/oneButtontoSellUsed}">
+	    <input type="submit" value="轉售"/>
+	    <input type="hidden" name="goodsNo" th:value="${counterOrderDetailVO.goodsNo}" />
+	  </form>
+	</th:block>
+	<th:block th:if="${session.memStatus == 2}">
+	  <span>被停止賣權，請聯繫客服</span>
+	</th:block>
     </td>
   </tr>
 </tbody>
