@@ -157,9 +157,6 @@ public class UsedController {
         return "front-end/used/listAllUsed :: usedListFragment";
     }
 
-	
-	
-
 	/*
 	 * This method will be called on addUsed.html form submission, handling POST request It also validates the user input
 	 */
