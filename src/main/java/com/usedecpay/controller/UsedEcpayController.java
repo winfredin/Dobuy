@@ -184,6 +184,7 @@ public class UsedEcpayController {
 			    "</body>" +
 			    "</html>";
 		        
+		
 		        HttpHeaders headers = new HttpHeaders();
 		        headers.setContentType(MediaType.TEXT_HTML);
 		        headers.set("Content-Encoding", "UTF-8"); // 確保編碼
