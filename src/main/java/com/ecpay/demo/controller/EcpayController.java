@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ShoppingCartList.model.ShoppingCartListService;
 import com.counter.model.CounterService;
 import com.counterHome.cartTest.model.CartListVO;
 import com.counterHome.counterOrderDetailTest.model.NewCounterOrderDetailService;
@@ -28,7 +27,9 @@ import com.counterHome.counterOrderTest.model.NewCounterOrderVO;
 import com.counterHome.couponTest.model.NewCouponsService;
 import com.counterHome.couponTest.model.NewCouponsVO;
 import com.counterorder.model.CounterOrderService;
+import com.counterorder.model.CounterOrderVO;
 import com.counterorderdetail.model.CounterOrderDetailService;
+import com.counterorderdetail.model.CounterOrderDetailVO;
 import com.ecpay.demo.service.OrderService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -45,7 +46,13 @@ public class EcpayController {
 
 	@Autowired
 	NewCouponsService newCouponsSvc;
-
+	
+	@Autowired
+	CounterOrderService counterOrderSvc;
+	
+	@Autowired
+	CounterOrderDetailService counterOrderDetailSvc;
+	
 	@Autowired
 	GoodsService goodsSvc;
 	
@@ -117,10 +124,13 @@ public class EcpayController {
 		newCounterOrderVO.setReceiverAdr(recipientAddress);
 		newCounterOrderVO.setReceiverPhone(recipientPhone);
 		newCounterOrderVO.setOrderStatus(5);
-
+		
+		CounterOrderVO counterOrderVO = new CounterOrderVO(newCounterOrderVO);//建一個counterorderVO
+		
 		System.out.println("recipientName" + recipientName);
 
 		List<NewCounterOrderDetailVO> detailList = new ArrayList<NewCounterOrderDetailVO>();
+		List<CounterOrderDetailVO> olddetailList = new ArrayList<CounterOrderDetailVO>();
 
 		// 驗證階段
 		for (CartListVO CartListVO : cartList) {
@@ -149,6 +159,7 @@ public class EcpayController {
 			GoodsVO goodsVO = goodsSvc.getOneGoods(CartListVO.getGoodsNo());
 			//先存order 後面在存detail時 可以用這個VO取的NO
 			if (switchNo) {
+				counterOrderVO = counterOrderSvc.insert(counterOrderVO);
 				newCounterOrderVO = newCounterOrderSvc.savedOrder(newCounterOrderVO);
 				switchNo = false;
 			}
@@ -158,13 +169,19 @@ public class EcpayController {
 			
 			//創建一個detail的VO並加入detailList
 			NewCounterOrderDetailVO detail = new NewCounterOrderDetailVO(CartListVO);
+			
+			//創建一個oldDetailVO
+			CounterOrderDetailVO oldDetail = new CounterOrderDetailVO(detail);
+			oldDetail.setCounterOrderNo(counterOrderVO.getCounterOrderNo());
 			detail.setCounterOrder(newCounterOrderVO.getcOrderNo());
+			olddetailList.add(oldDetail);
 			detailList.add(detail);
 		}
 		
 		//一次性保存detailList到detail表格
 		newCounterOrderDetailSvc.saveOrderDetails(detailList);
-
+		counterOrderDetailSvc.saveAll(olddetailList);
+		
 		try {
 
 			List<String> itemNames = new ArrayList<String>();

@@ -151,3 +151,37 @@ document.querySelector('.form-button').addEventListener('click', function (event
 		});
 })
 
+// 切换密码可见性
+document.addEventListener("DOMContentLoaded", () => {
+    // 切换会员密码输入框
+    const toggleMemPassword = document.getElementById("toggleMemPassword");
+    const memPasswordInput = document.getElementById("memPassword");
+    toggleMemPassword.addEventListener("click", () => {
+        const icon = toggleMemPassword.querySelector("i");
+        if (memPasswordInput.type === "password") {
+            memPasswordInput.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        } else {
+            memPasswordInput.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+        }
+    });
+
+    // 切换确认密码输入框
+    const toggleConfirmPassword = document.getElementById("toggleConfirmPassword");
+    const confirmPasswordInput = document.getElementById("confirmMemPassword");
+    toggleConfirmPassword.addEventListener("click", () => {
+        const icon = toggleConfirmPassword.querySelector("i");
+        if (confirmPasswordInput.type === "password") {
+            confirmPasswordInput.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        } else {
+            confirmPasswordInput.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+        }
+    });
+});
