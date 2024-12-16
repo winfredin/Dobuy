@@ -100,14 +100,28 @@
 
 <div class="slider">
 
-    <th:block th:each="goodsVO : ${carousellist}">
-        <a th:href="@{/counter/getOneGoods(goodsNo=${goodsVO.goodsNo})}">
-            <img th:src="@{/goods/DBGifReader} + '?goodsNo=' + ${goodsVO.goodsNo}" alt="goods-image">
-        </a>
+    <th:block th:each="storeCarouselVO : ${carousellist}">
+        <a th:href="@{/counter/getOneCounter_For_Display(counterNo=${storeCarouselVO.counterNo})}">
+<img th:src="@{/storecarousel/gifReader(id=${storeCarouselVO.id})}" alt="goods-image" />
+</a>
     </th:block>
 
 
 </div>
+
+
+<!-- <div class="slider"> -->
+<!--     這裡迴圈 storeCarouselList -->
+<!--     <th:block th:each="carousel : ${storeCarouselList}"> -->
+<!--         <div> -->
+<!--             <img th:src="'data:image/png;base64,' + ${carouselImageMap[carousel.Id]}"  -->
+<!--                  th:alt="'Carousel ' + ${carousel.Id" /> -->
+<!--         </div> -->
+<!--     </th:block> -->
+<!-- </div> -->
+
+
+
 
 	
 	
@@ -162,7 +176,8 @@
 	    variableWidth: false,   // 關閉可變寬度，避免圖片大小不一致
 	    focusOnSelect: true     // 當選擇一張圖片時，將其聚焦顯示
 	});
-       
+
+	
     
         function debounce(func, delay) {
             let timeoutId;

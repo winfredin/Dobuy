@@ -3,93 +3,152 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <th:block th:replace="~{/vendor-end/counter/Counterincldue :: head}"></th:block>
 <title>商城輪播資訊修改</title>
-
-<head th:insert="~{/back-end/storecarousel/included-fragment}"></head>
+<!-- <div th:insert="~{/back-end/storecarousel/included-fragment}"></div> -->
 <style type="text/css">
+    body {
+        font-family: Arial, sans-serif;
+         background-color: #f4f6f9; 
+         color: #333; 
+        margin: 0;
+        padding: 0;
+    }
+
+    .form-container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        margin: 40px auto;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    input[type=text], input[type=password], select, textarea, input[type=file] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+    }
+
+    input[type=text]:focus, input[type=password]:focus, select:focus, textarea:focus, input[type=file]:focus {
+        border-color: #80bdff;
+        outline: none;
+    }
+
     button {
-        padding: 5px;
+        padding: 10px 20px;
+        background-color: #28a745;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
     }
-    form {
-        display: table;
+
+    button:hover {
+        background-color: #218838;
     }
-    form div {
-        display: table-row;
+
+    .error {
+        color: #dc3545;
+        font-size: 0.9em;
     }
-    label, input, span, select {
-        display: table-cell;
-        margin: 5px;
-        text-align: left;        
+
+    .navbar {
+        background-color: #343a40;
+        padding: 10px 0;
     }
-    input[type=text], input[type=password], select, textarea {
-        width: 200px;
-        margin: 5px;
+
+    .navbar h2, .navbar h3 {
+        color: #fff;
+        text-align: center;
+        margin: 0;
     }
-    form div div {
-        display: table-cell;
+
+    .navbar a {
+        color: #ffc107;
+        text-decoration: none;
     }
-    .center {
-        margin-left: auto;
-        margin-right: auto;
+
+    .navbar a:hover {
+        text-decoration: underline;
     }
+
+     .center { 
+         display: flex; 
+         justify-content: center; 
+     } 
 </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top justify-content-center">
+<nav class="container mt-5">
     <div align="center">
-        <h2>商城輪播資訊修改 - updateStoreCarouselInput.html</h2>
-        <h3><a class="navbar-brand" th:href="@{/storecarousel/selectPage}"><img th:src="@{/images/back1.gif}">回查詢頁</a></h3>
+        <h2>商城輪播資訊修改</h2>
     </div>
 </nav>
 
-<div align="center">
-    <h3><b>所有欄位皆為必填欄位</b></h3>
-    <form th:action="@{update}" method="post" th:object="${storeCarouselVO}" >
-        <div>
+<!-- <div class="center"> -->
+<!--     <h3><b>所有欄位皆為必填欄位</b></h3> -->
+<!-- </div> -->
+
+<div class="form-container">
+    <form th:action="@{/storecarousel/update}" method="post" th:object="${storeCarouselVO}" enctype="multipart/form-data">
+    
+        <div class="form-group">
             <label>輪播資訊編號:</label>
-            <input type="text" th:field="*{id}" style="border:0px ; font-weight: bold;" readonly /><br/>
+            <input type="text" th:field="*{id}" readonly style="background-color: #e9ecef; font-weight: bold;"/>
         </div>
         
-        <div>
+        <div class="form-group">
             <label>櫃位編號:</label>
-            <input type="text" th:field="*{counterNo}" onclick="hideContent('counterNo.errors');" /><br/>
-            <span  th:if="${#fields.hasErrors('counterNo')}" th:errors="*{counterNo}" class="error" id="counterNo.errors"></span>
+            <input type="text" th:field="*{counterNo}" onclick="hideContent('counterNo.errors');"/>
+            <span th:if="${#fields.hasErrors('counterNo')}" th:errors="*{counterNo}" class="error" id="counterNo.errors"></span>
         </div>
         
-        <div>
+        <div class="form-group">
             <label>平台優惠編號:</label>
-            <input type="text" th:field="*{disNo}" onclick="hideContent('disNo.errors');" /><br/>
-            <span  th:if="${#fields.hasErrors('disNo')}" th:errors="*{disNo}" class="error" id="disNo.errors"></span>
+            <input type="text" th:field="*{disNo}" onclick="hideContent('disNo.errors');"/>
+            <span th:if="${#fields.hasErrors('disNo')}" th:errors="*{disNo}" class="error" id="disNo.errors"></span>
         </div>
         
-        <div>
+        <div class="form-group">
             <label>輪播時間 (YYYY-MM-DD HH:MM:SS):</label>
-            <input type="text" th:field="*{carouselTime}" onclick="hideContent('carouselTime.errors');" /><br/>
-            <span  th:if="${#fields.hasErrors('carouselTime')}" th:errors="*{carouselTime}" class="error" id="carouselTime.errors"></span>
+            <input type="text" th:field="*{carouselTime}" onclick="hideContent('carouselTime.errors');"/>
+            <span th:if="${#fields.hasErrors('carouselTime')}" th:errors="*{carouselTime}" class="error" id="carouselTime.errors"></span>
         </div>
 
-        <div>
+        <div class="form-group">
             <label>輪播圖片:</label>
-            <input type="file" th:field="*{carouselPic}" onclick="hideContent('carouselPic.errors');" /><br/>
-            <span  th:if="${#fields.hasErrors('carouselPic')}" th:errors="*{carouselPic}" class="error" id="carouselPic.errors"></span>
+            <input type="file" id="carouselPic" name="carouselPic" th:field="*{carouselPic}" onclick="hideContent('carouselPic.errors');"/>
+            <span th:if="${#fields.hasErrors('carouselPic')}" th:errors="*{carouselPic}" class="error" id="carouselPic.errors"></span>
         </div>
         
-        <div>
-            <div></div>
-            <div><button type="submit" id="submit">送出修改</button></div>
-            <div></div>
-        </div>        
+        <div class="center">
+            <button type="submit" id="submit">送出修改</button>
+        </div>
     </form>
 </div>
 
-<!-- JavaScript part -->
 <script type="text/javascript">
-//清除提示信息
+// 清除提示信息
 function hideContent(d) {
-     document.getElementById(d).style.display = "none";
+    document.getElementById(d).style.display = "none";
 }
 </script>
+<footer th:block
+		th:replace="~{back-end/back-end-home/fraghead :: footer}"></footer>
 
 </body>
 </html>
