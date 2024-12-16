@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.counterHome.counterOrderTest.model.NewCounterOrderVO;
 import com.counterorderdetail.model.CounterOrderDetailVO;
 
 @Entity
@@ -30,12 +31,33 @@ public class CounterOrderVO implements java.io.Serializable {
 	private String receiverAdr;
 	private String receiverPhone;
 	private Date ordertime;
-	private Integer reservedAmount;
+	@Column(name = "couponNo", nullable = false)
+	private Integer couponNo;
 	
 	
+	public Integer getCouponNo() {
+		return couponNo;
+	}
+	public void setCouponNo(Integer couponNo) {
+		this.couponNo = couponNo;
+	}
+
+
+
 	private Integer goodsNo;
 	private List<CounterOrderDetailVO> counterOrderDatailVO;
 	
+	public CounterOrderVO(NewCounterOrderVO newCounterOrderVO) {
+		this.counterNo = newCounterOrderVO.getCounterNo();
+		this.memNo = newCounterOrderVO.getMemNo();
+		this.orderTotalBefore = newCounterOrderVO.getOrderTotalPriceBefore();
+		this.orderTotalAfter = newCounterOrderVO.getOrderTotalPriceAfter();
+		this.orderStatus = newCounterOrderVO.getOrderStatus();
+		this.receiverName = newCounterOrderVO.getReceiverName();
+		this.receiverAdr = newCounterOrderVO.getReceiverAdr();
+		this.receiverPhone = newCounterOrderVO.getReceiverPhone();
+		this.couponNo = newCounterOrderVO.getCouponNo();
+	}
 	@OneToMany(mappedBy = "counterOrderVO", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	public List<CounterOrderDetailVO> getCounterOrderDatailVO() {
 		return counterOrderDatailVO;
@@ -57,8 +79,6 @@ public class CounterOrderVO implements java.io.Serializable {
 
 
 	//	private Integer disno;
-//	柏翔改
-	private Integer memCouponNo;
 
 //	柏翔改
 //	private Integer disNo;
@@ -193,16 +213,16 @@ public class CounterOrderVO implements java.io.Serializable {
 //		this.disno = disno;
 //	}
 	
-//	柏翔改
-	@Column(name = "memCouponNo")
-	public Integer getMemCouponNo() {
-		return memCouponNo;
-	}
-//	柏翔改
-	public void setMemCouponNo(Integer memCouponNo) {
-		this.memCouponNo = memCouponNo;
-	}
-	
+////	柏翔改
+//	@Column(name = "memCouponNo")
+//	public Integer getMemCouponNo() {
+//		return memCouponNo;
+//	}
+////	柏翔改
+//	public void setMemCouponNo(Integer memCouponNo) {
+//		this.memCouponNo = memCouponNo;
+//	}
+//	
 //	柏翔改
 //	@Column(name = "disNo")
 //	public Integer getDisNo() {
