@@ -28,10 +28,7 @@ public class NoticeService {
     public void updateNotice(NoticeVO noticeVO) {
         repository.save(noticeVO);
     }
-    
-    public void deleteAll() {
-    	repository.deleteAll();
-    }
+   
     
   //抓會員通知
     public List<NoticeVO> getOneMemberNotice(Integer memNo) {// 取得指定會員的通知

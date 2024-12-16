@@ -62,21 +62,7 @@ public class NoticeFragController {
 	}
 
 	
-//	@PostMapping("clearAllAndReturnFragment")
-//	public String clearAllAndReturnFragment(HttpSession session, ModelMap model) {
-//	    // 從 session 中取得 memNo
-//	    if (session.getAttribute("memNo") != null) {
-//	        Integer memNo = Integer.valueOf((String)session.getAttribute("memNo"));    
-//	        // 刪除指定會員的所有通知
-//	        noticeSvc.deleteNoticesByMemNo(memNo);
-//	        
-//	        // 根據 memNo 從資料庫中查詢該會員的通知
-//	        List<NoticeVO> noticeList = noticeSvc.getNoticesByMemNo(memNo);
-//	        model.addAttribute("noticeListData", noticeList);
-//	    }
-//	    // 返回Fragment所在的模板，並指定Fragment名稱
-//	    return "front-end/notice/ListAllNoticeFragment :: listallnoticeFragment";
-//	}
+
 	
 	
 	@PostMapping("markAllRead")
