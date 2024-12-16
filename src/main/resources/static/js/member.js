@@ -1075,7 +1075,7 @@ $(document).ready(function() {
                 $('#markAllReadBtn').on('click', function() {
                     $.post('/notice/markAllRead', function(response) {
                         // 即時變更所有通知行的背景顏色為淺藍色
-                        $('#notice tbody tr').each(function() {
+                        $('#notice tbody ').each(function() {
                             $(this).css('background-color', '#dff1f7');
                         });
                     });
