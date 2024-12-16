@@ -2,8 +2,10 @@ package com.usedorder.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -73,8 +75,6 @@ public class UsedOrderFragController {
 		
 		 List<UsedOrderVO> filteredList = usedOrderSvc.selectBuyerOrderByMemNo(memNo);
 		 
-		 
-		// 將數據放到模型中
 		model.addAttribute("usedorderListData", filteredList);
 		// 返回Fragment所在的模板，並指定Fragment名稱
 		return "front-end/usedorder/BuyerUsedOrderFragment :: usedOrderFragment";
