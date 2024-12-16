@@ -20,7 +20,7 @@ public interface CustomerServiceRepository extends JpaRepository<CustomerService
 	
 
 	//抓客訴回覆
-    @Query(value = "SELECT * FROM counterComplaintNo WHERE counterNo = ?1 ", nativeQuery = true)
+    @Query(value = "SELECT * FROM goodcomplaint WHERE counterNo = ?1 ", nativeQuery = true)
 	List<CustomerServiceVO> findByCounterNo(Integer counterNo);
     
     
