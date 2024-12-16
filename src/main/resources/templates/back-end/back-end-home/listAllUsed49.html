@@ -5,12 +5,14 @@
 <!-- fragment引入 -->
 <th:block th:replace="~{back-end/back-end-home/fraghead :: head}"></th:block>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
 <script	src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
 
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/4.2.1/css/bootstrap.min.css}"/>
+<link rel="stylesheet" th:href="@{/css/index.css}"/>
+<link rel="stylesheet" th:href="@{/css/error.css}"/>
 
 <script>
 	var dataTablesJQ = $.noConflict(true); // 使用獨立的 jQuery 實例
@@ -178,6 +180,79 @@ body {
 button:hover {
     background-color: #e0e0e0 !important; /* 按鈕 hover 效果 */
 }
+
+
+/* 整體表格設置 */
+#UsedList {
+    width: 100% !important;
+    table-layout: fixed !important; /* 固定表格佈局 */
+    border-collapse: collapse !important;
+    background-color: white !important;
+}
+
+/* 表頭設置 */
+#UsedList thead th {
+    background-color: #f8f9fa !important;
+    color: #333 !important;
+    font-weight: bold !important;
+    padding: 10px !important;
+    border: 1px solid #dee2e6 !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+    overflow: hidden !important;
+}
+
+/* 表格內容設置 */
+#UsedList tbody td {
+    border: 1px solid #dee2e6 !important;
+    padding: 8px !important;
+    vertical-align: middle !important;
+    text-align: center !important;
+    font-size: 14px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+/* 照片欄設置 */
+td.col-usedPics {
+    padding: 0 !important;
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* 照片圖片設置 */
+td.col-usedPics img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    max-height: 100px;
+    object-fit: contain;
+}
+
+/* 按鈕設置 */
+#UsedList button,
+#UsedList input[type="submit"] {
+    width: 100% !important;
+    padding: 4px 8px !important;
+    border: 1px solid #ddd !important;
+    background-color: #f8f9fa !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+}
+
+#UsedList button:hover,
+#UsedList input[type="submit"]:hover {
+    background-color: #e9ecef !important;
+}
+
+/* 分頁和搜尋框設置 */
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter {
+    margin: 10px 0 !important;
+}
+
+
 </style>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.jqueryui.min.css" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
