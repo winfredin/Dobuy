@@ -14,13 +14,13 @@
 
 <style type="text/css">
     .contain {
-        padding: 1rem 2rem;
+        padding: 1rem 2rem;	
         text-align: center;
     }
 
     label, input, span, select {
         display: block;
-        margin: 5px auto;
+        margin: 10px 500px;
         text-align: center;        
     }
 
@@ -35,7 +35,7 @@
     }
 
     button {
-        width: 30%;
+        width: 10%;
         background-color: #4CAF50;
         color: white;
         padding: 10px;
@@ -69,7 +69,10 @@
         <form th:action="@{/front-end-carousel/insert}" method="post" th:object="${countercarouselVO}" enctype="multipart/form-data">
             <!-- 櫃位編號 -->
             <label for="counterNo">櫃位編號:</label>
-            <input type="number" th:field="*{counterNo}" />
+            <input type="number" th:field="*{counterNo}" readonly />
+            <br /><br>
+            <label for="counterNo">櫃位名稱:</label>
+            <input type="text" th:field="${counterVO.counterCName}" readonly />
             <br /><br>
 
             <!-- 輪播圖片 -->
@@ -85,8 +88,8 @@
             <button type="submit">提交</button>
             <br /><br>
             
-            <a class="link" th:href="@{/front-end-carousel/ALLCarousel}">List all</a>
-            <a class="link" href='/'>HomePage</a>
+<!--             <a class="link" th:href="@{/front-end-carousel/ALLCarousel}">List all</a> -->
+<!--             <a class="link" href='/'>HomePage</a> -->
         </form>
     </div>
 

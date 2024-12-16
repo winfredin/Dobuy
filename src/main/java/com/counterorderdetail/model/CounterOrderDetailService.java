@@ -9,6 +9,8 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.counterHome.counterOrderDetailTest.model.NewCounterOrderDetailVO;
+
 
 @Service("counterOrderDetailService")
 public class CounterOrderDetailService {
@@ -52,6 +54,11 @@ public class CounterOrderDetailService {
            return null;
        }
        return repository.findByCounterOrderNo(orderNo);
+   }
+   
+   public void saveAll(List<CounterOrderDetailVO> details) {
+       // 使用 saveAll() 批量插入数据
+	   repository.saveAll(details);
    }
 
    

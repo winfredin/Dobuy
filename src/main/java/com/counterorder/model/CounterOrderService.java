@@ -42,6 +42,10 @@ public class CounterOrderService {
 	public void updateCounterOrder(CounterOrderVO counterOrderVO) {
 		repository.save(counterOrderVO);
 	}
+	
+	public CounterOrderVO insert(CounterOrderVO counterOrderVO) {
+		return repository.save(counterOrderVO);
+	}
 
 	public void deleteCounterOrder(Integer counterOrderNo) {
 		if (repository.existsById(counterOrderNo))

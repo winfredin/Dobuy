@@ -3,6 +3,7 @@ package com.notice.model;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -14,9 +15,12 @@ public interface NoticeRepository extends JpaRepository<NoticeVO, Integer> {
 	long countUnreadNotices();
 	
 	
+	
+	
 	//抓會員通知
 	@Query(value = "SELECT * FROM notice WHERE memNo = ?1 ", nativeQuery = true)
 	List<NoticeVO> findByMemNo(Integer memNo);
+
 
 	
 	
@@ -34,9 +38,9 @@ public interface NoticeRepository extends JpaRepository<NoticeVO, Integer> {
 	List<Integer> findExistingMemNosByContent(@Param("noticeContent") String noticeContent, @Param("memNos") List<Integer> memNos);
 
 
+
     
 }
-
 
 
 

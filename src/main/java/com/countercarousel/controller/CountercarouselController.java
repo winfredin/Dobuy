@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.counter.model.CounterService;
 import com.counter.model.CounterVO;
 import com.countercarousel.model.CountercarouselRepository;
 import com.countercarousel.model.CountercarouselService;
@@ -42,13 +43,23 @@ public class CountercarouselController {
 	@Autowired
 	CountercarouselService countercarouselService;
 	//----------------定紘--------------------------------
+	@Autowired
+	CounterService counterService;
+	
 	
     @Autowired
     MsgService msgSvc;
 	
 	@GetMapping("/addCarousel")
-	public String showRegisterPage(Model model) {
-		model.addAttribute("countercarouselVO", new CountercarouselVO());
+	public String showRegisterPage(HttpSession session, Model model) {
+		
+		 CountercarouselVO countercarouselVO = new CountercarouselVO();
+		Integer counterNo = (Integer) session.getAttribute("counterNo");
+		CounterVO counterVO= counterService.getOneCounter(counterNo);
+		countercarouselVO.setCounterNo(counterNo);
+				
+		model.addAttribute("counterVO",counterVO);
+		model.addAttribute("countercarouselVO",countercarouselVO);
 		return "vendor-end/front-end-carousel/addCarousel";
 	}
 	

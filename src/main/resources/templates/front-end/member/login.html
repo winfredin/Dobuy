@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>會員登入</title>
     <link rel="stylesheet" th:href="@{/member/css/login.css}">
- 
+ 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <!-- Logo -->
@@ -41,11 +41,17 @@
             <span th:if="${#fields.hasErrors('memAccount')}" th:errors="*{memAccount}" class="error"></span>
             <br>
 
-            <label for="memPassword" class="form-label">會員密碼:</label>
-            <input type="password" id="memPassword" th:field="*{memPassword}" class="form-input" />
-            <span th:if="${#fields.hasErrors('memPassword')}" th:errors="*{memPassword}" class="error"></span>
+            <label for="memPassword" class="form-label">*會員密碼:</label> 
+			<div style="position: relative; display: inline-block; width: 100%;">
+		    <input type="password" id="memPassword" th:field="*{memPassword}" class="form-input" /> 
+		    <button type="button" id="togglePassword" class="toggle-password" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer;">
+		        <i class="fas fa-eye" id="toggleIcon"></i> <!-- FontAwesome 图标 -->
+		    </button>
+			</div>
+			<span th:if="${#fields.hasErrors('memPassword')}" th:errors="*{memPassword}" class="error"></span> 
             <br>
-
+			<br>
+			
             <button type="submit" class="form-button">登入</button>
         </form>
 
@@ -56,4 +62,21 @@
         </div>
     </div>
 </body>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const togglePasswordButton = document.getElementById('togglePassword');
+    const passwordField = document.getElementById('memPassword');
+    const toggleIcon = document.getElementById('toggleIcon');
+
+    togglePasswordButton.addEventListener('click', () => {
+        // 切换密码框的 type 属性
+        const currentType = passwordField.getAttribute('type');
+        passwordField.setAttribute('type', currentType === 'password' ? 'text' : 'password');
+
+        // 切换图标
+        toggleIcon.classList.toggle('fa-eye');
+        toggleIcon.classList.toggle('fa-eye-slash');
+    });
+});
+</script>
 </html>

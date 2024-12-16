@@ -172,12 +172,12 @@ table th, table td {
 		    <br />
 		
 		    <label for="usedPrice">價格：</label>
-		    <input type="text" id="usedPrice" th:field="*{usedPrice}" min="1"  required />
+		    <input type="number" id="usedPrice" th:field="*{usedPrice}" min="1"  required />
 		    
 		    <br />
 		
 		    <label for="usedStocks">庫存數量：</label>
-		    <input type="text" id="usedStocks" th:field="*{usedStocks}" min="0" required />
+		    <input type="number" id="usedStocks" th:field="*{usedStocks}" min="1" required />
 		    
 		    <br />
 		

@@ -73,7 +73,7 @@ public class IndexController_inSpringBoot_ShoppingCartList {
 
     // 顯示所有購物車列表
     @GetMapping("/shoppingcartlist/listAllShoppingCartList")
-    public String listAllShoppingCart(Model model) {
+    public String listAllShoppingCart(Model model,HttpSession session) {
     	List<CounterVO> counterVOList = counterSvc.getAll();
 		model.addAttribute("counterVOList", counterVOList);
         return "front-end/shoppingcartlist/listAllShoppingCartList"; // 返回顯示所有購物車的頁面

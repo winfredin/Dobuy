@@ -140,21 +140,9 @@ public class UsedEcpayController {
 				    "</head>" +
 				    "<body>" +
 			        "<div style='text-align:center; color:red; font-weight:bold; margin-bottom:20px;'>" +
-			        "請在 <span id='countdown'>300</span> 秒內完成交易以避免訂單被系統刪除" +
+			        "請在 <span id='countdown'>600</span> 秒內完成交易以避免訂單被系統刪除" +
 			        "</div>" +
-			        "<script>" +
-			        "let timeLeft = 300;" +
-			        "const countdownElement = document.getElementById('countdown');" +
-			        "const timer = setInterval(() => {" +
-			        "    timeLeft -= 1;" +
-			        "    countdownElement.textContent = timeLeft;" +
-			        "    if (timeLeft <= 0) {" +
-			        "        clearInterval(timer);" +
-			        "        alert('交易時間已過期，訂單已被系統取消！');" +
-			        "        window.location.href='http://localhost:8080/front-end/used/shop_detail_used';" +
-			        "    }" +
-			        "}, 1000);" +
-			        "</script>"+
+			        
 					"</body>" +
 				    "</html>";
 

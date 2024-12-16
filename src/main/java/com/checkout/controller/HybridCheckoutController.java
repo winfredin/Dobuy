@@ -155,7 +155,10 @@ public class HybridCheckoutController {
             order.setOrderTotalAfter(totalPrice); // 初始值，可能會被優惠券修改
             order.setReceiverName(request.getName());
             order.setReceiverPhone(request.getPhone());
-            order.setCounterNo(request.getCounterNo());
+            for(ShoppingCartListVO a: cartItems) {
+            	order.setCounterNo(a.getCounterNo());
+            }
+
             order.setMemNo(memNo);
             order.setOrderStatus(5);
 
@@ -284,7 +287,11 @@ public class HybridCheckoutController {
                 // 交易成功
                 String merchantTradeNo = allParams.get("MerchantTradeNo");
                 String paymentDate = allParams.get("PaymentDate");
-                // TODO: 更新訂單狀態
+                String counterOrderNo = allParams.get("CustomField1");                // TODO: 更新訂單狀態
+                CounterOrderVO  counterOrderVO;
+                counterOrderVO  = counterOrderService.getOneCounterOrder(Integer.valueOf(counterOrderNo));
+                counterOrderVO.setOrderStatus(0);
+                counterOrderService.updateCounterOrder(counterOrderVO);
                 
                 return "redirect:/member"; // 導向會員頁面
             } else {

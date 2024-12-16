@@ -110,22 +110,68 @@ public class StorecarouselController {
         return "back-end/storecarousel/update-Storecarousel-Input";
     }
 
+    
     // 更新資料處理
-    @PostMapping("update")
-    public String update(@Valid StoreCarouselVO storeCarouselVO, BindingResult result, ModelMap model) {
-        if (result.hasErrors()) {
-            return "back-end/storecarousel/addStorecarousel";
-        }
-        
-        if (storeCarouselVO.getCarouselTime() == null) {
-            storeCarouselVO.setCarouselTime(new Timestamp(System.currentTimeMillis()));
-        }
+//    @PostMapping("update")
+//    public String update(@Valid StoreCarouselVO storeCarouselVO, BindingResult result, ModelMap model) {
+//        if (result.hasErrors()) {
+//            return "back-end/storecarousel/addStorecarousel";
+//        }
+//        
+//        if (storeCarouselVO.getCarouselTime() == null) {
+//            storeCarouselVO.setCarouselTime(new Timestamp(System.currentTimeMillis()));
+//        }
+//
+//        storeCarouselService.setDefaultCarouselTime(storeCarouselVO);
+//        storeCarouselService.updateStoreCarousel(storeCarouselVO);
+//        model.addAttribute("success", "- (更新成功)");
+//        return "redirect:/storecarousel/listAllStorecarouseltest";
+//    }
+    
+//    -----------------------updatetest------------------------
+    @PostMapping("/update")
+    public String update(@ModelAttribute StoreCarouselVO storeCarouselVO, BindingResult result, ModelMap model,
+    		@RequestParam("carouselPic")MultipartFile file) {
+        try {
+            // 驗證是否有錯誤
+//            if (result.hasErrors()) {
+//                return "back-end/storecarousel/addStorecarousel";
+//            }
+            
+            // 獲取原有的資料
+            StoreCarouselVO original = StorecarouselRepository.findById(storeCarouselVO.getId())
+                    .orElseThrow(() -> new RuntimeException("Carousel not found"));
+            
+            // 如果有上傳新圖片，則更新圖片
+//            System.out.println(file);
+            if(file != null && !file.isEmpty()) {
+            		
+         
+                storeCarouselVO.setCarouselPic(file.getBytes());
+            } else {
+                // 如果沒有上傳新圖片，保留原來的圖片
+                storeCarouselVO.setCarouselPic(original.getCarouselPic());
+            }
+            
+            // 如果輪播時間為空，則設定為當前時間
+            if (storeCarouselVO.getCarouselTime() == null) {
+                storeCarouselVO.setCarouselTime(new Timestamp(System.currentTimeMillis()));
+            }
 
-        storeCarouselService.setDefaultCarouselTime(storeCarouselVO);
-        storeCarouselService.updateStoreCarousel(storeCarouselVO);
-        model.addAttribute("success", "- (更新成功)");
-        return "redirect:/storecarousel/addStorecarousel";
+            // 保存更新的資料
+//            storeCarouselService.setDefaultCarouselTime(storeCarouselVO);
+//            storeCarouselService.updateStoreCarousel(storeCarouselVO);
+            StorecarouselRepository.save(storeCarouselVO);
+//            model.addAttribute("success", "- (更新成功)");
+            return "redirect:/storecarousel/listAllStorecarouseltest";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error";
+        }
     }
+
+//  -----------------------updatetest------------------------
+
 
 
     // 刪除資料處理

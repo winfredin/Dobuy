@@ -58,9 +58,9 @@
 				<a class="icons" th:href="@{/shoppingcartlist/listAllShoppingCartList}" th:if="${session.memNo != null}">
 				    <img th:src="@{/images/購物車.png}" alt="Cart">
 				</a>
-				<a class="icons" th:href="@{/report}" th:if="${session.memNo != null}">
-				    <img th:src="@{/images/report.png}" alt="Report">
-				</a>
+				<a class="icons" th:href="@{/customerservice/addComplaint}" th:if="${session.memNo != null}">
+			        <img th:src="@{/images/report.png}" alt="Report">
+			    </a>
 </div>
 
                 </div>

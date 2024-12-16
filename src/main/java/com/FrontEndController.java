@@ -2,6 +2,7 @@ package com;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -44,6 +45,8 @@ import com.goodstype.model.GoodsTypeService;
 import com.goodstype.model.GoodsTypeVO;
 import com.member.model.MemberService;
 import com.member.model.MemberVO;
+import com.storecarousel.model.StoreCarouselService;
+import com.storecarousel.model.StoreCarouselVO;
 import com.used.model.UsedService;
 import com.used.model.UsedVO;
 import com.usedpic.model.UsedPicVO;
@@ -51,36 +54,37 @@ import com.usedpic.model.UsedPicVO;
 @Controller
 public class FrontEndController {
 
-	@Autowired
-	@Qualifier("redisTemplateDb10")
-	private RedisTemplate<String, String> redisTemplate;
 
-	@Autowired
-	GoodsService goodsSvc;
-	@Autowired
-	GoodsTypeService goodstSvc;
-	@Autowired
-	CounterService counterSvc;
-	@Autowired
-	CounterOrderService counterOrderSvc;
-	@Autowired
-	CounterOrderDetailService counterOrderDetailSvc;
-	@Autowired
-	CouponService couponSvc;
+ @Autowired
+ GoodsService goodsSvc;
+ @Autowired
+ GoodsTypeService goodstSvc;
+ @Autowired
+ CounterService counterSvc;
+ @Autowired
+ CounterOrderService counterOrderSvc;
+ @Autowired
+ CounterOrderDetailService counterOrderDetailSvc;
+ @Autowired
+ CouponService couponSvc;
 
-	@Autowired
-	CountercarouselService countercarouselSvc;
+ @Autowired
+ CountercarouselService countercarouselSvc;
+ 
+ 
+ @Autowired
+ StoreCarouselService storeCarouselSvc;
+ @Autowired
+ MemberService memSvc;
+ @Autowired
+ UsedService usedSvc;
 
-	@Autowired
-	MemberService memSvc;
-	@Autowired
-	UsedService usedSvc;
+ @GetMapping("")
+ public String index() {
 
-	@GetMapping("")
-	public String index() {
+  return "loading";
+ }
 
-		return "loading";
-	}
 
 	@GetMapping("member")
 	public String getMemberPage(HttpSession session, Model model) {
@@ -113,12 +117,47 @@ public class FrontEndController {
 					goodsNameSet.add(goodsVO);
 				}
 
-				counterOrderVO.setCounterOrderDatailVO(detailList);
-				newlist.add(counterOrderVO);
-			}
 
-			List<CouponVO> couponList = couponSvc.getAll();
-			List<CounterVO> counterList = counterSvc.getAll();
+  List<StoreCarouselVO> carousellist = storeCarouselSvc.getAll();
+  List<GoodsVO> goodslist = goodsSvc.getAllGoodsStatus1();
+  List<CounterVO> counterVOList = counterSvc.getAll();
+  List<GoodsVO> subGoodslist = goodslist.stream().limit(10).collect(Collectors.toList());
+  
+  model.addAttribute("counterVOList", counterVOList);
+  model.addAttribute("goodslist", subGoodslist);
+  model.addAttribute("carousellist", carousellist);
+  return "front-end/normalpage/homepage";
+ }
+// @GetMapping("/home")
+// public String getHomePage(Model model) {
+// 
+//	// 1️⃣ 取得所有 StoreCarouselVO，並轉換圖片為 Base64
+//     List<StoreCarouselVO> storeCarouselList = storeCarouselSvc.getAll();
+//     Map<Integer, String> carouselImageMap = new HashMap<>();
+//
+//     for (StoreCarouselVO carousel : storeCarouselList) {
+//         if (carousel.getCarouselPic() != null) {
+//             String base64Image = Base64.getEncoder().encodeToString(carousel.getCarouselPic());
+//             carouselImageMap.put(carousel.getId(), base64Image); 
+//         }
+//     }
+//
+//     // 2️⃣ 取得所有商品，並只取前 10 筆
+//     List<GoodsVO> goodslist = goodsSvc.getAllGoodsStatus1();
+//     List<GoodsVO> subGoodslist = goodslist.stream().limit(10).collect(Collectors.toList());
+//
+//     // 3️⃣ 取得所有櫃位
+//     List<CounterVO> counterVOList = counterSvc.getAll();
+//
+//     // 4️⃣ 模型數據傳到前端
+//     model.addAttribute("storeCarouselList", storeCarouselList); // 原始 StoreCarouselVO 物件
+//     model.addAttribute("carouselImageMap", carouselImageMap);   // Map，包含了 StoreCarouselNo 和 base64 圖片
+//     model.addAttribute("goodslist", subGoodslist);
+//     model.addAttribute("counterVOList", counterVOList);
+//
+//     return "front-end/normalpage/homepage";
+// }
+
 
 			model.addAttribute("goodsNamelist", goodsNameSet);
 			model.addAttribute("couponList", couponList);
