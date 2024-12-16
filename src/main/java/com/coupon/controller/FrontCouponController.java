@@ -19,6 +19,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.coupon.model.CouponService;
 import com.coupon.model.CouponVO;
+import com.coupondetail.model.CouponDetailService;
+import com.coupondetail.model.CouponDetailVO;
 import com.member.model.MemberService;
 import com.member.model.MemberVO;
 import com.memcoupon.model.MemCouponService;
@@ -38,7 +40,8 @@ public class FrontCouponController {
     
     @Autowired
     private MemberService memberService;
-
+    @Autowired
+    private CouponDetailService couponDetailService;
     
 //  前台領取櫃位優惠券頁面
     @GetMapping("/list")
@@ -65,21 +68,24 @@ public class FrontCouponController {
     // 第二個方法：顯示優惠券詳情
     @GetMapping("/detail/{couponNo}")
     public String viewCouponDetail(@PathVariable Integer couponNo,
-                                 @RequestParam(required = false) String from, // 添加來源參數
-                                 HttpSession session,
-                                 Model model) {
+                                   HttpSession session,
+                                   Model model) {
         String memAccount = (String) session.getAttribute("memAccount");
-        
+
         try {
-            CouponVO coupon = couponService.getOneCouponWithDetails(couponNo);
-            if (coupon == null) {
+            // 加載優惠券資料和明細
+            CouponVO coupon = couponService.getOneCouponWithDetails(couponNo); // 加載優惠券主表數據
+            List<CouponDetailVO> details = couponDetailService.getByCouponNoEx(couponNo);
+
+            if (coupon == null || details == null || details.isEmpty()) {
                 return "redirect:/front-end/coupon/list";
             }
-            
-            model.addAttribute("coupon", coupon);
+
+            // 將資料加入 Model
+            model.addAttribute("coupon", coupon);          // 優惠券主表
+            model.addAttribute("couponDetails", details);  // 優惠券明細
             model.addAttribute("memAccount", memAccount);
-            model.addAttribute("from", from); // 將來源資訊傳給視圖
-            
+
             return "front-end/coupon/frontCouponDetail";
         } catch (Exception e) {
             e.printStackTrace();
