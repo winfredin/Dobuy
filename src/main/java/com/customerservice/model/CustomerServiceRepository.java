@@ -24,7 +24,9 @@ public interface CustomerServiceRepository extends JpaRepository<CustomerService
 	List<CustomerServiceVO> findByCounterNo(Integer counterNo);
     
     
-    
+    //測試任國
+    @Query("SELECT COUNT(p) FROM CustomerServiceVO p WHERE p.counterNo = :counterNo AND p.complaintStatus = :complaintStatus")
+    int counterPlaintReader(@Param("counterNo") Integer counterNo, @Param("complaintStatus") Byte complaintStatus);
     
    
 }
