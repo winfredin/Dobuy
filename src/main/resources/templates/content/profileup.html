@@ -32,13 +32,15 @@
         border-radius: 5px;
     }
 
-    .profile-gender input {
-        margin-right: 5px;
+    .profile-gender {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
     }
 
-    .profile-birthday select {
-        padding: 8px;
-        margin-right: 5px;
+    .profile-gender input {
+        margin-left: 10px; /* 控制左右間距 */
+        margin-right: 15px;
     }
 
     button {
@@ -62,12 +64,18 @@
         background-color: lightgray;
     }
 
+    .error-message {
+        color: red;
+        font-size: 14px;
+        margin-top: 5px;
+    }
+
 </style>
 
 <div class="profile-container">
     <h2>修改會員資料</h2>
 
-    <form th:action="@{updatemem}" method="post" th:object="${memberVO}">
+    <form th:action="@{updatemem}" method="post" th:object="${memberVO}" class="profile-form">
         <div>
             <label>會員帳號:</label>
             <input class="b" type="text" th:field="*{memAccount}" style="border:0px ; font-weight: bold;" readonly /><br />
@@ -92,10 +100,12 @@
         </div>
 
         <label>性別:</label>
-        <input type="radio" th:field="*{memSex}" value="1" id="active" th:checked="${memSex == 1}" />
-        <label for="active">男生</label>
-        <input type="radio" th:field="*{memSex}" value="0" id="inactive" th:checked="${memSex == 0}" />
-        <label for="inactive">女生</label>
+        <div class="profile-gender">
+            <label for="active">男生</label>
+            <input type="radio" th:field="*{memSex}" value="1" id="active" th:checked="${memSex == 1}" />
+            <label for="inactive">女生</label>
+            <input type="radio" th:field="*{memSex}" value="0" id="inactive" th:checked="${memSex == 0}" />
+        </div>
         <span th:if="${#fields.hasErrors('memSex')}" th:errors="*{memSex}" class="error" id="memSex.errors"></span>
 
         <div>
@@ -111,43 +121,58 @@
 </div>
 
 <script>
-    document.querySelector('.up-btn').addEventListener('click', function (e) {
-        const name = document.querySelector('.c').value.trim();
-        const phone = document.querySelector('.d').value.trim();
-        const email = document.querySelector('.E').value.trim();
-        const birth = document.querySelector('.F').value;
+$(document).ready(function() {
+    // 頁面加載後綁定表單驗證
+    bindProfileValidation();
+});
 
-        // 1. 空白欄位檢查
-        if (name === "" || phone === "" || email === "" || birth === "") {
+// 綁定表單驗證
+function bindProfileValidation() {
+    // 先解除之前的綁定，避免重複
+    $(".profile-form").off("submit");
+
+    $(".profile-form").on("submit", function(e) {
+        const name = $(".c").val().trim(); // 會員名稱
+        const email = $(".E").val().trim(); // Email
+        const phone = $(".d").val().trim(); // 手機號碼
+        const birth = $(".F").val().trim(); // 生日
+        const gender = $("input[name='memSex']:checked").val(); // 性別
+
+        // 清除之前的錯誤訊息
+        $(".error-message").remove();
+
+        // 如果有欄位未填寫，顯示錯誤並阻止表單提交
+        if (!name || !email || !phone || !birth || !gender) {
             e.preventDefault();
-            alert("欄位請勿空白");
+            $("<div class='error-message'>所有欄位都必須填寫，且必須選擇性別和生日</div>").appendTo(".profile-form");
             return;
         }
 
-        // 2. 姓名檢查：只允許中文和英文，長度最大10個字
-        const namePattern = /^[\u4e00-\u9fa5a-zA-Z]{1,10}$/;
-        if (!namePattern.test(name)) {
-            e.preventDefault();
-            alert("姓名只能包含中文和英文，且長度不超過10個字");
-            return;
-        }
-
-        // 3. 電子郵件檢查：必須包含@和以.com結尾
-        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.com$/;
-        if (!emailPattern.test(email)) {
-            e.preventDefault();
-            alert("Email 必須包含 @ 並以 .com 結尾");
-            return;
-        }
-
-        // 4. 手機號碼檢查：必須以 09 開頭且長度為 10
+        // 1. 驗證手機號碼：必須以 "09" 開頭，且後面是 8 位數字（總長 10 位數字）
         const phonePattern = /^09\d{8}$/;
         if (!phonePattern.test(phone)) {
             e.preventDefault();
-            alert("手機號碼必須以09開頭且長度為10");
+            $("<div class='error-message'>手機號碼必須以 09 開頭，且為 10 位數字</div>").appendTo(".profile-form");
             return;
         }
 
-        alert("資料已成功修改！");
+        // 2. 驗證 Email：必須包含 "@" 且以 ".com" 結尾
+        const emailPattern = /^[\w-\.]+@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+        if (!emailPattern.test(email) || !email.endsWith(".com")) {
+            e.preventDefault();
+            $("<div class='error-message'>Email 必須包含 @ 且以 .com 結尾</div>").appendTo(".profile-form");
+            return;
+        }
+
+        // 3. 驗證會員名稱：只能包含中文或英文，且長度不超過 10 個字
+        const namePattern = /^[A-Za-z\u4e00-\u9fa5]{1,10}$/;  // 支援英文和中文，長度為 1-10
+        if (!namePattern.test(name)) {
+            e.preventDefault();
+            $("<div class='error-message'>會員名稱只能包含中文或英文，且長度不超過 10 個字</div>").appendTo(".profile-form");
+            return;
+        }
+        alert("修改完成");  
     });
+    
+}
 </script>

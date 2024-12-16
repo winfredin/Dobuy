@@ -7,6 +7,12 @@
     margin: 20px auto;
     font-family: Arial, sans-serif;
 }
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+    font-weight: bold;
+}
 
 h2 {
     font-size: 24px;
@@ -86,39 +92,51 @@ h2 {
 <script src="/js/jquery3.7.1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
 <script>
- 
-const input1 = document.querySelector(".input1");
-const input2 = document.querySelector(".input2");
-const btn = document.querySelector(".submit-btn");
-
-btn.addEventListener("click", function (e) {
-    const password1 = input1.value.trim();
-    const password2 = input2.value.trim();
-
-    // 檢查是否為空
-    if (password1 === "" || password2 === "") {
-        e.preventDefault();
-        alert("密碼不可空白");
-        return;
-    }
-
-    // 檢查是否符合格式（英文、數字、特殊符號）且長度最多10位
-    const validPattern = /^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{2,10}$/; // 支援特殊符號和長度限制
-    if (!validPattern.test(password1)) {
-        e.preventDefault();
-        alert("密碼只能包含英文、數字、特殊符號，且長度需2-10位");
-        return;
-    }
-
-    // 檢查前後密碼是否一致
-    if (password1 !== password2) {
-        e.preventDefault();
-        alert("前後密碼不一致");
-        return;
-    }
-
-    alert("修改成功");
+$(document).ready(function() {
+    // 頁面加載後綁定表單驗證
+    bindPasswordValidation();
 });
 
-    
+function bindPasswordValidation() {
+    // 確保每次提交時清除上次的錯誤訊息
+    $(".error-message").remove();
+
+    $(".password-form").on("submit", function(e) {
+        const password = $(".input1").val().trim();
+        const confirmPassword = $(".input2").val().trim();
+        $(".error-message").remove();
+        // 檢查密碼和確認密碼是否為空
+        if (!password || !confirmPassword) {
+            e.preventDefault();
+            $("<div class='error-message'>密碼和確認密碼不可為空</div>").appendTo(".password-form");
+            return;
+        }
+
+        // 檢查密碼和確認密碼是否一致
+        if (password !== confirmPassword) {
+            e.preventDefault();
+            $("<div class='error-message'>密碼與確認密碼不一致</div>").appendTo(".password-form");
+            return;
+        }
+
+        // 檢查密碼是否只包含數字和字母
+        const regex = /^[a-zA-Z0-9]+$/;  // 只允許字母和數字
+        if (!regex.test(password)) {
+            e.preventDefault();
+            $("<div class='error-message'>密碼只能包含數字和英文</div>").appendTo(".password-form");
+            return;
+        }
+
+        // 檢查密碼長度是否符合要求
+        if (password.length < 6 || password.length > 20) {
+            e.preventDefault();
+            $("<div class='error-message'>密碼長度必須在 6 到 20 個字符之間</div>").appendTo(".password-form");
+            return;
+        }
+
+        // 提交後提示密碼已修改
+        alert("密碼已修改");
+    });
+}
+
 </script>

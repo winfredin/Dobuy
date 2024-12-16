@@ -95,7 +95,7 @@ input.a{
 <script src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
 <script type="text/javascript">
     // 當修改會員資料按鈕被點擊時，載入 profileup.html 內容
-    $(".up-btn").on("click", function() {
+    $(".up-btn").one("click", function() {
         $.ajax({
             url: "/content/profileup",  // 假設這是返回 profileup.html 的 API
             method: "GET",
