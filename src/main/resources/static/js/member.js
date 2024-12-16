@@ -628,7 +628,7 @@ function addNotice(usedOrderNo, message) {
 	});
 }
 
-function showOrderDetails(element) {
+function showSellerOrderDetails(element) {
 	var buyerNo = element.getAttribute('data-buyerNo');
 	var orderNo = element.getAttribute('data-orderNo');
 	var usedNo = element.getAttribute('data-usedNo');
