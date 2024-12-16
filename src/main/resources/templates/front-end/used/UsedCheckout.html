@@ -190,7 +190,11 @@
                 <!-- 導覽列 -->
                 <div class="nav_bar">
                     <div class="head">
-                        <a href="#home">Home</a> <a href="#about">一般商城</a> <a href="#services">二手商城</a> <a href="#contact">品牌</a> <a href="#class">商品分類</a> <a href="#hot">熱銷商品</a> <a href="#coupongoods">優惠商品</a> <a href="#couponget">優惠券領取</a>
+                    <a th:href="@{/home}">Home</a>
+						<a th:href="@{/goodspage}">一般商城</a>
+						<a th:href="@{/usedgoodspage}">二手商城</a>
+
+					
                     </div>
                 </div>
             </div>
@@ -198,14 +202,28 @@
             <!-- 圖示區域 -->
             <div class="icon_area">
                 <div class="icons">
-                    <a class="icons" href="#"><img src="/shop-detail/images/會員中心.png" alt="User"></a> 
-                    <a class="icons" href="login.html"><img src="/shop-detail/images/log-in.png" alt="Login"></a> 
-                    <a class="icons" href="#"><img src="/shop-detail/images/聊天室(FAQ 客服).png" alt="Chat"></a>
-                    <a class="icons" href="#"><img src="/shop-detail/images/購物車.png" alt="Cart"></a>
+                 	<a class="icons login-only" th:href="@{/mem/login}" th:if="${session.memNo == null}">
+				    <img th:src="@{/images/login.png}" alt="Login">
+				</a>
+				
+				<!-- 當 session.memNo 不為 null，顯示其他按鈕 -->
+				<a class="icons" th:href="@{/member}" th:if="${session.memNo != null}">
+				    <img th:src="@{/images/會員中心.png}" alt="User">
+				</a>
+				<a class="icons" th:href="@{/mem/logout}" th:if="${session.memNo != null}">
+				    <img th:src="@{/images/log-out.png}" alt="Logout">
+				</a>
+				<a class="icons" th:href="@{/shoppingcartlist/listAllShoppingCartList}" th:if="${session.memNo != null}">
+				    <img th:src="@{/images/購物車.png}" alt="Cart">
+				</a>
+				<a class="icons" th:href="@{/customerservice/addComplaint}" th:if="${session.memNo != null}">
+			        <img th:src="@{/images/report.png}" alt="Report">
+			    </a>
                 </div>
                 <div class="coupon_area">
-                    <a class="coupon" href="#"><img src="/shop-detail/images/優惠卷領取頁面圖示.png" alt="coupon"></a>
-                </div>
+<a class="coupon" th:href="@{/front-end/coupon/list}"><img src="/images/優惠卷領取頁面圖示.png"
+						alt="coupon"></a>
+						                </div>
             </div>
         </div>
     </header>

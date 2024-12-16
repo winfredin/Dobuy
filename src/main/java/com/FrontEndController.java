@@ -2,15 +2,9 @@ package com;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-
-import java.util.stream.Collectors;
-
 import java.util.Set;
-
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
@@ -33,7 +27,6 @@ import com.counter.model.CounterVO;
 import com.counterHome.couponTest.model.NewCouponsService;
 import com.counterHome.couponTest.model.NewCouponsVO;
 import com.countercarousel.model.CountercarouselService;
-import com.countercarousel.model.CountercarouselVO;
 import com.counterorder.model.CounterOrderService;
 import com.counterorder.model.CounterOrderVO;
 import com.counterorderdetail.model.CounterOrderDetailService;
@@ -47,9 +40,10 @@ import com.goodstype.model.GoodsTypeService;
 import com.goodstype.model.GoodsTypeVO;
 import com.member.model.MemberService;
 import com.member.model.MemberVO;
+import com.storecarousel.model.StoreCarouselService;
+import com.storecarousel.model.StoreCarouselVO;
 import com.used.model.UsedService;
 import com.used.model.UsedVO;
-import com.usedpic.model.UsedPicVO;
 
 @Controller
 public class FrontEndController {
@@ -74,6 +68,9 @@ public class FrontEndController {
  @Autowired
  CountercarouselService countercarouselSvc;
 
+ @Autowired
+ StoreCarouselService storeCarouselSvc;
+ 
  @Autowired
  MemberService memSvc;
  @Autowired
@@ -144,8 +141,8 @@ public class FrontEndController {
  @GetMapping("home")
  public String getHomePage(Model model, HttpSession session) {
 
-  List<CountercarouselVO> carousellist = countercarouselSvc.getAll();
-  List<GoodsVO> goodslist = goodsSvc.getAllGoodsStatus1();
+	 List<StoreCarouselVO> carousellist = storeCarouselSvc.getAll();
+	 List<GoodsVO> goodslist = goodsSvc.getAllGoodsStatus1();
   List<CounterVO> counterVOList = counterSvc.getAll();
   List<GoodsVO> subGoodslist = goodslist.stream().limit(10).collect(Collectors.toList());
   // 找愛心
