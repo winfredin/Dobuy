@@ -1,0 +1,218 @@
+/* 通用样式 */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: url('/counterPage/img/core-img/sand.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+
+
+
+/* 整体样式 */
+.product-row,
+.product-item {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+    margin-left: 10%;
+    margin-right: 10%;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+    background-color: rgba(200, 200, 200, 0.5); /* 灰色，透明度 50% */
+}
+
+.header-row {
+    font-weight: bold;
+    background-color: #f8f8f8;
+    border-bottom: 2px solid #ccc;
+}
+
+.product-container {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+/* 商品列样式 */
+.product-column {
+    flex: 1;
+    padding: 5px 10px;
+    box-sizing: border-box;
+    text-align: center;
+    word-break: break-word; /* 防止单词溢出 */
+}
+
+/* 商品名稱超出時顯示 ... */
+.product-name span {
+    display: block;
+    white-space: nowrap; /* 防止换行 */
+    overflow: hidden; /* 隐藏超出部分 */
+    text-overflow: ellipsis; /* 显示省略号 */
+    max-width: 150px; /* 设置最大宽度，可根据实际情况调整 */
+    margin: 0 auto;
+}
+
+/* 商品圖片占位 */
+.product-image span {
+    display: block;
+    background-color: #eee;
+    width: 60px;
+    height: 60px;
+    border-radius: 5px;
+    margin: 0 auto;
+}
+
+/* 容器通用样式 */
+.summary-container {
+    text-align: center; /* 置中内容 */
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 50%; /* 可根据需求调整宽度 */
+    background-color: rgba(200, 200, 200, 0.7); /* 灰色，透明度 50% */
+    font-size: 1.2rem;
+    line-height: 1.8; /* 行高，确保段落间距 */
+}
+
+/* 收件人信息容器 */
+.recipient-info p {
+    margin: 10px 0;
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.recipient-info input {
+    width: 50%; /* 輸入框寬度為容器寬度 */
+    padding: 10px; /* 內邊距增加 */
+    font-size: 1.1rem; /* 輸入文字放大 */
+    border: 1px solid #ccc; /* 邊框顏色 */
+    border-radius: 5px; /* 輕微圓角 */
+    box-sizing: border-box; /* 確保寬度不受 padding 影響 */
+}
+
+/* 優惠內容 */
+.newCouponsVO {
+    margin-bottom: 10px;
+}
+
+/* 折扣前加删除线 */
+.totalAmountBefore {
+    color: #000; /* 預設黑色字體 */
+    font-size: 1.4rem;
+}
+
+.discounted {
+    text-decoration: line-through; /* 刪除線 */
+    color: #666; /* 灰色字體 */
+}
+
+/* 折扣后字体变红且放大 */
+.totalAmountAfter {
+    color: red;
+    font-weight: bold; /* 加粗 */
+    font-size: 1.6rem; /* 放大字体 */
+}
+
+/* 输入框样式 */
+.input-field {
+    width: 60%; /* 输入框宽度，可根据需要调整 */
+    padding: 8px;
+    font-size: 1rem;
+    margin-left: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* 输入框获得焦点时的样式 */
+.input-field:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+
+/* 按钮组样式 */
+.button-group {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.button-group button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+/* 按钮特定样式 */
+.cancel-button {
+    background-color: #f44336; /* 红色背景 */
+    color: white;
+}
+
+.confirm-button {
+    background-color: #4CAF50; /* 绿色背景 */
+    color: white;
+}
+
+/* 按钮悬停效果 */
+.cancel-button:hover {
+    background-color: #d32f2f;
+}
+
+.confirm-button:hover {
+    background-color: #388e3c;
+}
+
+.counterCname-container {
+    text-align: center; /* 文字置中 */
+    margin: 20px 0; /* 上下留白 */
+    background-color: #86512d;
+    width:80%;
+    margin-left:10%;
+}
+
+.counterCname {
+    font-size: 2rem; /* 放大文字 */
+    font-weight: bold; /* 粗體 */
+    color: #333; /* 深色字體 */
+}
+
+.header {
+    text-align: center; /* 置中 */
+    margin: 20px 0; /* 上下留白 */
+}
+
+.logo-link {
+    display: inline-block; /* 讓 a 標籤在內容居中時不拉伸 */
+    text-decoration: none; /* 移除下劃線 */
+}
+
+.logo {
+    max-width: 200px; /* 控制圖片寬度，可根據需要調整 */
+    height: auto; /* 保持圖片比例 */
+}
+
+.error-container {
+    text-align: center; /* 文字居中 */
+    margin: 20px 0; /* 增加間距 */
+}
+
+.error {
+    color: red; /* 紅字 */
+    font-size: 1.5rem; /* 字體放大 */
+    font-weight: bold; /* 加粗 */
+    display: block; /* 每個錯誤訊息換行顯示 */
+    line-height: 1.8; /* 增加行高 */
+    white-space: pre-line; /* 保留換行符 */
+}
+

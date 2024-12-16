@@ -1,9 +1,11 @@
 package com.mailCheck.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,7 +41,7 @@ public class MailCheckController {
 			return ResponseEntity.ok(response);
 		}
 
-		mailSvc.sendEmail(email, verificationCode);
+		mailSvc.sendHtmlEmail(email, verificationCode);
 		MailVO mailVO = new MailVO(email, verificationCode, 0);
 		mailSvc.insert(mailVO);
 
@@ -110,4 +112,5 @@ public class MailCheckController {
 		}
 
 	}
+
 }

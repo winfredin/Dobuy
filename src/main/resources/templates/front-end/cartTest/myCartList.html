@@ -11,7 +11,19 @@
 
 </head>
 <body>
-	<h2>我的購物車</h2>
+	<div class="cart-header">
+		<div class="logo-container">
+			<a th:href="@{/home}" title="點擊跳轉"> <img
+				th:src="@{/counterPage/img/core-img/logo-noback.png}"
+				style="width: 150px;" alt="Logo" class="logo">
+			</a>
+		</div>
+		<h2 class="cart-title">我的購物車</h2>
+		<div class="home-link">
+	        <a th:href="@{/home}" class="back-home-link">返回首頁</a>
+	    </div>
+	</div>
+
 
 
 
@@ -27,71 +39,79 @@
 			style="margin-top: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
 			<!-- 顯示櫃位名稱 -->
 			<div
-				style="padding: 10px 0; font-size: 18px; font-weight: bold; border-bottom: 1px solid #ccc;">
-				<h3 th:text="'櫃位名稱：' + ${entry.key}"></h3>
+				style="padding: 10px 0; font-size: 24px; font-weight: bold; background-color: #86512d; border-bottom: 1px solid #ccc; display: flex; justify-content: center; align-items: center; text-align: center;">
+				<h3 style="margin: 0; color: white;" th:text="${entry.key}"></h3>
 			</div>
 
+
 			<!-- 標題 -->
-			<div
-				style="display: flex; font-weight: bold; padding: 10px 0; border-bottom: 2px solid #ccc; text-align: center;">
-				<div style="flex: 1;">商品圖片</div>
-				<div style="flex: 3;">商品名稱</div>
-				<div style="flex: 1;">商品價格</div>
-				<div style="flex: 1;">數量</div>
-				<div style="flex: 1;">總共價錢</div>
-				<div style="flex: 1;">操作</div>
+			<div class="header-row">
+				<div>商品圖片</div>
+				<div>商品名稱</div>
+				<div>商品價格</div>
+				<div>數量</div>
+				<div>總共價錢</div>
+				<div></div>
 			</div>
 			<!-- 第一個 Container：商品列表 -->
-			<div
-				style="position: relative; border: 1px solid #ccc; margin-bottom: 30px; padding: 20px;">
+			<div class="parent-container">
 				<!-- 內層迴圈：遍歷每個商品列表 -->
 				<div th:each="item : ${entry.value}" th:id="|item-${item.goodsNo}|"
 					data-goods-no="${item.goodsNo}" class="item"
-					style="display: flex; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; width: 100%; height: auto;">
-					<!-- 商品圖片 -->
-					<div
-						style="flex: 1; height: 100%; display: flex; align-items: center; justify-content: center;">
-						<img
-							th:src="${'data:image/jpeg;base64,' + base64Map[item.goodsNo.toString()]}"
-							alt="商品圖片"
-							style="width: 100%; height: auto; max-height: 150px; object-fit: contain; display: block;" />
-					</div>
+					style="display: flex; align-items: center; padding: 0; border-bottom: 1px solid #eee; width: 100%; height: auto;">
 
-					<!-- 商品名稱 -->
-					<div style="flex: 3; padding: 0 10px; font-size: 1.2rem;"
-						th:text="${item.goodsName}"></div>
+					<form th:action="@{/counter/getOneGoods}" method="get"
+						class="product-form">
+						<input type="hidden" name="goodsNo" th:value="${item.goodsNo}">
+						<div onclick="this.closest('form').submit()"
+							class="clickable-container">
+							<!-- 商品圖片 -->
+							<div
+								style="flex: 1; height: 100%; display: flex; align-items: center; justify-content: center;">
+								<img
+									th:src="${'data:image/jpeg;base64,' + base64Map[item.goodsNo.toString()]}"
+									alt="商品圖片"
+									style="width: 100%; height: auto; max-height: 150px; object-fit: contain; display: block;" />
+							</div>
 
-					<!-- 商品價格 -->
-					<div th:id="|price-${item.goodsNo}|"
-						style="flex: 1; text-align: center; font-size: 1.2rem;"
-						class="price" th:text="${item.goodsPrice}"></div>
+							<!-- 商品名稱 -->
+							<div
+								style="flex: 3; padding: 0 10px; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; text-align: center;"
+								th:text="${item.goodsName}" class="name"></div>
 
-					<!-- 數量 -->
-					<div th:id="|quantity-${item.goodsNo}|"
-						style="flex: 1; text-align: center; font-size: 1.2rem;"
-						class="quantity" th:text="${item.goodsNum}"></div>
 
-					<!-- 總價 -->
-					<div th:id="|total-${item.goodsNo}|"
-						style="flex: 1; text-align: center; font-size: 1.2rem;"
-						th:text="${item.orderTotalPrice}"></div>
+							<!-- 商品價格 -->
+							<div th:id="|price-${item.goodsNo}|"
+								class="price centered-content" th:text="${item.goodsPrice}"></div>
 
-					<!-- 操作按鈕 -->
-					<div
-						style="flex: 1; display: flex; flex-direction: column; align-items: center;">
-						<div
-							style="display: flex; justify-content: center; margin-bottom: 5px;">
-							<button onclick="updateCart(this, 1)" style="margin-right: 5px;"
-								th:attr="data-id=${item.goodsNo}, data-price=${item.goodsPrice}, data-counterCname=${entry.key}">+
-							</button>
-							<button onclick="updateCart(this, -1)" style="margin-left: 5px;"
-								th:attr="data-id=${item.goodsNo}, data-price=${item.goodsPrice}, data-counterCname=${entry.key}">-
-							</button>
+							<!-- 數量 -->
+							<div th:id="|quantity-${item.goodsNo}|"
+								class="quantity centered-content" th:text="${item.goodsNum}"></div>
+
+							<!-- 總價 -->
+							<div th:id="|total-${item.goodsNo}|"
+								class="centered-content" th:text="${item.orderTotalPrice}"></div>
+
+							<!-- 操作按鈕 -->
+							<div
+								style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+								<div
+									style="display: flex; justify-content: center; margin-bottom: 5px;">
+									<button onclick="event.preventDefault(); event.stopPropagation(); updateCart(this, 1);"
+										style="margin-right: 5px;"
+										th:attr="data-id=${item.goodsNo}, data-price=${item.goodsPrice}, data-counterCname=${entry.key}">+
+									</button>
+									<button onclick="event.preventDefault(); event.stopPropagation(); updateCart(this, -1);"
+										style="margin-left: 5px;"
+										th:attr="data-id=${item.goodsNo}, data-price=${item.goodsPrice}, data-counterCname=${entry.key}">-
+									</button>
+								</div>
+								<button onclick="event.preventDefault(); event.stopPropagation(); removeFromCart(this);"
+									th:attr="data-id=${item.goodsNo}, data-counterCname=${entry.key}"
+									style="background-color: #f44336; color: white; border: none; padding: 5px 10px; cursor: pointer;">刪除</button>
+							</div>
 						</div>
-						<button onclick="removeFromCart(this)"
-							th:attr="data-id=${item.goodsNo}, data-counterCname=${entry.key}"
-							style="background-color: #f44336; color: white; border: none; padding: 5px 10px; cursor: pointer;">刪除</button>
-					</div>
+					</form>
 				</div>
 			</div>
 
@@ -106,41 +126,49 @@
 				<div style="margin-top: 20px; text-align: right;">
 
 					<!-- 優惠券 -->
-					<div style="margin-top: 10px;">
-						<label for="couponSelect">優惠券：</label> 
-						<select id="couponSelect" class="couponSelect" onchange="applyDiscount(event)" >
+					<div class="coupon-container" style="margin-top: 10px;">
+						<label for="couponSelect">優惠券：</label> <select id="couponSelect"
+							class="couponSelect" onchange="applyDiscount(event)">
 							<option value="">請選擇優惠券</option>
 						</select>
 					</div>
 
 
 
+
 					<!-- 總計金額 -->
 					<div th:id="|total-counter-${entry.key}|" class="counterPrice"
 						style="font-weight: bold; margin-top: 10px;">
-						總金額：<span></span>
+						總金額：<span></span>元
 					</div>
-					
+
 					<!-- 折價後 -->
-					<div th:id="|total-after-${entry.key}|" class="afterPrice discounted-price"
-						style="font-weight: bold; margin-top: 10px;">
-						折價後總金額：<span></span>
+					<div th:id="|total-after-${entry.key}|"
+						class="afterPrice discounted-price">
+						折價後總金額：<span></span>元
+
 					</div>
+
 
 
 					<!-- 結帳按鈕 -->
 					<div style="margin-top: 10px;">
-						<button onclick="checkout()"
-							style="background-color: #007bff; color: white; padding: 5px 15px; border: none; cursor: pointer;">
-							結帳</button>
+						<form action="/cart/test/toConfirm" method="POST">
+							<input type="hidden" name="counterCname" class="counterCname"
+								th:value="${entry.key}"> <input type="hidden"
+								name="totalAmountBefore" class="counterPrice" value="">
+							<input type="hidden" name="totalAmountAfter" class="afterPrice"
+								value=""> <input type="hidden" name="couponNo"
+								class="coupon" value="">
+							<button type="submit" onclick="checkout(this, event)"
+								style="background-color: #007bff; color: white; padding: 5px 15px; border: none; cursor: pointer;">結帳</button>
+						</form>
 					</div>
 				</div>
 			</div>
-
-
 		</div>
 	</div>
-	
+
 	<script th:src="@{/myCart/js/myCart.js}"></script>
 </body>
 

@@ -1,105 +1,183 @@
 
-//package com.ecpay.demo.controller;
-//
-//import java.util.List;
-//
-//import javax.servlet.http.HttpSession;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.ui.Model;
-//import org.springframework.web.bind.annotation.PostMapping;
-//import org.springframework.web.bind.annotation.RequestParam;
-//import org.springframework.web.bind.annotation.RestController;
-//
-//import com.ShoppingCartList.model.ShoppingCartListService;
-//import com.ShoppingCartList.model.ShoppingCartListVO;
-//import com.counter.model.CounterVO;
-//import com.counterorder.model.CounterOrderService;
-//import com.counterorder.model.CounterOrderVO;
-//import com.counterorderdetail.model.CounterOrderDetailService;
-//import com.counterorderdetail.model.CounterOrderDetailVO;
-//import com.ecpay.demo.service.OrderService;
-//
-//
-//@RestController
-//public class EcpayController {
-//
-//    @Autowired
-//    private OrderService orderService;
-//    @Autowired
-//    private CounterOrderService counterOrderSvc;
-//    @Autowired
-//    private ShoppingCartListService shoppingSvc;
-//    @Autowired
-//    private CounterOrderDetailService counterOrderDetailSvc;
-//
-//    @PostMapping("/necpayCheckout")
-//    public String ecpayCheckout(
-//            @RequestParam("name") String name,
-//            @RequestParam("address") String address,
-//            @RequestParam("phone") String phone,
-//            @RequestParam("memNo") Integer memNo,
-//            @RequestParam("counterNo") Integer counterNo,
-//            @RequestParam("afterAmount") String afterNo,
-//            HttpSession session) {
-//        
-//       
-//        @SuppressWarnings("unchecked")
-//        List<ShoppingCartListVO> cartItems = (List<ShoppingCartListVO>) session.getAttribute("cartItems");
-//        if (cartItems == null || cartItems.isEmpty()) {
-//            return "redirect:/shoppingcartlist"; // 若購物車為空，重定向回購物車頁面
-//        }
-//
-//        // 計算總金額
-//        int totalPrice = cartItems.stream()
-//                                  .mapToInt(item -> item.getGoodsNum() * item.getGoodsPrice())
-//                                  .sum();
-//
-//        // 創建訂單
-//        CounterOrderVO counterOrderVO = new CounterOrderVO();
-//        counterOrderVO.setReceiverAdr(address);
-//        String cleanedAfterNo = afterNo.replaceAll("[^\\d]", "");
-//        counterOrderVO.setOrderTotalAfter(Integer.valueOf(cleanedAfterNo));
-//        counterOrderVO.setOrderTotalBefore(totalPrice);
-//        counterOrderVO.setReceiverName(name);
-//        counterOrderVO.setReceiverPhone(phone);
-//        counterOrderVO.setCounterNo(counterNo);
-//        counterOrderVO.setMemNo(memNo);
-//        counterOrderVO.setOrderStatus(0);
-//        
-//        counterOrderSvc.addCounterOrder(counterOrderVO);
-//
-//        // 獲取訂單號
-//        Integer counterOrderNo = counterOrderSvc.getone(memNo);
-//
-//        // 插入訂單明細
-//        List<CounterOrderDetailVO> details = cartItems.stream()
-//                .map(cartItem -> {
-//                    CounterOrderDetailVO detail = new CounterOrderDetailVO();
-//                    detail.setGoodsNo(cartItem.getGoodsNo());
-//                    detail.setGoodsNum(cartItem.getGoodsNum());
-//                    detail.setProductPrice(cartItem.getGoodsPrice());
-//                    detail.setProductDisPrice(cartItem.getOrderTotalprice());
-//                    detail.setCounterOrderNo(counterOrderNo);
-//                    counterOrderDetailSvc.addCounterOrderDetail(detail);
-//                    return detail;
-//                   
-//                }).toList();
-//       
-//        
-//
-//        // 生成 ECPay 表單
-//        try {
-//            List<String> itemNames = cartItems.stream()
-//                                              .map(item -> item.getGoodsName() + " x" + item.getGoodsNum())
-//                                              .toList();
-//            String aioCheckOutALLForm = orderService.generateEcpayNum(totalPrice, itemNames, counterOrderNo);
-//            session.removeAttribute("cartItems"); // 清空購物車
-//            return aioCheckOutALLForm;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return "付款過程中發生錯誤，請稍後再試";
-//        }
-//    }
-//}
+package com.ecpay.demo.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.ShoppingCartList.model.ShoppingCartListService;
+import com.counter.model.CounterService;
+import com.counterHome.cartTest.model.CartListVO;
+import com.counterHome.counterOrderDetailTest.model.NewCounterOrderDetailService;
+import com.counterHome.counterOrderDetailTest.model.NewCounterOrderDetailVO;
+import com.counterHome.counterOrderTest.model.NewCounterOrderService;
+import com.counterHome.counterOrderTest.model.NewCounterOrderVO;
+import com.counterHome.couponTest.model.NewCouponsService;
+import com.counterHome.couponTest.model.NewCouponsVO;
+import com.counterorder.model.CounterOrderService;
+import com.counterorderdetail.model.CounterOrderDetailService;
+import com.ecpay.demo.service.OrderService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.goods.model.GoodsService;
+import com.goods.model.GoodsVO;
+
+@Controller
+public class EcpayController {
+
+	@Autowired
+	@Qualifier("redisTemplateDb8")
+	private RedisTemplate<String, Object> redisTemplate;
+
+	@Autowired
+	NewCouponsService newCouponsSvc;
+
+	@Autowired
+	GoodsService goodsSvc;
+	
+	@Autowired
+	NewCounterOrderService newCounterOrderSvc;
+
+	@Autowired
+	NewCounterOrderDetailService newCounterOrderDetailSvc;
+	
+	@Autowired
+	CounterService counterSvc;
+	
+	@Autowired
+	private OrderService orderService;
+	
+	@PostMapping("/necpayCheckout")
+	@ResponseBody // 確保返回的是響應正文，而不是模板名稱
+	public Object ecpayCheckout(@RequestParam("counterCname") String counterCname,
+			@RequestParam("totalAmountBefore") int totalAmountBefore,
+			@RequestParam("totalAmountAfter") int totalAmountAfter, @RequestParam("couponNo") int couponNo,
+			@RequestParam("recipientName") String recipientName,
+			@RequestParam("recipientAddress") String recipientAddress,
+			@RequestParam("recipientPhone") String recipientPhone, HttpSession session, Model model) {
+
+		String memNo = (String) session.getAttribute("memNo");
+		Integer memNoInt = Integer.parseInt(memNo);
+		String counterNoStr = counterSvc.getCounterNoByCounterCname(counterCname);
+		Integer counterNo = Integer.parseInt(counterNoStr);
+		String key = "cart:" + memNo;
+		String imgkey = "img:" + memNo;
+
+		boolean switchNo = true;
+
+		NewCouponsVO newCouponsVO = newCouponsSvc.findCouponsByCouponNo(couponNo);
+		if (newCouponsVO == null) {
+			newCouponsVO = new NewCouponsVO();
+			newCouponsVO.setCouponNo(0); // 设置默认值
+		}
+
+		Map<Object, Object> imgMap = redisTemplate.opsForHash().entries(imgkey);
+		Map<String, String> base64Map = new HashMap<>(); // 用於儲存後轉換的img
+
+		for (Map.Entry<Object, Object> entry : imgMap.entrySet()) {
+			String goodsNo = (String) entry.getKey();
+			String base64Image = (String) entry.getValue();
+			// 存入新的 Map
+			base64Map.put(goodsNo, base64Image);
+		}
+		List<String> errorMsgs = new ArrayList<String>();
+		List<CartListVO> cartList = new ArrayList<CartListVO>();
+		ObjectMapper objectMapper = new ObjectMapper();// 轉換格式用
+		// 反序列化 JSON 为 List<CartListVO>
+		try {
+			String json = redisTemplate.opsForHash().get(key, counterNoStr).toString();
+			cartList = objectMapper.readValue(json, new TypeReference<List<CartListVO>>() {
+			});
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		NewCounterOrderVO newCounterOrderVO = new NewCounterOrderVO();
+		newCounterOrderVO.setMemNo(memNoInt);
+		newCounterOrderVO.setCounterNo(counterNo);
+		newCounterOrderVO.setOrderTotalPriceBefore(totalAmountBefore);
+		newCounterOrderVO.setOrderTotalPriceAfter(totalAmountAfter);
+		newCounterOrderVO.setCouponNo(couponNo);
+		newCounterOrderVO.setReceiverName(recipientName);
+		newCounterOrderVO.setReceiverAdr(recipientAddress);
+		newCounterOrderVO.setReceiverPhone(recipientPhone);
+		newCounterOrderVO.setOrderStatus(5);
+
+		System.out.println("recipientName" + recipientName);
+
+		List<NewCounterOrderDetailVO> detailList = new ArrayList<NewCounterOrderDetailVO>();
+
+		// 驗證階段
+		for (CartListVO CartListVO : cartList) {
+			GoodsVO goodsVO = goodsSvc.getOneGoods(CartListVO.getGoodsNo());
+			if ((goodsVO.getGoodsAmount() - CartListVO.getGoodsNum()) < 0) {
+				errorMsgs.add(CartListVO.getGoodsName() + "庫存只剩" + goodsVO.getGoodsAmount() + "個，請重新下單");
+			}
+		}
+
+		// 如果驗證失敗，直接返回錯誤訊息
+		if (errorMsgs.size() != 0) {
+			model.addAttribute("errorMsgs", errorMsgs);
+			model.addAttribute("counterCname", counterCname);
+			model.addAttribute("totalAmountBefore", totalAmountBefore);
+			model.addAttribute("totalAmountAfter", totalAmountAfter);
+			model.addAttribute("recipientName", recipientName);
+			model.addAttribute("recipientAddress", recipientAddress);
+			model.addAttribute("recipientPhone", recipientPhone);
+			model.addAttribute("newCouponsVO", newCouponsVO);
+			model.addAttribute("cartList", cartList);
+			model.addAttribute("base64Map", base64Map);
+			return new ModelAndView("/front-end/cartTest/confirm", model.asMap());
+		}
+
+		for (CartListVO CartListVO : cartList) {
+			GoodsVO goodsVO = goodsSvc.getOneGoods(CartListVO.getGoodsNo());
+			//先存order 後面在存detail時 可以用這個VO取的NO
+			if (switchNo) {
+				newCounterOrderVO = newCounterOrderSvc.savedOrder(newCounterOrderVO);
+				switchNo = false;
+			}
+			//更新數量並儲存
+			goodsVO.setGoodsAmount(goodsVO.getGoodsAmount() - CartListVO.getGoodsNum());
+			goodsSvc.updateGoods(goodsVO);
+			
+			//創建一個detail的VO並加入detailList
+			NewCounterOrderDetailVO detail = new NewCounterOrderDetailVO(CartListVO);
+			detail.setCounterOrder(newCounterOrderVO.getcOrderNo());
+			detailList.add(detail);
+		}
+		
+		//一次性保存detailList到detail表格
+		newCounterOrderDetailSvc.saveOrderDetails(detailList);
+
+		try {
+
+			List<String> itemNames = new ArrayList<String>();
+			for (CartListVO item : cartList) {
+				itemNames.add(item.getGoodsName());
+			}
+			String aioCheckOutALLForm = orderService.generateEcpayNum(totalAmountAfter, itemNames,
+					newCounterOrderVO.getcOrderNo());
+			redisTemplate.opsForHash().delete(key, counterNoStr); // 清空購物車
+			return aioCheckOutALLForm;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "付款過程中發生錯誤，請稍後再試";
+		}
+	}
+}

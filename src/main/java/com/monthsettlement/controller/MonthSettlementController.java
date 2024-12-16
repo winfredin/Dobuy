@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.counter.model.CounterService;
 import com.counter.model.CounterVO;
@@ -86,11 +87,13 @@ public class MonthSettlementController {
 
     // 新增資料處理
     @PostMapping("insert")
-    public String insert(@Valid MonthSettlementVO monthsettlementVO, BindingResult result, ModelMap model)
+    public String insert(@Valid MonthSettlementVO monthsettlementVO, 
+    		BindingResult result,RedirectAttributes redirectAttributes, ModelMap model )
      	{
     	System.out.println("呼叫");
     	Integer counterNo = monthsettlementVO.getCounterNo();
 		CounterVO counterVO = counterSvc.getOneCounter(counterNo);
+		redirectAttributes.addFlashAttribute("message", "月結已送出");
         /*************************** 1. 接收請求參數 - 格式驗證 ************************/
     	
     	String monthString = monthsettlementVO.getMonth();
@@ -112,10 +115,10 @@ public class MonthSettlementController {
         model.addAttribute("monthsettlementData", list);
         model.addAttribute("success", "- (新增成功)");
         System.out.println(monthsettlementVO.getMonth());
-    	String informMsg = counterVO.getCounterCName() + " 您的這個月營收已發出，請到營收查詢確認";
+    	String informMsg = counterVO.getCounterCName() + " 您的月營收已發出，請到營收查詢確認";
         Integer counter = counterVO.getCounterNo();
         msgSvc.addCounterInform(counter, informMsg);
-        return  "redirect:/back-end-homepage";
+        return  "redirect:/monthsettlement/addMonthSettlement";
     }
     
 //    @GetMapping("listAllMonthSettlement")
@@ -144,13 +147,7 @@ public class MonthSettlementController {
         if (counter == null) {
             return "redirect:/counter/login";
         }
-//        Integer counterNo = counter.getCounterNo();
-//        Integer orderStatus = 1; // 假设已付款的订单状态为1
-//        String orderTime = "2024-11%"; // 匹配2024年11月的订单
-//        
-//        Integer totalAmount = counterOrderSvc.getTotalOrderAmount(counterNo, orderStatus, orderTime);
-//        model.addAttribute("totalAmount", totalAmount);
-        
+      
         List<MonthSettlementVO> list = monthSettlementService.getByCounterNo(counter.getCounterNo());
         model.addAttribute("monthSettlementListData", list);
         model.addAttribute("counter", counter); // 這裡確保counter被添加到模型中

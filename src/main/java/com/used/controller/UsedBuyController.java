@@ -44,6 +44,7 @@ public class UsedBuyController {
 			model.addAttribute("memberVO", new MemberVO()); // 確保模型中有 memberVO
 			return "front-end/member/login";
 		}
+		
 		if (Integer.valueOf((String)session.getAttribute("memNo")) == usedVO.getSellerNo()) {// 若沒有登入 返回登入頁面
 			model.addAttribute("errorMessage", "不能購買自己的商品！");
 			List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();
@@ -75,8 +76,6 @@ public class UsedBuyController {
 			String receiverName = mem.getMemName();// 預設 receiverName
 			String receiverPhone = mem.getMemPhone();// 預設 receiverPhone
 
-			
-			
 			
 			model.addAttribute("usedVO",usedVO);
 			model.addAttribute("usedCount", Integer.valueOf(usedCount));

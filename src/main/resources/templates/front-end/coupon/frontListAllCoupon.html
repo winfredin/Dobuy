@@ -140,6 +140,34 @@ body {
 	font-size: 0.9em;
 	margin-bottom: 10px;
 }
+
+/* 統一按鈕區域樣式 */
+.btn-container {
+    text-align: center;
+    margin-top: 30px; /* 上方增加間隔 */
+}
+
+.btn-container .btn {
+    display: inline-block;
+    margin: 5px 10px; /* 按鈕之間添加水平間距 */
+}
+
+/* 修改按鈕樣式 */
+.btn {
+    background-color: #e9bead;
+    color: white;
+    padding: 8px 20px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #d4a79a;
+}
+
 </style>
 </head>
 <body>
@@ -193,11 +221,11 @@ body {
 		<div id="pagination" class="pagination"></div>
 
 		<div style="margin-top: 20px; text-align: center;">
-			<a th:href="@{/memcoupon/memListAllCoupon}" class="btn">查看我的優惠券</a>
+			<a th:href="@{/memcoupon/memListAllCoupon}" class="btn">查看我的優惠券</a> <a
+				th:href="@{/home}" class="btn">回首頁</a>
+
 		</div>
-		<div style="margin-top: 20px; text-align: center;">
-			<a th:href="@{/home}" class="btn">回首頁</a>
-		</div>
+
 
 	</div>
 

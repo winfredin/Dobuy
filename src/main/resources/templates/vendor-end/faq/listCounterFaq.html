@@ -100,7 +100,7 @@
 						<td>
 							<form method="post" th:action="@{/faq/delete}"
 								style="margin-bottom: 0px;">
-								<input type="button" value="刪除" onclick="confirmDelete()"> 
+								<input type="button" value="刪除" onclick="confirmDelete(this)"> 
 								<input type="hidden" name="faqNo" th:value="${faqVO.faqNo}">
 							</form>
 
@@ -124,10 +124,10 @@
 
 
 	<script>
-		function confirmDelete() {
+		function confirmDelete(button) {
 			if (confirm("確定要刪除嗎？")) {
-				// 用户确认删除，提交表单
-				document.getElementById("deleteForm").submit();
+				// 提交表單
+				button.closest("form").submit();
 			} else {
 				// 用户取消，什么都不做
 				alert("已取消刪除！");

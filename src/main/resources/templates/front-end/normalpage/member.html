@@ -63,23 +63,24 @@
    
     <div class="icons">
     <!-- 當 session.memNo 為 null，添加 login-only 類 -->
-    <a class="icons login-only" href="/mem/login" th:if="${session.memNo == null}">
-        <img src="images/login.png" alt="Login">
-    </a>
+    <a class="icons login-only" th:href="@{/mem/login}" th:if="${session.memNo == null}">
+				    <img th:src="@{/images/login.png}" alt="Login">
+				</a>
+				
+				<!-- 當 session.memNo 不為 null，顯示其他按鈕 -->
+				<a class="icons" th:href="@{/member}" th:if="${session.memNo != null}">
+				    <img th:src="@{/images/會員中心.png}" alt="User">
+				</a>
+				<a class="icons" th:href="@{/mem/logout}" th:if="${session.memNo != null}">
+				    <img th:src="@{/images/log-out.png}" alt="Logout">
+				</a>
+				<a class="icons" th:href="@{/shoppingcartlist/listAllShoppingCartList}" th:if="${session.memNo != null}">
+				    <img th:src="@{/images/購物車.png}" alt="Cart">
+				</a>
+				<a class="icons" th:href="@{/customerservice/addComplaint}" th:if="${session.memNo != null}">
+			        <img th:src="@{/images/report.png}" alt="Report">
+			    </a>
 
-    <!-- 當 session.memNo 不為 null，顯示其他按鈕 -->
-    <a class="icons" href="member" th:if="${session.memNo != null}">
-        <img src="images/會員中心.png" alt="User">
-    </a>
-    <a class="icons" href="/mem/logout" th:if="${session.memNo != null}">
-        <img src="images/log-out.png" alt="Logout">
-    </a>
-    <a class="icons" href="/shoppingcartlist/listAllShoppingCartList" th:if="${session.memNo != null}">
-        <img src="images/購物車.png" alt="Cart">
-    </a>
-    <a class="icons" href="#" th:if="${session.memNo != null}">
-        <img src="images/report.png" alt="Report">
-    </a>
 </div>
 
 </div>
@@ -124,7 +125,6 @@
                         <span id="1" data-id="1">個人檔案</span>
                         <span id="2"data-id="2">更改密碼</span>
                         <span id="3"data-id="3">地址</span>
-                        <span id="4"data-id="4">信用卡資訊</span>
                         <span id="5"data-id="5">隱私設定</span>
                     </div>
                 </div>
@@ -200,6 +200,14 @@
       <p><strong>收件人地址:</strong> <span th:text="${order.receiverAdr}"></span></p>
       <p><strong>訂單成立時間:</strong> <span th:text="${order.ordertime}"></span></p>
       <p><strong>訂單狀態:</strong> <span th:text="${order.getOrderDisplay}"></span></p>
+      
+      <!-- 新增的表單部分 -->
+        <div th:if="${order.orderStatus} == 1">
+            <form action="memOrder" method="post">
+                <input type="hidden" name="counterOrderNo" th:value="${order.counterOrderNo}" />
+                <button type="submit">通知已收貨</button>
+            </form>
+        </div>
     </div>
 
     <h4>訂單明細</h4>
@@ -237,13 +245,13 @@
       </span>
     </td>
     <td>
-      <th:block th:if="${session.memStatus != 2}">
+      <th:block th:if="${session.memStatus eq 1}">
 	  <form method="post" th:action="@{/used/oneButtontoSellUsed}">
 	    <input type="submit" value="轉售"/>
 	    <input type="hidden" name="goodsNo" th:value="${counterOrderDetailVO.goodsNo}" />
 	  </form>
 	</th:block>
-	<th:block th:if="${session.memStatus == 2}">
+	<th:block th:if="${session.memStatus eq 2}">
 	  <span>被停止賣權，請聯繫客服</span>
 	</th:block>
     </td>

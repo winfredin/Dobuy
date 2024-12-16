@@ -155,6 +155,7 @@
      
         </form>
         </section>
+    <div id="messageHolder" th:if="${message}" th:text="${message}" style="display:none;"></div>
     
     </div>
     	<!-- fragment引入 -->
@@ -170,7 +171,7 @@
 function hideContent(d) {
      document.getElementById(d).style.display = "none";
 }
-
+//年月選項
 document.addEventListener("DOMContentLoaded", function() {
     var currentDate = new Date();
     var currentYear = currentDate.getFullYear();
@@ -178,11 +179,11 @@ document.addEventListener("DOMContentLoaded", function() {
     var monthSelect = document.getElementById("month");
 
     // 限制選項範圍為當前月份的前一個月到兩年前的同一月份
-    var endYear = currentYear - 1; // 兩年前
+    var endYear = currentYear - 1; //  一年前
     var endMonth = currentMonth; // 當前月份
 
     for (var year = endYear; year <= currentYear; year++) {
-        var startMonth = (year === endYear) ? endMonth : 1; // 如果是兩年前，從當前月份開始
+        var startMonth = (year === endYear) ? endMonth : 1; 
         var endMonthForLoop = (year === currentYear) ? currentMonth - 1 : 12; // 如果是當前年份，結束月份為當前月份的前一個月
 
         for (var month = startMonth; month <= endMonthForLoop; month++) {
@@ -221,6 +222,15 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     });
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    setTimeout(function() {
+        var message = document.getElementById("messageHolder").textContent;
+        if (message) {
+            alert(message);
+        }
+    }, 100); // 延遲100毫秒
 });
 </script>
 

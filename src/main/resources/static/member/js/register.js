@@ -121,3 +121,39 @@ function verifyCode() {
 			alert('驗證失敗，請稍後再試！');
 		});
 }
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const togglePasswordButton = document.getElementById('togglePassword');
+    const passwordField = document.getElementById('memPassword');
+    const toggleIcon = document.getElementById('toggleIcon');
+
+    togglePasswordButton.addEventListener('click', () => {
+        // 切换密码框的 type 属性
+        const currentType = passwordField.getAttribute('type');
+        passwordField.setAttribute('type', currentType === 'password' ? 'text' : 'password');
+
+        // 切换图标
+        toggleIcon.classList.toggle('fa-eye');
+        toggleIcon.classList.toggle('fa-eye-slash');
+    });
+});
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    // 获取确认密码框和按钮
+    const toggleConfirmPasswordButton = document.getElementById('toggleConfirmPassword');
+    const confirmPasswordField = document.getElementById('confirmPassword');
+    const confirmToggleIcon = document.getElementById('confirmToggleIcon');
+
+    // 监听按钮点击事件
+    toggleConfirmPasswordButton.addEventListener('click', () => {
+        // 切换确认密码框的 type 属性
+        const currentType = confirmPasswordField.getAttribute('type');
+        confirmPasswordField.setAttribute('type', currentType === 'password' ? 'text' : 'password');
+
+        // 切换图标
+        confirmToggleIcon.classList.toggle('fa-eye');
+        confirmToggleIcon.classList.toggle('fa-eye-slash');
+    });
+});

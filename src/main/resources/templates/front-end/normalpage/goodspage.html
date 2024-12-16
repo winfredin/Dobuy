@@ -59,9 +59,9 @@
 				<a class="icons" th:href="@{/shoppingcartlist/listAllShoppingCartList}" th:if="${session.memNo != null}">
 				    <img th:src="@{/images/購物車.png}" alt="Cart">
 				</a>
-				<a class="icons" th:href="@{/report}" th:if="${session.memNo != null}">
-				    <img th:src="@{/images/report.png}" alt="Report">
-				</a>
+				<a class="icons" th:href="@{/customerservice/addComplaint}" th:if="${session.memNo != null}">
+			        <img th:src="@{/images/report.png}" alt="Report">
+			    </a>
 
                 </div>
                 
@@ -225,19 +225,53 @@
                 products.forEach(product => {
                     const productDiv = document.createElement('div');
                     productDiv.classList.add('goods');
-                    productDiv.innerHTML = `
-                        <form action="/counter/getOneGoods" method="get">
-                            <input type="hidden" name="goodsNo" value="${product.goodsNo}">
-                            <button type="submit" class="product-button">
-                                <div class="image-container">
-                                    <img src="/goods/DBGifReader?goodsNo=${product.goodsNo}" alt="goods-image">
-                                </div>
-                                <div class="goods-name">
-                                    <label>${product.goodsName}</label>
-                                </div>
-                            </button>
-                        </form>`;
+                    
+                    // 添加愛心按鈕容器
+                    const heartIconContainer = document.createElement('div');
+                    heartIconContainer.className = 'heart-icon-container';
+
+                    const heartIcon = document.createElement('i');
+                    heartIcon.className = 'fas fa-heart';
+                    heartIcon.style = 'color: #ccc; font-size: 24px;';
+                    heartIcon.setAttribute('data-goodsNo', product.goodsNo);
+                    heartIcon.setAttribute('data-memAccount', 'yourMemAccount'); // 替換為動態會員賬號
+                    heartIcon.setAttribute('onclick', 'toggleHeart(this, event)');
+
+                    heartIconContainer.appendChild(heartIcon);
+
+                    // 生成商品的表單
+                    const formElement = document.createElement('form');
+                    formElement.action = '/counter/getOneGoods';
+                    formElement.method = 'get';
+
+                    const hiddenInput = document.createElement('input');
+                    hiddenInput.type = 'hidden';
+                    hiddenInput.name = 'goodsNo';
+                    hiddenInput.value = product.goodsNo;
+
+                    const buttonElement = document.createElement('button');
+                    buttonElement.type = 'submit';
+                    buttonElement.className = 'product-button';
+
+                    buttonElement.innerHTML = `
+                        <div class="image-container">
+                            <img src="/goods/DBGifReader?goodsNo=${product.goodsNo}" alt="goods-image">
+                        </div>
+                        <div class="goods-name">
+                            <label>${product.goodsName}</label>
+                        </div>`;
+
+                    formElement.appendChild(hiddenInput);
+                    formElement.appendChild(buttonElement);
+
+                    // 將愛心按鈕和表單組合到商品區塊中
+                    productDiv.appendChild(heartIconContainer);
+                    productDiv.appendChild(formElement);
+
                     resultsContainer.appendChild(productDiv);
+                    
+                 // 初始化新增的愛心按鈕
+                    initializeHeartIcons();
                 });
             } catch (error) {
                 console.error('搜尋失敗:', error);
@@ -294,8 +328,25 @@
                         goodsContainer.innerHTML = '<p>沒有找到符合的商品</p>';
                     } else {
                         data.forEach(goods => {
+                        	
                             const goodsDiv = document.createElement('div');
                             goodsDiv.className = 'goods';
+                            
+                         // 添加愛心按鈕容器
+                            const heartIconContainer = document.createElement('div');
+                            heartIconContainer.className = 'heart-icon-container';
+
+                            const heartIcon = document.createElement('i');
+                            heartIcon.className = 'fas fa-heart';
+                            heartIcon.style = 'color: #ccc; font-size: 24px;';
+                            heartIcon.setAttribute('data-goodsNo', goods.goodsNo);
+                            heartIcon.setAttribute('data-memAccount', 'yourMemAccount'); // 替換為動態獲取的會員賬號
+                            heartIcon.setAttribute('onclick', 'toggleHeart(this, event)');
+
+                            heartIconContainer.appendChild(heartIcon);
+                            goodsDiv.appendChild(heartIconContainer);
+
+                            // 添加商品表單
                             const formElement = document.createElement('form');
                             formElement.action = '/counter/getOneGoods';
                             formElement.method = 'get';
@@ -321,18 +372,16 @@
                             formElement.appendChild(buttonElement);
                             goodsDiv.appendChild(formElement);
                             goodsContainer.appendChild(goodsDiv);
+                            
+                         // 初始化新增的愛心按鈕
+                            initializeHeartIcons();
                         });
                     }
                 })
                 .catch(error => console.error('Error fetching goods:', error));
         }
         
-//         function toggleHeart(heartIcon, event) {
-//         	  // 阻止事件冒泡，避免觸發父級事件
-//             event.stopPropagation();
 
-//             // 阻止默認行為，例如提交表單
-//             event.preventDefault();
 /* ===============商品收藏愛心============= */
 function toggleHeart(element, event) {
 		// 	阻止事件冒泡，避免觸發父級事件
@@ -378,21 +427,23 @@ function toggleHeart(element, event) {
 
 
 
-document.addEventListener('DOMContentLoaded', () => {
+function initializeHeartIcons() {
+    document.querySelectorAll('.heart-icon-container .fas.fa-heart').forEach(icon => {
+        const goodsNo = icon.getAttribute('data-goodsNo'); // 获取商品编号
+        if (window.favoriteGoodsSet != null) {
+            if (favoriteGoodsSet.includes(goodsNo)) {
+                // 如果该商品编号在 favoriteGoodsSet 中，将爱心标记为选中
+                icon.classList.add('heart-active');
+            }
+        }
+    });
+}
 
-	// 使用全局變量 window.favoriteGoodsSet
-	//	   console.log(window.favoriteGoodsSet); // 確保全局變量正確加載
-	// 遍历所有的爱心图标
-	document.querySelectorAll('.heart-icon-container .fas.fa-heart').forEach(icon => {
-		const goodsNo = icon.getAttribute('data-goodsNo'); // 获取商品编号
-		if(favoriteGoodsSet != null){
-			if (favoriteGoodsSet.includes(goodsNo)) {
-				// 如果该商品编号在 favoriteGoodsSet 中，将爱心标记为选中
-				icon.classList.add('heart-active');
-			}
-		}
-	});
+
+document.addEventListener('DOMContentLoaded', () => {
+    initializeHeartIcons();
 });
+
 /* ===============商品收藏愛心============= */
 
 

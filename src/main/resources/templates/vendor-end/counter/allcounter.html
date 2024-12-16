@@ -47,8 +47,9 @@
 </script>
 <style type="text/css">
     body {
-      margin: 2rem 1rem 2rem 1rem;
-    }
+    margin: 0 6rem !important; /* 設定整個頁面的邊界間隔 */
+    padding: 0 !important;
+	}
 
     /* 設置表格背景為白色 */
     table {
@@ -77,6 +78,12 @@
         max-width: 1200px;
         overflow-x: auto;
     }
+    
+    #example {
+    margin: 20px 0px !important; /* 四周留白 */
+    padding: 10px !important;
+    overflow: hidden ; /* 去除溢出 */
+	}
     
 
 
@@ -134,9 +141,6 @@
         </td>
         <td>
         <form action="/back-end/updateCStatus" method="post">
-<!-- 		  <span th:if="${counterVO.counterStatus == 0}">停權</span> -->
-<!-- 		  <span th:if="${counterVO.counterStatus == 1}">審核中</span> -->
-<!-- 		  <span th:if="${counterVO.counterStatus == 2}">正常</span> -->
 		<select name="counterStatus" th:value="${counterVO.counterStatus}">
             <option th:value="0" th:selected="${counterVO.counterStatus == 0}" th:text="'停權'"></option>
             <option th:value="1" th:selected="${counterVO.counterStatus == 1}" th:text="'審核中'"></option>
@@ -148,12 +152,6 @@
         </form>  
 		</td><!-- 櫃位狀態 -->
 		
-<!--         <td> -->
-<!--           <form method="post" th:action="@{/counter/getOne_For_Update}" style="margin-bottom: 0px;"> -->
-<!--             <input type="submit" value="修改"> -->
-<!--             <input type="hidden" name="counterNo" th:value="${counterVO.counterNo}"> -->
-<!--           </form> -->
-<!--         </td> -->
       </tr>
     </th:block>
   </tbody>
