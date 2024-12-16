@@ -28,23 +28,14 @@ public class NoticeService {
     public void updateNotice(NoticeVO noticeVO) {
         repository.save(noticeVO);
     }
-    
-    public void deleteAll() {
-    	repository.deleteAll();
-    }
+   
     
   //抓會員通知
     public List<NoticeVO> getOneMemberNotice(Integer memNo) {// 取得指定會員的通知
         return repository.findByMemNo(memNo); // 如果不存在，返回 null
     }
     
-    public void markAllAsRead() {
-        List<NoticeVO> notices = repository.findAll();
-        for (NoticeVO notice : notices) {
-            notice.setNoticeRead((byte)1);  // Assuming the noticeRead field is an integer and 1 represents 'read'
-        }
-        repository.saveAll(notices);
-    }
+    
     
     
 
@@ -57,6 +48,21 @@ public class NoticeService {
     	return repository.findByMemNo(memNo); 
     	}
     
+    
+    public void deleteNoticesByMemNo(Integer memNo) {
+        List<NoticeVO> notices = repository.findByMemNo(memNo);
+        repository.deleteAll(notices);
+    }
+    
+    public void markNoticesAsReadByMemNo(Integer memNo) {
+        List<NoticeVO> notices = repository.findByMemNo(memNo);
+        for (NoticeVO notice : notices) {
+            notice.setNoticeRead((byte)1); // 假設 noticeRead 是 byte 類型，1 代表已讀
+        }
+        repository.saveAll(notices);
+    }
+
+
 
 
     

@@ -1,6 +1,7 @@
 package com.usedorder.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 
 import com.usedorder.model.UsedOrderVO;
 import com.notice.model.NoticeVO;
+import com.used.model.UsedVO;
 import com.usedorder.model.UsedOrderService;
 import com.notice.model.NoticeService;
 
@@ -105,13 +107,6 @@ public class UsedOrderController {
 	    return result;
 	}
 
-	// 賣家訂單管理
-//	@GetMapping("listAllUsedOrder")
-//	public String getAllOrder(ModelMap model) {
-//	    List<UsedOrderVO> list = usedOrderSvc.getAll(); 
-//	    model.addAttribute("usedorderListData", list);
-//	    return "front-end/usedorder/listAllUsedOrder";
-//	}
 	@GetMapping("listAllUsedOrder")
 	public String getAllOrder(ModelMap model) {
 	    List<UsedOrderVO> list = usedOrderSvc.getAll(); 
@@ -136,37 +131,7 @@ public class UsedOrderController {
 	    return "front-end/usedorder/listAllUsedOrder2";
 	}
 
-    @PostMapping("updateComment")
-    @ResponseBody
-    public Map<String, Object> updateComment(@RequestParam("usedOrderNo") Integer usedOrderNo,
-                                             @RequestParam("sellerCommentContent") String sellerCommentContent,
-                                             @RequestParam("sellerSatisfication") byte sellerSatisfication) {
-        Map<String, Object> response = new HashMap<>();
-        try {
-            UsedOrderVO usedOrder = usedOrderSvc.getOrderById(usedOrderNo);
-
-            if (usedOrder != null) {
-                usedOrder.setSellerCommentContent(sellerCommentContent);
-                usedOrder.setSellerSatisfication(sellerSatisfication);
-                System.out.println("===================================");
-                System.out.println(sellerCommentContent);
-                
-                System.out.println(sellerSatisfication);
-                System.out.println("===================================");
-                usedOrderSvc.updateOrder(usedOrder);
-
-                response.put("success", true);
-            } else {
-                response.put("success", false);
-                response.put("error", "訂單未找到");
-            }
-        } catch (Exception e) {
-            response.put("success", false);
-            response.put("error", e.getMessage());
-        }
-
-        return response;
-    }
+   
 	
     @PostMapping("sendComplaintEmail")
     @ResponseBody

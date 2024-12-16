@@ -21,19 +21,12 @@ public interface NoticeRepository extends JpaRepository<NoticeVO, Integer> {
 	@Query(value = "SELECT * FROM notice WHERE memNo = ?1 ", nativeQuery = true)
 	List<NoticeVO> findByMemNo(Integer memNo);
 
-//	柏翔新增
-	boolean existsByMemNoAndNoticeContent(Integer memNo, String noticeContent);
-//	柏翔新增	
-	@Query("SELECT n.memNo FROM NoticeVO n WHERE n.noticeContent = :noticeContent AND n.memNo IN :memNos")
-	List<Integer> findExistingMemNosByContent(@Param("noticeContent") String noticeContent, @Param("memNos") List<Integer> memNos);
+
 
 
     
 }
 
-
-
-    
 
 
 

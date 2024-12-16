@@ -98,7 +98,7 @@ public class CustomerServiceController {
         // 處理驗證錯誤
         if (result.hasErrors()) {
             model.addAttribute("counterList", counterSvc.getAll());
-            return "front-end/complaint/addcomplaint";
+            return "redirect:/member";
         }
 
         // 新增資料
