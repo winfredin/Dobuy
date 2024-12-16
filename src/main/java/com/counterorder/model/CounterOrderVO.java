@@ -212,16 +212,16 @@ public class CounterOrderVO implements java.io.Serializable {
 //	public void setDisno(Integer disno) {
 //		this.disno = disno;
 //	}
-	
+	private Integer memCouponNo;
 ////	柏翔改
-//	@Column(name = "memCouponNo")
-//	public Integer getMemCouponNo() {
-//		return memCouponNo;
-//	}
-////	柏翔改
-//	public void setMemCouponNo(Integer memCouponNo) {
-//		this.memCouponNo = memCouponNo;
-//	}
+	@Column(name = "memCouponNo")
+	public Integer getMemCouponNo() {
+		return memCouponNo;
+	}
+//	柏翔改
+	public void setMemCouponNo(Integer memCouponNo) {
+		this.memCouponNo = memCouponNo;
+	}
 //	
 //	柏翔改
 //	@Column(name = "disNo")
