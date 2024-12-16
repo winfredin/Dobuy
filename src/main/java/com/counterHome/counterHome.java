@@ -94,7 +94,7 @@ public class counterHome {
 	@GetMapping("getOneGoods") // 11/28 測試點商品後帶到商品詳情頁面
 	public String getOneGoods(@RequestParam("goodsNo") String goodsNo, ModelMap model) {
 		GoodsVO goods = goodsSvc.getOneGoods(Integer.valueOf(goodsNo)); // 查詢到回傳的是一個物件
-		
+		List<CounterVO> counterVOList = counterSvc.getAll();
 		
 		//==================以下羿豪新增的=====================//
 	    Integer counterNo = goods.getCounterVO().getCounterNo(); // 透過 CounterVO 取得 counterNo
@@ -109,7 +109,7 @@ public class counterHome {
 		//==================以下羿豪新增的=====================//
 	    model.addAttribute("counterCName", counterCName); // 將櫃位名稱傳遞給前端
 	    //==================以上羿豪新增的=====================//
-	    
+	    model.addAttribute("counterVOList", counterVOList);
 		return "front-end/shop-detail/shop-detail";
 	}
 

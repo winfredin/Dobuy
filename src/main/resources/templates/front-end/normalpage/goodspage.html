@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="/css/slick-theme.css" />
     <link rel="stylesheet" href="/css/goodspage.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <!-- Font Awesome CDN -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
 </head>
 <body>
     <header>
@@ -91,13 +94,22 @@
 	                   th:attr="data-goodsNo=${goodsVO.goodsNo}, data-memAccount=${session.memAccount}" 
 	                   onclick="toggleHeart(this, event)" 
 	                   style="color: #ccc; font-size: 24px;"></i>
-			  	</div>  
+			  	</div>
+
+			  	<!-- 左上角的新圖標 -->
+			    <div class="icon-top-left">
+			        <i class="fa-solid fa-plus" 
+			        th:attr="data-id=${goodsVO.goodsNo}, data-name=${goodsVO.goodsName},
+                	data-price=${goodsVO.goodsPrice}, data-counterNo=${goodsVO.counterVO.counterNo},
+                	data-base64Image=${goodsVO.base64Image}" onclick="addToCart(this)"
+			        style="font-size: 24px;"></i>
+			    </div>  
                 <!-- 單個商品的表單 -->
                 <form th:action="@{/counter/getOneGoods}" method="get">
                     <input type="hidden" name="goodsNo" th:value="${goodsVO.goodsNo}">
                     <button type="submit" class="product-button">
                         <div class="image-container">
-                            <img th:src="@{/goods/DBGifReader} + '?goodsNo=' + ${goodsVO.goodsNo}" alt="goods-image">
+                            <img th:src="'data:image/png;base64,' + ${goodsVO.base64Image}" alt="goods-image">
                             
                         </div>
                         <div class="goods-name">
@@ -108,7 +120,15 @@
             </div>
         </div>
     </div>
-
+	
+	<!-- 固定在右下角的購物車圖標 -->
+	<div class="fixed-cart-icon">
+		<a th:href=@{/cart/list35}>
+	    	<i class="fas fa-shopping-cart"></i>
+	    </a>
+	</div>
+	
+	
     <footer>
         <div>© 2024 DO BUY. All Rights Reserved.</div>
     </footer> 
@@ -446,6 +466,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /* ===============商品收藏愛心============= */
 
+/* ===============昱夆購物車============= */
+function addToCart(button) {
+        const goodsName = button.getAttribute('data-name');
+        const goodsPrice = button.getAttribute('data-price');
+        const goodsNo = button.getAttribute('data-id');
+        const counterNo = button.getAttribute('data-counterNo');
+        const base64Image = button.getAttribute('data-base64Image');
+        
+        fetch('/cart/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 
+            	goodsName : goodsName,
+            	goodsPrice : goodsPrice,
+            	goodsNo : goodsNo,
+            	counterNo : counterNo,
+            	base64Image : base64Image
+            })
+        })
+        .then(response => {
+            if (response.ok) {
+                alert("商品已加入購物車！");
+            } else {
+                alert("請先登入！");
+            }
+        })
+        .catch(error => 
+        alert(error.message));
+    }
 
 
 

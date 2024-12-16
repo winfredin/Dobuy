@@ -1254,9 +1254,9 @@ img {
 	/* 高度固定 */
 	border-radius: 20px;
 	/* 可選，圖片圓角 */
-	object-fit: scale-down;
+	object-fit: contain;
 	/* 允許圖片變形以填滿容器 */
-	background-color: #f5f5f5;
+	background-color: #cb936e; /* 添加淡灰色背景 */
     transition: background-color 0.3s ease;
 }
 
