@@ -250,7 +250,15 @@ public class FrontEndController {
   return "front-end/normalpage/member";
 
  }
-
+ @GetMapping("content/profile")
+	public String getProfilePage(Model model, HttpSession session) {
+		Object memNoObj = session.getAttribute("memNo");
+		Integer memNo = Integer.parseInt(memNoObj.toString());
+		MemberVO memberVO;
+		memberVO = memSvc.findOne(memNo);
+		model.addAttribute("memberVO", memberVO);
+		return "content/profile";
+	}
  @PostMapping("address")
  public String changeadd(@RequestParam("memAddress") String memAddress, ModelMap model, HttpSession session)
    throws IOException {
@@ -295,16 +303,45 @@ public class FrontEndController {
   return "front-end/normalpage/member";
 
  }
-
  @GetMapping("content/credit")
- public String getcreditPage() {
-  return "content/credit"; // 對應 templates/content/profile.html
- }
-
- @GetMapping("content/changeps")
- public String getchangepsPage(HttpSession session, Model model) {
-  Object memNoObj = session.getAttribute("memNo");
-  Integer memNo = Integer.parseInt(memNoObj.toString());
-return "content/changeps";
- }
+	public String getcreditPage() {
+		return "content/credit"; // 對應 templates/content/profile.html
+	}
+	@GetMapping("content/changeps")
+	public String getchangepsPage(HttpSession session, Model model) {
+		Object memNoObj = session.getAttribute("memNo");
+		Integer memNo = Integer.parseInt(memNoObj.toString());
+		MemberVO memberVO;
+		memberVO = memSvc.findOne(memNo);
+		memberVO.setMemPassword("");
+		model.addAttribute("memberVO", memberVO);
+		return "content/changeps"; // 對應 templates/content/profile.html
+	}
+	@GetMapping("content/delete")
+	public String getdeletePage(Model model, HttpSession session) {
+		Object memNoObj = session.getAttribute("memNo");
+		Integer memNo = Integer.parseInt(memNoObj.toString());
+		MemberVO memberVO;
+		memberVO = memSvc.findOne(memNo);
+		model.addAttribute("memberVO", memberVO);
+		return "content/delete"; // 對應 templates/content/profile.html
+	}
+	@GetMapping("content/add")
+	public String getaddPage(HttpSession session, Model model) {
+		Object memNoObj = session.getAttribute("memNo");
+		Integer memNo = Integer.parseInt(memNoObj.toString());
+		MemberVO memberVO;
+		memberVO = memSvc.findOne(memNo);
+		model.addAttribute("memberVO", memberVO);
+		return "content/add"; // 對應 templates/content/profile.html
+	}
+	@GetMapping("content/profileup")
+	public String getprofileupPage(Model model, HttpSession session) {
+		Object memNoObj = session.getAttribute("memNo");
+		Integer memNo = Integer.parseInt(memNoObj.toString());
+		MemberVO memberVO;
+		memberVO = memSvc.findOne(memNo);
+		model.addAttribute("memberVO", memberVO);
+		return "content/profileup"; // 對應 templates/content/profile.html
+	}
 }
