@@ -104,7 +104,7 @@ public class BackendCounterController {
             if (counterStatus == 0) {
             	sendEmailtoC (counterVO.getCounterEmail(),counterVO);
             }else if (counterStatus == 2) { 
-	        	String informMsg = counterVO.getCounterCName() + " 您的櫃位狀態有違規行為，如有疑問請聯繫客服";
+	        	String informMsg = counterVO.getCounterCName() + " 您的櫃位有違規行為，如有疑問請聯繫客服";
 	            Integer counterNo1 = counterVO.getCounterNo();
 	            msgSvc.addCounterInform(counterNo1, informMsg); // 新增通知
 	        }else if (counterStatus == 3) {
