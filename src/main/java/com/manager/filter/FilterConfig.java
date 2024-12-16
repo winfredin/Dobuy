@@ -26,7 +26,7 @@ public class FilterConfig {
     public FilterRegistrationBean<ManagerFilter> managerFilter() {
         FilterRegistrationBean<ManagerFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(new ManagerFilter());
-        registrationBean.addUrlPatterns("/goods/listAllCheckStatus", "/used/getAllSellerUsedListFragment","/goods/listAllCheckStatus","/manager/manager","/discount/listAllDiscount");  // 設置過濾器適用的路徑
+        registrationBean.addUrlPatterns("/goods/listAllCheckStatus", "/used/getAllSellerUsedListFragment","/goods/listAllCheckStatus","/manager/listAllManager","/manager/listAllAuth","/discount/listAllDiscount");  // 設置過濾器適用的路徑
         return registrationBean;
     }
     @Bean

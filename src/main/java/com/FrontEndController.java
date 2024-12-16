@@ -88,7 +88,12 @@ public class FrontEndController {
 
   return "loading";
  }
+ @PostMapping("1")
+ public String index1() {
 
+  return "";
+ }
+ 
  @GetMapping("member")
  public String getMemberPage(HttpSession session, Model model) {
 
