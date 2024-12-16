@@ -42,5 +42,7 @@ public interface CouponRepository extends JpaRepository<CouponVO, Integer> {
     @Query("SELECT c FROM CouponVO c LEFT JOIN FETCH c.couponDetails WHERE c.couponNo = :couponNo")
     Optional<CouponVO> findByIdWithDetails(@Param("couponNo") Integer couponNo);
 	
+    
+    
 
 }

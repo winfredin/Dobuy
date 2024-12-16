@@ -36,7 +36,7 @@ public class IndexController2_inSpringBoot_Coupon {
     MsgService msgSvc;
 
 
-    // 提供所有优惠券列表页面
+    // 提供所有列表
      @GetMapping("/listAllCoupon")
      public String listAllCoupon(HttpSession session, Model model) {
      	//櫃位優惠券登錄確認

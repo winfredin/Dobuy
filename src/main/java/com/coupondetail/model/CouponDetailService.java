@@ -112,7 +112,9 @@ public class CouponDetailService {
 
 
 
-
+    public List<CouponDetailVO> getByCouponNoEx(Integer couponNo) {
+        return repository.findByCouponNoWithGoods(couponNo);
+    }
     
 
     
