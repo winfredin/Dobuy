@@ -67,7 +67,7 @@ public class MailService {
 
 			helper.setFrom("TibameMailCIA103@gmail.com");
 			helper.setTo(toEmail);
-			helper.setSubject("HTML 郵件");
+			helper.setSubject("Do.Buy會員信箱認證");
 
 			// HTML 内容直接写在代码中
 			String htmlContent = """

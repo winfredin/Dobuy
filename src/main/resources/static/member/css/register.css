@@ -125,3 +125,42 @@ body {
 	box-sizing: border-box;
 }
 /* 信箱驗證 */
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.toggle-password:focus {
+    outline: none;
+}
+
+/* 图标样式 */
+.toggle-password .fas {
+    font-size: 1.5em; /* 放大图标 */
+    color: #666; /* 设置图标颜色 */
+    transition: color 0.3s ease; /* 添加颜色过渡效果 */
+}
+
+/* 鼠标悬停时的样式 */
+.toggle-password:hover .fas {
+    color: #000; /* 鼠标悬停时变为黑色 */
+}
+
+.form-input {
+    width: 100%; /* 占满父元素 */
+    box-sizing: border-box; /* 包含内边距和边框 */
+    padding-right: 40px; /* 给右侧按钮留出空间 */
+}
+
+.fas {
+    color: #333;
+    margin-bottom:17px;
+}
