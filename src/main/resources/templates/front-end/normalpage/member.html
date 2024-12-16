@@ -63,23 +63,24 @@
    
     <div class="icons">
     <!-- 當 session.memNo 為 null，添加 login-only 類 -->
-    <a class="icons login-only" href="/mem/login" th:if="${session.memNo == null}">
-        <img src="images/login.png" alt="Login">
-    </a>
+    <a class="icons login-only" th:href="@{/mem/login}" th:if="${session.memNo == null}">
+				    <img th:src="@{/images/login.png}" alt="Login">
+				</a>
+				
+				<!-- 當 session.memNo 不為 null，顯示其他按鈕 -->
+				<a class="icons" th:href="@{/member}" th:if="${session.memNo != null}">
+				    <img th:src="@{/images/會員中心.png}" alt="User">
+				</a>
+				<a class="icons" th:href="@{/mem/logout}" th:if="${session.memNo != null}">
+				    <img th:src="@{/images/log-out.png}" alt="Logout">
+				</a>
+				<a class="icons" th:href="@{/shoppingcartlist/listAllShoppingCartList}" th:if="${session.memNo != null}">
+				    <img th:src="@{/images/購物車.png}" alt="Cart">
+				</a>
+				<a class="icons" th:href="@{/customerservice/addComplaint}" th:if="${session.memNo != null}">
+			        <img th:src="@{/images/report.png}" alt="Report">
+			    </a>
 
-    <!-- 當 session.memNo 不為 null，顯示其他按鈕 -->
-    <a class="icons" href="member" th:if="${session.memNo != null}">
-        <img src="images/會員中心.png" alt="User">
-    </a>
-    <a class="icons" href="/mem/logout" th:if="${session.memNo != null}">
-        <img src="images/log-out.png" alt="Logout">
-    </a>
-    <a class="icons" href="/shoppingcartlist/listAllShoppingCartList" th:if="${session.memNo != null}">
-        <img src="images/購物車.png" alt="Cart">
-    </a>
-    <a class="icons" href="/customerservice/addComplaint" th:if="${session.memNo != null}">
-        <img src="images/report.png" alt="Report">
-    </a>
 </div>
 
 </div>
