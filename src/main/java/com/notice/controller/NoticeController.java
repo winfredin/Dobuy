@@ -28,20 +28,12 @@ import com.notice.model.NoticeVO;
 @Controller
 @RequestMapping("/notice")
 public class NoticeController {
-	
-	
+		
 	@Autowired
     NoticeService noticeSvc;
 	
 	@Autowired
     MemberService memberSvc;
-	
-//	@GetMapping("listAllNotice")
-//    public String getAllNotice(ModelMap model) {
-//    	List<NoticeVO> list = noticeSvc.getAll();
-//    	model.addAttribute("noticeListData", list);
-//    	return "front-end/notice/listAllNotice";
-//    }
 	
 	//柏翔新增======================================================
     @GetMapping("listAllNotice")
@@ -100,49 +92,6 @@ public class NoticeController {
 //	        }
 //	    }
 	 
-	 
-	 
-//		會員通知總攬
-//	    @GetMapping("listAllNotice")
-//	    public String listAllnotice(HttpSession session, Model model) {
-//	    	//櫃位優惠券登錄確認
-//	        MemberVO member = (MemberVO) session.getAttribute("member");
-//	        if (member == null) {
-//	            return "redirect:/member/login";
-//	        } else {
-//	            // 其他邏輯
-//	            model.addAttribute("member", memberSvc.getOneCounter(member.getMemNo()));
-//	            model.addAttribute("memberNoticeListData", noticeSvc.getOneCounterMsg(member.getMemNo()));
-//	            return "front-end/notice/listAllNotice";
-//	        }
-//	    }
-//	    
-//	    @ModelAttribute("memberNoticeListData")
-//	    protected List<NoticeVO> MemberReferenceListData(HttpSession session, Model model) {
-//	        MemberVO member = (MemberVO) session.getAttribute("member");
-//	        if (member != null) {
-//	        	List<MsgVO> list =  msgSvc.getOneCounterMsg(counter.getCounterNo());
-//	            return list;
-//	        } else {
-//	            // 如果counter為null，返回一個空列表或處理錯誤
-//	            model.addAttribute("error", "未登錄或Session信息遺失");
-//	            return new ArrayList<>(); // 或者其他適當的錯誤處理
-//	        }
-//	    }
-//	    
-//	    @PostMapping("listCounterMsg_ByCompositeQuery")
-//	    public String listCounterMsg(HttpSession session ,HttpServletRequest req, Model model) {
-//	        CounterVO counter = (CounterVO) session.getAttribute("counter");
-//	        List<MsgVO> list =  msgSvc.getOneCounterMsg(counter.getCounterNo());
-//	        model.addAttribute("counterMsgListData", list); 
-//	        return "vendor-end/msg/listAllMsg";
-//	    }
-//	    
-	    
-	    
-	    
-	 
-
 	 
 		//柏翔新增======================================================
 	    // 標記會員的所有通知為已讀

@@ -52,27 +52,27 @@
         $('#example_length').append('<button id="clearAllBtn" class="btn btn-danger ml-2">清空通知</button>');
         $('#example_length').append('<button id="markAllReadBtn" class="btn btn-primary ml-2">標記所有為已讀</button>');
 
-        // 清空通知按鈕事件
-        $('#clearAllBtn').on('click', function() {
-            if (confirm('確定要清空所有通知嗎？')) {
-                $.post('/notice/clearAll', function(response) {
-                    location.reload();
-                });
-            }
-        });
+		// 清空通知按鈕事件
+		      $('#clearAllBtn').on('click', function() {
+		          if (confirm('確定要清空所有通知嗎？')) {
+		              $.post('/notice/clearAll', function(response) {
+		                  location.reload();
+		              });
+		          }
+		      });
 
-        // 標記所有為已讀按鈕事件
-        $('#markAllReadBtn').on('click', function() {
-            $.post('/notice/markAllRead', function(response) {
-                // 將通知行背景色改為淺藍色
-                $('#example tbody tr').css('background-color', '#dff1f7');
-            });
-        });
+		      // 標記所有為已讀按鈕事件
+		      $('#markAllReadBtn').on('click', function() {
+		          $.post('/notice/markAllRead', function(response) {
+		              // 將通知行背景色改為淺藍色
+		              $('#example tbody tr').css('background-color', '#dff1f7');
+		          });
+		      });
 
-        // 點擊事件，將行背景色改為淺藍色
-        $('#example tbody').on('click', 'tr', function() {
-            $(this).css('background-color', '#dff1f7');
-        });
+		      // 點擊事件，將行背景色改為淺藍色
+		      $('#example tbody').on('click', 'tr', function() {
+		          $(this).css('background-color', '#dff1f7');
+		      });
     });
 </script>
 <style type="text/css">
