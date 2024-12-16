@@ -214,6 +214,10 @@ public class CounterOrderVO implements java.io.Serializable {
 //	}
 	private Integer memCouponNo;
 ////	柏翔改
+
+	
+//	柏翔改
+
 	@Column(name = "memCouponNo")
 	public Integer getMemCouponNo() {
 		return memCouponNo;
