@@ -33,7 +33,6 @@ import com.customerservice.model.CustomerServiceService;
 import com.customerservice.model.CustomerServiceVO;
 import com.msg.model.MsgService;
 import com.msg.model.MsgVO;
-import com.counter.model.CounterService;
 import com.counter.model.*;
 
 
@@ -55,6 +54,7 @@ public class CustomerServiceController {
     @Autowired
     MsgService msgSvc;
     
+    
 
     
     @GetMapping("/addComplaint")
@@ -65,6 +65,8 @@ public class CustomerServiceController {
         }
 
         CustomerServiceVO customerServiceVO = new CustomerServiceVO();
+        List<CounterVO> counters = counterSvc.getAll();
+        model.addAttribute("counters", counters);
         model.addAttribute("counterList", counterSvc.getAll());
         model.addAttribute("customerServiceVO", customerServiceVO);
         return "front-end/complaint/addcomplaint";

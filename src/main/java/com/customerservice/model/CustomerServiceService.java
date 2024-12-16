@@ -40,6 +40,12 @@ public class CustomerServiceService {
     public List<CustomerServiceVO> getOneCounterCustomerService(Integer counterNo) {
         return repository.findByCounterNo(counterNo);
     }
+    
+    
+    //任國測試
+    public int countPlaintUnread(Integer counterNo) {
+    	return repository.counterPlaintReader(counterNo, (byte)0);
+    }
 }
 
 

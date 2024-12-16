@@ -115,7 +115,10 @@
 										    </a>
 
 										</li>
-                                    <li><a th:href="@{/customerservice/listCounterComplaint}">客訴回覆</a>
+                                    <li><a th:href="@{/customerservice/listCounterComplaint}"
+                                    	   th:classappend="${customerServiceSvc.countPlaintUnread(counter.counterNo) > 0} ? 'unread-dot'">
+                                    	   客訴回覆
+                                    	   </a>
                                     </li>
                              </ul>
 
