@@ -36,6 +36,7 @@ function updateCart(button, delta) {
 						loadCouponsForCounter(counterDiv);
 						totalAfterElement.textContent = "";
 						totalCounterDiv.classList.remove("total-price"); // 移除刪除線的 class
+						counterDiv.querySelector(".afterPrice").style.display = "none"; // 隱藏折價區域
 					}
 				} else {
 					document.getElementById(`quantity-${goodsNo}`).innerText = data.newQuantity;
@@ -46,6 +47,7 @@ function updateCart(button, delta) {
 					loadCouponsForCounter(counterDiv);
 					totalAfterElement.textContent = "";
 					totalCounterDiv.classList.remove("total-price"); // 移除刪除線的 class
+					counterDiv.querySelector(".afterPrice").style.display = "none"; // 隱藏折價區域
 
 				}
 			} else {
@@ -89,6 +91,7 @@ function removeFromCart(button) {
 				loadCouponsForCounter(counterDiv);
 				totalAfterElement.textContent = "";
 				totalCounterDiv.classList.remove("total-price"); // 移除刪除線的 class
+				counterDiv.querySelector(".afterPrice").style.display = "none"; // 隱藏折價區域
 
 			} else {
 				alert("刪除失敗！");
