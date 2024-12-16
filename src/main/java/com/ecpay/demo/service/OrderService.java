@@ -60,7 +60,7 @@ public class OrderService {
 //            obj.setCustomField1(String.valueOf(counterOrderNo));
 
             // 設定付款結果通知參數
-            obj.setReturnURL("https://f56d-175-181-189-53.ngrok-free.app/ecpay/callback");
+            obj.setReturnURL("https://34b2-175-181-189-53.ngrok-free.app/ecpay/callback");
 
             obj.setOrderResultURL("http://localhost:8080/member");
             obj.setClientBackURL("http://localhost:8080/member");
