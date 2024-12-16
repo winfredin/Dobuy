@@ -55,7 +55,7 @@
             <div class="container h-100">
                 <div class="row h-100 align-items-center">
                     <div class="col-12">
-                        <a th:href="@{/counter/Counterindex}" class="original-logo"><img src="/counter/img/core-img/logo noback.png" alt=""></a>
+                        <a th:href="@{'/counter/getOneCounter_For_Display?counterNo=' + ${counter.counterNo}}" class="original-logo"><img src="/counter/img/core-img/logo noback.png" alt=""></a>
                     </div>
                 </div>
             </div>
@@ -88,6 +88,7 @@
                                         <ul  class="dropdown">
                                             <li><a href="/counter/listOneCounter">櫃位訂單管理</a></li>
                                             <li><a id="check" th:href="@{/goods/listAllCounterGoods}">商品管理</a></li>
+                                            <li><a th:href="@{'/counter/getOneCounter_For_Display?counterNo=' + ${counter.counterNo}}">櫃位商城首頁</a></li>
                                         </ul>
                                     </li>
                                     <li><a href="#">櫃位前台設置</a>

@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.counter.model.CounterService;
 import com.counter.model.CounterVO;
@@ -86,11 +87,13 @@ public class MonthSettlementController {
 
     // 新增資料處理
     @PostMapping("insert")
-    public String insert(@Valid MonthSettlementVO monthsettlementVO, BindingResult result, ModelMap model)
+    public String insert(@Valid MonthSettlementVO monthsettlementVO, 
+    		BindingResult result,RedirectAttributes redirectAttributes, ModelMap model )
      	{
     	System.out.println("呼叫");
     	Integer counterNo = monthsettlementVO.getCounterNo();
 		CounterVO counterVO = counterSvc.getOneCounter(counterNo);
+		redirectAttributes.addFlashAttribute("message", "月結已送出");
         /*************************** 1. 接收請求參數 - 格式驗證 ************************/
     	
     	String monthString = monthsettlementVO.getMonth();
@@ -115,7 +118,7 @@ public class MonthSettlementController {
     	String informMsg = counterVO.getCounterCName() + " 您的月營收已發出，請到營收查詢確認";
         Integer counter = counterVO.getCounterNo();
         msgSvc.addCounterInform(counter, informMsg);
-        return  "redirect:/back-end-homepage";
+        return  "redirect:/monthsettlement/addMonthSettlement";
     }
     
 //    @GetMapping("listAllMonthSettlement")
