@@ -31,6 +31,7 @@ import com.usedorder.model.UsedOrderVO;
 import com.counterorder.model.CounterOrderService;
 import com.customerservice.model.CustomerServiceService;
 import com.customerservice.model.CustomerServiceVO;
+import com.msg.model.MsgService;
 import com.msg.model.MsgVO;
 import com.counter.model.CounterService;
 import com.counter.model.*;
@@ -51,6 +52,8 @@ public class CustomerServiceController {
     CounterService counterSvc;
     @Autowired
     CounterRepository counterRepository;
+    @Autowired
+    MsgService msgSvc;
     
 
     
@@ -203,37 +206,38 @@ public class CustomerServiceController {
     
     
     
-    @GetMapping("listAllComplaint")
-    public String getAllComplaint(ModelMap model) {
-        try {
-            List<CustomerServiceVO> list = customerServiceSvc.getAll(); 
-            if (list == null) {
-                list = new ArrayList<>();
-            }
-            model.addAttribute("customerserviceListData", list);
-            return "vendor-end/customerservice/listAllComplaint";
-        } catch (Exception e) {
-            // 處理例外狀況並記錄錯誤
-            model.addAttribute("error", "無法獲取客訴資料");
-            e.printStackTrace();  // 或者使用日誌框架記錄錯誤信息
-            return "error";
-        }
-    }
-    
-//    @GetMapping("listAllCustomerService")
-//    public String listAllCustomerService(HttpSession session, Model model) {
-//        CounterVO counter = (CounterVO) session.getAttribute("counter");
-//        if (counter == null) {
-//            return "redirect:/counter/login";
-//        } else {
-//            List<CustomerServiceVO> list = customerServiceSvc.getOneCounterCustomerService(counter.getCounterNo());
-//
-//            model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
-//            model.addAttribute("counterCustomerServiceListData", list);
-//            model.addAttribute("customerServiceSvc", customerServiceSvc);
-//            return "vendor-end/customerService/listAllCustomerService";
+//    @GetMapping("listAllComplaint")
+//    public String getAllComplaint(ModelMap model) {
+//        try {
+//            List<CustomerServiceVO> list = customerServiceSvc.getAll(); 
+//            if (list == null) {
+//                list = new ArrayList<>();
+//            }
+//            model.addAttribute("customerserviceListData", list);
+//            return "vendor-end/customerservice/listAllComplaint";
+//        } catch (Exception e) {
+//            // 處理例外狀況並記錄錯誤
+//            model.addAttribute("error", "無法獲取客訴資料");
+//            e.printStackTrace();  // 或者使用日誌框架記錄錯誤信息
+//            return "error";
 //        }
 //    }
+    
+    @GetMapping("listCounterComplaint")
+    public String listAllCustomerService(HttpSession session, Model model) {
+        CounterVO counter = (CounterVO) session.getAttribute("counter");
+        if (counter == null) {
+            return "redirect:/counter/login";
+        } else {
+            List<CustomerServiceVO> list = customerServiceSvc.getOneCounterCustomerService(counter.getCounterNo());
+
+            model.addAttribute("counter", counterSvc.getOneCounter(counter.getCounterNo()));
+            model.addAttribute("counterCustomerServiceListData", list);
+            model.addAttribute("customerServiceSvc", customerServiceSvc);
+            model.addAttribute("msgSvc", msgSvc);
+            return "vendor-end/customerService/listAllComplaint";
+        }
+    }
 //
 //    
 //

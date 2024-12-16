@@ -144,13 +144,7 @@ public class MonthSettlementController {
         if (counter == null) {
             return "redirect:/counter/login";
         }
-//        Integer counterNo = counter.getCounterNo();
-//        Integer orderStatus = 1; // 假设已付款的订单状态为1
-//        String orderTime = "2024-11%"; // 匹配2024年11月的订单
-//        
-//        Integer totalAmount = counterOrderSvc.getTotalOrderAmount(counterNo, orderStatus, orderTime);
-//        model.addAttribute("totalAmount", totalAmount);
-        
+      
         List<MonthSettlementVO> list = monthSettlementService.getByCounterNo(counter.getCounterNo());
         model.addAttribute("monthSettlementListData", list);
         model.addAttribute("counter", counter); // 這裡確保counter被添加到模型中
