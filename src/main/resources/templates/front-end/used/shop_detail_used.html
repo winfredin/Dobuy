@@ -161,7 +161,7 @@
 						       max="${usedVO.usedStocks}" 
 						       type="number" 
 						       name="usedCount" 
-						       oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 5);">
+						       oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 5);" required>
                         <input type="hidden" name="usedName" th:value="${usedVO.usedName}" />
                         <input type="hidden" name="usedPrice" th:value="${usedVO.usedPrice}" />
                         <input type="hidden" name="usedNo" th:value="${usedVO.usedNo}" />

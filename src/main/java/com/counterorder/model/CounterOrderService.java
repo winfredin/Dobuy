@@ -206,7 +206,7 @@ public CounterOrderVO findById(Integer orderNo) {
 
     
     public int countNewOrder(Integer counterNo) {
-        return repository.counterReader(counterNo, 0);
+        return repository.counterReader(counterNo, 6);
     }
 
     

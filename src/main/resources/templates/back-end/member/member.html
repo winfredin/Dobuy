@@ -245,6 +245,7 @@ td select {
             <option th:value="1" th:selected="${memVO.memStatus == 1}" th:text="'正常'"></option>
             <option th:value="2" th:selected="${memVO.memStatus == 2}" th:text="'禁止販賣'"></option>
         </select>
+        <input type="hidden" name="memNo" th:value="${memVO.memNo}"/>
         <button type="submit" class="btn-modify">修改</button>
     </div>
     </form>
