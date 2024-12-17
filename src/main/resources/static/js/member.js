@@ -732,6 +732,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	window.showOrderDetails = function(element) {
 		const orderNo = element.getAttribute('data-orderNo');
 		const usedNo = element.getAttribute('data-usedNo');
+		const usedName = element.getAttribute('data-usedName');
 		const usedPrice = element.getAttribute('data-usedPrice');
 		const usedCount = element.getAttribute('data-usedCount');
 		const usedTotalPrice = element.getAttribute('data-usedTotalPrice');

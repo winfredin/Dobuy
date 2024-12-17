@@ -20,6 +20,18 @@ public interface NoticeRepository extends JpaRepository<NoticeVO, Integer> {
 	//抓會員通知
 	@Query(value = "SELECT * FROM notice WHERE memNo = ?1 ", nativeQuery = true)
 	List<NoticeVO> findByMemNo(Integer memNo);
+	
+	
+	
+	    List<NoticeVO> findAllByCounterInformNo(Integer counterInformNo);
+	    NoticeVO findByCounterInformNoAndMemNo(Integer counterInformNo, Integer memNo);
+	    
+
+	 
+
+
+	
+
 
 
 	

@@ -88,6 +88,9 @@ public class UsedOrderService {
     	
 		return result;
     }
+    
+    public List<Object[]> getBuyerOrdersWithUsedNameByMemNo(Integer memNo) { 
+    	return repository.findBuyerOrdersWithUsedNameByBuyerNo(memNo); }
 
     
     
