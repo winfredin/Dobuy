@@ -191,6 +191,7 @@ public class CounterOrderService {
     public Integer getTotalOrderAmount(Integer counterNo, Integer orderStatus, String orderTime) {
         return repository.findmoney(counterNo, orderStatus, orderTime);
     }
+
 //  柏翔
 
 public CounterOrderVO findById(Integer orderNo) {
@@ -202,6 +203,12 @@ public CounterOrderVO findById(Integer orderNo) {
 
 
     
+
+    
+    public int countNewOrder(Integer counterNo) {
+        return repository.counterReader(counterNo, 0);
+    }
+
     
 }
     
