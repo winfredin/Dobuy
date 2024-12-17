@@ -33,6 +33,7 @@ import com.counterorderdetail.model.CounterOrderDetailService;
 import com.counterorderdetail.model.CounterOrderDetailVO;
 import com.coupon.model.CouponService;
 import com.coupon.model.CouponVO;
+import com.goods.model.GoodsLightVO;
 import com.goods.model.GoodsService;
 import com.goods.model.GoodsVO;
 import com.goodstype.model.GoodsTypeService;
@@ -68,6 +69,9 @@ public class FrontEndController {
  CountercarouselService countercarouselSvc;
 
  @Autowired
+ StoreCarouselService storeCarouselSvc;
+ 
+ @Autowired
  MemberService memSvc;
  @Autowired
  UsedService usedSvc;
@@ -84,7 +88,12 @@ public class FrontEndController {
 
   return "loading";
  }
+ @PostMapping("1")
+ public String index1() {
 
+  return "";
+ }
+ 
  @GetMapping("member")
  public String getMemberPage(HttpSession session, Model model) {
 
@@ -135,8 +144,10 @@ public class FrontEndController {
  @GetMapping("home")
  public String getHomePage(Model model, HttpSession session) {
 
+
   List<StoreCarouselVO> carousellist = storeCarouselSvc.getAll();
   List<GoodsVO> goodslist = goodsSvc.getAllGoodsStatus1();
+
   List<CounterVO> counterVOList = counterSvc.getAll();
   List<GoodsVO> subGoodslist = goodslist.stream().limit(10).collect(Collectors.toList());
   // 找愛心
@@ -183,6 +194,11 @@ public class FrontEndController {
   List<GoodsVO> list = goodsSvc.getgoods();
   List<GoodsTypeVO> glist = goodstSvc.getAll();
   List<CounterVO> counterVOList = counterSvc.getAll();
+  
+  List<GoodsLightVO> goodsLightVO = new ArrayList<GoodsLightVO>(); // 建一個輕量級的VO，把抓到的資料轉成前端要的格式(base64)
+	for (GoodsVO goods : list) {
+		goodsLightVO.add(new GoodsLightVO(goods));
+	}
   // 找愛心
   String memNo = (String) session.getAttribute("memNo"); // 从 session 获取用户 ID
   String myListKey = "myList:" + memNo; // 组合成 key
@@ -190,7 +206,7 @@ public class FrontEndController {
   
   model.addAttribute("goodsSet", goodsSet);
   model.addAttribute("counterVOList", counterVOList);
-  model.addAttribute("list", list);
+  model.addAttribute("list", goodsLightVO);
   model.addAttribute("glist", glist);
   return "front-end/normalpage/goodspage";
  }

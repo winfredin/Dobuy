@@ -189,7 +189,7 @@ public class EcpayController {
 				itemNames.add(item.getGoodsName());
 			}
 			String aioCheckOutALLForm = orderService.generateEcpayNum(totalAmountAfter, itemNames,
-					newCounterOrderVO.getcOrderNo());
+					counterOrderVO.getCounterOrderNo());
 			redisTemplate.opsForHash().delete(key, counterNoStr); // 清空購物車
 			return aioCheckOutALLForm;
 		} catch (Exception e) {

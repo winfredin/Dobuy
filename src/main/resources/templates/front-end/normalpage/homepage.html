@@ -102,9 +102,9 @@
 <div class="slider">
 
     <th:block th:each="storeCarouselVO : ${carousellist}">
-        <a th:href="@{/counter/getOneCounter_For_Display(counterNo=${storeCarouselVO.counterNo})}">
-<img th:src="@{/storecarousel/gifReader(id=${storeCarouselVO.id})}" alt="goods-image" />
-</a>
+	        <a th:href="@{/counter/getOneCounter_For_Display(counterNo=${storeCarouselVO.counterNo})}">
+	<img th:src="@{/storecarousel/gifReader(id=${storeCarouselVO.id})}" alt="goods-image" />
+			</a>
     </th:block>
 
 

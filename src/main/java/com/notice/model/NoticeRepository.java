@@ -30,6 +30,9 @@ public interface NoticeRepository extends JpaRepository<NoticeVO, Integer> {
 	
 	
 	
+//	recovered
+	
+	
 	
 //	柏翔新增====================================================================
 	boolean existsByMemNoAndNoticeContent(Integer memNo, String noticeContent);

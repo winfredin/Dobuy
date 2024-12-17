@@ -45,23 +45,14 @@
 
 
 <style>
-/* 全局樣式 */
-body {
-    margin: 0 6rem !important;
-    padding: 0 !important;
-    background-color: #f8f9fa !important;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-/* 功能區塊 */
-.admin-feature-bar {
+/* 主要內容區域的樣式，避免影響導覽列 */
+.main-content .admin-feature-bar {
     margin: 30px auto;
     padding: 20px 0;
     background: transparent;
-    box-shadow: none;
 }
 
-.admin-feature-list {
+.main-content .admin-feature-list {
     display: flex;
     justify-content: center;
     list-style: none;
@@ -69,11 +60,11 @@ body {
     margin: 0;
 }
 
-.admin-feature-list li {
+.main-content .admin-feature-list li {
     margin: 0 15px;
 }
 
-.admin-feature-list li a {
+.main-content .admin-feature-list li a {
     padding: 12px 25px;
     background: rgba(173, 129, 85, 0.5);
     color: #fff;
@@ -86,14 +77,8 @@ body {
     font-size: 16px;
 }
 
-.admin-feature-list li a:hover {
-    background: rgba(173, 129, 85, 0.8);
-    transform: translateY(-3px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-}
-
-/* 表格樣式 */
-#example {
+/* DataTable 樣式 */
+.main-content #example {
     width: 100%;
     margin: 20px auto;
     border-collapse: separate;
@@ -101,10 +86,9 @@ body {
     background: rgba(255, 255, 255, 0.95);
     border-radius: 15px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
 }
 
-#example thead th {
+.main-content #example thead th {
     background: rgba(173, 129, 85, 0.95);
     color: #fff;
     padding: 15px;
@@ -112,97 +96,24 @@ body {
     font-weight: 500;
 }
 
-#example tbody td {
-    padding: 15px;
-    text-align: center;
-    color: #2c3e50;
-    border-bottom: 1px solid rgba(173, 129, 85, 0.1);
-    transition: all 0.3s ease;
-}
-
-#example tbody tr:hover td {
-    background: rgba(173, 129, 85, 0.1);
-    transform: scale(1.01);
-}
-
-/* 按鈕樣式 */
-input[type="submit"], .btn-primary {
-    padding: 8px 16px;
-    background: rgba(173, 129, 85, 0.5);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-input[type="submit"]:hover, .btn-primary:hover {
-    background: rgba(173, 129, 85, 0.8);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-/* Modal 樣式 */
-.modal-content {
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 15px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-}
-
-.modal-header {
-    background: rgba(173, 129, 85, 0.95);
-    color: #fff;
-    border-radius: 15px 15px 0 0;
-}
-
-.modal-body {
-    padding: 20px;
-}
-
-#authContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-#authContainer input[type="checkbox"] {
-    margin-right: 10px;
-}
-
 /* Add 按鈕樣式 */
-ul li {
-    list-style: none;
-    margin: 20px 0;
+.main-content ul:not(.classynav):not(.dropdown):not(.classy-menu) {
     text-align: center;
+    list-style: none;
+    padding: 0;
+    margin: 20px auto;
 }
 
-ul li a {
+.main-content ul:not(.classynav):not(.dropdown):not(.classy-menu) li a {
+    display: inline-block;
     padding: 12px 25px;
     background: rgba(173, 129, 85, 0.5);
     color: #fff;
     border-radius: 10px;
     text-decoration: none;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-ul li a:hover {
-    background: rgba(173, 129, 85, 0.8);
-    transform: translateY(-3px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-    text-decoration: none;
-    color: #fff;
-}
-
-/* 標題樣式 */
-h3 {
-    text-align: center;
-    color: #2c3e50;
-    margin: 30px 0;
-    font-size: 1.8rem;
-    font-weight: 600;
-}
     </style>
       <!-- Favicon -->
 <link rel="icon" href="img/core-img/favicon.ico">
@@ -219,31 +130,28 @@ h3 {
 	<!-- fragment引入 -->
 	<header th:block th:replace="~{back-end/back-end-home/fraghead :: header}"></header>
 
-	<div class="admin-feature-bar">
-		<div class="container">
-			<ul class="admin-feature-list">
-						<li><a th:href="@{'/manager/manager?managerNo=' + ${session.managerNo}}" style="font-size:20px">回管理頁</a></li>
-			
-				<li><a href="listAllManager"id="admin-data">管理員資料管理</a></li>
-				<li><a href="listAllAuth" id="admin-permissions">權限列表設定</a></li>
-			</ul>
-		</div>
+<div class="main-content">
+    <div class="admin-feature-bar">
+        <ul class="admin-feature-list">
+            <li><a href="listAllManager" id="admin-data">管理員資料管理</a></li>
+            <li><a href="listAllAuth" id="admin-permissions">權限列表設定</a></li>
+        </ul>
 	</div>
 
-<table id="example">
-	<thead>
-    <tr>
-        <th>管理員編號</th>
-        <th>管理員名稱</th>
-        <th>管理員帳號</th>
-        <th>管理員密碼</th>
-        <th>管理員狀態</th>
-        <th>管理員權限</th>
-        <th th:if="${isAdmin}">修改</th>
-        <th th:if="${isAdmin}">刪除</th>
-        <th th:if="${isAdmin}">修改權限</th>
-    </tr>
-</thead>
+    <table id="example">
+        <thead>
+            <tr>
+                <th>管理員編號</th>
+                <th>管理員名稱</th>
+                <th>管理員帳號</th>
+                <th>管理員密碼</th>
+                <th>管理員狀態</th>
+                <th>管理員權限</th>
+                <th th:if="${isAdmin}">修改</th>
+                <th th:if="${isAdmin}">刪除</th>
+                <th th:if="${isAdmin}">修改權限</th>
+            </tr>
+        </thead>
    
 
 
@@ -297,7 +205,6 @@ h3 {
  
   </th:block>
 </table>
-<h3 id="me">管理員管理</h3>
 	
 <ul th:if="${isAdmin}">
     <li><a th:href="@{addManager}" >Add</a> a new Manager.</li>

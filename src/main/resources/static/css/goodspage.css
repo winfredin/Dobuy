@@ -9,6 +9,7 @@
     background-image: url("/images/ruben-bagues-vPQfc4niDh0-unsplash.jpg");
 } */
 body {
+	position: relative;
     width: 100%;
     min-height: 100vh; /* 確保初始頁面覆蓋瀏覽器高度 */
     height: auto; /* 讓高度自動隨內容延伸 */
@@ -420,4 +421,37 @@ header .dropdown {
 
 /* ===============我的收藏愛心============= */
 
+/* ===============昱夆購物車============= */
+.fixed-cart-icon {
+    position: absolute; /* 加上這一行，使用絕對定位 */
+    right: 20px; /* 距離右邊 20px */
+    bottom: 20px; /* 距離底部 20px */
+    background-color: #ff5722; /* 背景顏色 */
+    color: white; /* 圖標顏色 */
+    border-radius: 50%; /* 圓形背景 */
+    width: 50px; /* 圖標容器寬度 */
+    height: 50px; /* 圖標容器高度 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer; /* 鼠標懸停時變為手指 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* 添加陰影效果 */
+    font-size: 24px; /* 圖標大小 */
+    z-index: 1000; /* 保證圖標位於最上層 */
+    transition: background-color 0.3s ease;
+}
+
+.fixed-cart-icon:hover {
+    background-color: #e64a19; /* 懸停時背景顏色變暗 */
+}
+
+.icon-top-left {
+    position: absolute; /* 讓圖標可以定位在容器內 */
+    top: 5px; /* 距離頂部 5px */
+    left: 5px; /* 距離右邊 5px */
+    color: #ff5722; /* 圖標顏色 */
+    font-size: 24px; /* 圖標大小 */
+    z-index: 10; /* 確保圖標位於最上層 */
+    color: rgba(0, 0, 0, 0.3); /* 淡化顏色 */
+}
 

@@ -324,7 +324,11 @@ header .dropdown {
         </div>
     </header>
 	<div th:if="${not #lists.isEmpty(error)}">
-		<span th:each="a:${error}" > <span th:text=${a} style="margin-left:50%;  color:red;"></span></div>
+    <span th:each="a : ${error}" style="margin-left:50%; color:red;">
+        庫存不足：<span th:text="${a}"></span>
+    </span>
+</div>
+</div>
     <!-- 購物車表格 -->
     <section class="shoppingcart">
     	<h2>購物車清單</h2>
