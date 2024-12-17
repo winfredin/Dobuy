@@ -465,6 +465,7 @@ span{
 
 /* UsedListContainer CSS by GARY LEE */
 /* 表格設置 */
+
 table {
     width:90%; /* 表格占滿父容器 */
     table-layout: fixed; /* 固定表格佈局，讓欄位等寬*/
@@ -489,6 +490,8 @@ th {
     background-color: #f8f8f8; /* 表頭背景色 */
     font-weight: bold; /* 表頭文字加粗 */
 }
+
+
 
 
 
@@ -1087,3 +1090,4 @@ header .dropdown {
         margin: 10px 0;
     }
 }
+

@@ -144,7 +144,7 @@ public class UsedOrderController {
             // 這裡你可以使用之前分享的 JavaMail API 代碼來發送郵件
 
             // 假設這是你的發送郵件邏輯
-            MailSender.sendEmail("rubylin2000@gmail.com", subject, content);
+            MailSender.sendEmail("cia103g2.dobuy@gmail.com", subject, content);
 
             response.put("success", true);
         } catch (Exception e) {
