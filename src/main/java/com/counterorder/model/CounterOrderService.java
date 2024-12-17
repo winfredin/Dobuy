@@ -191,6 +191,18 @@ public class CounterOrderService {
     public Integer getTotalOrderAmount(Integer counterNo, Integer orderStatus, String orderTime) {
         return repository.findmoney(counterNo, orderStatus, orderTime);
     }
+//  柏翔
+
+public CounterOrderVO findById(Integer orderNo) {
+    // 使用 repository 的 findById 方法查詢
+    return repository.findById(orderNo).orElse(null);
+}
+    
+    
+
+
+    
+    
 }
     
     
