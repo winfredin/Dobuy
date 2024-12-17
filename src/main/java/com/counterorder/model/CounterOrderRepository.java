@@ -67,6 +67,9 @@ public interface CounterOrderRepository extends JpaRepository<CounterOrderVO, In
     
     @Query(value = "SELECT SUM(orderTotalAfter) AS totalOrderAfter FROM dobuy.CounterOrder WHERE orderStatus = :orderStatus AND counterNo = :counterNo AND orderTime LIKE :orderTime", nativeQuery = true)
     Integer findmoney(@Param("counterNo") Integer counterNo, @Param("orderStatus") Integer orderStatus, @Param("orderTime") String orderTime);
+    
+    @Query("SELECT COUNT(c) FROM CounterOrderVO c WHERE c.counterNo = :counterNo AND c.orderStatus = :orderStatus")
+    int counterReader(@Param("counterNo") Integer counterNo, @Param("orderStatus") Integer orderStatus);
 
 	
 }
