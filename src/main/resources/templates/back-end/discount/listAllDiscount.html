@@ -167,11 +167,11 @@
                 <td th:text="${discountVO.disTitle}"></td>
                 <td th:text="${discountVO.disContext}"></td>
                 <td th:text="${#numbers.formatDecimal(discountVO.disRate * 100, 0, 0) + '%'}"></td>
-                <td>
-                    <span th:class="'status-badge ' + ${discountVO.disStatus == 0 ? 'status-pending' : (discountVO.disStatus == 1 ? 'status-active' : 'status-expired')}"
-                          th:text="${discountVO.disStatus == 0 ? '尚未開放' : (discountVO.disStatus == 1 ? '使用中' : '過期')}">
-                    </span>
-                </td>
+<td>
+    <span th:class="'status-badge ' + ${discountVO.disStatus == 0 ? 'status-pending' : (discountVO.disStatus == 1 ? 'status-active' : 'status-expired')}"
+          th:text="${discountVO.disStatus == 0 ? '尚未開放' : (discountVO.disStatus == 1 ? '使用中' : '過期')}">
+    </span>
+</td>
                 <td th:text="${discountVO.descLimit}"></td>
                 <td th:text="${#dates.format(discountVO.createdAt, 'yyyy-MM-dd')}"></td>
                 <td th:text="${#dates.format(discountVO.updatedAt, 'yyyy-MM-dd')}"></td>

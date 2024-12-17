@@ -74,7 +74,7 @@ public class DiscountVO implements java.io.Serializable {
     @Min(value = 0, message = "優惠狀態: 必須是0或以上")
     @Max(value = 2, message = "優惠狀態: 必須是2或以下")
     public Integer getDisStatus() {
-        return this.disStatus = 1;
+        return this.disStatus;
     }
 
     public void setDisStatus(Integer disStatus) {

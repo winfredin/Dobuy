@@ -23,6 +23,7 @@ function handleScroll() {
 	}
 }
 
+
 // 初始加載 4 個商品
 showItems();
 
@@ -112,6 +113,7 @@ $(".pro span#1").on("click", function() {
 		success: function(response) {
 			// 成功後更新 use_1 區塊
 			$(".use_1").html(response);
+			
 		},
 		error: function(xhr, status, error) {
 			console.error("發生錯誤:", error);
@@ -159,6 +161,7 @@ $("span#4").on("click", function() {
 		success: function(response) {
 			// 成功後更新 use_1 區塊
 			$(".use_1").html(response);
+			
 		},
 		error: function(xhr, status, error) {
 			console.error("發生錯誤:", error);
@@ -181,6 +184,7 @@ $("span#2").on("click", function() {
 		success: function(response) {
 			// 成功後更新 use_1 區塊
 			$(".use_1").html(response);
+			
 		},
 		error: function(xhr, status, error) {
 			console.error("發生錯誤:", error);
@@ -203,6 +207,7 @@ $("span#5").on("click", function() {
 		success: function(response) {
 			// 成功後更新 use_1 區塊
 			$(".use_1").html(response);
+			
 		},
 		error: function(xhr, status, error) {
 			console.error("發生錯誤:", error);
@@ -225,6 +230,7 @@ $("span#3").on("click", function() {
 		success: function(response) {
 			// 成功後更新 use_1 區塊
 			$(".use_1").html(response);
+			
 		},
 		error: function(xhr, status, error) {
 			console.error("發生錯誤:", error);
@@ -232,6 +238,9 @@ $("span#3").on("click", function() {
 		},
 	});
 });
+
+// 重新綁定密碼變更的表單驗證
+
 
 
 

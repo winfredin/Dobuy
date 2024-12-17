@@ -110,16 +110,16 @@
                     <th>折扣率</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr th:each="detail : ${couponDetails}">
-                    <td th:text="${detail.coupon != null ? detail.coupon.couponNo : ''}"></td>
-                    <td th:text="${detail.goodsNo}"></td>
-                    <td th:text="${#dates.format(detail.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                    <td th:text="${#dates.format(detail.updatedAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                    <td th:text="${detail.counterContext}"></td>
-                    <td th:text="${detail.disRate}"></td>
-                </tr>
-            </tbody>
+<tbody>
+    <tr th:each="detail : ${couponDetails}">
+        <td th:text="${detail.coupon != null ? detail.coupon.couponNo : ''}"></td>
+        <td th:text="${detail.goodsVO != null ? detail.goodsVO.goodsName : '未指定商品'}"></td>
+        <td th:text="${#dates.format(detail.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+        <td th:text="${#dates.format(detail.updatedAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+        <td th:text="${detail.counterContext}"></td>
+        <td th:text="${detail.disRate}"></td>
+    </tr>
+</tbody>
         </table>
 
         <!-- 返回按鈕 -->

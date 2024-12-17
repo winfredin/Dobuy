@@ -1,145 +1,160 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>優惠券詳情</title>
-    <style>
-        /* 全局樣式 */
-        body {
-            margin: 0;
-            padding: 0;
-            background: url('/path/to/your/background-image.jpg') no-repeat center center fixed;
-            background-size: cover;
-            font-family: Arial, sans-serif;
-            color: #333;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>優惠券詳情</title>
+<style>
+/* 全局樣式 */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #fff5f2;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
 
-        /* Header 樣式 */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(255, 248, 240, 0.8);
-            padding: 10px 20px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-        }
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
 
-        .header a {
-            text-decoration: none;
-            color: #555;
-            background: #e1b382;
-            padding: 8px 12px;
-            border-radius: 5px;
-            transition: 0.3s;
-        }
+/* Header 樣式 */
+.header {
+    background-color: rgba(233, 190, 173, 0.3);
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
 
-        .header a:hover {
-            background: #b9855a;
-            color: #fff;
-        }
+.header a {
+    text-decoration: none;
+    color: white;
+    background: #e1b382;
+    padding: 8px 12px;
+    border-radius: 3px;
+    transition: background-color 0.3s;
+}
 
-        /* 詳細區塊 */
-        .detail-container {
-            max-width: 90%;
-            margin: auto;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            padding: 10px 20px;
-        }
+.header a:hover {
+    background-color: #d4a79a;
+}
 
-        .detail-card {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 15px 0;
-            padding: 10px;
-            background: rgba(240, 230, 220, 0.9);
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+/* 詳細區塊 */
+.detail-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(233, 190, 173, 0.5);
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
 
-        .detail-card img {
-            width: 80px;
-            height: 80px;
-            border-radius: 8px;
-            margin-right: 15px;
-        }
+.detail-container h2 {
+    text-align: center;
+    color: #8b4513;
+}
 
-        .detail-info {
-            flex: 1;
-            font-size: 14px;
-        }
+.detail-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px 0;
+    padding: 10px;
+    background-color: rgba(240, 230, 220, 0.9);
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
 
-        .detail-card p {
-            margin: 5px 0;
-        }
+.detail-card .detail-info {
+    flex: 1;
+    margin-left: 15px;
+}
 
-        .button-group {
-            text-align: center;
-            margin-top: 20px;
-        }
+.detail-card p {
+    margin: 5px 0;
+}
 
-        .button-group a, .button-group button {
-            display: inline-block;
-            margin: 5px;
-            padding: 8px 15px;
-            text-decoration: none;
-            color: #fff;
-            background-color: #e1b382;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
+/* 統一按鈕樣式 */
+.btn {
+    background-color: #e9bead;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 3px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
 
-        .button-group a:hover, .button-group button:hover {
-            background-color: #b9855a;
-        }
-    </style>
+.btn:hover {
+    background-color: #d4a79a;
+}
+
+.btn-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+    .detail-card {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .detail-card img {
+        margin-bottom: 10px;
+    }
+
+    .btn {
+        display: block;
+        margin: 5px auto;
+    }
+}
+</style>
 </head>
 <body>
-    <!-- Header 區塊 -->
-    <div class="header">
-        <div>會員帳號：<span th:text="${memAccount != null ? memAccount : '未登入'}"></span></div>
-        <div><a th:href="@{/mem/logout49}">登出</a></div>
-    </div>
+    <div class="container">
+        <!-- Header 區塊 -->
+        <div class="header">
+            <div>
+                會員帳號：<span th:text="${memAccount != null ? memAccount : '未登入'}"></span>
+            </div>
+            <div>
+                <a th:href="@{/mem/logout49}" class="btn">登出</a>
+            </div>
+        </div>
 
-    <!-- 詳細內容 -->
-<div class="detail-container">
-    <h2 style="text-align:center;" th:text="${coupon.couponTitle}">優惠券標題</h2>
+        <!-- 優惠券標題 -->
+        <div class="detail-container">
+            <h2 th:text="${coupon.couponTitle}">優惠券標題</h2>
 
-    <!-- 添加調試輸出 -->
-    <div th:if="${coupon.couponDetails == null}">沒有優惠券明細數據</div>
-    <div th:if="${coupon.couponDetails != null and coupon.couponDetails.empty}">優惠券明細為空</div>
-    
-    <!-- 優惠商品明細 -->
-    <div th:if="${coupon.couponDetails != null and not coupon.couponDetails.empty}">
-        <div class="detail-card" th:each="detail : ${coupon.couponDetails}">
-            <div class="detail-info">
-                <p>商品編號：<span th:text="${detail.goodsNo}"></span></p>
-                
-                
-                <p>優惠條件：<span th:text="${detail.counterContext}"></span></p>
-                <p>折扣率：<span th:text="${detail.disRate}"></span></p>
+            <!-- 無數據提示 -->
+            <div th:if="${coupon.couponDetails == null || coupon.couponDetails.empty}" class="alert">
+                沒有優惠券明細數據
+            </div>
+
+            <!-- 優惠商品明細 -->
+            <div th:if="${coupon.couponDetails != null and not coupon.couponDetails.empty}">
+                <div class="detail-card" th:each="detail : ${couponDetails}">
+                    <div class="detail-info">
+                        <p>商品編號：<span th:text="${detail.goodsNo}"></span></p>
+                        <p>商品名稱：<span th:text="${detail.goodsVO != null ? detail.goodsVO.goodsName : '未提供'}"></span></p>
+                        <p>優惠條件：<span th:text="${detail.counterContext}"></span></p>
+                        <p>折扣率：<span th:text="${detail.disRate}"></span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 返回按鈕 -->
+            <div class="btn-container">
+                <a href="javascript:void(0);" onclick="history.back();" class="btn">返回上一頁</a>
             </div>
         </div>
     </div>
-
-    <!-- 領取與返回按鈕 -->
-<div class="button-group">
-<!--     <form th:action="@{/front-end/coupon/claim}" method="post" style="display:inline;"> -->
-<!--         <input type="hidden" name="couponNo" th:value="${coupon.couponNo}" /> -->
-<!--         <button type="submit">領取優惠券</button> -->
-<!--     </form> -->
-    
-    <!-- 根據來源決定返回連結 -->
-<a href="javascript:void(0);" onclick="history.back();" class="btn">返回上一頁</a>
-
-</div>
-</div>
 </body>
 </html>

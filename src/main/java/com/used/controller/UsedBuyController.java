@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.counter.model.CounterService;
+import com.counter.model.CounterVO;
 import com.goodstype.model.GoodsTypeService;
 import com.goodstype.model.GoodsTypeVO;
 import com.member.model.MemberService;
@@ -31,6 +33,8 @@ public class UsedBuyController {
 	private UsedService usedSvc;
 	@Autowired
 	private GoodsTypeService goodsTypeService;
+	@Autowired
+	 CounterService counterSvc;
 
 	@PostMapping("/usedBuyCheck")
 	public String usedBuyCheck(@RequestParam("usedNo") String usedNo, @RequestParam("usedCount") String usedCount,
@@ -75,7 +79,7 @@ public class UsedBuyController {
 			String receiverAdr = mem.getMemAddress();// 預設 receiverAdr
 			String receiverName = mem.getMemName();// 預設 receiverName
 			String receiverPhone = mem.getMemPhone();// 預設 receiverPhone
-
+			
 			
 			model.addAttribute("usedVO",usedVO);
 			model.addAttribute("usedCount", Integer.valueOf(usedCount));

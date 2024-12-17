@@ -151,7 +151,7 @@ div a[class="coupon"]{
 }
 
 div.slider {
-    width: 1000px;                 /* 設定輪播寬度為 95% */
+    width: 100%;                 /* 設定輪播寬度為 95% */
     height: 300px;              /* 固定高度，您可以根據需求調整 */
     overflow: hidden;           /* 隱藏超出部分 */
     border-radius: 10px;        /* 圓角效果 */
@@ -159,12 +159,15 @@ div.slider {
     display: flex;              /* 使用彈性佈局 */
     justify-content: center;    /* 水平居中 */
     align-items: center;        /* 垂直居中 */
-    margin-top: -10px;
+    margin-top: 0px;
+
 }
 
-div.slider img {
-    width: 800px;                 /* 圖片寬度設為 100%，自動適應容器 */
-    height: 300px;                /* 圖片高度設為 100%，保持容器的高度 */
+div.slider a img {
+	margin-left:5%;
+    max-width: 900px;                 /* 圖片寬度設為 100%，自動適應容器 */
+    max-height: 500px;
+    width:100%;                /* 圖片高度設為 100%，保持容器的高度 */
     object-fit: contain;         /* 保持圖片比例，並且完整呈現，圖片不會被裁切 */
     object-position: 50% -100;     /* 圖片在容器內居中 */
     border-radius: 20px;         /* 圓角效果 */
@@ -183,7 +186,7 @@ div.goods_body{
 }
 
 .slick-slide {
-    margin: 0;                   /* 移除圖片間的間距 */
+    margin: 0;  /* 移除圖片間的間距 */
 }
 
 .slick-track {

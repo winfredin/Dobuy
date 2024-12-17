@@ -19,4 +19,7 @@ public class NewCouponsService {
 		return newCouponsRepository.findCouponsByCouponNo(couponNo);
 	}
 	
+	public List<NewCouponsVO> getAll(){
+		return newCouponsRepository.findAll();
+	}
 }

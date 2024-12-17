@@ -70,26 +70,26 @@ public class CouponDetailController {
     // 櫃位列出自己的優惠券點詳情 可以查看優惠商品明細
     @GetMapping("/listByCouponNo") 
     public String listByCouponNo(@RequestParam("couponNo") Integer couponNo, 
-    		HttpSession session, 
-    		Model model) {
-    	// 檢查櫃位登入狀態
-    	CounterVO counter = (CounterVO) session.getAttribute("counter");
-    	if (counter == null) {
-    		return "redirect:/counter/login";
-    	}
-    	
-    	try {
-    		List<CouponDetailVO> details = couponDetailSvc.getByCouponNo(couponNo);
-    		model.addAttribute("couponDetails", details);
-    		model.addAttribute("counter", counter);  // 提供給header使用
-    		model.addAttribute("msgSvc", msgSvc);
-    		return "vendor-end/coupondetail/listCouponDetail";
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    		model.addAttribute("error", "查詢明細失敗：" + e.getMessage());
-    		return "error";
-    	}
+                                 HttpSession session, 
+                                 Model model) {
+        CounterVO counter = (CounterVO) session.getAttribute("counter");
+        if (counter == null) {
+            return "redirect:/counter/login";
+        }
+        
+        try {
+            List<CouponDetailVO> details = couponDetailSvc.getByCouponNoEx(couponNo);
+            model.addAttribute("couponDetails", details);
+            model.addAttribute("counter", counter);  // 提供給 header 使用
+            model.addAttribute("msgSvc", msgSvc);
+            return "vendor-end/coupondetail/listCouponDetail";
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("error", "查詢明細失敗：" + e.getMessage());
+            return "error";
+        }
     }
+
     
     /*
      * This method will be called on addCouponDetail.html form submission, handling POST request

@@ -15,7 +15,7 @@ class PhotoWrite {
         String userid = "root";
 
 
-        String passwd = "0000";
+        String passwd = "poikl2003";
 
         String photos = "src/main/resources/static/Gp_Photos"; // 測試用圖片資料夾
         String update = "UPDATE Goods SET gpPhotos? = ? WHERE goodsNo = ?"; // 動態設置欄位

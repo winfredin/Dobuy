@@ -212,7 +212,8 @@ public class UsedController {
 //	    System.out.println(usedNo);
 //	    usedVO = usedSvc.getOneUsed(usedNo);
 //	    System.out.println(usedVO.getUsedPics().isEmpty());
-	    
+	    EntityManager.clear();
+	    usedVO= usedSvc.getOneUsed(usedVO.getUsedNo());
 	    
 	    List<GoodsTypeVO> goodsTypeList= goodsTypeService.getAll();	
 		

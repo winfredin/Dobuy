@@ -109,4 +109,6 @@ public class StoreCarouselVO {
             this.base64Image = Base64.getEncoder().encodeToString(this.carouselPic);
         }
     }
+
+
 }
