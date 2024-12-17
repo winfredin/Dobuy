@@ -71,5 +71,10 @@ public interface CounterOrderRepository extends JpaRepository<CounterOrderVO, In
     @Query("SELECT COUNT(c) FROM CounterOrderVO c WHERE c.counterNo = :counterNo AND c.orderStatus = :orderStatus")
     int counterReader(@Param("counterNo") Integer counterNo, @Param("orderStatus") Integer orderStatus);
 
-	
+//    柏翔
+    @Query("SELECT co FROM CounterOrderVO co WHERE co.counterOrderNo = :orderNo")
+    Optional<CounterOrderVO> findByOrderNo(@Param("orderNo") Integer orderNo);
+
+    
+    
 }
