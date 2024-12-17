@@ -79,8 +79,7 @@ public class FrontEndController {
  @Autowired
  NewCouponsService newCouponSvc;
  
- @Autowired
- StoreCarouselService storeCarouselSvc;
+
  
  
  @GetMapping("")
