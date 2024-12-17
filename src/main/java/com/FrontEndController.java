@@ -79,6 +79,9 @@ public class FrontEndController {
  @Autowired
  NewCouponsService newCouponSvc;
  
+ @Autowired
+ StoreCarouselService storeCarouselSvc;
+ 
  
  @GetMapping("")
  public String index() {
@@ -141,8 +144,10 @@ public class FrontEndController {
  @GetMapping("home")
  public String getHomePage(Model model, HttpSession session) {
 
-	 List<StoreCarouselVO> carousellist = storeCarouselSvc.getAll();
-	 List<GoodsVO> goodslist = goodsSvc.getAllGoodsStatus1();
+
+  List<StoreCarouselVO> carousellist = storeCarouselSvc.getAll();
+  List<GoodsVO> goodslist = goodsSvc.getAllGoodsStatus1();
+
   List<CounterVO> counterVOList = counterSvc.getAll();
   List<GoodsVO> subGoodslist = goodslist.stream().limit(10).collect(Collectors.toList());
   // 找愛心
