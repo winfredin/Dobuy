@@ -87,7 +87,7 @@ public class FrontEndController {
 
   return "loading";
  }
- @PostMapping("1")
+ @GetMapping("1")
  public String index1() {
 
   return "";
