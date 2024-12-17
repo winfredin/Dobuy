@@ -1084,3 +1084,5 @@ CHANGE COLUMN couPonNo couponNo INT;
 
 修改counterorder表格欄位
 -- 以上昱夆新增 練習用
+
+
