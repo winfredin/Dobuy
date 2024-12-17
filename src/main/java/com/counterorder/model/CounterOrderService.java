@@ -53,8 +53,8 @@ public class CounterOrderService {
 //		    repository.deleteById(empno);
 	}
 
-	public void updateCounterStatus(Integer memno,Integer orderStatus) {
-		repository.updateCounterStatus(orderStatus,memno);
+	public void updateCounterStatus(Integer counterOrderNo,Integer orderStatus) {
+		repository.updateCounterStatus(orderStatus,counterOrderNo);
 	}
 	
 	
