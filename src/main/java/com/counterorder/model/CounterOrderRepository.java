@@ -53,8 +53,8 @@ public interface CounterOrderRepository extends JpaRepository<CounterOrderVO, In
     
     @Transactional
     @Modifying
-    @Query(value="update counterorder set orderStatus = ?1 where memNo= ?2",nativeQuery = true)
-    void updateCounterStatus(Integer orderStatus,Integer memNo);
+    @Query(value="update counterorder set orderStatus = ?1 where counterOrderNo= ?2",nativeQuery = true)
+    void updateCounterStatus(Integer orderStatus,Integer counterOrderNo);
     
  // 新增：根據買家會員編號查詢訂單-Gary
     @Query(value ="SELECT * FROM counterorder WHERE memNo = ?1 AND orderStatus != 4", nativeQuery = true)
