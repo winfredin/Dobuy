@@ -152,7 +152,8 @@ INSERT INTO CounterOrder (
 (1, 5, 15500, 15500, '黃偉德', '台南市東區府前路2段10號', '0956789012', '2024-11-15 13:20:05', 2, NULL);
 
 -- 以上為任國新增的櫃位訂單完成的假資料
-
+ALTER TABLE CounterOrder
+ADD couponNo INT(10) NOT NULL DEFAULT 0;
 
 CREATE TABLE CounterOrderDetail (
     counterOrderDetailNo INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
