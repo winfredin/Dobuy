@@ -634,12 +634,11 @@ memNo, goodsNo,counterNo, gpPhotos1, goodsName, goodsPrice, goodsNum, orderTotal
 ) VALUES
 -- (1, 1, 1, NULL, '路易威登 LOUIS VUITTON Double Zip Pochette Reverse 帆布 多夾層手拿 斜背包 M69203 防塵袋/背帶', 32800, 1, 32800),
 -- (1, 2, 1, NULL, '路易威登 LOUIS VUITTON Cabas Rivington 托特包 N41108 棋盤格托特', 31800, 1, 31800),
-(1, 7, 1, NULL, '路易威登 LOUIS VUITTON Epi 手鍊紅繩', 9800, 1, 9800);
+(1, 7, 1, NULL, '路易威登 LOUIS VUITTON Epi 手鍊紅繩', 9800, 1, 9800),
 -- (1, 8, 1, NULL, '路易威登 LOUIS VUITTON 金頭 老花+黑 雙面用皮帶', 18800, 1, 18800),
- (1, 3, 2, NULL, 'KIMHEKIM｜NEO-MALEVICH V領撞色腰帶洋裝', 24400, 1, 24400),
+ (1, 3, 2, NULL, 'KIMHEKIM｜NEO-MALEVICH V領撞色腰帶洋裝', 24400, 1, 24400);
 -- (1, 4, 2, NULL, 'KIMHEKIM｜VENUS 高腰開衩落地喇叭褲', 17800, 1, 17800),
 -- (1, 9, 3, NULL, 'Valentino Garavani 范倫鐵諾-白色VLTN印花漸層彩虹英文字腰包/胸背包', 15000, 1, 15000);
-
 
 
 -- 昱夆
