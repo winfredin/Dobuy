@@ -191,6 +191,11 @@ public class CounterOrderService {
     public Integer getTotalOrderAmount(Integer counterNo, Integer orderStatus, String orderTime) {
         return repository.findmoney(counterNo, orderStatus, orderTime);
     }
+    
+    public int countNewOrder(Integer counterNo) {
+        return repository.counterReader(counterNo, 0);
+    }
+    
 }
     
     
