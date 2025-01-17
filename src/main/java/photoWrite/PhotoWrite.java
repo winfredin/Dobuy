@@ -7,6 +7,8 @@ import java.util.Comparator;
 
 class PhotoWrite {
 
+	
+	
     public static void main(String argv[]) {
         Connection con = null;
         PreparedStatement pstmt = null;
